@@ -1,14 +1,47 @@
-import { Button } from "@/components/ui/button"
-import { ChevronDown, Scale } from "lucide-react"
+"use client";
+
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { ChevronDown } from "lucide-react";
 
 export function Header() {
   return (
-    <header className="w-11/12 max-w-6xl rounded-4xl bg-white/80 backdrop-blur-md border border-gray-200/50 shadow-md">
+    <motion.header
+      initial={{
+        width: "80px",
+        height: "80px",
+        borderRadius: "9999px",
+        y: 0,
+        opacity: 0,
+      }}
+      animate={{
+        width: "90%",
+        height: "auto",
+        borderRadius: "2rem",
+        y: 0,
+        opacity: 1,
+      }}
+      transition={{
+        duration: 0.6,
+        ease: [0.25, 0.1, 0.25, 1],
+      }}
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-white/80 backdrop-blur-md border border-gray-200/50 shadow-lg overflow-hidden"
+    >
       <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.6 }}
+          className="flex items-center justify-between"
+        >
+          {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg">
-              <img src="/logoLawizer.png" alt="Lawizer Logo" className="w-6 h-6" />
+            <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
+              <img
+                src="/logoLawizer.png"
+                alt="Lawizer Logo"
+                className="w-6 h-6"
+              />
             </div>
             <div className="flex items-baseline gap-1">
               <span className="text-2xl font-bold text-[#c92c41]">Lawizer</span>
@@ -17,35 +50,32 @@ export function Header() {
 
           {/* Navigation */}
           <nav className="hidden lg:flex items-center gap-8">
-            <button className="flex items-center gap-1 text-gray-700 hover:text-primary text-sm font-medium transition-colors">
-              Services
-              <ChevronDown className="w-4 h-4" />
-            </button>
-            <button className="flex items-center gap-1 text-gray-700 hover:text-primary text-sm font-medium transition-colors">
-              Documents
-              <ChevronDown className="w-4 h-4" />
-            </button>
-            <button className="flex items-center gap-1 text-gray-700 hover:text-primary text-sm font-medium transition-colors">
-              Resources
-              <ChevronDown className="w-4 h-4" />
-            </button>
-            <a href="#" className="text-gray-700 hover:text-primary text-sm font-medium transition-colors">
-              About
-            </a>
-            <a href="#" className="text-gray-700 hover:text-primary text-sm font-medium transition-colors">
-              Contact
-            </a>
-            <a href="#" className="text-gray-700 hover:text-primary text-sm font-medium transition-colors">
-              Login
-            </a>
+            {["Services", "Documents", "Resources"].map((item) => (
+              <button
+                key={item}
+                className="flex items-center gap-1 text-gray-700 hover:text-[#c92c41] text-sm font-medium transition-colors"
+              >
+                {item}
+                <ChevronDown className="w-4 h-4" />
+              </button>
+            ))}
+            {["About", "Contact", "Login"].map((item) => (
+              <a
+                key={item}
+                href="#"
+                className="text-gray-700 hover:text-[#c92c41] text-sm font-medium transition-colors"
+              >
+                {item}
+              </a>
+            ))}
           </nav>
 
-          {/* CTA Button */}
-          <Button className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full font-medium shadow-lg">
+          {/* CTA */}
+          <Button className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-6 py-2 rounded-full font-medium shadow-md">
             Get Legal Help
           </Button>
-        </div>
+        </motion.div>
       </div>
-    </header>
-  )
+    </motion.header>
+  );
 }
