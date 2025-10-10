@@ -3,8 +3,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html, body {
+  background: #0e172b;
+}
+
 :root {
-  --background: oklch(1 0 0);
+  --background: oklch(100% 0.00011 271.152);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);

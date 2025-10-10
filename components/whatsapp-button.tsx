@@ -1,15 +1,18 @@
-import { MessageCircle } from "lucide-react"
+'use client';
+import Image from "next/image";
 
 export function WhatsAppButton() {
   return (
-    <a
-      href="https://wa.me/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="fixed bottom-8 right-8 w-16 h-16 bg-[#25D366] hover:bg-[#20BA5A] rounded-full flex items-center justify-center shadow-lg transition-colors z-50"
-      aria-label="Contact us on WhatsApp"
-    >
-      <MessageCircle className="w-8 h-8 text-white" />
-    </a>
-  )
+    <div onClick={() => {
+      window.open("https://wa.me/919999999999", "_blank");
+    }}>
+      <Image
+        src={"/whatsapp.png"}
+        alt="whatsapp"
+        width={48}
+        height={48}
+        className="fixed bottom-8 right-8 z-50 cursor-pointer"
+      />
+    </div>
+  );
 }

@@ -2,13 +2,13 @@ import { Header } from "@/components/header";
 import { HeroSection } from "@/components/hero-section";
 import { StatsSection } from "@/components/stats-section";
 import { TrustSection } from "@/components/trust-section";
-import { ServicesSection } from "@/components/services-section";
-import { PracticeAreasSection } from "@/components/practice-areas-section";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import { FAQSection } from "@/components/faq-section";
 import { Footer } from "@/components/footer";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { RealLifeQuestionsSection } from "@/components/RealLifeQuestionsSection";
+import ServicesSection from "@/components/services-section";
+import { EmergencyButton } from "@/components/emergency-button";
 
 export default function Home() {
   return (
@@ -21,10 +21,10 @@ export default function Home() {
       <TrustSection />
       <RealLifeQuestionsSection />
       <ServicesSection />
-      <PracticeAreasSection />
       <TestimonialsSection />
       <FAQSection />
       <Footer />
+      <EmergencyButton />
       <WhatsAppButton />
     </main>
   );
