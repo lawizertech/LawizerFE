@@ -6,7 +6,6 @@ import {
   Briefcase,
   Users,
   FileText,
-  Building,
   Landmark,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,17 +15,25 @@ import { motion, AnimatePresence } from "framer-motion";
 // ✅ Memoized card to prevent unnecessary re-renders
 const ServiceCard = memo(function ServiceCard({
   service,
+  className = "",
 }: {
   service: {
     icon: any;
     title: string;
     tagline: string;
     color: string;
-    items: string[];
+    items: any[];
   };
+  className?: string;
 }) {
   const Icon = service.icon;
   const [isExpanded, setIsExpanded] = useState(false);
+
+  // Detect grouped structure (like Startup & Business Legal)
+  const isGrouped =
+    Array.isArray(service.items) &&
+    typeof service.items[0] === "object" &&
+    "section" in service.items[0];
 
   return (
     <motion.div
@@ -35,7 +42,7 @@ const ServiceCard = memo(function ServiceCard({
       whileHover={{ y: -4, scale: 1.02 }}
       transition={{ duration: 0.4 }}
       viewport={{ once: true }}
-      className="flex"
+      className={`flex ${className}`}
     >
       <Card className="flex flex-col justify-between w-full border border-gray-100 bg-white/80 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-[420px] relative pb-2">
         <div
@@ -56,35 +63,68 @@ const ServiceCard = memo(function ServiceCard({
             </p>
           </CardHeader>
 
-          <CardContent className="flex flex-col justify-between flex-grow">
-            <ul className="space-y-2 text-sm text-gray-700 flex-grow h-24 overflow-y-scroll pr-1">
+          <CardContent className="flex flex-col justify-between flex-grow h-48">
+            <div className="space-y-4 text-sm text-gray-700 flex-grow overflow-y-scroll pr-1 h-56">
               <AnimatePresence initial={false}>
-                {(isExpanded ? service.items : service.items.slice(0, 5)).map(
-                  (item, i) => (
-                    <motion.li
-                      key={i}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.15 }}
-                      className="flex items-start"
-                    >
-                      <span className="mr-2 text-gray-400">•</span>
-                      <span>{item}</span>
-                    </motion.li>
+                {/* 🔹 Non-grouped cards */}
+                {!isGrouped ? (
+                  <ul className="space-y-2">
+                    {(isExpanded
+                      ? service.items
+                      : service.items.slice(0, 5)
+                    ).map((item: string, i: number) => (
+                      <motion.li
+                        key={i}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.15 }}
+                        className="flex items-start"
+                      >
+                        <span className="mr-2 text-gray-400">•</span>
+                        <span>{item}</span>
+                      </motion.li>
+                    ))}
+                  </ul>
+                ) : (
+                  /* 🔹 Grouped structure like Startup & Business Legal */
+                  (isExpanded ? service.items : service.items.slice(0, 2)).map(
+                    (section: any, idx: number) => (
+                      <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="space-y-2"
+                      >
+                        <h4 className="text-sm font-semibold text-purple-700">
+                          {section.section}
+                        </h4>
+                        <ul className="space-y-1 pl-3 border-l border-gray-200">
+                          {(section.items || []).map(
+                            (item: string, i: number) => (
+                              <li key={i} className="flex items-start">
+                                <span className="mr-2 text-gray-400">•</span>
+                                <span>{item}</span>
+                              </li>
+                            )
+                          )}
+                        </ul>
+                      </motion.div>
+                    )
                   )
                 )}
               </AnimatePresence>
-            </ul>
+            </div>
 
-            {service.items.length > 5 && (
+            {/* Show More / Less Button - only show if there are more items */}
+            {((isGrouped && service.items.length > 2) ||
+              (!isGrouped && service.items.length > 5)) && (
               <button
                 onClick={() => setIsExpanded((prev) => !prev)}
                 className="mt-4 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors self-start"
               >
-                {isExpanded
-                  ? "Show less"
-                  : `Show more (${service.items.length - 5}+)`}
+                {isExpanded ? "Show less" : "Show all"}
               </button>
             )}
           </CardContent>
@@ -162,20 +202,49 @@ export default function ServicesSection() {
     },
     {
       icon: Briefcase,
-      title: "Startup",
-      tagline: "From idea to empire - legally protected",
-      color: "from-purple-500/10 to-purple-500/30 text-purple-600",
+      title: "Startup & Business Legal",
+      tagline: "From idea to empire — built on solid legal ground",
+      color:
+        "from-purple-500/10 via-indigo-500/20 to-teal-500/30 text-purple-700",
       items: [
-        "Private limited company",
-        "One person company",
-        "Limited liability partnership",
-        "Startup India registration",
-        "GST registration",
-        "Trademark registration",
-        "Copyright registration",
-        "ROC return filing",
-        "ISO certification",
-        "MSME Udyam registration",
+        {
+          section: "Start",
+          items: [
+            "Private limited company",
+            "One person company",
+            "Limited liability partnership",
+            "Startup India registration",
+            "MSME Udyam registration",
+            "GST registration",
+          ],
+        },
+        {
+          section: "Grow",
+          items: [
+            "ISO certification",
+            "Trademark registration",
+            "Copyright registration",
+          ],
+        },
+        {
+          section: "Protect",
+          items: [
+            "Intellectual property assignment",
+            "Shareholder subscription agreement",
+            "Joint venture agreements",
+          ],
+        },
+        {
+          section: "Manage",
+          items: [
+            "Appointment of director",
+            "Resignation of director",
+            "Change in office address",
+            "Increasing capital of company",
+            "Closure of Pvt Ltd/OPC/LLP",
+            "ROC return filing",
+          ],
+        },
       ],
     },
     {
@@ -196,22 +265,6 @@ export default function ServicesSection() {
         "Licensing agreement",
         "Loan agreement",
         "Power of attorney",
-      ],
-    },
-    {
-      icon: Building,
-      title: "Business Legal",
-      tagline: "Building businesses on solid legal ground",
-      color: "from-teal-500/10 to-teal-500/30 text-teal-600",
-      items: [
-        "Appointment of director",
-        "Resignation of director",
-        "Change in office address",
-        "Increasing capital of company",
-        "Closure of Pvt Ltd/OPC/LLP",
-        "Shareholder subscription agreement",
-        "Joint venture agreements",
-        "Intellectual property assignment",
       ],
     },
   ];
@@ -244,9 +297,13 @@ export default function ServicesSection() {
 
         {/* Second row - 3 cards centered */}
         <div className="flex justify-center">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl">
             {services.slice(4, 7).map((service, i) => (
-              <ServiceCard key={i + 4} service={service} />
+              <ServiceCard
+                key={i + 4}
+                service={service}
+                className="w-[300px] max-w-full h-[400px]"
+              />
             ))}
           </div>
         </div>
