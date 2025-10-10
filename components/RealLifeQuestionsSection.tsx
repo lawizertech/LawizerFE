@@ -51,39 +51,43 @@ const legalQuestions = [
 
 export function RealLifeQuestionsSection() {
   return (
-    <section className="py-20 bg-gradient-to-b from-white via-blue-50/40 to-white relative overflow-hidden">
-      {/* soft blur lights */}
+    <section className="py-20 bg-white relative overflow-hidden">
+      {/* background blur animation */}
       <motion.div
-        className="absolute inset-0 opacity-20"
+        className="absolute -z-10 top-0 left-0 w-full h-full pointer-events-none"
         animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
         transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
         style={{
           backgroundImage:
-            "radial-gradient(circle at 20% 20%, rgba(99,102,241,0.2), transparent 40%), radial-gradient(circle at 80% 80%, rgba(59,130,246,0.2), transparent 40%)",
+            "radial-gradient(circle at 20% 30%, rgba(99,102,241,0.12), transparent 40%), radial-gradient(circle at 80% 70%, rgba(59,130,246,0.12), transparent 40%)",
           backgroundSize: "200% 200%",
         }}
       />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center mb-14">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+        {/* heading section - now left aligned */}
+        <div className="text-left mb-14 max-w-3xl">
+          <h2 className="text-5xl font-bold text-gray-900 mb-4 leading-tight">
             Need{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
               Legal Help?
             </span>
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Real-life legal issues need real lawyers. Whether it’s personal,
-            property, or business — our advocates are here to guide you every
-            step of the way.
+          <div className="h-1 w-24 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full mb-6" />
+          <p className="text-lg text-gray-600 leading-relaxed">
+            Real-life legal issues need real lawyers. Whether it’s{" "}
+            <span className="font-semibold text-gray-800">personal</span>,{" "}
+            <span className="font-semibold text-gray-800">property</span>, or{" "}
+            <span className="font-semibold text-gray-800">business</span> — our
+            advocates are here to guide you every step of the way.
           </p>
         </div>
 
-        {/* scroll wrapper with proper spacing */}
-        <div className="relative">
+        {/* horizontal scroll cards */}
+        <div className="relative rounded-2xl ">
           <motion.div
-            className="flex gap-6 overflow-x-auto pb-6 px-1 md:px-4 snap-x snap-mandatory scroll-smooth scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-transparent"
-            whileHover={{ x: 0 }} // stops motion when hovered
+            className="flex gap-6 overflow-x-auto px-4 py-4 md:px-2 snap-x snap-mandatory scroll-smooth scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-transparent"
+            whileHover={{ x: 0 }}
           >
             {legalQuestions.map((item, index) => {
               const Icon = item.icon;
@@ -112,7 +116,8 @@ export function RealLifeQuestionsSection() {
           <div className="absolute top-0 right-0 w-16 h-full bg-gradient-to-l from-white to-transparent pointer-events-none" />
         </div>
 
-        <div className="text-center mt-12">
+        {/* button now aligned left */}
+        <div className="mt-12 text-left">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
