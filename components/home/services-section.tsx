@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   Home,
   Scale,
@@ -12,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// ✅ Memoized card to prevent unnecessary re-renders
+// ✅ Memoized card component
 const ServiceCard = memo(function ServiceCard({
   service,
   className = "",
@@ -23,13 +24,13 @@ const ServiceCard = memo(function ServiceCard({
     tagline: string;
     color: string;
     items: any[];
+    url?: string;
   };
   className?: string;
 }) {
   const Icon = service.icon;
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Detect grouped structure (like Startup & Business Legal)
   const isGrouped =
     Array.isArray(service.items) &&
     typeof service.items[0] === "object" &&
@@ -44,11 +45,12 @@ const ServiceCard = memo(function ServiceCard({
       viewport={{ once: true }}
       className={`flex ${className}`}
     >
-      <Card className="flex flex-col justify-between w-full border border-gray-100 bg-white/80 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-[420px] relative pb-2">
+      <Card className="flex flex-col justify-between w-full border border-gray-100 bg-white/80 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-[440px] relative pb-2">
         <div
           className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 hover:opacity-20 transition-all duration-500`}
         />
         <div className="flex flex-col flex-grow relative z-10">
+          {/* Header */}
           <CardHeader className="pb-3">
             <div
               className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-4 shadow-sm`}
@@ -63,10 +65,10 @@ const ServiceCard = memo(function ServiceCard({
             </p>
           </CardHeader>
 
+          {/* Content */}
           <CardContent className="flex flex-col justify-between flex-grow h-48">
             <div className="space-y-4 text-sm text-gray-700 flex-grow overflow-y-scroll pr-1 h-56">
               <AnimatePresence initial={false}>
-                {/* 🔹 Non-grouped cards */}
                 {!isGrouped ? (
                   <ul className="space-y-2">
                     {(isExpanded
@@ -87,7 +89,6 @@ const ServiceCard = memo(function ServiceCard({
                     ))}
                   </ul>
                 ) : (
-                  /* 🔹 Grouped structure like Startup & Business Legal */
                   (isExpanded ? service.items : service.items.slice(0, 2)).map(
                     (section: any, idx: number) => (
                       <motion.div
@@ -117,16 +118,27 @@ const ServiceCard = memo(function ServiceCard({
               </AnimatePresence>
             </div>
 
-            {/* Show More / Less Button - only show if there are more items */}
-            {((isGrouped && service.items.length > 2) ||
-              (!isGrouped && service.items.length > 5)) && (
-              <button
-                onClick={() => setIsExpanded((prev) => !prev)}
-                className="mt-4 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors self-start"
+            {/* Bottom Buttons */}
+            <div className="flex justify-between items-center mt-4">
+              {/* Show More / Less */}
+              {((isGrouped && service.items.length > 2) ||
+                (!isGrouped && service.items.length > 5)) && (
+                <button
+                  onClick={() => setIsExpanded((prev) => !prev)}
+                  className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
+                >
+                  {isExpanded ? "Show less" : "Show all"}
+                </button>
+              )}
+
+              {/* Show in Details Link */}
+              <Link
+                href={service.url || "/"}
+                className="text-sm font-semibold text-red-600 hover:text-red-700 transition-all"
               >
-                {isExpanded ? "Show less" : "Show all"}
-              </button>
-            )}
+                Show in Details →
+              </Link>
+            </div>
           </CardContent>
         </div>
       </Card>
@@ -141,6 +153,7 @@ export default function ServicesSection() {
       title: "Property",
       tagline: "Property disputes keeping you up at night?",
       color: "from-blue-500/10 to-blue-500/30 text-blue-600",
+      url: "/",
       items: [
         "Property report",
         "Property registration (sales deed registration)",
@@ -162,6 +175,7 @@ export default function ServicesSection() {
       title: "Civil & Criminal",
       tagline: "Fighting for your rights, one case at a time",
       color: "from-red-500/10 to-red-500/30 text-red-600",
+      url: "/",
       items: [
         "Family law matters (divorce, custody, alimony)",
         "Property disputes",
@@ -179,6 +193,7 @@ export default function ServicesSection() {
       title: "Family Matters",
       tagline: "Protecting families, preserving relationships",
       color: "from-pink-500/10 to-pink-500/30 text-pink-600",
+      url: "/",
       items: [
         "Divorce and marriage dissolution",
         "Maintenance and alimony",
@@ -192,6 +207,7 @@ export default function ServicesSection() {
       title: "Banking Matters",
       tagline: "Your financial disputes, our expertise",
       color: "from-green-500/10 to-green-500/30 text-green-600",
+      url: "/",
       items: [
         "Loan agreement",
         "Loan and debt recovery disputes",
@@ -206,6 +222,7 @@ export default function ServicesSection() {
       tagline: "From idea to empire — built on solid legal ground",
       color:
         "from-purple-500/10 via-indigo-500/20 to-teal-500/30 text-purple-700",
+      url: "/startup-businesslegal",
       items: [
         {
           section: "Start",
@@ -252,6 +269,7 @@ export default function ServicesSection() {
       title: "Documentation",
       tagline: "Every word matters in legal documents",
       color: "from-amber-500/10 to-amber-500/30 text-amber-600",
+      url: "/",
       items: [
         "Franchise agreement",
         "Co-founder agreement",
@@ -288,17 +306,16 @@ export default function ServicesSection() {
           </p>
         </div>
 
-        {/* First row - 4 cards */}
+        {/* Service Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
           {services.slice(0, 4).map((service, i) => (
             <ServiceCard key={i} service={service} />
           ))}
         </div>
 
-        {/* Second row - 3 cards centered */}
         <div className="flex justify-center">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl">
-            {services.slice(4, 7).map((service, i) => (
+            {services.slice(4, 6).map((service, i) => (
               <ServiceCard
                 key={i + 4}
                 service={service}

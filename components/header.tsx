@@ -35,7 +35,10 @@ export function Header() {
           className="flex items-center justify-between"
         >
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <div
+            className="flex items-center gap-2"
+            onClick={() => window.location.replace("/")}
+          >
             <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
               <img
                 src="/logoLawizer.png"
