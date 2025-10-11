@@ -36,7 +36,7 @@ export function Header() {
         >
           {/* Logo */}
           <div
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 cursor-pointer"
             onClick={() => window.location.replace("/")}
           >
             <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
