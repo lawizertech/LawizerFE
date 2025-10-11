@@ -1,21 +1,18 @@
 import { Header } from "@/components/header";
-import { HeroSection } from "@/components/hero-section";
-import { StatsSection } from "@/components/stats-section";
-import { TrustSection } from "@/components/trust-section";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import { FAQSection } from "@/components/faq-section";
+import { HeroSection } from "@/components/home/hero-section";
+import { StatsSection } from "@/components/home/stats-section";
+import { TrustSection } from "@/components/home/trust-section";
+import { TestimonialsSection } from "@/components/home/testimonials-section";
+import { FAQSection } from "@/components/home/faq-section";
 import { Footer } from "@/components/footer";
-import { WhatsAppButton } from "@/components/whatsapp-button";
-import { RealLifeQuestionsSection } from "@/components/RealLifeQuestionsSection";
-import ServicesSection from "@/components/services-section";
-import { EmergencyButton } from "@/components/emergency-button";
+import { WhatsAppButton } from "@/components/home/whatsapp-button";
+import { RealLifeQuestionsSection } from "@/components/home/RealLifeQuestionsSection";
+import ServicesSection from "@/components/home/services-section";
+import { EmergencyButton } from "@/components/home/emergency-button";
 
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <div className="w-full flex justify-center fixed top-4 z-50">
-        <Header />
-      </div>
       <HeroSection />
       <StatsSection />
       <TrustSection />
@@ -23,7 +20,6 @@ export default function Home() {
       <ServicesSection />
       <TestimonialsSection />
       <FAQSection />
-      <Footer />
       <EmergencyButton />
       <WhatsAppButton />
     </main>
