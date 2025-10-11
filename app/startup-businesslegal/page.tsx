@@ -200,7 +200,7 @@ export default function StartupAndBusinessLegalPage() {
         },
         {
           name: "MSME / Udyam Registration",
-          slug: "MSMEUdyamRegistrationPage",
+          slug: "MSMEUdhyamRegistrationPage",
           description:
             "Get government recognition as an MSME and unlock financial incentives and subsidies.",
         },
