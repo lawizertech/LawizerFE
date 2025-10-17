@@ -1,0 +1,237 @@
+"use client";
+import React from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import {
+  Home, // Used for property services
+  FileText, // Used for agreements and deeds
+  Gavel, // Used for registration
+  Heart, // Used for estate planning (Will, Gift, Relinquishment)
+  ArrowRight,
+} from "lucide-react";
+
+export default function PropertyLegalPage() {
+  const router = useRouter();
+
+  // Define new icons for property services
+  const PropertyIcon = Home;
+  const AgreementIcon = FileText;
+  const RegistrationIcon = Gavel;
+  const PlanningIcon = Heart;
+
+  const sections = [
+    {
+      id: "verify-consult",
+      title: "Verification & Consultation",
+      icon: PropertyIcon,
+      basePath: "/property/verify/",
+      description:
+        "Ensure a safe investment and gain complete legal clarity before any property transaction. Know your property before you buy it.",
+      services: [
+        {
+          name: "Property Report",
+          slug: "property-report",
+          description:
+            "Detailed report verifying ownership, title clarity, encumbrances, government approvals, and pending disputes.",
+        },
+        {
+          name: "Property Paper Review",
+          slug: "property-paper-review",
+          description:
+            "Expert legal review of documents like title deeds and mutation papers, followed by an oral consultation on the property’s legal status.",
+        },
+        {
+          name: "Agreement to Sale / Sale Agreement Review",
+          slug: "agreement-review",
+          description:
+            "Legal review of your Sale Agreement or Agreement to Sale to ensure it's legally sound, enforceable, and protects your interests.",
+        },
+      ],
+    },
+    {
+      id: "agreements-deeds",
+      title: "Agreements & Deeds Drafting",
+      icon: AgreementIcon,
+      basePath: "/property/drafting/",
+      description:
+        "Drafting legally compliant and customized documents to secure your rights, responsibilities, and entire investment.",
+      services: [
+        {
+          name: "Sale Deed Drafting",
+          slug: "sale-deed",
+          description:
+            "Drafting the final legal document that officially transfers property ownership, defining rights, terms, and responsibilities.",
+        },
+        {
+          name: "Agreement to Sale Drafting",
+          slug: "agreement-to-sale",
+          description:
+            "Drafting the first legal step that defines mutual terms between buyer and seller, safeguarding both parties before the final sale.",
+        },
+        {
+          name: "Rent Agreement",
+          slug: "rent-agreement",
+          description:
+            "Professionally drafted and legally compliant agreement defining terms between landlord and tenant, customized to protect both parties.",
+        },
+        {
+          name: "Commercial Lease Agreement",
+          slug: "commercial-lease",
+          description:
+            "Drafting a legal contract for commercial properties (offices, shops, warehouses), covering rent, duration, and specific business clauses.",
+        },
+        {
+          name: "Joint Development Agreement (JDA)",
+          slug: "joint-development-agreement",
+          description:
+            "A legal contract between a landowner and a developer, outlining terms for property development, profit-sharing, and timelines.",
+        },
+        {
+          name: "Power of Attorney (POA) Drafting",
+          slug: "power-of-attorney-drafting",
+          description:
+            "Drafting a legal document to authorize a trusted person to act on your behalf in financial, property, or legal matters.",
+        },
+        {
+          name: "Will Drafting & Registration",
+          slug: "will-drafting",
+          description:
+            "Drafting a clear, legally valid Will to ensure your assets are distributed according to your wishes and prevent family disputes.",
+        },
+        {
+          name: "Relinquishment Deed",
+          slug: "relinquishment-deed",
+          description:
+            "Drafting a deed for a co-owner to voluntarily give up their share to another co-owner or family member, ensuring smooth rights transfer.",
+        },
+      ],
+    },
+    {
+      id: "registration-support",
+      title: "Property Registration",
+      icon: RegistrationIcon,
+      basePath: "/property/registration/",
+      description:
+        "Hassle-free legal support for the complex process of registering your property and legal documents with government authorities.",
+      services: [
+        {
+          name: "Property Registration (Sale Deed)",
+          slug: "property-registration",
+          description:
+            "Expert legal support to prepare and verify the Sale Deed and guide you through the entire registration process at the sub-registrar office.",
+        },
+        {
+          name: "Gift Deed Drafting & Registration",
+          slug: "gift-deed",
+          description:
+            "Transfer ownership of property voluntarily without consideration, ensuring the deed is legally valid and registered.",
+        },
+        {
+          name: "Registration of Power of Attorney (POA)",
+          slug: "power-of-attorney-reg",
+          description:
+            "Guidance and support to register your Power of Attorney to make it legally enforceable and accepted by government and financial institutions.",
+        },
+      ],
+    },
+  ];
+
+  const handleViewDetails = (basePath: string, slug: string) => {
+    const path = `${basePath}${slug}`;
+    console.log("Navigating to:", path);
+    router.push(path);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100">
+      {/* Hero Section */}
+      <section className="relative flex items-center justify-center text-center h-[65vh] overflow-hidden bg-gradient-to-r from-[#0e172b] to-[#1a2a4f] text-white">
+        {/* Replace with a contextually relevant property image */}
+        <div className="absolute inset-0 bg-[url('/propertylegal.png')] bg-cover bg-center opacity-25" />
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="relative z-10 max-w-3xl px-6"
+        >
+          <motion.div
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 3, repeat: Infinity }}
+            className="flex justify-center mb-6"
+          >
+            <PropertyIcon className="w-16 h-16 text-[#e99b2b]" />
+          </motion.div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-3 tracking-tight">
+            Property Legal Services{" "}
+            <span style={{ color: "#c92c41" }}>with Lawizer</span>
+          </h1>
+          <p className="text-lg text-gray-200 max-w-xl mx-auto">
+            "Before You Buy, Let Lawizer Verify"
+          </p>
+          <p className="mt-3" style={{ color: "#c92c41" }}>
+            Legal clarity for every property—safe, stress-free, and legally
+            secure transactions.
+          </p>
+        </motion.div>
+      </section>
+
+      {/* Sections */}
+      <div className="max-w-6xl mx-auto px-6 py-20">
+        {sections.map((section, index) => {
+          const Icon = section.icon;
+          return (
+            <motion.section
+              key={section.id}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="mb-20"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 bg-[#e99b2b]/10 rounded-full">
+                  <Icon className="w-6 h-6 text-[#e99b2b]" />
+                </div>
+                <h2 className="text-3xl font-bold text-[#0e172b]">
+                  {section.title}
+                </h2>
+              </div>
+              <p className="text-gray-700 mb-10 max-w-3xl">
+                {section.description}
+              </p>
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {section.services.map((service) => (
+                  <motion.div
+                    key={service.slug}
+                    whileHover={{ scale: 1.03, y: -5 }}
+                    transition={{ duration: 0.2 }}
+                    className="relative bg-white/90 border border-gray-100 rounded-2xl p-6 shadow-md hover:shadow-xl backdrop-blur-lg transition-all group overflow-hidden"
+                  >
+                    {/* Hover effect changed to #e99b2b/10 for color consistency */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-[#e99b2b]/10 to-transparent transition-opacity duration-300 pointer-events-none" />
+                    <h3 className="text-lg font-semibold text-[#0e172b] mb-2">
+                      {service.name}
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-5 leading-relaxed">
+                      {service.description}
+                    </p>
+                    <button
+                      onClick={() =>
+                        handleViewDetails(section.basePath, service.slug)
+                      }
+                      // Color changed to a Lawizer color for consistency
+                      className="flex items-center gap-2 text-[#e99b2b] font-medium group cursor-pointer"
+                    >
+                      View Details
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </button>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.section>
+          );
+        })}
+      </div>
+    </div>
+  );
+}

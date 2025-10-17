@@ -153,7 +153,7 @@ export default function ServicesSection() {
       title: "Property",
       tagline: "Property disputes keeping you up at night?",
       color: "from-blue-500/10 to-blue-500/30 text-blue-600",
-      url: "/",
+      url: "/property",
       items: [
         "Property report",
         "Property registration (sales deed registration)",
@@ -207,7 +207,7 @@ export default function ServicesSection() {
       title: "Banking Matters",
       tagline: "Your financial disputes, our expertise",
       color: "from-green-500/10 to-green-500/30 text-green-600",
-      url: "/",
+      url: "/banking",
       items: [
         "Loan agreement",
         "Loan and debt recovery disputes",
@@ -269,7 +269,7 @@ export default function ServicesSection() {
       title: "Documentation",
       tagline: "Every word matters in legal documents",
       color: "from-amber-500/10 to-amber-500/30 text-amber-600",
-      url: "/",
+      url: "/documentation",
       items: [
         "Franchise agreement",
         "Co-founder agreement",
