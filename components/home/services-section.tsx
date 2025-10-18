@@ -8,6 +8,7 @@ import {
   Users,
   FileText,
   Landmark,
+  LayoutGrid,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState, memo } from "react";
@@ -217,6 +218,31 @@ export default function ServicesSection() {
       ],
     },
     {
+      icon: LayoutGrid,
+      title: "ITR Filing",
+      tagline: "Hassle-free filing and maximum tax savings",
+      color: "from-teal-500/10 to-teal-500/30 text-teal-600",
+      url: "/itr",
+      items: [
+        {
+          section: "Individuals",
+          items: [
+            "ITR-1 (Salaried up to ₹50L)",
+            "ITR-2 (Capital Gains/Foreign Assets)",
+            "ITR-3 (Business/Professional Income)",
+            "ITR-4 (Presumptive Scheme)",
+          ],
+        },
+        {
+          section: "Entities",
+          items: ["ITR-5 (LLP, Firms, AOPs)", "ITR-6 (Companies)"],
+        },
+        // Placeholder for the "Show More" functionality to ensure 6 items are present
+        "Tax saving consultations",
+        "Form 16/26AS reconciliation",
+      ],
+    },
+    {
       icon: Briefcase,
       title: "Startup & Business Legal",
       tagline: "From idea to empire — built on solid legal ground",
@@ -314,8 +340,8 @@ export default function ServicesSection() {
         </div>
 
         <div className="flex justify-center">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl">
-            {services.slice(4, 6).map((service, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-8 max-w-6xl">
+            {services.slice(4, 7).map((service, i) => (
               <ServiceCard
                 key={i + 4}
                 service={service}
