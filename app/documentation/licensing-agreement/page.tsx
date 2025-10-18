@@ -18,40 +18,40 @@ export default function LicensingAgreementPage() {
   const benefits = [
     {
       icon: Shield,
-      text: "Protects IP rights and revenue [cite: 410]",
+      text: "Protects IP rights and revenue ",
     },
     {
       icon: Scale,
-      text: "Ensures enforceable usage terms [cite: 411]",
+      text: "Ensures enforceable usage terms ",
     },
     {
       icon: Gavel,
-      text: "Drafting agreements with royalties, scope, and term definitions [cite: 412]",
+      text: "Drafting agreements with royalties, scope, and term definitions ",
     },
   ];
 
   const preRequisites = [
-    "Licensor & licensee details [cite: 413]",
-    "Scope of IP and royalties [cite: 414]",
-    "Duration and special clauses [cite: 415]",
+    "Licensor & licensee details ",
+    "Scope of IP and royalties ",
+    "Duration and special clauses ",
   ];
 
   const deliverables = [
-    "Drafting agreements with royalties, scope, and term definitions [cite: 412]",
+    "Drafting agreements with royalties, scope, and term definitions ",
   ];
 
   const faqs = [
     {
       q: "What is a Licensing Agreement?",
-      a: "It governs the licensing of intellectual property, technology, or products from one party (licensor) to another (licensee)[cite: 409].",
+      a: "It governs the licensing of intellectual property, technology, or products from one party (licensor) to another (licensee).",
     },
     {
       q: "Why is a Licensing Agreement important?",
-      a: "It protects the licensor's IP rights and revenue by ensuring that the usage terms are clearly defined and legally enforceable[cite: 410, 411].",
+      a: "It protects the licensor's IP rights and revenue by ensuring that the usage terms are clearly defined and legally enforceable.",
     },
     {
       q: "What details are crucial for the agreement?",
-      a: "The agreement must clearly define the scope of the IP being licensed, the royalties or fees involved, and the duration of the license[cite: 414, 415].",
+      a: "The agreement must clearly define the scope of the IP being licensed, the royalties or fees involved, and the duration of the license.",
     },
   ];
 
@@ -91,11 +91,11 @@ export default function LicensingAgreementPage() {
           </h1>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Governs the licensing of **intellectual property, technology, or
-            products**, securing usage terms and revenue streams[cite: 409, 410].
+            products**, securing usage terms and revenue streams.
           </p>
           <p className="mt-3 text-sm text-pink-300">
             Lawizer drafts agreements with clear royalties, scope, and term
-            definitions to ensure enforceable usage terms[cite: 411, 412].
+            definitions to ensure enforceable usage terms.
           </p>
         </motion.div>
       </section>
@@ -116,7 +116,7 @@ export default function LicensingAgreementPage() {
               <p className="text-slate-700 leading-relaxed mb-8">
                 This document is essential for monetizing your intellectual property
                 (IP) while retaining ownership. It establishes the limits of use and
-                ensures you receive appropriate compensation (royalties)[cite: 410].
+                ensures you receive appropriate compensation (royalties).
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">

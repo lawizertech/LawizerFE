@@ -18,36 +18,36 @@ export default function ServiceAgreementTermSheetPage() {
   const benefits = [
     {
       icon: CheckCircle2,
-      text: "Defines scope, fees, deliverables, and timelines for a business service [cite: 394]",
+      text: "Defines scope, fees, deliverables, and timelines for a business service ",
     },
     {
       icon: Shield,
-      text: "Prevents conflicts over services or payments [cite: 395]",
+      text: "Prevents conflicts over services or payments ",
     },
     {
       icon: Scale,
-      text: "Ensures legal enforceability [cite: 396]",
+      text: "Ensures legal enforceability ",
     },
     {
       icon: Clock,
-      text: "Guidance on clauses, obligations, and timelines [cite: 398]",
+      text: "Guidance on clauses, obligations, and timelines ",
     },
   ];
 
   const preRequisites = [
-    "Parties’ details [cite: 399]",
-    "Scope of services, fees, and deadlines [cite: 400]",
+    "Parties’ details ",
+    "Scope of services, fees, and deadlines ",
   ];
 
   const deliverables = [
-    "Drafting service agreements or term sheets [cite: 397]",
-    "Guidance on clauses, obligations, and timelines [cite: 398]",
+    "Drafting service agreements or term sheets ",
+    "Guidance on clauses, obligations, and timelines ",
   ];
 
   const faqs = [
     {
       q: "What is a Service Agreement?",
-      a: "A Service Agreement defines the scope, fees, deliverables, and timelines for a business service[cite: 394].",
+      a: "A Service Agreement defines the scope, fees, deliverables, and timelines for a business service.",
     },
     {
       q: "What is a Term Sheet in this context?",
@@ -55,7 +55,7 @@ export default function ServiceAgreementTermSheetPage() {
     },
     {
       q: "Why is a clear scope important?",
-      a: "Defining the scope and fees clearly prevents conflicts over services or payments and ensures legal enforceability of the commitment[cite: 395, 396].",
+      a: "Defining the scope and fees clearly prevents conflicts over services or payments and ensures legal enforceability of the commitment.",
     },
   ];
 
@@ -95,12 +95,11 @@ export default function ServiceAgreementTermSheetPage() {
           </h1>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Defines **scope, fees, deliverables, and timelines** for a business
-            service, minimizing conflict and ensuring legal enforceability[cite:
-            394, 396].
+            service, minimizing conflict and ensuring legal enforceability.
           </p>
           <p className="mt-3 text-sm text-green-300">
             Lawizer drafts robust agreements and term sheets, providing guidance
-            on clauses, obligations, and timelines[cite: 397, 398].
+            on clauses, obligations, and timelines.
           </p>
         </motion.div>
       </section>
@@ -120,7 +119,7 @@ export default function ServiceAgreementTermSheetPage() {
               </h2>
               <p className="text-slate-700 leading-relaxed mb-8">
                 A formal Service Agreement prevents conflicts over the expected
-                service quality, deadlines, or payment amounts[cite: 395]. It
+                service quality, deadlines, or payment amounts. It
                 legally binds both parties to the defined terms, securing the
                 transaction.
               </p>

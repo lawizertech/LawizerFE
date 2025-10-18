@@ -19,52 +19,52 @@ export default function PropertyReportPage() {
   const benefits = [
     {
       icon: Shield,
-      text: "A safe investment in property[cite: 13].",
+      text: "A safe investment in property.",
     },
     {
       icon: CheckCircle2,
-      text: "No fear of any hidden litigation or loan on the property[cite: 14].",
+      text: "No fear of any hidden litigation or loan on the property.",
     },
     {
       icon: Clock,
-      text: "Peace of mind at the convenience of your home[cite: 15].",
+      text: "Peace of mind at the convenience of your home.",
     },
     {
       icon: Users,
-      text: "Transact with complete confidence[cite: 16].",
+      text: "Transact with complete confidence.",
     },
   ];
 
   const processSteps = [
-    "Upload/Email all the documents on our portal or it can be picked up from your address[cite: 18].",
-    "A detailed review of all the documents by a Senior property Lawyer (they may have to read around 200-300 pages for an in-depth analysis)[cite: 19, 20].",
-    "Verifying property details with the Government records (As and when required)[cite: 21].",
-    "Creating a continuity of the property paper trail and identifying missing papers if there are any[cite: 22].",
-    "Creating a detailed verification report with senior property lawyer’s observation[cite: 23].",
-    "After the report is generated, you will get a dedicated time slot with the senior property lawyer who will clarify all your doubts and help you understand the report in detail[cite: 24].",
-    "All this is just within 5 days[cite: 25].",
+    "Upload/Email all the documents on our portal or it can be picked up from your address.",
+    "A detailed review of all the documents by a Senior property Lawyer (they may have to read around 200-300 pages for an in-depth analysis).",
+    "Verifying property details with the Government records (As and when required).",
+    "Creating a continuity of the property paper trail and identifying missing papers if there are any.",
+    "Creating a detailed verification report with senior property lawyer’s observation.",
+    "After the report is generated, you will get a dedicated time slot with the senior property lawyer who will clarify all your doubts and help you understand the report in detail.",
+    "All this is just within 5 days.",
   ];
 
   const faqs = [
     {
       q: "What does the Property Report uncover?",
-      a: "Our detailed reports uncover ownership records, title clarity, encumbrances, government approvals, and any pending disputes — so you know exactly what you’re buying[cite: 8].",
+      a: "Our detailed reports uncover ownership records, title clarity, encumbrances, government approvals, and any pending disputes — so you know exactly what you’re buying.",
     },
     {
       q: "Why is the report process so thorough?",
-      a: "The process involves a detailed review of all documents by a Senior property Lawyer (who may read 200-300 pages) and verifying property details with Government records to create a complete paper trail[cite: 19, 20, 21, 22].",
+      a: "The process involves a detailed review of all documents by a Senior property Lawyer (who may read 200-300 pages) and verifying property details with Government records to create a complete paper trail.",
     },
     {
       q: "How long does it take to get the report?",
-      a: "The entire process, from document collection to report delivery and consultation, is completed within 5 days[cite: 25].",
+      a: "The entire process, from document collection to report delivery and consultation, is completed within 5 days.",
     },
     {
       q: "Is there a consultation after the report is generated?",
-      a: "Yes. After the report is generated, you will get a dedicated time slot with the senior property lawyer who will clarify all your doubts and help you understand the report in detail[cite: 24].",
+      a: "Yes. After the report is generated, you will get a dedicated time slot with the senior property lawyer who will clarify all your doubts and help you understand the report in detail.",
     },
     {
       q: "Does Lawizer check for RERA approval?",
-      a: "Yes. For instance, if you’re planning to purchase a flat in Pune’s Hinjewadi area, Lawizer’s report will verify whether the property is RERA-approved, free from legal issues, and fully compliant with local regulations[cite: 9].",
+      a: "Yes. For instance, if you’re planning to purchase a flat in Pune’s Hinjewadi area, Lawizer’s report will verify whether the property is RERA-approved, free from legal issues, and fully compliant with local regulations.",
     },
   ];
 
@@ -109,10 +109,10 @@ export default function PropertyReportPage() {
           </h1>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Make every property deal safe and stress-free with Lawizer's
-            **Verified Property Report**[cite: 7].
+            **Verified Property Report**.
           </p>
           <p className="mt-3 text-sm text-blue-300">
-            Lawizer — Legal clarity for every property[cite: 11].
+            Lawizer — Legal clarity for every property.
           </p>
         </motion.div>
       </section>
@@ -133,7 +133,7 @@ export default function PropertyReportPage() {
               <p className="text-slate-700 leading-relaxed mb-8">
                 Our detailed reports uncover ownership records, title clarity,
                 encumbrances, government approvals, and any pending disputes —
-                so you know exactly what you’re buying[cite: 8].
+                so you know exactly what you’re buying.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">
@@ -191,8 +191,8 @@ export default function PropertyReportPage() {
                 Consult Lawizer for Free
               </h3>
               <p className="text-slate-300 text-sm mb-6 leading-relaxed">
-                Know Your Property Before You Buy It[cite: 3]. Invest smartly,
-                confidently, and with complete legal assurance[cite: 10].
+                Know Your Property Before You Buy It. Invest smartly,
+                confidently, and with complete legal assurance.
               </p>
 
               <button

@@ -18,45 +18,45 @@ export default function ConsultancyAgreementPage() {
   const benefits = [
     {
       icon: Shield,
-      text: "Protects both parties’ interests [cite: 346]",
+      text: "Protects both parties’ interests ",
     },
     {
       icon: CheckCircle2,
-      text: "Provides clarity on scope, deliverables, and payment [cite: 347]",
+      text: "Provides clarity on scope, deliverables, and payment ",
     },
     {
       icon: Users,
-      text: "Prevents misuse of confidential information [cite: 348]",
+      text: "Prevents misuse of confidential information ",
     },
     {
       icon: FileText,
-      text: "Drafting customized consultancy agreements [cite: 349]",
+      text: "Drafting customized consultancy agreements ",
     },
   ];
 
   const preRequisites = [
-    "Consultant & company details [cite: 351]",
-    "Scope of work, fees, and duration [cite: 352]",
-    "Confidentiality requirements [cite: 353]",
+    "Consultant & company details ",
+    "Scope of work, fees, and duration ",
+    "Confidentiality requirements ",
   ];
 
   const deliverables = [
-    "Drafting customized consultancy agreements [cite: 349]",
-    "Guidance on timelines, deliverables, and payments [cite: 350]",
+    "Drafting customized consultancy agreements ",
+    "Guidance on timelines, deliverables, and payments ",
   ];
 
   const faqs = [
     {
       q: "What is a Consultancy Agreement?",
-      a: "It defines the relationship, scope, deliverables, fees, and confidentiality between a consultant and company[cite: 345].",
+      a: "It defines the relationship, scope, deliverables, fees, and confidentiality between a consultant and company.",
     },
     {
       q: "Why is clarity on scope important?",
-      a: "The agreement provides clarity on the exact scope, expected deliverables, and payment schedule, protecting both the consultant and the company[cite: 346, 347].",
+      a: "The agreement provides clarity on the exact scope, expected deliverables, and payment schedule, protecting both the consultant and the company.",
     },
     {
       q: "How does the agreement protect confidential information?",
-      a: "The agreement defines confidentiality requirements and prevents the misuse of sensitive information shared during the consultancy period[cite: 348, 353].",
+      a: "The agreement defines confidentiality requirements and prevents the misuse of sensitive information shared during the consultancy period.",
     },
   ];
 
@@ -96,11 +96,11 @@ export default function ConsultancyAgreementPage() {
           </h1>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Defines the **relationship, scope, deliverables, fees, and
-            confidentiality** between a consultant and your company[cite: 345].
+            confidentiality** between a consultant and your company.
           </p>
           <p className="mt-3 text-sm text-blue-300">
             Lawizer offers customized agreement drafting and guidance on
-            timelines, deliverables, and payments[cite: 349, 350].
+            timelines, deliverables, and payments.
           </p>
         </motion.div>
       </section>
@@ -120,9 +120,9 @@ export default function ConsultancyAgreementPage() {
               </h2>
               <p className="text-slate-700 leading-relaxed mb-8">
                 A formal contract prevents scope creep and payment disputes by setting
-                clear, enforceable terms for the consultancy engagement[cite: 347].
+                clear, enforceable terms for the consultancy engagement.
                 It also establishes legal protection for both the company and the
-                consultant[cite: 346].
+                consultant.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">

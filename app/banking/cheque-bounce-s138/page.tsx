@@ -18,59 +18,59 @@ export default function ChequeBounceS138Page() {
   const benefits = [
     {
       icon: Gavel,
-      text: "Criminal Remedy for Debt Recovery: Section 138 is a criminal offense carrying possibility of imprisonment and heavy fines[cite: 36].",
+      text: "Criminal Remedy for Debt Recovery: Section 138 is a criminal offense carrying possibility of imprisonment and heavy fines.",
     },
     {
       icon: Clock,
-      text: "Faster, more effective mechanism for debt recovery than a lengthy civil suit[cite: 37].",
+      text: "Faster, more effective mechanism for debt recovery than a lengthy civil suit.",
     },
     {
       icon: Scale,
-      text: "The goal is to secure the principal amount, interest, and legal costs[cite: 38].",
+      text: "The goal is to secure the principal amount, interest, and legal costs.",
     },
     {
       icon: FileText,
-      text: "Securing the final court order/judgment and ensuring the recovery of the cheque amount, fine, and compensation[cite: 50].",
+      text: "Securing the final court order/judgment and ensuring the recovery of the cheque amount, fine, and compensation.",
     },
   ];
 
   const preRequisites = [
-    "Presentation & Dishonor: The cheque must be presented to the bank within its validity period (usually 3 months)[cite: 40].",
-    "Legal Notice (Mandatory): The payee must send a formal written Legal Notice to the drawer demanding payment within 30 days of receiving the 'Cheque Return Memo'[cite: 41].",
-    "15-Day Waiting Period: The drawer must fail to make the payment within 15 days of receiving the Legal Notice[cite: 42].",
-    "Complaint Filing: A criminal complaint must be filed before the appropriate Magistrate's Court within 30 days from the expiry of the 15-day notice period[cite: 43].",
+    "Presentation & Dishonor: The cheque must be presented to the bank within its validity period (usually 3 months).",
+    "Legal Notice (Mandatory): The payee must send a formal written Legal Notice to the drawer demanding payment within 30 days of receiving the 'Cheque Return Memo'.",
+    "15-Day Waiting Period: The drawer must fail to make the payment within 15 days of receiving the Legal Notice.",
+    "Complaint Filing: A criminal complaint must be filed before the appropriate Magistrate's Court within 30 days from the expiry of the 15-day notice period.",
   ];
 
   const documentsRequired = [
-    "Original Cheque that was dishonored[cite: 45].",
-    "Original 'Cheque Return Memo' (bank memo stating the reason for the bounce)[cite: 46].",
-    "Copy of the Legal Demand Notice sent to the drawer[cite: 47].",
-    "Original Postal/Courier Receipt and Acknowledgement (proof that the drawer received the notice)[cite: 48].",
+    "Original Cheque that was dishonored.",
+    "Original 'Cheque Return Memo' (bank memo stating the reason for the bounce).",
+    "Copy of the Legal Demand Notice sent to the drawer.",
+    "Original Postal/Courier Receipt and Acknowledgement (proof that the drawer received the notice).",
   ];
 
   const deliverables = [
-    "Timely & Precise Legal Notice: Drafting and dispatching a legally compliant demand notice via Registered Post within the 30-day statutory limit[cite: 50].",
-    "Complaint Drafting & Filing: Drafting and filing the criminal complaint under Section 138 before the jurisdictional Magistrate's Court within the strict 30-day window[cite: 50].",
-    "Representation & Trial: Full representation during the trial, including the Complainant's Sworn Statement and cross-examination[cite: 50].",
-    "Execution: Securing the final court order/judgment and ensuring the recovery of the cheque amount, fine, and compensation[cite: 50].",
+    "Timely & Precise Legal Notice: Drafting and dispatching a legally compliant demand notice via Registered Post within the 30-day statutory limit.",
+    "Complaint Drafting & Filing: Drafting and filing the criminal complaint under Section 138 before the jurisdictional Magistrate's Court within the strict 30-day window.",
+    "Representation & Trial: Full representation during the trial, including the Complainant's Sworn Statement and cross-examination.",
+    "Execution: Securing the final court order/judgment and ensuring the recovery of the cheque amount, fine, and compensation.",
   ];
 
   const faqs = [
     {
       q: "What is the basis for a Section 138 case?",
-      a: "The criminal offense occurs when a cheque is dishonored primarily due to 'insufficient funds' or the amount 'exceeding the arrangement' with the bank. The cheque must have been issued for the discharge of a legally enforceable debt or liability[cite: 33, 34].",
+      a: "The criminal offense occurs when a cheque is dishonored primarily due to 'insufficient funds' or the amount 'exceeding the arrangement' with the bank. The cheque must have been issued for the discharge of a legally enforceable debt or liability.",
     },
     {
       q: "What is the key benefit of filing a criminal case over a civil suit?",
-      a: "Section 138 is a powerful deterrent because it is a criminal offense, carrying the possibility of imprisonment and heavy fines, which forces the drawer to take the matter seriously. It is a faster mechanism for debt recovery[cite: 36, 37].",
+      a: "Section 138 is a powerful deterrent because it is a criminal offense, carrying the possibility of imprisonment and heavy fines, which forces the drawer to take the matter seriously. It is a faster mechanism for debt recovery.",
     },
     {
       q: "What is the strict timeline for legal notice?",
-      a: "The payee must send a formal written Legal Notice to the drawer demanding payment within 30 days of receiving the 'Cheque Return Memo' from the bank[cite: 41].",
+      a: "The payee must send a formal written Legal Notice to the drawer demanding payment within 30 days of receiving the 'Cheque Return Memo' from the bank.",
     },
     {
       q: "What must happen before I file the court complaint?",
-      a: "You must wait for the drawer to fail to make the payment within 15 days of receiving the Legal Notice. Then, the criminal complaint must be filed within 30 days from the expiry of that 15-day notice period[cite: 42, 43].",
+      a: "You must wait for the drawer to fail to make the payment within 15 days of receiving the Legal Notice. Then, the criminal complaint must be filed within 30 days from the expiry of that 15-day notice period.",
     },
   ];
 
@@ -111,10 +111,10 @@ export default function ChequeBounceS138Page() {
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Filing a **criminal complaint** under the Negotiable Instruments Act to
             secure debt recovery when a cheque is dishonored due to insufficient
-            funds[cite: 31, 33].
+            funds.
           </p>
           <p className="mt-3 text-sm text-indigo-300">
-            We ensure strict adherence to timelines for the Legal Notice and filing the complaint before the Magistrate's Court[cite: 41, 43].
+            We ensure strict adherence to timelines for the Legal Notice and filing the complaint before the Magistrate's Court.
           </p>
         </motion.div>
       </section>
@@ -133,7 +133,7 @@ export default function ChequeBounceS138Page() {
                 Why Section 138 is the Best Remedy for Debt
               </h2>
               <p className="text-slate-700 leading-relaxed mb-8">
-                Section 138 offers a robust criminal remedy that serves as a powerful deterrent, often resulting in quicker settlement than protracted civil suits. It allows the payee to secure the principal amount, interest, and legal costs[cite: 36, 37, 38].
+                Section 138 offers a robust criminal remedy that serves as a powerful deterrent, often resulting in quicker settlement than protracted civil suits. It allows the payee to secure the principal amount, interest, and legal costs.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">
@@ -229,9 +229,9 @@ export default function ChequeBounceS138Page() {
               <div className="mt-6 pt-6 border-t border-slate-700">
                 <h4 className="text-lg font-semibold text-white mb-2">Documents Required:</h4>
                 <div className="text-slate-300 text-sm space-y-1">
-                  <p>• Original Cheque & Return Memo [cite: 45, 46]</p>
-                  <p>• Legal Demand Notice Copy [cite: 47]</p>
-                  <p>• Postal Receipt & Acknowledgement [cite: 48]</p>
+                  <p>• Original Cheque & Return Memo </p>
+                  <p>• Legal Demand Notice Copy </p>
+                  <p>• Postal Receipt & Acknowledgement </p>
                 </div>
               </div>
             </div>

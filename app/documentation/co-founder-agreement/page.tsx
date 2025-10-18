@@ -18,46 +18,46 @@ export default function CoFounderAgreementPage() {
   const benefits = [
     {
       icon: Gavel,
-      text: "Prevents conflicts among founders [cite: 314]",
+      text: "Prevents conflicts among founders ",
     },
     {
       icon: CheckCircle2,
-      text: "Clarifies ownership, contributions, and decision-making rights [cite: 315]",
+      text: "Clarifies ownership, contributions, and decision-making rights ",
     },
     {
       icon: Shield,
-      text: "Protects business continuity and investment [cite: 316]",
+      text: "Protects business continuity and investment ",
     },
     {
       icon: FileText,
-      text: "Defines roles, equity, responsibilities, profit-sharing, and exit mechanisms [cite: 313]",
+      text: "Defines roles, equity, responsibilities, profit-sharing, and exit mechanisms ",
     },
   ];
 
   const preRequisites = [
-    "Founder details, roles, and equity distribution [cite: 320]",
-    "Decision-making mechanisms and exit clauses [cite: 321]",
-    "Contributions (monetary, intellectual property, or assets) [cite: 322]",
+    "Founder details, roles, and equity distribution ",
+    "Decision-making mechanisms and exit clauses ",
+    "Contributions (monetary, intellectual property, or assets) ",
   ];
 
   const deliverables = [
-    "Drafting agreements tailored for your startup structure [cite: 317]",
-    "Guidance on equity, roles, and governance clauses [cite: 318]",
-    "Legal advisory for potential disputes [cite: 319]",
+    "Drafting agreements tailored for your startup structure ",
+    "Guidance on equity, roles, and governance clauses ",
+    "Legal advisory for potential disputes ",
   ];
 
   const faqs = [
     {
       q: "What is a Co-founder Agreement?",
-      a: "It is a legal contract among startup founders that defines roles, equity, responsibilities, profit-sharing, decision-making, and exit mechanisms[cite: 313].",
+      a: "It is a legal contract among startup founders that defines roles, equity, responsibilities, profit-sharing, decision-making, and exit mechanisms.",
     },
     {
       q: "Why is a Co-founder Agreement crucial?",
-      a: "It prevents conflicts among founders and is key to clarifying ownership, contributions, and decision-making rights, thereby protecting business continuity[cite: 314, 315, 316].",
+      a: "It prevents conflicts among founders and is key to clarifying ownership, contributions, and decision-making rights, thereby protecting business continuity.",
     },
     {
       q: "What sensitive topics does the agreement cover?",
-      a: "The agreement formally clarifies contributions (monetary, intellectual property, or assets), equity distribution, and what happens when a founder decides to leave (exit mechanisms)[cite: 313, 321, 322].",
+      a: "The agreement formally clarifies contributions (monetary, intellectual property, or assets), equity distribution, and what happens when a founder decides to leave (exit mechanisms).",
     },
   ];
 
@@ -98,11 +98,11 @@ export default function CoFounderAgreementPage() {
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Legal contract defining **roles, equity, responsibilities, and exit
             mechanisms** to secure your startup's foundation and prevent conflicts
-            [cite: 313, 314].
+            .
           </p>
           <p className="mt-3 text-sm text-purple-300">
             Lawizer drafts agreements tailored for your startup structure, guiding
-            on equity, roles, and governance clauses[cite: 317, 318].
+            on equity, roles, and governance clauses.
           </p>
         </motion.div>
       </section>
@@ -123,7 +123,7 @@ export default function CoFounderAgreementPage() {
               <p className="text-slate-700 leading-relaxed mb-8">
                 For a startup, clarity among founders is the primary safeguard.
                 This agreement formalizes contributions (IP/monetary) and ownership,
-                which is vital for attracting future investment[cite: 315, 316].
+                which is vital for attracting future investment.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">

@@ -20,91 +20,91 @@ export default function StartupDocumentsPage() {
       title: "Essential Startup & Business Agreements",
       icon: FileText,
       description:
-        "Draft legally sound contracts, policies, and agreements (NDAs, Employment, Partnership, SaaS) to secure your operations, team, and intellectual property[cite: 1, 2].",
+        "Draft legally sound contracts, policies, and agreements (NDAs, Employment, Partnership, SaaS) to secure your operations, team, and intellectual property.",
       services: [
         {
           name: "Co-founder Agreement",
           slug: "co-founder-agreement",
           description:
-            "Defines roles, equity, responsibilities, decision-making, and exit mechanisms among founders, preventing conflicts[cite: 18, 19, 20].",
+            "Defines roles, equity, responsibilities, decision-making, and exit mechanisms among founders, preventing conflicts.",
         },
         {
           name: "Business Partnership Agreement",
           slug: "business-partnership-agreement",
           description:
-            "Legal contract defining investment, profit-sharing, responsibilities, and exit mechanisms among partners[cite: 60, 61].",
+            "Legal contract defining investment, profit-sharing, responsibilities, and exit mechanisms among partners.",
         },
         {
           name: "Employment Agreement",
           slug: "employment-agreement",
           description:
-            "Outlines terms, salary, benefits, and termination policies, ensuring compliance with labor laws[cite: 39, 42].",
+            "Outlines terms, salary, benefits, and termination policies, ensuring compliance with labor laws.",
         },
         {
           name: "Consultancy Agreement",
           slug: "consultancy-agreement",
           description:
-            "Defines the scope, deliverables, fees, and confidentiality between a consultant and company[cite: 50, 52].",
+            "Defines the scope, deliverables, fees, and confidentiality between a consultant and company.",
         },
         {
           name: "Non-Disclosure Agreement (NDA)",
           slug: "non-disclosure-agreement",
           description:
-            "Protects sensitive business information and trade secrets, allowing safe collaboration or funding discussions[cite: 29, 30, 32].",
+            "Protects sensitive business information and trade secrets, allowing safe collaboration or funding discussions.",
         },
         {
           name: "Privacy Policy & Terms of Use",
           slug: "privacy-terms-of-use",
           description:
-            "Defines user data handling and website/app rules, ensuring compliance under IT Act and GDPR[cite: 79, 82].",
+            "Defines user data handling and website/app rules, ensuring compliance under IT Act and GDPR.",
         },
         {
           name: "Software as a Service (SaaS) Agreement",
           slug: "saas-agreement",
           description:
-            "Governs subscription, licensing, support, and intellectual property rights for software services[cite: 91, 92].",
+            "Governs subscription, licensing, support, and intellectual property rights for software services.",
         },
         {
           name: "Franchise Agreement",
           slug: "franchise-agreement",
           description:
-            "Outlines rights, obligations, royalties, and operational standards between a franchisor and franchisee[cite: 6].",
+            "Outlines rights, obligations, royalties, and operational standards between a franchisor and franchisee.",
         },
         {
           name: "Joint Venture Agreement",
           slug: "joint-venture-agreement",
           description:
-            "Defines partnership, investment, profit-sharing, and management of a Joint Venture[cite: 107, 108].",
+            "Defines partnership, investment, profit-sharing, and management of a Joint Venture.",
         },
         {
           name: "Shareholder Subscription Agreement",
           slug: "shareholder-subscription-agreement",
           description:
-            "Governs the issuance of shares to investors and defines their rights and obligations in the company[cite: 70, 71].",
+            "Governs the issuance of shares to investors and defines their rights and obligations in the company.",
         },
         {
           name: "Service Agreement & Term Sheet",
           slug: "service-agreement-term-sheet",
           description:
-            "Defines scope, fees, deliverables, and timelines for a business service, ensuring legal enforceability[cite: 99, 101].",
+            "Defines scope, fees, deliverables, and timelines for a business service, ensuring legal enforceability.",
         },
         {
           name: "Licensing Agreement",
           slug: "licensing-agreement",
           description:
-            "Governs licensing of intellectual property, technology, or products, protecting IP rights and revenue[cite: 114, 115].",
+            "Governs licensing of intellectual property, technology, or products, protecting IP rights and revenue.",
         },
         {
           name: "IP Assignment Agreement",
           slug: "ip-assignment-agreement",
           description:
-            "Transfers Intellectual Property (IP) ownership from one party to another, ensuring legal transfer of rights[cite: 122, 123].",
+            "Transfers Intellectual Property (IP) ownership from one party to another, ensuring legal transfer of rights.",
         },
         {
           name: "Letter of Intent (LOI)",
           slug: "letter-of-intent",
           description:
-            "Declares preliminary intention to enter a business transaction or agreement, establishing mutual understanding[cite: 129, 130].",
+            "Declares preliminary intention to enter a business transaction or agreement, establishing mutual understanding.",
         },
       ],
     },
@@ -154,7 +154,7 @@ export default function StartupDocumentsPage() {
           </h1>
           <p className="text-lg text-gray-200 max-w-xl mx-auto">
             Legal documents essential for defining relationships, protecting IP,
-            and securing business transactions[cite: 1, 2].
+            and securing business transactions.
           </p>
           <p className="mt-3" style={{ color: "white" }}>
             The legal foundation for every successful partnership, hiring, and

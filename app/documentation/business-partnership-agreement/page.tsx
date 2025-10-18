@@ -18,45 +18,45 @@ export default function BusinessPartnershipAgreementPage() {
   const benefits = [
     {
       icon: Shield,
-      text: "Prevents conflicts among partners [cite: 356]",
+      text: "Prevents conflicts among partners ",
     },
     {
       icon: CheckCircle2,
-      text: "Provides clarity on financial contributions and profit-sharing [cite: 357]",
+      text: "Provides clarity on financial contributions and profit-sharing ",
     },
     {
       icon: Scale,
-      text: "Legally enforceable in disputes [cite: 358]",
+      text: "Legally enforceable in disputes ",
     },
     {
       icon: FileText,
-      text: "Drafting partnerships tailored to your business [cite: 359]",
+      text: "Drafting partnerships tailored to your business ",
     },
   ];
 
   const preRequisites = [
-    "Partner details [cite: 361]",
-    "Investment and capital contribution [cite: 362]",
-    "Profit-sharing ratios and roles [cite: 363]",
+    "Partner details ",
+    "Investment and capital contribution ",
+    "Profit-sharing ratios and roles ",
   ];
 
   const deliverables = [
-    "Drafting partnerships tailored to your business [cite: 359]",
-    "Clause-wise explanation for governance, responsibilities, and exit strategy [cite: 360]",
+    "Drafting partnerships tailored to your business ",
+    "Clause-wise explanation for governance, responsibilities, and exit strategy ",
   ];
 
   const faqs = [
     {
       q: "What is a Business Partnership Agreement?",
-      a: "It is a legal contract among business partners defining investment, profit-sharing, responsibilities, and exit mechanisms[cite: 355].",
+      a: "It is a legal contract among business partners defining investment, profit-sharing, responsibilities, and exit mechanisms.",
     },
     {
       q: "Why is a Partnership Agreement necessary?",
-      a: "It prevents conflicts among partners and provides essential clarity on financial contributions, profit-sharing, and roles, making the agreement legally enforceable in case of disputes[cite: 356, 357, 358].",
+      a: "It prevents conflicts among partners and provides essential clarity on financial contributions, profit-sharing, and roles, making the agreement legally enforceable in case of disputes.",
     },
     {
       q: "What key financial details must be included?",
-      a: "The agreement must clearly define the investment, capital contribution, and profit-sharing ratios of all partners[cite: 362, 363].",
+      a: "The agreement must clearly define the investment, capital contribution, and profit-sharing ratios of all partners.",
     },
   ];
 
@@ -97,11 +97,11 @@ export default function BusinessPartnershipAgreementPage() {
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Legal contract defining **investment, profit-sharing,
             responsibilities, and exit mechanisms** among business partners
-            [cite: 355].
+            .
           </p>
           <p className="mt-3 text-sm text-yellow-300">
             Lawizer offers drafting services tailored to your business, providing
-            clarity on financial contributions and preventing conflicts[cite: 357, 359].
+            clarity on financial contributions and preventing conflicts.
           </p>
         </motion.div>
       </section>
@@ -121,9 +121,9 @@ export default function BusinessPartnershipAgreementPage() {
               </h2>
               <p className="text-slate-700 leading-relaxed mb-8">
                 A clear, formal agreement is the most effective tool to prevent major
-                disputes and legal challenges in a partnership[cite: 356, 358]. It
+                disputes and legal challenges in a partnership. It
                 ensures that every partner's contribution and expected return are
-                clearly documented[cite: 357].
+                clearly documented.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">

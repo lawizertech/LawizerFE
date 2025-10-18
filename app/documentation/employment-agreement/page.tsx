@@ -18,46 +18,46 @@ export default function EmploymentAgreementPage() {
   const benefits = [
     {
       icon: CheckCircle2,
-      text: "Provides clarity on employee rights and employer obligations [cite: 335]",
+      text: "Provides clarity on employee rights and employer obligations ",
     },
     {
       icon: Shield,
-      text: "Prevents disputes over compensation, termination, or confidentiality [cite: 336]",
+      text: "Prevents disputes over compensation, termination, or confidentiality ",
     },
     {
       icon: Scale,
-      text: "Ensures compliance with labor laws [cite: 337]",
+      text: "Ensures compliance with labor laws ",
     },
     {
       icon: FileText,
-      text: "Includes clause explanation on non-compete, confidentiality, and termination [cite: 339]",
+      text: "Includes clause explanation on non-compete, confidentiality, and termination ",
     },
   ];
 
   const preRequisites = [
-    "Employee and employer details [cite: 341]",
-    "Compensation, role, responsibilities, and benefits [cite: 342]",
-    "Duration and termination clauses [cite: 343]",
+    "Employee and employer details ",
+    "Compensation, role, responsibilities, and benefits ",
+    "Duration and termination clauses ",
   ];
 
   const deliverables = [
-    "Drafting compliant agreements [cite: 338]",
-    "Clause explanation including non-compete, confidentiality, and termination [cite: 339]",
-    "Advice on dispute prevention [cite: 340]",
+    "Drafting compliant agreements ",
+    "Clause explanation including non-compete, confidentiality, and termination ",
+    "Advice on dispute prevention ",
   ];
 
   const faqs = [
     {
       q: "What is an Employment Agreement?",
-      a: "It is a legal document outlining the terms of employment, including roles, salary, benefits, and termination policies[cite: 334].",
+      a: "It is a legal document outlining the terms of employment, including roles, salary, benefits, and termination policies.",
     },
     {
       q: "Why is an Employment Agreement important?",
-      a: "It provides clarity on employee rights and employer obligations, ensures compliance with labor laws, and prevents disputes over compensation or termination[cite: 335, 336, 337].",
+      a: "It provides clarity on employee rights and employer obligations, ensures compliance with labor laws, and prevents disputes over compensation or termination.",
     },
     {
       q: "Does Lawizer's agreement cover confidentiality and non-compete clauses?",
-      a: "Yes, Lawizer's service includes clause explanation covering important provisions like non-compete, confidentiality, and termination[cite: 339].",
+      a: "Yes, Lawizer's service includes clause explanation covering important provisions like non-compete, confidentiality, and termination.",
     },
   ];
 
@@ -97,11 +97,11 @@ export default function EmploymentAgreementPage() {
           </h1>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Legal document outlining **terms, salary, benefits, and termination
-            policies**, ensuring clarity on rights and obligations[cite: 334, 335].
+            policies**, ensuring clarity on rights and obligations.
           </p>
           <p className="mt-3 text-sm text-teal-300">
             Lawizer drafts compliant agreements and provides advice on dispute
-            prevention and labor law compliance[cite: 337, 340].
+            prevention and labor law compliance.
           </p>
         </motion.div>
       </section>
@@ -122,8 +122,8 @@ export default function EmploymentAgreementPage() {
               <p className="text-slate-700 leading-relaxed mb-8">
                 A strong agreement provides a clear framework for the working
                 relationship, reducing the risk of costly legal disputes over
-                compensation, roles, or termination[cite: 336]. It ensures you meet
-                all requirements under labor laws[cite: 337].
+                compensation, roles, or termination. It ensures you meet
+                all requirements under labor laws.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">

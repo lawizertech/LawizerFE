@@ -18,45 +18,45 @@ export default function PrivacyTermsOfUsePage() {
   const benefits = [
     {
       icon: Scale,
-      text: "Ensures compliance under IT Act, GDPR, and other regulations [cite: 377]",
+      text: "Ensures compliance under IT Act, GDPR, and other regulations ",
     },
     {
       icon: Shield,
-      text: "Protects business and users legally [cite: 378]",
+      text: "Protects business and users legally ",
     },
     {
       icon: Users,
-      text: "Builds trust with users [cite: 379]",
+      text: "Builds trust with users ",
     },
     {
       icon: FileText,
-      text: "Drafting tailored policies for websites, apps, or software platforms [cite: 380]",
+      text: "Drafting tailored policies for websites, apps, or software platforms ",
     },
   ];
 
   const preRequisites = [
-    "Business and platform details [cite: 382]",
-    "Data collection and usage policies [cite: 383]",
-    "User obligations and prohibited actions [cite: 384]",
+    "Business and platform details ",
+    "Data collection and usage policies ",
+    "User obligations and prohibited actions ",
   ];
 
   const deliverables = [
-    "Drafting tailored policies for websites, apps, or software platforms [cite: 380]",
-    "Guidance on clauses, disclosures, and disclaimers [cite: 381]",
+    "Drafting tailored policies for websites, apps, or software platforms ",
+    "Guidance on clauses, disclosures, and disclaimers ",
   ];
 
   const faqs = [
     {
       q: "What is a Privacy Policy?",
-      a: "It is a legal document that defines how user data is handled, collected, stored, and used by your website, app, or platform[cite: 375].",
+      a: "It is a legal document that defines how user data is handled, collected, stored, and used by your website, app, or platform.",
     },
     {
       q: "Why are these documents important for compliance?",
-      a: "They are crucial for ensuring compliance under the IT Act, GDPR, and other global data protection regulations[cite: 377].",
+      a: "They are crucial for ensuring compliance under the IT Act, GDPR, and other global data protection regulations.",
     },
     {
       q: "What is the Terms of Use document?",
-      a: "The Terms of Use defines the rules, rights, and responsibilities for users accessing and using your website, app, or service[cite: 375].",
+      a: "The Terms of Use defines the rules, rights, and responsibilities for users accessing and using your website, app, or service.",
     },
   ];
 
@@ -96,13 +96,11 @@ export default function PrivacyTermsOfUsePage() {
           </h1>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Essential legal documents that define **user data handling** and
-            rules for using your website/app, ensuring legal compliance[cite:
-            375, 377].
+            rules for using your website/app, ensuring legal compliance.
           </p>
           <p className="mt-3 text-sm text-indigo-300">
             Lawizer offers tailored policies for websites, apps, or software
-            platforms, protecting your business and users legally[cite: 378,
-            380].
+            platforms, protecting your business and users legally.
           </p>
         </motion.div>
       </section>
@@ -123,8 +121,8 @@ export default function PrivacyTermsOfUsePage() {
               <p className="text-slate-700 leading-relaxed mb-8">
                 In the digital economy, legal policies are mandatory for
                 regulatory compliance (IT Act, GDPR) and for mitigating legal
-                risk associated with user data and service use[cite: 377, 378].
-                They also establish trust with your user base[cite: 379].
+                risk associated with user data and service use.
+                They also establish trust with your user base.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">

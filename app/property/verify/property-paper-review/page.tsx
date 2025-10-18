@@ -19,54 +19,54 @@ export default function PropertyPaperReviewPage() {
   const benefits = [
     {
       icon: Shield,
-      text: "Detects Legal Risks Early: Identifies disputes, encumbrances, or ownership issues before buying[cite: 101].",
+      text: "Detects Legal Risks Early: Identifies disputes, encumbrances, or ownership issues before buying.",
     },
     {
       icon: CheckCircle2,
-      text: "Verifies Authenticity: Confirms that all property documents are genuine and properly executed[cite: 102].",
+      text: "Verifies Authenticity: Confirms that all property documents are genuine and properly executed.",
     },
     {
       icon: Clock,
-      text: "Saves Time & Money: Avoids costly legal troubles or fraudulent deals later[cite: 103].",
+      text: "Saves Time & Money: Avoids costly legal troubles or fraudulent deals later.",
     },
     {
       icon: Scale,
-      text: "Ensures Compliance: Checks if your property follows all state and municipal regulations[cite: 104].",
+      text: "Ensures Compliance: Checks if your property follows all state and municipal regulations.",
     },
     {
       icon: Users,
-      text: "Gives Legal Clarity: Helps you make confident property decisions with expert advice[cite: 105].",
+      text: "Gives Legal Clarity: Helps you make confident property decisions with expert advice.",
     },
   ];
 
   const targetAudience = [
-    "Homebuyers wanting to validate documents before purchase [cite: 107]",
-    "Real estate investors evaluating new properties [cite: 108]",
-    "Heirs or inheritors unsure of legal ownership [cite: 109]",
-    "Sellers wanting to ensure paperwork is in order [cite: 110]",
-    "Anyone seeking legal clarity on a property before any transaction [cite: 111]",
+    "Homebuyers wanting to validate documents before purchase",
+    "Real estate investors evaluating new properties",
+    "Heirs or inheritors unsure of legal ownership",
+    "Sellers wanting to ensure paperwork is in order",
+    "Anyone seeking legal clarity on a property before any transaction",
   ];
 
   const faqs = [
     {
       q: "What does the Property Paper Review involve?",
-      a: "Lawizer’s service connects you directly with expert real estate lawyers who carefully examine your documents—like title deeds, sale agreements, mutation papers, and tax receipts—and give you a clear oral consultation on the property’s legal status[cite: 98].",
+      a: "Lawizer’s service connects you directly with expert real estate lawyers who carefully examine your documents—like title deeds, sale agreements, mutation papers, and tax receipts—and give you a clear oral consultation on the property’s legal status.",
     },
     {
       q: "Why is an early review important?",
-      a: "It detects legal risks early, identifying disputes, encumbrances, or ownership issues before buying, which saves you time and avoids costly legal troubles or fraudulent deals later[cite: 101, 103].",
+      a: "It detects legal risks early, identifying disputes, encumbrances, or ownership issues before buying, which saves you time and avoids costly legal troubles or fraudulent deals later.",
     },
     {
       q: "What kind of documents are checked?",
-      a: "The lawyers examine documents such as title deeds, sale agreements, mutation papers, and tax receipts[cite: 98].",
+      a: "The lawyers examine documents such as title deeds, sale agreements, mutation papers, and tax receipts.",
     },
     {
       q: "Do I get a written report?",
-      a: "The service provides a clear oral consultation on the property's legal status[cite: 98].",
+      a: "The service provides a clear oral consultation on the property's legal status.",
     },
     {
       q: "Is this service suitable for inherited property?",
-      a: "Yes, this service is suitable for heirs or inheritors who are unsure of legal ownership[cite: 109].",
+      a: "Yes, this service is suitable for heirs or inheritors who are unsure of legal ownership.",
     },
   ];
 
@@ -101,10 +101,7 @@ export default function PropertyPaperReviewPage() {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-2xl blur-xl opacity-50" />
               <div className="relative bg-gradient-to-br from-teal-500 to-cyan-500 p-4 rounded-2xl">
-                <FileText
-                  className="w-16 h-16 text-white"
-                  strokeWidth={1.5}
-                />
+                <FileText className="w-16 h-16 text-white" strokeWidth={1.5} />
               </div>
             </div>
           </motion.div>
@@ -113,13 +110,13 @@ export default function PropertyPaperReviewPage() {
             Property Paper Review & Consultation
           </h1>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Connect directly with expert lawyers to examine your property documents
-            and receive a **clear oral consultation** on the legal status and risks
-            [cite: 98].
+            Connect directly with expert lawyers to examine your property
+            documents and receive a **clear oral consultation** on the legal
+            status and risks.
           </p>
           <p className="mt-3 text-sm text-cyan-300">
             Lawizer ensures your property papers are genuine, updated, and
-            dispute-free before you make a move[cite: 99].
+            dispute-free before you make a move.
           </p>
         </motion.div>
       </section>
@@ -138,9 +135,9 @@ export default function PropertyPaperReviewPage() {
                 Why Property Paper Review is Important
               </h2>
               <p className="text-slate-700 leading-relaxed mb-8">
-                Before buying or selling a property, it’s crucial to know whether your
-                papers are legally sound[cite: 97]. A thorough review can detect legal
-                risks early and prevent fraudulent deals[cite: 101, 103].
+                Before buying or selling a property, it’s crucial to know
+                whether your papers are legally sound. A thorough review can
+                detect legal risks early and prevent fraudulent deals.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">
@@ -157,7 +154,10 @@ export default function PropertyPaperReviewPage() {
                     className="flex items-start gap-3 p-4 rounded-xl bg-gradient-to-br from-slate-50 to-teal-50/50 border border-slate-100 hover:shadow-md transition-shadow"
                   >
                     <div className="p-2 rounded-lg bg-white shadow-sm">
-                      <b.icon className={`w-5 h-5 ${primaryColor}`} strokeWidth={2} />
+                      <b.icon
+                        className={`w-5 h-5 ${primaryColor}`}
+                        strokeWidth={2}
+                      />
                     </div>
                     <p className="text-sm text-slate-700 font-medium leading-snug pt-1">
                       {b.text}
@@ -198,8 +198,8 @@ export default function PropertyPaperReviewPage() {
                 Know Your Documents
               </h3>
               <p className="text-slate-300 text-sm mb-6 leading-relaxed">
-                Make confident property decisions with expert advice and complete
-                legal clarity on your paperwork[cite: 105].
+                Make confident property decisions with expert advice and
+                complete legal clarity on your paperwork.
               </p>
 
               <button

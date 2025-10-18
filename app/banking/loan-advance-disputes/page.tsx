@@ -18,50 +18,50 @@ export default function LoanAdvanceDisputesPage() {
   const benefits = [
     {
       icon: Shield,
-      text: "Reputation and Future Credit: Compelling the bank to issue a no-dues certificate and rectify CIBIL errors[cite: 21].",
+      text: "Reputation and Future Credit: Compelling the bank to issue a no-dues certificate and rectify CIBIL errors.",
     },
     {
       icon: Scale,
-      text: "Stop Harassment: Legal action forces the bank to cease all illegal recovery practices immediately[cite: 22].",
+      text: "Stop Harassment: Legal action forces the bank to cease all illegal recovery practices immediately.",
     },
     {
       icon: CheckCircle2,
-      text: "Securing compensation for financial loss, costs incurred, and emotional distress[cite: 30].",
+      text: "Securing compensation for financial loss, costs incurred, and emotional distress.",
     },
     {
       icon: Users,
-      text: "Drafting a petition seeking a mandatory injunction to rectify the CIBIL record[cite: 28].",
+      text: "Drafting a petition seeking a mandatory injunction to rectify the CIBIL record.",
     },
   ];
 
   const preRequisites = [
-    "Formal Complaint: Detailed written complaint to the bank/NBFC's Nodal Officer and the CEO (for harassment cases)[cite: 24].",
-    "Documentary Proof: Copies of the loan agreement, payment receipts, credit information reports (CIBIL/Equifax), and evidence of harassment (call recordings, WhatsApp messages, police complaints if any)[cite: 25].",
-    "Waiting Period: Must wait for 30 days for the bank's response before escalating[cite: 26].",
+    "Formal Complaint: Detailed written complaint to the bank/NBFC's Nodal Officer and the CEO (for harassment cases).",
+    "Documentary Proof: Copies of the loan agreement, payment receipts, credit information reports (CIBIL/Equifax), and evidence of harassment (call recordings, WhatsApp messages, police complaints if any).",
+    "Waiting Period: Must wait for 30 days for the bank's response before escalating.",
   ];
 
   const deliverables = [
-    "Legal Strategy & Petition: Drafting a petition for the Consumer Commission or the RBI Ombudsman[cite: 28].",
-    "Notice to Credit Bureaus: Issuing notices to CIBIL and other bureaus along with the bank[cite: 29].",
-    "Compensation: Securing compensation for financial loss and emotional distress[cite: 30].",
+    "Legal Strategy & Petition: Drafting a petition for the Consumer Commission or the RBI Ombudsman.",
+    "Notice to Credit Bureaus: Issuing notices to CIBIL and other bureaus along with the bank.",
+    "Compensation: Securing compensation for financial loss and emotional distress.",
   ];
 
   const faqs = [
     {
       q: "What constitutes a CIBIL/Credit Score dispute?",
-      a: "Disputes over incorrect or erroneous reporting of loan status (e.g., 'Settled' shown as 'Written Off' or 'Defaulter') which severely damages the consumer's creditworthiness[cite: 17].",
+      a: "Disputes over incorrect or erroneous reporting of loan status (e.g., 'Settled' shown as 'Written Off' or 'Defaulter') which severely damages the consumer's creditworthiness.",
     },
     {
       q: "What is considered harassment by recovery agents?",
-      a: "Cases involving coercive, intimidating, or inappropriate behavior by the bank's internal or external Recovery Agents, in violation of RBI's Fair Practices Code[cite: 18].",
+      a: "Cases involving coercive, intimidating, or inappropriate behavior by the bank's internal or external Recovery Agents, in violation of RBI's Fair Practices Code.",
     },
     {
       q: "Why is fixing CIBIL errors so important?",
-      a: "An incorrect CIBIL score can cripple a consumer's ability to get future loans (home, car, education). Filing a case compels the bank to rectify the error and restore financial reputation[cite: 20, 21].",
+      a: "An incorrect CIBIL score can cripple a consumer's ability to get future loans (home, car, education). Filing a case compels the bank to rectify the error and restore financial reputation.",
     },
     {
       q: "Where is the legal complaint filed?",
-      a: "We draft a petition for the Consumer Commission or the RBI Ombudsman[cite: 28].",
+      a: "We draft a petition for the Consumer Commission or the RBI Ombudsman.",
     },
   ];
 
@@ -102,11 +102,11 @@ export default function LoanAdvanceDisputesPage() {
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Legal remedy for **incorrect credit reporting (CIBIL)** and action
             against **coercive or intimidating harassment** by recovery
-            agents[cite: 17, 18].
+            agents.
           </p>
           <p className="mt-3 text-sm text-orange-300">
             We restore your financial reputation and compel banks to cease
-            illegal recovery practices immediately[cite: 21, 22].
+            illegal recovery practices immediately.
           </p>
         </motion.div>
       </section>
@@ -129,7 +129,7 @@ export default function LoanAdvanceDisputesPage() {
                 rectify severe errors in CIBIL reports, which can otherwise
                 cripple your future borrowing capability. It also serves as a
                 critical defense against illegal harassment by recovery
-                agents[cite: 20, 22].
+                agents.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">

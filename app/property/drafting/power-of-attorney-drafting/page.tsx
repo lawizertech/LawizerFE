@@ -20,58 +20,58 @@ export default function PowerOfAttorneyDraftingPage() {
   const benefits = [
     {
       icon: Users,
-      text: "Authorizes another person to act legally on your behalf [cite: 246]",
+      text: "Authorizes another person to act legally on your behalf ",
     },
     {
       icon: Shield,
-      text: "Protects your interests in property, banking, or business transactions [cite: 247]",
+      text: "Protects your interests in property, banking, or business transactions ",
     },
     {
       icon: Scale,
-      text: "Prevents misuse with clear powers and limitations [cite: 248]",
+      text: "Prevents misuse with clear powers and limitations ",
     },
     {
       icon: Home,
-      text: "Ensures the POA protects your interests and is valid under local laws (e.g., West Bengal) [cite: 244]",
+      text: "Ensures the POA protects your interests and is valid under local laws (e.g., West Bengal) ",
     },
     {
       icon: FileText,
-      text: "Professionally drafted, legally compliant, and clearly outlines powers and responsibilities [cite: 243]",
+      text: "Professionally drafted, legally compliant, and clearly outlines powers and responsibilities ",
     },
   ];
 
   const prerequisites = [
-    "Principal and attorney details (name, address, ID proofs) [cite: 250]",
-    "Scope of powers (financial, property, general, or specific) [cite: 251]",
-    "Property or asset details (if applicable) [cite: 252]",
+    "Principal and attorney details (name, address, ID proofs) ",
+    "Scope of powers (financial, property, general, or specific) ",
+    "Property or asset details (if applicable) ",
   ];
 
   const deliverables = [
-    "Drafted POA document with legal clauses [cite: 254]",
-    "Clause-wise explanation [cite: 255]",
-    "Digital copy & guidance for notarization/registration [cite: 256]",
+    "Drafted POA document with legal clauses ",
+    "Clause-wise explanation ",
+    "Digital copy & guidance for notarization/registration ",
   ];
 
   const faqs = [
     {
       q: "What is a Power of Attorney (POA)?",
-      a: "A Power of Attorney is a legal document that authorizes a person (attorney) to act on behalf of another (principal) in financial, property, or legal matters[cite: 242].",
+      a: "A Power of Attorney is a legal document that authorizes a person (attorney) to act on behalf of another (principal) in financial, property, or legal matters.",
     },
     {
       q: "Why is a POA important for property matters?",
-      a: "If you cannot be physically present, a POA allows the attorney to execute property transactions, such as selling your flat or managing assets, legally on your behalf[cite: 242, 244, 247].",
+      a: "If you cannot be physically present, a POA allows the attorney to execute property transactions, such as selling your flat or managing assets, legally on your behalf.",
     },
     {
       q: "What is the difference between a General and a Special POA?",
-      a: "A General POA grants broad authority across various matters, while a Special POA limits the attorney to specific acts or transactions, such as signing documents for a single property sale[cite: 251].",
+      a: "A General POA grants broad authority across various matters, while a Special POA limits the attorney to specific acts or transactions, such as signing documents for a single property sale.",
     },
     {
       q: "Is registration of a POA necessary?",
-      a: "A registered POA is legally enforceable and accepted by government and financial institutions. Lawizer guides you through registration requirements to ensure the POA is valid for property matters[cite: 258, 259].",
+      a: "A registered POA is legally enforceable and accepted by government and financial institutions. Lawizer guides you through registration requirements to ensure the POA is valid for property matters.",
     },
     {
       q: "What details are required to draft a POA?",
-      a: "You need to provide the details and ID proofs of both the principal and the attorney, along with a clear scope outlining the specific powers being granted (e.g., financial, property, general, or specific)[cite: 250, 251].",
+      a: "You need to provide the details and ID proofs of both the principal and the attorney, along with a clear scope outlining the specific powers being granted (e.g., financial, property, general, or specific).",
     },
   ];
 
@@ -123,7 +123,7 @@ export default function PowerOfAttorneyDraftingPage() {
           </p>
           <p className="mt-3 text-sm text-yellow-300">
             Lawizer drafts your POA professionally, legally compliant, and with
-            clear powers and responsibilities[cite: 243].
+            clear powers and responsibilities.
           </p>
         </motion.div>
       </section>

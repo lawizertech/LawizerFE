@@ -18,43 +18,43 @@ export default function JointVentureAgreementPage() {
   const benefits = [
     {
       icon: Shield,
-      text: "Protects both parties’ investments [cite: 403]",
+      text: "Protects both parties’ investments ",
     },
     {
       icon: Gavel,
-      text: "Provides clear governance and dispute resolution mechanisms [cite: 404]",
+      text: "Provides clear governance and dispute resolution mechanisms ",
     },
     {
       icon: FileText,
-      text: "Drafting JV agreements compliant with Indian law [cite: 405]",
+      text: "Drafting JV agreements compliant with Indian law ",
     },
     {
       icon: CheckCircle2,
-      text: "Guidance on profit sharing, timelines, and exit strategies [cite: 406]",
+      text: "Guidance on profit sharing, timelines, and exit strategies ",
     },
   ];
 
   const preRequisites = [
-    "Parties’ details, investment contributions, governance structure [cite: 407]",
+    "Parties’ details, investment contributions, governance structure ",
   ];
 
   const deliverables = [
-    "Drafting JV agreements compliant with Indian law [cite: 405]",
-    "Guidance on profit sharing, timelines, and exit strategies [cite: 406]",
+    "Drafting JV agreements compliant with Indian law ",
+    "Guidance on profit sharing, timelines, and exit strategies ",
   ];
 
   const faqs = [
     {
       q: "What is a Joint Venture (JV) Agreement?",
-      a: "It defines the partnership, investment, profit-sharing, and management structure of a Joint Venture[cite: 402].",
+      a: "It defines the partnership, investment, profit-sharing, and management structure of a Joint Venture.",
     },
     {
       q: "Why is a formal JV Agreement necessary?",
-      a: "It is crucial because it protects both parties' investments and provides clear governance and dispute resolution mechanisms from the outset[cite: 403, 404].",
+      a: "It is crucial because it protects both parties' investments and provides clear governance and dispute resolution mechanisms from the outset.",
     },
     {
       q: "What key elements are covered in the agreement?",
-      a: "The agreement covers investment contributions, profit-sharing, governance structure, and exit strategies[cite: 402, 407].",
+      a: "The agreement covers investment contributions, profit-sharing, governance structure, and exit strategies.",
     },
   ];
 
@@ -94,11 +94,11 @@ export default function JointVentureAgreementPage() {
           </h1>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Legal contract defining the **partnership, investment, and
-            management** structure of a collaborative Joint Venture[cite: 402].
+            management** structure of a collaborative Joint Venture.
           </p>
           <p className="mt-3 text-sm text-orange-300">
             Lawizer drafts JV agreements compliant with Indian law, providing
-            clear governance and protecting investments[cite: 403, 405].
+            clear governance and protecting investments.
           </p>
         </motion.div>
       </section>
@@ -120,7 +120,7 @@ export default function JointVentureAgreementPage() {
                 A formal JV Agreement protects the investments of both
                 collaborating parties. It is critical for establishing clear
                 rules on profit-sharing, management, and an effective dispute
-                resolution process[cite: 403, 404].
+                resolution process.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">

@@ -19,46 +19,46 @@ export default function FranchiseAgreementPage() {
   const benefits = [
     {
       icon: Shield,
-      text: "Protects the franchisor’s brand and business model [cite: 303]",
+      text: "Protects the franchisor’s brand and business model ",
     },
     {
       icon: CheckCircle2,
-      text: "Ensures franchisee compliance with quality and operational standards [cite: 304]",
+      text: "Ensures franchisee compliance with quality and operational standards ",
     },
     {
       icon: Scale,
-      text: "Prevents disputes regarding royalties, territory, or termination [cite: 305]",
+      text: "Prevents disputes regarding royalties, territory, or termination ",
     },
     {
       icon: Users,
-      text: "Drafting franchise agreements compliant with Indian laws [cite: 306]",
+      text: "Drafting franchise agreements compliant with Indian laws ",
     },
   ];
 
   const preRequisites = [
-    "Franchisor & franchisee details [cite: 309]",
-    "Franchise model, fees, and territory [cite: 310]",
-    "Operational guidelines and royalty structure [cite: 311]",
+    "Franchisor & franchisee details ",
+    "Franchise model, fees, and territory ",
+    "Operational guidelines and royalty structure ",
   ];
 
   const deliverables = [
-    "Drafting franchise agreements compliant with Indian laws [cite: 306]",
-    "Clause-by-clause explanation for clarity [cite: 307]",
-    "Guidance on registration if required [cite: 308]",
+    "Drafting franchise agreements compliant with Indian laws ",
+    "Clause-by-clause explanation for clarity ",
+    "Guidance on registration if required ",
   ];
 
   const faqs = [
     {
       q: "What is a Franchise Agreement?",
-      a: "A franchise agreement is a legal contract between a franchisor (brand owner) and a franchisee, outlining rights, obligations, royalties, and operational standards for running the franchise[cite: 301].",
+      a: "A franchise agreement is a legal contract between a franchisor (brand owner) and a franchisee, outlining rights, obligations, royalties, and operational standards for running the franchise.",
     },
     {
       q: "Why is the agreement important for the franchisor?",
-      a: "It protects the franchisor’s brand and business model and ensures franchisee compliance with quality and operational standards[cite: 303, 304].",
+      a: "It protects the franchisor’s brand and business model and ensures franchisee compliance with quality and operational standards.",
     },
     {
       q: "What details should be defined in the agreement?",
-      a: "The agreement should define rights, obligations, royalties, and operational standards to prevent disputes regarding territory or termination[cite: 301, 305].",
+      a: "The agreement should define rights, obligations, royalties, and operational standards to prevent disputes regarding territory or termination.",
     },
   ];
 
@@ -98,11 +98,11 @@ export default function FranchiseAgreementPage() {
           </h1>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Legal contract defining the **rights, obligations, royalties, and
-            operational standards** for running a franchised business[cite: 301].
+            operational standards** for running a franchised business.
           </p>
           <p className="mt-3 text-sm text-yellow-300">
             Lawizer offers drafting services compliant with Indian laws, protecting
-            the brand and ensuring compliance[cite: 303, 304, 306].
+            the brand and ensuring compliance.
           </p>
         </motion.div>
       </section>
@@ -123,8 +123,8 @@ export default function FranchiseAgreementPage() {
               <p className="text-slate-700 leading-relaxed mb-8">
                 A strong Franchise Agreement is vital for maintaining **brand integrity**
                 and ensuring a smooth, profitable relationship between the franchisor
-                and franchisee[cite: 303, 304]. It acts as a clear framework to prevent
-                disputes[cite: 305].
+                and franchisee. It acts as a clear framework to prevent
+                disputes.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">

@@ -19,50 +19,50 @@ export default function DigitalBankingFraudPage() {
   const benefits = [
     {
       icon: Shield,
-      text: "Recovery of Loss: Enforcing RBI's 'zero-liability' and 'limited-liability' rules[cite: 4, 6].",
+      text: "Recovery of Loss: Enforcing RBI's 'zero-liability' and 'limited-liability' rules.",
     },
     {
       icon: Users,
-      text: "Full legal representation before the RBI Integrated Ombudsman or Consumer Commission[cite: 14].",
+      text: "Full legal representation before the RBI Integrated Ombudsman or Consumer Commission.",
     },
     {
       icon: CheckCircle2,
-      text: "Securing a full refund of the unauthorized debited amount and compensation for mental anguish[cite: 14].",
+      text: "Securing a full refund of the unauthorized debited amount and compensation for mental anguish.",
     },
     {
       icon: FileText,
-      text: "Drafting a legally sound complaint citing relevant RBI circulars[cite: 12].",
+      text: "Drafting a legally sound complaint citing relevant RBI circulars.",
     },
   ];
 
   const preRequisites = [
-    "Report to Bank: Must file a formal written complaint with the bank immediately (within 3 days for zero-liability claims)[cite: 8].",
-    "Police/Cyber Complaint: Filing an FIR/Cyber Complaint (highly recommended to establish facts)[cite: 9].",
-    "Waiting Period: Must wait for 30 days after lodging the complaint with the bank for a response/resolution[cite: 10].",
+    "Report to Bank: Must file a formal written complaint with the bank immediately (within 3 days for zero-liability claims).",
+    "Police/Cyber Complaint: Filing an FIR/Cyber Complaint (highly recommended to establish facts).",
+    "Waiting Period: Must wait for 30 days after lodging the complaint with the bank for a response/resolution.",
   ];
 
   const deliverables = [
-    "Document Preparation: Drafting a legally sound complaint for the RBI Ombudsman or Consumer Commission[cite: 12].",
-    "Legal Notice: Issuing a final legal notice to the bank detailing the legal liability and demand for recovery[cite: 13].",
-    "Representation: Full legal representation before the RBI Integrated Ombudsman or the appropriate Consumer Commission[cite: 14].",
+    "Document Preparation: Drafting a legally sound complaint for the RBI Ombudsman or Consumer Commission.",
+    "Legal Notice: Issuing a final legal notice to the bank detailing the legal liability and demand for recovery.",
+    "Representation: Full legal representation before the RBI Integrated Ombudsman or the appropriate Consumer Commission.",
   ];
 
   const faqs = [
     {
       q: "What types of fraud are covered by this service?",
-      a: "These disputes involve financial losses due to scams (phishing, vishing, malware), unauthorized use of Debit/Credit Cards, or failed digital transactions (UPI/NEFT/RTGS) where the money is debited but not credited[cite: 3].",
+      a: "These disputes involve financial losses due to scams (phishing, vishing, malware), unauthorized use of Debit/Credit Cards, or failed digital transactions (UPI/NEFT/RTGS) where the money is debited but not credited.",
     },
     {
       q: "What are the RBI's liability rules?",
-      a: "The RBI enforces 'zero-liability' and 'limited-liability' rules. If the customer reports the fraud within a specified timeframe and has not been negligent, the bank is generally liable to compensate the loss[cite: 4, 5].",
+      a: "The RBI enforces 'zero-liability' and 'limited-liability' rules. If the customer reports the fraud within a specified timeframe and has not been negligent, the bank is generally liable to compensate the loss.",
     },
     {
       q: "When must I report the fraud to the bank?",
-      a: "You must file a formal written complaint with the bank immediately, ideally within 3 days for zero-liability claims[cite: 8].",
+      a: "You must file a formal written complaint with the bank immediately, ideally within 3 days for zero-liability claims.",
     },
     {
       q: "Does Lawizer handle the Consumer Commission representation?",
-      a: "Yes, we provide full legal representation before the RBI Integrated Ombudsman or the appropriate Consumer Commission to secure a full refund and compensation[cite: 14].",
+      a: "Yes, we provide full legal representation before the RBI Integrated Ombudsman or the appropriate Consumer Commission to secure a full refund and compensation.",
     },
   ];
 
@@ -102,10 +102,10 @@ export default function DigitalBankingFraudPage() {
           </h1>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Legal action to recover financial losses from **unauthorized transactions**
-            (phishing, card fraud, failed digital payments) using RBI guidelines[cite: 3].
+            (phishing, card fraud, failed digital payments) using RBI guidelines.
           </p>
           <p className="mt-3 text-sm text-cyan-300">
-            We enforce the RBI's "zero-liability" rules to secure your full refund and compensation[cite: 4, 14].
+            We enforce the RBI's "zero-liability" rules to secure your full refund and compensation.
           </p>
         </motion.div>
       </section>
@@ -124,7 +124,7 @@ export default function DigitalBankingFraudPage() {
                 Why Legal Action is Necessary for Recovery
               </h2>
               <p className="text-slate-700 leading-relaxed mb-8">
-                Filing a case is often necessary to enforce the bank's liability, especially if they initially deny your claim. We utilize the RBI's clear directives on customer liability to compel compensation[cite: 6].
+                Filing a case is often necessary to enforce the bank's liability, especially if they initially deny your claim. We utilize the RBI's clear directives on customer liability to compel compensation.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">

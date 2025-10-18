@@ -19,54 +19,54 @@ export default function WillDraftingPage() {
   const benefits = [
     {
       icon: CheckCircle2,
-      text: "Ensures your property is inherited according to your wishes [cite: 269]",
+      text: "Ensures your property is inherited according to your wishes",
     },
     {
       icon: Users,
-      text: "Prevents family disputes over asset distribution [cite: 270]",
+      text: "Prevents family disputes over asset distribution",
     },
     {
       icon: Gavel,
-      text: "Legally enforceable when properly registered [cite: 271]",
+      text: "Legally enforceable when properly registered",
     },
     {
       icon: Shield,
-      text: "Drafted to be clear, legally valid, and compliant under Indian law [cite: 266]",
+      text: "Drafted to be clear, legally valid, and compliant under Indian law",
     },
   ];
 
   const prerequisites = [
-    "Details of assets & beneficiaries [cite: 273]",
-    "Personal details of the testator (name, age, address, ID) [cite: 274]",
-    "Witness details for signing [cite: 275]",
+    "Details of assets & beneficiaries",
+    "Personal details of the testator (name, age, address, ID)",
+    "Witness details for signing",
   ];
 
   const deliverables = [
-    "Professionally drafted Will [cite: 277]",
-    "Clause-wise explanation [cite: 278]",
-    "Digital copy & registration guidance [cite: 279]",
+    "Professionally drafted Will",
+    "Clause-wise explanation",
+    "Digital copy & registration guidance",
   ];
 
   const faqs = [
     {
       q: "What is the purpose of a Will?",
-      a: "A Will ensures your assets are distributed according to your wishes after your lifetime, providing legal clarity to your intentions[cite: 265].",
+      a: "A Will ensures your assets are distributed according to your wishes after your lifetime, providing legal clarity to your intentions.",
     },
     {
       q: "Is it mandatory to register a Will?",
-      a: "While registration of a Will is not compulsory under Indian law, it is highly advisable as a registered Will is legally enforceable and helps prevent disputes among family members later[cite: 271].",
+      a: "While registration of a Will is not compulsory under Indian law, it is highly advisable as a registered Will is legally enforceable and helps prevent disputes among family members later.",
     },
     {
       q: "What kind of assets can be included in a Will?",
-      a: "A Will can cover all types of assets, including residential properties (like a flat in New Town, Kolkata), financial assets, investments, and personal belongings[cite: 267, 273].",
+      a: "A Will can cover all types of assets, including residential properties (like a flat in New Town, Kolkata), financial assets, investments, and personal belongings.",
     },
     {
       q: "Who is the Testator?",
-      a: "The Testator is the person making and executing the Will, detailing how their assets should be distributed upon their demise[cite: 274].",
+      a: "The Testator is the person making and executing the Will, detailing how their assets should be distributed upon their demise.",
     },
     {
       q: "Does Lawizer assist with the process beyond drafting?",
-      a: "Yes. Lawizer helps draft a clear, legally valid Will and guides you through the registration process under Indian law[cite: 266, 279].",
+      a: "Yes. Lawizer helps draft a clear, legally valid Will and guides you through the registration process under Indian law.",
     },
   ];
 
@@ -119,7 +119,7 @@ export default function WillDraftingPage() {
           </p>
           <p className="mt-3 text-sm text-red-300">
             Lawizer helps draft a clear, legally valid Will and guides you
-            through registration under Indian law[cite: 266].
+            through registration under Indian law.
           </p>
         </motion.div>
       </section>
@@ -141,7 +141,7 @@ export default function WillDraftingPage() {
                 A Will is an act of responsibility that secures your legacy and
                 provides peace of mind to your loved ones. It dictates the distribution
                 of your property, protecting your beneficiaries and preventing disputes
-                under succession laws[cite: 265, 270].
+                under succession laws.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">
@@ -171,7 +171,7 @@ export default function WillDraftingPage() {
                 <FileText className="w-5 h-5 text-orange-600" />
                 Pre-Requisites Required for Drafting
               </h3>
-              <p className="text-700 leading-relaxed mb-4">
+              <p className="text-slate-700 leading-relaxed mb-4">
                 To draft your Will, please provide the following necessary details:
               </p>
               <div className="space-y-2 mb-8">
@@ -241,15 +241,15 @@ export default function WillDraftingPage() {
               <div className="mt-6 pt-6 border-t border-slate-700">
                 <div className="flex items-center gap-3 text-slate-300 text-sm mb-2">
                   <CheckCircle2 className="w-4 h-4 text-green-400" />
-                  <span>Prevents Future Family Disputes [cite: 270]</span>
+                  <span>Prevents Future Family Disputes</span>
                 </div>
                 <div className="flex items-center gap-3 text-slate-300 text-sm mb-2">
                   <CheckCircle2 className="w-4 h-4 text-green-400" />
-                  <span>Legally Valid & Enforceable [cite: 271]</span>
+                  <span>Legally Valid & Enforceable</span>
                 </div>
                 <div className="flex items-center gap-3 text-slate-300 text-sm">
                   <CheckCircle2 className="w-4 h-4 text-green-400" />
-                  <span>Guidance for Registration [cite: 279]</span>
+                  <span>Guidance for Registration</span>
                 </div>
               </div>
             </div>

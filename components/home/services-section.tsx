@@ -175,7 +175,7 @@ export default function ServicesSection() {
       title: "Civil & Criminal",
       tagline: "Fighting for your rights, one case at a time",
       color: "from-red-500/10 to-red-500/30 text-red-600",
-      url: "/",
+      url: "/civil-commercial",
       items: [
         "Family law matters (divorce, custody, alimony)",
         "Property disputes",
@@ -193,7 +193,7 @@ export default function ServicesSection() {
       title: "Family Matters",
       tagline: "Protecting families, preserving relationships",
       color: "from-pink-500/10 to-pink-500/30 text-pink-600",
-      url: "/",
+      url: "/family",
       items: [
         "Divorce and marriage dissolution",
         "Maintenance and alimony",

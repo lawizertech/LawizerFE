@@ -18,45 +18,45 @@ export default function NDAAgreementPage() {
   const benefits = [
     {
       icon: Shield,
-      text: "Protects sensitive business information and trade secrets [cite: 325]",
+      text: "Protects sensitive business information and trade secrets ",
     },
     {
       icon: Scale,
-      text: "Legally enforceable in case of disclosure [cite: 326]",
+      text: "Legally enforceable in case of disclosure ",
     },
     {
       icon: Users,
-      text: "Allows safe collaboration, partnerships, or funding discussions [cite: 327]",
+      text: "Allows safe collaboration, partnerships, or funding discussions ",
     },
     {
       icon: FileText,
-      text: "Drafting NDAs customized for your project or business [cite: 328]",
+      text: "Drafting NDAs customized for your project or business ",
     },
   ];
 
   const preRequisites = [
-    "Parties’ details [cite: 330]",
-    "Type of confidential information [cite: 331]",
-    "Duration and exclusions [cite: 332]",
+    "Parties’ details ",
+    "Type of confidential information ",
+    "Duration and exclusions ",
   ];
 
   const deliverables = [
-    "Drafting NDAs customized for your project or business [cite: 328]",
-    "Guidance on scope, duration, and obligations [cite: 329]",
+    "Drafting NDAs customized for your project or business ",
+    "Guidance on scope, duration, and obligations ",
   ];
 
   const faqs = [
     {
       q: "What is a Non-Disclosure Agreement (NDA)?",
-      a: "An NDA is a legal contract ensuring parties keep shared confidential information secret[cite: 324].",
+      a: "An NDA is a legal contract ensuring parties keep shared confidential information secret.",
     },
     {
       q: "Why is an NDA necessary for startups?",
-      a: "It is crucial for protecting sensitive business information and trade secrets, making it safe to discuss partnerships or seek funding without risking IP leakage[cite: 325, 327].",
+      a: "It is crucial for protecting sensitive business information and trade secrets, making it safe to discuss partnerships or seek funding without risking IP leakage.",
     },
     {
       q: "What defines the scope of an NDA?",
-      a: "The NDA must clearly define the type of confidential information, the duration of the agreement, and any specific exclusions[cite: 331, 332].",
+      a: "The NDA must clearly define the type of confidential information, the duration of the agreement, and any specific exclusions.",
     },
   ];
 
@@ -96,11 +96,11 @@ export default function NDAAgreementPage() {
           </h1>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Legal contract ensuring all parties keep shared **confidential
-            information and trade secrets** secret[cite: 324, 325].
+            information and trade secrets** secret.
           </p>
           <p className="mt-3 text-sm text-pink-300">
             Lawizer offers customized NDA drafting, legally enforceable for safe
-            collaboration and funding discussions[cite: 327, 328].
+            collaboration and funding discussions.
           </p>
         </motion.div>
       </section>
@@ -122,7 +122,7 @@ export default function NDAAgreementPage() {
                 In a competitive market, protecting your proprietary information is
                 critical. An NDA allows you to pursue necessary partnerships or
                 secure funding while legally safeguarding your innovations and business
-                model[cite: 325, 327].
+                model.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">

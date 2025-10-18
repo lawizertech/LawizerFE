@@ -18,43 +18,43 @@ export default function LetterOfIntentPage() {
   const benefits = [
     {
       icon: Users,
-      text: "Establishes mutual understanding and preliminary terms [cite: 425]",
+      text: "Establishes mutual understanding and preliminary terms ",
     },
     {
       icon: CheckCircle2,
-      text: "Reduces misunderstandings before formal contracts [cite: 426]",
+      text: "Reduces misunderstandings before formal contracts ",
     },
     {
       icon: Scale,
-      text: "Drafting LOIs tailored to your business transaction [cite: 427]",
+      text: "Drafting LOIs tailored to your business transaction ",
     },
     {
       icon: Shield,
-      text: "Guidance on binding vs non-binding clauses [cite: 428]",
+      text: "Guidance on binding vs non-binding clauses ",
     },
   ];
 
   const preRequisites = [
-    "Parties’ details, transaction outline, preliminary terms [cite: 429]",
+    "Parties’ details, transaction outline, preliminary terms ",
   ];
 
   const deliverables = [
-    "Drafting LOIs tailored to your business transaction [cite: 427]",
-    "Guidance on binding vs non-binding clauses [cite: 428]",
+    "Drafting LOIs tailored to your business transaction ",
+    "Guidance on binding vs non-binding clauses ",
   ];
 
   const faqs = [
     {
       q: "What is a Letter of Intent (LOI)?",
-      a: "An LOI is a legal document that declares a preliminary intention to enter a business transaction or agreement[cite: 424].",
+      a: "An LOI is a legal document that declares a preliminary intention to enter a business transaction or agreement.",
     },
     {
       q: "Is an LOI legally binding?",
-      a: "An LOI can contain both binding and non-binding clauses. Lawizer provides guidance on which clauses should be binding (like confidentiality) and which should remain non-binding (like the final purchase price)[cite: 428].",
+      a: "An LOI can contain both binding and non-binding clauses. Lawizer provides guidance on which clauses should be binding (like confidentiality) and which should remain non-binding (like the final purchase price).",
     },
     {
       q: "Why use an LOI before a formal contract?",
-      a: "The LOI establishes mutual understanding on the principal terms, reducing the risk of major disagreements and misunderstandings before proceeding to the formal, complex contract[cite: 425, 426].",
+      a: "The LOI establishes mutual understanding on the principal terms, reducing the risk of major disagreements and misunderstandings before proceeding to the formal, complex contract.",
     },
   ];
 
@@ -95,11 +95,11 @@ export default function LetterOfIntentPage() {
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Document that declares the **preliminary intention** to enter a
             business transaction, establishing initial terms and
-            understanding[cite: 424].
+            understanding.
           </p>
           <p className="mt-3 text-sm text-blue-300">
             Lawizer drafts LOIs tailored to your transaction, providing clear
-            guidance on binding vs. non-binding clauses[cite: 427, 428].
+            guidance on binding vs. non-binding clauses.
           </p>
         </motion.div>
       </section>
@@ -121,7 +121,7 @@ export default function LetterOfIntentPage() {
                 An LOI is a cost-effective and efficient way to confirm mutual
                 interest and agree on fundamental terms before investing time
                 and resources into a complex, formal contract. It helps reduce
-                misunderstandings[cite: 425, 426].
+                misunderstandings.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">

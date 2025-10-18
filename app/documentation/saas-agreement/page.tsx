@@ -18,44 +18,44 @@ export default function SaaSAgreementPage() {
   const benefits = [
     {
       icon: Shield,
-      text: "Protects software IP, revenue, and service obligations [cite: 387]",
+      text: "Protects software IP, revenue, and service obligations ",
     },
     {
       icon: Scale,
-      text: "Prevents misuse of software and ensures compliance [cite: 388]",
+      text: "Prevents misuse of software and ensures compliance ",
     },
     {
       icon: Gavel,
-      text: "Drafting subscription-based SaaS agreements [cite: 389]",
+      text: "Drafting subscription-based SaaS agreements ",
     },
     {
       icon: FileText,
-      text: "Guidance on IP, SLA (Service Level Agreement), and termination clauses [cite: 390]",
+      text: "Guidance on IP, SLA (Service Level Agreement), and termination clauses ",
     },
   ];
 
   const preRequisites = [
-    "Software provider & client details [cite: 391]",
-    "Subscription model, IP ownership, support terms [cite: 392]",
+    "Software provider & client details ",
+    "Subscription model, IP ownership, support terms ",
   ];
 
   const deliverables = [
-    "Drafting subscription-based SaaS agreements [cite: 389]",
-    "Guidance on IP, SLA, and termination clauses [cite: 390]",
+    "Drafting subscription-based SaaS agreements ",
+    "Guidance on IP, SLA, and termination clauses ",
   ];
 
   const faqs = [
     {
       q: "What is a SaaS Agreement?",
-      a: "It governs the subscription, licensing, support, and intellectual property rights for software services[cite: 386].",
+      a: "It governs the subscription, licensing, support, and intellectual property rights for software services.",
     },
     {
       q: "Why is a dedicated SaaS Agreement necessary?",
-      a: "It protects the software provider's Intellectual Property (IP), revenue streams, and clearly defines service obligations, which is crucial for subscription-based models[cite: 387].",
+      a: "It protects the software provider's Intellectual Property (IP), revenue streams, and clearly defines service obligations, which is crucial for subscription-based models.",
     },
     {
       q: "What are the core components of the agreement?",
-      a: "It includes clauses defining the subscription model, IP ownership, Service Level Agreements (SLA), and terms for service termination[cite: 386, 390].",
+      a: "It includes clauses defining the subscription model, IP ownership, Service Level Agreements (SLA), and terms for service termination.",
     },
   ];
 
@@ -95,11 +95,11 @@ export default function SaaSAgreementPage() {
           </h1>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Legal contract governing **subscription, licensing, support, and IP
-            rights** for cloud-based software services[cite: 386].
+            rights** for cloud-based software services.
           </p>
           <p className="mt-3 text-sm text-purple-300">
             Lawizer ensures your agreement protects software IP, revenue, and
-            service obligations while preventing misuse[cite: 387, 388].
+            service obligations while preventing misuse.
           </p>
         </motion.div>
       </section>
@@ -121,7 +121,7 @@ export default function SaaSAgreementPage() {
                 Due to the unique nature of cloud services (ongoing
                 subscription, remote access, data handling), a standard contract
                 is insufficient. A customized SaaS agreement clearly defines the
-                boundaries of use and service delivery[cite: 387, 388].
+                boundaries of use and service delivery.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">

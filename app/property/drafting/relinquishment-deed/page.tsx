@@ -19,62 +19,62 @@ export default function RelinquishmentDeedPage() {
   const benefits = [
     {
       icon: Gavel,
-      text: "Legally Transfers Ownership Rights of a co-owner's share to another party [cite: 191]",
+      text: "Legally Transfers Ownership Rights of a co-owner's share to another party",
     },
     {
       icon: Users,
-      text: "Prevents Future Disputes by clearly recording the intention to relinquish ownership [cite: 192]",
+      text: "Prevents Future Disputes by clearly recording the intention to relinquish ownership",
     },
     {
       icon: FileText,
-      text: "Essential for Registration to update land/property records with local authorities [cite: 193]",
+      text: "Essential for Registration to update land/property records with local authorities",
     },
     {
       icon: Shield,
-      text: "Supports Inheritance & Partition Cases, helping in family property settlements [cite: 194]",
+      text: "Supports Inheritance & Partition Cases, helping in family property settlements",
     },
     {
       icon: CheckCircle2,
-      text: "Protects Interests of All Parties by ensuring clarity and consent of all co-owners [cite: 195]",
+      text: "Protects Interests of All Parties by ensuring clarity and consent of all co-owners",
     },
   ];
 
   const prerequisites = [
-    "Details of the Relinquishing Party: Name, address, PAN/Aadhaar, relationship with other owners [cite: 198]",
-    "Details of the Beneficiary: Name, address, PAN/Aadhaar, and relation [cite: 199]",
-    "Property Details: Address, type (flat/house/plot), area, and ownership shares [cite: 200]",
-    "Supporting Documents: Original sale deed/title deed, property tax receipts, and ID proofs of all parties [cite: 201]",
-    "Mutual Consent: All co-owners must agree and sign the deed [cite: 202]",
+    "Details of the Relinquishing Party: Name, address, PAN/Aadhaar, relationship with other owners",
+    "Details of the Beneficiary: Name, address, PAN/Aadhaar, and relation",
+    "Property Details: Address, type (flat/house/plot), area, and ownership shares",
+    "Supporting Documents: Original sale deed/title deed, property tax receipts, and ID proofs of all parties",
+    "Mutual Consent: All co-owners must agree and sign the deed",
   ];
 
   const deliverables = [
-    "Legally Drafted Relinquishment Deed compliant with local property laws [cite: 205]",
-    "Clause-wise Explanation so all parties understand the transfer of ownership [cite: 206]",
-    "Digital Copy & Editable Version ready for printing, signing, and registration [cite: 207]",
-    "Step-by-Step Registration Guidance for sub-registrar office [cite: 208]",
-    "Expert Legal Support to clarify doubts and ensure smooth execution [cite: 209]",
+    "Legally Drafted Relinquishment Deed compliant with local property laws",
+    "Clause-wise Explanation so all parties understand the transfer of ownership",
+    "Digital Copy & Editable Version ready for printing, signing, and registration",
+    "Step-by-Step Registration Guidance for sub-registrar office",
+    "Expert Legal Support to clarify doubts and ensure smooth execution",
   ];
 
   const faqs = [
     {
       q: "What is a Relinquishment Deed?",
-      a: "A Relinquishment Deed is a legal document used when a co-owner of a property voluntarily gives up their share in favor of another co-owner or family member[cite: 186]. It is commonly used in inheritance, partition, or property transfer cases[cite: 187].",
+      a: "A Relinquishment Deed is a legal document used when a co-owner of a property voluntarily gives up their share in favor of another co-owner or family member. It is commonly used in inheritance, partition, or property transfer cases.",
     },
     {
       q: "Is a Relinquishment Deed mandatory for property transfer in a family settlement?",
-      a: "Yes. When one co-owner decides to give up their legal share to another co-owner (usually a family member), a registered Relinquishment Deed is the only legal way to effect this transfer and update property records[cite: 193, 194].",
+      a: "Yes. When one co-owner decides to give up their legal share to another co-owner (usually a family member), a registered Relinquishment Deed is the only legal way to effect this transfer and update property records.",
     },
     {
       q: "Can a co-owner relinquish their share in favor of a non-family member?",
-      a: "While possible, it is typically used for family transfers. If the transfer is made to a non-family member for money, it might be viewed as a sale/gift and require different procedures, stamp duty, and registration based on local laws[cite: 186, 187].",
+      a: "While possible, it is typically used for family transfers. If the transfer is made to a non-family member for money, it might be viewed as a sale/gift and require different procedures, stamp duty, and registration based on local laws.",
     },
     {
       q: "Does Lawizer help with registration after drafting the deed?",
-      a: "Yes. Lawizer ensures the deed is professionally drafted and legally compliant. We also provide step-by-step registration guidance for the sub-registrar office[cite: 188, 208].",
+      a: "Yes. Lawizer ensures the deed is professionally drafted and legally compliant. We also provide step-by-step registration guidance for the sub-registrar office.",
     },
     {
       q: "What documents are required to draft the deed?",
-      a: "You need details of both the relinquishing party and the beneficiary, full property details including ownership shares, and supporting documents like the original title deed and tax receipts[cite: 197, 200, 201].",
+      a: "You need details of both the relinquishing party and the beneficiary, full property details including ownership shares, and supporting documents like the original title deed and tax receipts.",
     },
   ];
 
@@ -122,11 +122,11 @@ export default function RelinquishmentDeedPage() {
           </h1>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Legal document to formally transfer a co-owner's share in a property
-            **voluntarily to another co-owner or family member**[cite: 186].
+            **voluntarily to another co-owner or family member**.
           </p>
           <p className="mt-3 text-sm text-blue-300">
             Lawizer ensures your deed is professionally drafted, legally compliant,
-            and secures a smooth transfer of rights[cite: 188].
+            and secures a smooth transfer of rights.
           </p>
         </motion.div>
       </section>
@@ -147,7 +147,7 @@ export default function RelinquishmentDeedPage() {
               <p className="text-slate-700 leading-relaxed mb-8">
                 The deed is typically used in inheritance and partition cases to
                 formalize the transfer of ownership shares among family members,
-                preventing ambiguity and future legal conflicts[cite: 187, 192].
+                preventing ambiguity and future legal conflicts.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">

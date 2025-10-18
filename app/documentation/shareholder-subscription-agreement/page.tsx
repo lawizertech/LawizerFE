@@ -19,45 +19,45 @@ export default function ShareholderSubscriptionAgreementPage() {
   const benefits = [
     {
       icon: Shield,
-      text: "Protects investor and company rights [cite: 366]",
+      text: "Protects investor and company rights ",
     },
     {
       icon: CheckCircle2,
-      text: "Ensures clarity on shareholding, voting rights, and dividends [cite: 367]",
+      text: "Ensures clarity on shareholding, voting rights, and dividends ",
     },
     {
       icon: Scale,
-      text: "Legally enforceable in case of disputes [cite: 368]",
+      text: "Legally enforceable in case of disputes ",
     },
     {
       icon: Users,
-      text: "Drafting agreements for startup funding or corporate investments [cite: 369]",
+      text: "Drafting agreements for startup funding or corporate investments ",
     },
   ];
 
   const preRequisites = [
-    "Company and investor details [cite: 371]",
-    "Number and type of shares [cite: 372]",
-    "Rights, obligations, and exit clauses [cite: 373]",
+    "Company and investor details ",
+    "Number and type of shares ",
+    "Rights, obligations, and exit clauses ",
   ];
 
   const deliverables = [
-    "Drafting agreements for startup funding or corporate investments [cite: 369]",
-    "Guidance on shareholding structure and rights [cite: 370]",
+    "Drafting agreements for startup funding or corporate investments ",
+    "Guidance on shareholding structure and rights ",
   ];
 
   const faqs = [
     {
       q: "What is a Shareholder Subscription Agreement?",
-      a: "It is an agreement that governs the issuance of shares to investors and defines their rights and obligations within the company[cite: 365].",
+      a: "It is an agreement that governs the issuance of shares to investors and defines their rights and obligations within the company.",
     },
     {
       q: "Why is this agreement important for investors?",
-      a: "It protects the investor's rights and ensures clarity on their shareholding, voting rights, and entitlement to dividends, making the investment legally secure[cite: 366, 367].",
+      a: "It protects the investor's rights and ensures clarity on their shareholding, voting rights, and entitlement to dividends, making the investment legally secure.",
     },
     {
       q: "What key clauses does the Lawizer agreement cover?",
-      a: "The agreement covers the number and type of shares, the investor's rights and obligations, and crucial exit clauses[cite: 372, 373].",
+      a: "The agreement covers the number and type of shares, the investor's rights and obligations, and crucial exit clauses.",
     },
   ];
 
@@ -97,13 +97,11 @@ export default function ShareholderSubscriptionAgreementPage() {
           </h1>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Legal document governing the **issuance of shares to investors** and
-            defining their rights, obligations, and corporate governance[cite:
-            365].
+            defining their rights, obligations, and corporate governance.
           </p>
           <p className="mt-3 text-sm text-violet-300">
             Lawizer drafts agreements for startup funding, ensuring clarity on
-            shareholding and protecting both company and investor rights[cite:
-            366, 369].
+            shareholding and protecting both company and investor rights.
           </p>
         </motion.div>
       </section>
@@ -125,7 +123,7 @@ export default function ShareholderSubscriptionAgreementPage() {
                 This agreement formalizes the capital investment, ensuring it is
                 legally compliant and that the rights and obligations of the new
                 shareholders are clear and enforceable, mitigating future
-                disputes [cite: 367, 368].
+                disputes .
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">

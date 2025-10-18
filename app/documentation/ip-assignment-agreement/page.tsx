@@ -18,43 +18,43 @@ export default function IPAssignmentAgreementPage() {
   const benefits = [
     {
       icon: Shield,
-      text: "Ensures legal transfer of IP rights [cite: 418]",
+      text: "Ensures legal transfer of IP rights ",
     },
     {
       icon: Scale,
-      text: "Prevents disputes over IP ownership [cite: 419]",
+      text: "Prevents disputes over IP ownership ",
     },
     {
       icon: Gavel,
-      text: "Drafting IP transfer agreements [cite: 420]",
+      text: "Drafting IP transfer agreements ",
     },
     {
       icon: FileText,
-      text: "Registration guidance if applicable [cite: 421]",
+      text: "Registration guidance if applicable ",
     },
   ];
 
   const preRequisites = [
-    "IP details, assignor & assignee info, scope of transfer [cite: 422]",
+    "IP details, assignor & assignee info, scope of transfer ",
   ];
 
   const deliverables = [
-    "Drafting IP transfer agreements [cite: 420]",
-    "Registration guidance if applicable [cite: 421]",
+    "Drafting IP transfer agreements ",
+    "Registration guidance if applicable ",
   ];
 
   const faqs = [
     {
       q: "What is an Intellectual Property Assignment Agreement?",
-      a: "It is a legal document that transfers Intellectual Property (IP) ownership from one party (assignor) to another (assignee)[cite: 417].",
+      a: "It is a legal document that transfers Intellectual Property (IP) ownership from one party (assignor) to another (assignee).",
     },
     {
       q: "Why is a formal assignment agreement needed?",
-      a: "It is required to legally transfer IP rights, which prevents future disputes over who owns the technology, brand, or creation[cite: 418, 419].",
+      a: "It is required to legally transfer IP rights, which prevents future disputes over who owns the technology, brand, or creation.",
     },
     {
       q: "What kind of IP can be assigned?",
-      a: "The agreement can cover various forms of IP, including copyrights, trademarks, patents, and trade secrets, ensuring the scope of transfer is clearly defined[cite: 422].",
+      a: "The agreement can cover various forms of IP, including copyrights, trademarks, patents, and trade secrets, ensuring the scope of transfer is clearly defined.",
     },
   ];
 
@@ -94,11 +94,11 @@ export default function IPAssignmentAgreementPage() {
           </h1>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Legal document required to formally **transfer ownership** of
-            Intellectual Property (IP) from one party to another[cite: 417].
+            Intellectual Property (IP) from one party to another.
           </p>
           <p className="mt-3 text-sm text-indigo-300">
             Lawizer ensures legal transfer of IP rights, preventing disputes
-            over ownership with expert drafting[cite: 418, 419, 420].
+            over ownership with expert drafting.
           </p>
         </motion.div>
       </section>
@@ -120,7 +120,7 @@ export default function IPAssignmentAgreementPage() {
                 Without a formal assignment agreement, ownership of patents,
                 copyrights, or trademarks may be unclear, leading to disputes
                 and legal challenges. This document secures the IP rights for
-                the assignee[cite: 418, 419].
+                the assignee.
               </p>
 
               <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">
