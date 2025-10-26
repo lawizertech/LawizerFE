@@ -80,7 +80,8 @@ export function HeroSection() {
                 <Button className="bg-primary hover:bg-primary/90 text-white px-8 py-6 rounded-lg text-lg font-semibold shadow-xl">
                   Start Consultation
                 </Button>
-                <Button className="bg-[#ff38c7] hover:bg-primary/90 text-white px-8 py-6 rounded-lg text-lg font-semibold shadow-xl">
+                <Button className="bg-[#ff38c7] hover:bg-primary/90 text-white px-8 py-6 rounded-lg text-lg font-semibold shadow-xl"
+                onClick={() => window.open("/womensafety")}>
                   Women Help
                 </Button>
               </div>
