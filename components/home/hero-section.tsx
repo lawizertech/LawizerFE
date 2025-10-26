@@ -75,41 +75,48 @@ export function HeroSection() {
           <div className="max-w-3xl">
             {" "}
             {/* CTA and Stats */}
-            <div className="flex flex-wrap items-center gap-6 mb-12">
-              <Button className="bg-primary hover:bg-primary/90 text-white px-8 py-6 rounded-lg text-lg font-semibold shadow-xl">
-                Start Consultation
-              </Button>
-
-              <div className="flex items-center gap-3 bg-slate-800/80 backdrop-blur-sm rounded-lg px-4 py-3">
-                <div className="flex -space-x-2">
-                  <Avatar className="w-8 h-8 border-2 border-slate-800">
-                    <AvatarImage src="/professional-lawyer.png" />
-                    <AvatarFallback>JD</AvatarFallback>
-                  </Avatar>
-                  <Avatar className="w-8 h-8 border-2 border-slate-800">
-                    <AvatarImage src="/female-attorney.jpg" />
-                    <AvatarFallback>SM</AvatarFallback>
-                  </Avatar>
-                  <Avatar className="w-8 h-8 border-2 border-slate-800">
-                    <AvatarImage src="/male-lawyer.png" />
-                    <AvatarFallback>RK</AvatarFallback>
-                  </Avatar>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-white font-semibold">
-                    250+ Attorneys Online
-                  </span>
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                </div>
+            <div className="flex flex-col items-start gap-6 mb-12">
+              <div className="flex gap-6">
+                <Button className="bg-primary hover:bg-primary/90 text-white px-8 py-6 rounded-lg text-lg font-semibold shadow-xl">
+                  Start Consultation
+                </Button>
+                <Button className="bg-[#ff38c7] hover:bg-primary/90 text-white px-8 py-6 rounded-lg text-lg font-semibold shadow-xl">
+                  Women Help
+                </Button>
               </div>
 
-              <div className="flex items-center gap-3 bg-slate-800/80 backdrop-blur-sm rounded-lg px-4 py-3">
-                <Phone className="w-6 h-6 text-primary" />
-                <div className="flex items-center gap-2">
-                  <span className="text-white font-semibold">
-                    42 Active Calls
-                  </span>
-                  <div className="w-2 h-2 bg-accent-brand rounded-full animate-pulse"></div>
+              <div className="flex gap-6">
+                {" "}
+                <div className="flex items-center gap-3 bg-slate-800/80 backdrop-blur-sm rounded-lg px-4 py-3">
+                  <div className="flex -space-x-2">
+                    <Avatar className="w-8 h-8 border-2 border-slate-800">
+                      <AvatarImage src="/professional-lawyer.png" />
+                      <AvatarFallback>JD</AvatarFallback>
+                    </Avatar>
+                    <Avatar className="w-8 h-8 border-2 border-slate-800">
+                      <AvatarImage src="/female-attorney.jpg" />
+                      <AvatarFallback>SM</AvatarFallback>
+                    </Avatar>
+                    <Avatar className="w-8 h-8 border-2 border-slate-800">
+                      <AvatarImage src="/male-lawyer.png" />
+                      <AvatarFallback>RK</AvatarFallback>
+                    </Avatar>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-white font-semibold">
+                      250+ Attorneys Online
+                    </span>
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 bg-slate-800/80 backdrop-blur-sm rounded-lg px-4 py-3">
+                  <Phone className="w-6 h-6 text-primary" />
+                  <div className="flex items-center gap-2">
+                    <span className="text-white font-semibold">
+                      42 Active Calls
+                    </span>
+                    <div className="w-2 h-2 bg-accent-brand rounded-full animate-pulse"></div>
+                  </div>
                 </div>
               </div>
             </div>
