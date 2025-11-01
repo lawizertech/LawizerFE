@@ -2,100 +2,32 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import {
-  Heart,
-  Shield,
-  PhoneCall,
-  EyeOff,
-  AlertTriangle,
-  Users,
-} from "lucide-react";
+import { Heart, Shield, PhoneCall, EyeOff, AlertTriangle } from "lucide-react";
 
 export default function WomenSafetyLegalPage() {
   const router = useRouter();
 
-  const sections = [
-    {
-      id: "contact",
-      title: "Contact Us",
-      icon: PhoneCall,
-      basePath: "/women-safety/contactus/",
-      description:
-        "If you’re scared, hurt, or alone — don’t wait. Call us. We're here for you 24/7 with real human support and verified female lawyers.",
-      services: [
-        {
-          name: "Talk to a Legal Expert",
-          slug: "ContactSupportPage",
-          description:
-            "Connect instantly with verified female legal professionals. Confidential, compassionate, and ready to listen.",
-        },
-      ],
-    },
-    {
-      id: "cyber",
-      title: "Blackmailed / Threatened Online?",
-      icon: EyeOff,
-      basePath: "/women-safety/cybercrime/",
-      description:
-        "For every woman silenced by threats in her DMs — we’re done staying quiet. This is your weapon against digital abuse.",
-      services: [
-        {
-          name: "Report Cyber Threats",
-          slug: "ReportCyberThreatsPage",
-          description:
-            "Send us screenshots. We'll take care of filing cyber complaints, sending legal notices, and ensuring offenders face justice.",
-        },
-      ],
-    },
-    {
-      id: "sexual",
-      title: "Sexually Harassed?",
-      icon: AlertTriangle,
-      basePath: "/women-safety/sexualharassment/",
-      description:
-        "Harassment can happen anywhere — workplace, online, or public. Our verified female lawyers are here to support and guide you to justice.",
-      services: [
-        {
-          name: "Get Legal Support",
-          slug: "SexualHarassmentHelpPage",
-          description:
-            "Confidential legal advice, anonymous reporting, and SOS help. Let’s turn fear into action — step by step.",
-        },
-      ],
-    },
-    {
-      id: "abuse",
-      title: "Abused Verbally / Physically?",
-      icon: Shield,
-      basePath: "/women-safety/abuse/",
-      description:
-        "You’ve been silent long enough. We’re here to help you fight back — safely, legally, and without judgment.",
-      services: [
-        {
-          name: "Seek Legal Protection",
-          slug: "AbuseSupportPage",
-          description:
-            "We handle cases of domestic violence, emotional, or verbal abuse with full confidentiality and expert legal support.",
-        },
-      ],
-    },
-  ];
-
-  const handleViewDetails = (basePath: string, slug: string) => {
-    router.push(`${basePath}${slug}`);
+  const handleContactClick = () => {
+    router.push("/women-safety/contactus/ContactSupportPage");
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 via-white to-rose-100">
+    <div className="min-h-screen bg-gradient-to-b from-rose-50 via-white to-rose-100 relative">
       {/* Hero Section */}
-      <section className="relative flex items-center justify-center text-center h-[70vh] overflow-hidden bg-gradient-to-r from-[#3b0a0a] via-[#5b0d0d] to-[#120202] text-white">
-        <div className="absolute inset-0 bg-[url('/womensafety-bg.jpg')] bg-cover bg-center opacity-25" />
+      <section className="relative flex items-center justify-center text-center h-[70vh] overflow-hidden text-white">
+        {/* ✅ Replace red gradient with image */}
+        <div className="absolute inset-0 bg-[url('/womenadv.png')] bg-cover bg-center brightness-75" />
+
+        {/* Overlay for slight dark effect for readability */}
+        <div className="absolute inset-0 bg-black/40" />
+
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="relative z-10 max-w-3xl px-6"
         >
+          {/* Animated heart icon */}
           <motion.div
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 3, repeat: Infinity }}
@@ -103,10 +35,13 @@ export default function WomenSafetyLegalPage() {
           >
             <Heart className="w-16 h-16 text-[#e63946]" />
           </motion.div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-3 tracking-tight">
+
+          {/* ✅ Title with logo added inline */}
+          <h1 className="text-4xl md:text-5xl font-bold mb-3 tracking-tight flex items-center justify-center gap-3">
             Women Safety & Legal{" "}
             <span style={{ color: "#f8c8c8" }}>Support</span>
           </h1>
+
           <p className="text-lg text-gray-200 max-w-xl mx-auto">
             If you are <strong>Scared, Hurt or Alone</strong> — Don’t wait. Call
             us. We're here for You <strong>24/7</strong>.
@@ -118,60 +53,163 @@ export default function WomenSafetyLegalPage() {
         </motion.div>
       </section>
 
-      {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-6 py-20">
-        {sections.map((section, index) => {
-          const Icon = section.icon;
-          return (
-            <motion.section
-              key={section.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="mb-20"
+      {/* SECTION 1 - Contact Us / Threatened Online */}
+      <motion.section
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-5xl mx-auto px-6 py-20"
+      >
+        <div className="flex items-center gap-3 mb-6">
+          <PhoneCall className="w-8 h-8 text-[#e63946]" />
+          <h2 className="text-3xl font-bold text-[#3b0a0a]">
+            Contact Us / Threatened Online
+          </h2>
+        </div>
+        <p className="text-gray-700 mb-6 leading-relaxed">
+          If you’re being blackmailed, harassed, or threatened online — don’t
+          suffer in silence. Our team is ready to listen, protect, and take
+          action for you. Let justice begin with you.
+        </p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            "Contact Us",
+            "Threatened Online?",
+            "Sexually Harassed?",
+            "Physically Abused?",
+          ].map((title) => (
+            <div
+              key={title}
+              className="bg-white border border-gray-100 rounded-2xl p-6 shadow-md hover:shadow-xl transition-all"
             >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 bg-[#e63946]/10 rounded-full">
-                  <Icon className="w-6 h-6 text-[#e63946]" />
-                </div>
-                <h2 className="text-3xl font-bold text-[#3b0a0a]">
-                  {section.title}
-                </h2>
-              </div>
-              <p className="text-gray-700 mb-10 max-w-3xl">
-                {section.description}
+              <h3 className="font-semibold text-[#3b0a0a] mb-2">{title}</h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Connect with verified female legal professionals who will guide
+                and support you confidentially and safely.
               </p>
+            </div>
+          ))}
+        </div>
+      </motion.section>
 
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {section.services.map((service) => (
-                  <motion.div
-                    key={service.slug}
-                    whileHover={{ scale: 1.03, y: -5 }}
-                    transition={{ duration: 0.2 }}
-                    className="relative bg-white/90 border border-gray-100 rounded-2xl p-6 shadow-md hover:shadow-xl backdrop-blur-lg transition-all group overflow-hidden"
-                  >
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-[#e63946]/10 to-transparent transition-opacity duration-300 pointer-events-none" />
-                    <h3 className="text-lg font-semibold text-[#3b0a0a] mb-2">
-                      {service.name}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-5 leading-relaxed">
-                      {service.description}
-                    </p>
-                    <button
-                      onClick={() =>
-                        handleViewDetails(section.basePath, service.slug)
-                      }
-                      className="flex items-center gap-2 text-[#e63946] font-medium group cursor-pointer"
-                    >
-                      View Details →
-                    </button>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.section>
-          );
-        })}
-      </div>
+      {/* SECTION 2 - Blackmailed / Threatened Online */}
+      <motion.section
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-5xl mx-auto px-6 py-20"
+      >
+        <div className="flex items-center gap-3 mb-6">
+          <EyeOff className="w-8 h-8 text-[#e63946]" />
+          <h2 className="text-3xl font-bold text-[#3b0a0a]">
+            Blackmailed / Threatened Online
+          </h2>
+        </div>
+        <p className="text-gray-700 mb-4 leading-relaxed">
+          For every girl who’s been blackmailed with her own photos... For every
+          woman who’s been told to “stay quiet” or “just block him” — we’re done
+          staying silent. This platform is your weapon.
+        </p>
+        <p className="text-gray-700 mb-4 leading-relaxed">
+          We are here to fight back with the law in our hands and justice in our
+          hearts. You send the screenshots — we’ll handle the rest.
+        </p>
+        <ul className="list-disc pl-6 text-gray-700 mb-4 space-y-2">
+          <li>Filing cybercrime complaints & sending legal notices</li>
+          <li>Free & Confidential Legal Consultation</li>
+          <li>Anonymous Reporting Options</li>
+          <li>Experienced Female Advocates Available on Request</li>
+          <li>Quick-response SOS Legal Help for Urgent Cases</li>
+          <li>Step-by-Step Legal Guidance: From FIR to Justice</li>
+        </ul>
+        <p className="text-gray-700 italic">
+          They wanted you to feel afraid. Now it’s their turn.
+        </p>
+      </motion.section>
+
+      {/* SECTION 3 - Sexually Harassed */}
+      <motion.section
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-5xl mx-auto px-6 py-20"
+      >
+        <div className="flex items-center gap-3 mb-6">
+          <AlertTriangle className="w-8 h-8 text-[#e63946]" />
+          <h2 className="text-3xl font-bold text-[#3b0a0a]">
+            Sexually Harassed
+          </h2>
+        </div>
+        <p className="text-gray-700 mb-4 leading-relaxed">
+          Sexual harassment can happen anywhere — at the workplace, in public
+          spaces, online, or even within familiar environments. Fear and stigma
+          often keep survivors from coming forward — we’re here to change that.
+        </p>
+        <p className="text-gray-700 mb-4 leading-relaxed">
+          On our platform, you don’t need to face this alone. This section is
+          built as a safe haven for justice, healing, and support.
+        </p>
+        <ul className="list-disc pl-6 text-gray-700 space-y-2">
+          <li>Free & Confidential Legal Consultation</li>
+          <li>Anonymous Reporting Options</li>
+          <li>Experienced Female Advocates Available on Request</li>
+          <li>Quick-Response SOS Legal Help for Urgent Cases</li>
+          <li>Step-by-Step Legal Guidance: From FIR to Justice</li>
+        </ul>
+      </motion.section>
+
+      {/* SECTION 4 - Verbal / Physical Abuse */}
+      <motion.section
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-5xl mx-auto px-6 py-20"
+      >
+        <div className="flex items-center gap-3 mb-6">
+          <Shield className="w-8 h-8 text-[#e63946]" />
+          <h2 className="text-3xl font-bold text-[#3b0a0a]">
+            Verbal / Physical Abuse
+          </h2>
+        </div>
+        <p className="text-gray-700 mb-4 leading-relaxed">
+          You’ve been silent long enough. It’s time for us to take over.
+          Thousands of women are trapped in cycles of abuse every day. What
+          keeps them silent? Fear. Shame. Isolation. We’re here to break that
+          silence.
+        </p>
+        <p className="text-gray-700 mb-4 leading-relaxed">
+          Abuse doesn’t always show up as broken bones or black eyes. Sometimes
+          it’s the insults whispered behind closed doors, the threats, or the
+          humiliation that leaves you questioning your worth. Abuse — verbal or
+          physical — is not love. It’s not normal. And it’s not your fault.
+        </p>
+        <p className="text-gray-700 mb-4 leading-relaxed">
+          At <strong>Lawizer</strong>, we’re not here to lecture you. With legal
+          tools, expert support, and a platform built to help you take back your
+          life — affordably and confidentially.
+        </p>
+        <ul className="list-disc pl-6 text-gray-700 space-y-2">
+          <li>Free & Confidential Legal Consultation</li>
+          <li>Anonymous Reporting Options</li>
+          <li>Experienced Female Advocates Available on Request</li>
+          <li>Quick-Response SOS Legal Help for Urgent Cases</li>
+          <li>Step-by-Step Legal Guidance: From FIR to Justice</li>
+        </ul>
+      </motion.section>
+
+      {/* Floating Contact Button */}
+      <motion.button
+        onClick={handleContactClick}
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6, delay: 1 }}
+        className="fixed bottom-6 right-6 bg-[#e63946] hover:bg-[#ff4d6d] text-white p-4 rounded-full shadow-lg flex items-center justify-center group"
+      >
+        <PhoneCall className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
+        <span className="absolute bottom-14 right-0 bg-[#ff4d6d] text-white text-sm py-1 px-3 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          Contact Us
+        </span>
+      </motion.button>
     </div>
   );
 }
