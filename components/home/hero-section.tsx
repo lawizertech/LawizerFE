@@ -65,7 +65,6 @@ export function HeroSection() {
           <div className="bg-slate-800/80 backdrop-blur-sm rounded-full px-6 py-3 inline-block mb-8">
             <p className="text-white text-sm">
               Connect with verified attorneys in minutes —{" "}
-              <span className="line-through text-red-400">$49</span>{" "}
               <span className="text-accent-brand font-bold">
                 Free Consultation
               </span>
@@ -87,38 +86,9 @@ export function HeroSection() {
               </div>
 
               <div className="flex gap-6">
-                {" "}
-                <div className="flex items-center gap-3 bg-slate-800/80 backdrop-blur-sm rounded-lg px-4 py-3">
-                  <div className="flex -space-x-2">
-                    <Avatar className="w-8 h-8 border-2 border-slate-800">
-                      <AvatarImage src="/professional-lawyer.png" />
-                      <AvatarFallback>JD</AvatarFallback>
-                    </Avatar>
-                    <Avatar className="w-8 h-8 border-2 border-slate-800">
-                      <AvatarImage src="/female-attorney.jpg" />
-                      <AvatarFallback>SM</AvatarFallback>
-                    </Avatar>
-                    <Avatar className="w-8 h-8 border-2 border-slate-800">
-                      <AvatarImage src="/male-lawyer.png" />
-                      <AvatarFallback>RK</AvatarFallback>
-                    </Avatar>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-white font-semibold">
-                      250+ Attorneys Online
-                    </span>
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 bg-slate-800/80 backdrop-blur-sm rounded-lg px-4 py-3">
-                  <Phone className="w-6 h-6 text-primary" />
-                  <div className="flex items-center gap-2">
-                    <span className="text-white font-semibold">
-                      42 Active Calls
-                    </span>
-                    <div className="w-2 h-2 bg-accent-brand rounded-full animate-pulse"></div>
-                  </div>
-                </div>
+                <Button className="bg-blue-800 hover:bg-blue/90 text-white px-8 py-6 rounded-lg text-lg font-semibold shadow-xl">
+                  Emergency SOS
+                </Button>
               </div>
             </div>
             {/* Trust Indicators */}
