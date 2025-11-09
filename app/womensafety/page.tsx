@@ -73,17 +73,35 @@ export default function WomenSafetyLegalPage() {
         </p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            "Contact Us",
-            "Threatened Online?",
-            "Sexually Harassed?",
-            "Physically Abused?",
-          ].map((title) => (
+            {
+              title: "Contact Us",
+              color:
+                "from-pink-100 to-pink-200 hover:from-pink-200 hover:to-pink-300",
+            },
+            {
+              title: "Threatened Online?",
+              color:
+                "from-blue-100 to-blue-200 hover:from-blue-200 hover:to-blue-300",
+            },
+            {
+              title: "Sexually Harassed?",
+              color:
+                "from-purple-100 to-purple-200 hover:from-purple-200 hover:to-purple-300",
+            },
+            {
+              title: "Physically Abused?",
+              color:
+                "from-red-100 to-red-200 hover:from-red-200 hover:to-red-300",
+            },
+          ].map((card) => (
             <div
-              key={title}
-              className="bg-white border border-gray-100 rounded-2xl p-6 shadow-md hover:shadow-xl transition-all"
+              key={card.title}
+              className={`rounded-2xl p-6 shadow-md hover:shadow-xl transition-all transform hover:-translate-y-1 border border-white/60 bg-gradient-to-br ${card.color}`}
             >
-              <h3 className="font-semibold text-[#3b0a0a] mb-2">{title}</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <h3 className="font-semibold text-[#3b0a0a] text-lg mb-2 drop-shadow-sm">
+                {card.title}
+              </h3>
+              <p className="text-sm text-gray-700 leading-relaxed">
                 Connect with verified female legal professionals who will guide
                 and support you confidentially and safely.
               </p>
