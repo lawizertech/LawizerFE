@@ -40,10 +40,10 @@ export function HeroSection() {
 
       <div className="absolute top-24 right-8 z-10">
         <div className="relative">
-          <div className="bg-accent-brand rounded-full w-32 h-32 flex items-center justify-center border-4 border-white shadow-lg transform rotate-12">
+          <div className="bg-accent-brand rounded-full w-26 h-26 flex items-center justify-center border-4 border-white shadow-lg transform rotate-12">
             <div className="text-center transform -rotate-12">
               <CheckCircle className="w-8 h-8 text-white mx-auto mb-1" />
-              <div className="text-sm font-black text-white leading-tight">
+              <div className="text-xs font-black text-white leading-tight">
                 100%
                 <br />
                 SECURE

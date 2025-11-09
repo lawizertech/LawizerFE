@@ -9,6 +9,7 @@ import { WhatsAppButton } from "@/components/home/whatsapp-button";
 import { RealLifeQuestionsSection } from "@/components/home/RealLifeQuestionsSection";
 import ServicesSection from "@/components/home/services-section";
 import { EmergencyButton } from "@/components/home/emergency-button";
+import PopularServicesSection from "@/components/home/popular-services-section";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <TrustSection />
       <RealLifeQuestionsSection />
       <ServicesSection />
+      <PopularServicesSection />
       <TestimonialsSection />
       <FAQSection />
       <EmergencyButton />
