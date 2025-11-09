@@ -13,6 +13,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { useState } from "react";
+import EmergencySOS from "./emergency-sos";
 
 const consultationCategories = [
   "Family Law",
@@ -76,20 +77,21 @@ export function HeroSection() {
             {/* CTA and Stats */}
             <div className="flex flex-col items-start gap-6 mb-12">
               <div className="flex gap-6">
-                <Button className="bg-primary hover:bg-primary/90 text-white px-8 py-6 rounded-lg text-lg font-semibold shadow-xl">
+                <Button
+                  className="bg-primary hover:bg-primary/90 text-white px-8 py-6 rounded-lg text-lg font-semibold shadow-xl"
+                  onClick={() => (window.location.href = "/start-consultation")}
+                >
                   Start Consultation
                 </Button>
-                <Button className="bg-[#ff38c7] hover:bg-primary/90 text-white px-8 py-6 rounded-lg text-lg font-semibold shadow-xl"
-                onClick={() => window.open("/womensafety")}>
+                <Button
+                  className="bg-[#ff38c7] hover:bg-primary/90 text-white px-8 py-6 rounded-lg text-lg font-semibold shadow-xl"
+                  onClick={() => window.open("/womensafety")}
+                >
                   Women Help
                 </Button>
               </div>
 
-              <div className="flex gap-6">
-                <Button className="bg-blue-800 hover:bg-blue/90 text-white px-8 py-6 rounded-lg text-lg font-semibold shadow-xl">
-                  Emergency SOS
-                </Button>
-              </div>
+              <EmergencySOS />
             </div>
             {/* Trust Indicators */}
             <div className="flex flex-wrap gap-8 mb-12 w-[#740px]">
