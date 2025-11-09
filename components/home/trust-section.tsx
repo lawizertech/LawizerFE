@@ -1,20 +1,21 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export function TrustSection() {
   const companies = [
-    "TechCorp",
-    "StartupHub",
-    "GlobalTrade",
-    "InnovateLabs",
-    "FinanceFirst",
-    "PropertyPro",
-    "MediaGroup",
-    "RetailCo",
+    { name: "PhonePe", logo: "/logos/PhonePe.png" },
+    { name: "Razorpay", logo: "/logos/Razorpay.svg" },
+    { name: "Switch", logo: "/logos/Snitch.png" },
+    { name: "Man Matters", logo: "/logos/ManMatters.png" },
+    { name: "Tata Steel", logo: "/logos/TataSteel.png" },
+    { name: "TCS", logo: "/logos/TCS.png" },
+    { name: "Zomato", logo: "/logos/Zomato.webp" },
+    { name: "CESC", logo: "/logos/CESC.svg" },
   ];
 
-  // Duplicate the array so it loops seamlessly
+  // Duplicate logos for seamless looping
   const logos = [...companies, ...companies];
 
   return (
@@ -31,19 +32,23 @@ export function TrustSection() {
             animate={{ x: ["0%", "-50%"] }}
             transition={{
               ease: "linear",
-              duration: 20, // speed of the slide (lower = faster)
+              duration: 20,
               repeat: Infinity,
             }}
           >
-            {logos.map((logo, index) => (
+            {logos.map((company, index) => (
               <div
                 key={index}
                 className="flex items-center justify-center min-w-[150px] h-16 bg-gray-50 rounded-xl shadow-sm 
                 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all"
               >
-                <span className="text-lg font-semibold text-gray-500">
-                  {logo}
-                </span>
+                <Image
+                  src={company.logo}
+                  alt={company.name}
+                  width={100}
+                  height={50}
+                  className="object-contain"
+                />
               </div>
             ))}
           </motion.div>
