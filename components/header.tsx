@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
+import { HoverDropdown } from "./headerdropdown";
 
 export function Header() {
   return (
@@ -25,7 +26,7 @@ export function Header() {
         duration: 0.6,
         ease: [0.25, 0.1, 0.25, 1],
       }}
-      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-white/80 backdrop-blur-md border border-gray-200/50 shadow-lg overflow-hidden"
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-white/80 backdrop-blur-md border border-gray-200/50 shadow-lg overflow"
     >
       <div className="container mx-auto px-4 py-4">
         <motion.div
@@ -53,15 +54,66 @@ export function Header() {
 
           {/* Navigation */}
           <nav className="hidden lg:flex items-center gap-8">
-            {["Services", "Documents", "Resources"].map((item) => (
-              <button
-                key={item}
-                className="flex items-center gap-1 text-gray-700 hover:text-[#c92c41] text-sm font-medium transition-colors"
+            <HoverDropdown label="Services">
+              <a href="/property" className="text-sm py-1 hover:text-[#c92c41]">
+                Property
+              </a>
+              <a
+                href="/civil-commercial"
+                className="text-sm py-1 hover:text-[#c92c41]"
               >
-                {item}
-                <ChevronDown className="w-4 h-4" />
-              </button>
-            ))}
+                Civil & Criminal
+              </a>
+              <a href="/family" className="text-sm py-1 hover:text-[#c92c41]">
+                Family Matters
+              </a>
+              <a href="/banking" className="text-sm py-1 hover:text-[#c92c41]">
+                Banking Matters
+              </a>
+              <a href="/itr" className="text-sm py-1 hover:text-[#c92c41]">
+                ITR-Filling
+              </a>
+              <a
+                href="/startup-businesslegal"
+                className="text-sm py-1 hover:text-[#c92c41]"
+              >
+                Startup & Business Legal
+              </a>
+              <a
+                href="/documentation"
+                className="text-sm py-1 hover:text-[#c92c41]"
+              >
+                Documentation
+              </a>
+              <a href="/challan" className="text-sm py-1 hover:text-[#c92c41]">
+                Pay your Traffic Challan
+              </a>
+            </HoverDropdown>
+
+            <HoverDropdown label="Documents">
+              <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                Agreements
+              </a>
+              <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                Contracts
+              </a>
+              <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                Business Docs
+              </a>
+            </HoverDropdown>
+
+            <HoverDropdown label="Resources">
+              <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                Blogs
+              </a>
+              <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                Guides
+              </a>
+              <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                FAQs
+              </a>
+            </HoverDropdown>
+
             {["About", "Contact", "Login"].map((item) => (
               <a
                 key={item}
