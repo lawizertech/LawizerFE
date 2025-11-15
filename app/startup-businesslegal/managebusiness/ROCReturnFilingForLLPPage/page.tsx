@@ -1,180 +1,334 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { FileText, ShieldCheck, CheckCircle, HelpCircle } from "lucide-react";
+import {
+  FileText,
+  Shield, // Using Shield for consistency
+  CheckCircle2, // Using CheckCircle2 for consistency
+  ArrowRight,
+  ChevronDown,
+  Calendar, // Icon for due dates
+  Scale, // Icon for legal compliance
+  Clock, // Icon for penalties/time
+} from "lucide-react";
 
 export default function ROCReturnFilingForLLPPage() {
+  const [openFaq, setOpenFaq] = useState(0); // State for FAQ Accordion
+
+  // Structured content to match the new card design
   const benefits = [
-    "Helps in maintaining 'Active' status in the MCA Portal",
-    "Boosts Confidence and Trust among stakeholders",
-    "Protection from Penalty and Legal actions",
-    "Avoiding mandatory 'Strike Off' of the LLP",
+    {
+      icon: Calendar,
+      text: "Helps in maintaining 'Active' status in the MCA Portal",
+    },
+    {
+      icon: Shield,
+      text: "Protection from steep penalty and legal actions",
+    },
+    {
+      icon: Scale,
+      text: "Boosts Confidence and Trust among partners and stakeholders",
+    },
+    {
+      icon: Clock,
+      text: "Avoiding mandatory 'Strike Off' action by the ROC for non-filing",
+    },
   ];
 
+  // Note: Prerequisites array is formatted differently to handle the sub-bullets cleanly.
   const prerequisites = [
-    "For Form 11 Filing:",
+    "**For Form 11 Filing (Annual Return):**",
     "• DIN of all Designated Partners should be in APPROVED Status",
     "• Minimum 2 Valid Digital Signatures (DSC) of Designated Partners",
-    "",
-    "For Form 8 Filing:",
+    "**For Form 8 Filing (Statement of Accounts):**",
     "• Turnover less than 40 Lac: Signed Balance Sheet & P&L",
-    "• Turnover more than 40 Lac: Audited Balance Sheet",
+    "• Turnover more than 40 Lac: Audited Balance Sheet (Mandatory)",
     "• DIN of all Designated Partners should be in APPROVED Status",
     "• Minimum 2 Valid Digital Signatures (DSC) of Designated Partners",
   ];
 
-  const deliverables = ["All filed e-forms with MCA", "MCA payment challan"];
+  const deliverables = [
+    "All filed e-forms with MCA (Form 8 and Form 11)",
+    "MCA payment challan for filing fees",
+    "Financial statements preparation (if required)",
+    "Certificate of filing compliance",
+  ];
 
   const faqs = [
     {
       q: "What Forms are to be filed for ROC Return (for LLP)?",
-      a: "LLP needs to file two eForms every year: Form 11 for Annual Return of the LLP and Form 8 for the Statement of Accounts.",
+      a: "LLP needs to file two eForms every year: **Form 11** for the Annual Return (Compliance) and **Form 8** for the Statement of Accounts (Financials).",
     },
     {
       q: "What is the LLP Annual Filing due date?",
-      a: "Due date for filing Form 11 is 30th May of each year and due date for filing Form 8 is 30th October of every year.",
+      a: "Due date for filing **Form 11** is **30th May** of each year. Due date for filing **Form 8** is **30th October** of every year.",
     },
     {
-      q: "Who is responsible to file LLP ROC Return?",
-      a: "The Designated Partners of the LLP are responsible to file LLP ROC Return.",
-    },
-    {
-      q: "What is LLP Return Filing fees and charges?",
-      a: "Filing Fees for Form 11 is ₹50. Filing Fees for Form 8 is ₹50.",
-    },
-    {
-      q: "What is Penalty for late filing of LLP return?",
-      a: "Late fees of ₹10 per day is charged on each Form 11 and Form 8 from the date of delay till the default continues.",
+      q: "What is the Penalty for late filing of LLP return?",
+      a: "Late fees of **₹100 per day** is charged on each Form (Form 11 and Form 8) from the day after the due date until the filing is completed. The penalty is uncapped.",
     },
     {
       q: "How to calculate Penalty for late filing of LLP Annual filing?",
-      a: "Form 11 Penalty: ₹100 × No. of days after 30th May till the date of filing. Form 8 Penalty: ₹100 × No. of days after 30th October till the date of filing.",
+      a: "Penalty calculation is: **₹100 x Number of days delay** for Form 11 + **₹100 x Number of days delay** for Form 8.",
     },
     {
       q: "Is there any chance of waiver of penalty for non-filing of Form 11 & Form 8?",
-      a: "No, there is no provision for waiver of penalty. In the last several years, the MCA has not announced any waiver or amnesty scheme.",
+      a: "No, there is typically no provision for waiver of penalty. The MCA has not recently announced any general waiver or amnesty scheme, making timely filing essential.",
     },
     {
       q: "What happens if an LLP does not file annual returns?",
-      a: "A) LLP & its Partners become liable for late fees and penalty. B) ROC may issue notice to close the LLP for non-filing. C) ROC can disqualify and block DIN of Designated Partners.",
+      a: "A) LLP & its Partners become liable for steep, uncapped late fees. B) ROC may issue notice to close the LLP. C) ROC can disqualify and block the DIN of Designated Partners, preventing them from joining other entities.",
     },
   ];
 
+  // Set primary color palette (using Blue/Purple theme for Formal Compliance)
+  const primaryColor = "text-blue-500";
+  const primaryBg = "bg-gradient-to-r from-blue-600 to-purple-600";
+  const primaryHoverBg = "bg-gradient-to-r from-blue-700 to-purple-700";
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-slate-900 text-white">
       {/* Hero Section */}
-      <div className="relative h-[75vh] bg-gradient-to-br from-[#fff6e9] via-[#f6f3ff] to-[#e9f8ff] flex items-center justify-center overflow-hidden">
-        <img
-          src="/images/roc-llp.jpg"
-          alt="ROC Return Filing for LLP"
-          className="absolute inset-0 w-full h-full object-cover opacity-30"
-        />
-        <div className="relative text-center max-w-3xl px-6">
-          <motion.h1
-            initial={{ y: 40, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-bold text-[#0e172b] mb-4"
-          >
-            ROC Return Filing for LLP
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-[#0e172b]/80 text-lg leading-relaxed"
-          >
-            ROC Return Filing is the mandatory annual compliance submission to
-            the Registrar of Companies (ROC) for a Limited Liability Partnership
-            (LLP). It involves filing Form 8 and Form 11 each financial year to
-            maintain active status and avoid penalties under the LLP Act, 2008.
-          </motion.p>
-        </div>
-      </div>
+      <section className="relative flex items-center justify-center text-center min-h-[65vh] overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <div className="absolute inset-0 bg-[url('/roc-llp.jpg')] bg-cover bg-center opacity-10" />
 
-      {/* Content Section */}
-      <div className="bg-gradient-to-b from-white via-[#fffdf9] to-[#f9f9ff] py-16 px-6 md:px-20">
-        {/* Benefits */}
-        <Section
-          title="Benefits"
-          icon={<ShieldCheck className="text-[#4c3df7]" />}
-        >
-          {benefits}
-        </Section>
+        {/* Animated gradient orbs */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse delay-1000" />
 
-        {/* Pre-requisites */}
-        <Section
-          title="Pre-requisites"
-          icon={<FileText className="text-[#e99b2b]" />}
-        >
-          {prerequisites}
-        </Section>
-
-        {/* Deliverables */}
-        <Section
-          title="Deliverables"
-          icon={<CheckCircle className="text-[#c92c41]" />}
-        >
-          {deliverables}
-        </Section>
-
-        {/* FAQs */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto mt-16"
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="relative z-10 max-w-4xl px-6 py-12"
         >
-          <h2 className="text-3xl font-semibold mb-6 text-[#0e172b] flex items-center gap-2">
-            <HelpCircle className="text-[#4c3df7]" /> FAQs
-          </h2>
-          <div className="space-y-6">
-            {faqs.map((faq, i) => (
+          <motion.div
+            animate={{
+              y: [0, -12, 0],
+              rotateY: [0, 10, 0],
+            }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="flex justify-center mb-6"
+          >
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-xl opacity-50" />
+              <div className="relative bg-gradient-to-br from-blue-500 to-purple-500 p-4 rounded-2xl">
+                <FileText className="w-16 h-16 text-white" strokeWidth={1.5} />
+              </div>
+            </div>
+          </motion.div>
+
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-white">
+            ROC Annual Return Filing for LLP
+          </h1>
+          <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            Mandatory annual compliance for Limited Liability Partnerships
+            (LLP), involving timely filing of **Form 8** (Financials) and **Form
+            11** (Annual Return) to avoid heavy penalties.
+          </p>
+          <p className="mt-3 text-sm text-blue-300">
+            Lawizer ensures compliance, handles financial statement preparation,
+            and timely filing under the LLP Act, 2008.
+          </p>
+        </motion.div>
+      </section>
+
+      {/* Main Content */}
+      <div className="max-w-6xl mx-auto px-6 py-16">
+        <div className="grid lg:grid-cols-3 gap-8 mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-2"
+          >
+            <div className="bg-slate-800 rounded-3xl p-8 shadow-xl shadow-slate-900/50 border border-slate-700">
+              <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+                <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
+                The Importance of Timely Annual Filing
+              </h2>
+              <p className="text-slate-300 leading-relaxed mb-8">
+                ROC Annual Filing is non-negotiable for an LLP. Failing to file
+                Form 8 and Form 11 by their respective deadlines (October 30th
+                and May 30th) results in an uncapped, cumulative late fee of
+                **₹100 per day per form**. This compliance step is crucial for
+                maintaining 'Active' status and protecting Designated Partners'
+                DINs from disqualification.
+              </p>
+
+              {/* Benefits Section - New Style */}
+              <h3 className="text-xl font-bold text-white mb-5 flex items-center gap-2">
+                <Shield className={`w-5 h-5 ${primaryColor}`} />
+                Key Benefits of Compliant LLP Filing
+              </h3>
+              <div className="grid sm:grid-cols-2 gap-4 mb-8">
+                {benefits.map((b, i) => (
+                  <motion.div
+                    key={b.text}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    className="flex items-start gap-3 p-4 rounded-xl bg-slate-700/50 border border-slate-600 hover:shadow-md transition-shadow"
+                  >
+                    <div className="p-2 rounded-lg bg-slate-900 shadow-sm">
+                      <b.icon
+                        className={`w-5 h-5 ${primaryColor}`}
+                        strokeWidth={2}
+                      />
+                    </div>
+                    <p className="text-sm text-slate-200 font-medium leading-snug pt-1">
+                      {b.text}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Prerequisites Section - New Style */}
+              <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <FileText className="w-5 h-5 text-yellow-500" />
+                Pre-Requisites for Filing (Form 8 & 11)
+              </h3>
+              <p className="text-slate-300 leading-relaxed mb-4">
+                The compliance documents and statuses required depend on the
+                LLP's financial size:
+              </p>
+              <div className="space-y-4 mb-8">
+                {prerequisites.map((p, i) => (
+                  <div
+                    key={i}
+                    className="flex items-start gap-3 p-1 text-slate-300"
+                  >
+                    <span className="text-green-500 flex-shrink-0 mt-0.5">
+                      {p.startsWith("•") ? "•" : ""}
+                    </span>
+                    <p
+                      className={`text-sm ${
+                        p.startsWith("**") ? "font-bold" : ""
+                      }`}
+                    >
+                      {p.replace(/[\*\•]/g, "").trim()}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Deliverables Section - New Style */}
+              <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-blue-400" />
+                Lawizer Deliverables
+              </h3>
+              <div className="grid sm:grid-cols-2 gap-3">
+                {deliverables.map((d, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-3 p-3 rounded-lg bg-blue-900/50 border border-blue-800"
+                  >
+                    <div className="w-2 h-2 rounded-full bg-blue-400" />
+                    <p className="text-sm text-slate-200 font-medium">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Sticky Sidebar CTA */}
+          <motion.aside
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:sticky lg:top-24 h-fit"
+          >
+            <div className="bg-gradient-to-br from-slate-700 to-slate-800 rounded-3xl p-8 shadow-2xl border border-slate-600">
+              <h3 className="text-xl font-bold text-white mb-3">
+                Ensure LLP Compliance: File Form 8 & 11
+              </h3>
+              <p className="text-slate-300 text-sm mb-6 leading-relaxed">
+                Meet the mandatory annual deadlines (May 30th & Oct 30th) to
+                avoid uncapped penalties and partner DIN disqualification.
+              </p>
+
+              <button
+                className={`w-full group relative overflow-hidden px-6 py-4 rounded-xl font-semibold ${primaryBg} text-slate-900 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 mb-3`}
+              >
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  Start LLP Return Filing
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <div
+                  className={`absolute inset-0 ${primaryHoverBg} opacity-0 group-hover:opacity-100 transition-opacity`}
+                />
+              </button>
+
+              <button className="w-full px-6 py-4 rounded-xl font-semibold bg-white/10 text-white border border-white/20 hover:bg-white/20 backdrop-blur-sm transition-all duration-300">
+                Book Compliance Consultation
+              </button>
+
+              <div className="mt-6 pt-6 border-t border-slate-600">
+                <div className="flex items-center gap-3 text-slate-300 text-sm mb-2">
+                  <CheckCircle2 className="w-4 h-4 text-green-400" />
+                  <span>Timely Filing: Form 8 & Form 11</span>
+                </div>
+                <div className="flex items-center gap-3 text-slate-300 text-sm mb-2">
+                  <CheckCircle2 className="w-4 h-4 text-green-400" />
+                  <span>Avoid ₹100/day Uncapped Penalty</span>
+                </div>
+                <div className="flex items-center gap-3 text-slate-300 text-sm">
+                  <CheckCircle2 className="w-4 h-4 text-green-400" />
+                  <span>Partner DIN Protection</span>
+                </div>
+              </div>
+            </div>
+          </motion.aside>
+        </div>
+
+        {/* FAQs Section - New Style with useState Accordion */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="bg-slate-800 rounded-3xl p-8 shadow-xl shadow-slate-900/50 border border-slate-700"
+        >
+          <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+            <div className="w-1 h-8 bg-gradient-to-b from-blue-400 to-purple-400 rounded-full" />
+            Frequently Asked Questions
+          </h3>
+
+          <div className="space-y-3">
+            {faqs.map((f, i) => (
               <motion.div
                 key={i}
-                whileHover={{ scale: 1.02 }}
-                className="bg-white rounded-2xl shadow-md p-6 border border-gray-100"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                className="border border-slate-700 rounded-xl overflow-hidden hover:border-blue-500 transition-colors"
               >
-                <p className="font-semibold text-[#0e172b] mb-2">{faq.q}</p>
-                <p className="text-gray-600">{faq.a}</p>
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? -1 : i)}
+                  className="w-full flex items-center justify-between p-5 text-left bg-slate-700/60 hover:bg-slate-700 transition-colors"
+                >
+                  <span className="font-semibold text-white pr-4">{f.q}</span>
+                  <ChevronDown
+                    className={`w-5 h-5 text-slate-400 flex-shrink-0 transition-transform duration-300 ${
+                      openFaq === i ? "rotate-180 text-blue-500" : ""
+                    }`}
+                  />
+                </button>
+                <div
+                  // Dynamic height based on state for smooth accordion transition
+                  className={`overflow-hidden transition-all duration-300 ${
+                    openFaq === i ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <p className="px-5 pb-5 text-slate-300 leading-relaxed whitespace-pre-line">
+                    {f.a}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>
-        </motion.div>
+        </motion.section>
       </div>
     </div>
-  );
-}
-
-// Reusable Section Component
-function Section({
-  title,
-  icon,
-  children,
-}: {
-  title: string;
-  icon: any;
-  children: string[];
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="max-w-4xl mx-auto mb-16"
-    >
-      <h2 className="text-3xl font-semibold mb-6 flex items-center gap-2 text-[#0e172b]">
-        {icon} {title}
-      </h2>
-      <ul className="space-y-3">
-        {children.map((item, i) => (
-          <li key={i} className="flex items-start gap-3">
-            <span className="text-[#e99b2b] mt-1">•</span>
-            <span className="text-gray-700 whitespace-pre-line">{item}</span>
-          </li>
-        ))}
-      </ul>
-    </motion.div>
   );
 }
