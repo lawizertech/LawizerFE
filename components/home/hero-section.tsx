@@ -1,17 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Phone,
-  Shield,
-  Lock,
-  PhoneCall,
-  Star,
-  ChevronLeft,
-  ChevronRight,
-  CheckCircle,
-} from "lucide-react";
+import { Shield, Lock, PhoneCall, Star, CheckCircle } from "lucide-react";
 import { useState } from "react";
 import EmergencySOS from "./emergency-sos";
 
@@ -85,7 +75,7 @@ export function HeroSection() {
                 </Button>
                 <Button
                   className="bg-[#ff38c7] hover:bg-primary/90 text-white px-8 py-6 rounded-lg text-lg font-semibold shadow-xl"
-                  onClick={() => window.open("/womensafety")}
+                  onClick={() => (window.location.href = "/womensafety")}
                 >
                   Women Help
                 </Button>
