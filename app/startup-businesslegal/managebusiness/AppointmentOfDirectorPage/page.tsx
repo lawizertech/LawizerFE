@@ -1,47 +1,72 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Users,
   FileText,
-  CheckCircle,
-  HelpCircle,
-  ShieldCheck,
+  CheckCircle2,
+  Shield,
+  ArrowRight,
+  ChevronDown,
+  Scale,
+  Home,
 } from "lucide-react";
 
 export default function AppointmentOfDirectorPage() {
+  const [openFaq, setOpenFaq] = useState(0);
+
   const benefits = [
-    "Boosts transparency and trust among stakeholders",
-    "Protection from penalty and legal actions",
-    "Eligibility to raise unsecured loans from the Director (as applicable)",
+    {
+      icon: Scale,
+      text: "Boosts transparency and trust among stakeholders",
+    },
+    {
+      icon: Shield,
+      text: "Protection from penalty and legal actions",
+    },
+    {
+      icon: Home,
+      text: "Eligibility to raise unsecured loans from the Director (as applicable)",
+    },
+    {
+      icon: CheckCircle2,
+      text: "Ensures compliance under the Companies Act, 2013",
+    },
+    {
+      icon: Users,
+      text: "Formalizes the structure and decision-making authority of the Board",
+    },
   ];
 
   const prerequisites = [
     "ROC Return filing must be up to date",
     "DIN of minimum 1 director should be in 'Approved' status",
     "One valid DSC (Digital Signature Certificate) of an existing director",
-    "Appointee must be an Indian Resident",
+    "Appointee must be an Indian Resident (if required)",
   ];
 
   const deliverables = [
     "All filed e-forms with MCA (DIR-12)",
     "MCA payment challan",
+    "Board Resolution draft",
+    "Consent letter draft (DIR-2)",
+    "Proper record keeping and statutory compliance",
   ];
 
   const faqs = [
     {
       q: "What documents are required for director appointment?",
       a: `A) Documents required from Director:
-PAN Card, Residence Proof, DIN declarations, Consent letter for appointment etc.
+PAN Card, Residence Proof, DIN declarations, Consent letter for appointment (DIR-2) etc.
 
 B) Documents required from Company:
 Board Meeting Resolution for Appointment and Letter of Appointment.
-Startupwala will assist in preparing and filing these documents with the ROC.`,
+Lawizer will assist in preparing and filing these documents with the ROC.`,
     },
     {
       q: "What is Consent Letter from Director?",
-      a: "A Consent Letter is the written approval by the proposed director confirming acceptance of appointment. It must be submitted to the company before filing DIR-12.",
+      a: "A Consent Letter (Form DIR-2) is the written approval by the proposed director confirming acceptance of appointment. It must be submitted to the company before filing DIR-12.",
     },
     {
       q: "What form is filed for adding a director?",
@@ -60,175 +85,252 @@ Startupwala will assist in preparing and filing these documents with the ROC.`,
       a: "Default maximum is 15 directors. To exceed 15, the company must follow the procedural steps under the Companies Act.",
     },
     {
-      q: "Types of directors?",
-      a: `Executive Director — full-time executive involved in day-to-day operations.
-Non-Executive Director — part-time/non-executive, attends board meetings and gives strategic guidance.
-Additional Director — appointed between AGMs, requires confirmation at the next AGM.`,
-    },
-    {
-      q: "Who can / cannot be appointed as a director?",
-      a: "Can be appointed: persons 18+ years, of sound mind and solvent, not disqualified by law. Cannot be appointed: minors, insolvents, persons convicted of certain offences (imprisonment >6 months).",
-    },
-    {
       q: "Minimum age to become a director?",
       a: "Minimum age is 18 years. For a Managing Director, minimum age is typically 21 years where applicable.",
     },
   ];
 
-  return (
-    <div
-      className="min-h-screen"
-      style={{
-        background:
-          "linear-gradient(135deg,#fff8ef 0%,#f4f0ff 50%,#edf7ff 100%)",
-      }}
-    >
-      {/* Hero */}
-      <section className="relative h-[75vh] w-full">
-        <img
-          src="/images/appointment-director.jpg"
-          alt="Appointment of Director"
-          className="absolute inset-0 w-full h-full object-cover opacity-85"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/75 to-white/40 flex items-center justify-center text-center px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-3xl"
-          >
-            <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 3, repeat: Infinity }}
-              className="flex justify-center mb-6"
-            >
-              <Users className="w-16 h-16 text-[#c92c41]" />
-            </motion.div>
+  // Set primary color palette (using a blue/purple theme for formal compliance)
+  const primaryColor = "text-blue-600";
+  const primaryBg = "bg-gradient-to-r from-blue-600 to-purple-600";
+  const primaryHoverBg = "bg-gradient-to-r from-blue-700 to-purple-700";
 
-            <h1 className="text-4xl md:text-5xl font-bold text-[#0e172b] mb-4">
-              Appointment of <span className="text-[#4c3df7]">Director</span>
-            </h1>
-            <p className="text-[#0e172b]/80 text-lg">
-              Add a director to your Board legally and compliantly. We handle
-              board resolutions, DIR-12 filing and MCA formalities so you stay
-              compliant under the Companies Act, 2013.
-            </p>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
+      {/* Hero Section - Updated for new style */}
+      <section className="relative flex items-center justify-center text-center min-h-[65vh] overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <div className="absolute inset-0 bg-[url('/companylegal.jpg')] bg-cover bg-center opacity-10" />
+
+        {/* Animated gradient orbs (adjusted for blue/purple theme) */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="relative z-10 max-w-4xl px-6 py-12"
+        >
+          <motion.div
+            animate={{
+              y: [0, -12, 0],
+              rotateY: [0, 10, 0],
+            }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="flex justify-center mb-6"
+          >
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-xl opacity-50" />
+              <div className="relative bg-gradient-to-br from-blue-500 to-purple-500 p-4 rounded-2xl">
+                <Users className="w-16 h-16 text-white" strokeWidth={1.5} />
+              </div>
+            </div>
           </motion.div>
-        </div>
+
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-white">
+            Appointment of Director & DIR-12 Filing
+          </h1>
+          <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            Legally add a director to your Board, handling board resolutions,
+            **DIR-12 filing**, and MCA formalities to ensure full compliance.
+          </p>
+          <p className="mt-3 text-sm text-blue-300">
+            Lawizer handles all procedural steps under the Companies Act, 2013,
+            for a smooth and compliant director appointment.
+          </p>
+        </motion.div>
       </section>
 
-      {/* Main */}
-      <div className="max-w-6xl mx-auto px-6 py-16 space-y-16">
-        {/* Description */}
-        <motion.section
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="bg-white rounded-3xl p-8 shadow-md border border-gray-100"
-        >
-          <h2 className="text-2xl font-semibold text-[#c92c41] mb-4 flex items-center gap-2">
-            <FileText className="text-[#c92c41]" /> Description
-          </h2>
-          <p className="text-gray-700 leading-relaxed">
-            Appointment of Director is the formal process of adding an
-            individual to the Board. For a Private Limited Company this includes
-            a Board Meeting, passing a resolution, and filing Form DIR-12 with
-            the Registrar of Companies within the prescribed timeline.
-          </p>
-        </motion.section>
-
-        {/* Benefits / Pre-reqs / Deliverables grid */}
-        <div className="grid md:grid-cols-3 gap-8">
-          <Card
-            title="Benefits"
-            color="#e99b2b"
-            icon={<ShieldCheck className="text-[#e99b2b]" />}
+      {/* Main Content */}
+      <div className="max-w-6xl mx-auto px-6 py-16">
+        <div className="grid lg:grid-cols-3 gap-8 mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-2"
           >
-            {benefits}
-          </Card>
+            <div className="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100">
+              <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
+                <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
+                The Importance of Formal Appointment
+              </h2>
+              <p className="text-slate-700 leading-relaxed mb-8">
+                Appointing a director is a statutory requirement that involves
+                specific forms (DIR-2 and DIR-12), board approvals, and filing
+                with the Registrar of Companies (ROC). A compliant appointment
+                is essential for legal validity and governance.
+              </p>
 
-          <Card
-            title="Pre-requisites"
-            color="#4c3df7"
-            icon={<FileText className="text-[#4c3df7]" />}
-          >
-            {prerequisites}
-          </Card>
+              {/* Benefits Section - New Style */}
+              <h3 className="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">
+                <Shield className={`w-5 h-5 ${primaryColor}`} />
+                Key Benefits of a Compliant Appointment
+              </h3>
+              <div className="grid sm:grid-cols-2 gap-4 mb-8">
+                {benefits.map((b, i) => (
+                  <motion.div
+                    key={b.text}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    className="flex items-start gap-3 p-4 rounded-xl bg-gradient-to-br from-slate-50 to-blue-50/50 border border-slate-100 hover:shadow-md transition-shadow"
+                  >
+                    <div className="p-2 rounded-lg bg-white shadow-sm">
+                      <b.icon
+                        className={`w-5 h-5 ${primaryColor}`}
+                        strokeWidth={2}
+                      />
+                    </div>
+                    <p className="text-sm text-slate-700 font-medium leading-snug pt-1">
+                      {b.text}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
 
-          <Card
-            title="Deliverables"
-            color="#c92c41"
-            icon={<CheckCircle className="text-[#c92c41]" />}
+              {/* Prerequisites Section - New Style */}
+              <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <FileText className="w-5 h-5 text-orange-600" />
+                Pre-Requisites for Director Appointment
+              </h3>
+              <p className="text-slate-700 leading-relaxed mb-4">
+                Before proceeding with the appointment, ensure the following are
+                in order:
+              </p>
+              <div className="space-y-2 mb-8">
+                {prerequisites.map((p, i) => (
+                  <div
+                    key={i}
+                    className="flex items-start gap-3 p-3 rounded-lg hover:bg-slate-50 transition-colors"
+                  >
+                    <CheckCircle2
+                      className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5"
+                      strokeWidth={2}
+                    />
+                    <p className="text-slate-700 text-sm">{p}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Deliverables Section - New Style */}
+              <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <Home className="w-5 h-5 text-blue-600" />
+                Lawizer Deliverables
+              </h3>
+              <div className="grid sm:grid-cols-2 gap-3">
+                {deliverables.map((d, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-3 p-3 rounded-lg bg-blue-50/50 border border-blue-100"
+                  >
+                    <div className="w-2 h-2 rounded-full bg-blue-600" />
+                    <p className="text-sm text-slate-700 font-medium">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Sticky Sidebar CTA */}
+          <motion.aside
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:sticky lg:top-24 h-fit"
           >
-            {deliverables}
-          </Card>
+            <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 shadow-2xl border border-slate-700">
+              <h3 className="text-xl font-bold text-white mb-3">
+                Ensure Compliant Director Appointment
+              </h3>
+              <p className="text-slate-300 text-sm mb-6 leading-relaxed">
+                Avoid penalties and non-compliance issues by ensuring your
+                DIR-12 filing is accurate and submitted on time to the ROC.
+              </p>
+
+              <button
+                className={`w-full group relative overflow-hidden px-6 py-4 rounded-xl font-semibold ${primaryBg} text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 mb-3`}
+              >
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  Start Director Appointment
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <div
+                  className={`absolute inset-0 ${primaryHoverBg} opacity-0 group-hover:opacity-100 transition-opacity`}
+                />
+              </button>
+
+              <button className="w-full px-6 py-4 rounded-xl font-semibold bg-white/10 text-white border border-white/20 hover:bg-white/20 backdrop-blur-sm transition-all duration-300">
+                Book Compliance Consultation
+              </button>
+
+              <div className="mt-6 pt-6 border-t border-slate-700">
+                <div className="flex items-center gap-3 text-slate-300 text-sm mb-2">
+                  <CheckCircle2 className="w-4 h-4 text-green-400" />
+                  <span>Accurate DIR-12 Filing</span>
+                </div>
+                <div className="flex items-center gap-3 text-slate-300 text-sm mb-2">
+                  <CheckCircle2 className="w-4 h-4 text-green-400" />
+                  <span>Statutory Compliance Ensured</span>
+                </div>
+                <div className="flex items-center gap-3 text-slate-300 text-sm">
+                  <CheckCircle2 className="w-4 h-4 text-green-400" />
+                  <span>Board Resolution Drafting</span>
+                </div>
+              </div>
+            </div>
+          </motion.aside>
         </div>
 
-        {/* FAQs */}
+        {/* FAQs Section - New Style with useState Accordion */}
         <motion.section
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="bg-white rounded-3xl p-8 shadow-md border border-gray-100"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100"
         >
-          <h3 className="text-2xl font-semibold text-[#4c3df7] mb-6 flex items-center gap-2">
-            <HelpCircle className="text-[#4c3df7]" /> Frequently Asked Questions
+          <h3 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+            <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
+            Frequently Asked Questions
           </h3>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {faqs.map((f, i) => (
-              <details
+              <motion.div
                 key={i}
-                className="group bg-white p-4 rounded-xl border border-gray-100 shadow-sm"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                className="border border-slate-200 rounded-xl overflow-hidden hover:border-blue-300 transition-colors"
               >
-                <summary className="font-semibold text-[#0e172b] cursor-pointer">
-                  {f.q}
-                </summary>
-                <div className="mt-2 text-gray-700 whitespace-pre-line">
-                  {f.a}
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? -1 : i)}
+                  className="w-full flex items-center justify-between p-5 text-left bg-gradient-to-r from-slate-50 to-transparent hover:from-blue-50 transition-colors"
+                >
+                  <span className="font-semibold text-slate-900 pr-4">
+                    {f.q}
+                  </span>
+                  <ChevronDown
+                    className={`w-5 h-5 text-slate-600 flex-shrink-0 transition-transform duration-300 ${
+                      openFaq === i ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                <div
+                  // Dynamic height based on state for smooth accordion transition
+                  className={`overflow-hidden transition-all duration-300 ${
+                    openFaq === i ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <p className="px-5 pb-5 text-slate-700 leading-relaxed whitespace-pre-line">
+                    {f.a}
+                  </p>
                 </div>
-              </details>
+              </motion.div>
             ))}
           </div>
         </motion.section>
       </div>
     </div>
-  );
-}
-
-/* Reusable Card */
-function Card({
-  title,
-  icon,
-  color,
-  children,
-}: {
-  title: string;
-  icon: React.ReactNode;
-  color: string;
-  children: string[];
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100"
-    >
-      <h4
-        className="text-xl font-semibold mb-3 flex items-center gap-3"
-        style={{ color }}
-      >
-        <span className="inline-flex items-center justify-center w-9 h-9 bg-white rounded-lg shadow-xs">
-          {icon}
-        </span>
-        {title}
-      </h4>
-      <ul className="text-gray-700 space-y-2 list-disc list-inside">
-        {children.map((it, idx) => (
-          <li key={idx}>{it}</li>
-        ))}
-      </ul>
-    </motion.div>
   );
 }
