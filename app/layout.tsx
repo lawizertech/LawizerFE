@@ -6,7 +6,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
-  title: "LawizerApp",
+  title: "Lawizer",
   description: "An AI-powered legal assistant for your business.",
 };
 

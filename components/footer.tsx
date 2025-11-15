@@ -66,8 +66,8 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="mailto:info@lawizer.com" className="text-gray-600 hover:text-primary transition-colors">
-                  info@lawizer.com
+                <a href="mailto:admin@lawizer.com" className="text-gray-600 hover:text-primary transition-colors">
+                  admin@lawizer.com
                 </a>
               </li>
               <li>
