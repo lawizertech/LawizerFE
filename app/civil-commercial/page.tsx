@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -14,6 +14,7 @@ export default function CivilCriminalLegalPage() {
   const primaryColor = "#6d28d9";
   const primaryAccent = "#a78bfa";
   const secondaryColor = "#0e172b";
+  const [activeTab, setActiveTab] = useState<"civil" | "criminal">("civil");
 
   const contactFormRef = useRef<HTMLDivElement | null>(null);
 
@@ -21,20 +22,21 @@ export default function CivilCriminalLegalPage() {
     contactFormRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // --- CONDENSED CONTENT ---
   const civilContent = {
-    heading: "Civil & Commercial Litigation Lawyers",
+    heading: "Civil & Commercial Litigation",
     introduction:
-      "A civil litigation occurs between two or more parties who are embroiled in a legal disagreement that involves seeking money or any other action as a compensation or remedy, but does not involve any criminal accusations. A commercial litigation arises when one or more parties in a dispute is a business entity. Commercial litigation often proceeds the same way as a civil litigation and may be governed by some special laws such as a property law or aviation laws. Such litigation includes disputes such as: antitrust cases, aviation disputes, breach of contract, real estate disputes etc.",
+      "Civil litigation involves legal disagreements between two or more parties seeking compensation or remedy, without criminal accusations. Commercial litigation involves business entities and follows similar procedures. Disputes include breach of contract, real estate, and antitrust cases.",
     services:
-      "The Civil & Commercial Litigation team at Lawizer has extensive experience in handling a wide variety of commercial & civil. Our team consists of experienced litigators in these aspects. Our litigators have a strong understanding of foreign regulations and laws under different legal systems. We are committed to handling disputes with complete efficiency and offer solutions that are practical and commercial. In recent years, Lawizer has helped clients to achieve success in some of the most complex disputes and investigations. Our lawyers will tackle your dispute with enhanced understanding of the CPC, which governs civil litigation. We help in drafting, filing, appearing in court, filing injunctions, seeking reliefs, filing appeals, representation at arraignments and hearings etc.. Our team of dispute lawyers is experienced in the full breadth of civil and commercial litigation and regularly represents the clients before all Judicial & Quasi-Judicial Bodies. Our lawyers are well versed with personal injury cases, medical malpractice, custodial battles, employment disputes, property disputes, corporate and business law etc.",
+      "Our litigation team is experienced in the CPC and foreign regulations. We handle drafting, filing, court appearances, injunctions, and appeals. Our expertise covers property, employment, and personal injury cases, ensuring practical and efficient dispute resolution before all Judicial & Quasi-Judicial Bodies.",
   };
 
   const criminalContent = {
-    heading: "Criminal Lawyers",
+    heading: "Criminal Law & Defense",
     introduction:
-      "Criminal litigation is the process of trying a criminal defendant in a court of law in what is termed as a 'criminal trial'. There are two litigators in such a case: a prosecutor, who represents the state's case against the defendant and the defense attorney, who represents the client. Criminal litigation in India deals with criminal laws primarily governed by three Acts: The Indian Penal Code 1860 (IPC), The Code of Criminal Procedure 1973 (CrPC) and The Indian Evidence Act 1872. Apart from these, a number of special laws have also been passed for specialized cases such as Prevention of Corruption Act, Protection of Children from Sexual Offences Act (POCSO) and POSH laws against sexual harassment at the work place. Criminal cases often include cases related to murder, theft, rape, assault, financial crimes etc.",
+      "Criminal litigation involves a criminal trial with a prosecutor (representing the state) and a defense attorney. It is governed by the IPC, CrPC, and Indian Evidence Act, covering cases like murder, theft, assault, and financial crimes, alongside specialized acts like POCSO and POSH.",
     services:
-      "Our team of lawyers at Lawizer are thorough with their criminal litigation practice. We can conduct research and analyse a case to determine its probable outcome and provide effective strategies for your defense in court of law. Our team is dedicated in finding effective and quick solutions to your cases and represent the clients at arraignments, hearings and other appearances before the court. Our litigators will represent the client with evidence, should a case get to trial and prepare and draft consolidated legal documents to give the best possible outcome and provide the best possible defense. Our lawyers are trained at negotiating pleas, sentences, settlements and prepare key witnesses. Our lawyers ensure representation of the client at every stage of a criminal trial. While awaiting a criminal trial, the client has a right to bail. Our expert lawyers in criminal litigation can help fight for bail, anticipatory bails for clients and are well versed with the laws governing the same. With the advent of technology, cybercrime is now an added threat. The Information Technology Act 2000 is the legislation that defines cyber offences and punishment for cybercrimes. Our lawyers are primed at assisting in cases of cybercrime and providing a nuanced understanding of Information Technology laws and their related crimes.",
+      "We provide thorough defense strategies, effective representation at arraignments and hearings, and expert negotiation for pleas and settlements. Our lawyers are skilled in obtaining bail and anticipatory bail. We also specialize in cybercrime cases under the Information Technology Act 2000, offering nuanced legal defense.",
   };
 
   // --- Common Components ---
@@ -50,10 +52,12 @@ export default function CivilCriminalLegalPage() {
 
   const ServiceSection = ({ content, icon }: ServiceSectionProps) => (
     <motion.section
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="mb-16"
+      key={content.heading} // Key ensures remounting/re-animating when tab changes
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -20 }}
+      transition={{ duration: 0.3 }}
+      className="mb-8"
     >
       <div className="flex items-center gap-4 mb-6">
         <div
@@ -62,12 +66,14 @@ export default function CivilCriminalLegalPage() {
         >
           {icon}
         </div>
-        <h2 className="text-3xl font-bold" style={{ color: secondaryColor }}>
+        <h2 className="text-2xl font-bold" style={{ color: secondaryColor }}>
           {content.heading}
         </h2>
       </div>
 
-      <div className="space-y-6 text-gray-700 leading-relaxed text-lg">
+      <div className="space-y-4 text-gray-700 leading-relaxed text-base">
+        {" "}
+        {/* Reduced text size */}
         <p>{content.introduction}</p>
         <p className="mt-4 pt-4 border-t border-gray-100">{content.services}</p>
       </div>
@@ -75,18 +81,20 @@ export default function CivilCriminalLegalPage() {
   );
 
   const ContactFormSection = () => (
-    <section ref={contactFormRef} className="bg-gray-50 py-10">
+    <section
+      ref={contactFormRef}
+      className="bg-white py-12 shadow-xl border-t border-b border-gray-100"
+    >
       <div className="max-w-3xl mx-auto px-6">
         <h2
-          className="text-3xl font-bold mb-4"
-          style={{ color: secondaryColor }}
+          className="text-3xl font-bold mb-4 text-center"
+          style={{ color: primaryColor }}
         >
-          Contact Our Litigation Team
+          Consult Our Litigation Experts
         </h2>
-        <p className="text-gray-700 mb-8">
-          Write to us with your enquiries, questions or request a meeting with a
-          lawyer to discuss your potential case. One of our experts would review
-          the form and revert back shortly.
+        <p className="text-gray-700 mb-8 text-center">
+          Request a consultation with a specialized lawyer to discuss your
+          Civil, Commercial, or Criminal case strategy.
         </p>
 
         <form className="space-y-6">
@@ -123,17 +131,15 @@ export default function CivilCriminalLegalPage() {
           <select
             className="w-full p-3 border border-gray-300 rounded-lg bg-white appearance-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400"
             aria-label="Practice Area"
+            defaultValue={activeTab}
           >
-            <option value="" disabled>
-              Select Practice Area (Civil/Criminal)
-            </option>
             <option value="civil">Civil & Commercial Litigation</option>
             <option value="criminal">Criminal Law</option>
           </select>
 
           <textarea
-            placeholder="Enter your message/enquiry"
-            rows={5}
+            placeholder="Enter your message/enquiry (briefly describe your dispute)"
+            rows={4}
             className="w-full p-3 border border-gray-300 rounded-lg focus:border-purple-400 focus:ring-1 focus:ring-purple-400 resize-none"
           ></textarea>
 
@@ -142,7 +148,7 @@ export default function CivilCriminalLegalPage() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className="w-full p-3 rounded-lg font-semibold text-white transition-all flex items-center justify-center gap-2"
-            style={{ background: primaryAccent }}
+            style={{ background: primaryColor }}
           >
             Submit Enquiry
             <ArrowRight className="w-5 h-5" />
@@ -157,7 +163,7 @@ export default function CivilCriminalLegalPage() {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100 relative">
       {/* Hero Section */}
       <section
-        className="relative flex items-center justify-center text-center h-[65vh] overflow-hidden"
+        className="relative flex items-center justify-center text-center h-[50vh] overflow-hidden" // Reduced Hero height
         style={{
           background: `linear-gradient(to right, ${primaryColor}E6, #6b46c1)`,
           color: "white",
@@ -170,47 +176,82 @@ export default function CivilCriminalLegalPage() {
           transition={{ duration: 0.7 }}
           className="relative z-10 max-w-4xl px-6"
         >
-          <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 3, repeat: Infinity }}
-            className="flex justify-center mb-6"
-          >
-            <Gavel className="w-16 h-16 text-white" />
-          </motion.div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-3 tracking-tight">
+          <Gavel className="w-12 h-12 text-white mx-auto mb-4" />{" "}
+          {/* Reduced icon size */}
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 tracking-tight">
             Civil, Commercial, & Criminal Law
           </h1>
-          <p className="text-lg text-gray-200 max-w-xl mx-auto">
-            Comprehensive legal representation for litigation across Civil,
-            Commercial, and Criminal jurisdictions.
-          </p>
-          <p className="mt-3" style={{ color: primaryAccent }}>
-            Expert advocacy and strategic counsel for every dispute.
+          <p className="text-base text-gray-200 max-w-lg mx-auto">
+            Expert litigation and strategic counsel for all major dispute types.
           </p>
         </motion.div>
       </section>
 
-      {/* Main Content Container */}
-      <div className="max-w-4xl mx-auto px-6 py-20">
-        {/* Civil & Commercial Section */}
-        <ServiceSection
-          content={civilContent}
-          icon={
-            <Briefcase className="w-6 h-6" style={{ color: primaryAccent }} />
-          }
-        />
-
-        <div className="w-full h-1 bg-gray-300 my-10 rounded-full" />
-
-        {/* Criminal Section */}
-        <ServiceSection
-          content={criminalContent}
-          icon={<Lock className="w-6 h-6" style={{ color: primaryAccent }} />}
-        />
-      </div>
-
-      {/* Contact Form */}
       <ContactFormSection />
+
+      <div className="max-w-4xl mx-auto px-6 py-16">
+        <div
+          className="flex border-b border-gray-200 mb-8"
+          style={{ color: secondaryColor }}
+        >
+          <button
+            onClick={() => setActiveTab("civil")}
+            className={`flex-1 text-center py-3 px-4 text-lg font-semibold transition-all ${
+              activeTab === "civil"
+                ? "border-b-4 border-purple-600"
+                : "text-gray-500 hover:text-purple-600"
+            }`}
+          >
+            <Briefcase
+              className="w-5 h-5 inline mr-2"
+              style={{
+                color: activeTab === "civil" ? primaryColor : "inherit",
+              }}
+            />
+            Civil & Commercial
+          </button>
+          <button
+            onClick={() => setActiveTab("criminal")}
+            className={`flex-1 text-center py-3 px-4 text-lg font-semibold transition-all ${
+              activeTab === "criminal"
+                ? "border-b-4 border-purple-600"
+                : "text-gray-500 hover:text-purple-600"
+            }`}
+          >
+            <Lock
+              className="w-5 h-5 inline mr-2"
+              style={{
+                color: activeTab === "criminal" ? primaryColor : "inherit",
+              }}
+            />
+            Criminal Defense
+          </button>
+        </div>
+
+        {/* Tab Content */}
+        <motion.div className="relative">
+          {activeTab === "civil" && (
+            <ServiceSection
+              content={civilContent}
+              icon={
+                <Briefcase
+                  className="w-6 h-6"
+                  style={{ color: primaryAccent }}
+                />
+              }
+            />
+          )}
+
+          {activeTab === "criminal" && (
+            <ServiceSection
+              content={criminalContent}
+              icon={
+                <Lock className="w-6 h-6" style={{ color: primaryAccent }} />
+              }
+            />
+          )}
+        </motion.div>
+      </div>
 
       {/* Floating Consult Button */}
       <motion.button
