@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { CheckCircle, PhoneCall } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function StartConsultationPage() {
   const [requestedIndex, setRequestedIndex] = useState<string | null>(null);
@@ -100,110 +99,123 @@ export default function StartConsultationPage() {
     },
   ];
 
-  const renderCards = (list: any[], type: string) => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl w-full">
-      {list.map((expert, index) => {
-        const uniqueKey = `${type}-${index}`;
+  // Reusable Carousel
+  const ScrollCarousel = ({ list, type }: { list: any[]; type: string }) => (
+    <motion.div
+      className="flex gap-4"
+      animate={{ x: ["0%", "-100%"] }}
+      transition={{
+        ease: "linear",
+        duration: 60, // slower scroll
+        repeat: Infinity,
+      }}
+    >
+      {[...list, ...list].map((expert, i) => {
+        const uniqueKey = `${type}-${i}`;
         const isRequested = requestedIndex === uniqueKey;
 
         return (
-          <motion.div
+          <div
             key={uniqueKey}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+            className={`min-w-[180px] rounded-2xl border border-gray-200 bg-white shadow-md hover:shadow-lg transition-all p-3 hover:-translate-y-1 ${
+              expert.gender === "female"
+                ? "hover:border-pink-400"
+                : "hover:border-blue-400"
+            }`}
           >
-            <Card
-              className={`rounded-2xl border shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden ${
-                expert.gender === "female"
-                  ? "hover:border-pink-400"
-                  : "hover:border-blue-400"
-              }`}
-            >
-              <div className="relative w-full h-52 overflow-hidden">
-                <Image
-                  src={expert.img}
-                  alt={expert.name}
-                  fill
-                  className="object-cover transition-transform duration-300 hover:scale-110"
-                />
-              </div>
+            <div className="relative w-full h-28 rounded-xl overflow-hidden mb-2">
+              <Image
+                src={expert.img}
+                alt={expert.name}
+                fill
+                className="object-cover transition-transform duration-300 hover:scale-110"
+              />
+            </div>
 
-              <CardHeader className="text-center mt-2">
-                <CardTitle className="text-xl font-semibold text-gray-800">
-                  {expert.name}
-                </CardTitle>
-                <p className="text-sm text-gray-500">{expert.role}</p>
-              </CardHeader>
+            <div className="text-center space-y-1">
+              <p className="font-semibold text-gray-800 text-xs">
+                {expert.name}
+              </p>
+              <p className="text-[11px] text-gray-500">{expert.role}</p>
+              <p className="text-sm font-medium text-gray-700">{expert.rate}</p>
+            </div>
 
-              <CardContent className="flex flex-col items-center text-center space-y-4 pb-6">
-                <p className="text-gray-700 font-medium">
-                  Rate: <span className="font-semibold">{expert.rate}</span>
-                </p>
-
-                {isRequested ? (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="flex flex-col items-center justify-center space-y-2"
-                  >
-                    <CheckCircle className="w-10 h-10 text-green-500" />
-                    <p className="text-green-600 font-medium text-center text-sm">
-                      Your call has been requested. <br />
-                      An agent will contact you soon.
-                    </p>
-                  </motion.div>
-                ) : (
-                  <Button
-                    className={`w-full text-white font-semibold rounded-full transition-all ${
-                      expert.gender === "female"
-                        ? "bg-pink-500 hover:bg-pink-600"
-                        : "bg-blue-600 hover:bg-blue-700"
-                    }`}
-                    onClick={() => setRequestedIndex(uniqueKey)}
-                  >
-                    <PhoneCall className="mr-2 h-4 w-4" />
-                    Request Call
-                  </Button>
-                )}
-              </CardContent>
-            </Card>
-          </motion.div>
+            <div className="mt-2 flex justify-center">
+              {isRequested ? (
+                <div className="flex flex-col items-center text-green-600 text-xs font-medium">
+                  <CheckCircle className="w-4 h-4 text-green-500 mb-1" />
+                  Booked!
+                </div>
+              ) : (
+                <Button
+                  size="sm"
+                  className={`rounded-full text-white text-xs px-3 py-1.5 font-medium ${
+                    expert.gender === "female"
+                      ? "bg-pink-500 hover:bg-pink-600"
+                      : "bg-blue-600 hover:bg-blue-700"
+                  }`}
+                  onClick={() => setRequestedIndex(uniqueKey)}
+                >
+                  <PhoneCall className="mr-1 h-3 w-3" />
+                  Book a Call
+                </Button>
+              )}
+            </div>
+          </div>
         );
       })}
-    </div>
+    </motion.div>
   );
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-white to-gray-50 flex flex-col items-center py-20 px-6 space-y-20">
-      <div className="text-center">
-        <motion.h1
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-4xl font-bold text-gray-900 mb-6"
-        >
-          Start Consultation
-        </motion.h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          Connect instantly with top legal and financial experts for personal,
-          corporate, or professional advice.
+    <section className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-gray-50 flex flex-col items-center py-24 px-6 space-y-6">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center space-y-4"
+      >
+        <h1 className="text-5xl font-bold text-gray-900">
+          Start Your Consultation
+        </h1>
+        <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          Get expert legal and financial advice from verified professionals —
+          instantly and confidentially.
         </p>
+      </motion.div>
+
+      <div className="w-full max-w-4xl flex justify-between items-center bg-white border border-gray-200 rounded-xl shadow-sm px-6 py-8">
+        <div>
+          <h3 className="text-lg font-semibold text-gray-800">
+            Free Consultation
+          </h3>
+          <p className="text-sm text-gray-500">
+            Get expert advice from our verified professionals.
+          </p>
+        </div>
+        <Button
+          size="sm"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-1"
+        >
+          <PhoneCall className="h-4 w-4" />
+          Request a Call
+        </Button>
       </div>
 
-      {/* Advocates Section */}
-      <div className="w-full flex flex-col items-center space-y-10">
-        <h2 className="text-3xl font-semibold text-gray-800 flex items-center gap-2">
-          👩‍⚖️ Advocates
+      {/* 👩‍⚖️ Advocates */}
+      <div className="w-full flex flex-col items-center space-y-10 overflow-hidden">
+        <h2 className="text-3xl font-semibold text-gray-800 flex items-center gap-3">
+          👩‍⚖️ Our Top Advocates
         </h2>
-        {renderCards(advocates, "adv")}
+        <ScrollCarousel list={advocates} type="adv" />
       </div>
 
-      {/* CAs Section */}
-      <div className="w-full flex flex-col items-center space-y-10">
-        <h2 className="text-3xl font-semibold text-gray-800 flex items-center gap-2">
+      {/* 💼 Chartered Accountants */}
+      <div className="w-full flex flex-col items-center space-y-10 overflow-hidden mt-12">
+        <h2 className="text-3xl font-semibold text-gray-800 flex items-center gap-3">
           💼 Chartered Accountants
         </h2>
-        {renderCards(cas, "ca")}
+        <ScrollCarousel list={cas} type="ca" />
       </div>
     </section>
   );
