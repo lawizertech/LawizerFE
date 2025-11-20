@@ -2,7 +2,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { Car, FileText, AlertTriangle, MessageCircle, CheckCircle } from "lucide-react";
+import {
+  Car,
+  FileText,
+  AlertTriangle,
+  MessageCircle,
+  CheckCircle,
+} from "lucide-react";
 
 export default function TrafficChallanPage() {
   const router = useRouter();
@@ -53,13 +59,14 @@ export default function TrafficChallanPage() {
           </div>
 
           <p className="text-gray-700 leading-relaxed mb-6">
-            A <strong>Traffic Challan</strong> (or E-Challan in its modern digital form)
-            is an official legal document issued by the Traffic Police under the
-            <strong> Motor Vehicles Act, 1988</strong>, to a motor vehicle owner or
-            driver who has violated a traffic rule or regulation. It serves as an
-            automated penalty notification, detailing the specific offense and
-            fine amount. The e-challan system ensures transparency, efficiency,
-            and accountability in traffic enforcement.
+            A <strong>Traffic Challan</strong> (or E-Challan in its modern
+            digital form) is an official legal document issued by the Traffic
+            Police under the
+            <strong> Motor Vehicles Act, 1988</strong>, to a motor vehicle owner
+            or driver who has violated a traffic rule or regulation. It serves
+            as an automated penalty notification, detailing the specific offense
+            and fine amount. The e-challan system ensures transparency,
+            efficiency, and accountability in traffic enforcement.
           </p>
 
           <div className="grid md:grid-cols-2 gap-8">
@@ -142,7 +149,9 @@ export default function TrafficChallanPage() {
             </div>
             <div className="flex items-start gap-2">
               <CheckCircle className="w-5 h-5 text-green-600 mt-1" />
-              <span>Guide you through the online or in-person hearing process</span>
+              <span>
+                Guide you through the online or in-person hearing process
+              </span>
             </div>
             <div className="flex items-start gap-2">
               <CheckCircle className="w-5 h-5 text-green-600 mt-1" />
@@ -153,6 +162,14 @@ export default function TrafficChallanPage() {
           <p className="mt-6 text-gray-700 italic">
             Lawizer — Turning Your Traffic Trouble into Legal Relief.
           </p>
+          <div className="flex flex-col items-center justify-center mt-12 space-y-4">
+            <button
+              onClick={() => alert("Dispute a Challan Coming Soon")}
+              className="px-8 py-4 text-lg font-semibold bg-[#841b2d] hover:bg-[#6e1626] text-white rounded-xl shadow-lg transition-all"
+            >
+              Dispute Your Challan
+            </button>
+          </div>
         </motion.section>
 
         {/* Consult an Expert Section */}

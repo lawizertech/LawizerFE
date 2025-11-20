@@ -22,7 +22,7 @@ export function TrustSection() {
     <section className="bg-white py-16 overflow-hidden">
       <div className="container mx-auto px-4">
         <h2 className="text-center text-2xl font-bold text-gray-600 mb-12 uppercase tracking-wide">
-          Trusted by thousands of clients
+          Associated with 
         </h2>
 
         {/* Scrolling container */}
