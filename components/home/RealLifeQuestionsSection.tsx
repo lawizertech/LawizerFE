@@ -142,6 +142,7 @@ export function RealLifeQuestionsSection() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-full shadow-lg hover:shadow-xl transition-all"
+            onClick={() => window.location.replace("/start-consultation")}
           >
             Talk to a Lawyer Now
           </motion.button>

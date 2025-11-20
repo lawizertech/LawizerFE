@@ -13,7 +13,7 @@ export default function BankingLegalPage() {
   const BankingIcon = Banknote;
 
   const primaryColor = "#0077b6";
-  const primaryAccent = "#00b4d8"; 
+  const primaryAccent = "#00b4d8";
 
   const sections = [
     {
@@ -27,18 +27,21 @@ export default function BankingLegalPage() {
         {
           name: "Digital & Electronic Banking Fraud",
           slug: "digital-banking-fraud",
+          price: "₹1,199",
           description:
             "Recovery of losses from unauthorized transactions (scams, phishing, UPI/Card fraud) using RBI's zero-liability rules.",
         },
         {
           name: "Loan & Advance Disputes (CIBIL & Harassment)",
           slug: "loan-advance-disputes",
+          price: "₹999",
           description:
             "Cases seeking rectification of incorrect Credit Score/CIBIL reporting and legal action against harassment by recovery agents.",
         },
         {
           name: "Cheque Bounce Cases (Section 138)",
           slug: "cheque-bounce-s138",
+          price: "₹1,499",
           description:
             "Criminal remedy for debt recovery when a cheque is dishonored due to insufficient funds, securing principal amount and fines.",
         },
@@ -126,19 +129,25 @@ export default function BankingLegalPage() {
                     transition={{ duration: 0.2 }}
                     className="relative bg-white/90 border border-gray-100 rounded-2xl p-6 shadow-md hover:shadow-xl backdrop-blur-lg transition-all group overflow-hidden"
                   >
-                    {/* Hover effect */}
                     <div
                       className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                       style={{
                         background: `linear-gradient(to right, ${primaryAccent}10, transparent)`,
                       }}
                     />
+
                     <h3 className="text-lg font-semibold text-[#0e172b] mb-2">
                       {service.name}
                     </h3>
+
                     <p className="text-gray-600 text-sm mb-5 leading-relaxed">
                       {service.description}
                     </p>
+
+                    <p className="text-lg font-semibold text-[#c92c41] mb-4">
+                      {service.price}
+                    </p>
+
                     <button
                       onClick={() =>
                         handleViewDetails(section.basePath, service.slug)

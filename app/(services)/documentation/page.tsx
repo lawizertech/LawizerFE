@@ -25,84 +25,98 @@ export default function StartupDocumentsPage() {
         {
           name: "Co-founder Agreement",
           slug: "co-founder-agreement",
+          price: "₹2499",
           description:
             "Defines roles, equity, responsibilities, decision-making, and exit mechanisms among founders, preventing conflicts.",
         },
         {
           name: "Business Partnership Agreement",
           slug: "business-partnership-agreement",
+          price: "₹2999",
           description:
             "Legal contract defining investment, profit-sharing, responsibilities, and exit mechanisms among partners.",
         },
         {
           name: "Employment Agreement",
           slug: "employment-agreement",
+          price: "₹1999",
           description:
             "Outlines terms, salary, benefits, and termination policies, ensuring compliance with labor laws.",
         },
         {
           name: "Consultancy Agreement",
           slug: "consultancy-agreement",
+          price: "₹1999",
           description:
             "Defines the scope, deliverables, fees, and confidentiality between a consultant and company.",
         },
         {
           name: "Non-Disclosure Agreement (NDA)",
           slug: "non-disclosure-agreement",
+          price: "₹999",
           description:
             "Protects sensitive business information and trade secrets, allowing safe collaboration or funding discussions.",
         },
         {
           name: "Privacy Policy & Terms of Use",
           slug: "privacy-terms-of-use",
+          price: "₹1499",
           description:
             "Defines user data handling and website/app rules, ensuring compliance under IT Act and GDPR.",
         },
         {
           name: "Software as a Service (SaaS) Agreement",
           slug: "saas-agreement",
+          price: "₹3499",
           description:
             "Governs subscription, licensing, support, and intellectual property rights for software services.",
         },
         {
           name: "Franchise Agreement",
           slug: "franchise-agreement",
+          price: "₹3999",
           description:
             "Outlines rights, obligations, royalties, and operational standards between a franchisor and franchisee.",
         },
         {
           name: "Joint Venture Agreement",
           slug: "joint-venture-agreement",
+          price: "₹4499",
           description:
             "Defines partnership, investment, profit-sharing, and management of a Joint Venture.",
         },
         {
           name: "Shareholder Subscription Agreement",
           slug: "shareholder-subscription-agreement",
+          price: "₹4999",
           description:
             "Governs the issuance of shares to investors and defines their rights and obligations in the company.",
         },
         {
           name: "Service Agreement & Term Sheet",
           slug: "service-agreement-term-sheet",
+          price: "₹2499",
           description:
             "Defines scope, fees, deliverables, and timelines for a business service, ensuring legal enforceability.",
         },
         {
           name: "Licensing Agreement",
           slug: "licensing-agreement",
+          price: "₹2999",
           description:
             "Governs licensing of intellectual property, technology, or products, protecting IP rights and revenue.",
         },
         {
           name: "IP Assignment Agreement",
           slug: "ip-assignment-agreement",
+          price: "₹2499",
           description:
             "Transfers Intellectual Property (IP) ownership from one party to another, ensuring legal transfer of rights.",
         },
         {
           name: "Letter of Intent (LOI)",
           slug: "letter-of-intent",
+          price: "₹1499",
           description:
             "Declares preliminary intention to enter a business transaction or agreement, establishing mutual understanding.",
         },
@@ -111,7 +125,6 @@ export default function StartupDocumentsPage() {
   ];
 
   const handleViewDetails = (slug: string) => {
-    // Convert the slug to kebab-case for clean URL routing
     const kebabCaseSlug = slug
       .replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, "$1-$2")
       .toLowerCase();
@@ -121,7 +134,6 @@ export default function StartupDocumentsPage() {
     router.push(path);
   };
 
-  // Define a distinct color theme for documents/agreements (e.g., using a distinct blue/teal)
   const primaryColor = "#007bff";
   const primaryAccent = "#00bfa5";
 
@@ -198,7 +210,6 @@ export default function StartupDocumentsPage() {
                     transition={{ duration: 0.2 }}
                     className="relative bg-white/90 border border-gray-100 rounded-2xl p-6 shadow-md hover:shadow-xl backdrop-blur-lg transition-all group overflow-hidden"
                   >
-                    {/* Hover effect */}
                     <div
                       className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                       style={{
@@ -210,6 +221,9 @@ export default function StartupDocumentsPage() {
                     </h3>
                     <p className="text-gray-600 text-sm mb-5 leading-relaxed">
                       {service.description}
+                    </p>
+                    <p className="text-lg font-semibold text-[#c92c41] mb-4">
+                      {service.price}
                     </p>
                     <button
                       onClick={() => handleViewDetails(service.slug)}

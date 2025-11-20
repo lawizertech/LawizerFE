@@ -216,7 +216,6 @@ export default function StartConsultationPage() {
           </p>
         </div>
         <Button
-          size="sm"
           onClick={handleClick}
           disabled={success}
           className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-1 transition-all duration-300 ${

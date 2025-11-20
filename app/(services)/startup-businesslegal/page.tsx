@@ -27,42 +27,49 @@ export default function StartupAndBusinessLegalPage() {
         {
           name: "Private Limited Company",
           slug: "PrivateLimitedCompanyPage",
+          price: "₹4,999 – ₹8,999",
           description:
             "Ideal for startups planning to scale and raise investment. Offers limited liability and investor credibility.",
         },
         {
           name: "One Person Company (OPC)",
           slug: "OnePersonCompanyPage",
+          price: "₹3,499 – ₹6,999",
           description:
             "Perfect for solo founders who want corporate structure benefits with simplified compliance.",
         },
         {
           name: "Limited Liability Partnership (LLP)",
           slug: "LLPPage",
+          price: "₹3,999 – ₹7,999",
           description:
             "Blend of partnership flexibility and limited liability protection. Suited for multi-partner businesses.",
         },
         {
           name: "Startup India Registration (DPIIT Recognition)",
           slug: "StartupIndiaRegistrationPage",
+          price: "₹1,499 – ₹2,499",
           description:
             "Government recognition offering tax benefits, funding access, and compliance support for innovative startups.",
         },
         {
           name: "GST Registration",
           slug: "GSTRegistrationPage",
+          price: "₹999 – ₹1,999",
           description:
             "Mandatory for businesses exceeding turnover thresholds. Enables tax compliance and seamless trade.",
         },
         {
           name: "Public Limited Company (PLC)",
           slug: "PublicLimitedCompanyPage",
+          price: "₹19,999 – ₹29,999",
           description:
             "For large-scale enterprises looking to raise capital from the public and expand operations.",
         },
         {
           name: "Section 8 Company (NGO)",
           slug: "Section8NGOCompanyPage",
+          price: "₹8,999 – ₹14,999",
           description:
             "Non-profit structure for charitable or social initiatives. Eligible for tax exemptions and grants.",
         },
@@ -79,36 +86,42 @@ export default function StartupAndBusinessLegalPage() {
         {
           name: "Trademark Registration",
           slug: "TrademarkRegistrationPage",
+          price: "₹1,499 – ₹3,499",
           description:
             "Secure your brand name, logo, and identity with nationwide legal protection.",
         },
         {
           name: "Reply to Trademark Objection",
           slug: "ReplyToTrademarkObjectionPage",
+          price: "₹1,999 – ₹3,999",
           description:
             "Respond professionally to trademark office objections and ensure smooth registration.",
         },
         {
           name: "Renew Your Trademark",
           slug: "RenewTrademarkPage",
+          price: "₹4,999 – ₹8,999",
           description:
             "Extend protection of your registered trademark and prevent cancellation due to expiry.",
         },
         {
           name: "Sell Your Trademark",
           slug: "SellYourTrademarkPage",
+          price: "₹5,999 – ₹14,999",
           description:
             "Legally transfer ownership of your registered trademark with a structured sale agreement.",
         },
         {
           name: "Copyright Registration",
           slug: "CopyrightRegistrationPage",
+          price: "₹2,499 – ₹4,999",
           description:
             "Protect original creative works such as software, music, or written content.",
         },
         {
           name: "Reply to Copyright Objection",
           slug: "ReplyToCopyrightObjectionPage",
+          price: "₹1,999 – ₹3,999",
           description:
             "Respond to copyright office objections effectively to secure your IP rights.",
         },
@@ -125,60 +138,70 @@ export default function StartupAndBusinessLegalPage() {
         {
           name: "ROC Return Filing for Pvt Ltd",
           slug: "RocReturnFilingPvtLtdPage",
+          price: "₹4,999 – ₹9,999",
           description:
             "Annual compliance filings including financial statements and company returns for Private Limited entities.",
         },
         {
           name: "ROC Return Filing for OPC",
           slug: "ROCReturnFilingForOPCPage",
+          price: "₹3,499 – ₹7,999",
           description:
             "Annual return filings for One Person Companies in accordance with MCA regulations.",
         },
         {
           name: "ROC Return Filing for LLP",
           slug: "ROCReturnFilingForLLPPage",
+          price: "₹3,999 – ₹7,999",
           description:
             "Timely filing of LLP Annual Returns and Statement of Accounts to maintain compliance.",
         },
         {
           name: "Appointment of Director",
           slug: "AppointmentOfDirectorPage",
+          price: "₹1,999 – ₹3,499",
           description:
             "Legally appoint directors with necessary resolutions and ROC forms.",
         },
         {
           name: "Resignation of Director",
           slug: "ResignationOfDirectorPage",
+          price: "₹1,999 – ₹3,499",
           description:
             "Process director resignation with proper documentation and ROC updates.",
         },
         {
           name: "Change in Office Address",
           slug: "ChangeInOfficeAddressPage",
+          price: "₹2,499 – ₹4,999",
           description:
             "Update your registered office address legally with ROC and other authorities.",
         },
         {
           name: "Increasing Capital of Company",
           slug: "IncreasingCapitalOfCompanyPage",
+          price: "₹4,999 – ₹9,999",
           description:
             "Expand authorized or paid-up capital through proper legal procedures.",
         },
         {
           name: "Closure of Pvt Ltd",
           slug: "ClosureOfPvtLtdPage",
+          price: "₹8,999 – ₹14,999",
           description:
             "Legally close your Private Limited Company via strike-off or liquidation process.",
         },
         {
           name: "Closure of OPC",
           slug: "ClosureOfOPCPage",
+          price: "₹5,999 – ₹9,999",
           description:
             "End your One Person Company operations legally with compliance handling.",
         },
         {
           name: "Closure of LLP",
           slug: "ClosureOfLLPPage",
+          price: "₹5,999 – ₹9,999",
           description:
             "Wind up an LLP smoothly while ensuring compliance and regulatory clearance.",
         },
@@ -195,12 +218,14 @@ export default function StartupAndBusinessLegalPage() {
         {
           name: "ISO Certification",
           slug: "ISOCertificationPage",
+          price: "₹7,999 – ₹19,999",
           description:
             "Show your commitment to quality standards with recognized ISO certification.",
         },
         {
           name: "MSME / Udyam Registration",
           slug: "MSMEUdhyamRegistrationPage",
+          price: "₹499 – ₹999",
           description:
             "Get government recognition as an MSME and unlock financial incentives and subsidies.",
         },
@@ -278,13 +303,15 @@ export default function StartupAndBusinessLegalPage() {
                     transition={{ duration: 0.2 }}
                     className="relative bg-white/90 border border-gray-100 rounded-2xl p-6 shadow-md hover:shadow-xl backdrop-blur-lg transition-all group overflow-hidden"
                   >
-                    {/* ✅ pointer-events-none added */}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-[#c92c41]/10 to-transparent transition-opacity duration-300 pointer-events-none" />
                     <h3 className="text-lg font-semibold text-[#0e172b] mb-2">
                       {service.name}
                     </h3>
                     <p className="text-gray-600 text-sm mb-5 leading-relaxed">
                       {service.description}
+                    </p>
+                    <p className="text-[#c92c41] font-semibold text-sm mb-4">
+                      {service.price}
                     </p>
                     <button
                       onClick={() =>

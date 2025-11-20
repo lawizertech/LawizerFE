@@ -31,23 +31,27 @@ export default function PropertyLegalPage() {
         {
           name: "Property Report",
           slug: "property-report",
+          price: "₹1,499",
           description:
             "Detailed report verifying ownership, title clarity, encumbrances, government approvals, and pending disputes.",
         },
         {
           name: "Property Paper Review",
           slug: "property-paper-review",
+          price: "₹999",
           description:
             "Expert legal review of documents like title deeds and mutation papers, followed by an oral consultation on the property’s legal status.",
         },
         {
           name: "Agreement to Sale / Sale Agreement Review",
           slug: "agreement-review",
+          price: "₹1,199",
           description:
             "Legal review of your Sale Agreement or Agreement to Sale to ensure it's legally sound, enforceable, and protects your interests.",
         },
       ],
     },
+
     {
       id: "agreements-deeds",
       title: "Agreements & Deeds Drafting",
@@ -59,53 +63,62 @@ export default function PropertyLegalPage() {
         {
           name: "Sale Deed Drafting",
           slug: "sale-deed",
+          price: "₹3,499",
           description:
             "Drafting the final legal document that officially transfers property ownership, defining rights, terms, and responsibilities.",
         },
         {
           name: "Agreement to Sale Drafting",
           slug: "agreement-to-sale",
+          price: "₹2,499",
           description:
             "Drafting the first legal step that defines mutual terms between buyer and seller, safeguarding both parties before the final sale.",
         },
         {
           name: "Rent Agreement",
           slug: "rent-agreement",
+          price: "₹699",
           description:
             "Professionally drafted and legally compliant agreement defining terms between landlord and tenant, customized to protect both parties.",
         },
         {
           name: "Commercial Lease Agreement",
           slug: "commercial-lease",
+          price: "₹2,999",
           description:
             "Drafting a legal contract for commercial properties (offices, shops, warehouses), covering rent, duration, and specific business clauses.",
         },
         {
           name: "Joint Development Agreement (JDA)",
           slug: "joint-development-agreement",
+          price: "₹4,999",
           description:
             "A legal contract between a landowner and a developer, outlining terms for property development, profit-sharing, and timelines.",
         },
         {
           name: "Power of Attorney (POA) Drafting",
           slug: "power-of-attorney-drafting",
+          price: "₹1,299",
           description:
             "Drafting a legal document to authorize a trusted person to act on your behalf in financial, property, or legal matters.",
         },
         {
           name: "Will Drafting & Registration",
           slug: "will-drafting",
+          price: "₹1,499",
           description:
             "Drafting a clear, legally valid Will to ensure your assets are distributed according to your wishes and prevent family disputes.",
         },
         {
           name: "Relinquishment Deed",
           slug: "relinquishment-deed",
+          price: "₹2,199",
           description:
             "Drafting a deed for a co-owner to voluntarily give up their share to another co-owner or family member, ensuring smooth rights transfer.",
         },
       ],
     },
+
     {
       id: "registration-support",
       title: "Property Registration",
@@ -117,18 +130,21 @@ export default function PropertyLegalPage() {
         {
           name: "Property Registration (Sale Deed)",
           slug: "property-registration",
+          price: "₹4,999",
           description:
             "Expert legal support to prepare and verify the Sale Deed and guide you through the entire registration process at the sub-registrar office.",
         },
         {
           name: "Gift Deed Drafting & Registration",
           slug: "gift-deed",
+          price: "₹3,499",
           description:
             "Transfer ownership of property voluntarily without consideration, ensuring the deed is legally valid and registered.",
         },
         {
           name: "Registration of Power of Attorney (POA)",
           slug: "power-of-attorney-reg",
+          price: "₹2,499",
           description:
             "Guidance and support to register your Power of Attorney to make it legally enforceable and accepted by government and financial institutions.",
         },
@@ -207,19 +223,25 @@ export default function PropertyLegalPage() {
                     transition={{ duration: 0.2 }}
                     className="relative bg-white/90 border border-gray-100 rounded-2xl p-6 shadow-md hover:shadow-xl backdrop-blur-lg transition-all group overflow-hidden"
                   >
-                    {/* Hover effect changed to #e99b2b/10 for color consistency */}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-[#e99b2b]/10 to-transparent transition-opacity duration-300 pointer-events-none" />
+
                     <h3 className="text-lg font-semibold text-[#0e172b] mb-2">
                       {service.name}
                     </h3>
+
                     <p className="text-gray-600 text-sm mb-5 leading-relaxed">
                       {service.description}
                     </p>
+
+                    {/* PRICE — NICE AND BOLD */}
+                    <p className="text-lg font-semibold text-[#c92c41] mb-4">
+                      {service.price}
+                    </p>
+
                     <button
                       onClick={() =>
                         handleViewDetails(section.basePath, service.slug)
                       }
-                      // Color changed to a Lawizer color for consistency
                       className="flex items-center gap-2 text-[#e99b2b] font-medium group cursor-pointer"
                     >
                       View Details
