@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -12,15 +12,17 @@ import {
   Phone,
   Mail,
 } from "lucide-react";
+import EmblaCarouselCards from "@/components/EmblaCarouselCards";
 
 export default function FamilyLegalPage() {
   const router = useRouter();
+  const [requestedIndex, setRequestedIndex] = useState<string | null>(null);
 
   const FamilyIcon = Heart;
 
-  const primaryColor = "#c92c41"; // Deep Red/Burgundy
-  const primaryAccent = "#ff6384"; // Pink/Rose
-  const secondaryColor = "#0e172b"; // Dark Blue/Slate
+  const primaryColor = "#c92c41";
+  const primaryAccent = "#ff6384";
+  const secondaryColor = "#0e172b";
 
   // Combine all services with their descriptions for a sequential display
   const allServices = [
@@ -86,6 +88,93 @@ export default function FamilyLegalPage() {
     },
   ];
 
+  const familyAdvocates = [
+    {
+      name: "Adv. Priya Kapoor",
+      role: "Family Lawyer",
+      rate: "₹55/min",
+      img: "/adv/Adv2.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Neha Sinha",
+      role: "Family Lawyer",
+      rate: "₹70/min",
+      img: "/adv/Adv6.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Priya Kapoor",
+      role: "Family Lawyer",
+      rate: "₹55/min",
+      img: "/adv/Adv2.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Neha Sinha",
+      role: "Family Lawyer",
+      rate: "₹70/min",
+      img: "/adv/Adv6.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Priya Kapoor",
+      role: "Family Lawyer",
+      rate: "₹55/min",
+      img: "/adv/Adv2.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Neha Sinha",
+      role: "Family Lawyer",
+      rate: "₹70/min",
+      img: "/adv/Adv6.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Priya Kapoor",
+      role: "Family Lawyer",
+      rate: "₹55/min",
+      img: "/adv/Adv2.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Neha Sinha",
+      role: "Family Lawyer",
+      rate: "₹70/min",
+      img: "/adv/Adv6.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Priya Kapoor",
+      role: "Family Lawyer",
+      rate: "₹55/min",
+      img: "/adv/Adv2.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Neha Sinha",
+      role: "Family Lawyer",
+      rate: "₹70/min",
+      img: "/adv/Adv6.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Priya Kapoor",
+      role: "Family Lawyer",
+      rate: "₹55/min",
+      img: "/adv/Adv2.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Neha Sinha",
+      role: "Family Lawyer",
+      rate: "₹70/min",
+      img: "/adv/Adv6.png",
+      gender: "female",
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100">
       {/* Hero Section */}
@@ -124,40 +213,71 @@ export default function FamilyLegalPage() {
         </motion.div>
       </section>
 
+      <div className="max-w-5xl mx-auto px-6 py-20">
+        <h2 className="text-3xl font-semibold text-gray-800 mb-10">
+          👩‍⚖️ Top Women Advocates (Available Now)
+        </h2>
+
+        <EmblaCarouselCards
+          list={familyAdvocates}
+          type="adv"
+          onBook={(key) => setRequestedIndex(key)}
+        />
+      </div>
+
       {/* Services Section - Stacked Layout */}
-      <div className="max-w-4xl mx-auto px-6 py-20">
+      <div className="max-w-5xl mx-auto px-6 py-20">
         <h2 className="text-4xl font-bold text-center mb-16 text-[#0e172b]">
           Our Areas of Family Law Support
         </h2>
 
-        {allServices.map((service, index) => {
-          const ServiceIcon = service.icon;
-          return (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.05 }}
-              className={`mb-12 p-6 rounded-xl border border-gray-100 bg-white shadow-lg ${
-                index % 2 === 0 ? "md:mr-16" : "md:ml-16"
-              }`}
-            >
-              <div className="flex items-start gap-4 mb-3">
-                <ServiceIcon
-                  className="w-8 h-8 flex-shrink-0"
-                  style={{ color: primaryAccent }}
-                />
-                <h3 className="text-2xl font-semibold text-[#0e172b]">
-                  {service.title}
-                </h3>
-              </div>
-              <p className="text-gray-700 leading-relaxed pl-12">
-                {service.description}
-              </p>
-            </motion.div>
-          );
-        })}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+          {allServices.map((service, index) => {
+            const ServiceIcon = service.icon;
+            return (
+              <motion.div
+                key={service.title}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 hover:shadow-xl hover:-translate-y-1 transition-all cursor-default"
+              >
+                {/* Icon */}
+                <div className="flex items-center gap-4 mb-4">
+                  <div
+                    className="w-12 h-12 rounded-full flex items-center justify-center"
+                    style={{ background: `${primaryAccent}22` }}
+                  >
+                    <ServiceIcon
+                      className="w-6 h-6"
+                      style={{ color: primaryAccent }}
+                    />
+                  </div>
+
+                  <h3 className="text-xl font-semibold text-[#0e172b] leading-tight">
+                    {service.title}
+                  </h3>
+                </div>
+
+                {/* Description */}
+                <p className="text-gray-700 leading-relaxed">
+                  {service.description}
+                </p>
+
+                {/* Button (Optional, only if needed later) */}
+                {/* <button
+            className="mt-4 flex items-center text-sm font-medium"
+            style={{ color: primaryAccent }}
+          >
+            Learn More
+            <ArrowRight className="w-4 h-4 ml-1" />
+          </button> */}
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
+
       {/* --- Horizontal Line --- */}
       <div className="max-w-4xl mx-auto px-6">
         <hr className="border-gray-300" />
