@@ -1,18 +1,107 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Heart, Shield, PhoneCall, EyeOff, AlertTriangle } from "lucide-react";
+import EmblaCarouselCards from "@/components/EmblaCarouselCards";
 
 export default function WomenSafetyLegalPage() {
   const router = useRouter();
+  const [requestedIndex, setRequestedIndex] = useState<string | null>(null);
 
   const handleContactClick = () => {
     router.push("/women-safety/contactus/ContactSupportPage");
   };
 
+  const womenAdvocates = [
+    {
+      name: "Adv. Priya Kapoor",
+      role: "Family Lawyer",
+      rate: "₹55/min",
+      img: "/adv/Adv2.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Neha Sinha",
+      role: "Cyber Crime Lawyer",
+      rate: "₹70/min",
+      img: "/adv/Adv6.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Priya Kapoor",
+      role: "Family Lawyer",
+      rate: "₹55/min",
+      img: "/adv/Adv2.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Neha Sinha",
+      role: "Cyber Crime Lawyer",
+      rate: "₹70/min",
+      img: "/adv/Adv6.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Priya Kapoor",
+      role: "Family Lawyer",
+      rate: "₹55/min",
+      img: "/adv/Adv2.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Neha Sinha",
+      role: "Cyber Crime Lawyer",
+      rate: "₹70/min",
+      img: "/adv/Adv6.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Priya Kapoor",
+      role: "Family Lawyer",
+      rate: "₹55/min",
+      img: "/adv/Adv2.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Neha Sinha",
+      role: "Cyber Crime Lawyer",
+      rate: "₹70/min",
+      img: "/adv/Adv6.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Priya Kapoor",
+      role: "Family Lawyer",
+      rate: "₹55/min",
+      img: "/adv/Adv2.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Neha Sinha",
+      role: "Cyber Crime Lawyer",
+      rate: "₹70/min",
+      img: "/adv/Adv6.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Priya Kapoor",
+      role: "Family Lawyer",
+      rate: "₹55/min",
+      img: "/adv/Adv2.png",
+      gender: "female",
+    },
+    {
+      name: "Adv. Neha Sinha",
+      role: "Cyber Crime Lawyer",
+      rate: "₹70/min",
+      img: "/adv/Adv6.png",
+      gender: "female",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 via-white to-rose-100 relative">
+    <div className="min-h-screen bg-gradient-to-b from-rose-50 via-white to-rose-100 relative w-full flex justify-center flex-col">
       {/* Hero Section */}
       <section className="relative flex items-center justify-center text-center h-[70vh] overflow-hidden text-white">
         {/* ✅ Replace red gradient with image */}
@@ -52,6 +141,18 @@ export default function WomenSafetyLegalPage() {
           </p>
         </motion.div>
       </section>
+
+      <div className="max-w-5xl mx-auto px-6 py-20">
+        <h2 className="text-3xl font-semibold text-gray-800 mb-10">
+          👩‍⚖️ Top Women Advocates (Available Now)
+        </h2>
+
+        <EmblaCarouselCards
+          list={womenAdvocates}
+          type="adv"
+          onBook={(key) => setRequestedIndex(key)}
+        />
+      </div>
 
       {/* SECTION 1 - Contact Us / Threatened Online */}
       <motion.section
