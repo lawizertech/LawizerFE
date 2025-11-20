@@ -22,7 +22,6 @@ export default function CivilCriminalLegalPage() {
     contactFormRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // --- CONDENSED CONTENT ---
   const civilContent = {
     heading: "Civil & Commercial Litigation",
     introduction:
@@ -38,8 +37,6 @@ export default function CivilCriminalLegalPage() {
     services:
       "We provide thorough defense strategies, effective representation at arraignments and hearings, and expert negotiation for pleas and settlements. Our lawyers are skilled in obtaining bail and anticipatory bail. We also specialize in cybercrime cases under the Information Technology Act 2000, offering nuanced legal defense.",
   };
-
-  // --- Common Components ---
 
   type ServiceSectionProps = {
     content: {
@@ -80,85 +77,6 @@ export default function CivilCriminalLegalPage() {
     </motion.section>
   );
 
-  const ContactFormSection = () => (
-    <section
-      ref={contactFormRef}
-      className="bg-white py-12 shadow-xl border-t border-b border-gray-100"
-    >
-      <div className="max-w-3xl mx-auto px-6">
-        <h2
-          className="text-3xl font-bold mb-4 text-center"
-          style={{ color: primaryColor }}
-        >
-          Consult Our Litigation Experts
-        </h2>
-        <p className="text-gray-700 mb-8 text-center">
-          Request a consultation with a specialized lawyer to discuss your
-          Civil, Commercial, or Criminal case strategy.
-        </p>
-
-        <form className="space-y-6">
-          <div className="grid sm:grid-cols-2 gap-6">
-            <input
-              type="text"
-              placeholder="Name"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:border-purple-400 focus:ring-1 focus:ring-purple-400"
-            />
-            <input
-              type="email"
-              placeholder="Email address"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:border-purple-400 focus:ring-1 focus:ring-purple-400"
-            />
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-6">
-            <input
-              type="tel"
-              placeholder="Phone"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:border-purple-400 focus:ring-1 focus:ring-purple-400"
-            />
-            <select className="w-full p-3 border border-gray-300 rounded-lg bg-white appearance-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400">
-              <option value="" disabled>
-                Select Gender
-              </option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-
-          {/* Practice Area Dropdown */}
-          <select
-            className="w-full p-3 border border-gray-300 rounded-lg bg-white appearance-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400"
-            aria-label="Practice Area"
-            defaultValue={activeTab}
-          >
-            <option value="civil">Civil & Commercial Litigation</option>
-            <option value="criminal">Criminal Law</option>
-          </select>
-
-          <textarea
-            placeholder="Enter your message/enquiry (briefly describe your dispute)"
-            rows={4}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:border-purple-400 focus:ring-1 focus:ring-purple-400 resize-none"
-          ></textarea>
-
-          <motion.button
-            type="submit"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full p-3 rounded-lg font-semibold text-white transition-all flex items-center justify-center gap-2"
-            style={{ background: primaryColor }}
-          >
-            Submit Enquiry
-            <ArrowRight className="w-5 h-5" />
-          </motion.button>
-        </form>
-      </div>
-    </section>
-  );
-
-  // --- Main Render ---
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100 relative">
       {/* Hero Section */}
@@ -186,9 +104,6 @@ export default function CivilCriminalLegalPage() {
           </p>
         </motion.div>
       </section>
-
-      <ContactFormSection />
-
       <div className="max-w-4xl mx-auto px-6 py-16">
         <div
           className="flex border-b border-gray-200 mb-8"
