@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { PhoneCall } from "lucide-react";
+import { Check, PhoneCall } from "lucide-react";
 
 // Assuming you have a component library, using a basic HTML button for portability.
 // If using Shadcn/ui or similar, replace this with your actual Button import.
@@ -18,6 +18,13 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
+  const [success, setSuccess] = useState(false);
+
+  const handleClick = () => {
+    setSuccess(true);
+    setTimeout(() => setSuccess(false), 1200);
+  };
+
   return (
     <div className="min-h-screen relative">
       <main>{children}</main>
@@ -39,12 +46,35 @@ export default function Layout({ children }: LayoutProps) {
           </div>
 
           <Button
-            onClick={() => alert("Request a call action triggered!")}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full text-sm font-medium flex items-center gap-1 flex-shrink-0 transition-colors"
+            onClick={handleClick}
+            disabled={success}
+            className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-1 transition-all duration-300 ${
+              success ? "bg-[#21ae17]" : "bg-blue-600 hover:bg-blue-700"
+            } text-white`}
           >
-            <PhoneCall className="h-4 w-4" />
-            <span className="hidden sm:inline">Request a Call</span>
-            <span className="sm:hidden">Call Now</span>
+            {success ? (
+              <motion.div
+                initial={{ scale: 0.4, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                className="flex items-center gap-2"
+              >
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.05 }}
+                  className="bg-white rounded-full p-1"
+                >
+                  <Check className="h-4 w-4 text-green-600" />
+                </motion.div>
+                <span className="text-white font-medium">Requested</span>
+              </motion.div>
+            ) : (
+              <>
+                <PhoneCall className="h-4 w-4" />
+                Request a Call
+              </>
+            )}
           </Button>
         </div>
       </motion.div>
