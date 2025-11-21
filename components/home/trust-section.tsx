@@ -40,7 +40,7 @@ export function TrustSection() {
               <div
                 key={index}
                 className="flex items-center justify-center min-w-[150px] h-16 bg-gray-50 rounded-xl shadow-sm 
-                grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all"
+                grayscale-0 opacity-100 transition-all"
               >
                 <Image
                   src={company.logo}

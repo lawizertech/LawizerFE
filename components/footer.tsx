@@ -21,19 +21,19 @@ export function Footer() {
             </div>
             <div className="flex gap-4">
               <a
-                href="#"
+                href="https://www.facebook.com/people/Lawizer"
                 className="text-gray-400 hover:text-primary transition-colors"
               >
                 <Facebook className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://x.com/lawizer_"
                 className="text-gray-400 hover:text-primary transition-colors"
               >
                 <Twitter className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/lawizer_"
                 className="text-gray-400 hover:text-primary transition-colors"
               >
                 <Instagram className="w-5 h-5" />
