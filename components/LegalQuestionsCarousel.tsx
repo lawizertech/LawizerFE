@@ -17,6 +17,7 @@ type LegalCard = {
   question?: string;
   image?: string;
   color?: string;
+  route: string;
 };
 
 type Props = {
@@ -51,6 +52,7 @@ export default function LegalQuestionsCarousel({ list }: Props) {
             <CarouselItem
               key={i}
               className="basis-[240px] sm:basis-[260px] md:basis-[280px] lg:basis-[300px] pl-3 "
+              onClick={() => window.location.replace(item.route)}
             >
               <div className="rounded-2xl border border-blue-100 bg-white shadow-md hover:shadow-xl transition-all p-5 hover:-translate-y-1 h-[360px]">
                 {/* Icon */}
