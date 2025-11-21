@@ -18,30 +18,35 @@ const legalQuestions = [
     question: "Want to start your own business but unsure about registration?",
     color: "from-blue-500 to-indigo-500",
     image: "/needHelp/businessregistration.png",
+    route: "/startup-businesslegal"
   },
   {
     icon: Banknote,
     question: "Check bounced and you don’t know how to take legal action?",
     color: "from-emerald-500 to-teal-500",
     image: "/needHelp/bounced.png",
+    route: "/banking/cheque-bounce-s138"
   },
   {
     icon: MessageCircle,
     question: "Being blackmailed or harassed online?",
     color: "from-pink-500 to-rose-500",
     image: "/needHelp/blackmail.png",
+    route: "/womensafety"
   },
   {
     icon: Users,
     question: "Facing a child custody or family dispute?",
     color: "from-purple-500 to-fuchsia-500",
     image: "/needHelp/childcustody.png",
+    route: "/family"
   },
   {
     icon: FileWarning,
     question: "Need to file GST but confused where to start?",
     color: "from-amber-500 to-orange-500",
     image: "/needHelp/gstfilling.png",
+    route: "/"
   },
   {
     icon: AlertTriangle,

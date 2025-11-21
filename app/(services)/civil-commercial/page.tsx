@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 
 export default function CivilCriminalLegalPage() {
+  const router = useRouter();
   const primaryColor = "#6d28d9";
   const primaryAccent = "#a78bfa";
   const secondaryColor = "#0e172b";
@@ -28,6 +29,7 @@ export default function CivilCriminalLegalPage() {
       "Civil litigation involves legal disagreements between two or more parties seeking compensation or remedy, without criminal accusations. Commercial litigation involves business entities and follows similar procedures. Disputes include breach of contract, real estate, and antitrust cases.",
     services:
       "Our litigation team is experienced in the CPC and foreign regulations. We handle drafting, filing, court appearances, injunctions, and appeals. Our expertise covers property, employment, and personal injury cases, ensuring practical and efficient dispute resolution before all Judicial & Quasi-Judicial Bodies.",
+    query: "civil_commercial",
   };
 
   const criminalContent = {
@@ -36,46 +38,68 @@ export default function CivilCriminalLegalPage() {
       "Criminal litigation involves a criminal trial with a prosecutor (representing the state) and a defense attorney. It is governed by the IPC, CrPC, and Indian Evidence Act, covering cases like murder, theft, assault, and financial crimes, alongside specialized acts like POCSO and POSH.",
     services:
       "We provide thorough defense strategies, effective representation at arraignments and hearings, and expert negotiation for pleas and settlements. Our lawyers are skilled in obtaining bail and anticipatory bail. We also specialize in cybercrime cases under the Information Technology Act 2000, offering nuanced legal defense.",
+    query: "criminal",
+  };
+
+  type ContentType = {
+    heading: string;
+    introduction: string;
+    services: string;
+    query: string;
   };
 
   type ServiceSectionProps = {
-    content: {
-      heading: string;
-      introduction: string;
-      services: string;
-    };
+    content: ContentType;
     icon: React.ReactNode;
+    router: ReturnType<typeof useRouter>;
   };
 
-  const ServiceSection = ({ content, icon }: ServiceSectionProps) => (
-    <motion.section
-      key={content.heading} // Key ensures remounting/re-animating when tab changes
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -20 }}
-      transition={{ duration: 0.3 }}
-      className="mb-8"
-    >
-      <div className="flex items-center gap-4 mb-6">
-        <div
-          className="p-3 rounded-full"
-          style={{ backgroundColor: `${primaryAccent}20` }}
-        >
-          {icon}
-        </div>
-        <h2 className="text-2xl font-bold" style={{ color: secondaryColor }}>
-          {content.heading}
-        </h2>
-      </div>
+  const ServiceSection = ({ content, icon, router }: ServiceSectionProps) => {
+    const handleSeeAdvocates = () => {
+      router.push(`/start-consultation?type=${content.query}`);
+    };
 
-      <div className="space-y-4 text-gray-700 leading-relaxed text-base">
-        {" "}
-        {/* Reduced text size */}
-        <p>{content.introduction}</p>
-        <p className="mt-4 pt-4 border-t border-gray-100">{content.services}</p>
-      </div>
-    </motion.section>
-  );
+    return (
+      <motion.section
+        key={content.heading}
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -20 }}
+        transition={{ duration: 0.3 }}
+        className="mb-8"
+      >
+        <div className="flex items-center gap-4 mb-6">
+          <div
+            className="p-3 rounded-full"
+            style={{ backgroundColor: `${primaryAccent}20` }}
+          >
+            {icon}
+          </div>
+          <h2 className="text-2xl font-bold" style={{ color: secondaryColor }}>
+            {content.heading}
+          </h2>
+        </div>
+
+        <div className="space-y-4 text-gray-700 leading-relaxed text-base">
+          <p>{content.introduction}</p>
+          <p className="mt-4 pt-4 border-t border-gray-100">
+            {content.services}
+          </p>
+        </div>
+
+        <motion.button
+          onClick={handleSeeAdvocates}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="mt-8 px-6 py-3 text-white rounded-lg shadow-md flex items-center gap-2 transition-all duration-300"
+          style={{ backgroundColor: primaryColor }}
+        >
+          See Advocates
+          <ArrowRight className="w-5 h-5 ml-1" />
+        </motion.button>
+      </motion.section>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100 relative">
@@ -147,22 +171,24 @@ export default function CivilCriminalLegalPage() {
         <motion.div className="relative">
           {activeTab === "civil" && (
             <ServiceSection
-              content={civilContent}
+              content={civilContent as ContentType}
               icon={
                 <Briefcase
                   className="w-6 h-6"
                   style={{ color: primaryAccent }}
                 />
               }
+              router={router}
             />
           )}
 
           {activeTab === "criminal" && (
             <ServiceSection
-              content={criminalContent}
+              content={criminalContent as ContentType}
               icon={
                 <Lock className="w-6 h-6" style={{ color: primaryAccent }} />
               }
+              router={router}
             />
           )}
         </motion.div>

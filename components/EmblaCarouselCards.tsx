@@ -46,7 +46,7 @@ export default function EmblaCarouselCards({
   return (
     <Carousel
       plugins={[autoplay.current]}
-      className="w-full"
+      className="w-full flex justify-center"
       // Stop when user hovers
       onMouseEnter={() => autoplay.current.stop()}
       // Resume when hover ends

@@ -124,7 +124,7 @@ export default function PopularServicesSection() {
       title: "Trademark Registration",
       tagline: "Protect your brand with quick trademark registration",
       color: "from-purple-500/10 to-purple-500/30 text-purple-600",
-      url: "/startup-businesslegal",
+      url: "/startup-businesslegal/protectbusiness/TrademarkRegistrationPage",
       items: [
         "Trademark name search & verification",
         "Filing of TM-A application",
@@ -154,7 +154,7 @@ export default function PopularServicesSection() {
       title: "Cheque Bounce",
       tagline: "Resolve cheque bounce cases legally and effectively",
       color: "from-red-500/10 to-red-500/30 text-red-600",
-      url: "/banking",
+      url: "/banking/cheque-bounce-s138",
       items: [
         "Draft & send legal notice under Sec 138",
         "File cheque bounce complaint in court",

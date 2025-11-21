@@ -1,193 +1,219 @@
 "use client";
 
-import React, { useState, memo } from "react";
+import React, { useState, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { PhoneCall, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import EmblaCarouselCards from "@/components/EmblaCarouselCards";
 
+const ALL_ADVOCATES = [
+  {
+    name: "Adv. Rohan Sharma",
+    role: "Criminal Lawyer",
+    rate: "₹60/min",
+    img: "/adv/Adv1.png",
+    gender: "male",
+  },
+  {
+    name: "Adv. Priya Kapoor",
+    role: "Family Lawyer",
+    rate: "₹55/min",
+    img: "/adv/Adv2.png",
+    gender: "female",
+  },
+  {
+    name: "Adv. Arjun Verma",
+    role: "Civil Lawyer",
+    rate: "₹50/min",
+    img: "/adv/Adv3.png",
+    gender: "male",
+  },
+  {
+    name: "Adv. Manish Patel",
+    role: "Property Lawyer",
+    rate: "₹45/min",
+    img: "/adv/Adv4.png",
+    gender: "male",
+  },
+  {
+    name: "Adv. Karan Mehta",
+    role: "Corporate Lawyer",
+    rate: "₹65/min",
+    img: "/adv/Adv5.png",
+    gender: "male",
+  },
+  {
+    name: "Adv. Neha Sinha",
+    role: "Cyber Crime Lawyer",
+    rate: "₹70/min",
+    img: "/adv/Adv6.png",
+    gender: "female",
+  },
+  // Duplicates for carousel (keeping the structure from your original)
+  {
+    name: "Adv. Rohan Sharma Dup",
+    role: "Criminal Lawyer",
+    rate: "₹60/min",
+    img: "/adv/Adv1.png",
+    gender: "male",
+  },
+  {
+    name: "Adv. Priya Kapoor Dup",
+    role: "Family Lawyer",
+    rate: "₹55/min",
+    img: "/adv/Adv2.png",
+    gender: "female",
+  },
+  {
+    name: "Adv. Arjun Verma Dup",
+    role: "Civil Lawyer",
+    rate: "₹50/min",
+    img: "/adv/Adv3.png",
+    gender: "male",
+  },
+  {
+    name: "Adv. Manish Patel Dup",
+    role: "Property Lawyer",
+    rate: "₹45/min",
+    img: "/adv/Adv4.png",
+    gender: "male",
+  },
+  {
+    name: "Adv. Karan Mehta Dup",
+    role: "Corporate Lawyer",
+    rate: "₹65/min",
+    img: "/adv/Adv5.png",
+    gender: "male",
+  },
+  {
+    name: "Adv. Neha Sinha Dup",
+    role: "Cyber Crime Lawyer",
+    rate: "₹70/min",
+    img: "/adv/Adv6.png",
+    gender: "female",
+  },
+];
+
+const ALL_CAS = [
+  {
+    name: "CA Ritesh Gupta",
+    role: "Tax Consultant",
+    rate: "₹40/min",
+    img: "/adv/CA1.png",
+    gender: "male",
+  },
+  {
+    name: "CA Shiv Kumar",
+    role: "Chartered Accountant",
+    rate: "₹42/min",
+    img: "/adv/CA2.png",
+    gender: "male",
+  },
+  {
+    name: "CA Aditya Jain",
+    role: "Corporate Tax Advisor",
+    rate: "₹45/min",
+    img: "/adv/CA3.png",
+    gender: "male",
+  },
+  {
+    name: "CA Rahul Nair",
+    role: "Financial Planner",
+    rate: "₹48/min",
+    img: "/adv/CA4.png",
+    gender: "male",
+  },
+  {
+    name: "CA Vivek Sharma",
+    role: "Auditor",
+    rate: "₹50/min",
+    img: "/adv/CA5.png",
+    gender: "male",
+  },
+  {
+    name: "CA Neha Khanna",
+    role: "Wealth Consultant",
+    rate: "₹52/min",
+    img: "/adv/CA6.png",
+    gender: "female",
+  },
+  // Duplicates for carousel
+  {
+    name: "CA Ritesh Gupta Dup",
+    role: "Tax Consultant",
+    rate: "₹40/min",
+    img: "/adv/CA1.png",
+    gender: "male",
+  },
+  {
+    name: "CA Shiv Kumar Dup",
+    role: "Chartered Accountant",
+    rate: "₹42/min",
+    img: "/adv/CA2.png",
+    gender: "male",
+  },
+  {
+    name: "CA Aditya Jain Dup",
+    role: "Corporate Tax Advisor",
+    rate: "₹45/min",
+    img: "/adv/CA3.png",
+    gender: "male",
+  },
+  {
+    name: "CA Rahul Nair Dup",
+    role: "Financial Planner",
+    rate: "₹48/min",
+    img: "/adv/CA4.png",
+    gender: "male",
+  },
+  {
+    name: "CA Vivek Sharma Dup",
+    role: "Auditor",
+    rate: "₹50/min",
+    img: "/adv/CA5.png",
+    gender: "male",
+  },
+  {
+    name: "CA Neha Khanna Dup",
+    role: "Wealth Consultant",
+    rate: "₹52/min",
+    img: "/adv/CA6.png",
+    gender: "female",
+  },
+];
+
 export default function StartConsultationPage() {
   const [requestedIndex, setRequestedIndex] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  const advocates = [
-    {
-      name: "Adv. Rohan Sharma",
-      role: "Criminal Lawyer",
-      rate: "₹60/min",
-      img: "/adv/Adv1.png",
-      gender: "male",
-    },
-    {
-      name: "Adv. Priya Kapoor",
-      role: "Family Lawyer",
-      rate: "₹55/min",
-      img: "/adv/Adv2.png",
-      gender: "female",
-    },
-    {
-      name: "Adv. Arjun Verma",
-      role: "Civil Lawyer",
-      rate: "₹50/min",
-      img: "/adv/Adv3.png",
-      gender: "male",
-    },
-    {
-      name: "Adv. Manish Patel",
-      role: "Property Lawyer",
-      rate: "₹45/min",
-      img: "/adv/Adv4.png",
-      gender: "male",
-    },
-    {
-      name: "Adv. Karan Mehta",
-      role: "Corporate Lawyer",
-      rate: "₹65/min",
-      img: "/adv/Adv5.png",
-      gender: "male",
-    },
-    {
-      name: "Adv. Neha Sinha",
-      role: "Cyber Crime Lawyer",
-      rate: "₹70/min",
-      img: "/adv/Adv6.png",
-      gender: "female",
-    },
-    {
-      name: "Adv. Rohan Sharma",
-      role: "Criminal Lawyer",
-      rate: "₹60/min",
-      img: "/adv/Adv1.png",
-      gender: "male",
-    },
-    {
-      name: "Adv. Priya Kapoor",
-      role: "Family Lawyer",
-      rate: "₹55/min",
-      img: "/adv/Adv2.png",
-      gender: "female",
-    },
-    {
-      name: "Adv. Arjun Verma",
-      role: "Civil Lawyer",
-      rate: "₹50/min",
-      img: "/adv/Adv3.png",
-      gender: "male",
-    },
-    {
-      name: "Adv. Manish Patel",
-      role: "Property Lawyer",
-      rate: "₹45/min",
-      img: "/adv/Adv4.png",
-      gender: "male",
-    },
-    {
-      name: "Adv. Karan Mehta",
-      role: "Corporate Lawyer",
-      rate: "₹65/min",
-      img: "/adv/Adv5.png",
-      gender: "male",
-    },
-    {
-      name: "Adv. Neha Sinha",
-      role: "Cyber Crime Lawyer",
-      rate: "₹70/min",
-      img: "/adv/Adv6.png",
-      gender: "female",
-    },
-  ];
-
-  const cas = [
-    {
-      name: "CA Ritesh Gupta",
-      role: "Tax Consultant",
-      rate: "₹40/min",
-      img: "/adv/CA1.png",
-      gender: "male",
-    },
-    {
-      name: "CA Shiv Kumar",
-      role: "Chartered Accountant",
-      rate: "₹42/min",
-      img: "/adv/CA2.png",
-      gender: "male",
-    },
-    {
-      name: "CA Aditya Jain",
-      role: "Corporate Tax Advisor",
-      rate: "₹45/min",
-      img: "/adv/CA3.png",
-      gender: "male",
-    },
-    {
-      name: "CA Rahul Nair",
-      role: "Financial Planner",
-      rate: "₹48/min",
-      img: "/adv/CA4.png",
-      gender: "male",
-    },
-    {
-      name: "CA Vivek Sharma",
-      role: "Auditor",
-      rate: "₹50/min",
-      img: "/adv/CA5.png",
-      gender: "male",
-    },
-    {
-      name: "CA Neha Khanna",
-      role: "Wealth Consultant",
-      rate: "₹52/min",
-      img: "/adv/CA6.png",
-      gender: "female",
-    },
-    {
-      name: "CA Ritesh Gupta",
-      role: "Tax Consultant",
-      rate: "₹40/min",
-      img: "/adv/CA1.png",
-      gender: "male",
-    },
-    {
-      name: "CA Shiv Kumar",
-      role: "Chartered Accountant",
-      rate: "₹42/min",
-      img: "/adv/CA2.png",
-      gender: "male",
-    },
-    {
-      name: "CA Aditya Jain",
-      role: "Corporate Tax Advisor",
-      rate: "₹45/min",
-      img: "/adv/CA3.png",
-      gender: "male",
-    },
-    {
-      name: "CA Rahul Nair",
-      role: "Financial Planner",
-      rate: "₹48/min",
-      img: "/adv/CA4.png",
-      gender: "male",
-    },
-    {
-      name: "CA Vivek Sharma",
-      role: "Auditor",
-      rate: "₹50/min",
-      img: "/adv/CA5.png",
-      gender: "male",
-    },
-    {
-      name: "CA Neha Khanna",
-      role: "Wealth Consultant",
-      rate: "₹52/min",
-      img: "/adv/CA6.png",
-      gender: "female",
-    },
-  ];
+  const searchParams = useSearchParams();
+  const userQueryType = searchParams.get("type");
 
   const handleClick = () => {
     setSuccess(true);
     setTimeout(() => setSuccess(false), 1200);
   };
+
+  const filteredAdvocates = useMemo(() => {
+    if (userQueryType === "civil_commercial") {
+      return ALL_ADVOCATES.filter((adv) =>
+        ["Civil Lawyer", "Corporate Lawyer", "Property Lawyer"].includes(
+          adv.role
+        )
+      );
+    }
+
+    if (userQueryType === "criminal") {
+      return ALL_ADVOCATES.filter((adv) =>
+        ["Criminal Lawyer", "Cyber Crime Lawyer"].includes(adv.role)
+      );
+    }
+
+    return ALL_ADVOCATES;
+  }, [userQueryType]);
+
+  const shouldShowCAs = userQueryType !== "civil_commercial";
 
   return (
     <section className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-gray-50 flex flex-col items-center py-24 px-6 space-y-6">
@@ -255,23 +281,25 @@ export default function StartConsultationPage() {
         </h2>
 
         <EmblaCarouselCards
-          list={advocates}
+          list={filteredAdvocates} // Use the filtered list based on URL
           type="adv"
           onBook={(key) => setRequestedIndex(key)}
         />
       </div>
 
       {/* CA Carousel */}
-      <div className="w-full flex flex-col items-center space-y-10 overflow-hidden mt-12">
-        <h2 className="text-3xl font-semibold text-gray-800">
-          💼 Chartered Accountants
-        </h2>
-        <EmblaCarouselCards
-          list={cas}
-          type="ca"
-          onBook={(key) => setRequestedIndex(key)}
-        />
-      </div>
+      {shouldShowCAs && (
+        <div className="w-full flex flex-col items-center space-y-10 overflow-hidden mt-12">
+          <h2 className="text-3xl font-semibold text-gray-800">
+            💼 Chartered Accountants
+          </h2>
+          <EmblaCarouselCards
+            list={ALL_CAS}
+            type="ca"
+            onBook={(key) => setRequestedIndex(key)}
+          />
+        </div>
+      )}
     </section>
   );
 }
