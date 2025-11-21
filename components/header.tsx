@@ -13,19 +13,67 @@ export function Header() {
       color: "from-blue-500/10 to-blue-500/30 text-blue-600",
       url: "/property",
       items: [
-        "Property report",
-        "Property registration (sales deed registration)",
-        "Sales deed drafting",
-        "Agreement to sale drafting",
-        "Property paper review",
-        "Sale agreement review",
-        "Power of attorney",
-        "Will registration",
-        "Gift deed",
-        "Joint development agreement",
-        "Relinquishment deed",
-        "Commercial lease agreement",
-        "Rent agreement",
+        // --- Verify/Review Routes ---
+        {
+          name: "Property report",
+          url: "/property/verify/property-report",
+        },
+        {
+          name: "Property paper review",
+          url: "/property/verify/property-paper-review",
+        },
+        {
+          name: "Agreement review",
+          url: "/property/verify/agreement-review",
+        },
+
+        // --- Registration Routes ---
+        {
+          name: "Property registration",
+          url: "/property/registration/property-registration",
+        },
+        {
+          name: "Gift deed registration",
+          url: "/property/registration/gift-deed",
+        },
+        {
+          name: "Power of attorney registration",
+          url: "/property/registration/power-of-attorney-reg",
+        },
+
+        // --- Drafting Routes ---
+        {
+          name: "Sale deed drafting",
+          url: "/property/drafting/sale-deed",
+        },
+        {
+          name: "Agreement to sale drafting",
+          url: "/property/drafting/agreement-to-sale",
+        },
+        {
+          name: "Will drafting",
+          url: "/property/drafting/will-drafting",
+        },
+        {
+          name: "Power of attorney drafting",
+          url: "/property/drafting/power-of-attorney-drafting",
+        },
+        {
+          name: "Joint development agreement drafting",
+          url: "/property/drafting/joint-development-agreement",
+        },
+        {
+          name: "Relinquishment deed drafting",
+          url: "/property/drafting/relinquishment-deed",
+        },
+        {
+          name: "Commercial lease agreement drafting",
+          url: "/property/drafting/commercial-lease",
+        },
+        {
+          name: "Rent agreement drafting",
+          url: "/property/drafting/rent-agreement",
+        },
       ],
     },
     {
@@ -34,28 +82,62 @@ export function Header() {
       color: "from-red-500/10 to-red-500/30 text-red-600",
       url: "/civil-commercial",
       items: [
-        "Family law matters (divorce, custody, alimony)",
-        "Property disputes",
-        "Contract disputes",
-        "Personal injury cases",
-        "Employment law claims",
-        "Violent crimes defense",
-        "Property crimes",
-        "White-collar crimes",
-        "Financial frauds",
+        {
+          name: "Family law matters (divorce, custody, alimony)",
+          url: "/civil/family-law-matters",
+        },
+        { name: "Property disputes", url: "/civil-commercial" },
+        { name: "Contract disputes", url: "/civil-commercial" },
+        {
+          name: "Personal injury cases",
+          url: "/civil-commercial",
+        },
+        {
+          name: "Employment law claims",
+          url: "/civil-commercial",
+        },
+        {
+          name: "Violent crimes defense",
+          url: "/civil-commercial",
+        },
+        { name: "Property crimes", url: "/civil-commercial" },
+        {
+          name: "White-collar crimes",
+          url: "/civil-commercial",
+        },
+        {
+          name: "Financial frauds",
+          url: "/civil-commercial",
+        },
       ],
     },
+
     {
       title: "Family Matters",
       tagline: "Protecting families, preserving relationships",
       color: "from-pink-500/10 to-pink-500/30 text-pink-600",
       url: "/family",
       items: [
-        "Divorce and marriage dissolution",
-        "Maintenance and alimony",
-        "Child custody and guardianship",
-        "Property and inheritance disputes",
-        "Domestic violence protection",
+        {
+          name: "Divorce and marriage dissolution",
+          url: "/family",
+        },
+        {
+          name: "Maintenance and alimony",
+          url: "/family",
+        },
+        {
+          name: "Child custody and guardianship",
+          url: "/family",
+        },
+        {
+          name: "Property and inheritance disputes",
+          url: "/family",
+        },
+        {
+          name: "Domestic violence protection",
+          url: "/family",
+        },
       ],
     },
     {
@@ -64,11 +146,23 @@ export function Header() {
       color: "from-green-500/10 to-green-500/30 text-green-600",
       url: "/banking",
       items: [
-        "Loan agreement",
-        "Loan and debt recovery disputes",
-        "Cheque dishonour cases",
-        "Financial frauds and cybercrimes",
-        "Customer service disputes",
+        { name: "Loan agreement", url: "/banking" },
+        {
+          name: "Loan and debt recovery disputes",
+          url: "/banking/loan-advance-disputes",
+        },
+        {
+          name: "Cheque dishonour cases",
+          url: "/banking/cheque-bounce-s138",
+        },
+        {
+          name: "Financial frauds and cybercrimes",
+          url: "/banking/financial-frauds-cybercrimes",
+        },
+        {
+          name: "Customer service disputes",
+          url: "/banking",
+        },
       ],
     },
     {
@@ -80,19 +174,33 @@ export function Header() {
         {
           section: "Individuals",
           items: [
-            "ITR-1 (Salaried up to ₹50L)",
-            "ITR-2 (Capital Gains/Foreign Assets)",
-            "ITR-3 (Business/Professional Income)",
-            "ITR-4 (Presumptive Scheme)",
+            { name: "ITR-1 (Salaried up to ₹50L)", url: "/itr/itr-1" },
+            {
+              name: "ITR-2 (Capital Gains/Foreign Assets)",
+              url: "/itr/itr-2",
+            },
+            {
+              name: "ITR-3 (Business/Professional Income)",
+              url: "/itr/itr-3",
+            },
+            { name: "ITR-4 (Presumptive Scheme)", url: "/itr/itr-4" },
           ],
         },
         {
           section: "Entities",
-          items: ["ITR-5 (LLP, Firms, AOPs)", "ITR-6 (Companies)"],
+          items: [
+            { name: "ITR-5 (LLP, Firms, AOPs)", url: "/itr/itr-5" },
+            { name: "ITR-6 (Companies)", url: "/itr/itr-6" },
+          ],
         },
-        // Placeholder for the "Show More" functionality to ensure 6 items are present
-        "Tax saving consultations",
-        "Form 16/26AS reconciliation",
+        {
+          name: "Tax saving consultations",
+          url: "/itr",
+        },
+        {
+          name: "Form 16/26AS reconciliation",
+          url: "/itr",
+        },
       ],
     },
     {
@@ -105,39 +213,121 @@ export function Header() {
         {
           section: "Start",
           items: [
-            "Private limited company",
-            "One person company",
-            "Limited liability partnership",
-            "Startup India registration",
-            "MSME Udyam registration",
-            "GST registration",
+            {
+              name: "Private Limited Company Registration",
+              url: "/startup-businesslegal/startbusiness/PrivateLimitedCompanyPage",
+            },
+            {
+              name: "One Person Company Registration",
+              url: "/startup-businesslegal/startbusiness/OnePersonCompanyPage",
+            },
+            {
+              name: "Limited Liability Partnership (LLP) Registration",
+              url: "/startup-businesslegal/startbusiness/LLPPage",
+            },
+            {
+              name: "Section 8 NGO Company Registration",
+              url: "/startup-businesslegal/startbusiness/Section8NGOCompanyPage",
+            },
+            {
+              name: "Public Limited Company Registration",
+              url: "/startup-businesslegal/startbusiness/PublicLimitedCompanyPage",
+            },
+            {
+              name: "Startup India Registration",
+              url: "/startup-businesslegal/startbusiness/StartupIndiaRegistrationPage",
+            },
+            {
+              name: "GST Registration",
+              url: "/startup-businesslegal/startbusiness/GSTRegistrationPage",
+            },
           ],
         },
         {
           section: "Grow",
           items: [
-            "ISO certification",
-            "Trademark registration",
-            "Copyright registration",
+            {
+              name: "MSME Udyam Registration",
+              url: "/startup-businesslegal/growbusiness/MSMEUdhayamRegistrationPage",
+            },
+            {
+              name: "ISO Certification",
+              url: "/startup-businesslegal/growbusiness/ISOCertificationPage",
+            },
           ],
         },
         {
           section: "Protect",
           items: [
-            "Intellectual property assignment",
-            "Shareholder subscription agreement",
-            "Joint venture agreements",
+            {
+              name: "Trademark Registration",
+              url: "/startup-businesslegal/protectbusiness/TrademarkRegistrationPage",
+            },
+            {
+              name: "Copyright Registration",
+              url: "/startup-businesslegal/protectbusiness/CopyrightRegistrationPage",
+            },
+            {
+              name: "Renew Trademark",
+              url: "/startup-businesslegal/protectbusiness/RenewTrademarkPage",
+            },
+            {
+              name: "Reply to Trademark Objection",
+              url: "/startup-businesslegal/protectbusiness/ReplyToTrademarkObjectionPage",
+            },
+            {
+              name: "Reply to Copyright Objection",
+              url: "/startup-businesslegal/protectbusiness/ReplyToCopyrightObjectionPage",
+            },
+            {
+              name: "Sell Your Trademark",
+              url: "/startup-businesslegal/protectbusiness/SellYourTrademarkPage",
+            },
           ],
         },
         {
           section: "Manage",
           items: [
-            "Appointment of director",
-            "Resignation of director",
-            "Change in office address",
-            "Increasing capital of company",
-            "Closure of Pvt Ltd/OPC/LLP",
-            "ROC return filing",
+            {
+              name: "Appointment of Director",
+              url: "/startup-businesslegal/managebusiness/AppointmentOfDirectorPage",
+            },
+            {
+              name: "Resignation of Director",
+              url: "/startup-businesslegal/managebusiness/ResignationOfDirectorPage",
+            },
+            {
+              name: "Change in Office Address",
+              url: "/startup-businesslegal/managebusiness/ChangeInOfficeAddressPage",
+            },
+            {
+              name: "Increasing Capital of Company",
+              url: "/startup-businesslegal/managebusiness/IncreasingCapitalOfCompanyPage",
+            },
+            {
+              name: "Closure of Private Limited Company",
+              url: "/startup-businesslegal/managebusiness/ClosureOfPvtLtdPage",
+            },
+            {
+              name: "Closure of OPC",
+              url: "/startup-businesslegal/managebusiness/ClosureOfOPCPage",
+            },
+            {
+              name: "Closure of LLP",
+              url: "/startup-businesslegal/managebusiness/ClosureOfLLPPage",
+            },
+            {
+              name: "ROC Return Filing for Private Limited Company",
+              url: "/startup-businesslegal/managebusiness/RocReturnFilingPvtLtdPage",
+            },
+            {
+              name: "ROC Return Filing for OPC",
+              url: "/startup-businesslegal/managebusiness/ROCReturnFilingForOPCPage",
+            },
+            {
+              name: "ROC Return Filing for LLP",
+              url: "/startup-businesslegal/managebusiness/ROCReturnFilingForLLPPage",
+            },
           ],
         },
       ],
@@ -148,18 +338,62 @@ export function Header() {
       color: "from-amber-500/10 to-amber-500/30 text-amber-600",
       url: "/documentation",
       items: [
-        "Franchise agreement",
-        "Co-founder agreement",
-        "Non-disclosure agreement",
-        "Employment agreement",
-        "Consultancy agreement",
-        "Business partnership agreement",
-        "Privacy policy",
-        "Terms of use",
-        "Service agreement",
-        "Licensing agreement",
-        "Loan agreement",
-        "Power of attorney",
+        {
+          name: "Business Partnership Agreement",
+          url: "/documentation/business-partnership-agreement",
+        },
+        {
+          name: "Co-founder Agreement",
+          url: "/documentation/co-founder-agreement",
+        },
+        {
+          name: "Consultancy Agreement",
+          url: "/documentation/consultancy-agreement",
+        },
+        {
+          name: "Employment Agreement",
+          url: "/documentation/employment-agreement",
+        },
+        {
+          name: "Franchise Agreement",
+          url: "/documentation/franchise-agreement",
+        },
+        {
+          name: "IP Assignment Agreement",
+          url: "/documentation/ip-assignment-agreement",
+        },
+        {
+          name: "Joint Venture Agreement",
+          url: "/documentation/joint-venture-agreement",
+        },
+        {
+          name: "Letter of Intent",
+          url: "/documentation/letter-of-intent",
+        },
+        {
+          name: "Licensing Agreement",
+          url: "/documentation/licensing-agreement",
+        },
+        {
+          name: "Non-Disclosure Agreement (NDA)",
+          url: "/documentation/non-disclosure-agreement",
+        },
+        {
+          name: "Privacy Policy / Terms of Use",
+          url: "/documentation/privacy-terms-of-use",
+        },
+        {
+          name: "SAAS Agreement",
+          url: "/documentation/saas-agreement",
+        },
+        {
+          name: "Service Agreement / Term Sheet",
+          url: "/documentation/service-agreement-term-sheet",
+        },
+        {
+          name: "Shareholder Subscription Agreement",
+          url: "/documentation/shareholder-subscription-agreement",
+        },
       ],
     },
     {
@@ -172,33 +406,69 @@ export function Header() {
         {
           section: "Pay Your Challan",
           items: [
-            "Instant, secure e-challan payment",
-            "Avoid legal escalation & license suspension",
-            "Maintain a clean driving record",
-            "Get digital proof immediately after payment",
-            "24/7 support & verified payment channels",
+            {
+              name: "Instant, secure e-challan payment",
+              url: "/challan",
+            },
+            {
+              name: "Avoid legal escalation & license suspension",
+              url: "/challan",
+            },
+            {
+              name: "Maintain a clean driving record",
+              url: "/challan",
+            },
+            {
+              name: "Get digital proof immediately after payment",
+              url: "/challan",
+            },
+            {
+              name: "24/7 support & verified payment channels",
+              url: "/challan",
+            },
           ],
         },
         {
           section: "View Your Challan",
           items: [
-            "Check challan details using vehicle/chassis number",
-            "View status, fine amount & violation info",
+            {
+              name: "Check challan details using vehicle/chassis number",
+              url: "/challan",
+            },
+            {
+              name: "View status, fine amount & violation info",
+              url: "/challan",
+            },
           ],
         },
         {
           section: "Dispute Your Challan",
           items: [
-            "Challenge incorrect challans legally",
-            "Expert lawyer review & legal drafting",
-            "End-to-end case assistance till resolution",
+            {
+              name: "Challenge incorrect challans legally",
+              url: "/challan",
+            },
+            {
+              name: "Expert lawyer review & legal drafting",
+              url: "/challan",
+            },
+            {
+              name: "End-to-end case assistance till resolution",
+              url: "/challan",
+            },
           ],
         },
         {
           section: "Consult an Expert",
           items: [
-            "Free consultation for any vehicle-related queries",
-            "Connect instantly with motor vehicle law experts",
+            {
+              name: "Free consultation for any vehicle-related queries",
+              url: "/challan",
+            },
+            {
+              name: "Connect instantly with motor vehicle law experts",
+              url: "/challan",
+            },
           ],
         },
       ],
@@ -263,22 +533,21 @@ export function Header() {
                   >
                     {service.title}
 
-                    {service.items && service.items.length > 0 && (
+                    {service.items?.length > 0 && (
                       <ChevronDown className="ml-2 h-4 w-4 rotate-[-90deg]" />
                     )}
                   </a>
 
-                  {/* RIGHT-SIDE SUBMENU (only shows if service has items) */}
-                  {service.items && service.items.length > 0 && (
+                  {/* RIGHT SUBMENU */}
+                  {service.items?.length > 0 && (
                     <div
                       className="absolute top-0 left-full ml-0 hidden group-hover/service:flex hover:flex  
-          flex-col bg-white shadow-xl rounded-lg border p-4 w-72 z-50 max-h-88 overflow-y-scroll
-          scrollbar-thin 
-    scrollbar-thumb-gray-400 
-    scrollbar-track-transparent"
+           flex-col bg-white shadow-xl rounded-lg border p-4 w-72 z-50 max-h-88 overflow-y-scroll
+           scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent"
                     >
                       {service.items.map((item, i) => {
-                        if (typeof item === "object" && item.section) {
+                        // 📌 CASE 1: Section group (ITR, Startup, Challan)
+                        if ("section" in item && item.items) {
                           return (
                             <div key={i} className="mb-3">
                               <p className="text-xs font-bold text-gray-500 mb-1">
@@ -288,23 +557,24 @@ export function Header() {
                               {item.items.map((sub, j) => (
                                 <a
                                   key={j}
-                                  href="#"
+                                  href={sub.url}
                                   className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-[#c92c41] block transition"
                                 >
-                                  {sub}
+                                  {sub.name}
                                 </a>
                               ))}
                             </div>
                           );
                         }
 
+                        // 📌 CASE 2: Normal flat item
                         return (
                           <a
                             key={i}
-                            href="#"
+                            href={item.url}
                             className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-[#c92c41] transition"
                           >
-                            {String(item)}
+                            {item.name}
                           </a>
                         );
                       })}
