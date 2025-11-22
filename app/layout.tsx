@@ -7,7 +7,8 @@ import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
   title: "Lawizer",
-  description: "An AI-powered legal assistant for your business.",
+  description:
+    "Real-life legal issues need real lawyers. Whether it’s personal, property, or business — our advocates are here to guide you every step of the way. You’ve been through enough; let us take it from here. Lawizer connects you to the best lawyers to make your legal journey easier.",
 };
 
 export default function RootLayout({
