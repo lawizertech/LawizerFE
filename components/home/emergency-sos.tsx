@@ -29,7 +29,7 @@ export default function EmergencySOS() {
     <div className="relative flex flex-col items-center justify-center">
       <Button
         onClick={handleSOS}
-        className="bg-blue-800 hover:bg-blue-700 text-white px-35 py-6 rounded-lg text-lg font-semibold shadow-xl transition-all transform hover:scale-105"
+        className="bg-primary hover:bg-primary/90 text-white px-35 py-6 rounded-lg text-lg font-semibold shadow-xl transition-all transform hover:scale-105"
       >
         Emergency SOS
       </Button>
