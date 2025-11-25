@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Loader2, LogOut, User } from "lucide-react";
+import { Loader2, LogOut, Edit } from "lucide-react";
 import { getUserProfile } from "@/lib/apis/api";
 import { useRouter } from "next/navigation";
+import CompleteProfileModal from "@/components/auth/CompleteProfileModal";
 
 export default function ProfilePage() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const router = useRouter();
 
   const handleLogout = () => {
@@ -21,20 +23,24 @@ export default function ProfilePage() {
     }, 300);
   };
 
-  useEffect(() => {
+  const fetchProfile = async () => {
     const uid = localStorage.getItem("uid");
-
     if (!uid) {
       setLoading(false);
       return;
     }
 
-    const fetchProfile = async () => {
-      const data = await getUserProfile(uid);
-      setUser(data);
-      setLoading(false);
-    };
+    const data = await getUserProfile(uid);
+    setUser(data);
+    setLoading(false);
 
+    // Auto-open modal if profile is incomplete
+    if (data && !data.isProfileComplete) {
+      setShowModal(true);
+    }
+  };
+
+  useEffect(() => {
     fetchProfile();
   }, []);
 
@@ -81,9 +87,18 @@ export default function ProfilePage() {
         </div>
 
         <div className="flex-1 space-y-2 text-center sm:text-left">
-          <h2 className="text-2xl font-semibold text-gray-800">
-            {user.displayName || "No Name"}
-          </h2>
+          <div className="flex items-center justify-center sm:justify-start gap-3">
+            <h2 className="text-2xl font-semibold text-gray-800">
+              {user.displayName || "No Name"}
+            </h2>
+            <button
+              onClick={() => setShowModal(true)}
+              className="p-2 hover:bg-gray-100 rounded-lg transition"
+              title="Edit Profile"
+            >
+              <Edit className="w-4 h-4 text-gray-600" />
+            </button>
+          </div>
 
           <p className="text-gray-500 text-sm">{user.email}</p>
 
@@ -112,6 +127,15 @@ export default function ProfilePage() {
           <DetailItem label="UID" value={user.uid} />
         </div>
       </div>
+
+      {/* Complete Profile Modal */}
+      {showModal && (
+        <CompleteProfileModal
+          user={user}
+          onClose={() => setShowModal(false)}
+          onDone={fetchProfile}
+        />
+      )}
     </div>
   );
 }

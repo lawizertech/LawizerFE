@@ -7,6 +7,7 @@ import { HoverDropdown } from "./headerdropdown";
 import { useEffect, useState } from "react";
 import { ProfileCompletionModal } from "./auth/signupPopup";
 import { SignInModal } from "./auth/signinPopup";
+import Link from "next/link";
 
 export function Header() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -563,7 +564,7 @@ export function Header() {
                 {services.map((service, index) => (
                   <div key={index} className="relative group/service">
                     {/* MAIN LINK */}
-                    <a
+                    <Link
                       href={service.url}
                       className="text-sm font-semibold py-1 hover:text-[#c92c41] flex items-center justify-between"
                     >
@@ -572,7 +573,7 @@ export function Header() {
                       {service.items?.length > 0 && (
                         <ChevronDown className="ml-2 h-4 w-4 -rotate-90" />
                       )}
-                    </a>
+                    </Link>
 
                     {/* RIGHT SUBMENU */}
                     {service.items?.length > 0 && (
@@ -591,13 +592,13 @@ export function Header() {
                                 </p>
 
                                 {item.items.map((sub, j) => (
-                                  <a
+                                  <Link
                                     key={j}
                                     href={sub.url}
                                     className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-[#c92c41] block transition"
                                   >
                                     {sub.name}
-                                  </a>
+                                  </Link>
                                 ))}
                               </div>
                             );
@@ -605,13 +606,13 @@ export function Header() {
 
                           // 📌 CASE 2: Normal flat item
                           return (
-                            <a
+                            <Link
                               key={i}
                               href={item.url}
                               className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-[#c92c41] transition"
                             >
                               {item.name}
-                            </a>
+                            </Link>
                           );
                         })}
                       </div>
@@ -621,37 +622,37 @@ export function Header() {
               </HoverDropdown>
 
               <HoverDropdown label="Documents">
-                <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
                   Agreements
-                </a>
-                <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                </Link>
+                <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
                   Contracts
-                </a>
-                <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                </Link>
+                <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
                   Business Docs
-                </a>
+                </Link>
               </HoverDropdown>
 
               <HoverDropdown label="Resources">
-                <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
                   Blogs
-                </a>
-                <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                </Link>
+                <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
                   Guides
-                </a>
-                <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                </Link>
+                <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
                   FAQs
-                </a>
+                </Link>
               </HoverDropdown>
 
               {["About", "Contact"].map((item) => (
-                <a
+                <Link
                   key={item}
                   href="#"
                   className="text-gray-700 hover:text-[#c92c41] text-sm font-medium transition-colors"
                 >
                   {item}
-                </a>
+                </Link>
               ))}
 
               {!loggedUser ? (
@@ -663,12 +664,12 @@ export function Header() {
                 </Button>
               ) : (
                 <div className="flex items-center gap-3 cursor-pointer">
-                  <a
+                  <Link
                     className="text-sm font-medium text-[#ff1d46]"
                     href="/profile"
                   >
                     Profile
-                  </a>
+                  </Link>
                 </div>
               )}
             </nav>
