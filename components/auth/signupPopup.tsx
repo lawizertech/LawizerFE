@@ -30,11 +30,13 @@ const profileSchema = z.object({
 interface ProfileCompletionModalProps {
   onClose: () => void;
   onSignInRedirect?: () => void;
+  onLoginOrSignupComplete?: () => void;
 }
 
 export function ProfileCompletionModal({
   onClose,
   onSignInRedirect,
+  onLoginOrSignupComplete,
 }: ProfileCompletionModalProps) {
   const [step, setStep] = useState(1);
 
@@ -68,6 +70,8 @@ export function ProfileCompletionModal({
 
       const user = userCredential.user;
       const idToken = await user.getIdToken(); // JWT
+
+      onLoginOrSignupComplete && onLoginOrSignupComplete();
 
       // Save in local storage
       localStorage.setItem("uid", user.uid);
@@ -131,7 +135,7 @@ export function ProfileCompletionModal({
       const res = await fetch(
         "http://127.0.0.1:5001/lawizerbe/us-central1/auth/complete-profile",
         {
-          method: "PUT",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${idToken}`,
