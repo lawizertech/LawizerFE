@@ -15,6 +15,7 @@ import {
 import { z } from "zod";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { auth } from "@/lib/firebaseClient";
+import { completeUserProfile, initUser } from "@/lib/apis/api";
 
 const profileSchema = z.object({
   displayName: z.string().min(3, "Full Name must be at least 3 characters."),
@@ -69,32 +70,17 @@ export function ProfileCompletionModal({
       );
 
       const user = userCredential.user;
-      const idToken = await user.getIdToken(); // JWT
+      const idToken = await user.getIdToken();
 
-      onLoginOrSignupComplete && onLoginOrSignupComplete();
-
-      // Save in local storage
       localStorage.setItem("uid", user.uid);
       localStorage.setItem("email", user.email || "");
 
-      // 🔥 INIT USER in database
-      await fetch(
-        "http://127.0.0.1:5001/lawizerbe/us-central1/auth/init-user",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${idToken}`,
-          },
-          body: JSON.stringify({
-            uid: user.uid,
-            email: user.email,
-          }),
-        }
-      );
+      // 🔥 CALL SEPARATE API FUNCTION
+      await initUser(idToken, user.uid, user.email!);
 
-      // Move email to next step
-      setEmail(user.email || "");
+      onLoginOrSignupComplete && onLoginOrSignupComplete();
+
+      setEmail(user.email!);
       setStep(2);
     } catch (err: any) {
       setError(err.message || "Failed to create account");
@@ -109,7 +95,7 @@ export function ProfileCompletionModal({
     setLoading(true);
     setError(null);
 
-    const uid = localStorage.getItem("uid");
+    const uid: string = localStorage.getItem("uid") || "";
 
     const formData = {
       uid,
@@ -121,6 +107,7 @@ export function ProfileCompletionModal({
       photoURL,
     };
 
+    // Validate
     const validation = profileSchema.safeParse(formData);
     if (!validation.success) {
       setError(validation.error.errors[0].message);
@@ -130,22 +117,9 @@ export function ProfileCompletionModal({
 
     try {
       const user = auth.currentUser;
-      const idToken = user ? await user.getIdToken() : null;
+      const idToken = user ? await user.getIdToken() : "";
 
-      const res = await fetch(
-        "http://127.0.0.1:5001/lawizerbe/us-central1/auth/complete-profile",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${idToken}`,
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      await completeUserProfile(idToken, formData);
 
       alert("Profile updated successfully!");
       onClose();
