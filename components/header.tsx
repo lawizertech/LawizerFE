@@ -4,11 +4,25 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { HoverDropdown } from "./headerdropdown";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProfileCompletionModal } from "./auth/signupPopup";
 
 export function Header() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [loggedUser, setLoggedUser] = useState<any>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const uid = localStorage.getItem("uid");
+      const email = localStorage.getItem("email");
+      console.log(uid, email);
+      if (uid && email) {
+        console.log("Added uid and email");
+        setLoggedUser({ uid, email });
+      }
+    }
+  }, []);
+
   const services = [
     {
       title: "Property",
@@ -477,6 +491,21 @@ export function Header() {
       ],
     },
   ];
+
+  const refereshUserData = () => {
+    console.log("User Data Updated");
+
+    if (typeof window !== "undefined") {
+      const uid = localStorage.getItem("uid");
+      const email = localStorage.getItem("email");
+      console.log(uid, email);
+      if (uid && email) {
+        console.log("Refreshed uid and email");
+        setLoggedUser({ uid, email });
+      }
+    }
+  };
+
   return (
     <>
       <motion.header
@@ -622,12 +651,24 @@ export function Header() {
                   {item}
                 </a>
               ))}
-              <button
-                onClick={() => setIsAuthModalOpen(true)}
-                className="text-gray-700 hover:text-[#c92c41] text-sm font-medium transition-colors"
-              >
-                Login
-              </button>
+
+              {!loggedUser ? (
+                <Button
+                  onClick={() => setIsAuthModalOpen(true)}
+                  className="bg-blue-600 text-white rounded-full px-6 py-2 shadow-md"
+                >
+                  Login
+                </Button>
+              ) : (
+                <div className="flex items-center gap-3 cursor-pointer">
+                  <a
+                    className="text-sm font-medium text-[#ff1d46]"
+                    href="/profile"
+                  >
+                    Profile
+                  </a>
+                </div>
+              )}
             </nav>
 
             <Button
@@ -640,7 +681,10 @@ export function Header() {
         </div>
       </motion.header>
       {isAuthModalOpen && (
-        <ProfileCompletionModal onClose={() => setIsAuthModalOpen(false)} />
+        <ProfileCompletionModal
+          onClose={() => setIsAuthModalOpen(false)}
+          onLoginOrSignupComplete={() => refereshUserData()}
+        />
       )}
     </>
   );
