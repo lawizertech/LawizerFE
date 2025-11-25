@@ -4,8 +4,11 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { HoverDropdown } from "./headerdropdown";
+import { useState } from "react";
+import { ProfileCompletionModal } from "./auth/signupPopup";
 
 export function Header() {
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const services = [
     {
       title: "Property",
@@ -474,157 +477,171 @@ export function Header() {
       ],
     },
   ];
-
   return (
-    <motion.header
-      initial={{
-        width: "80px",
-        height: "80px",
-        borderRadius: "9999px",
-        y: 0,
-        opacity: 0,
-      }}
-      animate={{
-        width: "90%",
-        height: "auto",
-        borderRadius: "2rem",
-        y: 0,
-        opacity: 1,
-      }}
-      transition={{
-        duration: 0.6,
-        ease: [0.25, 0.1, 0.25, 1],
-      }}
-      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-white/80 backdrop-blur-md border border-gray-200/50 shadow-lg overflow"
-    >
-      <div className="container mx-auto px-4 py-4">
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.6 }}
-          className="flex items-center justify-between"
-        >
-          {/* Logo */}
-          <div
-            className="flex items-center gap-2 cursor-pointer"
-            onClick={() => window.location.replace("/")}
+    <>
+      <motion.header
+        initial={{
+          width: "80px",
+          height: "80px",
+          borderRadius: "9999px",
+          y: 0,
+          opacity: 0,
+        }}
+        animate={{
+          width: "90%",
+          height: "auto",
+          borderRadius: "2rem",
+          y: 0,
+          opacity: 1,
+        }}
+        transition={{
+          duration: 0.6,
+          ease: [0.25, 0.1, 0.25, 1],
+        }}
+        className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-white/80 backdrop-blur-md border border-gray-200/50 shadow-lg overflow"
+      >
+        <div className="container mx-auto px-4 py-4">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1, duration: 0.6 }}
+            className="flex items-center justify-between"
           >
-            <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
-              <img
-                src="/logoLawizer.png"
-                alt="Lawizer Logo"
-                className="w-6 h-6"
-              />
+            {/* Logo */}
+            <div
+              className="flex items-center gap-2 cursor-pointer"
+              onClick={() => window.location.replace("/")}
+            >
+              <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
+                <img
+                  src="/logoLawizer.png"
+                  alt="Lawizer Logo"
+                  className="w-6 h-6"
+                />
+              </div>
+              <div className="flex items-baseline gap-1">
+                <span className="text-2xl font-bold text-[#c92c41]">
+                  Lawizer
+                </span>
+              </div>
             </div>
-            <div className="flex items-baseline gap-1">
-              <span className="text-2xl font-bold text-[#c92c41]">Lawizer</span>
-            </div>
-          </div>
 
-          {/* Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
-            <HoverDropdown label="Services">
-              {services.map((service, index) => (
-                <div key={index} className="relative group/service">
-                  {/* MAIN LINK */}
-                  <a
-                    href={service.url}
-                    className="text-sm font-semibold py-1 hover:text-[#c92c41] flex items-center justify-between"
-                  >
-                    {service.title}
+            {/* Navigation */}
+            <nav className="hidden lg:flex items-center gap-8">
+              <HoverDropdown label="Services">
+                {services.map((service, index) => (
+                  <div key={index} className="relative group/service">
+                    {/* MAIN LINK */}
+                    <a
+                      href={service.url}
+                      className="text-sm font-semibold py-1 hover:text-[#c92c41] flex items-center justify-between"
+                    >
+                      {service.title}
 
+                      {service.items?.length > 0 && (
+                        <ChevronDown className="ml-2 h-4 w-4 rotate-[-90deg]" />
+                      )}
+                    </a>
+
+                    {/* RIGHT SUBMENU */}
                     {service.items?.length > 0 && (
-                      <ChevronDown className="ml-2 h-4 w-4 rotate-[-90deg]" />
-                    )}
-                  </a>
-
-                  {/* RIGHT SUBMENU */}
-                  {service.items?.length > 0 && (
-                    <div
-                      className="absolute top-0 left-full ml-0 hidden group-hover/service:flex hover:flex  
+                      <div
+                        className="absolute top-0 left-full ml-0 hidden group-hover/service:flex hover:flex  
            flex-col bg-white shadow-xl rounded-lg border p-4 w-72 z-50 max-h-88 overflow-y-scroll
            scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent"
-                    >
-                      {service.items.map((item, i) => {
-                        // 📌 CASE 1: Section group (ITR, Startup, Challan)
-                        if ("section" in item && item.items) {
+                      >
+                        {service.items.map((item, i) => {
+                          // 📌 CASE 1: Section group (ITR, Startup, Challan)
+                          if ("section" in item && item.items) {
+                            return (
+                              <div key={i} className="mb-3">
+                                <p className="text-xs font-bold text-gray-500 mb-1">
+                                  {item.section}
+                                </p>
+
+                                {item.items.map((sub, j) => (
+                                  <a
+                                    key={j}
+                                    href={sub.url}
+                                    className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-[#c92c41] block transition"
+                                  >
+                                    {sub.name}
+                                  </a>
+                                ))}
+                              </div>
+                            );
+                          }
+
+                          // 📌 CASE 2: Normal flat item
                           return (
-                            <div key={i} className="mb-3">
-                              <p className="text-xs font-bold text-gray-500 mb-1">
-                                {item.section}
-                              </p>
-
-                              {item.items.map((sub, j) => (
-                                <a
-                                  key={j}
-                                  href={sub.url}
-                                  className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-[#c92c41] block transition"
-                                >
-                                  {sub.name}
-                                </a>
-                              ))}
-                            </div>
+                            <a
+                              key={i}
+                              href={item.url}
+                              className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-[#c92c41] transition"
+                            >
+                              {item.name}
+                            </a>
                           );
-                        }
+                        })}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </HoverDropdown>
 
-                        // 📌 CASE 2: Normal flat item
-                        return (
-                          <a
-                            key={i}
-                            href={item.url}
-                            className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-[#c92c41] transition"
-                          >
-                            {item.name}
-                          </a>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
+              <HoverDropdown label="Documents">
+                <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                  Agreements
+                </a>
+                <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                  Contracts
+                </a>
+                <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                  Business Docs
+                </a>
+              </HoverDropdown>
+
+              <HoverDropdown label="Resources">
+                <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                  Blogs
+                </a>
+                <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                  Guides
+                </a>
+                <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                  FAQs
+                </a>
+              </HoverDropdown>
+
+              {["About", "Contact"].map((item) => (
+                <a
+                  key={item}
+                  href="#"
+                  className="text-gray-700 hover:text-[#c92c41] text-sm font-medium transition-colors"
+                >
+                  {item}
+                </a>
               ))}
-            </HoverDropdown>
-
-            <HoverDropdown label="Documents">
-              <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
-                Agreements
-              </a>
-              <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
-                Contracts
-              </a>
-              <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
-                Business Docs
-              </a>
-            </HoverDropdown>
-
-            <HoverDropdown label="Resources">
-              <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
-                Blogs
-              </a>
-              <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
-                Guides
-              </a>
-              <a href="#" className="text-sm py-1 hover:text-[#c92c41]">
-                FAQs
-              </a>
-            </HoverDropdown>
-
-            {["About", "Contact", "Login"].map((item) => (
-              <a
-                key={item}
-                href="#"
+              <button
+                onClick={() => setIsAuthModalOpen(true)}
                 className="text-gray-700 hover:text-[#c92c41] text-sm font-medium transition-colors"
               >
-                {item}
-              </a>
-            ))}
-          </nav>
+                Login
+              </button>
+            </nav>
 
-          {/* CTA */}
-          <Button className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-6 py-2 rounded-full font-medium shadow-md">
-            Get Legal Help
-          </Button>
-        </motion.div>
-      </div>
-    </motion.header>
+            <Button
+              onClick={() => setIsAuthModalOpen(true)}
+              className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-6 py-2 rounded-full font-medium shadow-md"
+            >
+              Get Legal Help
+            </Button>
+          </motion.div>
+        </div>
+      </motion.header>
+      {isAuthModalOpen && (
+        <ProfileCompletionModal onClose={() => setIsAuthModalOpen(false)} />
+      )}
+    </>
   );
 }
