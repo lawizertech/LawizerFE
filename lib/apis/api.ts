@@ -86,3 +86,31 @@ export const completeUserProfile = async (
     throw err;
   }
 };
+
+export async function loginUser(idToken: string) {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({ idToken }),
+      }
+    );
+
+    const data = await res.json();
+
+    return {
+      success: res.ok,
+      ...data,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+}
