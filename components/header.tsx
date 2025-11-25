@@ -6,10 +6,12 @@ import { ChevronDown } from "lucide-react";
 import { HoverDropdown } from "./headerdropdown";
 import { useEffect, useState } from "react";
 import { ProfileCompletionModal } from "./auth/signupPopup";
+import { SignInModal } from "./auth/signinPopup";
 
 export function Header() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [loggedUser, setLoggedUser] = useState<any>(null);
+  const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -568,7 +570,7 @@ export function Header() {
                       {service.title}
 
                       {service.items?.length > 0 && (
-                        <ChevronDown className="ml-2 h-4 w-4 rotate-[-90deg]" />
+                        <ChevronDown className="ml-2 h-4 w-4 -rotate-90" />
                       )}
                     </a>
 
@@ -684,6 +686,20 @@ export function Header() {
         <ProfileCompletionModal
           onClose={() => setIsAuthModalOpen(false)}
           onLoginOrSignupComplete={() => refereshUserData()}
+          onSignInRedirect={() => {
+            setIsAuthModalOpen(false);
+            setIsSignInModalOpen(true);
+          }}
+        />
+      )}
+      {isSignInModalOpen && (
+        <SignInModal
+          onClose={() => setIsSignInModalOpen(false)}
+          onSignupRedirect={() => {
+            setIsSignInModalOpen(false);
+            setIsAuthModalOpen(true);
+          }}
+          onLoginSuccess={() => refereshUserData()}
         />
       )}
     </>
