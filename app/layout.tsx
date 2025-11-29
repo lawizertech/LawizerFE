@@ -4,6 +4,7 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { AuthProvider } from "@/context/authContext";
 
 export const metadata: Metadata = {
   title: "Lawizer",
@@ -21,11 +22,13 @@ export default function RootLayout({
       <body
         className={`font-sans ${GeistSans.variable} ${GeistMono.variable} overflow-x-hidden `}
       >
-        <div className="w-full flex justify-center fixed top-4 z-50">
-          <Header />
-        </div>
-        {children}
-        <Footer />
+        <AuthProvider>
+          <div className="w-full flex justify-center fixed top-4 z-50">
+            <Header />
+          </div>
+          {children}
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );

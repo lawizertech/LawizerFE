@@ -5,22 +5,22 @@ import { Loader2, LogOut, Edit } from "lucide-react";
 import { getUserProfile } from "@/lib/apis/api";
 import { useRouter } from "next/navigation";
 import CompleteProfileModal from "@/components/auth/CompleteProfileModal";
+import { useAuth } from "@/context/authContext";
 
 export default function ProfilePage() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const { logout } = useAuth();
   const router = useRouter();
 
   const handleLogout = () => {
     router.push("/");
-
     setTimeout(() => {
       setUser(null);
+      logout();
       window.location.reload();
-      localStorage.removeItem("uid");
-      localStorage.removeItem("email");
-    }, 300);
+    }, 200);
   };
 
   const fetchProfile = async () => {
