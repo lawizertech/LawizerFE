@@ -4,7 +4,7 @@ import { useState, FormEvent } from "react";
 import { X, Mail, Lock, Loader2, ArrowRight } from "lucide-react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebaseClient";
-import { loginUser } from "@/lib/apis/api"; // 🔥 Your backend login route
+import { loginUser } from "@/lib/apis/api";
 import { useAuth } from "@/context/authContext";
 
 interface SignInModalProps {

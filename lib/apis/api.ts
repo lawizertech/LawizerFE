@@ -1,3 +1,5 @@
+import api from "./axios";
+
 interface ProfilePayload {
   uid: string;
   displayName: string;
@@ -10,49 +12,30 @@ interface ProfilePayload {
 
 export const getUserProfile = async (uid: string) => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/profile?uid=${uid}`,
-      {
-        method: "GET",
-      }
-    );
+    const res = await api.get(`/auth/profile`, {
+      params: { uid },
+    });
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.message || "Failed to fetch profile.");
-    }
-
-    return data.data;
+    return res.data.data;
   } catch (err: any) {
-    console.error("getUserProfile error:", err.message);
+    console.error("getUserProfile error:", err?.response?.data || err.message);
     return null;
   }
 };
 
 export const initUser = async (idToken: string, uid: string, email: string) => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/init-user`,
+    const res = await api.post(
+      `/auth/init-user`,
+      { uid, email },
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify({ uid, email }),
+        headers: { Authorization: `Bearer ${idToken}` },
       }
     );
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.message || "Failed to initialize user.");
-    }
-
-    return data;
+    return res.data;
   } catch (err: any) {
-    console.error("initUser error:", err.message);
+    console.error("initUser error:", err?.response?.data || err.message);
     throw err;
   }
 };
@@ -62,55 +45,38 @@ export const completeUserProfile = async (
   formData: ProfilePayload
 ) => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/complete-profile`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify(formData),
-      }
-    );
+    const res = await api.post(`/auth/complete-profile`, formData, {
+      headers: { Authorization: `Bearer ${idToken}` },
+    });
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.message || "Failed to complete profile.");
-    }
-
-    return data;
+    return res.data;
   } catch (err: any) {
-    console.error("completeUserProfile error:", err.message);
+    console.error(
+      "completeUserProfile error:",
+      err?.response?.data || err.message
+    );
     throw err;
   }
 };
 
-export async function loginUser(idToken: string) {
+export const loginUser = async (idToken: string) => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+    const res = await api.post(
+      `/auth/login`,
+      { idToken },
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify({ idToken }),
+        headers: { Authorization: `Bearer ${idToken}` },
       }
     );
 
-    const data = await res.json();
-
     return {
-      success: res.ok,
-      ...data,
+      success: true,
+      ...res.data,
     };
-  } catch (error: any) {
+  } catch (err: any) {
     return {
       success: false,
-      message: error.message,
+      message: err?.response?.data?.message || err.message,
     };
   }
-}
+};
