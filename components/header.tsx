@@ -8,11 +8,16 @@ import { useEffect, useState } from "react";
 import { ProfileCompletionModal } from "./auth/signupPopup";
 import { SignInModal } from "./auth/signinPopup";
 import Link from "next/link";
+import { useAuth } from "@/context/authContext";
 
 export function Header() {
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [loggedUser, setLoggedUser] = useState<any>(null);
-  const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
+  const {
+    isAuthModalOpen,
+    setIsAuthModalOpen,
+    isSignInModalOpen,
+    setIsSignInModalOpen,
+  } = useAuth();
 
   useEffect(() => {
     if (typeof window !== "undefined") {

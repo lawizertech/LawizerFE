@@ -3,13 +3,21 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/authContext";
 
 export default function EmergencySOS() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const {
+    isLoggedIn,
+    isAuthModalOpen,
+    setIsAuthModalOpen,
+    isSignInModalOpen,
+    setIsSignInModalOpen,
+  } = useAuth();
 
   const handleSOS = () => {
-    setShowConfirm(true);
+    isLoggedIn ? setShowConfirm(true) : setIsAuthModalOpen(true);
   };
 
   const cancelSOS = () => {

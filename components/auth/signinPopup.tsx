@@ -5,6 +5,7 @@ import { X, Mail, Lock, Loader2, ArrowRight } from "lucide-react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebaseClient";
 import { loginUser } from "@/lib/apis/api"; // 🔥 Your backend login route
+import { useAuth } from "@/context/authContext";
 
 interface SignInModalProps {
   onClose: () => void;
@@ -21,6 +22,7 @@ export function SignInModal({
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { refreshUser } = useAuth();
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
@@ -48,8 +50,8 @@ export function SignInModal({
       localStorage.setItem("uid", res.data.uid);
       localStorage.setItem("email", res.data.email);
       localStorage.setItem("userProfile", JSON.stringify(res.data));
-
       onLoginSuccess && onLoginSuccess(res.data);
+      refreshUser();
       onClose();
     } catch (err: any) {
       setError(err.message || "Failed to sign in");
