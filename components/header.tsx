@@ -25,10 +25,9 @@ export function Header() {
     if (typeof window !== "undefined") {
       const uid = localStorage.getItem("uid");
       const email = localStorage.getItem("email");
-      console.log(uid, email);
-      if (uid && email) {
-        console.log("Added uid and email");
-        setLoggedUser({ uid, email });
+      const token = localStorage.getItem("token");
+      if (uid && email && token) {
+        setLoggedUser({ uid, email, token });
       }
     }
   }, []);

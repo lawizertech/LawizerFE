@@ -49,6 +49,7 @@ export function SignInModal({
       // 3️⃣ Save user data
       localStorage.setItem("uid", res.data.uid);
       localStorage.setItem("email", res.data.email);
+      localStorage.setItem("token", res.token);
       localStorage.setItem("userProfile", JSON.stringify(res.data));
       onLoginSuccess && onLoginSuccess(res.data);
       refreshUser();

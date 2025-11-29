@@ -11,7 +11,7 @@ export default function ProfilePage() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const { logout } = useAuth();
+  const { logout, isLoggedIn } = useAuth();
   const router = useRouter();
 
   const handleLogout = () => {
@@ -24,18 +24,25 @@ export default function ProfilePage() {
   };
 
   const fetchProfile = async () => {
-    const uid = localStorage.getItem("uid");
-    if (!uid) {
+    if (!isLoggedIn) {
       setLoading(false);
       return;
     }
 
-    const data = await getUserProfile(uid);
-    setUser(data);
+    const uid = localStorage.getItem("uid") || "";
+    const res = await getUserProfile(uid);
+    if (
+      !res.success &&
+      (res.errorCode === "INVALID_TOKEN" || res.errorCode === "INVALID_FORMAT")
+    ) {
+      handleLogout();
+      return;
+    }
+    setUser(res);
     setLoading(false);
 
     // Auto-open modal if profile is incomplete
-    if (data && !data.isProfileComplete) {
+    if (res && !res.isProfileComplete) {
       setShowModal(true);
     }
   };
