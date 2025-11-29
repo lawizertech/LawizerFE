@@ -3,9 +3,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, PhoneCall } from "lucide-react";
+import { useAuth } from "@/context/authContext";
 
-// Assuming you have a component library, using a basic HTML button for portability.
-// If using Shadcn/ui or similar, replace this with your actual Button import.
 const Button = ({
   children,
   ...props
@@ -19,8 +18,14 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const [success, setSuccess] = useState(false);
+  const { isLoggedIn, setIsSignInModalOpen } = useAuth();
 
   const handleClick = () => {
+    if (!isLoggedIn) {
+      setIsSignInModalOpen(true);
+      return;
+    }
+
     setSuccess(true);
     setTimeout(() => setSuccess(false), 1200);
   };

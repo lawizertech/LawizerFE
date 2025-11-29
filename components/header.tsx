@@ -9,6 +9,7 @@ import { ProfileCompletionModal } from "./auth/signupPopup";
 import { SignInModal } from "./auth/signinPopup";
 import Link from "next/link";
 import { useAuth } from "@/context/authContext";
+import { useRouter } from "next/navigation";
 
 export function Header() {
   const [loggedUser, setLoggedUser] = useState<any>(null);
@@ -18,6 +19,7 @@ export function Header() {
     isSignInModalOpen,
     setIsSignInModalOpen,
   } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -680,7 +682,7 @@ export function Header() {
             </nav>
 
             <Button
-              onClick={() => setIsAuthModalOpen(true)}
+              onClick={() => router.push("/start-consultation")}
               className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-6 py-2 rounded-full font-medium shadow-md"
             >
               Get Legal Help
