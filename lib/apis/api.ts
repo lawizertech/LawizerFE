@@ -19,7 +19,12 @@ export const getUserProfile = async (uid: string) => {
     return res.data.data;
   } catch (err: any) {
     console.error("getUserProfile error:", err?.response?.data || err.message);
-    return null;
+    return {
+      success: false,
+      message: err?.response?.data?.message || err.message,
+      errorCode: err?.response?.data?.errorCode,
+      errorData: err?.response?.data || null,
+    };
   }
 };
 
@@ -35,8 +40,11 @@ export const initUser = async (idToken: string, uid: string, email: string) => {
 
     return res.data;
   } catch (err: any) {
-    console.error("initUser error:", err?.response?.data || err.message);
-    throw err;
+    return {
+      success: false,
+      message: err?.response?.data?.message || err.message,
+      errorCode: err?.response?.data?.errorCode,
+    };
   }
 };
 
@@ -51,11 +59,11 @@ export const completeUserProfile = async (
 
     return res.data;
   } catch (err: any) {
-    console.error(
-      "completeUserProfile error:",
-      err?.response?.data || err.message
-    );
-    throw err;
+    return {
+      success: false,
+      message: err?.response?.data?.message || err.message,
+      errorCode: err?.response?.data?.errorCode,
+    };
   }
 };
 
@@ -77,6 +85,7 @@ export const loginUser = async (idToken: string) => {
     return {
       success: false,
       message: err?.response?.data?.message || err.message,
+      errorCode: err?.response?.data?.errorCode,
     };
   }
 };
