@@ -17,6 +17,8 @@ interface AuthContextType {
   setIsAuthModalOpen: (open: boolean) => void;
   isSignInModalOpen: boolean;
   setIsSignInModalOpen: (open: boolean) => void;
+  isCompleteProfileModalOpen: boolean;
+  setIsCompleteProfileModalOpen: (open: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -29,6 +31,8 @@ const AuthContext = createContext<AuthContextType>({
   setIsAuthModalOpen: () => {},
   isSignInModalOpen: false,
   setIsSignInModalOpen: () => {},
+  isCompleteProfileModalOpen: false,
+  setIsCompleteProfileModalOpen: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -36,6 +40,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
+  const [isCompleteProfileModalOpen, setIsCompleteProfileModalOpen] =
+    useState(false);
 
   // 🔥 CHECK LOCAL STORAGE FOR LOGIN
   const refreshUser = () => {
@@ -60,6 +66,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     localStorage.removeItem("uid");
     localStorage.removeItem("email");
+    localStorage.removeItem("token");
+    localStorage.removeItem("userProfile");
     setUser(null);
   };
 
@@ -75,6 +83,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setIsAuthModalOpen,
         isSignInModalOpen,
         setIsSignInModalOpen,
+        isCompleteProfileModalOpen,
+        setIsCompleteProfileModalOpen,
       }}
     >
       {children}
