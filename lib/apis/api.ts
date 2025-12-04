@@ -10,6 +10,35 @@ interface ProfilePayload {
   photoURL?: string;
 }
 
+/* -------------------------------------------------------------------------- */
+/*                           🔄 TOKEN RENEW FUNCTION                           */
+/* -------------------------------------------------------------------------- */
+
+const renewToken = async (): Promise<string | null> => {
+  try {
+    const oldToken = localStorage.getItem("token");
+    if (!oldToken) return null;
+
+    const res = await api.get("/auth/renew-token", {
+      headers: { Authorization: `Bearer ${oldToken}` },
+    });
+
+    if (res.data?.newToken) {
+      localStorage.setItem("token", res.data.newToken);
+      return res.data.newToken;
+    }
+
+    return null;
+  } catch (err) {
+    console.error("Renew token error:", err);
+    return null;
+  }
+};
+
+/* -------------------------------------------------------------------------- */
+/*                              🔹 getUserProfile                              */
+/* -------------------------------------------------------------------------- */
+
 export const getUserProfile = async (uid: string) => {
   try {
     const res = await api.get(`/auth/profile`, {
@@ -18,35 +47,72 @@ export const getUserProfile = async (uid: string) => {
 
     return res.data.data;
   } catch (err: any) {
-    console.error("getUserProfile error:", err?.response?.data || err.message);
+    const errorCode = err?.response?.data?.errorCode;
+
+    if (errorCode === "TOKEN_EXPIRED") {
+      const newToken = await renewToken();
+      if (!newToken) return err.response.data;
+
+      // retry with fresh token
+      const retryRes = await api.get(`/auth/profile`, {
+        params: { uid },
+        headers: { Authorization: `Bearer ${newToken}` },
+      });
+
+      return retryRes.data.data;
+    }
+
     return {
       success: false,
-      message: err?.response?.data?.message || err.message,
-      errorCode: err?.response?.data?.errorCode,
-      errorData: err?.response?.data || null,
+      message: err?.response?.data?.message,
+      errorCode,
+      errorData: err?.response?.data,
     };
   }
 };
 
-export const initUser = async (idToken: string, uid: string, email: string) => {
-  try {
-    const res = await api.post(
-      `/auth/init-user`,
-      { uid, email },
-      {
-        headers: { Authorization: `Bearer ${idToken}` },
-      }
-    );
+/* -------------------------------------------------------------------------- */
+/*                                  🔹 initUser                                */
+/* -------------------------------------------------------------------------- */
 
+export const signupUser = async (
+  name: string,
+  email: string,
+  password: string
+) => {
+  try {
+    const res = await api.post(`/auth/signup`, { name, email, password });
     return res.data;
   } catch (err: any) {
+    const errorCode = err?.response?.data?.errorCode;
+
+    // Optional: handle retry logic if needed
+    if (errorCode === "TOKEN_EXPIRED") {
+      const newToken = await renewToken();
+      if (!newToken) return err.response.data;
+
+      const retryRes = await api.post(
+        `/auth/init-user`,
+        { name, email, password },
+        {
+          headers: { Authorization: `Bearer ${newToken}` },
+        }
+      );
+
+      return retryRes.data;
+    }
+
     return {
       success: false,
-      message: err?.response?.data?.message || err.message,
-      errorCode: err?.response?.data?.errorCode,
+      message: err?.response?.data?.message,
+      errorCode,
     };
   }
 };
+
+/* -------------------------------------------------------------------------- */
+/*                           🔹 completeUserProfile                            */
+/* -------------------------------------------------------------------------- */
 
 export const completeUserProfile = async (
   idToken: string,
@@ -59,13 +125,30 @@ export const completeUserProfile = async (
 
     return res.data;
   } catch (err: any) {
+    const errorCode = err?.response?.data?.errorCode;
+
+    if (errorCode === "TOKEN_EXPIRED") {
+      const newToken = await renewToken();
+      if (!newToken) return err.response.data;
+
+      const retryRes = await api.post(`/auth/complete-profile`, formData, {
+        headers: { Authorization: `Bearer ${newToken}` },
+      });
+
+      return retryRes.data;
+    }
+
     return {
       success: false,
-      message: err?.response?.data?.message || err.message,
-      errorCode: err?.response?.data?.errorCode,
+      message: err?.response?.data?.message,
+      errorCode,
     };
   }
 };
+
+/* -------------------------------------------------------------------------- */
+/*                                  🔹 loginUser                               */
+/* -------------------------------------------------------------------------- */
 
 export const loginUser = async (idToken: string) => {
   try {
@@ -82,10 +165,27 @@ export const loginUser = async (idToken: string) => {
       ...res.data,
     };
   } catch (err: any) {
+    const errorCode = err?.response?.data?.errorCode;
+
+    if (errorCode === "TOKEN_EXPIRED") {
+      const newToken = await renewToken();
+      if (!newToken) return err.response.data;
+
+      const retryRes = await api.post(
+        `/auth/login`,
+        { idToken },
+        {
+          headers: { Authorization: `Bearer ${newToken}` },
+        }
+      );
+
+      return { success: true, ...retryRes.data };
+    }
+
     return {
       success: false,
-      message: err?.response?.data?.message || err.message,
-      errorCode: err?.response?.data?.errorCode,
+      message: err?.response?.data?.message,
+      errorCode,
     };
   }
 };
