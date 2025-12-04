@@ -38,11 +38,21 @@ export function SignInModal({
       );
 
       const user = userCredential.user;
+
+      if (!user.emailVerified) {
+        setLoading(false);
+        setError("Email not verified. Please check your inbox.");
+        return;
+      }
+
       const idToken = await user.getIdToken();
 
-      // 2️⃣ Send token to your backend
+      // 2️⃣ Send token to backend
       const res = await loginUser(idToken);
       if (!res.success) {
+        if (res.errorCode === "EMAIL_NOT_VERIFIED") {
+          throw new Error("Email not verified. Please check your inbox.");
+        }
         throw new Error(res.message || "Login failed on server");
       }
 
