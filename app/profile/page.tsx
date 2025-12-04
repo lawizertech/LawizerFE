@@ -138,7 +138,6 @@ export default function ProfilePage() {
       {/* Complete Profile Modal */}
       {showModal && (
         <CompleteProfileModal
-          user={user}
           onClose={() => setShowModal(false)}
           onDone={fetchProfile}
         />

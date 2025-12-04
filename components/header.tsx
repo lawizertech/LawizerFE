@@ -5,11 +5,12 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { HoverDropdown } from "./headerdropdown";
 import { useEffect, useState } from "react";
-import { ProfileCompletionModal } from "./auth/signupPopup";
 import { SignInModal } from "./auth/signinPopup";
 import Link from "next/link";
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
+import { SignupModal } from "./auth/signupPopup";
+import CompleteProfileModal from "./auth/CompleteProfileModal";
 
 export function Header() {
   const [loggedUser, setLoggedUser] = useState<any>(null);
@@ -18,6 +19,8 @@ export function Header() {
     setIsAuthModalOpen,
     isSignInModalOpen,
     setIsSignInModalOpen,
+    isCompleteProfileModalOpen,
+    setIsCompleteProfileModalOpen,
   } = useAuth();
   const router = useRouter();
 
@@ -690,9 +693,8 @@ export function Header() {
         </div>
       </motion.header>
       {isAuthModalOpen && (
-        <ProfileCompletionModal
+        <SignupModal
           onClose={() => setIsAuthModalOpen(false)}
-          onLoginOrSignupComplete={() => refereshUserData()}
           onSignInRedirect={() => {
             setIsAuthModalOpen(false);
             setIsSignInModalOpen(true);
@@ -706,7 +708,15 @@ export function Header() {
             setIsSignInModalOpen(false);
             setIsAuthModalOpen(true);
           }}
-          onLoginSuccess={() => refereshUserData()}
+          onLoginSuccess={() => {
+            refereshUserData(), setIsCompleteProfileModalOpen(true);
+          }}
+        />
+      )}
+      {isCompleteProfileModalOpen && (
+        <CompleteProfileModal
+          onClose={() => setIsCompleteProfileModalOpen(false)}
+          onDone={() => setIsCompleteProfileModalOpen(false)}
         />
       )}
     </>
