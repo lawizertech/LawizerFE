@@ -18,10 +18,8 @@ export default function CivilCriminalLegalPage() {
   const [activeTab, setActiveTab] = useState<"civil" | "criminal">("civil");
 
   const contactFormRef = useRef<HTMLDivElement | null>(null);
-
-  const scrollToForm = () => {
+  const scrollToForm = () =>
     contactFormRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
 
   const civilContent = {
     heading: "Civil & Commercial Litigation",
@@ -55,10 +53,8 @@ export default function CivilCriminalLegalPage() {
   };
 
   const ServiceSection = ({ content, icon, router }: ServiceSectionProps) => {
-    const handleSeeAdvocates = () => {
+    const handleSeeAdvocates = () =>
       router.push(`/start-consultation?type=${content.query}`);
-    };
-
     return (
       <motion.section
         key={content.heading}
@@ -75,12 +71,15 @@ export default function CivilCriminalLegalPage() {
           >
             {icon}
           </div>
-          <h2 className="text-2xl font-bold" style={{ color: secondaryColor }}>
+          <h2
+            className="text-2xl md:text-3xl font-bold"
+            style={{ color: secondaryColor }}
+          >
             {content.heading}
           </h2>
         </div>
 
-        <div className="space-y-4 text-gray-700 leading-relaxed text-base">
+        <div className="space-y-4 text-gray-700 leading-relaxed text-base md:text-lg">
           <p>{content.introduction}</p>
           <p className="mt-4 pt-4 border-t border-gray-100">
             {content.services}
@@ -105,7 +104,7 @@ export default function CivilCriminalLegalPage() {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100 relative">
       {/* Hero Section */}
       <section
-        className="relative flex items-center justify-center text-center h-[50vh] overflow-hidden" // Reduced Hero height
+        className="relative flex items-center justify-center text-center h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] overflow-hidden pt-10 sm:pt-20 md:pt-24"
         style={{
           background: `linear-gradient(to right, ${primaryColor}E6, #6b46c1)`,
           color: "white",
@@ -116,53 +115,41 @@ export default function CivilCriminalLegalPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="relative z-10 max-w-4xl px-6"
+          className="relative z-10 max-w-4xl px-4 sm:px-6"
         >
-          <Gavel className="w-12 h-12 text-white mx-auto mb-4" />{" "}
-          {/* Reduced icon size */}
-          <h1 className="text-3xl md:text-4xl font-bold mb-2 tracking-tight">
+          <Gavel className="w-12 h-12 md:w-16 md:h-16 text-white mx-auto mb-4" />
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 tracking-tight">
             Civil, Commercial, & Criminal Law
           </h1>
-          <p className="text-base text-gray-200 max-w-lg mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-gray-200 max-w-lg mx-auto">
             Expert litigation and strategic counsel for all major dispute types.
           </p>
         </motion.div>
       </section>
-      <div className="max-w-4xl mx-auto px-6 py-16">
-        <div
-          className="flex border-b border-gray-200 mb-8"
-          style={{ color: secondaryColor }}
-        >
+
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        {/* Tabs */}
+        <div className="flex flex-col sm:flex-row border-b border-gray-200 mb-8">
           <button
             onClick={() => setActiveTab("civil")}
             className={`flex-1 text-center py-3 px-4 text-lg font-semibold transition-all ${
               activeTab === "civil"
-                ? "border-b-4 border-purple-600"
+                ? "border-b-4 border-purple-600 text-purple-700"
                 : "text-gray-500 hover:text-purple-600"
             }`}
           >
-            <Briefcase
-              className="w-5 h-5 inline mr-2"
-              style={{
-                color: activeTab === "civil" ? primaryColor : "inherit",
-              }}
-            />
+            <Briefcase className="w-5 h-5 inline mr-2" />
             Civil & Commercial
           </button>
           <button
             onClick={() => setActiveTab("criminal")}
             className={`flex-1 text-center py-3 px-4 text-lg font-semibold transition-all ${
               activeTab === "criminal"
-                ? "border-b-4 border-purple-600"
+                ? "border-b-4 border-purple-600 text-purple-700"
                 : "text-gray-500 hover:text-purple-600"
             }`}
           >
-            <Lock
-              className="w-5 h-5 inline mr-2"
-              style={{
-                color: activeTab === "criminal" ? primaryColor : "inherit",
-              }}
-            />
+            <Lock className="w-5 h-5 inline mr-2" />
             Criminal Defense
           </button>
         </div>
@@ -171,7 +158,7 @@ export default function CivilCriminalLegalPage() {
         <motion.div className="relative">
           {activeTab === "civil" && (
             <ServiceSection
-              content={civilContent as ContentType}
+              content={civilContent}
               icon={
                 <Briefcase
                   className="w-6 h-6"
@@ -184,7 +171,7 @@ export default function CivilCriminalLegalPage() {
 
           {activeTab === "criminal" && (
             <ServiceSection
-              content={criminalContent as ContentType}
+              content={criminalContent}
               icon={
                 <Lock className="w-6 h-6" style={{ color: primaryAccent }} />
               }
@@ -199,11 +186,11 @@ export default function CivilCriminalLegalPage() {
         onClick={scrollToForm}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="fixed bottom-6 right-6 bg-purple-600 hover:bg-purple-700 text-white px-5 py-3 rounded-full shadow-lg flex items-center gap-2 z-50"
+        className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 bg-purple-600 hover:bg-purple-700 text-white px-4 sm:px-5 py-3 rounded-full shadow-lg flex items-center gap-2 z-50"
         style={{ background: primaryAccent }}
       >
         <MessageCircle className="w-5 h-5" />
-        Consult an Expert
+        <span className="hidden sm:inline">Consult an Expert</span>
       </motion.button>
     </div>
   );
