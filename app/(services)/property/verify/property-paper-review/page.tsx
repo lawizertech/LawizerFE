@@ -226,7 +226,7 @@ export default function PropertyPaperReviewPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="bg-white rounded-3xl p-4 sm:p-8 shadow-xl shadow-slate-200/50 border border-slate-100 max-w-4xl mx-auto"
+          className="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100"
         >
           <h3 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
             <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
