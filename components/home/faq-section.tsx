@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { ChevronDown, Phone, Mail, MessageCircle } from "lucide-react"
+import { useState } from "react";
+import { ChevronDown, Phone, Mail, MessageCircle } from "lucide-react";
 
 export function FAQSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0)
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [
     {
@@ -23,7 +23,8 @@ export function FAQSection() {
         "If you don't receive a response within 15 minutes, our support team will immediately connect you with another available attorney. We also offer a full refund if you're not satisfied with the service.",
     },
     {
-      question: "How do I start an online consultation with an attorney on Lawizer?",
+      question:
+        "How do I start an online consultation with an attorney on Lawizer?",
       answer:
         "Simply click the 'Get Legal Help' button, select your practice area, describe your legal issue, and you'll be matched with a qualified attorney. You can then choose to connect via video call, phone, or chat.",
     },
@@ -32,21 +33,22 @@ export function FAQSection() {
       answer:
         "Absolutely. Lawizer uses bank-level encryption and complies with all attorney-client privilege laws. All communications are confidential and protected by end-to-end encryption.",
     },
-  ]
+  ];
 
   return (
-    <section className="py-20 bg-slate-900 text-white">
+    <section className="py-16 sm:py-20 bg-slate-900 text-white">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Left Column */}
           <div>
-            <h2 className="text-4xl font-bold mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
               Questions?
               <br />
               We're here to help
             </h2>
-            <p className="text-gray-300 text-lg mb-8 leading-relaxed">
-              Check out our FAQs or talk to a live customer care specialist by phone, chat, or email.
+            <p className="text-gray-300 text-base sm:text-lg mb-8 leading-relaxed">
+              Check out our FAQs or talk to a live customer care specialist by
+              phone, chat, or email.
             </p>
 
             <div className="flex flex-col gap-4">
@@ -54,25 +56,28 @@ export function FAQSection() {
                 href="tel:+1234567890"
                 className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors"
               >
-                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
-                  <Phone className="w-5 h-5" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 flex items-center justify-center">
+                  <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <span className="text-lg">Call us</span>
+                <span className="text-base sm:text-lg">Call us</span>
               </a>
               <a
                 href="mailto:support@lawizer.com"
                 className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors"
               >
-                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
-                  <Mail className="w-5 h-5" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 flex items-center justify-center">
+                  <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <span className="text-lg">Email us</span>
+                <span className="text-base sm:text-lg">Email us</span>
               </a>
-              <a href="#" className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors">
-                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
-                  <MessageCircle className="w-5 h-5" />
+              <a
+                href="#"
+                className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors"
+              >
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 flex items-center justify-center">
+                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <span className="text-lg">Live chat</span>
+                <span className="text-base sm:text-lg">Live chat</span>
               </a>
             </div>
           </div>
@@ -82,20 +87,30 @@ export function FAQSection() {
             {faqs.map((faq, index) => (
               <div key={index} className="border-b border-gray-700">
                 <button
-                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                  onClick={() =>
+                    setOpenIndex(openIndex === index ? null : index)
+                  }
                   className="w-full py-4 flex items-center justify-between text-left hover:text-primary transition-colors"
                 >
-                  <span className="font-semibold text-lg pr-4">{faq.question}</span>
+                  <span className="font-semibold text-base sm:text-lg pr-4">
+                    {faq.question}
+                  </span>
                   <ChevronDown
-                    className={`w-5 h-5 flex-shrink-0 transition-transform ${openIndex === index ? "rotate-180" : ""}`}
+                    className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 transition-transform ${
+                      openIndex === index ? "rotate-180" : ""
+                    }`}
                   />
                 </button>
-                {openIndex === index && <div className="pb-4 text-gray-300 leading-relaxed">{faq.answer}</div>}
+                {openIndex === index && (
+                  <div className="pb-4 text-gray-300 text-sm sm:text-base leading-relaxed">
+                    {faq.answer}
+                  </div>
+                )}
               </div>
             ))}
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

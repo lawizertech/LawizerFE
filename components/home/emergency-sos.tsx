@@ -8,13 +8,7 @@ import { useAuth } from "@/context/authContext";
 export default function EmergencySOS() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  const {
-    isLoggedIn,
-    isAuthModalOpen,
-    setIsAuthModalOpen,
-    isSignInModalOpen,
-    setIsSignInModalOpen,
-  } = useAuth();
+  const { isLoggedIn, setIsAuthModalOpen } = useAuth();
 
   const handleSOS = () => {
     isLoggedIn ? setShowConfirm(true) : setIsAuthModalOpen(true);
@@ -34,10 +28,10 @@ export default function EmergencySOS() {
   };
 
   return (
-    <div className="relative flex flex-col items-center justify-center">
+    <div className="relative flex flex-col items-center justify-center w-fit">
       <Button
         onClick={handleSOS}
-        className="bg-primary hover:bg-primary/90 text-white px-35 py-6 rounded-lg text-lg font-semibold shadow-xl transition-all transform hover:scale-105"
+        className="bg-primary hover:bg-primary/90 text-white px-10 lg:px-35 py-6 rounded-lg text-lg font-semibold shadow-xl transition-all transform hover:scale-105"
       >
         Emergency SOS
       </Button>
