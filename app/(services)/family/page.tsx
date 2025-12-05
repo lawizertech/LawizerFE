@@ -3,14 +3,12 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
-  Heart, // Main Icon for Family Law
-  Users, // Icon for Disputes/Custody
-  FileText, // Icon for Agreements/Registration
-  Gavel, // Icon for Legal/Court
+  Heart,
+  Users,
+  FileText,
+  Gavel,
   ArrowRight,
   Shield,
-  Phone,
-  Mail,
 } from "lucide-react";
 import EmblaCarouselCards from "@/components/EmblaCarouselCards";
 
@@ -19,12 +17,10 @@ export default function FamilyLegalPage() {
   const [requestedIndex, setRequestedIndex] = useState<string | null>(null);
 
   const FamilyIcon = Heart;
-
   const primaryColor = "#c92c41";
   const primaryAccent = "#ff6384";
   const secondaryColor = "#0e172b";
 
-  // Combine all services with their descriptions for a sequential display
   const allServices = [
     {
       title: "Marriage Registration & Solemnization",
@@ -179,7 +175,7 @@ export default function FamilyLegalPage() {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100">
       {/* Hero Section */}
       <section
-        className="relative flex items-center justify-center text-center h-[65vh] overflow-hidden"
+        className="relative flex items-center justify-center text-center h-[70vh] sm:h-[75vh] md:h-[70vh] lg:h-[75vh] pt-24 sm:pt-20 md:pt-24 overflow-hidden"
         style={{
           background: `linear-gradient(to right, ${primaryColor}E6, ${primaryAccent}E6)`,
           color: "white",
@@ -190,34 +186,37 @@ export default function FamilyLegalPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="relative z-10 max-w-4xl px-6"
+          className="relative z-10 max-w-4xl px-4 sm:px-6"
         >
           <motion.div
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 3, repeat: Infinity }}
             className="flex justify-center mb-6"
           >
-            <FamilyIcon className="w-16 h-16 text-white" />
+            <FamilyIcon className="w-16 h-16 sm:w-20 sm:h-20 text-white" />
           </motion.div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-3 tracking-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 tracking-tight">
             Family Law & Matrimonial Services
           </h1>
-          <p className="text-lg text-gray-200 max-w-xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-gray-200 max-w-xl mx-auto">
             Compassionate, effective legal counsel for life's most personal and
             critical matters.
           </p>
-          <p className="mt-3" style={{ color: primaryAccent }}>
+          <p
+            className="mt-3 text-base sm:text-lg md:text-lg"
+            style={{ color: "white" }}
+          >
             Guidance through divorce, adoption, custody, and protective
             agreements.
           </p>
         </motion.div>
       </section>
 
-      <div className="max-w-5xl mx-auto px-6 py-20">
-        <h2 className="text-3xl font-semibold text-gray-800 mb-10">
+      {/* Advocates Carousel */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
+        <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-10 text-center">
           👩‍⚖️ Top Women Advocates (Available Now)
         </h2>
-
         <EmblaCarouselCards
           list={familyAdvocates}
           type="adv"
@@ -225,13 +224,12 @@ export default function FamilyLegalPage() {
         />
       </div>
 
-      {/* Services Section - Stacked Layout */}
-      <div className="max-w-5xl mx-auto px-6 py-20">
-        <h2 className="text-4xl font-bold text-center mb-16 text-[#0e172b]">
+      {/* Services Section */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
+        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 text-[#0e172b]">
           Our Areas of Family Law Support
         </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
           {allServices.map((service, index) => {
             const ServiceIcon = service.icon;
             return (
@@ -242,65 +240,51 @@ export default function FamilyLegalPage() {
                 transition={{ duration: 0.5, delay: index * 0.05 }}
                 className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 hover:shadow-xl hover:-translate-y-1 transition-all cursor-default"
               >
-                {/* Icon */}
                 <div className="flex items-center gap-4 mb-4">
                   <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center"
+                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center"
                     style={{ background: `${primaryAccent}22` }}
                   >
                     <ServiceIcon
-                      className="w-6 h-6"
+                      className="w-6 h-6 sm:w-7 sm:h-7"
                       style={{ color: primaryAccent }}
                     />
                   </div>
-
-                  <h3 className="text-xl font-semibold text-[#0e172b] leading-tight">
+                  <h3 className="text-lg sm:text-xl font-semibold text-[#0e172b] leading-tight">
                     {service.title}
                   </h3>
                 </div>
-
-                {/* Description */}
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-700 text-sm sm:text-base">
                   {service.description}
                 </p>
-
-                {/* Button (Optional, only if needed later) */}
-                {/* <button
-            className="mt-4 flex items-center text-sm font-medium"
-            style={{ color: primaryAccent }}
-          >
-            Learn More
-            <ArrowRight className="w-4 h-4 ml-1" />
-          </button> */}
               </motion.div>
             );
           })}
         </div>
       </div>
 
-      {/* --- Horizontal Line --- */}
-      <div className="max-w-4xl mx-auto px-6">
+      {/* Horizontal Line */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <hr className="border-gray-300" />
       </div>
 
-      {/* Contact Form Section */}
-      <section className="bg-gray-50 py-20">
-        <div className="max-w-3xl mx-auto px-6">
+      {/* Contact Form */}
+      <section className="bg-gray-50 py-16 sm:py-20">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <h2
-            className="text-3xl font-bold mb-4"
+            className="text-2xl sm:text-3xl font-bold mb-4"
             style={{ color: secondaryColor }}
           >
             Contact our Family Law Team
           </h2>
-          <p className="text-gray-700 mb-8">
+          <p className="text-gray-700 mb-8 text-sm sm:text-base">
             Write to us with your enquiries, questions or request a meeting with
             a lawyer to discuss your potential case. One of our experts would
             review the form and revert back shortly.
           </p>
 
           <form className="space-y-6">
-            <div className="grid sm:grid-cols-2 gap-6">
-              {/* Name and Email */}
+            <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
               <input
                 type="text"
                 placeholder="Name"
@@ -312,9 +296,7 @@ export default function FamilyLegalPage() {
                 className="w-full p-3 border border-gray-300 rounded-lg focus:border-red-400 focus:ring-1 focus:ring-red-400"
               />
             </div>
-
-            <div className="grid sm:grid-cols-2 gap-6">
-              {/* Phone and Gender */}
+            <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
               <input
                 type="tel"
                 placeholder="Phone (e.g. +91 98765 43210)"
@@ -329,15 +311,11 @@ export default function FamilyLegalPage() {
                 <option value="other">Other</option>
               </select>
             </div>
-
-            {/* Message Area */}
             <textarea
               placeholder="Enter your message/enquiry"
               rows={5}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:border-red-400 focus:ring-1 focus:ring-red-400 resize-none"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:border-red-400 focus:ring-1 focus:ring-red-400 resize-none text-sm sm:text-base"
             ></textarea>
-
-            {/* Submit Button */}
             <motion.button
               type="submit"
               whileHover={{ scale: 1.02 }}
