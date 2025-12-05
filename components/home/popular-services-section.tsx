@@ -3,15 +3,7 @@
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { memo, useState } from "react";
-import {
-  Gavel,
-  FileCheck,
-  ShieldCheck,
-  Landmark,
-  Briefcase,
-  FileSignature,
-  Banknote,
-} from "lucide-react";
+import { Landmark, Briefcase, FileSignature, Banknote } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 // ✅ Reuse memoized card component
@@ -32,37 +24,39 @@ const PopularServiceCard = memo(function PopularServiceCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       whileHover={{ y: -4, scale: 1.02 }}
       transition={{ duration: 0.4 }}
       viewport={{ once: true }}
-      className="flex"
+      className="flex w-full"
     >
-      <Card className="flex flex-col justify-between w-full border border-gray-100 bg-white/80 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-[420px] relative pb-2">
+      <Card className="flex flex-col justify-between w-full border border-gray-100 bg-white/80 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[400px] sm:min-h-[420px] relative pb-2">
         <div
           className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 hover:opacity-20 transition-all duration-500`}
         />
         <div className="flex flex-col flex-grow relative z-10">
+          {/* Header */}
           <CardHeader className="pb-3">
             <div
-              className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-4 shadow-sm`}
+              className={`w-12 sm:w-14 h-12 sm:h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-3 sm:mb-4 shadow-sm`}
             >
-              <Icon className="w-7 h-7" />
+              <Icon className="w-6 sm:w-7 h-6 sm:h-7" />
             </div>
-            <CardTitle className="text-xl font-semibold text-gray-900">
+            <CardTitle className="text-lg sm:text-xl font-semibold text-gray-900">
               {service.title}
             </CardTitle>
-            <p className="text-sm text-gray-500 italic mt-1">
+            <p className="text-xs sm:text-sm text-gray-500 italic mt-1">
               {service.tagline}
             </p>
           </CardHeader>
 
-          <CardContent className="flex flex-col justify-between flex-grow h-48">
-            <div className="space-y-3 text-sm text-gray-700 flex-grow overflow-y-scroll pr-1 h-56">
+          {/* Content */}
+          <CardContent className="flex flex-col justify-between flex-grow h-auto">
+            <div className="space-y-2 text-xs sm:text-sm text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[200px] sm:max-h-[240px]">
               <AnimatePresence initial={false}>
                 {(isExpanded ? service.items : service.items.slice(0, 5)).map(
-                  (item: string, i: number) => (
+                  (item, i) => (
                     <motion.li
                       key={i}
                       initial={{ opacity: 0, y: 10 }}
@@ -79,18 +73,19 @@ const PopularServiceCard = memo(function PopularServiceCard({
               </AnimatePresence>
             </div>
 
-            <div className="flex justify-between items-center mt-4">
+            {/* Bottom Buttons */}
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-3 sm:mt-4 gap-2 sm:gap-0">
               {service.items.length > 5 && (
                 <button
                   onClick={() => setIsExpanded((prev) => !prev)}
-                  className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
+                  className="text-xs sm:text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
                 >
                   {isExpanded ? "Show less" : "Show all"}
                 </button>
               )}
               <Link
                 href={service.url || "/"}
-                className="text-sm font-semibold text-red-600 hover:text-red-700 transition-all"
+                className="text-xs sm:text-sm font-semibold text-red-600 hover:text-red-700 transition-all"
               >
                 Show in Details →
               </Link>
@@ -167,24 +162,23 @@ export default function PopularServicesSection() {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
+    <section className="py-16 sm:py-24 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-r from-pink-50 via-purple-50 to-blue-50 opacity-60 blur-3xl" />
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-5xl text-left mb-16">
-          <h2 className="text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
+        <div className="max-w-5xl text-left mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
             Popular{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-700">
               Services
             </span>
           </h2>
-          <p className="text-lg text-gray-600 leading-relaxed max-w-2xl">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 leading-relaxed max-w-2xl">
             Explore our most in-demand services trusted by clients across India.
             Quick, reliable, and handled by experienced professionals.
           </p>
         </div>
 
-        {/* Popular Service Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
           {popularServices.map((service, i) => (
             <PopularServiceCard key={i} service={service} />
           ))}

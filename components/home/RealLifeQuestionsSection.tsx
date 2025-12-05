@@ -66,7 +66,7 @@ const legalQuestions = [
 
 export function RealLifeQuestionsSection() {
   return (
-    <section className="py-20 bg-white relative overflow-hidden">
+    <section className="py-16 sm:py-20 bg-white relative overflow-hidden">
       {/* Background blur animation */}
       <motion.div
         className="absolute -z-10 top-0 left-0 w-full h-full pointer-events-none"
@@ -79,17 +79,17 @@ export function RealLifeQuestionsSection() {
         }}
       />
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Heading section */}
-        <div className="text-left mb-14 max-w-3xl">
-          <h2 className="text-5xl font-bold text-gray-900 mb-4 leading-tight">
+        <div className="text-left mb-10 sm:mb-14 max-w-3xl">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
             Need{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
               Legal Help?
             </span>
           </h2>
-          <div className="h-1 w-24 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full mb-6" />
-          <p className="text-lg text-gray-600 leading-relaxed">
+          <div className="h-1 w-20 sm:w-24 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full mb-4 sm:mb-6" />
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 leading-relaxed">
             Real-life legal issues need real lawyers. Whether it’s{" "}
             <span className="font-semibold text-gray-800">personal</span>,{" "}
             <span className="font-semibold text-gray-800">property</span>, or{" "}
@@ -101,11 +101,11 @@ export function RealLifeQuestionsSection() {
         <LegalQuestionsCarousel list={legalQuestions} />
 
         {/* Button */}
-        <div className="mt-12 text-left">
+        <div className="mt-8 sm:mt-12 text-left">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-full shadow-lg hover:shadow-xl transition-all"
+            className="px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-sm sm:text-base lg:text-lg font-medium rounded-full shadow-lg hover:shadow-xl transition-all"
             onClick={() => window.location.replace("/start-consultation")}
           >
             Talk to a Lawyer Now
