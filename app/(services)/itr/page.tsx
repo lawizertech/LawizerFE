@@ -3,27 +3,22 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
-  FileText, // Main icon for ITR/Tax
+  FileText,
   ArrowRight,
-  User, // Icon for ITR-1/Individual
-  TrendingUp, // Icon for ITR-3/Business
-  DollarSign, // Icon for ITR-2/Investment
-  Briefcase, // Icon for ITR-5/Entity
-  Building, // Icon for ITR-6/Corporate
-  Users, // Icon for ITR-4/Presumptive
+  User,
+  TrendingUp,
+  DollarSign,
+  Briefcase,
+  Building,
+  Users,
 } from "lucide-react";
 
 export default function ITRFilingPage() {
   const router = useRouter();
-
-  // Define the base path for these services
   const basePath = "/itr/";
+  const primaryColor = "#008080";
+  const primaryAccent = "#00bfa5";
 
-  // Define a distinct color theme for ITR/Tax (e.g., Green/Teal for finance/money)
-  const primaryColor = "#008080"; // Teal
-  const primaryAccent = "#00bfa5"; // Cyan
-
-  // Define ITR services based on the document
   const sections = [
     {
       id: "itr-forms",
@@ -85,16 +80,14 @@ export default function ITRFilingPage() {
   ];
 
   const handleViewDetails = (slug: string) => {
-    // Slugs are already hyphenated, so we just append them.
-    const path = `${basePath}${slug}`;
-    console.log("Navigating to:", path);
-    router.push(path);
+    router.push(`${basePath}${slug}`);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100">
+      {/* Hero Section */}
       <section
-        className="relative flex items-center justify-center text-center h-[65vh] overflow-hidden"
+        className="relative flex items-center justify-center text-center h-[55vh] sm:h-[50vh] overflow-hidden"
         style={{
           background: `linear-gradient(to right, ${primaryColor}, ${primaryAccent})`,
           color: "white",
@@ -105,19 +98,19 @@ export default function ITRFilingPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="relative z-10 max-w-4xl px-6"
+          className="relative z-10 max-w-4xl px-4 sm:px-6"
         >
           <motion.div
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 3, repeat: Infinity }}
-            className="flex justify-center mb-6"
+            className="flex justify-center mb-4 sm:mb-6 pt-12"
           >
-            <FileText className="w-16 h-16 text-white" />
+            <FileText className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
           </motion.div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-3 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 tracking-tight">
             Income Tax Return (ITR) Filing Services
           </h1>
-          <p className="text-lg text-gray-200 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-gray-200 max-w-2xl mx-auto">
             Hassle-free ITR filing with Chartered Accountants and tax advisors.
             Get your ITR filed quickly, easily, and maximize your tax savings.
           </p>
@@ -125,7 +118,7 @@ export default function ITRFilingPage() {
       </section>
 
       {/* Services Section */}
-      <div className="max-w-6xl mx-auto px-6 py-20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
         {sections.map((section, index) => {
           const Icon = section.icon;
           return (
@@ -134,24 +127,27 @@ export default function ITRFilingPage() {
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="mb-20"
+              className="mb-16 sm:mb-20"
             >
-              <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
                 <div
-                  className="p-3 rounded-full"
+                  className="p-2 sm:p-3 rounded-full"
                   style={{ backgroundColor: `${primaryAccent}20` }}
                 >
-                  <Icon className="w-6 h-6" style={{ color: primaryAccent }} />
+                  <Icon
+                    className="w-5 h-5 sm:w-6 sm:h-6"
+                    style={{ color: primaryAccent }}
+                  />
                 </div>
-                <h2 className="text-3xl font-bold text-[#0e172b]">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0e172b]">
                   {section.title}
                 </h2>
               </div>
-              <p className="text-gray-700 mb-10 max-w-3xl">
+              <p className="text-gray-700 text-sm sm:text-base mb-6 sm:mb-10 max-w-3xl">
                 {section.description}
               </p>
 
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 {section.services.map((service, idx) => {
                   const ServiceIcon = service.icon;
                   return (
@@ -161,9 +157,8 @@ export default function ITRFilingPage() {
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: idx * 0.1 }}
                       whileHover={{ scale: 1.03, y: -5 }}
-                      className="relative bg-white/90 border border-gray-100 rounded-2xl p-6 shadow-md hover:shadow-xl backdrop-blur-lg transition-all group overflow-hidden"
+                      className="relative bg-white/90 border border-gray-100 rounded-2xl p-4 sm:p-6 shadow-md hover:shadow-xl backdrop-blur-lg transition-all group overflow-hidden"
                     >
-                      {/* Hover effect */}
                       <div
                         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                         style={{
@@ -171,25 +166,25 @@ export default function ITRFilingPage() {
                         }}
                       />
                       <ServiceIcon
-                        className="w-8 h-8 mb-4"
+                        className="w-6 h-6 sm:w-8 sm:h-8 mb-3 sm:mb-4"
                         style={{ color: primaryAccent }}
                       />
-                      <h3 className="text-xl font-semibold text-[#0e172b] mb-2">
+                      <h3 className="text-base sm:text-lg md:text-xl font-semibold text-[#0e172b] mb-1 sm:mb-2">
                         {service.name}
                       </h3>
-                      <p className="text-gray-600 text-sm mb-5 leading-relaxed">
+                      <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-5 leading-relaxed">
                         {service.description}
                       </p>
-                      <p className="text-gray-900 font-semibold text-sm mb-3">
+                      <p className="text-gray-900 font-semibold text-xs sm:text-sm mb-2 sm:mb-3">
                         {service.price}
                       </p>
                       <button
                         onClick={() => handleViewDetails(service.slug)}
-                        className="flex items-center gap-2 font-medium group cursor-pointer"
+                        className="flex items-center gap-1 sm:gap-2 font-medium group cursor-pointer text-xs sm:text-sm"
                         style={{ color: primaryAccent }}
                       >
                         View Details
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
                       </button>
                     </motion.div>
                   );
@@ -200,16 +195,16 @@ export default function ITRFilingPage() {
         })}
       </div>
 
-      {/* Floating CTA Section (As requested in the notes) */}
-      <section className="sticky bottom-0 bg-white shadow-2xl border-t border-gray-200 py-4 z-20">
-        <div className="max-w-6xl mx-auto px-6 flex justify-between items-center flex-wrap">
-          <p className="text-gray-700 text-base font-medium">
+      {/* Floating CTA Section */}
+      <section className="sticky bottom-0 bg-white shadow-2xl border-t border-gray-200 py-3 sm:py-4 z-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0">
+          <p className="text-gray-700 text-sm sm:text-base font-medium text-center sm:text-left">
             Still having queries for what to select? Feel free to talk to our
             tax consultant for free.
           </p>
           <button
             onClick={() => console.log("Directing to contact/consultation")}
-            className="flex items-center gap-2 px-4 py-2 rounded-full text-white font-semibold transition-all hover:shadow-lg mt-3 md:mt-0"
+            className="flex items-center gap-2 px-4 py-2 rounded-full text-white font-semibold transition-all hover:shadow-lg"
             style={{ background: primaryAccent }}
           >
             Talk to a Tax Consultant
