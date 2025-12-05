@@ -46,7 +46,7 @@ const ServiceCard = memo(function ServiceCard({
       viewport={{ once: true }}
       className={`flex ${className}`}
     >
-      <Card className="flex flex-col justify-between w-full border border-gray-100 bg-white/80 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-[440px] relative pb-2">
+      <Card className="flex flex-col justify-between w-full border border-gray-100 bg-white/80 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[420px] sm:min-h-[440px] relative pb-2">
         <div
           className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 hover:opacity-20 transition-all duration-500`}
         />
@@ -54,21 +54,21 @@ const ServiceCard = memo(function ServiceCard({
           {/* Header */}
           <CardHeader className="pb-3">
             <div
-              className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-4 shadow-sm`}
+              className={`w-12 sm:w-14 h-12 sm:h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-4 shadow-sm`}
             >
-              <Icon className="w-7 h-7" />
+              <Icon className="w-6 sm:w-7 h-6 sm:h-7" />
             </div>
-            <CardTitle className="text-xl font-semibold text-gray-900">
+            <CardTitle className="text-lg sm:text-xl font-semibold text-gray-900">
               {service.title}
             </CardTitle>
-            <p className="text-sm text-gray-500 italic mt-1">
+            <p className="text-xs sm:text-sm text-gray-500 italic mt-1">
               {service.tagline}
             </p>
           </CardHeader>
 
           {/* Content */}
-          <CardContent className="flex flex-col justify-between flex-grow h-48">
-            <div className="space-y-4 text-sm text-gray-700 flex-grow overflow-y-scroll pr-1 h-56">
+          <CardContent className="flex flex-col justify-between flex-grow h-auto">
+            <div className="space-y-3 text-xs sm:text-sm text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[220px] sm:max-h-[240px]">
               <AnimatePresence initial={false}>
                 {!isGrouped ? (
                   <ul className="space-y-2">
@@ -120,22 +120,20 @@ const ServiceCard = memo(function ServiceCard({
             </div>
 
             {/* Bottom Buttons */}
-            <div className="flex justify-between items-center mt-4">
-              {/* Show More / Less */}
+            <div className="flex justify-between items-center mt-3 sm:mt-4">
               {((isGrouped && service.items.length > 2) ||
                 (!isGrouped && service.items.length > 5)) && (
                 <button
                   onClick={() => setIsExpanded((prev) => !prev)}
-                  className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
+                  className="text-xs sm:text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
                 >
                   {isExpanded ? "Show less" : "Show all"}
                 </button>
               )}
 
-              {/* Show in Details Link */}
               <Link
                 href={service.url || "/"}
-                className="text-sm font-semibold text-red-600 hover:text-red-700 transition-all"
+                className="text-xs sm:text-sm font-semibold text-red-600 hover:text-red-700 transition-all"
               >
                 Show in Details →
               </Link>
@@ -356,17 +354,18 @@ export default function ServicesSection() {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+    <section className="py-16 sm:py-24 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 opacity-60 blur-3xl" />
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-5xl text-left mb-16">
-          <h2 className="text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-5xl text-left mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
             Our Legal{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-700">
               Services
             </span>
           </h2>
-          <p className="text-lg text-gray-600 leading-relaxed max-w-2xl">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 leading-relaxed max-w-2xl">
             Need expert consultation on legal matters? You're in the right
             place. Our experienced legal professionals are available{" "}
             <span className="text-red-600 font-semibold">24/7</span> — ready to
@@ -374,23 +373,15 @@ export default function ServicesSection() {
           </p>
         </div>
 
-        {/* Service Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
-          {services.slice(0, 4).map((service, i) => (
-            <ServiceCard key={i} service={service} />
+        {/* Grid for all cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
+          {services.map((service, i) => (
+            <ServiceCard
+              key={i}
+              service={service}
+              className="w-full h-auto min-h-[420px] sm:min-h-[440px]"
+            />
           ))}
-        </div>
-
-        <div className="flex justify-center">
-          <div className="grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-4 gap-8 max-w-8xl">
-            {services.slice(4, 8).map((service, i) => (
-              <ServiceCard
-                key={i + 4}
-                service={service}
-                className="w-[300px] max-w-full h-[400px]"
-              />
-            ))}
-          </div>
         </div>
       </div>
     </section>
