@@ -49,10 +49,20 @@ export default function SellYourTrademarkPage() {
     },
   ];
 
+  // Define color palette using original hex codes
+  const primaryRed = "#c92c41";
+  const primaryBlue = "#4c3df7";
+  const primaryOrange = "#e99b2b";
+  const primaryDark = "#0e172b";
+  const accentLight = "#f4f0ff"; // A light background color
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#fff8ef] via-[#f4f0ff] to-[#edf7ff] text-gray-900">
-      {/* Hero Section (75vh image) */}
-      <section className="relative h-[75vh] flex items-center justify-center text-center overflow-hidden">
+      {/* HERO SECTION - Adjusted for mobile
+       * h-[50vh] instead of h-[75vh] for mobile screens
+       * px-4 for tighter padding on small screens
+       */}
+      <section className="relative h-[50vh] sm:h-[75vh] flex items-center justify-center text-center overflow-hidden">
         <img
           src="/sell-trademark-light.png"
           alt="Sell Your Trademark"
@@ -64,93 +74,119 @@ export default function SellYourTrademarkPage() {
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="relative z-10 px-6 max-w-3xl"
+          className="relative z-10 px-4 sm:px-6 max-w-3xl"
         >
           <motion.div
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 3, repeat: Infinity }}
-            className="flex justify-center mb-6"
+            className="flex justify-center mb-4 sm:mb-6"
           >
-            <BadgeIndianRupee className="w-16 h-16 text-[#e99b2b]" />
+            <BadgeIndianRupee
+              className="w-12 h-12 sm:w-16 sm:h-16"
+              style={{ color: primaryOrange }}
+            />
           </motion.div>
 
-          <h1 className="text-4xl md:text-5xl font-bold mb-3 text-[#0e172b]">
-            Sell Your <span className="text-[#c92c41]">Trademark</span>
+          <h1
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-3"
+            style={{ color: primaryDark }}
+          >
+            Sell Your <span style={{ color: primaryRed }}>Trademark</span>
           </h1>
 
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-            Transfer your trademark rights legally and securely with a proper
-            assignment process. Turn your brand into a valuable, sellable asset.
+          <p className="text-sm sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Transfer your trademark rights **legally and securely** with a
+            proper assignment process. Turn your brand into a valuable, sellable
+            asset.
           </p>
         </motion.div>
       </section>
 
-      {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-6 py-20 space-y-16">
-        {/* Description */}
+      {/* Main Content - Adjusted padding and spacing */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-20 space-y-10 sm:space-y-16">
+        {/* Description - Adjusted padding and text size */}
         <motion.section
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="bg-white rounded-3xl p-10 shadow-md border border-gray-100"
+          className="bg-white rounded-xl sm:rounded-3xl p-6 sm:p-10 shadow-md border border-gray-100"
         >
-          <h2 className="text-2xl font-semibold text-[#c92c41] mb-4">
+          <h2
+            className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4"
+            style={{ color: primaryRed }}
+          >
             What is Trademark Assignment?
           </h2>
-          <p className="text-gray-700 leading-relaxed">
-            Selling your trademark involves permanently transferring ownership
-            rights from the current owner (Assignor) to another person or entity
-            (Assignee). This process, known as a{" "}
-            <strong>Trademark Assignment</strong>, must be recorded with the
-            Registrar of Trademarks using Form TM-P. The buyer gains full
-            ownership and rights to use and protect the brand name or logo.
+          <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+            Selling your trademark involves **permanently transferring
+            ownership** rights from the current owner (Assignor) to another
+            person or entity (Assignee). This process, known as a **Trademark
+            Assignment**, must be recorded with the Registrar of Trademarks
+            using **Form TM-P**. The buyer gains full ownership and rights to
+            use and protect the brand name or logo.
           </p>
         </motion.section>
 
-        {/* Info Grid */}
-        <div className="grid md:grid-cols-3 gap-10">
-          <InfoCard title="Benefits" color="#e99b2b" items={benefits} />
-          <InfoCard title="Pre-Requisites" color="#4c3df7" items={prerequisites} />
-          <InfoCard title="Deliverables" color="#c92c41" items={deliverables} />
+        {/* Info Grid - Changed to single column on mobile, remains 3 on desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10">
+          <InfoCard title="Benefits" color={primaryOrange} items={benefits} />
+          <InfoCard
+            title="Pre-Requisites"
+            color={primaryBlue}
+            items={prerequisites}
+          />
+          <InfoCard
+            title="Deliverables"
+            color={primaryRed}
+            items={deliverables}
+          />
         </div>
 
-        {/* CTA */}
+        {/* CTA - Adjusted padding and text size */}
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
-          className="text-center bg-gradient-to-r from-[#e99b2b] via-[#c92c41] to-[#4c3df7] p-[1px] rounded-3xl shadow-lg"
+          className="text-center bg-gradient-to-r from-[#e99b2b] via-[#c92c41] to-[#4c3df7] p-[1px] rounded-xl sm:rounded-3xl shadow-lg"
         >
-          <div className="bg-white rounded-3xl p-10">
-            <h3 className="text-2xl font-semibold mb-4 text-[#0e172b]">
+          <div className="bg-white rounded-xl sm:rounded-3xl p-6 sm:p-10">
+            <h3
+              className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4"
+              style={{ color: primaryDark }}
+            >
               Looking to Sell Your Trademark?
             </h3>
-            <p className="text-gray-600 mb-6">
-              We handle the documentation, Assignment Deed drafting, and TM-P
-              filing — ensuring a smooth and legally valid transfer of your
-              brand ownership.
+            <p className="text-sm sm:text-base text-gray-600 mb-5 sm:mb-6">
+              We handle the documentation, Assignment Deed drafting, and
+              **TM-P** filing — ensuring a smooth and legally valid transfer of
+              your brand ownership.
             </p>
 
-            <div className="flex flex-wrap justify-center gap-4">
-              <button className="px-6 py-3 rounded-xl font-medium text-white bg-gradient-to-r from-[#c92c41] to-[#4c3df7] hover:opacity-95 transition flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <button className="w-full sm:w-auto px-6 py-3 rounded-xl font-medium text-sm sm:text-base text-white bg-gradient-to-r from-[#c92c41] to-[#4c3df7] hover:opacity-95 transition flex items-center justify-center gap-2">
                 Sell Now <ArrowRight className="w-4 h-4" />
               </button>
 
-              <button className="px-6 py-3 rounded-xl font-medium border border-[#0e172b]/10 text-[#0e172b] hover:bg-[#0e172b] hover:text-white transition">
+              <button className="w-full sm:w-auto px-6 py-3 rounded-xl font-medium text-sm sm:text-base border border-[#0e172b]/10 text-[#0e172b] hover:bg-[#0e172b] hover:text-white transition">
                 Get Legal Consultation
               </button>
             </div>
           </div>
         </motion.div>
 
-        {/* FAQs */}
+        {/* FAQs - Adjusted padding and text size */}
         <motion.section
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="bg-white rounded-3xl p-10 shadow-md border border-gray-100"
+          className="bg-white rounded-xl sm:rounded-3xl p-6 sm:p-10 shadow-md border border-gray-100"
         >
-          <h3 className="text-2xl font-semibold text-[#4c3df7] mb-6">FAQs</h3>
+          <h3
+            className="text-xl sm:text-2xl font-semibold mb-5 sm:mb-6"
+            style={{ color: primaryBlue }}
+          >
+            FAQs
+          </h3>
 
           <div className="space-y-3">
             {faqs.map((faq, i) => (
@@ -159,12 +195,15 @@ export default function SellYourTrademarkPage() {
                 initial={{ opacity: 0, y: 8 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04 }}
-                className="group border border-gray-200 hover:border-[#e99b2b]/50 rounded-xl p-4 cursor-pointer bg-white transition"
+                className="group border border-gray-200 hover:border-[#e99b2b]/50 rounded-lg sm:rounded-xl p-4 cursor-pointer bg-white transition"
               >
-                <summary className="font-medium text-[#0e172b] group-open:text-[#c92c41]">
+                <summary
+                  className="font-medium text-sm sm:text-base"
+                  style={{ color: primaryDark }}
+                >
                   {faq.q}
                 </summary>
-                <p className="mt-2 text-gray-700">{faq.a}</p>
+                <p className="mt-2 text-xs sm:text-sm text-gray-700">{faq.a}</p>
               </motion.details>
             ))}
           </div>
@@ -174,7 +213,7 @@ export default function SellYourTrademarkPage() {
   );
 }
 
-/* Reusable Info Card Component */
+/* Reusable Info Card Component - Adjusted for mobile responsiveness */
 function InfoCard({
   title,
   items,
@@ -189,10 +228,10 @@ function InfoCard({
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="bg-white rounded-3xl p-8 shadow-md border border-gray-100 hover:shadow-lg transition"
+      className="bg-white rounded-xl sm:rounded-3xl p-6 sm:p-8 shadow-md border border-gray-100 hover:shadow-lg transition"
     >
       <h3
-        className="text-xl font-semibold mb-4 flex items-center gap-2"
+        className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 flex items-center gap-2"
         style={{ color }}
       >
         <span
@@ -202,7 +241,7 @@ function InfoCard({
         {title}
       </h3>
 
-      <ul className="text-gray-700 space-y-2 list-disc list-inside">
+      <ul className="text-sm text-gray-700 space-y-2 list-disc list-inside">
         {items.map((item) => (
           <li key={item}>{item}</li>
         ))}
