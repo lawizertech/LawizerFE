@@ -15,20 +15,18 @@ export function TrustSection() {
     { name: "CESC", logo: "/logos/CESC.svg" },
   ];
 
-  // Duplicate logos for seamless looping
   const logos = [...companies, ...companies];
 
   return (
-    <section className="bg-white py-16 overflow-hidden">
+    <section className="bg-white py-12 sm:py-16 lg:py-20 overflow-hidden">
       <div className="container mx-auto px-4">
-        <h2 className="text-center text-2xl font-bold text-gray-600 mb-12 uppercase tracking-wide">
-          Associated with 
+        <h2 className="text-center text-xl sm:text-2xl lg:text-3xl font-bold text-gray-600 mb-8 sm:mb-12 uppercase tracking-wide">
+          Associated with
         </h2>
 
-        {/* Scrolling container */}
         <div className="relative w-full overflow-hidden">
           <motion.div
-            className="flex gap-12 whitespace-nowrap"
+            className="flex gap-6 sm:gap-8 md:gap-12 whitespace-nowrap"
             animate={{ x: ["0%", "-50%"] }}
             transition={{
               ease: "linear",
@@ -39,8 +37,7 @@ export function TrustSection() {
             {logos.map((company, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center min-w-[150px] h-16 bg-gray-50 rounded-xl shadow-sm 
-                grayscale-0 opacity-100 transition-all"
+                className="flex items-center justify-center min-w-[60px] lg:min-w-[100px] h-12 sm:h-14 md:h-16 bg-gray-50 rounded-xl shadow-sm grayscale-0 opacity-100 transition-all"
               >
                 <Image
                   src={company.logo}

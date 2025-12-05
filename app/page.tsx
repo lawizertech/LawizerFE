@@ -13,7 +13,7 @@ import PopularServicesSection from "@/components/home/popular-services-section";
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
+<main className="min-h-screen lg:min-h-screen h-auto">
       <HeroSection />
       <StatsSection />
       <TrustSection />

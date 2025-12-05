@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Star } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Star } from "lucide-react";
 
 export function TestimonialsSection() {
   const testimonials = [
@@ -27,22 +27,32 @@ export function TestimonialsSection() {
       rating: 5,
       text: "The attorney I connected with on Lawizer was incredibly helpful, clearing up many doubts I had. They offered solutions and insights into issues that were affecting my business. I've had such a positive experience that I wouldn't hesitate to recommend Lawizer to others.",
     },
-  ]
+  ];
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-16 sm:py-20 bg-gray-50">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between mb-12">
-          <h2 className="text-4xl font-bold text-gray-900">What Our Clients Say</h2>
+        {/* Heading */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-12">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-0">
+            What Our Clients Say
+          </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Testimonials Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="border-none shadow-lg">
-              <CardContent className="pt-6">
+            <Card
+              key={index}
+              className="border-none shadow-lg flex flex-col h-full"
+            >
+              <CardContent className="pt-6 flex flex-col flex-grow">
+                {/* Avatar & Name */}
                 <div className="flex items-center gap-4 mb-4">
-                  <Avatar className="w-16 h-16">
-                    <AvatarImage src={testimonial.avatar || "/placeholder.svg"} />
+                  <Avatar className="w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0">
+                    <AvatarImage
+                      src={testimonial.avatar || "/placeholder.svg"}
+                    />
                     <AvatarFallback>
                       {testimonial.name
                         .split(" ")
@@ -51,16 +61,27 @@ export function TestimonialsSection() {
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                    <div className="text-sm text-gray-500">{testimonial.location}</div>
+                    <div className="font-semibold text-gray-900 text-sm sm:text-base">
+                      {testimonial.name}
+                    </div>
+                    <div className="text-xs sm:text-sm text-gray-500">
+                      {testimonial.location}
+                    </div>
                   </div>
                 </div>
 
-                <p className="text-gray-600 leading-relaxed mb-4">{testimonial.text}</p>
+                {/* Testimonial Text */}
+                <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-4 flex-grow">
+                  {testimonial.text}
+                </p>
 
-                <div className="flex gap-1">
+                {/* Rating */}
+                <div className="flex gap-1 mt-auto">
                   {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-accent-brand fill-accent-brand" />
+                    <Star
+                      key={i}
+                      className="w-4 h-4 sm:w-5 sm:h-5 text-accent-brand fill-accent-brand"
+                    />
                   ))}
                 </div>
               </CardContent>
@@ -69,5 +90,5 @@ export function TestimonialsSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
