@@ -113,8 +113,12 @@ export default function EmblaCarouselCards({
         })}
       </CarouselContent>
 
-      <CarouselPrevious />
-      <CarouselNext />
+      <div className="hidden lg:visible">
+        <CarouselPrevious />
+      </div>
+      <div className="hidden lg:visible">
+        <CarouselNext />
+      </div>
     </Carousel>
   );
 }
