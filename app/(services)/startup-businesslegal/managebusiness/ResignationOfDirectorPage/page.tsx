@@ -5,16 +5,17 @@ import { motion } from "framer-motion";
 import {
   UserMinus, // Main icon for Resignation/Exit
   FileText,
-  CheckCircle2, // Using CheckCircle2 for style consistency
+  CheckCircle2,
   ArrowRight,
   ChevronDown,
-  Shield, // Using Shield for style consistency
-  Calendar, // New icon for time limit/compliance
-  Scale, // New icon for legal compliance
+  Shield,
+  Calendar,
+  Scale,
 } from "lucide-react";
 
 export default function ResignationOfDirectorPage() {
-  const [openFaq, setOpenFaq] = useState(0); // State for FAQ Accordion
+  // Use a sensible default, e.g., the first FAQ open on initial load
+  const [openFaq, setOpenFaq] = useState(0);
 
   // Structured content to match the new card design
   const benefits = [
@@ -54,10 +55,11 @@ export default function ResignationOfDirectorPage() {
     {
       q: "What documents are required for director resignation?",
       a: `A) Documents required from Director:
-Resignation Letter and proof of delivery to the company.
+PAN Card, Residence Proof, DIN declarations, Consent letter for appointment (DIR-2) etc.
 
 B) Documents required from Company:
-Board Meeting Resolution for Resignation, Minutes, and Resignation Acceptance Letter. Lawizer assists in preparing and filing these with ROC (DIR-12 and DIR-11).`,
+Board Meeting Resolution for Appointment and Letter of Appointment.
+Lawizer will assist in preparing and filing these documents with the ROC.`,
     },
     {
       q: "What is a Resignation Letter from Director?",
@@ -88,19 +90,22 @@ Board Meeting Resolution for Resignation, Minutes, and Resignation Acceptance Le
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">
-      {/* Hero Section */}
-      <section className="relative flex items-center justify-center text-center min-h-[65vh] overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      {/* HERO SECTION - Adjusted for mobile
+       * min-h-[50vh] instead of [65vh] for mobile screens
+       * px-4 for tighter padding on small screens
+       */}
+      <section className="relative flex items-center justify-center text-center min-h-[50vh] md:min-h-[65vh] overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         <div className="absolute inset-0 bg-[url('/resignation-director.jpg')] bg-cover bg-center opacity-10" />
 
-        {/* Animated gradient orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse delay-1000" />
+        {/* Animated gradient orbs - Reduced size and opacity for mobile */}
+        <div className="absolute top-1/4 left-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse delay-1000" />
 
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative z-10 max-w-4xl px-6 py-12"
+          className="relative z-10 max-w-4xl px-4 py-10 sm:px-6 sm:py-12"
         >
           <motion.div
             animate={{
@@ -108,46 +113,56 @@ Board Meeting Resolution for Resignation, Minutes, and Resignation Acceptance Le
               rotateY: [0, 10, 0],
             }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="flex justify-center mb-6"
+            className="flex justify-center mb-4"
           >
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-xl opacity-50" />
-              <div className="relative bg-gradient-to-br from-blue-500 to-purple-500 p-4 rounded-2xl">
-                <UserMinus className="w-16 h-16 text-white" strokeWidth={1.5} />
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl blur-md opacity-50" />
+              <div className="relative bg-gradient-to-br from-blue-500 to-purple-500 p-3 rounded-xl sm:p-4">
+                <UserMinus
+                  className="w-10 h-10 text-white sm:w-16 sm:h-16"
+                  strokeWidth={1.5}
+                />
               </div>
             </div>
           </motion.div>
 
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-white">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 tracking-tight text-white">
             Resignation of Director & ROC Filing
           </h1>
-          <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed px-2">
             Ensure the **voluntary resignation** of a Director is legally
-            executed, protecting both the Director (DIR-11) and the Company
-            (DIR-12) from future liabilities and penalties.
+            executed, protecting both the Director (**DIR-11**) and the Company
+            (**DIR-12**) from future liabilities and penalties.
           </p>
-          <p className="mt-3 text-sm text-blue-300">
+          <p className="mt-3 text-xs sm:text-sm text-blue-300 px-2">
             Lawizer handles the Board Resolution, acceptance, and timely filing
             of both mandatory forms under the Companies Act, 2013.
           </p>
         </motion.div>
       </section>
 
-      {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-6 py-16">
-        <div className="grid lg:grid-cols-3 gap-8 mb-16">
+      {/* MAIN CONTENT AREA - Adjusted for mobile
+       * px-4 instead of px-6
+       * py-10 instead of py-16
+       */}
+      <div className="max-w-6xl mx-auto px-4 py-10 sm:px-6 sm:py-16">
+        {/* Grid Layout - Stacked on small screens */}
+        <div className="grid lg:grid-cols-3 gap-8 mb-10 sm:mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="lg:col-span-2"
           >
-            <div className="bg-slate-800 rounded-3xl p-8 shadow-xl shadow-slate-900/50 border border-slate-700">
-              <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
-                <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
+            {/* PRIMARY CONTENT CARD
+             * p-6 instead of p-8 for mobile
+             */}
+            <div className="bg-slate-800 rounded-xl sm:rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-900/50 border border-slate-700">
+              <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 flex items-center gap-3">
+                <div className="w-1 h-6 sm:h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
                 The Importance of Formal Compliance
               </h2>
-              <p className="text-slate-300 leading-relaxed mb-8">
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-6 sm:mb-8">
                 A Director's resignation requires dual compliance: the Company
                 must file **DIR-12** (within 30 days of acceptance) and the
                 resigning Director must file **DIR-11** (within 30 days of
@@ -158,26 +173,27 @@ Board Meeting Resolution for Resignation, Minutes, and Resignation Acceptance Le
               </p>
 
               {/* Benefits Section - New Style */}
-              <h3 className="text-xl font-bold text-white mb-5 flex items-center gap-2">
-                <Shield className={`w-5 h-5 ${primaryColor}`} />
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <Shield className={`w-4 h-4 sm:w-5 sm:h-5 ${primaryColor}`} />
                 Key Benefits of a Compliant Resignation
               </h3>
-              <div className="grid sm:grid-cols-2 gap-4 mb-8">
+              {/* Benefits Grid - Single column on very small screens, two columns on sm and up */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
                 {benefits.map((b, i) => (
                   <motion.div
                     key={b.text}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className="flex items-start gap-3 p-4 rounded-xl bg-slate-700/50 border border-slate-600 hover:shadow-md transition-shadow"
+                    className="flex items-start gap-3 p-3 rounded-lg sm:rounded-xl bg-slate-700/50 border border-slate-600 hover:shadow-md transition-shadow"
                   >
-                    <div className="p-2 rounded-lg bg-slate-900 shadow-sm">
+                    <div className="p-1 sm:p-2 rounded-lg bg-slate-900 shadow-sm flex-shrink-0">
                       <b.icon
-                        className={`w-5 h-5 ${primaryColor}`}
+                        className={`w-4 h-4 sm:w-5 sm:h-5 ${primaryColor}`}
                         strokeWidth={2}
                       />
                     </div>
-                    <p className="text-sm text-slate-200 font-medium leading-snug pt-1">
+                    <p className="text-xs sm:text-sm text-slate-200 font-medium leading-snug pt-0.5">
                       {b.text}
                     </p>
                   </motion.div>
@@ -185,22 +201,23 @@ Board Meeting Resolution for Resignation, Minutes, and Resignation Acceptance Le
               </div>
 
               {/* Prerequisites Section - New Style */}
-              <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-yellow-500" />
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-3 flex items-center gap-2">
+                <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" />
                 Pre-Requisites for Resignation Filing
               </h3>
-              <p className="text-slate-300 leading-relaxed mb-4">
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-4">
                 To ensure a smooth and timely filing process, the following
                 documents and statuses are required:
               </p>
-              <div className="space-y-2 mb-8">
+              {/* Prerequisites List - Adjusted padding and text size */}
+              <div className="space-y-2 mb-6 sm:mb-8">
                 {prerequisites.map((p, i) => (
                   <div
                     key={i}
-                    className="flex items-start gap-3 p-3 rounded-lg hover:bg-slate-700 transition-colors"
+                    className="flex items-start gap-3 p-2 rounded-lg hover:bg-slate-700 transition-colors"
                   >
                     <CheckCircle2
-                      className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"
+                      className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0 mt-0.5"
                       strokeWidth={2}
                     />
                     <p className="text-slate-300 text-sm">{p}</p>
@@ -209,18 +226,21 @@ Board Meeting Resolution for Resignation, Minutes, and Resignation Acceptance Le
               </div>
 
               {/* Deliverables Section - New Style */}
-              <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-blue-400" />
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-3 flex items-center gap-2">
+                <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
                 Lawizer Deliverables
               </h3>
-              <div className="grid sm:grid-cols-2 gap-3">
+              {/* Deliverables Grid - Single column on very small screens, two columns on sm and up */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {deliverables.map((d, i) => (
                   <div
                     key={i}
                     className="flex items-center gap-3 p-3 rounded-lg bg-blue-900/50 border border-blue-800"
                   >
-                    <div className="w-2 h-2 rounded-full bg-blue-400" />
-                    <p className="text-sm text-slate-200 font-medium">{d}</p>
+                    <div className="w-2 h-2 rounded-full bg-blue-400 flex-shrink-0" />
+                    <p className="text-xs sm:text-sm text-slate-200 font-medium">
+                      {d}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -232,45 +252,51 @@ Board Meeting Resolution for Resignation, Minutes, and Resignation Acceptance Le
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
+            // No sticky on mobile, better for scrolling
             className="lg:sticky lg:top-24 h-fit"
           >
-            <div className="bg-gradient-to-br from-slate-700 to-slate-800 rounded-3xl p-8 shadow-2xl border border-slate-600">
-              <h3 className="text-xl font-bold text-white mb-3">
+            {/* ASIDE CARD
+             * p-6 instead of p-8 for mobile
+             */}
+            <div className="bg-gradient-to-br from-slate-700 to-slate-800 rounded-xl sm:rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-600">
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
                 Ensure a Seamless & Liability-Free Exit
               </h3>
-              <p className="text-slate-300 text-sm mb-6 leading-relaxed">
+              <p className="text-slate-300 text-xs sm:text-sm mb-5 sm:mb-6 leading-relaxed">
                 We handle both the company's (DIR-12) and the director's
                 (DIR-11) filing requirements to guarantee full legal protection
                 post-resignation.
               </p>
 
+              {/* Buttons - slightly smaller padding and text size */}
               <button
-                className={`w-full group relative overflow-hidden px-6 py-4 rounded-xl font-semibold ${primaryBg} text-slate-900 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 mb-3`}
+                className={`w-full group relative overflow-hidden px-5 py-3 sm:px-6 sm:py-4 rounded-xl font-semibold ${primaryBg} text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 mb-3`}
               >
-                <span className="relative z-10 flex items-center justify-center gap-2">
+                <span className="relative z-10 flex items-center justify-center gap-2 text-sm sm:text-base">
                   Start Resignation Filing (DIR-11 & DIR-12)
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                 </span>
                 <div
                   className={`absolute inset-0 ${primaryHoverBg} opacity-0 group-hover:opacity-100 transition-opacity`}
                 />
               </button>
 
-              <button className="w-full px-6 py-4 rounded-xl font-semibold bg-white/10 text-white border border-white/20 hover:bg-white/20 backdrop-blur-sm transition-all duration-300">
+              <button className="w-full px-5 py-3 sm:px-6 sm:py-4 rounded-xl font-semibold bg-white/10 text-white border border-white/20 hover:bg-white/20 backdrop-blur-sm transition-all duration-300 text-sm sm:text-base">
                 Book Compliance Consultation
               </button>
 
-              <div className="mt-6 pt-6 border-t border-slate-600">
-                <div className="flex items-center gap-3 text-slate-300 text-sm mb-2">
-                  <CheckCircle2 className="w-4 h-4 text-green-400" />
+              {/* Checklists - smaller text and icons */}
+              <div className="mt-5 pt-5 border-t border-slate-600">
+                <div className="flex items-center gap-3 text-slate-300 text-xs sm:text-sm mb-2">
+                  <CheckCircle2 className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
                   <span>Dual Filing: DIR-11 & DIR-12</span>
                 </div>
-                <div className="flex items-center gap-3 text-slate-300 text-sm mb-2">
-                  <CheckCircle2 className="w-4 h-4 text-green-400" />
+                <div className="flex items-center gap-3 text-slate-300 text-xs sm:text-sm mb-2">
+                  <CheckCircle2 className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
                   <span>Resignation Acceptance Drafting</span>
                 </div>
-                <div className="flex items-center gap-3 text-slate-300 text-sm">
-                  <CheckCircle2 className="w-4 h-4 text-green-400" />
+                <div className="flex items-center gap-3 text-slate-300 text-xs sm:text-sm">
+                  <CheckCircle2 className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
                   <span>Director's Liability Cleared</span>
                 </div>
               </div>
@@ -278,15 +304,17 @@ Board Meeting Resolution for Resignation, Minutes, and Resignation Acceptance Le
           </motion.aside>
         </div>
 
-        {/* FAQs Section - New Style with useState Accordion */}
+        {/* FAQs Section - Adjusted for mobile
+         * p-6 instead of p-8
+         */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="bg-slate-800 rounded-3xl p-8 shadow-xl shadow-slate-900/50 border border-slate-700"
+          className="bg-slate-800 rounded-xl sm:rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-900/50 border border-slate-700"
         >
-          <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-            <div className="w-1 h-8 bg-gradient-to-b from-blue-400 to-purple-400 rounded-full" />
+          <h3 className="text-xl sm:text-2xl font-bold text-white mb-5 sm:mb-6 flex items-center gap-3">
+            <div className="w-1 h-6 sm:h-8 bg-gradient-to-b from-blue-400 to-purple-400 rounded-full" />
             Frequently Asked Questions
           </h3>
 
@@ -297,26 +325,30 @@ Board Meeting Resolution for Resignation, Minutes, and Resignation Acceptance Le
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="border border-slate-700 rounded-xl overflow-hidden hover:border-blue-500 transition-colors"
+                className="border border-slate-700 rounded-lg sm:rounded-xl overflow-hidden hover:border-blue-500 transition-colors"
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? -1 : i)}
-                  className="w-full flex items-center justify-between p-5 text-left bg-slate-700/60 hover:bg-slate-700 transition-colors"
+                  className="w-full flex items-center justify-between p-4 sm:p-5 text-left bg-slate-700/60 hover:bg-slate-700 transition-colors"
                 >
-                  <span className="font-semibold text-white pr-4">{f.q}</span>
+                  <span className="font-semibold text-sm sm:text-base text-white pr-4">
+                    {f.q}
+                  </span>
                   <ChevronDown
-                    className={`w-5 h-5 text-slate-400 flex-shrink-0 transition-transform duration-300 ${
+                    className={`w-4 h-4 sm:w-5 sm:h-5 text-slate-400 flex-shrink-0 transition-transform duration-300 ${
                       openFaq === i ? "rotate-180 text-blue-500" : ""
                     }`}
                   />
                 </button>
                 <div
                   // Dynamic height based on state for smooth accordion transition
-                  className={`overflow-hidden transition-all duration-300 ${
-                    openFaq === i ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                  className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                    openFaq === i
+                      ? "max-h-screen opacity-100"
+                      : "max-h-0 opacity-0"
                   }`}
                 >
-                  <p className="px-5 pb-5 text-slate-300 leading-relaxed whitespace-pre-line">
+                  <p className="px-4 pb-4 sm:px-5 sm:pb-5 text-sm text-slate-300 leading-relaxed whitespace-pre-line">
                     {f.a}
                   </p>
                 </div>
