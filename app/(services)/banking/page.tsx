@@ -2,10 +2,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import {
-  Banknote, // Icon for Banking/Finance
-  ArrowRight,
-} from "lucide-react";
+import { Banknote, ArrowRight } from "lucide-react";
 
 export default function BankingLegalPage() {
   const router = useRouter();
@@ -50,17 +47,14 @@ export default function BankingLegalPage() {
   ];
 
   const handleViewDetails = (basePath: string, slug: string) => {
-    // Standard kebab-case routing
-    const path = `${basePath}${slug}`;
-    console.log("Navigating to:", path);
-    router.push(path);
+    router.push(`${basePath}${slug}`);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100">
       {/* Hero Section */}
       <section
-        className="relative flex items-center justify-center text-center h-[65vh] overflow-hidden"
+        className="relative flex items-center justify-center text-center h-[70vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] overflow-hidden pt-16 pb-5 sm:pt-20 md:pt-24"
         style={{
           background: `linear-gradient(to right, ${primaryColor}E6, ${primaryAccent}E6)`,
           color: "white",
@@ -71,23 +65,26 @@ export default function BankingLegalPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="relative z-10 max-w-3xl px-6"
+          className="relative z-10 max-w-3xl px-4 sm:px-6"
         >
           <motion.div
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 3, repeat: Infinity }}
             className="flex justify-center mb-6"
           >
-            <BankingIcon className="w-16 h-16 text-white" />
+            <BankingIcon className="w-16 sm:w-20 h-16 sm:h-20 text-white" />
           </motion.div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-3 tracking-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 tracking-tight">
             Banking & Financial Legal Services
           </h1>
-          <p className="text-lg text-gray-200 max-w-xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-gray-200 max-w-xl mx-auto">
             Legal action and recovery support against banks, NBFCs, and
             financial fraud.
           </p>
-          <p className="mt-3" style={{ color: "white" }}>
+          <p
+            className="mt-3 text-base sm:text-lg md:text-lg"
+            style={{ color: "white" }}
+          >
             Enforcing your rights under RBI rules and the Negotiable Instruments
             Act.
           </p>
@@ -95,7 +92,7 @@ export default function BankingLegalPage() {
       </section>
 
       {/* Sections */}
-      <div className="max-w-6xl mx-auto px-6 py-20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
         {sections.map((section, index) => {
           const Icon = section.icon;
           return (
@@ -111,23 +108,26 @@ export default function BankingLegalPage() {
                   className="p-3 rounded-full"
                   style={{ backgroundColor: `${primaryAccent}20` }}
                 >
-                  <Icon className="w-6 h-6" style={{ color: primaryAccent }} />
+                  <Icon
+                    className="w-6 h-6 sm:w-7 sm:h-7"
+                    style={{ color: primaryAccent }}
+                  />
                 </div>
-                <h2 className="text-3xl font-bold text-[#0e172b]">
+                <h2 className="text-2xl sm:text-3xl md:text-3xl font-bold text-[#0e172b]">
                   {section.title}
                 </h2>
               </div>
-              <p className="text-gray-700 mb-10 max-w-3xl">
+              <p className="text-gray-700 mb-10 text-sm sm:text-base md:text-base max-w-3xl">
                 {section.description}
               </p>
 
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 {section.services.map((service) => (
                   <motion.div
                     key={service.slug}
                     whileHover={{ scale: 1.03, y: -5 }}
                     transition={{ duration: 0.2 }}
-                    className="relative bg-white/90 border border-gray-100 rounded-2xl p-6 shadow-md hover:shadow-xl backdrop-blur-lg transition-all group overflow-hidden"
+                    className="relative bg-white/90 border border-gray-100 rounded-2xl p-4 sm:p-6 shadow-md hover:shadow-xl backdrop-blur-lg transition-all group overflow-hidden"
                   >
                     <div
                       className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
@@ -136,11 +136,11 @@ export default function BankingLegalPage() {
                       }}
                     />
 
-                    <h3 className="text-lg font-semibold text-[#0e172b] mb-2">
+                    <h3 className="text-lg sm:text-lg md:text-xl font-semibold text-[#0e172b] mb-2">
                       {service.name}
                     </h3>
 
-                    <p className="text-gray-600 text-sm mb-5 leading-relaxed">
+                    <p className="text-gray-600 text-sm sm:text-sm md:text-base mb-5 leading-relaxed">
                       {service.description}
                     </p>
 
@@ -152,7 +152,7 @@ export default function BankingLegalPage() {
                       onClick={() =>
                         handleViewDetails(section.basePath, service.slug)
                       }
-                      className="flex items-center gap-2 font-medium group cursor-pointer"
+                      className="flex items-center gap-2 font-medium group cursor-pointer text-sm sm:text-sm md:text-base"
                       style={{ color: primaryAccent }}
                     >
                       View Details
