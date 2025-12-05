@@ -234,37 +234,38 @@ export default function StartupAndBusinessLegalPage() {
   ];
 
   const handleViewDetails = (basePath: string, slug: string) => {
-    const path = `${basePath}${slug}`;
-    console.log("Navigating to:", path);
-    router.push(path);
+    router.push(`${basePath}${slug}`);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100">
       {/* Hero Section */}
-      <section className="relative flex items-center justify-center text-center h-[65vh] overflow-hidden bg-gradient-to-r from-[#0e172b] to-[#1a2a4f] text-white">
+      <section className="relative flex flex-col items-center justify-center text-center h-[55vh] sm:h-[60vh] md:h-[65vh] overflow-hidden bg-gradient-to-r from-[#0e172b] to-[#1a2a4f] text-white px-4 sm:px-6">
         <div className="absolute inset-0 bg-[url('/startuplegal.png')] bg-cover bg-center opacity-25" />
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="relative z-10 max-w-3xl px-6"
+          className="relative z-10 max-w-3xl"
         >
           <motion.div
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 3, repeat: Infinity }}
-            className="flex justify-center mb-6"
+            className="flex justify-center mb-4 sm:mb-6 pt-10"
           >
-            <Briefcase className="w-16 h-16 text-[#c92c41]" />
+            <Briefcase className="w-12 h-12 sm:w-16 sm:h-16 text-[#c92c41]" />
           </motion.div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-3 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 tracking-tight">
             Startup & Business Legal{" "}
             <span style={{ color: "#e99b2b" }}>Services</span>
           </h1>
-          <p className="text-lg text-gray-200 max-w-xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-gray-200 max-w-xl mx-auto">
             From idea to empire — built on solid legal ground.
           </p>
-          <p className="mt-3" style={{ color: "#e99b2b" }}>
+          <p
+            className="mt-2 sm:mt-3 text-sm sm:text-base"
+            style={{ color: "#e99b2b" }}
+          >
             End-to-end legal solutions to start, protect, manage, and grow your
             business.
           </p>
@@ -272,7 +273,7 @@ export default function StartupAndBusinessLegalPage() {
       </section>
 
       {/* Sections */}
-      <div className="max-w-6xl mx-auto px-6 py-20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
         {sections.map((section, index) => {
           const Icon = section.icon;
           return (
@@ -281,46 +282,46 @@ export default function StartupAndBusinessLegalPage() {
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="mb-20"
+              className="mb-12 sm:mb-16"
             >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 bg-[#c92c41]/10 rounded-full">
-                  <Icon className="w-6 h-6 text-[#c92c41]" />
+              <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                <div className="p-2 sm:p-3 bg-[#c92c41]/10 rounded-full">
+                  <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#c92c41]" />
                 </div>
-                <h2 className="text-3xl font-bold text-[#0e172b]">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0e172b]">
                   {section.title}
                 </h2>
               </div>
-              <p className="text-gray-700 mb-10 max-w-3xl">
+              <p className="text-gray-700 text-sm sm:text-base mb-6 sm:mb-10 max-w-3xl">
                 {section.description}
               </p>
 
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 {section.services.map((service) => (
                   <motion.div
                     key={service.slug}
                     whileHover={{ scale: 1.03, y: -5 }}
                     transition={{ duration: 0.2 }}
-                    className="relative bg-white/90 border border-gray-100 rounded-2xl p-6 shadow-md hover:shadow-xl backdrop-blur-lg transition-all group overflow-hidden"
+                    className="relative bg-white/90 border border-gray-100 rounded-2xl p-4 sm:p-6 shadow-md hover:shadow-xl backdrop-blur-lg transition-all group overflow-hidden"
                   >
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-[#c92c41]/10 to-transparent transition-opacity duration-300 pointer-events-none" />
-                    <h3 className="text-lg font-semibold text-[#0e172b] mb-2">
+                    <h3 className="text-base sm:text-lg md:text-xl font-semibold text-[#0e172b] mb-1 sm:mb-2">
                       {service.name}
                     </h3>
-                    <p className="text-gray-600 text-sm mb-5 leading-relaxed">
+                    <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-5 leading-relaxed">
                       {service.description}
                     </p>
-                    <p className="text-[#c92c41] font-semibold text-sm mb-4">
+                    <p className="text-[#c92c41] font-semibold text-xs sm:text-sm mb-2 sm:mb-3">
                       {service.price}
                     </p>
                     <button
                       onClick={() =>
                         handleViewDetails(section.basePath, service.slug)
                       }
-                      className="flex items-center gap-2 text-[#c92c41] font-medium group cursor-pointer"
+                      className="flex items-center gap-1 sm:gap-2 text-[#c92c41] font-medium group cursor-pointer text-xs sm:text-sm"
                     >
                       View Details
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
                     </button>
                   </motion.div>
                 ))}
