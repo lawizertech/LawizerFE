@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { HoverDropdown } from "./headerdropdown";
 import { useEffect, useState } from "react";
 import { SignInModal } from "./auth/signinPopup";
@@ -14,6 +14,7 @@ import CompleteProfileModal from "./auth/CompleteProfileModal";
 
 export function Header() {
   const [loggedUser, setLoggedUser] = useState<any>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const {
     isAuthModalOpen,
     setIsAuthModalOpen,
@@ -23,17 +24,6 @@ export function Header() {
     setIsCompleteProfileModalOpen,
   } = useAuth();
   const router = useRouter();
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const uid = localStorage.getItem("uid");
-      const email = localStorage.getItem("email");
-      const token = localStorage.getItem("token");
-      if (uid && email && token) {
-        setLoggedUser({ uid, email, token });
-      }
-    }
-  }, []);
 
   const services = [
     {
@@ -504,19 +494,44 @@ export function Header() {
     },
   ];
 
-  const refereshUserData = () => {
-    console.log("User Data Updated");
-
+  useEffect(() => {
     if (typeof window !== "undefined") {
       const uid = localStorage.getItem("uid");
       const email = localStorage.getItem("email");
-      console.log(uid, email);
+      const token = localStorage.getItem("token");
+      if (uid && email && token) {
+        setLoggedUser({ uid, email, token });
+      }
+    }
+  }, []);
+
+  const refereshUserData = () => {
+    console.log("User Data Updated");
+    if (typeof window !== "undefined") {
+      const uid = localStorage.getItem("uid");
+      const email = localStorage.getItem("email");
       if (uid && email) {
-        console.log("Refreshed uid and email");
         setLoggedUser({ uid, email });
       }
     }
   };
+
+  const handleLinkClick = () => {
+    setMobileMenuOpen(false);
+  };
+
+  // lock scroll when mobile menu open
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
 
   return (
     <>
@@ -539,7 +554,7 @@ export function Header() {
           duration: 0.6,
           ease: [0.25, 0.1, 0.25, 1],
         }}
-        className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-white/80 backdrop-blur-md border border-gray-200/50 shadow-lg overflow"
+        className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-white/80 backdrop-blur-md border border-gray-200/50 shadow-lg overflow-visible"
       >
         <div className="container mx-auto px-4 py-4">
           <motion.div
@@ -683,15 +698,163 @@ export function Header() {
               )}
             </nav>
 
+            {/* Mobile Menu Icon (Hamburger/Close) */}
+            <div className="flex items-center lg:hidden">
+              <Button
+                onClick={() => router.push("/start-consultation")}
+                className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-4 py-2 rounded-full font-medium shadow-md mr-3 text-sm"
+                size="sm"
+              >
+                Help
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="h-10 w-10 text-[#c92c41] hover:bg-gray-100"
+                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              >
+                {mobileMenuOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
+              </Button>
+            </div>
+
+            {/* The primary "Get Legal Help" button for desktop */}
             <Button
               onClick={() => router.push("/start-consultation")}
-              className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-6 py-2 rounded-full font-medium shadow-md"
+              className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-6 py-2 rounded-full font-medium shadow-md hidden lg:inline-flex"
             >
               Get Legal Help
             </Button>
           </motion.div>
         </div>
       </motion.header>
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            {/* Overlay behind drawer (semi-transparent) */}
+            <motion.div
+              key="overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.18 }}
+              className="fixed inset-0 z-40 bg-black"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+
+            {/* Drawer — full width, slides in from left */}
+            <motion.aside
+              key="drawer"
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "tween", duration: 0.28 }}
+              className="fixed inset-0 z-50 bg-white overflow-y-auto"
+              aria-modal="true"
+              role="dialog"
+            >
+              <div className="flex items-center justify-between px-6 py-4 border-b">
+                <div className="flex items-center gap-2 cursor-pointer" onClick={() => { setMobileMenuOpen(false); window.location.replace("/"); }}>
+                  <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
+                    <img src="/logoLawizer.png" alt="Lawizer Logo" className="w-6 h-6" />
+                  </div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-[#c92c41]">Lawizer</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <Button
+                    onClick={() => router.push("/start-consultation")}
+                    className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-4 py-2 rounded-full font-medium shadow-md text-sm"
+                    size="sm"
+                  >
+                    Help
+                  </Button>
+                  <button aria-label="Close menu" onClick={() => setMobileMenuOpen(false)} className="p-2">
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="p-6">
+                {/* Auth Buttons */}
+                {!loggedUser ? (
+                  <div className="flex gap-3 mb-6">
+                    <Button
+                      className="flex-1 bg-blue-600 text-white"
+                      onClick={() => {
+                        setIsAuthModalOpen(true);
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      Sign Up
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="flex-1 rounded border-blue-600 text-blue-600"
+                      onClick={() => {
+                        setIsSignInModalOpen(true);
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      Login
+                    </Button>
+                  </div>
+                ) : (
+                  <Link
+                    href="/profile"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-lg font-semibold text-[#ff1d46] block mb-4"
+                  >
+                    My Profile
+                  </Link>
+                )}
+
+                {/* Main Links */}
+                <div className="flex flex-col gap-4">
+                  <Link onClick={handleLinkClick} href="#" className="text-lg font-medium text-gray-700 hover:text-[#c92c41]">About</Link>
+                  <Link onClick={handleLinkClick} href="#" className="text-lg font-medium text-gray-700 hover:text-[#c92c41]">Contact</Link>
+
+                  <h3 className="text-xl font-bold text-[#c92c41] mt-6">Services</h3>
+
+                  {/* Expandable service list (simple toggles per service) */}
+                  {services.map((service, idx) => (
+                    <MobileServiceItem
+                      key={idx}
+                      service={service}
+                      onClose={() => setMobileMenuOpen(false)}
+                    />
+                  ))}
+
+                  <h3 className="text-xl font-bold text-[#c92c41] mt-6">Resources</h3>
+                  <Link onClick={handleLinkClick} href="#" className="text-lg font-medium text-gray-700 hover:text-[#c92c41]">Blogs</Link>
+                  <Link onClick={handleLinkClick} href="#" className="text-lg font-medium text-gray-700 hover:text-[#c92c41]">Guides</Link>
+                  <Link onClick={handleLinkClick} href="#" className="text-lg font-medium text-gray-700 hover:text-[#c92c41]">FAQs</Link>
+                </div>
+
+                <div className="mt-8">
+                  <Button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      router.push("/start-consultation");
+                    }}
+                    className="w-full bg-[#c92c41] text-white"
+                  >
+                    Get Legal Help
+                  </Button>
+                </div>
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Modals */}
       {isAuthModalOpen && (
         <SignupModal
           onClose={() => setIsAuthModalOpen(false)}
@@ -709,7 +872,8 @@ export function Header() {
             setIsAuthModalOpen(true);
           }}
           onLoginSuccess={() => {
-            refereshUserData(), setIsCompleteProfileModalOpen(true);
+            refereshUserData();
+            setIsCompleteProfileModalOpen(true);
           }}
         />
       )}
@@ -722,3 +886,71 @@ export function Header() {
     </>
   );
 }
+
+function MobileServiceItem({
+  service,
+  onClose,
+}: {
+  service: any;
+  onClose: () => void;
+}) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="border-b pb-3">
+      <button
+        onClick={() => setOpen((s) => !s)}
+        className="w-full flex items-center justify-between text-left py-3"
+        aria-expanded={open}
+      >
+        <div className="flex flex-col">
+          <span className="text-lg font-semibold">{service.title}</span>
+          {service.tagline && <span className="text-sm text-gray-500">{service.tagline}</span>}
+        </div>
+        <ChevronDown className={`w-5 h-5 transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.18 }}
+            className="pl-3 pr-2 overflow-hidden"
+          >
+            {"section" in (service.items?.[0] || {}) ? (
+              service.items.map((sec: any, sIdx: number) => (
+                <div key={sIdx} className="mb-3">
+                  <p className="text-sm font-semibold text-gray-600 mb-2">{sec.section}</p>
+                  <div className="flex flex-col gap-2">
+                    {sec.items.map((it: any, iIdx: number) => (
+                      <Link
+                        key={iIdx}
+                        href={it.url}
+                        onClick={onClose}
+                        className="text-base text-gray-700"
+                      >
+                        {it.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="flex flex-col gap-2">
+                {service.items?.map((it: any, iIdx: number) => (
+                  <Link key={iIdx} href={it.url} onClick={onClose} className="text-base text-gray-700">
+                    {it.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+export default Header;
