@@ -4,7 +4,7 @@ import Image from "next/image";
 export function WhatsAppButton() {
   return (
     <div onClick={() => {
-      window.open("https://wa.me/919999999999", "_blank");
+      window.open("https://wa.me/9062815535", "_blank");
     }}>
       <Image
         src={"/whatsapp.png"}

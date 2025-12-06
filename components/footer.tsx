@@ -99,7 +99,7 @@ export function Footer() {
                     href="tel:+1234567890"
                     className="text-gray-600 hover:text-primary transition-colors"
                   >
-                    +1 (234) 567-890
+                    +91 90628 15535
                   </a>
                 </li>
                 <li>

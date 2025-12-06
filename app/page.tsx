@@ -16,7 +16,7 @@ export default function Home() {
 <main className="min-h-screen lg:min-h-screen h-auto">
       <HeroSection />
       <StatsSection />
-      <TrustSection />
+      {/* <TrustSection /> */}
       <RealLifeQuestionsSection />
       <ServicesSection />
       <PopularServicesSection />

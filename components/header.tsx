@@ -103,7 +103,7 @@ export function Header() {
       items: [
         {
           name: "Family law matters (divorce, custody, alimony)",
-          url: "/civil/family-law-matters",
+          url: "/civil-commercial",
         },
         { name: "Property disputes", url: "/civil-commercial" },
         { name: "Contract disputes", url: "/civil-commercial" },
@@ -176,7 +176,7 @@ export function Header() {
         },
         {
           name: "Financial frauds and cybercrimes",
-          url: "/banking/financial-frauds-cybercrimes",
+          url: "/banking/digital-banking-fraud",
         },
         {
           name: "Customer service disputes",
@@ -267,7 +267,7 @@ export function Header() {
           items: [
             {
               name: "MSME Udyam Registration",
-              url: "/startup-businesslegal/growbusiness/MSMEUdhayamRegistrationPage",
+              url: "/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage",
             },
             {
               name: "ISO Certification",
@@ -643,18 +643,6 @@ export function Header() {
                     )}
                   </div>
                 ))}
-              </HoverDropdown>
-
-              <HoverDropdown label="Documents">
-                <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
-                  Agreements
-                </Link>
-                <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
-                  Contracts
-                </Link>
-                <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
-                  Business Docs
-                </Link>
               </HoverDropdown>
 
               <HoverDropdown label="Resources">
