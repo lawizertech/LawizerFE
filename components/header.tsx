@@ -28,165 +28,120 @@ export function Header() {
   const services = [
     {
       title: "Property",
-      tagline: "Property disputes keeping you up at night?",
+      tagline: "Property Disputes Keeping You Up at Night?",
       color: "from-blue-500/10 to-blue-500/30 text-blue-600",
       url: "/property",
       items: [
         // --- Verify/Review Routes ---
+        { name: "Property Report", url: "/property/verify/property-report" },
         {
-          name: "Property report",
-          url: "/property/verify/property-report",
-        },
-        {
-          name: "Property paper review",
+          name: "Property Paper Review",
           url: "/property/verify/property-paper-review",
         },
-        {
-          name: "Agreement review",
-          url: "/property/verify/agreement-review",
-        },
+        { name: "Agreement Review", url: "/property/verify/agreement-review" },
 
         // --- Registration Routes ---
         {
-          name: "Property registration",
+          name: "Property Registration",
           url: "/property/registration/property-registration",
         },
         {
-          name: "Gift deed registration",
+          name: "Gift Deed Registration",
           url: "/property/registration/gift-deed",
         },
         {
-          name: "Power of attorney registration",
+          name: "Power of Attorney Registration",
           url: "/property/registration/power-of-attorney-reg",
         },
 
         // --- Drafting Routes ---
+        { name: "Sale Deed Drafting", url: "/property/drafting/sale-deed" },
         {
-          name: "Sale deed drafting",
-          url: "/property/drafting/sale-deed",
-        },
-        {
-          name: "Agreement to sale drafting",
+          name: "Agreement to Sale Drafting",
           url: "/property/drafting/agreement-to-sale",
         },
+        { name: "Will Drafting", url: "/property/drafting/will-drafting" },
         {
-          name: "Will drafting",
-          url: "/property/drafting/will-drafting",
-        },
-        {
-          name: "Power of attorney drafting",
+          name: "Power of Attorney Drafting",
           url: "/property/drafting/power-of-attorney-drafting",
         },
         {
-          name: "Joint development agreement drafting",
+          name: "Joint Development Agreement Drafting",
           url: "/property/drafting/joint-development-agreement",
         },
         {
-          name: "Relinquishment deed drafting",
+          name: "Relinquishment Deed Drafting",
           url: "/property/drafting/relinquishment-deed",
         },
         {
-          name: "Commercial lease agreement drafting",
+          name: "Commercial Lease Agreement Drafting",
           url: "/property/drafting/commercial-lease",
         },
         {
-          name: "Rent agreement drafting",
+          name: "Rent Agreement Drafting",
           url: "/property/drafting/rent-agreement",
         },
       ],
     },
+
     {
       title: "Civil & Criminal",
-      tagline: "Fighting for your rights, one case at a time",
+      tagline: "Fighting for Your Rights, One Case at a Time",
       color: "from-red-500/10 to-red-500/30 text-red-600",
       url: "/civil-commercial",
       items: [
         {
-          name: "Family law matters (divorce, custody, alimony)",
+          name: "Family Law Matters (Divorce, Custody, Alimony)",
           url: "/civil-commercial",
         },
-        { name: "Property disputes", url: "/civil-commercial" },
-        { name: "Contract disputes", url: "/civil-commercial" },
-        {
-          name: "Personal injury cases",
-          url: "/civil-commercial",
-        },
-        {
-          name: "Employment law claims",
-          url: "/civil-commercial",
-        },
-        {
-          name: "Violent crimes defense",
-          url: "/civil-commercial",
-        },
-        { name: "Property crimes", url: "/civil-commercial" },
-        {
-          name: "White-collar crimes",
-          url: "/civil-commercial",
-        },
-        {
-          name: "Financial frauds",
-          url: "/civil-commercial",
-        },
+        { name: "Property Disputes", url: "/civil-commercial" },
+        { name: "Contract Disputes", url: "/civil-commercial" },
+        { name: "Personal Injury Cases", url: "/civil-commercial" },
+        { name: "Employment Law Claims", url: "/civil-commercial" },
+        { name: "Violent Crimes Defense", url: "/civil-commercial" },
+        { name: "Property Crimes", url: "/civil-commercial" },
+        { name: "White-Collar Crimes", url: "/civil-commercial" },
+        { name: "Financial Frauds", url: "/civil-commercial" },
       ],
     },
 
     {
       title: "Family Matters",
-      tagline: "Protecting families, preserving relationships",
+      tagline: "Protecting Families, Preserving Relationships",
       color: "from-pink-500/10 to-pink-500/30 text-pink-600",
       url: "/family",
       items: [
-        {
-          name: "Divorce and marriage dissolution",
-          url: "/family",
-        },
-        {
-          name: "Maintenance and alimony",
-          url: "/family",
-        },
-        {
-          name: "Child custody and guardianship",
-          url: "/family",
-        },
-        {
-          name: "Property and inheritance disputes",
-          url: "/family",
-        },
-        {
-          name: "Domestic violence protection",
-          url: "/family",
-        },
+        { name: "Divorce and Marriage Dissolution", url: "/family" },
+        { name: "Maintenance and Alimony", url: "/family" },
+        { name: "Child Custody and Guardianship", url: "/family" },
+        { name: "Property and Inheritance Disputes", url: "/family" },
+        { name: "Domestic Violence Protection", url: "/family" },
       ],
     },
+
     {
       title: "Banking Matters",
-      tagline: "Your financial disputes, our expertise",
+      tagline: "Your Financial Disputes, Our Expertise",
       color: "from-green-500/10 to-green-500/30 text-green-600",
       url: "/banking",
       items: [
-        { name: "Loan agreement", url: "/banking" },
+        { name: "Loan Agreement", url: "/banking" },
         {
-          name: "Loan and debt recovery disputes",
+          name: "Loan and Debt Recovery Disputes",
           url: "/banking/loan-advance-disputes",
         },
+        { name: "Cheque Dishonour Cases", url: "/banking/cheque-bounce-s138" },
         {
-          name: "Cheque dishonour cases",
-          url: "/banking/cheque-bounce-s138",
-        },
-        {
-          name: "Financial frauds and cybercrimes",
+          name: "Financial Frauds and Cybercrimes",
           url: "/banking/digital-banking-fraud",
         },
-        {
-          name: "Customer service disputes",
-          url: "/banking",
-        },
+        { name: "Customer Service Disputes", url: "/banking" },
       ],
     },
+
     {
       title: "ITR Filing",
-      tagline: "Hassle-free filing and maximum tax savings",
+      tagline: "Hassle-Free Filing and Maximum Tax Savings",
       color: "from-teal-500/10 to-teal-500/30 text-teal-600",
       url: "/itr",
       items: [
@@ -194,14 +149,8 @@ export function Header() {
           section: "Individuals",
           items: [
             { name: "ITR-1 (Salaried up to ₹50L)", url: "/itr/itr-1" },
-            {
-              name: "ITR-2 (Capital Gains/Foreign Assets)",
-              url: "/itr/itr-2",
-            },
-            {
-              name: "ITR-3 (Business/Professional Income)",
-              url: "/itr/itr-3",
-            },
+            { name: "ITR-2 (Capital Gains/Foreign Assets)", url: "/itr/itr-2" },
+            { name: "ITR-3 (Business/Professional Income)", url: "/itr/itr-3" },
             { name: "ITR-4 (Presumptive Scheme)", url: "/itr/itr-4" },
           ],
         },
@@ -212,19 +161,14 @@ export function Header() {
             { name: "ITR-6 (Companies)", url: "/itr/itr-6" },
           ],
         },
-        {
-          name: "Tax saving consultations",
-          url: "/itr",
-        },
-        {
-          name: "Form 16/26AS reconciliation",
-          url: "/itr",
-        },
+        { name: "Tax Saving Consultations", url: "/itr" },
+        { name: "Form 16/26AS Reconciliation", url: "/itr" },
       ],
     },
+
     {
       title: "Startup & Business Legal",
-      tagline: "From idea to empire — built on solid legal ground",
+      tagline: "From Idea to Empire — Built on Solid Legal Ground",
       color:
         "from-purple-500/10 via-indigo-500/20 to-teal-500/30 text-purple-700",
       url: "/startup-businesslegal",
@@ -262,6 +206,7 @@ export function Header() {
             },
           ],
         },
+
         {
           section: "Grow",
           items: [
@@ -275,6 +220,7 @@ export function Header() {
             },
           ],
         },
+
         {
           section: "Protect",
           items: [
@@ -304,6 +250,7 @@ export function Header() {
             },
           ],
         },
+
         {
           section: "Manage",
           items: [
@@ -351,9 +298,10 @@ export function Header() {
         },
       ],
     },
+
     {
       title: "Documentation",
-      tagline: "Every word matters in legal documents",
+      tagline: "Every Word Matters in Legal Documents",
       color: "from-amber-500/10 to-amber-500/30 text-amber-600",
       url: "/documentation",
       items: [
@@ -362,7 +310,7 @@ export function Header() {
           url: "/documentation/business-partnership-agreement",
         },
         {
-          name: "Co-founder Agreement",
+          name: "Co-Founder Agreement",
           url: "/documentation/co-founder-agreement",
         },
         {
@@ -385,10 +333,7 @@ export function Header() {
           name: "Joint Venture Agreement",
           url: "/documentation/joint-venture-agreement",
         },
-        {
-          name: "Letter of Intent",
-          url: "/documentation/letter-of-intent",
-        },
+        { name: "Letter of Intent", url: "/documentation/letter-of-intent" },
         {
           name: "Licensing Agreement",
           url: "/documentation/licensing-agreement",
@@ -401,10 +346,7 @@ export function Header() {
           name: "Privacy Policy / Terms of Use",
           url: "/documentation/privacy-terms-of-use",
         },
-        {
-          name: "SAAS Agreement",
-          url: "/documentation/saas-agreement",
-        },
+        { name: "SAAS Agreement", url: "/documentation/saas-agreement" },
         {
           name: "Service Agreement / Term Sheet",
           url: "/documentation/service-agreement-term-sheet",
@@ -415,34 +357,29 @@ export function Header() {
         },
       ],
     },
+
     {
       title: "Pay Your Traffic Challan",
       tagline:
-        "Lawizer: Skip the court hassle. Clear your traffic fines securely, instantly, and affordably.",
+        "Lawizer: Skip the Court Hassle. Clear Your Traffic Fines Securely, Instantly, and Affordably.",
       color: "from-yellow-500/10 to-red-500/30 text-red-600",
       url: "/challan",
       items: [
         {
           section: "Pay Your Challan",
           items: [
+            { name: "Instant, Secure E-Challan Payment", url: "/challan" },
             {
-              name: "Instant, secure e-challan payment",
+              name: "Avoid Legal Escalation & License Suspension",
+              url: "/challan",
+            },
+            { name: "Maintain a Clean Driving Record", url: "/challan" },
+            {
+              name: "Get Digital Proof Immediately After Payment",
               url: "/challan",
             },
             {
-              name: "Avoid legal escalation & license suspension",
-              url: "/challan",
-            },
-            {
-              name: "Maintain a clean driving record",
-              url: "/challan",
-            },
-            {
-              name: "Get digital proof immediately after payment",
-              url: "/challan",
-            },
-            {
-              name: "24/7 support & verified payment channels",
+              name: "24/7 Support & Verified Payment Channels",
               url: "/challan",
             },
           ],
@@ -451,11 +388,11 @@ export function Header() {
           section: "View Your Challan",
           items: [
             {
-              name: "Check challan details using vehicle/chassis number",
+              name: "Check Challan Details Using Vehicle/Chassis Number",
               url: "/challan",
             },
             {
-              name: "View status, fine amount & violation info",
+              name: "View Status, Fine Amount & Violation Info",
               url: "/challan",
             },
           ],
@@ -463,16 +400,10 @@ export function Header() {
         {
           section: "Dispute Your Challan",
           items: [
+            { name: "Challenge Incorrect Challans Legally", url: "/challan" },
+            { name: "Expert Lawyer Review & Legal Drafting", url: "/challan" },
             {
-              name: "Challenge incorrect challans legally",
-              url: "/challan",
-            },
-            {
-              name: "Expert lawyer review & legal drafting",
-              url: "/challan",
-            },
-            {
-              name: "End-to-end case assistance till resolution",
+              name: "End-to-End Case Assistance Till Resolution",
               url: "/challan",
             },
           ],
@@ -481,11 +412,11 @@ export function Header() {
           section: "Consult an Expert",
           items: [
             {
-              name: "Free consultation for any vehicle-related queries",
+              name: "Free Consultation for Any Vehicle-Related Queries",
               url: "/challan",
             },
             {
-              name: "Connect instantly with motor vehicle law experts",
+              name: "Connect Instantly With Motor Vehicle Law Experts",
               url: "/challan",
             },
           ],

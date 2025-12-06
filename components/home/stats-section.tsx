@@ -11,7 +11,7 @@ export function StatsSection() {
       label: "Legal Consultations",
     },
     {
-      number: 10000,
+      number: 1000,
       suffix: "+",
       label: "Documents Drafted",
     },
