@@ -8,10 +8,10 @@ import { useAuth } from "@/context/authContext";
 export default function EmergencySOS() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  const { isLoggedIn, setIsAuthModalOpen } = useAuth();
+  const { isLoggedIn, setIsSignInModalOpen } = useAuth();
 
   const handleSOS = () => {
-    isLoggedIn ? setShowConfirm(true) : setIsAuthModalOpen(true);
+    isLoggedIn ? setShowConfirm(true) : setIsSignInModalOpen(true);
   };
 
   const cancelSOS = () => {

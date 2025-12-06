@@ -78,15 +78,15 @@ export const getUserProfile = async (uid: string) => {
 export const signupUser = async (
   name: string,
   email: string,
-  password: string
+  password: string,
+  phoneNumber: string
 ) => {
   try {
-    const res = await api.post(`/auth/signup`, { name, email, password });
+    const res = await api.post(`/auth/signup`, { name, email, password, phoneNumber });
     return res.data;
   } catch (err: any) {
     const errorCode = err?.response?.data?.errorCode;
 
-    // Optional: handle retry logic if needed
     if (errorCode === "TOKEN_EXPIRED") {
       const newToken = await renewToken();
       if (!newToken) return err.response.data;

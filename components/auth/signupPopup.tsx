@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { X, Mail, Lock, User, Loader2, ArrowRight } from "lucide-react";
+import { X, Mail, Lock, User, Loader2, ArrowRight, Phone } from "lucide-react";
 import { signupUser } from "@/lib/apis/api";
 
 interface SignupModalProps {
@@ -12,25 +12,26 @@ interface SignupModalProps {
 export function SignupModal({ onClose, onSignInRedirect }: SignupModalProps) {
   const [step, setStep] = useState<1 | 2>(1);
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // STEP 1: Submit name, email, password
+  // STEP 1: Submit details
   const handleSignup = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !phone) {
       setError("All fields are required.");
       setLoading(false);
       return;
     }
 
     try {
-      const res = await signupUser(name, email, password);
+      const res = await signupUser(name, email, password, phone);
 
       if (res.success === false || res.message?.includes("already exists")) {
         setError(res.message || "User already exists with this email.");
@@ -56,7 +57,7 @@ export function SignupModal({ onClose, onSignInRedirect }: SignupModalProps) {
           <X className="w-6 h-6" />
         </button>
 
-        {/* TITLE SECTION */}
+        {/* TITLE */}
         <div className="text-center mb-6">
           <h2 className="text-3xl font-bold text-gray-900">
             {step === 1 ? "Create Account" : "Verify Your Email"}
@@ -68,7 +69,7 @@ export function SignupModal({ onClose, onSignInRedirect }: SignupModalProps) {
           </p>
         </div>
 
-        {/* ERROR MESSAGE */}
+        {/* ERROR */}
         {error && (
           <div className="p-3 mb-4 text-sm text-red-800 bg-red-100 rounded-lg">
             {error}
@@ -93,6 +94,25 @@ export function SignupModal({ onClose, onSignInRedirect }: SignupModalProps) {
                   onChange={(e) => setName(e.target.value)}
                   className="w-full pl-10 pr-3 py-2 border rounded-md"
                   placeholder="Your full name"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Phone Number */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Phone Number*
+              </label>
+              <div className="mt-1 relative">
+                <Phone className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full pl-10 pr-3 py-2 border rounded-md"
+                  placeholder="9876543210"
+                  pattern="[0-9]{10}"
                   required
                 />
               </div>
@@ -148,7 +168,7 @@ export function SignupModal({ onClose, onSignInRedirect }: SignupModalProps) {
               Continue
             </button>
 
-            {/* Signup Redirect */}
+            {/* SIGNIN LINK */}
             <div className="mt-6 pt-4 border-t text-center">
               <p className="text-sm text-gray-600">
                 Already have an account?
@@ -169,7 +189,8 @@ export function SignupModal({ onClose, onSignInRedirect }: SignupModalProps) {
         {step === 2 && (
           <div className="text-center space-y-4">
             <p className="text-gray-700">
-              We've sent a verification link to <strong>{email}</strong>. <br />
+              We've sent a verification link to <strong>{email}</strong>.
+              <br />
               Please check your inbox and click the link to verify your email.
             </p>
             <button
