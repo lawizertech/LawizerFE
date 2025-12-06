@@ -2,199 +2,294 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { RefreshCw, ArrowRight } from "lucide-react";
+import {
+  RefreshCw,
+  ArrowRight,
+  CheckCircle2,
+  FileText,
+  Shield,
+  Building2,
+  ChevronDown,
+} from "lucide-react";
 
 export default function RenewTrademarkPage() {
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+
   const benefits = [
-    "Protection against Copycats: Safeguards your brand from unauthorized use.",
-    "Registered brand is a valuable asset: Protects a key business asset.",
-    "Helps business expansion and growth: Provides legal foundation for scaling.",
-    "Builds credibility and market image: Reinforces brand trustworthiness.",
+    "Protection against copycats — safeguards your brand from unauthorized use.",
+    "A registered brand is a valuable business asset.",
+    "Facilitates business expansion and licensing.",
+    "Builds credibility and consumer trust in the market.",
   ];
 
   const prerequisites = [
-    "Trademark Application Number",
-    "TM-M (Authorisation letter)",
+    "Trademark Application / Registration Number (e.g., TM-XXXXXX)",
+    "Signed Authorisation (TM-M) or POA if filing via agent",
   ];
 
   const deliverables = [
-    "Trademark Registry filing receipt",
-    "Screenshot of renewal filing",
+    "Trademark Registry filing receipt (TM-R)",
+    "Screenshot / PDF of the online filing confirmation",
   ];
 
   const faqs = [
     {
       q: "What is Trademark Renewal?",
-      a: "A registered trademark is valid for 10 years and must be renewed to continue protection. Renewal extends validity for another 10 years.",
+      a: "A registered trademark is initially valid for 10 years. Renewal (Form TM-R) extends protection for another 10 years from the renewal date.",
     },
     {
-      q: "What is the Timeline & Fees for Trademark Renewal?",
-      a: "Renewal can be filed anytime up to the expiry date and within one year after expiry (with additional fees). Renewal within 6 months post-expiry is straightforward; beyond that extra fees and paperwork apply. If not renewed within 12 months after expiry, the mark may be marked Abandoned.",
+      q: "When should I renew?",
+      a: "You may file renewal anytime before expiry. There's a one-year grace period after expiry (with additional fees). If not renewed within 12 months after expiry, the mark may be treated as abandoned.",
     },
     {
-      q: "What is the difference between Registration and Renewal?",
-      a: "Registration is the process to obtain the trademark initially (application, examination, opposition stages). Renewal is a post-registration procedural step (Form TM-R) to extend the life of an already registered mark.",
+      q: "What fees apply?",
+      a: "Statutory renewal fees depend on the class and applicant type. Additional late fees apply during the grace period.",
     },
     {
-      q: "How do I start the renewal process?",
-      a: "Provide the trademark application/registration number and an authorisation (TM-M). We will draft and file the TM-R on your behalf and provide receipts/screenshots after filing.",
+      q: "How long does renewal take?",
+      a: "Typically the online filing and acknowledgement are immediate; formal processing can vary but you'll receive receipts/screenshots promptly and official updates from the registry later.",
     },
   ];
 
-  // Define color palette using original hex codes
+  // color palette to match the previous legal UI
   const primaryRed = "#c92c41";
   const primaryBlue = "#4c3df7";
   const primaryOrange = "#e99b2b";
   const primaryDark = "#0e172b";
-  const gradientStart = primaryOrange;
-  const gradientEnd = primaryRed;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#fff8ef] via-[#f4f0ff] to-[#edf7ff] text-gray-900">
-      {/* HERO SECTION - Adjusted for mobile
-       * h-[50vh] instead of h-[75vh] for mobile screens
-       * px-4 for tighter padding on small screens
-       */}
-      <section className="relative h-[50vh] sm:h-[75vh] flex items-center justify-center text-center overflow-hidden">
-        <img
-          src="/trademark-renewal-light.png"
-          alt="Trademark Renewal"
-          className="absolute inset-0 w-full h-full object-cover object-center opacity-80"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/40 to-white/90" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100 text-slate-900">
+      {/* HERO */}
+      <section className="relative flex items-center justify-center text-center min-h-[50vh] md:min-h-[65vh] overflow-hidden bg-gradient-to-br from-[#0e172b] via-[#121f3c] to-[#0e172b]">
+        <div className="absolute inset-0 bg-[url('/trademark-renewal-light.png')] bg-cover bg-center opacity-8" />
+
+        {/* subtle orbs */}
+        <div className="absolute top-1/4 left-1/4 w-44 h-44 sm:w-96 sm:h-96 bg-[#c92c41]/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-44 h-44 sm:w-96 sm:h-96 bg-[#4c3df7]/20 rounded-full blur-3xl animate-pulse delay-1000" />
 
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="relative z-10 px-4 sm:px-6 max-w-3xl"
+          className="relative z-10 max-w-4xl px-4 py-10 sm:px-6 sm:py-12"
         >
           <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ duration: 3, repeat: Infinity }}
-            className="flex justify-center mb-4 sm:mb-6"
+            animate={{ y: [0, -12, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="flex justify-center mb-4"
           >
-            <RefreshCw
-              className="w-12 h-12 sm:w-16 sm:h-16"
-              style={{ color: primaryRed }}
-            />
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#c92c41] to-[#e99b2b] rounded-xl blur-md opacity-40" />
+              <div className="relative bg-gradient-to-br from-[#c92c41] to-[#e99b2b] p-3 rounded-xl sm:p-4">
+                <RefreshCw
+                  className="w-10 h-10 text-white sm:w-16 sm:h-16"
+                  strokeWidth={1.6}
+                />
+              </div>
+            </div>
           </motion.div>
 
-          <h1
-            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-3"
-            style={{ color: primaryDark }}
-          >
-            Renew Your <span style={{ color: primaryBlue }}>Trademark</span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 tracking-tight text-white">
+            Renew Your{" "}
+            <span className="bg-gradient-to-r from-[#4c3df7] to-[#e99b2b] bg-clip-text text-transparent">
+              Trademark
+            </span>
+            <span className="block mt-1 text-2xl md:text-4xl text-white/80 font-medium">
+              Keep your brand protected for another 10 years
+            </span>
           </h1>
 
-          <p className="text-sm sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Extend your trademark protection for another **10 years** by filing
-            Form **TM-R** on time. Keep your brand secure and maintain your
-            exclusive rights.
+          <p className="text-sm md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed px-2">
+            File <b>Form TM-R</b> on time to extend statutory protection and
+            maintain exclusive rights to use your mark commercially.
           </p>
         </motion.div>
       </section>
 
-      {/* Main Content - Adjusted padding and spacing */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-20 space-y-10 sm:space-y-16">
-        {/* Description */}
-        <motion.section
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="bg-white rounded-xl sm:rounded-3xl p-6 sm:p-10 shadow-md border border-gray-100"
-        >
-          <h2
-            className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4"
-            style={{ color: primaryRed }}
+      {/* MAIN */}
+      <div className="max-w-6xl mx-auto px-4 py-10 sm:px-6 sm:py-16">
+        <div className="grid lg:grid-cols-3 gap-8 mb-10 sm:mb-16">
+          {/* Left content (spans 2 cols) */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-2"
           >
-            Why Renew Your Trademark?
-          </h2>
-          <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-            Renewing your trademark extends its statutory protection for an
-            additional **10 years**. File Form **TM-R** before expiry (or within
-            the permitted grace period) and keep the legal ownership,
-            enforcement rights, and goodwill associated with your mark intact.
-          </p>
-        </motion.section>
+            <div className="bg-white rounded-xl sm:rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 border border-slate-100">
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
+                <div className="w-1 h-6 sm:h-8 bg-gradient-to-b from-[#c92c41] to-[#e99b2b] rounded-full" />
+                Overview
+              </h2>
 
-        {/* Info Grid - Changed to single column on mobile, remains 3 on desktop */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10">
-          <InfoCard title="Benefits" color={primaryOrange} items={benefits} />
-          <InfoCard
-            title="Pre-Requisites"
-            color={primaryBlue}
-            items={prerequisites}
-          />
-          <InfoCard
-            title="Deliverables"
-            color={primaryRed}
-            items={deliverables}
-          />
+              <p className="text-sm sm:text-base text-slate-700 leading-relaxed mb-6 sm:mb-8">
+                Trademark renewal keeps your registration active and
+                enforceable. Renewal is a procedural filing (Form <b>TM-R</b>)
+                that extends the statutory term by 10 years. Timely renewal
+                protects the goodwill and legal rights your brand has
+                accumulated.
+              </p>
+
+              <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-[#c92c41]" />
+                Key Benefits
+              </h3>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
+                {benefits.map((b, i) => (
+                  <motion.div
+                    key={b}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.08 }}
+                    className="flex items-start gap-3 p-3 rounded-lg sm:rounded-xl bg-gradient-to-br from-slate-50 to-orange-50/40 border border-slate-100 hover:shadow-md transition-shadow"
+                  >
+                    <div className="p-1 sm:p-2 rounded-lg bg-white shadow-sm flex-shrink-0">
+                      <Shield
+                        className="w-4 h-4 sm:w-5 sm:h-5 text-[#4c3df7]"
+                        strokeWidth={2}
+                      />
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-700 font-medium leading-snug">
+                      {b}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+
+              <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-[#4c3df7]" />
+                Prerequisites
+              </h3>
+
+              <div className="space-y-2 mb-6 sm:mb-8">
+                {prerequisites.map((p, i) => (
+                  <div
+                    key={i}
+                    className="flex items-start gap-3 p-2 rounded-lg hover:bg-slate-50 transition-colors"
+                  >
+                    <CheckCircle2
+                      className="w-4 h-4 sm:w-5 sm:h-5 text-[#e99b2b]"
+                      strokeWidth={2}
+                    />
+                    <p className="text-slate-700 text-sm">{p}</p>
+                  </div>
+                ))}
+              </div>
+
+              <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                <Building2 className="w-4 h-4 sm:w-5 sm:h-5 text-[#4c3df7]" />
+                Deliverables
+              </h3>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {deliverables.map((d, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-3 p-3 rounded-lg bg-purple-50/50 border border-purple-100"
+                  >
+                    <div className="w-2 h-2 rounded-full bg-[#4c3df7] flex-shrink-0" />
+                    <p className="text-xs sm:text-sm text-slate-700 font-medium">
+                      {d}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right aside */}
+          <motion.aside
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:sticky lg:top-24 h-fit"
+          >
+            <div className="bg-gradient-to-br from-[#0e172b] to-[#121f3c] rounded-xl sm:rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-700">
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
+                Ready to Renew Your Trademark?
+              </h3>
+              <p className="text-slate-300 text-xs sm:text-sm mb-5 sm:mb-6 leading-relaxed">
+                We prepare and file the TM-R, handle fee payments, and deliver
+                confirmations and receipts.
+              </p>
+
+              <button className="w-full group relative overflow-hidden px-5 py-3 sm:px-6 sm:py-4 rounded-xl font-semibold bg-gradient-to-r from-[#c92c41] to-[#e99b2b] text-white shadow-lg shadow-[#c92c41]/30 hover:shadow-xl hover:shadow-[#e99b2b]/40 transition-all duration-300 mb-3">
+                <span className="relative z-10 flex items-center justify-center gap-2 text-sm sm:text-base">
+                  Renew Now
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </button>
+
+              <button className="w-full px-5 py-3 sm:px-6 sm:py-4 rounded-xl font-semibold bg-white/10 text-white border border-white/20 hover:bg-white/20 backdrop-blur-sm transition-all duration-300 text-sm sm:text-base">
+                Book Consultation
+              </button>
+
+              <div className="mt-5 pt-5 border-t border-slate-700">
+                <div className="flex items-center gap-3 text-slate-300 text-xs sm:text-sm mb-2">
+                  <CheckCircle2 className="w-3 h-3 sm:w-4 sm:h-4 text-[#e99b2b]" />
+                  <span>100% Online Process</span>
+                </div>
+                <div className="flex items-center gap-3 text-slate-300 text-xs sm:text-sm mb-2">
+                  <CheckCircle2 className="w-3 h-3 sm:w-4 sm:h-4 text-[#e99b2b]" />
+                  <span>Expert IP Support</span>
+                </div>
+                <div className="flex items-center gap-3 text-slate-300 text-xs sm:text-sm">
+                  <CheckCircle2 className="w-3 h-3 sm:w-4 sm:h-4 text-[#e99b2b]" />
+                  <span>2–9 Months Processing (typical)</span>
+                </div>
+              </div>
+            </div>
+          </motion.aside>
         </div>
 
-        {/* CTA - Adjusted padding and text size */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
-          className="text-center bg-gradient-to-r from-[#e99b2b] via-[#c92c41] to-[#4c3df7] p-[1px] rounded-xl sm:rounded-3xl shadow-lg"
-        >
-          <div className="bg-white rounded-xl sm:rounded-3xl p-6 sm:p-10">
-            <h3
-              className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4"
-              style={{ color: primaryDark }}
-            >
-              Ready to Renew Your Trademark?
-            </h3>
-            <p className="text-sm sm:text-base text-gray-600 mb-5 sm:mb-6">
-              We will prepare and file the TM-R application, pay statutory fees
-              (if applicable), and send you filing receipts and screenshots.
-            </p>
-
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button className="w-full sm:w-auto px-6 py-3 rounded-xl font-medium text-sm sm:text-base text-white bg-gradient-to-r from-[#c92c41] to-[#4c3df7] hover:opacity-95 transition flex items-center justify-center gap-2">
-                Renew Now <ArrowRight className="w-4 h-4" />
-              </button>
-
-              <button className="w-full sm:w-auto px-6 py-3 rounded-xl font-medium text-sm sm:text-base border border-[#0e172b]/10 text-[#0e172b] hover:bg-[#0e172b] hover:text-white transition">
-                Get Legal Consultation
-              </button>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* FAQs - Adjusted padding and text size */}
+        {/* FAQs Section */}
         <motion.section
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="bg-white rounded-xl sm:rounded-3xl p-6 sm:p-10 shadow-md border border-gray-100"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="bg-white rounded-xl sm:rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 border border-slate-100"
         >
-          <h3
-            className="text-xl sm:text-2xl font-semibold mb-5 sm:mb-6"
-            style={{ color: primaryBlue }}
-          >
-            FAQs
+          <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-5 sm:mb-6 flex items-center gap-3">
+            <div className="w-1 h-6 sm:h-8 bg-gradient-to-b from-[#4c3df7] to-[#c92c41] rounded-full" />
+            Frequently Asked Questions
           </h3>
 
           <div className="space-y-3">
-            {faqs.map((faq, i) => (
-              <motion.details
+            {faqs.map((f, i) => (
+              <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 8 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.04 }}
-                className="group border border-gray-200 hover:border-[#c92c41]/50 rounded-lg sm:rounded-xl p-4 cursor-pointer bg-white transition"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                className="border border-slate-200 rounded-lg sm:rounded-xl overflow-hidden hover:border-[#e99b2b]/60 transition-colors"
               >
-                <summary
-                  className="font-medium text-sm sm:text-base"
-                  style={{ color: primaryDark }}
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? -1 : i)}
+                  className="w-full flex items-center justify-between p-4 sm:p-5 text-left bg-gradient-to-r from-slate-50 to-transparent hover:from-[#e99b2b]/10 transition-colors"
                 >
-                  {faq.q}
-                </summary>
-                <p className="mt-2 text-xs sm:text-sm text-gray-700">{faq.a}</p>
-              </motion.details>
+                  <span className="font-semibold text-sm sm:text-base text-slate-900 pr-4">
+                    {f.q}
+                  </span>
+                  <ChevronDown
+                    className={`w-4 h-4 sm:w-5 sm:h-5 text-slate-600 flex-shrink-0 transition-transform duration-300 ${
+                      openFaq === i ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                <div
+                  className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                    openFaq === i
+                      ? "max-h-screen opacity-100"
+                      : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <p className="px-4 pb-4 sm:px-5 sm:pb-5 text-sm text-slate-700 leading-relaxed">
+                    {f.a}
+                  </p>
+                </div>
+              </motion.div>
             ))}
           </div>
         </motion.section>
@@ -203,7 +298,7 @@ export default function RenewTrademarkPage() {
   );
 }
 
-/* Reusable InfoCard - Adjusted for mobile responsiveness */
+/* Reusable InfoCard (Kept if you want to use it elsewhere) */
 function InfoCard({
   title,
   items,

@@ -249,7 +249,6 @@ export default function TrademarkRegistrationPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            // No sticky on mobile, better for scrolling
             className="lg:sticky lg:top-24 h-fit"
           >
             {/* ASIDE CARD
