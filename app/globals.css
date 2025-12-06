@@ -3,7 +3,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
-html, body {
+html,
+body {
   background: #0e172b;
 }
 
@@ -129,4 +130,19 @@ html, body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@keyframes scroll-horizontal {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.scroll-wrapper {
+  display: flex;
+  width: max-content;
+  animation: scroll-horizontal 60s linear infinite;
 }
