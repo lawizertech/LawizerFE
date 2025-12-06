@@ -13,6 +13,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 // ✅ Memoized card component
 const ServiceCard = memo(function ServiceCard({
@@ -31,6 +32,7 @@ const ServiceCard = memo(function ServiceCard({
 }) {
   const Icon = service.icon;
   const [isExpanded, setIsExpanded] = useState(false);
+  const route = useRouter();
 
   const isGrouped =
     Array.isArray(service.items) &&
@@ -46,7 +48,10 @@ const ServiceCard = memo(function ServiceCard({
       viewport={{ once: true }}
       className={`flex ${className}`}
     >
-      <Card className="flex flex-col justify-between w-full border border-gray-100 bg-white/80 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[420px] sm:min-h-[440px] relative pb-2">
+      <Card
+        className="flex flex-col justify-between w-full border border-gray-100 bg-white/80 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[420px] sm:min-h-[440px] relative pb-2"
+        onClick={() => route.replace(service.url || "/")}
+      >
         <div
           className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 hover:opacity-20 transition-all duration-500`}
         />
