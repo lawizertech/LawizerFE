@@ -13,8 +13,8 @@ interface AuthContextType {
   isLoggedIn: boolean;
   refreshUser: () => void;
   logout: () => void;
-  isAuthModalOpen: boolean;
-  setIsAuthModalOpen: (open: boolean) => void;
+  isSignupModalOpen: boolean;
+  setIsSignupModalOpen: (open: boolean) => void;
   isSignInModalOpen: boolean;
   setIsSignInModalOpen: (open: boolean) => void;
   isCompleteProfileModalOpen: boolean;
@@ -27,8 +27,8 @@ const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
   refreshUser: () => {},
   logout: () => {},
-  isAuthModalOpen: false,
-  setIsAuthModalOpen: () => {},
+  isSignupModalOpen: false,
+  setIsSignupModalOpen: () => {},
   isSignInModalOpen: false,
   setIsSignInModalOpen: () => {},
   isCompleteProfileModalOpen: false,
@@ -38,7 +38,7 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
   const [isCompleteProfileModalOpen, setIsCompleteProfileModalOpen] =
     useState(false);
@@ -79,8 +79,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         isLoggedIn: !!user,
         refreshUser,
         logout,
-        isAuthModalOpen,
-        setIsAuthModalOpen,
+        isSignupModalOpen,
+        setIsSignupModalOpen,
         isSignInModalOpen,
         setIsSignInModalOpen,
         isCompleteProfileModalOpen,

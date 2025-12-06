@@ -16,8 +16,8 @@ export function Header() {
   const [loggedUser, setLoggedUser] = useState<any>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const {
-    isAuthModalOpen,
-    setIsAuthModalOpen,
+    isSignupModalOpen,
+    setIsSignupModalOpen,
     isSignInModalOpen,
     setIsSignInModalOpen,
     isCompleteProfileModalOpen,
@@ -669,7 +669,7 @@ export function Header() {
 
               {!loggedUser ? (
                 <Button
-                  onClick={() => setIsAuthModalOpen(true)}
+                  onClick={() => setIsSignInModalOpen(true)}
                   className="bg-blue-600 text-white rounded-full px-6 py-2 shadow-md"
                 >
                   Login
@@ -746,12 +746,24 @@ export function Header() {
               role="dialog"
             >
               <div className="flex items-center justify-between px-6 py-4 border-b">
-                <div className="flex items-center gap-2 cursor-pointer" onClick={() => { setMobileMenuOpen(false); window.location.replace("/"); }}>
+                <div
+                  className="flex items-center gap-2 cursor-pointer"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    window.location.replace("/");
+                  }}
+                >
                   <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
-                    <img src="/logoLawizer.png" alt="Lawizer Logo" className="w-6 h-6" />
+                    <img
+                      src="/logoLawizer.png"
+                      alt="Lawizer Logo"
+                      className="w-6 h-6"
+                    />
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-[#c92c41]">Lawizer</span>
+                    <span className="text-2xl font-bold text-[#c92c41]">
+                      Lawizer
+                    </span>
                   </div>
                 </div>
 
@@ -763,7 +775,11 @@ export function Header() {
                   >
                     Help
                   </Button>
-                  <button aria-label="Close menu" onClick={() => setMobileMenuOpen(false)} className="p-2">
+                  <button
+                    aria-label="Close menu"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="p-2"
+                  >
                     <X className="w-6 h-6" />
                   </button>
                 </div>
@@ -776,7 +792,7 @@ export function Header() {
                     <Button
                       className="flex-1 bg-blue-600 text-white"
                       onClick={() => {
-                        setIsAuthModalOpen(true);
+                        setIsSignupModalOpen(true);
                         setMobileMenuOpen(false);
                       }}
                     >
@@ -805,10 +821,24 @@ export function Header() {
 
                 {/* Main Links */}
                 <div className="flex flex-col gap-4">
-                  <Link onClick={handleLinkClick} href="#" className="text-lg font-medium text-gray-700 hover:text-[#c92c41]">About</Link>
-                  <Link onClick={handleLinkClick} href="#" className="text-lg font-medium text-gray-700 hover:text-[#c92c41]">Contact</Link>
+                  <Link
+                    onClick={handleLinkClick}
+                    href="#"
+                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                  >
+                    About
+                  </Link>
+                  <Link
+                    onClick={handleLinkClick}
+                    href="#"
+                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                  >
+                    Contact
+                  </Link>
 
-                  <h3 className="text-xl font-bold text-[#c92c41] mt-6">Services</h3>
+                  <h3 className="text-xl font-bold text-[#c92c41] mt-6">
+                    Services
+                  </h3>
 
                   {/* Expandable service list (simple toggles per service) */}
                   {services.map((service, idx) => (
@@ -819,10 +849,30 @@ export function Header() {
                     />
                   ))}
 
-                  <h3 className="text-xl font-bold text-[#c92c41] mt-6">Resources</h3>
-                  <Link onClick={handleLinkClick} href="#" className="text-lg font-medium text-gray-700 hover:text-[#c92c41]">Blogs</Link>
-                  <Link onClick={handleLinkClick} href="#" className="text-lg font-medium text-gray-700 hover:text-[#c92c41]">Guides</Link>
-                  <Link onClick={handleLinkClick} href="#" className="text-lg font-medium text-gray-700 hover:text-[#c92c41]">FAQs</Link>
+                  <h3 className="text-xl font-bold text-[#c92c41] mt-6">
+                    Resources
+                  </h3>
+                  <Link
+                    onClick={handleLinkClick}
+                    href="#"
+                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                  >
+                    Blogs
+                  </Link>
+                  <Link
+                    onClick={handleLinkClick}
+                    href="#"
+                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                  >
+                    Guides
+                  </Link>
+                  <Link
+                    onClick={handleLinkClick}
+                    href="#"
+                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                  >
+                    FAQs
+                  </Link>
                 </div>
 
                 <div className="mt-8">
@@ -843,11 +893,11 @@ export function Header() {
       </AnimatePresence>
 
       {/* Modals */}
-      {isAuthModalOpen && (
+      {isSignupModalOpen && (
         <SignupModal
-          onClose={() => setIsAuthModalOpen(false)}
+          onClose={() => setIsSignupModalOpen(false)}
           onSignInRedirect={() => {
-            setIsAuthModalOpen(false);
+            setIsSignupModalOpen(false);
             setIsSignInModalOpen(true);
           }}
         />
@@ -857,7 +907,7 @@ export function Header() {
           onClose={() => setIsSignInModalOpen(false)}
           onSignupRedirect={() => {
             setIsSignInModalOpen(false);
-            setIsAuthModalOpen(true);
+            setIsSignupModalOpen(true);
           }}
           onLoginSuccess={() => {
             refereshUserData();
@@ -893,9 +943,13 @@ function MobileServiceItem({
       >
         <div className="flex flex-col">
           <span className="text-lg font-semibold">{service.title}</span>
-          {service.tagline && <span className="text-sm text-gray-500">{service.tagline}</span>}
+          {service.tagline && (
+            <span className="text-sm text-gray-500">{service.tagline}</span>
+          )}
         </div>
-        <ChevronDown className={`w-5 h-5 transition-transform ${open ? "rotate-180" : ""}`} />
+        <ChevronDown
+          className={`w-5 h-5 transition-transform ${open ? "rotate-180" : ""}`}
+        />
       </button>
 
       <AnimatePresence>
@@ -910,7 +964,9 @@ function MobileServiceItem({
             {"section" in (service.items?.[0] || {}) ? (
               service.items.map((sec: any, sIdx: number) => (
                 <div key={sIdx} className="mb-3">
-                  <p className="text-sm font-semibold text-gray-600 mb-2">{sec.section}</p>
+                  <p className="text-sm font-semibold text-gray-600 mb-2">
+                    {sec.section}
+                  </p>
                   <div className="flex flex-col gap-2">
                     {sec.items.map((it: any, iIdx: number) => (
                       <Link
@@ -928,7 +984,12 @@ function MobileServiceItem({
             ) : (
               <div className="flex flex-col gap-2">
                 {service.items?.map((it: any, iIdx: number) => (
-                  <Link key={iIdx} href={it.url} onClick={onClose} className="text-base text-gray-700">
+                  <Link
+                    key={iIdx}
+                    href={it.url}
+                    onClick={onClose}
+                    className="text-base text-gray-700"
+                  >
                     {it.name}
                   </Link>
                 ))}

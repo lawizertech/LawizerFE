@@ -111,7 +111,7 @@ export function SignInModal({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-10 pr-3 py-2 border rounded-md"
-                placeholder="example@gmail.com"
+                placeholder="your.email@example.com"
                 required
               />
             </div>
