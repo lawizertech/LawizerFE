@@ -18,9 +18,9 @@ import {
 type Expert = {
   name: string;
   role: string;
-  rate: string;
   img: string;
   gender: string;
+  rate?: string;
 };
 
 type CarouselProps = {
@@ -34,7 +34,6 @@ export default function EmblaCarouselCards({
   type,
   onBook,
 }: CarouselProps) {
-  // create plugin once
   const autoplay = React.useRef(
     Autoplay({
       delay: 2000,
@@ -47,14 +46,10 @@ export default function EmblaCarouselCards({
     <Carousel
       plugins={[autoplay.current]}
       className="w-full flex justify-center"
-      // Stop when user hovers
       onMouseEnter={() => autoplay.current.stop()}
-      // Resume when hover ends
       onMouseLeave={() => autoplay.current.play()}
-      // Stop when user starts dragging or selecting
       onPointerDown={() => autoplay.current.stop()}
       onPointerUp={() => autoplay.current.play()}
-      // Just to be safe also hook into Embla drag events
       onDragStart={() => autoplay.current.stop()}
       onDragEnd={() => autoplay.current.play()}
     >
@@ -74,7 +69,7 @@ export default function EmblaCarouselCards({
                     : "hover:border-blue-400"
                 }`}
               >
-                <div className="relative w-full h-28 rounded-xl overflow-hidden mb-2">
+                <div className="relative w-full h-48 rounded-xl overflow-hidden mb-2">
                   <Image
                     src={expert.img}
                     alt={expert.name}
@@ -87,10 +82,15 @@ export default function EmblaCarouselCards({
                   <p className="font-semibold text-gray-800 text-xs">
                     {expert.name}
                   </p>
+
                   <p className="text-[11px] text-gray-500">{expert.role}</p>
-                  <p className="text-sm font-medium text-gray-700">
-                    {expert.rate}
-                  </p>
+
+                  {/* ⭐ Show Rate ONLY for CA */}
+                  {type === "ca" && expert.rate && (
+                    <p className="text-[11px] font-semibold text-green-600">
+                      {expert.rate}
+                    </p>
+                  )}
                 </div>
 
                 <div className="mt-2 flex justify-center">
