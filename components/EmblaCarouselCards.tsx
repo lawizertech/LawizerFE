@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { PhoneCall, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { scheduleCall } from "@/lib/apis/api";
+import { useAuth } from "@/context/authContext";
 
 import {
   Carousel,
@@ -25,6 +27,7 @@ import {
 } from "@/components/ui/dialog";
 
 type Expert = {
+  expertId: string;
   name: string;
   role: string;
   img: string;
@@ -36,30 +39,64 @@ type CarouselProps = {
   list: Expert[];
   type: string; // adv | ca
   onBook: (key: string) => void;
+  bookedKeys?: string[];
 };
 
 export default function EmblaCarouselCards({
   list,
   type,
   onBook,
+  bookedKeys = [],
 }: CarouselProps) {
   const autoplay = React.useRef(
-    Autoplay({
-      delay: 2000,
-      stopOnInteraction: false,
-      playOnInit: true,
-    })
+    Autoplay({ delay: 2000, stopOnInteraction: false, playOnInit: true })
   );
 
-  const [bookedKey, setBookedKey] = React.useState<string | null>(null);
-
-  // For confirmation popup
+  const [localBookedKeys, setLocalBookedKeys] =
+    React.useState<string[]>(bookedKeys);
   const [pendingKey, setPendingKey] = React.useState<string | null>(null);
   const [pendingExpert, setPendingExpert] = React.useState<Expert | null>(null);
+  const [loading, setLoading] = React.useState(false);
+  const { isLoggedIn, setIsSignInModalOpen } = useAuth();
 
   const handleBook = (key: string) => {
-    setBookedKey(key);
+    setLocalBookedKeys((prev) => [...prev, key]);
     onBook(key);
+  };
+
+  React.useEffect(() => {
+    setLocalBookedKeys(bookedKeys);
+  }, [bookedKeys]);
+
+  const handleConfirmBooking = async () => {
+    if (!pendingKey || !pendingExpert) return;
+
+    setLoading(true);
+
+    try {
+      if (!isLoggedIn) {
+        alert("Please sign in to book a call.");
+        setLoading(false);
+        return;
+      }
+
+      const payload = {
+        expertId: pendingKey,
+        expertName: pendingExpert.name,
+        rate: pendingExpert.rate || undefined,
+      };
+
+      await scheduleCall(payload, type as "ca" | "adv");
+
+      handleBook(pendingKey);
+      setPendingKey(null);
+      setPendingExpert(null);
+    } catch (err) {
+      console.error("Error booking call:", err);
+      alert("Failed to book call. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -76,13 +113,15 @@ export default function EmblaCarouselCards({
       >
         <CarouselContent className="-ml-2 py-4">
           {list.map((expert, i) => {
-            const key = `${type}-${i}`;
-            const isBooked = bookedKey === key;
+            const key = `${expert.expertId}`;
+
+            const isBooked = localBookedKeys.includes(expert.expertId);
+            console.log(localBookedKeys, expert.expertId);
 
             return (
               <CarouselItem
                 key={key}
-                className="basis-[160px] sm:basis-[180px] md:basis-[200px] lg:basis-[220px] pl-2"
+                className="basis-[160px] sm:basis-[180px] md:basis-[200px] lg:basis-[220px] pl-2 px-2"
               >
                 <motion.div
                   className={`rounded-2xl border border-gray-200 bg-white shadow-md hover:shadow-lg transition-all p-3 hover:-translate-y-1 h-92 ${
@@ -175,11 +214,18 @@ export default function EmblaCarouselCards({
         <DialogContent className="rounded-xl">
           <DialogHeader>
             <DialogTitle className="text-lg font-semibold">
-              Confirm Booking
+              {isLoggedIn ? "Confirm Booking" : "Login Required"}
             </DialogTitle>
+
             <DialogDescription className="text-sm">
-              Are you sure you want to book a call with{" "}
-              <span className="font-bold">{pendingExpert?.name}</span>?
+              {isLoggedIn ? (
+                <>
+                  Are you sure you want to book a call with{" "}
+                  <span className="font-bold">{pendingExpert?.name}</span>?
+                </>
+              ) : (
+                "Please log in first to book a call."
+              )}
             </DialogDescription>
           </DialogHeader>
 
@@ -188,19 +234,30 @@ export default function EmblaCarouselCards({
               variant="outline"
               onClick={() => setPendingKey(null)}
               className="text-sm"
+              disabled={loading}
             >
-              Cancel
+              Close
             </Button>
 
-            <Button
-              className="bg-green-600 hover:bg-green-700 text-white text-sm"
-              onClick={() => {
-                if (pendingKey) handleBook(pendingKey);
-                setPendingKey(null);
-              }}
-            >
-              Yes, Book Call
-            </Button>
+            {isLoggedIn ? (
+              <Button
+                className="bg-green-600 hover:bg-green-700 text-white text-sm"
+                onClick={handleConfirmBooking}
+                disabled={loading}
+              >
+                {loading ? "Booking..." : "Yes, Book Call"}
+              </Button>
+            ) : (
+              <Button
+                className="bg-blue-600 hover:bg-blue-700 text-white text-sm"
+                onClick={() => {
+                  setPendingKey(null);
+                  setIsSignInModalOpen(true);
+                }}
+              >
+                Login
+              </Button>
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>
