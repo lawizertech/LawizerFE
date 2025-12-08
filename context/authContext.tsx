@@ -76,7 +76,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         user,
         loading,
-        isLoggedIn: !!user,
+        isLoggedIn: !!user || false,
         refreshUser,
         logout,
         isSignupModalOpen,

@@ -606,12 +606,18 @@ export function Header() {
                   Login
                 </Button>
               ) : (
-                <div className="flex items-center gap-3 cursor-pointer">
+                <div className="flex items-center gap-8 cursor-pointer">
                   <Link
                     className="text-sm font-medium text-[#ff1d46]"
                     href="/profile"
                   >
                     Profile
+                  </Link>
+                  <Link
+                    className="text-sm font-medium text-gray-700"
+                    href="/dashboard"
+                  >
+                    Dashboard
                   </Link>
                 </div>
               )}
@@ -840,9 +846,9 @@ export function Header() {
             setIsSignInModalOpen(false);
             setIsSignupModalOpen(true);
           }}
-          onLoginSuccess={() => {
+          onLoginSuccess={(data) => {
             refereshUserData();
-            setIsCompleteProfileModalOpen(true);
+            if (!data.isProfileComplete) setIsCompleteProfileModalOpen(true);
           }}
         />
       )}
