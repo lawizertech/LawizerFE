@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { PhoneCall, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import EmblaCarouselCards from "@/components/EmblaCarouselCards";
+import { getUserBookings } from "@/lib/apis/api";
+import { useAuth } from "@/context/authContext";
 
 const ALL_ADVOCATES = [
   {
@@ -119,6 +121,8 @@ const ALL_CAS = [
 export default function StartConsultationPage() {
   const [requestedIndex, setRequestedIndex] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [bookedExpertIds, setBookedExpertIds] = useState<string[]>([]);
+  const { isLoggedIn } = useAuth();
 
   const searchParams = useSearchParams();
   const userQueryType = searchParams.get("type");
@@ -127,6 +131,27 @@ export default function StartConsultationPage() {
     setSuccess(true);
     setTimeout(() => setSuccess(false), 1200);
   };
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        console.log("Fetching bookings...");
+        console.log(isLoggedIn);
+
+        if (!isLoggedIn) return;
+
+        const res = await getUserBookings();
+        const bookedIds = res.consultations?.map((b: any) => `${b.expertId}`);
+        console.log(bookedIds);
+
+        setBookedExpertIds(bookedIds || []);
+      } catch (err) {
+        console.error("Failed to fetch bookings", err);
+      }
+    };
+
+    fetchBookings();
+  }, [isLoggedIn]);
 
   const filteredAdvocates = useMemo(() => {
     if (userQueryType === "civil_commercial") {
@@ -217,6 +242,7 @@ export default function StartConsultationPage() {
           list={filteredAdvocates} // Use the filtered list based on URL
           type="adv"
           onBook={(key) => setRequestedIndex(key)}
+          bookedKeys={bookedExpertIds}
         />
       </div>
 
@@ -230,6 +256,7 @@ export default function StartConsultationPage() {
             list={ALL_CAS}
             type="ca"
             onBook={(key) => setRequestedIndex(key)}
+            bookedKeys={bookedExpertIds}
           />
         </div>
       )}
