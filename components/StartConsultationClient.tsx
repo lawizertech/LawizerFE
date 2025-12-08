@@ -9,6 +9,7 @@ import EmblaCarouselCards from "@/components/EmblaCarouselCards";
 
 const ALL_ADVOCATES = [
   {
+    expertId: "adv_01",
     name: "Adv. Sakshi Srivastava",
     role: "Family, Criminal, Arbitration",
     img: "user.png",
@@ -17,6 +18,7 @@ const ALL_ADVOCATES = [
     experience: "2 years",
   },
   {
+    expertId: "adv_02",
     name: "Adv. Krishnendu Modak",
     role: "Civil, Criminal, Company, Family, Consumer",
     img: "user.png",
@@ -25,6 +27,7 @@ const ALL_ADVOCATES = [
     experience: "2+ years",
   },
   {
+    expertId: "adv_03",
     name: "Adv. Chandramouli Bagchi",
     role: "Civil Lawyer",
     img: "user.png",
@@ -33,6 +36,7 @@ const ALL_ADVOCATES = [
     experience: "2 years",
   },
   {
+    expertId: "adv_04",
     name: "Adv. Himadree Ghosh",
     role: "Property, Criminal, Matrimonial, Writ, Drafting",
     img: "user.png",
@@ -41,6 +45,7 @@ const ALL_ADVOCATES = [
     experience: "2 years",
   },
   {
+    expertId: "adv_05",
     name: "Adv. Rahul Das",
     role: "Civil Lawyer",
     img: "user.png",
@@ -49,6 +54,7 @@ const ALL_ADVOCATES = [
     experience: "2 years",
   },
   {
+    expertId: "adv_06",
     name: "Adv. Indranil Banerjee",
     role: "Property, Criminal (NDPS), Drafting, Civil",
     img: "user.png",
@@ -57,6 +63,7 @@ const ALL_ADVOCATES = [
     experience: "5.5 years",
   },
   {
+    expertId: "adv_07",
     name: "Adv. Aishik Chakraborty",
     role: "Commercial Litigation, Arbitration, Civil, IBC",
     img: "user.png",
@@ -68,6 +75,7 @@ const ALL_ADVOCATES = [
 
 const ALL_CAS = [
   {
+    expertId: "ca_01",
     name: "CA Himanshu Dubey",
     role: "Income Tax, GST, Corporate Compliances, Insurance Claim Consulting",
     experience: "2.5 years",
@@ -77,6 +85,7 @@ const ALL_CAS = [
     gender: "male",
   },
   {
+    expertId: "ca_02",
     name: "CA Bishal Jain",
     role: "Taxation, Stock Recommendation",
     experience: "1 year",
@@ -86,6 +95,7 @@ const ALL_CAS = [
     gender: "male",
   },
   {
+    expertId: "ca_03",
     name: "CA Abhishek Kumar Singh",
     role: "Accounting, Taxation, Audit, Regulatory Compliance, GST, Income Tax, Financial Reporting, Business Advisory",
     experience: "4 years",
@@ -95,6 +105,7 @@ const ALL_CAS = [
     gender: "male",
   },
   {
+    expertId: "ca_04",
     name: "CA Vivek Bhatia",
     role: "Taxation (3 years), Accounting Advisory (3 years), Personal Finance (4 years)",
     experience: "4 years",
