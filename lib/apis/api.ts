@@ -10,6 +10,12 @@ interface ProfilePayload {
   photoURL?: string;
 }
 
+interface ScheduleCallPayload {
+  expertId: string;
+  expertName: string;
+  rate?: string;
+}
+
 /* -------------------------------------------------------------------------- */
 /*                           🔄 TOKEN RENEW FUNCTION                           */
 /* -------------------------------------------------------------------------- */
@@ -82,7 +88,12 @@ export const signupUser = async (
   phoneNumber: string
 ) => {
   try {
-    const res = await api.post(`/auth/signup`, { name, email, password, phoneNumber });
+    const res = await api.post(`/auth/signup`, {
+      name,
+      email,
+      password,
+      phoneNumber,
+    });
     return res.data;
   } catch (err: any) {
     const errorCode = err?.response?.data?.errorCode;
@@ -180,6 +191,77 @@ export const loginUser = async (idToken: string) => {
       );
 
       return { success: true, ...retryRes.data };
+    }
+
+    return {
+      success: false,
+      message: err?.response?.data?.message,
+      errorCode,
+    };
+  }
+};
+
+/* -------------------------------------------------------------------------- */
+/*                           🔹 scheduleCall API                              */
+/* -------------------------------------------------------------------------- */
+
+export const scheduleCall = async (
+  payload: ScheduleCallPayload,
+  type: "adv" | "ca"
+) => {
+  try {
+    const endpoint =
+      type === "adv"
+        ? "/consultation/schedule-adv-consultation"
+        : "/consultation/schedule-ca-consultation";
+
+    const res = await api.post(endpoint, payload);
+
+    return res.data;
+  } catch (err: any) {
+    const errorCode = err?.response?.data?.errorCode;
+
+    if (errorCode === "TOKEN_EXPIRED") {
+      const newToken = await renewToken();
+      if (!newToken) return err.response.data;
+
+      const endpoint =
+        type === "adv" ? "/call/schedule-adv" : "/call/schedule-ca";
+
+      const retryRes = await api.post(endpoint, payload);
+
+      return retryRes.data;
+    }
+
+    return {
+      success: false,
+      message: err?.response?.data?.message,
+      errorCode,
+    };
+  }
+};
+
+/* -------------------------------------------------------------------------- */
+/*                           🔹 getUserBookings API                            */
+/* -------------------------------------------------------------------------- */
+
+export const getUserBookings = async () => {
+  try {
+    const res = await api.get("/consultation/fetch-consultations");
+
+    return res.data;
+  } catch (err: any) {
+    const errorCode = err?.response?.data?.errorCode;
+
+    if (errorCode === "TOKEN_EXPIRED") {
+      const newToken = await renewToken();
+      if (!newToken) return err.response.data;
+
+      const retryRes = await api.get("/consultation/fetch-consultations", {
+        headers: { Authorization: `Bearer ${newToken}` },
+      });
+
+      return retryRes.data;
     }
 
     return {
