@@ -73,7 +73,7 @@ const ALL_CAS = [
     experience: "2.5 years",
     location: "Kolkata",
     rate: "₹50/min",
-    img: "/adv/CA1.png",
+    img: "user.png",
     gender: "male",
   },
   {
@@ -82,7 +82,7 @@ const ALL_CAS = [
     experience: "1 year",
     location: "Kolkata",
     rate: "₹50/min",
-    img: "/adv/CA2.png",
+    img: "user.png",
     gender: "male",
   },
   {
@@ -91,7 +91,7 @@ const ALL_CAS = [
     experience: "4 years",
     location: "Kolkata",
     rate: "₹25/min",
-    img: "/adv/CA3.png",
+    img: "user.png",
     gender: "male",
   },
   {
@@ -100,7 +100,7 @@ const ALL_CAS = [
     experience: "4 years",
     location: "Kolkata",
     rate: "₹30/min",
-    img: "/adv/CA4.png",
+    img: "user.png",
     gender: "male",
   },
 ];

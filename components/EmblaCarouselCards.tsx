@@ -63,7 +63,7 @@ export default function EmblaCarouselCards({
               className="basis-[160px] sm:basis-[180px] md:basis-[200px] lg:basis-[220px] pl-2"
             >
               <div
-                className={`rounded-2xl border border-gray-200 bg-white shadow-md hover:shadow-lg transition-all p-3 hover:-translate-y-1 ${
+                className={`rounded-2xl border border-gray-200 bg-white shadow-md hover:shadow-lg transition-all p-3 hover:-translate-y-1 h-92 ${
                   expert.gender === "female"
                     ? "hover:border-pink-400"
                     : "hover:border-blue-400"
@@ -78,34 +78,36 @@ export default function EmblaCarouselCards({
                   />
                 </div>
 
-                <div className="text-center space-y-1">
-                  <p className="font-semibold text-gray-800 text-xs">
-                    {expert.name}
-                  </p>
-
-                  <p className="text-[11px] text-gray-500">{expert.role}</p>
-
-                  {/* ⭐ Show Rate ONLY for CA */}
-                  {type === "ca" && expert.rate && (
-                    <p className="text-[11px] font-semibold text-green-600">
-                      {expert.rate}
+                <div className={`${type === "ca" ? "h-36" : "h-28"} flex flex-col justify-between `}>
+                  {" "}
+                  <div className="text-center space-y-1">
+                    <p className="font-semibold text-gray-800 text-xs">
+                      {expert.name}
                     </p>
-                  )}
-                </div>
 
-                <div className="mt-2 flex justify-center">
-                  <Button
-                    size="sm"
-                    className={`rounded-full text-white text-xs px-3 py-1.5 font-medium ${
-                      expert.gender === "female"
-                        ? "bg-pink-500 hover:bg-pink-600"
-                        : "bg-blue-600 hover:bg-blue-700"
-                    }`}
-                    onClick={() => onBook(key)}
-                  >
-                    <PhoneCall className="mr-1 h-3 w-3" />
-                    Book a Call
-                  </Button>
+                    <p className="text-[11px] text-gray-500">{expert.role}</p>
+
+                    {/* ⭐ Show Rate ONLY for CA */}
+                    {type === "ca" && expert.rate && (
+                      <p className="text-[11px] font-semibold text-green-600">
+                        {expert.rate}
+                      </p>
+                    )}
+                  </div>
+                  <div className="mt-2 flex justify-center">
+                    <Button
+                      size="sm"
+                      className={`rounded-full text-white text-xs px-3 py-1.5 font-medium ${
+                        expert.gender === "female"
+                          ? "bg-pink-500 hover:bg-pink-600"
+                          : "bg-blue-600 hover:bg-blue-700"
+                      }`}
+                      onClick={() => onBook(key)}
+                    >
+                      <PhoneCall className="mr-1 h-3 w-3" />
+                      Book a Call
+                    </Button>
+                  </div>
                 </div>
               </div>
             </CarouselItem>
