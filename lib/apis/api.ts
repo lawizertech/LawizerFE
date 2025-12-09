@@ -271,3 +271,99 @@ export const getUserBookings = async () => {
     };
   }
 };
+
+/* -------------------------------------------------------------------------- */
+/*                           🔹 advocateLogin API                              */
+/* -------------------------------------------------------------------------- */
+export const advLoginUser = async (idToken: string) => {
+  try {
+    const res = await api.post(
+      `/advocate/login`,
+      { idToken },
+      {
+        headers: { Authorization: `Bearer ${idToken}` },
+      }
+    );
+
+    return {
+      success: true,
+      ...res.data,
+    };
+  } catch (err: any) {
+    const errorCode = err?.response?.data?.errorCode;
+
+    if (errorCode === "TOKEN_EXPIRED") {
+      const newToken = await renewToken();
+      if (!newToken) return err.response.data;
+
+      const retryRes = await api.post(
+        `/advocate/login`,
+        { idToken },
+        {
+          headers: { Authorization: `Bearer ${newToken}` },
+        }
+      );
+
+      return { success: true, ...retryRes.data };
+    }
+
+    return {
+      success: false,
+      message: err?.response?.data?.message,
+      errorCode,
+    };
+  }
+};
+
+/* -------------------------------------------------------------------------- */
+/*                           🔹 advocateResetPassword API                     */
+/* -------------------------------------------------------------------------- */
+export const advResetPassword = async (email: string) => {
+  try {
+    const res = await api.post("/advocate/reset-password", { email });
+    return res.data;
+  } catch (err: any) {
+    return {
+      success: false,
+      message: err?.response?.data?.message,
+      errorCode: err?.response?.data?.errorCode,
+    };
+  }
+};
+
+/* -------------------------------------------------------------------------- */
+/*                           🔹 advocateCompleteProfile API                   */
+/* -------------------------------------------------------------------------- */
+export const advCompleteProfile = async (payload: {
+  expertId: string;
+  name: string;
+  role: string;
+  img?: string;
+  gender?: string;
+  location?: string;
+  experience?: string;
+}) => {
+  try {
+    const res = await api.post("/advocate/complete-profile", payload);
+    return res.data;
+  } catch (err: any) {
+    const errorCode = err?.response?.data?.errorCode;
+
+    if (errorCode === "TOKEN_EXPIRED") {
+      const newToken = await renewToken();
+      if (!newToken) return err.response.data;
+
+      const retryRes = await api.post("/advocate/complete-profile", payload, {
+        headers: { Authorization: `Bearer ${newToken}` },
+      });
+
+      return retryRes.data;
+    }
+
+    return {
+      success: false,
+      message: err?.response?.data?.message,
+      errorCode,
+    };
+  }
+};
