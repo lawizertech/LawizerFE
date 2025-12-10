@@ -367,3 +367,45 @@ export const advCompleteProfile = async (payload: {
     };
   }
 };
+
+/* -------------------------------------------------------------------------- */
+/*                           🔹 getAllAdvocates API                            */
+/* -------------------------------------------------------------------------- */
+
+export const getAllAdvocates = async () => {
+  try {
+    const res = await api.get("/consultation/fetch-advocates");
+    return {
+      success: true,
+      ...res.data,
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      message: err?.response?.data?.message || "Failed to fetch advocates",
+      errorCode: err?.response?.data?.errorCode || null,
+    };
+  }
+};
+
+/* -------------------------------------------------------------------------- */
+/*                     🔹 Fetch Consultations for Advocate/CA                 */
+/* -------------------------------------------------------------------------- */
+export const fetchExpertConsultations = async (expertType?: string) => {
+  try {
+    const res = await api.get(`/advocate/fetch-consultations`, {
+      params: { expertType: expertType || undefined },
+    });
+
+    return {
+      success: true,
+      ...res.data, 
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      message: err?.response?.data?.message || "Failed to fetch consultations",
+      errorCode: err?.response?.data?.errorCode || null,
+    };
+  }
+};
