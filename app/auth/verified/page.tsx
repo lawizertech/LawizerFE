@@ -7,17 +7,17 @@ export default function VerifiedPage() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCount((prev) => {
-        if (prev === 1) {
-          clearInterval(interval);
-          window.close();
-        }
-        return prev - 1;
-      });
+      setCount((prev) => prev - 1);
     }, 1000);
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (count === 0) {
+      window.close();
+    }
+  }, [count]);
 
   return (
     <div className="h-screen w-screen bg-white flex flex-col items-center justify-center text-center">
