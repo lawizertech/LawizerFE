@@ -5,14 +5,15 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { HoverDropdown } from "./headerdropdown";
 import { useEffect, useState } from "react";
-import { SignInModal } from "./auth/signinPopup";
+import { SignInModal } from "../auth/signinPopup";
 import Link from "next/link";
 import { useAuth } from "@/context/authContext";
-import { useRouter } from "next/navigation";
-import { SignupModal } from "./auth/signupPopup";
-import CompleteProfileModal from "./auth/CompleteProfileModal";
+import { usePathname, useRouter } from "next/navigation";
+import { SignupModal } from "../auth/signupPopup";
+import CompleteProfileModal from "../auth/CompleteProfileModal";
 
 export function Header() {
+  const pathname = usePathname();
   const [loggedUser, setLoggedUser] = useState<any>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const {
@@ -430,19 +431,23 @@ export function Header() {
       const uid = localStorage.getItem("uid");
       const email = localStorage.getItem("email");
       const token = localStorage.getItem("token");
-      if (uid && email && token) {
-        setLoggedUser({ uid, email, token });
+      const role = localStorage.getItem("role");
+      if (uid && email && token && role) {
+        setLoggedUser({ uid, email, token, role });
       }
     }
   }, []);
 
+  const hideNavbarSections = pathname.startsWith("/lawyer");
+
   const refereshUserData = () => {
-    console.log("User Data Updated");
     if (typeof window !== "undefined") {
       const uid = localStorage.getItem("uid");
       const email = localStorage.getItem("email");
-      if (uid && email) {
-        setLoggedUser({ uid, email });
+      const token = localStorage.getItem("token");
+      const role = localStorage.getItem("role");
+      if (uid && email && token && role) {
+        setLoggedUser({ uid, email, token, role });
       }
     }
   };
@@ -514,116 +519,124 @@ export function Header() {
             </div>
 
             {/* Navigation */}
-            <nav className="hidden lg:flex items-center gap-8">
-              <HoverDropdown label="Services">
-                {services.map((service, index) => (
-                  <div key={index} className="relative group/service">
-                    {/* MAIN LINK */}
-                    <Link
-                      href={service.url}
-                      className="text-sm font-semibold py-1 hover:text-[#c92c41] flex items-center justify-between"
-                    >
-                      {service.title}
+            {!hideNavbarSections && (
+              <nav className="hidden lg:flex items-center gap-8">
+                <HoverDropdown label="Services">
+                  {services.map((service, index) => (
+                    <div key={index} className="relative group/service">
+                      {/* MAIN LINK */}
+                      <Link
+                        href={service.url}
+                        className="text-sm font-semibold py-1 hover:text-[#c92c41] flex items-center justify-between"
+                      >
+                        {service.title}
 
+                        {service.items?.length > 0 && (
+                          <ChevronDown className="ml-2 h-4 w-4 -rotate-90" />
+                        )}
+                      </Link>
+
+                      {/* RIGHT SUBMENU */}
                       {service.items?.length > 0 && (
-                        <ChevronDown className="ml-2 h-4 w-4 -rotate-90" />
-                      )}
-                    </Link>
-
-                    {/* RIGHT SUBMENU */}
-                    {service.items?.length > 0 && (
-                      <div
-                        className="absolute top-0 left-full ml-0 hidden group-hover/service:flex hover:flex  
+                        <div
+                          className="absolute top-0 left-full ml-0 hidden group-hover/service:flex hover:flex  
            flex-col bg-white shadow-xl rounded-lg border p-4 w-72 z-50 max-h-88 overflow-y-scroll
            scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent"
-                      >
-                        {service.items.map((item, i) => {
-                          // 📌 CASE 1: Section group (ITR, Startup, Challan)
-                          if ("section" in item && item.items) {
+                        >
+                          {service.items.map((item, i) => {
+                            // 📌 CASE 1: Section group (ITR, Startup, Challan)
+                            if ("section" in item && item.items) {
+                              return (
+                                <div key={i} className="mb-3">
+                                  <p className="text-xs font-bold text-gray-500 mb-1">
+                                    {item.section}
+                                  </p>
+
+                                  {item.items.map((sub, j) => (
+                                    <Link
+                                      key={j}
+                                      href={sub.url}
+                                      className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-[#c92c41] block transition"
+                                    >
+                                      {sub.name}
+                                    </Link>
+                                  ))}
+                                </div>
+                              );
+                            }
+
+                            // 📌 CASE 2: Normal flat item
                             return (
-                              <div key={i} className="mb-3">
-                                <p className="text-xs font-bold text-gray-500 mb-1">
-                                  {item.section}
-                                </p>
-
-                                {item.items.map((sub, j) => (
-                                  <Link
-                                    key={j}
-                                    href={sub.url}
-                                    className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-[#c92c41] block transition"
-                                  >
-                                    {sub.name}
-                                  </Link>
-                                ))}
-                              </div>
+                              <Link
+                                key={i}
+                                href={item.url}
+                                className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-[#c92c41] transition"
+                              >
+                                {item.name}
+                              </Link>
                             );
-                          }
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </HoverDropdown>
 
-                          // 📌 CASE 2: Normal flat item
-                          return (
-                            <Link
-                              key={i}
-                              href={item.url}
-                              className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-[#c92c41] transition"
-                            >
-                              {item.name}
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </HoverDropdown>
-
-              <HoverDropdown label="Resources">
-                <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
-                  Blogs
-                </Link>
-                <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
-                  Guides
-                </Link>
-                <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
-                  FAQs
-                </Link>
-              </HoverDropdown>
-
-              {["About", "Contact"].map((item) => (
-                <Link
-                  key={item}
-                  href="#"
-                  className="text-gray-700 hover:text-[#c92c41] text-sm font-medium transition-colors"
-                >
-                  {item}
-                </Link>
-              ))}
-
-              {!loggedUser ? (
-                <Button
-                  onClick={() => setIsSignInModalOpen(true)}
-                  className="bg-blue-600 text-white rounded-full px-6 py-2 shadow-md"
-                >
-                  Login
-                </Button>
-              ) : (
-                <div className="flex items-center gap-8 cursor-pointer">
-                  <Link
-                    className="text-sm font-medium text-[#ff1d46]"
-                    href="/profile"
-                  >
-                    Profile
+                <HoverDropdown label="Resources">
+                  <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                    Blogs
                   </Link>
+                  <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                    Guides
+                  </Link>
+                  <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                    FAQs
+                  </Link>
+                </HoverDropdown>
+
+                {["About", "Contact"].map((item) => (
+                  <Link
+                    key={item}
+                    href="#"
+                    className="text-gray-700 hover:text-[#c92c41] text-sm font-medium transition-colors"
+                  >
+                    {item}
+                  </Link>
+                ))}
+
+                {!loggedUser ? (
+                  <Button
+                    onClick={() => setIsSignInModalOpen(true)}
+                    className="bg-blue-600 text-white rounded-full px-6 py-2 shadow-md"
+                  >
+                    Login
+                  </Button>
+                ) : loggedUser.role === "USER" ? (
+                  <div className="flex items-center gap-8 cursor-pointer">
+                    <Link
+                      className="text-sm font-medium text-[#ff1d46]"
+                      href="/profile"
+                    >
+                      Profile
+                    </Link>
+                    <Link
+                      className="text-sm font-medium text-gray-700"
+                      href="/dashboard"
+                    >
+                      Dashboard
+                    </Link>
+                  </div>
+                ) : loggedUser.role === "ADVOCATE_CA" ? (
                   <Link
                     className="text-sm font-medium text-gray-700"
-                    href="/dashboard"
+                    href="/lawyer/dashboard"
                   >
                     Dashboard
                   </Link>
-                </div>
-              )}
-            </nav>
+                ) : null}
+              </nav>
+            )}
 
-            {/* Mobile Menu Icon (Hamburger/Close) */}
             <div className="flex items-center lg:hidden">
               <Button
                 onClick={() => router.push("/start-consultation")}
@@ -647,7 +660,6 @@ export function Header() {
               </Button>
             </div>
 
-            {/* The primary "Get Legal Help" button for desktop */}
             <Button
               onClick={() => router.push("/start-consultation")}
               className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-6 py-2 rounded-full font-medium shadow-md hidden lg:inline-flex"

@@ -1,79 +1,80 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, use } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { PhoneCall, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import EmblaCarouselCards from "@/components/EmblaCarouselCards";
-import { getUserBookings } from "@/lib/apis/api";
+import EmblaCarouselCards from "@/components/client/EmblaCarouselCards";
+import { getAllAdvocates, getUserBookings } from "@/lib/apis/api";
 import { useAuth } from "@/context/authContext";
+import LoadingSkeletonCards from "./LoadingSkeleton";
 
-const ALL_ADVOCATES = [
-  {
-    expertId: "adv_01",
-    name: "Adv. Sakshi Srivastava",
-    role: "Family, Criminal, Arbitration",
-    img: "user.png",
-    gender: "female",
-    location: "Delhi",
-    experience: "2 years",
-  },
-  {
-    expertId: "adv_02",
-    name: "Adv. Krishnendu Modak",
-    role: "Civil, Criminal, Company, Family, Consumer",
-    img: "user.png",
-    gender: "male",
-    location: "Kolkata",
-    experience: "2+ years",
-  },
-  {
-    expertId: "adv_03",
-    name: "Adv. Chandramouli Bagchi",
-    role: "Civil Lawyer",
-    img: "user.png",
-    gender: "male",
-    location: "Barrackpore / Barasat",
-    experience: "2 years",
-  },
-  {
-    expertId: "adv_04",
-    name: "Adv. Himadree Ghosh",
-    role: "Property, Criminal, Matrimonial, Writ, Drafting",
-    img: "user.png",
-    gender: "female",
-    location: "Calcutta",
-    experience: "2 years",
-  },
-  {
-    expertId: "adv_05",
-    name: "Adv. Rahul Das",
-    role: "Civil Lawyer",
-    img: "user.png",
-    gender: "male",
-    location: "Kolkata",
-    experience: "2 years",
-  },
-  {
-    expertId: "adv_06",
-    name: "Adv. Indranil Banerjee",
-    role: "Property, Criminal (NDPS), Drafting, Civil",
-    img: "user.png",
-    gender: "male",
-    location: "Kolkata",
-    experience: "5.5 years",
-  },
-  {
-    expertId: "adv_07",
-    name: "Adv. Aishik Chakraborty",
-    role: "Commercial Litigation, Arbitration, Civil, IBC",
-    img: "user.png",
-    gender: "male",
-    location: "Calcutta High Court",
-    experience: "2 years",
-  },
-];
+// const ALL_ADVOCATES = [
+//   {
+//     expertId: "adv_01",
+//     name: "Adv. Sakshi Srivastava",
+//     role: "Family, Criminal, Arbitration",
+//     img: "user.png",
+//     gender: "female",
+//     location: "Delhi",
+//     experience: "2 years",
+//   },
+//   {
+//     expertId: "adv_02",
+//     name: "Adv. Krishnendu Modak",
+//     role: "Civil, Criminal, Company, Family, Consumer",
+//     img: "user.png",
+//     gender: "male",
+//     location: "Kolkata",
+//     experience: "2+ years",
+//   },
+//   {
+//     expertId: "adv_03",
+//     name: "Adv. Chandramouli Bagchi",
+//     role: "Civil Lawyer",
+//     img: "user.png",
+//     gender: "male",
+//     location: "Barrackpore / Barasat",
+//     experience: "2 years",
+//   },
+//   {
+//     expertId: "adv_04",
+//     name: "Adv. Himadree Ghosh",
+//     role: "Property, Criminal, Matrimonial, Writ, Drafting",
+//     img: "user.png",
+//     gender: "female",
+//     location: "Calcutta",
+//     experience: "2 years",
+//   },
+//   {
+//     expertId: "adv_05",
+//     name: "Adv. Rahul Das",
+//     role: "Civil Lawyer",
+//     img: "user.png",
+//     gender: "male",
+//     location: "Kolkata",
+//     experience: "2 years",
+//   },
+//   {
+//     expertId: "adv_06",
+//     name: "Adv. Indranil Banerjee",
+//     role: "Property, Criminal (NDPS), Drafting, Civil",
+//     img: "user.png",
+//     gender: "male",
+//     location: "Kolkata",
+//     experience: "5.5 years",
+//   },
+//   {
+//     expertId: "adv_07",
+//     name: "Adv. Aishik Chakraborty",
+//     role: "Commercial Litigation, Arbitration, Civil, IBC",
+//     img: "user.png",
+//     gender: "male",
+//     location: "Calcutta High Court",
+//     experience: "2 years",
+//   },
+// ];
 
 const ALL_CAS = [
   {
@@ -118,12 +119,29 @@ const ALL_CAS = [
   },
 ];
 
+export interface Advocate {
+  uid: string;
+  expertId: string;
+  name: string;
+  role: string;
+  img: string;
+  gender: string;
+  location: string | null;
+  experience: string | null;
+  isProfileComplete?: boolean;
+  createdAt?: number;
+  updatedAt?: number;
+  email?: string;
+  profession?: string;
+}
+
 export default function StartConsultationPage() {
   const [requestedIndex, setRequestedIndex] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [bookedExpertIds, setBookedExpertIds] = useState<string[]>([]);
   const { isLoggedIn } = useAuth();
-
+  const [ALL_ADVOCATES, setALL_ADVOCATES] = useState<Advocate[]>([]);
+  const [loadingAdvocates, setLoadingAdvocates] = useState(true);
   const searchParams = useSearchParams();
   const userQueryType = searchParams.get("type");
 
@@ -131,6 +149,21 @@ export default function StartConsultationPage() {
     setSuccess(true);
     setTimeout(() => setSuccess(false), 1200);
   };
+
+  useEffect(() => {
+    const fetchAllAdvocates = async () => {
+      try {
+        const res = await getAllAdvocates();
+        setALL_ADVOCATES(res.advocates || []);
+      } catch (err) {
+        console.error("Failed to fetch advocates", err);
+      } finally {
+        setLoadingAdvocates(false);
+      }
+    };
+
+    fetchAllAdvocates();
+  }, []);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -169,7 +202,7 @@ export default function StartConsultationPage() {
     }
 
     return ALL_ADVOCATES;
-  }, [userQueryType]);
+  }, [userQueryType, ALL_ADVOCATES]);
 
   const shouldShowCAs = userQueryType !== "civil_commercial";
 
@@ -232,18 +265,21 @@ export default function StartConsultationPage() {
         </Button>
       </div>
 
-      {/* Advocates Carousel */}
-      <div className="w-full flex flex-col items-center space-y-10 overflow-hidden">
+      <div className="w-full flex flex-col items-center space-y-10 overflow-hidden justify-center">
         <h2 className="text-3xl font-semibold text-gray-800">
           👩‍⚖️ Our Top Advocates
         </h2>
 
-        <EmblaCarouselCards
-          list={filteredAdvocates} // Use the filtered list based on URL
-          type="adv"
-          onBook={(key) => setRequestedIndex(key)}
-          bookedKeys={bookedExpertIds}
-        />
+        {loadingAdvocates ? (
+          <LoadingSkeletonCards />
+        ) : (
+          <EmblaCarouselCards
+            list={filteredAdvocates}
+            type="adv"
+            onBook={(key) => setRequestedIndex(key)}
+            bookedKeys={bookedExpertIds}
+          />
+        )}
       </div>
 
       {/* CA Carousel */}

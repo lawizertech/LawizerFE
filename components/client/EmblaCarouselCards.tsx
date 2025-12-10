@@ -27,6 +27,14 @@ import {
 } from "@/components/ui/dialog";
 
 type Expert = {
+  uid: string;
+  location: string | null;
+  experience: string | null;
+  isProfileComplete?: boolean;
+  createdAt?: number;
+  updatedAt?: number;
+  email?: string;
+  profession?: string;
   expertId: string;
   name: string;
   role: string;
@@ -51,13 +59,12 @@ export default function EmblaCarouselCards({
   const autoplay = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: false, playOnInit: true })
   );
-
   const [localBookedKeys, setLocalBookedKeys] =
     React.useState<string[]>(bookedKeys);
   const [pendingKey, setPendingKey] = React.useState<string | null>(null);
   const [pendingExpert, setPendingExpert] = React.useState<Expert | null>(null);
   const [loading, setLoading] = React.useState(false);
-  const { isLoggedIn, setIsSignInModalOpen } = useAuth();
+  const { isLoggedIn, setIsSignInModalOpen, user } = useAuth();
 
   const handleBook = (key: string) => {
     setLocalBookedKeys((prev) => [...prev, key]);
@@ -81,9 +88,14 @@ export default function EmblaCarouselCards({
       }
 
       const payload = {
-        expertId: pendingKey,
+        userId: (user as any).uid,
+        expertUid: pendingExpert.uid,
+        expertId: pendingExpert.expertId,
         expertName: pendingExpert.name,
+        expertType: type, // "adv" or "ca"
+        status: "scheduled",
         rate: pendingExpert.rate || undefined,
+        bookedAt: new Date().toISOString(),
       };
 
       await scheduleCall(payload, type as "ca" | "adv");
@@ -116,7 +128,6 @@ export default function EmblaCarouselCards({
             const key = `${expert.expertId}`;
 
             const isBooked = localBookedKeys.includes(expert.expertId);
-            console.log(localBookedKeys, expert.expertId);
 
             return (
               <CarouselItem
