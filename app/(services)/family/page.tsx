@@ -10,7 +10,7 @@ import {
   ArrowRight,
   Shield,
 } from "lucide-react";
-import EmblaCarouselCards from "@/components/EmblaCarouselCards";
+import EmblaCarouselCards from "@/components/client/EmblaCarouselCards";
 
 export default function FamilyLegalPage() {
   const router = useRouter();

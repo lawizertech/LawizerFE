@@ -19,7 +19,6 @@ function walk(dir) {
 }
 
 const files = walk(root);
-console.log(`Found ${files.length} files under ${root}`);
 
 const citeRegex = /\[cite:[^\]]+\]/g;
 let changed = 0;
@@ -28,8 +27,6 @@ for (const f of files) {
   if (citeRegex.test(content)) {
     content = content.replace(citeRegex, '');
     fs.writeFileSync(f, content, 'utf8');
-    console.log('Updated', f);
     changed++;
   }
 }
-console.log(`Done. Updated ${changed} files.`);

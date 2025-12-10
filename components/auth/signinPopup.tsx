@@ -60,6 +60,7 @@ export function SignInModal({
       localStorage.setItem("uid", res.data.uid);
       localStorage.setItem("email", res.data.email);
       localStorage.setItem("token", res.token);
+      localStorage.setItem("role", res.data.role);
       localStorage.setItem("userProfile", JSON.stringify(res.data));
       onLoginSuccess && onLoginSuccess(res.data);
       refreshUser();
@@ -161,6 +162,16 @@ export function SignInModal({
               Sign Up
             </button>
           </p>
+        </div>
+
+        <div className="mt-1 text-center text-sm text-gray-700">
+          Are you a Lawyer?{" "}
+          <a
+            href="/lawyer/login"
+            className="text-indigo-600 font-semibold hover:text-indigo-500"
+          >
+            Login here
+          </a>
         </div>
       </div>
     </div>

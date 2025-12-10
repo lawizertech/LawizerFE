@@ -1,15 +1,12 @@
-import { Header } from "@/components/header";
-import { HeroSection } from "@/components/home/hero-section";
-import { StatsSection } from "@/components/home/stats-section";
-import { TrustSection } from "@/components/home/trust-section";
-import { TestimonialsSection } from "@/components/home/testimonials-section";
-import { FAQSection } from "@/components/home/faq-section";
-import { Footer } from "@/components/footer";
-import { WhatsAppButton } from "@/components/home/whatsapp-button";
-import { RealLifeQuestionsSection } from "@/components/home/RealLifeQuestionsSection";
-import ServicesSection from "@/components/home/services-section";
-import { EmergencyButton } from "@/components/home/emergency-button";
-import PopularServicesSection from "@/components/home/popular-services-section";
+import { EmergencyButton } from "@/components/client/home/emergency-button";
+import { FAQSection } from "@/components/client/home/faq-section";
+import { HeroSection } from "@/components/client/home/hero-section";
+import PopularServicesSection from "@/components/client/home/popular-services-section";
+import { RealLifeQuestionsSection } from "@/components/client/home/RealLifeQuestionsSection";
+import ServicesSection from "@/components/client/home/services-section";
+import { StatsSection } from "@/components/client/home/stats-section";
+import { TestimonialsSection } from "@/components/client/home/testimonials-section";
+import { WhatsAppButton } from "@/components/client/home/whatsapp-button";
 
 export default function Home() {
   return (

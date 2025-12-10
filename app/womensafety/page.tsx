@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Heart, Shield, PhoneCall, EyeOff, AlertTriangle } from "lucide-react";
-import EmblaCarouselCards from "@/components/EmblaCarouselCards";
+import EmblaCarouselCards from "@/components/client/EmblaCarouselCards";
 
 export default function WomenSafetyLegalPage() {
   const router = useRouter();

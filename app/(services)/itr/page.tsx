@@ -203,7 +203,6 @@ export default function ITRFilingPage() {
             tax consultant for free.
           </p>
           <button
-            onClick={() => console.log("Directing to contact/consultation")}
             className="flex items-center gap-2 px-4 py-2 rounded-full text-white font-semibold transition-all hover:shadow-lg"
             style={{ background: primaryAccent }}
           >
