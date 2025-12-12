@@ -399,12 +399,33 @@ export const fetchExpertConsultations = async (expertType?: string) => {
 
     return {
       success: true,
-      ...res.data, 
+      ...res.data,
     };
   } catch (err: any) {
     return {
       success: false,
       message: err?.response?.data?.message || "Failed to fetch consultations",
+      errorCode: err?.response?.data?.errorCode || null,
+    };
+  }
+};
+
+/* -------------------------------------------------------------------------- */
+/*                         🔹 Fetch Advocate / CA Profile                     */
+/* -------------------------------------------------------------------------- */
+export const fetchAdvocateProfile = async () => {
+  try {
+    const res = await api.get(`/advocate/expert/profile`);
+
+    return {
+      success: true,
+      ...res.data,
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      message:
+        err?.response?.data?.message || "Failed to fetch advocate profile",
       errorCode: err?.response?.data?.errorCode || null,
     };
   }
