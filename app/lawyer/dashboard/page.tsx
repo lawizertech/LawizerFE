@@ -16,7 +16,7 @@ export default function LawyerDashboardPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <Sidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -25,7 +25,7 @@ export default function LawyerDashboardPage() {
       />
       <MobileMenuButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
-      <main className="flex-1 ml-0 lg:ml-64 p-8 pt-24">
+      <main className="flex-1 ml-0 lg:ml-64 p-6 lg:p-10 pt-24">
         {activeTab === "dashboard" && <DashboardTab />}
         {activeTab === "profile" && <ProfileTab />}
         {activeTab === "bookings" && <BookingsTab />}
