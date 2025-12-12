@@ -128,7 +128,7 @@ export function Footer() {
               <ul className="space-y-3 text-sm">
                 <li>
                   <a
-                    href="#"
+                    href="/about"
                     className="text-gray-600 hover:text-primary transition-colors"
                   >
                     About
