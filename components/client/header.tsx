@@ -15,6 +15,7 @@ import CompleteProfileModal from "../auth/CompleteProfileModal";
 export function Header() {
   const pathname = usePathname();
   const [loggedUser, setLoggedUser] = useState<any>(null);
+  const [showContactCard, setShowContactCard] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const {
     isSignupModalOpen,
@@ -594,15 +595,23 @@ export function Header() {
                   </Link>
                 </HoverDropdown>
 
-                {["About", "Contact"].map((item) => (
-                  <Link
-                    key={item}
-                    href="#"
-                    className="text-gray-700 hover:text-[#c92c41] text-sm font-medium transition-colors"
-                  >
-                    {item}
-                  </Link>
-                ))}
+                <Link
+                  onClick={handleLinkClick}
+                  href="#"
+                  className="text-gray-700 hover:text-[#c92c41] text-sm font-medium transition-colors"
+                >
+                  About
+                </Link>
+                <Link
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowContactCard(true);
+                  }}
+                  href="#"
+                  className="text-gray-700 hover:text-[#c92c41] text-sm font-medium transition-colors"
+                >
+                  Contact
+                </Link>
 
                 {!loggedUser ? (
                   <Button
@@ -778,7 +787,10 @@ export function Header() {
                     About
                   </Link>
                   <Link
-                    onClick={handleLinkClick}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowContactCard(true);
+                    }}
                     href="#"
                     className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
                   >
@@ -838,6 +850,73 @@ export function Header() {
               </div>
             </motion.aside>
           </>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showContactCard && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: -20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-2xl shadow-2xl p-6 w-[320px] relative"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setShowContactCard(false)}
+                className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 text-xl"
+              >
+                ✕
+              </button>
+
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                Contact Details
+              </h2>
+
+              {/* Phone */}
+              <div className="mb-4">
+                <p className="text-sm text-gray-600">Phone</p>
+                <div className="flex items-center justify-between bg-gray-100 px-3 py-2 rounded-lg mt-1">
+                  <span className="font-medium text-gray-800">
+                    +91 90628 15535
+                  </span>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText("+919062815535");
+                    }}
+                    className="text-blue-600 font-semibold text-sm hover:underline"
+                  >
+                    Copy
+                  </button>
+                </div>
+              </div>
+
+              {/* Email */}
+              <div>
+                <p className="text-sm text-gray-600">Email</p>
+                <div className="flex items-center justify-between bg-gray-100 px-3 py-2 rounded-lg mt-1">
+                  <span className="font-medium text-gray-800">
+                    admin@lawizer.com
+                  </span>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText("admin@lawizer.com");
+                    }}
+                    className="text-blue-600 font-semibold text-sm hover:underline"
+                  >
+                    Copy
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
 
