@@ -430,3 +430,24 @@ export const fetchAdvocateProfile = async () => {
     };
   }
 };
+
+/* -------------------------------------------------------------------------- */
+/*                         🔹 Fetch Advocate Dashboard Metrics               */
+/* -------------------------------------------------------------------------- */
+export const fetchAdvocateDashboard = async () => {
+  try {
+    const res = await api.get(`/advocate/expert/dashboard-metrics`);
+
+    return {
+      success: true,
+      ...res.data,
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      message:
+        err?.response?.data?.message || "Failed to fetch dashboard metrics",
+      errorCode: err?.response?.data?.errorCode || null,
+    };
+  }
+};
