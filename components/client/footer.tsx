@@ -12,7 +12,7 @@ export function Footer() {
               <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-lg">
                 <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
                   <img
-                    src="/logoLawizer.png"
+                    src="/logoLawizer.jpg"
                     alt="Lawizer Logo"
                     className="w-6 h-6"
                   />

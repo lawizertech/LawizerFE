@@ -11,7 +11,7 @@ export default function Header2() {
         onClick={() => window.location.replace("/")}
       >
         <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
-          <img src="/logoLawizer.png" alt="Lawizer Logo" className="w-6 h-6" />
+          <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-7 h-7" />
         </div>
         <div className="flex items-baseline gap-1">
           <span className="text-2xl font-bold text-[#c92c41]">Lawizer</span>

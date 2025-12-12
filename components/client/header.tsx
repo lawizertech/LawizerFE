@@ -506,9 +506,9 @@ export function Header() {
             >
               <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
                 <img
-                  src="/logoLawizer.png"
+                  src="/logoLawizer.jpg"
                   alt="Lawizer Logo"
-                  className="w-6 h-6"
+                  className="w-7 h-7"
                 />
               </div>
               <div className="flex items-baseline gap-1">
@@ -704,7 +704,7 @@ export function Header() {
                 >
                   <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
                     <img
-                      src="/logoLawizer.png"
+                      src="/logoLawizer.jpg"
                       alt="Lawizer Logo"
                       className="w-6 h-6"
                     />
