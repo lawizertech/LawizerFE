@@ -11,12 +11,14 @@ import { useAuth } from "@/context/authContext";
 import { usePathname, useRouter } from "next/navigation";
 import { SignupModal } from "../auth/signupPopup";
 import CompleteProfileModal from "../auth/CompleteProfileModal";
+import { ForgotPasswordModal } from "../auth/forgotPasswordModal";
 
 export function Header() {
   const pathname = usePathname();
   const [loggedUser, setLoggedUser] = useState<any>(null);
   const [showContactCard, setShowContactCard] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const {
     isSignupModalOpen,
     setIsSignupModalOpen,
@@ -937,9 +939,23 @@ export function Header() {
             setIsSignInModalOpen(false);
             setIsSignupModalOpen(true);
           }}
+          onForgotPassword={() => {
+            setIsSignInModalOpen(false);
+            setIsForgotPasswordOpen(true);
+          }}
           onLoginSuccess={(data) => {
             refereshUserData();
             if (!data.isProfileComplete) setIsCompleteProfileModalOpen(true);
+          }}
+        />
+      )}
+
+      {isForgotPasswordOpen && (
+        <ForgotPasswordModal
+          onClose={() => setIsForgotPasswordOpen(false)}
+          onBackToLogin={() => {
+            setIsForgotPasswordOpen(false);
+            setIsSignInModalOpen(true);
           }}
         />
       )}

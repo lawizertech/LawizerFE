@@ -11,12 +11,14 @@ interface SignInModalProps {
   onClose: () => void;
   onSignupRedirect?: () => void;
   onLoginSuccess?: (user: any) => void;
+  onForgotPassword?: () => void;
 }
 
 export function SignInModal({
   onClose,
   onSignupRedirect,
   onLoginSuccess,
+  onForgotPassword,
 }: SignInModalProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -150,6 +152,18 @@ export function SignInModal({
             Sign In
           </button>
         </form>
+
+
+          <div className="text-center pt-2">
+            <button
+              type="button"
+              onClick={onForgotPassword}
+              className="text-sm text-indigo-600 hover:text-indigo-500 font-medium"
+            >
+              Forgot password?
+            </button>
+          </div>
+
 
         {/* Signup Redirect */}
         <div className="mt-6 pt-4 border-t text-center">
