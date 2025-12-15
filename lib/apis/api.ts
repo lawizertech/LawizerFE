@@ -316,22 +316,6 @@ export const advLoginUser = async (idToken: string) => {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                           🔹 advocateResetPassword API                     */
-/* -------------------------------------------------------------------------- */
-export const advResetPassword = async (email: string) => {
-  try {
-    const res = await api.post("/advocate/reset-password", { email });
-    return res.data;
-  } catch (err: any) {
-    return {
-      success: false,
-      message: err?.response?.data?.message,
-      errorCode: err?.response?.data?.errorCode,
-    };
-  }
-};
-
-/* -------------------------------------------------------------------------- */
 /*                           🔹 advocateCompleteProfile API                   */
 /* -------------------------------------------------------------------------- */
 export const advCompleteProfile = async (payload: {
@@ -447,6 +431,28 @@ export const fetchAdvocateDashboard = async () => {
       success: false,
       message:
         err?.response?.data?.message || "Failed to fetch dashboard metrics",
+      errorCode: err?.response?.data?.errorCode || null,
+    };
+  }
+};
+
+/* -------------------------------------------------------------------------- */
+/*                         🔹 Fetch Advocate Dashboard Metrics               */
+/* -------------------------------------------------------------------------- */
+export const userPasswordReset = async (email: string) => {
+  try {
+    const res = await api.post("/auth/sendPasswordReset", {
+      email: email,
+    });
+
+    return {
+      success: true,
+      ...res.data,
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      message: err?.response?.data?.message || "Failed to reset link",
       errorCode: err?.response?.data?.errorCode || null,
     };
   }
