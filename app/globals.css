@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -145,4 +146,53 @@ body {
   display: flex;
   width: max-content;
   animation: scroll-horizontal 60s linear infinite;
+}
+
+@layer components {
+  /* ================================
+     WordPress Content Hierarchy
+  ================================ */
+
+  /* H2 – Main Sections */
+  .prose h2.wp-block-heading {
+    @apply text-2xl font-bold mt-12 mb-4 text-foreground;
+  }
+
+  /* H3 – Sub Sections */
+  .prose h3.wp-block-heading {
+    @apply text-lg font-semibold mt-8 mb-3 text-foreground;
+  }
+
+  /* Paragraphs */
+  .prose p {
+    @apply text-base leading-relaxed my-4;
+  }
+
+  /* Lists */
+  .prose .wp-block-list {
+    @apply pl-6 my-4;
+  }
+
+  .prose .wp-block-list li {
+    @apply list-disc my-1;
+  }
+
+  .prose ol.wp-block-list li {
+    @apply list-decimal;
+  }
+
+  /* Label paragraphs (Key Features, Step 1, etc.) */
+  .prose p > strong:first-child {
+    @apply inline font-semibold text-foreground;
+  }
+
+  /* Horizontal Rule */
+  .prose hr {
+    @apply my-12 border-border;
+  }
+
+  /* Links */
+  .prose a {
+    @apply text-primary font-medium underline underline-offset-4;
+  }
 }
