@@ -1,18 +1,26 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { extractHeadings, injectHeadingIds } from "@/lib/extractHeadings";
+import Image from "next/image";
 
 const ENDPOINT = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!;
 
 async function getPostBySlug(slug: string) {
   const query = `
-    query GetPostBySlug($slug: ID!) {
-      post(id: $slug, idType: SLUG) {
-        title
-        content
-        date
+query GetPostBySlugWithImage($slug: ID!) {
+  post(id: $slug, idType: SLUG) {
+    title
+    content
+    date
+    # Add the featured image field here
+    featuredImage {
+      node {
+        sourceUrl
+        altText
       }
     }
+  }
+}
   `;
 
   const res = await fetch(ENDPOINT, {
@@ -38,6 +46,7 @@ export default async function BlogPostPage(props: {
   if (!slug) notFound();
 
   const post = await getPostBySlug(slug);
+
   if (!post) notFound();
 
   const publishedDate = post.date
@@ -67,8 +76,20 @@ export default async function BlogPostPage(props: {
           {post.title}
         </h1>
 
+        {post.featuredImage?.node?.sourceUrl && (
+          <div className="mt-8 rounded-3xl overflow-hidden border border-slate-100 shadow-sm">
+            <Image
+              src={post.featuredImage.node.sourceUrl}
+              alt={post.featuredImage.node.altText || post.title}
+              width={1200}
+              height={630}
+              priority
+              className="w-full h-auto object-cover"
+            />
+          </div>
+        )}
+
         <p className="text-slate-500 font-medium">
-          Published on{" "}
           {publishedDate && (
             <p className="text-slate-500 font-medium">
               Published on {publishedDate}
