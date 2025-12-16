@@ -23,7 +23,12 @@ async function getPostBySlug(slug: string) {
   });
 
   const json = await res.json();
-  return json.data?.post ?? null;
+
+  if (json.errors || !json?.data?.post) {
+    return null;
+  }
+
+  return json.data.post;
 }
 
 export default async function BlogPostPage(props: {
@@ -35,7 +40,15 @@ export default async function BlogPostPage(props: {
   const post = await getPostBySlug(slug);
   if (!post) notFound();
 
-  const contentWithIds = injectHeadingIds(post.content);
+  const publishedDate = post.date
+    ? new Date(post.date).toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+    : null;
+
+  const contentWithIds = post.content ? injectHeadingIds(post.content) : "";
 
   return (
     // Changed background to a soft tint like the UI image
@@ -56,11 +69,11 @@ export default async function BlogPostPage(props: {
 
         <p className="text-slate-500 font-medium">
           Published on{" "}
-          {new Date(post.date).toLocaleDateString("en-IN", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
+          {publishedDate && (
+            <p className="text-slate-500 font-medium">
+              Published on {publishedDate}
+            </p>
+          )}
         </p>
       </header>
 
