@@ -586,7 +586,7 @@ export function Header() {
                 </HoverDropdown>
 
                 <HoverDropdown label="Resources">
-                  <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                  <Link href="/blogs" className="text-sm py-1 hover:text-[#c92c41]">
                     Blogs
                   </Link>
                   <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
@@ -817,7 +817,7 @@ export function Header() {
                   </h3>
                   <Link
                     onClick={handleLinkClick}
-                    href="#"
+                    href="/blogs"
                     className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
                   >
                     Blogs
