@@ -6,75 +6,10 @@ import { motion } from "framer-motion";
 import { PhoneCall, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import EmblaCarouselCards from "@/components/client/EmblaCarouselCards";
-import { getAllAdvocates, getUserBookings } from "@/lib/apis/api";
+import { getUserBookings } from "@/lib/apis/api";
 import { useAuth } from "@/context/authContext";
 import LoadingSkeletonCards from "./LoadingSkeleton";
-
-// const ALL_ADVOCATES = [
-//   {
-//     expertId: "adv_01",
-//     name: "Adv. Sakshi Srivastava",
-//     role: "Family, Criminal, Arbitration",
-//     img: "user.png",
-//     gender: "female",
-//     location: "Delhi",
-//     experience: "2 years",
-//   },
-//   {
-//     expertId: "adv_02",
-//     name: "Adv. Krishnendu Modak",
-//     role: "Civil, Criminal, Company, Family, Consumer",
-//     img: "user.png",
-//     gender: "male",
-//     location: "Kolkata",
-//     experience: "2+ years",
-//   },
-//   {
-//     expertId: "adv_03",
-//     name: "Adv. Chandramouli Bagchi",
-//     role: "Civil Lawyer",
-//     img: "user.png",
-//     gender: "male",
-//     location: "Barrackpore / Barasat",
-//     experience: "2 years",
-//   },
-//   {
-//     expertId: "adv_04",
-//     name: "Adv. Himadree Ghosh",
-//     role: "Property, Criminal, Matrimonial, Writ, Drafting",
-//     img: "user.png",
-//     gender: "female",
-//     location: "Calcutta",
-//     experience: "2 years",
-//   },
-//   {
-//     expertId: "adv_05",
-//     name: "Adv. Rahul Das",
-//     role: "Civil Lawyer",
-//     img: "user.png",
-//     gender: "male",
-//     location: "Kolkata",
-//     experience: "2 years",
-//   },
-//   {
-//     expertId: "adv_06",
-//     name: "Adv. Indranil Banerjee",
-//     role: "Property, Criminal (NDPS), Drafting, Civil",
-//     img: "user.png",
-//     gender: "male",
-//     location: "Kolkata",
-//     experience: "5.5 years",
-//   },
-//   {
-//     expertId: "adv_07",
-//     name: "Adv. Aishik Chakraborty",
-//     role: "Commercial Litigation, Arbitration, Civil, IBC",
-//     img: "user.png",
-//     gender: "male",
-//     location: "Calcutta High Court",
-//     experience: "2 years",
-//   },
-// ];
+import { serverApi } from "@/lib/apis/axios";
 
 const ALL_CAS = [
   {
@@ -153,10 +88,20 @@ export default function StartConsultationPage() {
   useEffect(() => {
     const fetchAllAdvocates = async () => {
       try {
-        const res = await getAllAdvocates();
-        setALL_ADVOCATES(res.advocates || []);
+        const res = await serverApi.get("/api/advocates");
+
+        const data = await res.data;
+
+        if (!data.success) {
+          console.error("Failed to fetch advocates:", data.message);
+          setALL_ADVOCATES([]);
+          return;
+        }
+
+        setALL_ADVOCATES(data.advocates || []);
       } catch (err) {
         console.error("Failed to fetch advocates", err);
+        setALL_ADVOCATES([]);
       } finally {
         setLoadingAdvocates(false);
       }
@@ -288,12 +233,12 @@ export default function StartConsultationPage() {
           <h2 className="text-3xl font-semibold text-gray-800">
             💼 Chartered Accountants
           </h2>
-          <EmblaCarouselCards
+          {/* <EmblaCarouselCards
             list={ALL_CAS}
             type="ca"
             onBook={(key) => setRequestedIndex(key)}
             bookedKeys={bookedExpertIds}
-          />
+          /> */}
         </div>
       )}
     </section>
