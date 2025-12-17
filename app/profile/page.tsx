@@ -48,7 +48,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     fetchProfile();
-  }, []);
+  }, [isLoggedIn]);
 
   if (loading) {
     return (

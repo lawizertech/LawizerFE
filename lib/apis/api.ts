@@ -1,4 +1,4 @@
-import api from "./axios";
+import { backendApi } from "./axios";
 
 interface ProfilePayload {
   uid: string;
@@ -25,7 +25,7 @@ const renewToken = async (): Promise<string | null> => {
     const oldToken = localStorage.getItem("token");
     if (!oldToken) return null;
 
-    const res = await api.get("/auth/renew-token", {
+    const res = await backendApi.get("/auth/renew-token", {
       headers: { Authorization: `Bearer ${oldToken}` },
     });
 
@@ -47,7 +47,7 @@ const renewToken = async (): Promise<string | null> => {
 
 export const getUserProfile = async (uid: string) => {
   try {
-    const res = await api.get(`/auth/profile`, {
+    const res = await backendApi.get(`/auth/profile`, {
       params: { uid },
     });
 
@@ -60,7 +60,7 @@ export const getUserProfile = async (uid: string) => {
       if (!newToken) return err.response.data;
 
       // retry with fresh token
-      const retryRes = await api.get(`/auth/profile`, {
+      const retryRes = await backendApi.get(`/auth/profile`, {
         params: { uid },
         headers: { Authorization: `Bearer ${newToken}` },
       });
@@ -88,7 +88,7 @@ export const signupUser = async (
   phoneNumber: string
 ) => {
   try {
-    const res = await api.post(`/auth/signup`, {
+    const res = await backendApi.post(`/auth/signup`, {
       name,
       email,
       password,
@@ -102,7 +102,7 @@ export const signupUser = async (
       const newToken = await renewToken();
       if (!newToken) return err.response.data;
 
-      const retryRes = await api.post(
+      const retryRes = await backendApi.post(
         `/auth/init-user`,
         { name, email, password },
         {
@@ -130,7 +130,7 @@ export const completeUserProfile = async (
   formData: ProfilePayload
 ) => {
   try {
-    const res = await api.post(`/auth/complete-profile`, formData, {
+    const res = await backendApi.post(`/auth/complete-profile`, formData, {
       headers: { Authorization: `Bearer ${idToken}` },
     });
 
@@ -142,9 +142,13 @@ export const completeUserProfile = async (
       const newToken = await renewToken();
       if (!newToken) return err.response.data;
 
-      const retryRes = await api.post(`/auth/complete-profile`, formData, {
-        headers: { Authorization: `Bearer ${newToken}` },
-      });
+      const retryRes = await backendApi.post(
+        `/auth/complete-profile`,
+        formData,
+        {
+          headers: { Authorization: `Bearer ${newToken}` },
+        }
+      );
 
       return retryRes.data;
     }
@@ -163,7 +167,7 @@ export const completeUserProfile = async (
 
 export const loginUser = async (idToken: string) => {
   try {
-    const res = await api.post(
+    const res = await backendApi.post(
       `/auth/login`,
       { idToken },
       {
@@ -182,7 +186,7 @@ export const loginUser = async (idToken: string) => {
       const newToken = await renewToken();
       if (!newToken) return err.response.data;
 
-      const retryRes = await api.post(
+      const retryRes = await backendApi.post(
         `/auth/login`,
         { idToken },
         {
@@ -215,7 +219,7 @@ export const scheduleCall = async (
         ? "/consultation/schedule-adv-consultation"
         : "/consultation/schedule-ca-consultation";
 
-    const res = await api.post(endpoint, payload);
+    const res = await backendApi.post(endpoint, payload);
 
     return res.data;
   } catch (err: any) {
@@ -228,7 +232,7 @@ export const scheduleCall = async (
       const endpoint =
         type === "adv" ? "/call/schedule-adv" : "/call/schedule-ca";
 
-      const retryRes = await api.post(endpoint, payload);
+      const retryRes = await backendApi.post(endpoint, payload);
 
       return retryRes.data;
     }
@@ -247,7 +251,7 @@ export const scheduleCall = async (
 
 export const getUserBookings = async () => {
   try {
-    const res = await api.get("/consultation/fetch-consultations");
+    const res = await backendApi.get("/consultation/fetch-consultations");
 
     return res.data;
   } catch (err: any) {
@@ -257,9 +261,12 @@ export const getUserBookings = async () => {
       const newToken = await renewToken();
       if (!newToken) return err.response.data;
 
-      const retryRes = await api.get("/consultation/fetch-consultations", {
-        headers: { Authorization: `Bearer ${newToken}` },
-      });
+      const retryRes = await backendApi.get(
+        "/consultation/fetch-consultations",
+        {
+          headers: { Authorization: `Bearer ${newToken}` },
+        }
+      );
 
       return retryRes.data;
     }
@@ -277,7 +284,7 @@ export const getUserBookings = async () => {
 /* -------------------------------------------------------------------------- */
 export const advLoginUser = async (idToken: string) => {
   try {
-    const res = await api.post(
+    const res = await backendApi.post(
       `/advocate/login`,
       { idToken },
       {
@@ -296,7 +303,7 @@ export const advLoginUser = async (idToken: string) => {
       const newToken = await renewToken();
       if (!newToken) return err.response.data;
 
-      const retryRes = await api.post(
+      const retryRes = await backendApi.post(
         `/advocate/login`,
         { idToken },
         {
@@ -328,7 +335,7 @@ export const advCompleteProfile = async (payload: {
   experience?: string;
 }) => {
   try {
-    const res = await api.post("/advocate/complete-profile", payload);
+    const res = await backendApi.post("/advocate/complete-profile", payload);
     return res.data;
   } catch (err: any) {
     const errorCode = err?.response?.data?.errorCode;
@@ -337,9 +344,13 @@ export const advCompleteProfile = async (payload: {
       const newToken = await renewToken();
       if (!newToken) return err.response.data;
 
-      const retryRes = await api.post("/advocate/complete-profile", payload, {
-        headers: { Authorization: `Bearer ${newToken}` },
-      });
+      const retryRes = await backendApi.post(
+        "/advocate/complete-profile",
+        payload,
+        {
+          headers: { Authorization: `Bearer ${newToken}` },
+        }
+      );
 
       return retryRes.data;
     }
@@ -353,95 +364,11 @@ export const advCompleteProfile = async (payload: {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                           🔹 getAllAdvocates API                            */
-/* -------------------------------------------------------------------------- */
-
-export const getAllAdvocates = async () => {
-  try {
-    const res = await api.get("/consultation/fetch-advocates");
-    return {
-      success: true,
-      ...res.data,
-    };
-  } catch (err: any) {
-    return {
-      success: false,
-      message: err?.response?.data?.message || "Failed to fetch advocates",
-      errorCode: err?.response?.data?.errorCode || null,
-    };
-  }
-};
-
-/* -------------------------------------------------------------------------- */
-/*                     🔹 Fetch Consultations for Advocate/CA                 */
-/* -------------------------------------------------------------------------- */
-export const fetchExpertConsultations = async (expertType?: string) => {
-  try {
-    const res = await api.get(`/advocate/fetch-consultations`, {
-      params: { expertType: expertType || undefined },
-    });
-
-    return {
-      success: true,
-      ...res.data,
-    };
-  } catch (err: any) {
-    return {
-      success: false,
-      message: err?.response?.data?.message || "Failed to fetch consultations",
-      errorCode: err?.response?.data?.errorCode || null,
-    };
-  }
-};
-
-/* -------------------------------------------------------------------------- */
-/*                         🔹 Fetch Advocate / CA Profile                     */
-/* -------------------------------------------------------------------------- */
-export const fetchAdvocateProfile = async () => {
-  try {
-    const res = await api.get(`/advocate/expert/profile`);
-
-    return {
-      success: true,
-      ...res.data,
-    };
-  } catch (err: any) {
-    return {
-      success: false,
-      message:
-        err?.response?.data?.message || "Failed to fetch advocate profile",
-      errorCode: err?.response?.data?.errorCode || null,
-    };
-  }
-};
-
-/* -------------------------------------------------------------------------- */
-/*                         🔹 Fetch Advocate Dashboard Metrics               */
-/* -------------------------------------------------------------------------- */
-export const fetchAdvocateDashboard = async () => {
-  try {
-    const res = await api.get(`/advocate/expert/dashboard-metrics`);
-
-    return {
-      success: true,
-      ...res.data,
-    };
-  } catch (err: any) {
-    return {
-      success: false,
-      message:
-        err?.response?.data?.message || "Failed to fetch dashboard metrics",
-      errorCode: err?.response?.data?.errorCode || null,
-    };
-  }
-};
-
-/* -------------------------------------------------------------------------- */
 /*                         🔹 Fetch Advocate Dashboard Metrics               */
 /* -------------------------------------------------------------------------- */
 export const userPasswordReset = async (email: string) => {
   try {
-    const res = await api.post("/auth/sendPasswordReset", {
+    const res = await backendApi.post("/auth/sendPasswordReset", {
       email: email,
     });
 
