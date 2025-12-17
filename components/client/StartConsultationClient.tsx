@@ -233,12 +233,12 @@ export default function StartConsultationPage() {
           <h2 className="text-3xl font-semibold text-gray-800">
             💼 Chartered Accountants
           </h2>
-          {/* <EmblaCarouselCards
+          <EmblaCarouselCards
             list={ALL_CAS}
             type="ca"
             onBook={(key) => setRequestedIndex(key)}
             bookedKeys={bookedExpertIds}
-          /> */}
+          />
         </div>
       )}
     </section>
