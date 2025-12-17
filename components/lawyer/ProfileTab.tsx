@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchAdvocateProfile } from "@/lib/apis/api";
+import { backendApi, serverApi } from "@/lib/apis/axios";
 import { useEffect, useState } from "react";
 
 interface AdvocateProfile {
@@ -19,16 +19,24 @@ export default function ProfileTab() {
   useEffect(() => {
     const getProfile = async () => {
       setLoading(true);
-      const res = await fetchAdvocateProfile();
-      if (res.success) {
-        setProfile(res.profile);
+      try {
+        const res = await serverApi.get("/api/expert/profile");
+        const data = await res.data;
+
+        if (data.success) {
+          setProfile(data.profile);
+        }
+      } catch (err) {
+        console.error("Failed to load profile", err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
+
     getProfile();
   }, []);
 
-  if (loading) return <p className="text-gray-600">Loading profile...</p>;
+  if (loading) return <p className="text-gray-600 mt-8">Loading profile...</p>;
   if (!profile) return <p className="text-red-600">No profile found.</p>;
 
   return (

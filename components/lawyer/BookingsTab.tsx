@@ -1,29 +1,41 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchExpertConsultations } from "@/lib/apis/api";
 import dayjs from "dayjs";
+import { serverApi } from "@/lib/apis/axios";
 
 export default function BookingsTab() {
   const [consultations, setConsultations] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    (async () => {
-      const res = await fetchExpertConsultations();
-      if (res.success) {
-        setConsultations(res.consultations);
+    const loadConsultations = async () => {
+      setLoading(true);
+
+      try {
+        const res = await serverApi.get("/api/expert/consultations");
+
+        const data = res.data;
+
+        if (data.success) {
+          setConsultations(data.consultations);
+        }
+      } catch (err) {
+        console.error("Failed to fetch consultations", err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-    })();
+    };
+
+    loadConsultations();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p className="mt-8">Loading...</p>;
 
   if (consultations.length === 0) {
     return (
       <div>
-        <h1 className="text-2xl font-bold mb-4">My Bookings</h1>
+        <h1 className="text-2xl font-bold mb-4 mt-8">My Bookings</h1>
         <p className="text-gray-600 mb-6">Your scheduled consultations</p>
 
         <div className="bg-white shadow-md rounded-xl p-6">

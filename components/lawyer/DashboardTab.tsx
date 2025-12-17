@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchAdvocateDashboard, fetchAdvocateProfile } from "@/lib/apis/api";
+import { serverApi } from "@/lib/apis/axios";
 import { useEffect, useState } from "react";
 
 export default function DashboardTab() {
@@ -12,20 +12,34 @@ export default function DashboardTab() {
     const loadData = async () => {
       setLoading(true);
 
-      const profileRes = await fetchAdvocateProfile();
-      const dashboardRes = await fetchAdvocateDashboard();
+      try {
+        const [profileRes, dashboardRes] = await Promise.all([
+          serverApi.get("/api/expert/profile"),
+          serverApi.get("/api/expert/dashboard"),
+        ]);
 
-      if (profileRes.success) setProfile(profileRes.profile);
-      if (dashboardRes.success) setDashboard(dashboardRes.dashboard);
+        const profileData = profileRes.data;
+        const dashboardData = dashboardRes.data;
 
-      setLoading(false);
+        if (profileData.success) {
+          setProfile(profileData.profile);
+        }
+
+        if (dashboardData.success) {
+          setDashboard(dashboardData.dashboard);
+        }
+      } catch (err) {
+        console.error("Failed to load dashboard data", err);
+      } finally {
+        setLoading(false);
+      }
     };
 
     loadData();
   }, []);
 
   if (loading) {
-    return <p className="text-gray-500">Loading dashboard...</p>;
+    return <p className="text-gray-500 mt-8">Loading dashboard...</p>;
   }
 
   return (
@@ -72,10 +86,10 @@ export default function DashboardTab() {
           </div>
           <p
             className={`text-sm ${
-              profile?.isProfileComplete ? "text-green-600" : "text-yellow-600"
+              dashboard?.profileCompletion ? "text-green-600" : "text-yellow-600"
             }`}
           >
-            {profile?.isProfileComplete ? "Complete ✅" : "Incomplete ⚠️"}
+            {dashboard?.profileCompletion ? "Complete ✅" : "Incomplete ⚠️"}
           </p>
         </div>
 
