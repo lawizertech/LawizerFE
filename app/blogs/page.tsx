@@ -10,6 +10,13 @@ async function getPosts() {
           title
           content
           uri
+          categories {
+            nodes {
+              id
+              name
+              slug
+            }
+          }
         }
       }
     }
@@ -35,41 +42,76 @@ function getExcerpt(html?: string, maxLength = 220) {
   return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 }
 
+function groupPostsByCategory(posts: any[]) {
+  const grouped: Record<string, any[]> = {};
+
+  posts.forEach((post) => {
+    const categories = post.categories?.nodes;
+
+    if (!categories || categories.length === 0) {
+      const uncategorized = "Uncategorized";
+      grouped[uncategorized] = grouped[uncategorized] || [];
+      grouped[uncategorized].push(post);
+      return;
+    }
+
+    categories.forEach((cat: any) => {
+      if (!grouped[cat.name]) {
+        grouped[cat.name] = [];
+      }
+      grouped[cat.name].push(post);
+    });
+  });
+
+  return grouped;
+}
+
 export default async function PostList() {
   const posts = await getPosts();
+  const postsByCategory = groupPostsByCategory(posts);
 
   return (
-    <section className="max-w-5xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold mb-8 text-foreground">
+    <section className="max-w-5xl mx-auto px-4 py-10 space-y-12">
+      <h1 className="text-3xl font-bold text-foreground">
         Latest Legal Guides
       </h1>
 
-      <div className="grid gap-6">
-        {posts
-          .filter((post: any) => post?.uri && post?.title)
-          .map((post: any) => (
-            <article
-              key={post.uri}
-              className="group rounded-xl border bg-card p-6 transition-all hover:shadow-lg hover:border-primary/40"
-            >
-              <Link href={`/blogs${post.uri}`} className="space-y-3 block">
-                <h2 className="text-xl font-semibold leading-snug group-hover:text-primary transition-colors">
-                  {post.title}
-                </h2>
+      {Object.entries(postsByCategory).map(
+        ([categoryName, categoryPosts]: any) => (
+          <div key={categoryName} className="space-y-6">
+            {/* Category Heading */}
+            <h2 className="text-2xl font-semibold text-primary border-b pb-2">
+              {categoryName}
+            </h2>
 
-                <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
-                  {getExcerpt(post.content)}
-                </p>
+            {/* Posts under category */}
+            <div className="grid gap-6">
+              {categoryPosts.map((post: any) => (
+                <article
+                  key={post.uri}
+                  className="group rounded-xl border bg-card p-6 transition-all hover:shadow-lg hover:border-primary/40"
+                >
+                  <Link href={`/blogs${post.uri}`} className="space-y-3 block">
+                    <h3 className="text-xl font-semibold leading-snug group-hover:text-primary transition-colors">
+                      {post.title}
+                    </h3>
 
-                <div className="pt-2">
-                  <span className="inline-flex items-center text-sm font-medium text-primary">
-                    Read full guide →
-                  </span>
-                </div>
-              </Link>
-            </article>
-          ))}
-      </div>
+                    <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
+                      {getExcerpt(post.content)}
+                    </p>
+
+                    <div className="pt-2">
+                      <span className="inline-flex items-center text-sm font-medium text-primary">
+                        Read full guide →
+                      </span>
+                    </div>
+                  </Link>
+                </article>
+              ))}
+            </div>
+          </div>
+        )
+      )}
     </section>
   );
 }
