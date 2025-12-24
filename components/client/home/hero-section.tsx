@@ -2,21 +2,25 @@
 
 import { Button } from "@/components/ui/button";
 import { Shield, Lock, PhoneCall, Star, CheckCircle } from "lucide-react";
-import { useState } from "react";
 import EmergencySOS from "./emergency-sos";
 
 const consultationCategories = [
-  "Family Law",
-  "Business Law",
-  "Real Estate",
-  "Employment",
-  "Intellectual Property",
-  "Tax Law",
+  { label: "Family Law", href: "/family" },
+  { label: "Business Law", href: "/startup-businesslegal" },
+  { label: "Real Estate", href: "/property" },
+  { label: "Employment", href: "/civil-commercial" },
+  {
+    label: "Intellectual Property",
+    href: "/startup-businesslegal",
+  },
+  { label: "Tax Law", href: "/itr" },
 ];
 
 export function HeroSection() {
   return (
-    <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 h-auto lg:h-screen min-h-[800px] pt-20">      {/* Background Image with Overlay */}
+    <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 h-auto lg:h-screen min-h-[800px] pt-20">
+      {" "}
+      {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         <img
           src="/guyy.png"
@@ -25,7 +29,6 @@ export function HeroSection() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/95 to-slate-900/60"></div>
       </div>
-
       <div className="absolute top-24 right-8 z-10">
         <div className="relative">
           <div className="hidden lg:flex bg-accent-brand rounded-full w-26 h-26 flex items-center justify-center border-4 border-white shadow-lg transform rotate-12">
@@ -40,7 +43,6 @@ export function HeroSection() {
           </div>
         </div>
       </div>
-
       <div className="container mx-auto px-4 py-16 relative z-10">
         <div className="max-w-4xl">
           <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6 leading-tight">
@@ -128,13 +130,14 @@ export function HeroSection() {
               </span>
               <div className="w-px h-6 bg-gray-600"></div>
               <div className="flex flex-wrap gap-4">
-                {consultationCategories.map((category) => (
-                  <button
-                    key={category}
-                    className="text-gray-300 hover:text-accent-brand text-sm transition-colors"
+                {consultationCategories.map(({ label, href }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    className="text-gray-300 hover:text-accent-brand text-sm transition-colors cursor-pointer"
                   >
-                    {category}
-                  </button>
+                    {label}
+                  </a>
                 ))}
               </div>
             </div>
