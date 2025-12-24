@@ -25,28 +25,32 @@ export default function StartupDocumentsPage() {
         {
           name: "Co-founder Agreement",
           slug: "co-founder-agreement",
-          price: "₹2499",
+          price: "₹2,499",
+          originalPrice: "₹3,999",
           description:
             "Defines roles, equity, responsibilities, decision-making, and exit mechanisms among founders, preventing conflicts.",
         },
         {
           name: "Business Partnership Agreement",
           slug: "business-partnership-agreement",
-          price: "₹2999",
+          price: "₹2,999",
+          originalPrice: "₹4,499",
           description:
             "Legal contract defining investment, profit-sharing, responsibilities, and exit mechanisms among partners.",
         },
         {
           name: "Employment Agreement",
           slug: "employment-agreement",
-          price: "₹1999",
+          price: "₹1,999",
+          originalPrice: "₹3,499",
           description:
             "Outlines terms, salary, benefits, and termination policies, ensuring compliance with labor laws.",
         },
         {
           name: "Consultancy Agreement",
           slug: "consultancy-agreement",
-          price: "₹1999",
+          price: "₹1,999",
+          originalPrice: "₹3,199",
           description:
             "Defines the scope, deliverables, fees, and confidentiality between a consultant and company.",
         },
@@ -54,69 +58,79 @@ export default function StartupDocumentsPage() {
           name: "Non-Disclosure Agreement (NDA)",
           slug: "non-disclosure-agreement",
           price: "₹999",
+          originalPrice: "₹1,999",
           description:
             "Protects sensitive business information and trade secrets, allowing safe collaboration or funding discussions.",
         },
         {
           name: "Privacy Policy & Terms of Use",
           slug: "privacy-terms-of-use",
-          price: "₹1499",
+          price: "₹1,499",
+          originalPrice: "₹2,999",
           description:
             "Defines user data handling and website/app rules, ensuring compliance under IT Act and GDPR.",
         },
         {
           name: "Software as a Service (SaaS) Agreement",
           slug: "saas-agreement",
-          price: "₹3499",
+          price: "₹3,499",
+          originalPrice: "₹5,999",
           description:
             "Governs subscription, licensing, support, and intellectual property rights for software services.",
         },
         {
           name: "Franchise Agreement",
           slug: "franchise-agreement",
-          price: "₹3999",
+          price: "₹3,999",
+          originalPrice: "₹6,999",
           description:
             "Outlines rights, obligations, royalties, and operational standards between a franchisor and franchisee.",
         },
         {
           name: "Joint Venture Agreement",
           slug: "joint-venture-agreement",
-          price: "₹4499",
+          price: "₹4,499",
+          originalPrice: "₹7,999",
           description:
             "Defines partnership, investment, profit-sharing, and management of a Joint Venture.",
         },
         {
           name: "Shareholder Subscription Agreement",
           slug: "shareholder-subscription-agreement",
-          price: "₹4999",
+          price: "₹4,999",
+          originalPrice: "₹8,999",
           description:
             "Governs the issuance of shares to investors and defines their rights and obligations in the company.",
         },
         {
           name: "Service Agreement & Term Sheet",
           slug: "service-agreement-term-sheet",
-          price: "₹2499",
+          price: "₹2,499",
+          originalPrice: "₹4,499",
           description:
             "Defines scope, fees, deliverables, and timelines for a business service, ensuring legal enforceability.",
         },
         {
           name: "Licensing Agreement",
           slug: "licensing-agreement",
-          price: "₹2999",
+          price: "₹2,999",
+          originalPrice: "₹5,499",
           description:
             "Governs licensing of intellectual property, technology, or products, protecting IP rights and revenue.",
         },
         {
           name: "IP Assignment Agreement",
           slug: "ip-assignment-agreement",
-          price: "₹2499",
+          price: "₹2,499",
+          originalPrice: "₹4,999",
           description:
             "Transfers Intellectual Property (IP) ownership from one party to another, ensuring legal transfer of rights.",
         },
         {
           name: "Letter of Intent (LOI)",
           slug: "letter-of-intent",
-          price: "₹1499",
+          price: "₹1,499",
+          originalPrice: "₹2,999",
           description:
             "Declares preliminary intention to enter a business transaction or agreement, establishing mutual understanding.",
         },
@@ -220,9 +234,17 @@ export default function StartupDocumentsPage() {
                     <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-5 leading-relaxed">
                       {service.description}
                     </p>
-                    <p className="text-sm sm:text-base md:text-lg font-semibold text-[#c92c41] mb-2 sm:mb-3">
-                      {service.price}
-                    </p>
+                    <div className="mb-2 sm:mb-3">
+                      {service.originalPrice && (
+                        <p className="text-xs sm:text-sm text-gray-400 line-through">
+                          {service.originalPrice}
+                        </p>
+                      )}
+                      <p className="text-sm sm:text-base md:text-lg font-semibold text-[#c92c41]">
+                        {service.price}
+                      </p>
+                    </div>
+
                     <button
                       onClick={() => handleViewDetails(service.slug)}
                       className="flex items-center gap-1 sm:gap-2 font-medium group cursor-pointer text-sm sm:text-base"

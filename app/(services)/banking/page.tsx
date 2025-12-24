@@ -25,6 +25,7 @@ export default function BankingLegalPage() {
           name: "Digital & Electronic Banking Fraud",
           slug: "digital-banking-fraud",
           price: "₹1,199",
+          originalPrice: "₹1,999",
           description:
             "Recovery of losses from unauthorized transactions (scams, phishing, UPI/Card fraud) using RBI's zero-liability rules.",
         },
@@ -32,6 +33,7 @@ export default function BankingLegalPage() {
           name: "Loan & Advance Disputes (CIBIL & Harassment)",
           slug: "loan-advance-disputes",
           price: "₹999",
+          originalPrice: "₹1,499",
           description:
             "Cases seeking rectification of incorrect Credit Score/CIBIL reporting and legal action against harassment by recovery agents.",
         },
@@ -39,6 +41,7 @@ export default function BankingLegalPage() {
           name: "Cheque Bounce Cases (Section 138)",
           slug: "cheque-bounce-s138",
           price: "₹1,499",
+          originalPrice: "₹2,000",
           description:
             "Criminal remedy for debt recovery when a cheque is dishonored due to insufficient funds, securing principal amount and fines.",
         },
@@ -144,9 +147,16 @@ export default function BankingLegalPage() {
                       {service.description}
                     </p>
 
-                    <p className="text-lg font-semibold text-[#c92c41] mb-4">
-                      {service.price}
-                    </p>
+                    <div className="mb-4">
+                      {service.originalPrice && (
+                        <p className="text-sm text-gray-400 line-through">
+                          {service.originalPrice}
+                        </p>
+                      )}
+                      <p className="text-lg font-semibold text-[#c92c41]">
+                        {service.price}
+                      </p>
+                    </div>
 
                     <button
                       onClick={() =>

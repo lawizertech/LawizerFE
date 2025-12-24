@@ -28,6 +28,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Private Limited Company",
           slug: "PrivateLimitedCompanyPage",
           price: "₹4,999 – ₹8,999",
+          originalPrice: "₹9,999 – ₹14,999",
           description:
             "Ideal for startups planning to scale and raise investment. Offers limited liability and investor credibility.",
         },
@@ -35,6 +36,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "One Person Company (OPC)",
           slug: "OnePersonCompanyPage",
           price: "₹3,499 – ₹6,999",
+          originalPrice: "₹6,999 – ₹11,999",
           description:
             "Perfect for solo founders who want corporate structure benefits with simplified compliance.",
         },
@@ -42,6 +44,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Limited Liability Partnership (LLP)",
           slug: "LLPPage",
           price: "₹3,999 – ₹7,999",
+          originalPrice: "₹7,999 – ₹12,999",
           description:
             "Blend of partnership flexibility and limited liability protection. Suited for multi-partner businesses.",
         },
@@ -49,6 +52,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Startup India Registration (DPIIT Recognition)",
           slug: "StartupIndiaRegistrationPage",
           price: "₹1,499 – ₹2,499",
+          originalPrice: "₹3,999 – ₹5,999",
           description:
             "Government recognition offering tax benefits, funding access, and compliance support for innovative startups.",
         },
@@ -56,6 +60,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "GST Registration",
           slug: "GSTRegistrationPage",
           price: "₹999 – ₹1,999",
+          originalPrice: "₹2,999 – ₹4,999",
           description:
             "Mandatory for businesses exceeding turnover thresholds. Enables tax compliance and seamless trade.",
         },
@@ -63,6 +68,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Public Limited Company (PLC)",
           slug: "PublicLimitedCompanyPage",
           price: "₹19,999 – ₹29,999",
+          originalPrice: "₹39,999 – ₹59,999",
           description:
             "For large-scale enterprises looking to raise capital from the public and expand operations.",
         },
@@ -70,6 +76,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Section 8 Company (NGO)",
           slug: "Section8NGOCompanyPage",
           price: "₹8,999 – ₹14,999",
+          originalPrice: "₹17,999 – ₹24,999",
           description:
             "Non-profit structure for charitable or social initiatives. Eligible for tax exemptions and grants.",
         },
@@ -87,6 +94,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Trademark Registration",
           slug: "TrademarkRegistrationPage",
           price: "₹1,499 – ₹3,499",
+          originalPrice: "₹4,999 – ₹7,999",
           description:
             "Secure your brand name, logo, and identity with nationwide legal protection.",
         },
@@ -94,6 +102,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Reply to Trademark Objection",
           slug: "ReplyToTrademarkObjectionPage",
           price: "₹1,999 – ₹3,999",
+          originalPrice: "₹5,999 – ₹8,999",
           description:
             "Respond professionally to trademark office objections and ensure smooth registration.",
         },
@@ -101,6 +110,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Renew Your Trademark",
           slug: "RenewTrademarkPage",
           price: "₹4,999 – ₹8,999",
+          originalPrice: "₹9,999 – ₹14,999",
           description:
             "Extend protection of your registered trademark and prevent cancellation due to expiry.",
         },
@@ -108,6 +118,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Sell Your Trademark",
           slug: "SellYourTrademarkPage",
           price: "₹5,999 – ₹14,999",
+          originalPrice: "₹14,999 – ₹24,999",
           description:
             "Legally transfer ownership of your registered trademark with a structured sale agreement.",
         },
@@ -115,6 +126,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Copyright Registration",
           slug: "CopyrightRegistrationPage",
           price: "₹2,499 – ₹4,999",
+          originalPrice: "₹5,999 – ₹9,999",
           description:
             "Protect original creative works such as software, music, or written content.",
         },
@@ -122,6 +134,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Reply to Copyright Objection",
           slug: "ReplyToCopyrightObjectionPage",
           price: "₹1,999 – ₹3,999",
+          originalPrice: "₹4,999 – ₹7,999",
           description:
             "Respond to copyright office objections effectively to secure your IP rights.",
         },
@@ -139,6 +152,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "ROC Return Filing for Pvt Ltd",
           slug: "RocReturnFilingPvtLtdPage",
           price: "₹4,999 – ₹9,999",
+          originalPrice: "₹9,999 – ₹14,999",
           description:
             "Annual compliance filings including financial statements and company returns for Private Limited entities.",
         },
@@ -146,6 +160,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "ROC Return Filing for OPC",
           slug: "ROCReturnFilingForOPCPage",
           price: "₹3,499 – ₹7,999",
+          originalPrice: "₹7,999 – ₹12,999",
           description:
             "Annual return filings for One Person Companies in accordance with MCA regulations.",
         },
@@ -153,6 +168,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "ROC Return Filing for LLP",
           slug: "ROCReturnFilingForLLPPage",
           price: "₹3,999 – ₹7,999",
+          originalPrice: "₹7,999 – ₹12,999",
           description:
             "Timely filing of LLP Annual Returns and Statement of Accounts to maintain compliance.",
         },
@@ -160,6 +176,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Appointment of Director",
           slug: "AppointmentOfDirectorPage",
           price: "₹1,999 – ₹3,499",
+          originalPrice: "₹4,999 – ₹7,999",
           description:
             "Legally appoint directors with necessary resolutions and ROC forms.",
         },
@@ -167,6 +184,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Resignation of Director",
           slug: "ResignationOfDirectorPage",
           price: "₹1,999 – ₹3,499",
+          originalPrice: "₹4,999 – ₹7,999",
           description:
             "Process director resignation with proper documentation and ROC updates.",
         },
@@ -174,6 +192,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Change in Office Address",
           slug: "ChangeInOfficeAddressPage",
           price: "₹2,499 – ₹4,999",
+          originalPrice: "₹5,999 – ₹9,999",
           description:
             "Update your registered office address legally with ROC and other authorities.",
         },
@@ -181,6 +200,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Increasing Capital of Company",
           slug: "IncreasingCapitalOfCompanyPage",
           price: "₹4,999 – ₹9,999",
+          originalPrice: "₹9,999 – ₹14,999",
           description:
             "Expand authorized or paid-up capital through proper legal procedures.",
         },
@@ -188,6 +208,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Closure of Pvt Ltd",
           slug: "ClosureOfPvtLtdPage",
           price: "₹8,999 – ₹14,999",
+          originalPrice: "₹17,999 – ₹24,999",
           description:
             "Legally close your Private Limited Company via strike-off or liquidation process.",
         },
@@ -195,6 +216,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Closure of OPC",
           slug: "ClosureOfOPCPage",
           price: "₹5,999 – ₹9,999",
+          originalPrice: "₹11,999 – ₹17,999",
           description:
             "End your One Person Company operations legally with compliance handling.",
         },
@@ -202,6 +224,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "Closure of LLP",
           slug: "ClosureOfLLPPage",
           price: "₹5,999 – ₹9,999",
+          originalPrice: "₹11,999 – ₹17,999",
           description:
             "Wind up an LLP smoothly while ensuring compliance and regulatory clearance.",
         },
@@ -219,6 +242,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "ISO Certification",
           slug: "ISOCertificationPage",
           price: "₹7,999 – ₹19,999",
+          originalPrice: "₹14,999 – ₹29,999",
           description:
             "Show your commitment to quality standards with recognized ISO certification.",
         },
@@ -226,6 +250,7 @@ export default function StartupAndBusinessLegalPage() {
           name: "MSME / Udyam Registration",
           slug: "MSMEUdhyamRegistrationPage",
           price: "₹499 – ₹999",
+          originalPrice: "₹1,999 – ₹2,999",
           description:
             "Get government recognition as an MSME and unlock financial incentives and subsidies.",
         },
@@ -311,9 +336,16 @@ export default function StartupAndBusinessLegalPage() {
                     <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-5 leading-relaxed">
                       {service.description}
                     </p>
-                    <p className="text-[#c92c41] font-semibold text-xs sm:text-sm mb-2 sm:mb-3">
-                      {service.price}
-                    </p>
+                    <div className="mb-4">
+                      {service.originalPrice && (
+                        <p className="text-xs sm:text-sm text-gray-400 line-through">
+                          {service.originalPrice}
+                        </p>
+                      )}
+                      <p className="text-lg sm:text-base md:text-lg font-semibold text-[#c92c41]">
+                        {service.price}
+                      </p>
+                    </div>
                     <button
                       onClick={() =>
                         handleViewDetails(section.basePath, service.slug)

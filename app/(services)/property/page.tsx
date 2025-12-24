@@ -24,6 +24,7 @@ export default function PropertyLegalPage() {
           name: "Property Report",
           slug: "property-report",
           price: "₹1,499",
+          originalPrice: "₹2,999",
           description:
             "Detailed report verifying ownership, title clarity, encumbrances, government approvals, and pending disputes.",
         },
@@ -31,6 +32,7 @@ export default function PropertyLegalPage() {
           name: "Property Paper Review",
           slug: "property-paper-review",
           price: "₹999",
+          originalPrice: "₹1,999",
           description:
             "Expert legal review of documents like title deeds and mutation papers, followed by an oral consultation on the property’s legal status.",
         },
@@ -38,6 +40,7 @@ export default function PropertyLegalPage() {
           name: "Agreement to Sale / Sale Agreement Review",
           slug: "agreement-review",
           price: "₹1,199",
+          originalPrice: "₹2,499",
           description:
             "Legal review of your Sale Agreement or Agreement to Sale to ensure it's legally sound, enforceable, and protects your interests.",
         },
@@ -55,6 +58,7 @@ export default function PropertyLegalPage() {
           name: "Sale Deed Drafting",
           slug: "sale-deed",
           price: "₹3,499",
+          originalPrice: "₹5,999",
           description:
             "Drafting the final legal document that officially transfers property ownership, defining rights, terms, and responsibilities.",
         },
@@ -62,6 +66,7 @@ export default function PropertyLegalPage() {
           name: "Agreement to Sale Drafting",
           slug: "agreement-to-sale",
           price: "₹2,499",
+          originalPrice: "₹4,499",
           description:
             "Drafting the first legal step that defines mutual terms between buyer and seller, safeguarding both parties before the final sale.",
         },
@@ -69,6 +74,7 @@ export default function PropertyLegalPage() {
           name: "Rent Agreement",
           slug: "rent-agreement",
           price: "₹699",
+          originalPrice: "₹1,499",
           description:
             "Professionally drafted and legally compliant agreement defining terms between landlord and tenant, customized to protect both parties.",
         },
@@ -76,6 +82,7 @@ export default function PropertyLegalPage() {
           name: "Commercial Lease Agreement",
           slug: "commercial-lease",
           price: "₹2,999",
+          originalPrice: "₹5,499",
           description:
             "Drafting a legal contract for commercial properties (offices, shops, warehouses), covering rent, duration, and specific business clauses.",
         },
@@ -83,6 +90,7 @@ export default function PropertyLegalPage() {
           name: "Joint Development Agreement (JDA)",
           slug: "joint-development-agreement",
           price: "₹4,999",
+          originalPrice: "₹8,999",
           description:
             "A legal contract between a landowner and a developer, outlining terms for property development, profit-sharing, and timelines.",
         },
@@ -90,6 +98,7 @@ export default function PropertyLegalPage() {
           name: "Power of Attorney (POA) Drafting",
           slug: "power-of-attorney-drafting",
           price: "₹1,299",
+          originalPrice: "₹2,499",
           description:
             "Drafting a legal document to authorize a trusted person to act on your behalf in financial, property, or legal matters.",
         },
@@ -97,6 +106,7 @@ export default function PropertyLegalPage() {
           name: "Will Drafting & Registration",
           slug: "will-drafting",
           price: "₹1,499",
+          originalPrice: "₹2,999",
           description:
             "Drafting a clear, legally valid Will to ensure your assets are distributed according to your wishes and prevent family disputes.",
         },
@@ -104,6 +114,7 @@ export default function PropertyLegalPage() {
           name: "Relinquishment Deed",
           slug: "relinquishment-deed",
           price: "₹2,199",
+          originalPrice: "₹4,499",
           description:
             "Drafting a deed for a co-owner to voluntarily give up their share to another co-owner or family member, ensuring smooth rights transfer.",
         },
@@ -121,6 +132,7 @@ export default function PropertyLegalPage() {
           name: "Property Registration (Sale Deed)",
           slug: "property-registration",
           price: "₹4,999",
+          originalPrice: "₹8,999",
           description:
             "Expert legal support to prepare and verify the Sale Deed and guide you through the entire registration process at the sub-registrar office.",
         },
@@ -128,6 +140,7 @@ export default function PropertyLegalPage() {
           name: "Gift Deed Drafting & Registration",
           slug: "gift-deed",
           price: "₹3,499",
+          originalPrice: "₹6,499",
           description:
             "Transfer ownership of property voluntarily without consideration, ensuring the deed is legally valid and registered.",
         },
@@ -135,6 +148,7 @@ export default function PropertyLegalPage() {
           name: "Registration of Power of Attorney (POA)",
           slug: "power-of-attorney-reg",
           price: "₹2,499",
+          originalPrice: "₹4,999",
           description:
             "Guidance and support to register your Power of Attorney to make it legally enforceable and accepted by government and financial institutions.",
         },
@@ -217,9 +231,17 @@ export default function PropertyLegalPage() {
                     <p className="text-gray-600 text-xs sm:text-sm md:text-sm mb-4 leading-relaxed">
                       {service.description}
                     </p>
-                    <p className="text-lg sm:text-base md:text-lg font-semibold text-[#c92c41] mb-4">
-                      {service.price}
-                    </p>
+                    <div className="mb-4">
+                      {service.originalPrice && (
+                        <p className="text-xs sm:text-sm text-gray-400 line-through">
+                          {service.originalPrice}
+                        </p>
+                      )}
+                      <p className="text-lg sm:text-base md:text-lg font-semibold text-[#c92c41]">
+                        {service.price}
+                      </p>
+                    </div>
+
                     <button
                       onClick={() =>
                         handleViewDetails(section.basePath, service.slug)

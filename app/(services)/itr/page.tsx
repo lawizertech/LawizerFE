@@ -32,6 +32,7 @@ export default function ITRFilingPage() {
           slug: "itr-1",
           icon: User,
           price: "₹499 – ₹799",
+          originalPrice: "₹999 – ₹1,499",
           description:
             "For Resident Individuals with Total Income up to ₹50 Lakh from Salary, One House Property, and Other Sources.",
         },
@@ -40,6 +41,7 @@ export default function ITRFilingPage() {
           slug: "itr-2",
           icon: DollarSign,
           price: "₹799 – ₹1,299",
+          originalPrice: "₹1,499 – ₹2,499",
           description:
             "For Individuals/HUFs having Total Income > ₹50 Lakh, Capital Gains, Foreign Assets, or Multiple House Properties (No Business Income).",
         },
@@ -48,6 +50,7 @@ export default function ITRFilingPage() {
           slug: "itr-3",
           icon: TrendingUp,
           price: "₹1,199 – ₹1,999",
+          originalPrice: "₹2,499 – ₹3,999",
           description:
             "For Individuals/HUFs having income from 'Profits and Gains of Business or Profession' (including partners in a firm).",
         },
@@ -56,14 +59,16 @@ export default function ITRFilingPage() {
           slug: "itr-4",
           icon: Users,
           price: "₹699 – ₹1,399",
+          originalPrice: "₹1,499 – ₹2,999",
           description:
-            "For Resident Individuals, HUFs, or Firms (other than LLP) opting for the Presumptive Taxation Scheme (44AD/ADA/AE) with Total Income up to ₹50 Lakh.",
+            "For Resident Individuals, HUFs, or Firms (other than LLP) opting for the Presumptive Taxation Scheme.",
         },
         {
           name: 'ITR-5 "The Entity Form"',
           slug: "itr-5",
           icon: Briefcase,
           price: "₹1,499 – ₹2,499",
+          originalPrice: "₹2,999 – ₹4,999",
           description:
             "For Firms, LLPs, AOPs, BOIs, etc. (Non-individual entities).",
         },
@@ -72,8 +77,9 @@ export default function ITRFilingPage() {
           slug: "itr-6",
           icon: Building,
           price: "₹4,999 – ₹9,999",
+          originalPrice: "₹9,999 – ₹14,999",
           description:
-            "Mandatory Filing for all Companies registered under the Companies Act (excluding Section 11 exempted companies).",
+            "Mandatory Filing for all Companies registered under the Companies Act.",
         },
       ],
     },
@@ -175,9 +181,17 @@ export default function ITRFilingPage() {
                       <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-5 leading-relaxed">
                         {service.description}
                       </p>
-                      <p className="text-gray-900 font-semibold text-xs sm:text-sm mb-2 sm:mb-3">
-                        {service.price}
-                      </p>
+                      <div className="mb-2 sm:mb-3">
+                        {service.originalPrice && (
+                          <p className="text-[10px] sm:text-xs text-gray-400 line-through">
+                            {service.originalPrice}
+                          </p>
+                        )}
+                        <p className="text-gray-900 font-semibold text-xs sm:text-sm">
+                          {service.price}
+                        </p>
+                      </div>
+
                       <button
                         onClick={() => handleViewDetails(service.slug)}
                         className="flex items-center gap-1 sm:gap-2 font-medium group cursor-pointer text-xs sm:text-sm"
