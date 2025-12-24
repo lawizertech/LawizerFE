@@ -8,6 +8,7 @@ import { PhoneCall, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { scheduleCall } from "@/lib/apis/api";
 import { useAuth } from "@/context/authContext";
+import { Calendar } from "@/components/ui/calendar";
 
 import {
   Carousel,
@@ -50,6 +51,8 @@ type CarouselProps = {
   bookedKeys?: string[];
 };
 
+type CallType = "voice" | "video" | null;
+
 export default function EmblaCarouselCards({
   list,
   type,
@@ -65,6 +68,17 @@ export default function EmblaCarouselCards({
   const [pendingExpert, setPendingExpert] = React.useState<Expert | null>(null);
   const [loading, setLoading] = React.useState(false);
   const { isLoggedIn, setIsSignInModalOpen, user } = useAuth();
+  const [callType, setCallType] = React.useState<CallType>(null);
+  const [showCallTypeDialog, setShowCallTypeDialog] = React.useState(false);
+  const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
+  const [showConfirmDialog, setShowConfirmDialog] = React.useState(false);
+
+  const today = new Date();
+  const minDate = new Date(today);
+  minDate.setDate(today.getDate() + 1);
+
+  const maxDate = new Date(today);
+  maxDate.setDate(today.getDate() + 20);
 
   const handleBook = (key: string) => {
     setLocalBookedKeys((prev) => [...prev, key]);
@@ -93,6 +107,8 @@ export default function EmblaCarouselCards({
         expertId: pendingExpert.expertId,
         expertName: pendingExpert.name,
         expertType: type, // "adv" or "ca"
+        callType,
+        bookingDate: selectedDate?.toISOString(),
         status: "scheduled",
         rate: pendingExpert.rate || undefined,
         bookedAt: new Date().toISOString(),
@@ -101,8 +117,11 @@ export default function EmblaCarouselCards({
       await scheduleCall(payload, type as "ca" | "adv");
 
       handleBook(pendingKey);
+      setShowConfirmDialog(false);
       setPendingKey(null);
       setPendingExpert(null);
+      setCallType(null);
+      setSelectedDate(undefined);
     } catch (err) {
       console.error("Error booking call:", err);
       alert("Failed to book call. Please try again.");
@@ -198,6 +217,8 @@ export default function EmblaCarouselCards({
                           onClick={() => {
                             setPendingKey(key);
                             setPendingExpert(expert);
+                            setCallType(null);
+                            setShowCallTypeDialog(true);
                           }}
                         >
                           <PhoneCall className="mr-1 h-3 w-3" />
@@ -221,7 +242,15 @@ export default function EmblaCarouselCards({
       </Carousel>
 
       {/* Confirmation Popup */}
-      <Dialog open={!!pendingKey} onOpenChange={() => setPendingKey(null)}>
+      <Dialog
+        open={showConfirmDialog}
+        onOpenChange={(open) => {
+          if (!open) {
+            setShowConfirmDialog(false);
+            setPendingKey(null);
+          }
+        }}
+      >
         <DialogContent className="rounded-xl">
           <DialogHeader>
             <DialogTitle className="text-lg font-semibold">
@@ -243,7 +272,9 @@ export default function EmblaCarouselCards({
           <DialogFooter className="flex justify-end gap-2 mt-4">
             <Button
               variant="outline"
-              onClick={() => setPendingKey(null)}
+              onClick={() => {
+                setPendingKey(null), setShowConfirmDialog(false);
+              }}
               className="text-sm"
               disabled={loading}
             >
@@ -269,6 +300,80 @@ export default function EmblaCarouselCards({
                 Login
               </Button>
             )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Call Type Selection Popup */}
+      <Dialog
+        open={showCallTypeDialog}
+        onOpenChange={(open) => {
+          if (!open) {
+            setShowCallTypeDialog(false);
+            setPendingKey(null);
+          }
+        }}
+      >
+        <DialogContent className="rounded-xl">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-semibold">
+              Select Call Type
+            </DialogTitle>
+            <DialogDescription className="text-sm">
+              How would you like to connect with{" "}
+              <span className="font-bold">{pendingExpert?.name}</span>?
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="flex gap-3 justify-center mt-4">
+            <Button
+              className={`rounded-full px-4 ${
+                callType === "voice"
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-200 text-gray-800"
+              }`}
+              onClick={() => setCallType("voice")}
+            >
+              <PhoneCall className="mr-1 h-4 w-4" />
+              Voice Call
+            </Button>
+
+            <Button
+              className={`rounded-full px-4 ${
+                callType === "video"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 text-gray-800"
+              }`}
+              onClick={() => setCallType("video")}
+            >
+              🎥 Video Call
+            </Button>
+          </div>
+
+          {/* Date Selection */}
+          <div className="mt-6 flex justify-center">
+            <Calendar
+              mode="single"
+              selected={selectedDate}
+              onSelect={setSelectedDate}
+              fromDate={minDate}
+              toDate={maxDate}
+              disabled={(date) => date < minDate || date > maxDate}
+              className="rounded-md border"
+            />
+          </div>
+
+          <DialogFooter className="mt-6">
+            <Button
+              disabled={!callType || !selectedDate}
+              className="bg-green-600 hover:bg-green-700 text-white"
+              onClick={() => {
+                setShowCallTypeDialog(false);
+                setShowConfirmDialog(true);
+              }}
+            >
+              Continue
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

@@ -23,8 +23,6 @@ export async function GET() {
     }
 
     const data = await firebaseRes.json();
-    console.log("Called and data below is sent");
-    console.log(data);
 
     return NextResponse.json({
       success: true,

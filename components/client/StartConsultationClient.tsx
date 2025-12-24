@@ -113,14 +113,10 @@ export default function StartConsultationPage() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        console.log("Fetching bookings...");
-        console.log(isLoggedIn);
-
         if (!isLoggedIn) return;
 
         const res = await getUserBookings();
         const bookedIds = res.consultations?.map((b: any) => `${b.expertId}`);
-        console.log(bookedIds);
 
         setBookedExpertIds(bookedIds || []);
       } catch (err) {
