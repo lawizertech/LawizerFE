@@ -62,7 +62,7 @@ export function FAQSection() {
                 <span className="text-base sm:text-lg">Call us</span>
               </a>
               <a
-                href="mailto:support@lawizer.com"
+                href="mailto:admin@lawizer.com"
                 className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors"
               >
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 flex items-center justify-center">
