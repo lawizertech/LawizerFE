@@ -125,7 +125,7 @@ export default function BookingsTab() {
                   <button
                     className="mt-4 w-48 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-medium transition"
                     onClick={() =>
-                      router.push(`/lawyer/connect/${b.bookingId}`)
+                      router.push(`/lawyer/dashboard/connect/${b.bookingId}`)
                     }
                   >
                     Connect Now
