@@ -1,19 +1,10 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
-import DashboardTab from "@/components/lawyer/DashboardTab";
-import ProfileTab from "@/components/lawyer/ProfileTab";
-import BookingsTab from "@/components/lawyer/BookingsTab";
+import LawyerDashboardClient from "@/components/lawyer/LawyerDashboardClient";
+import { Suspense } from "react";
 
 export default function LawyerDashboardPage() {
-  const searchParams = useSearchParams();
-  const tab = searchParams.get("tab") || "dashboard";
-
   return (
-    <>
-      {tab === "dashboard" && <DashboardTab />}
-      {tab === "profile" && <ProfileTab />}
-      {tab === "bookings" && <BookingsTab />}
-    </>
+    <Suspense fallback={<div>Loading...</div>}>
+      <LawyerDashboardClient />
+    </Suspense>
   );
 }
