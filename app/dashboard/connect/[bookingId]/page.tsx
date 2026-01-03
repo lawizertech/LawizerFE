@@ -4,12 +4,45 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { serverApi } from "@/lib/apis/axios";
 import ChatModal from "@/components/chat/ChatModal";
+import { ref, onValue, remove, update } from "firebase/database";
+import VoiceCallModal from "@/components/call/VoiceCallModal";
+
+import { rtdb } from "@/lib/firebaseClient";
 
 export default function UserConnectPage() {
   const { bookingId } = useParams<{ bookingId: string }>();
+  const [incomingCall, setIncomingCall] = useState<{
+    type: "voice" | "video";
+  } | null>(null);
+  const [showVoiceCall, setShowVoiceCall] = useState(false);
 
   const [booking, setBooking] = useState<any>(null);
   const [showChat, setShowChat] = useState(false);
+
+  useEffect(() => {
+    if (!bookingId) return;
+
+    const callRef = ref(rtdb, `calls/${bookingId}`);
+    console.log(`calls/${bookingId}`);
+
+    const unsubscribe = onValue(callRef, (snapshot) => {
+      if (!snapshot.exists()) return;
+
+      const call = snapshot.val();
+
+      if (call.status === "ringing" && call.caller === "lawyer") {
+        setIncomingCall({
+          type: call.type,
+        });
+      }
+
+      if (call.status === "ended") {
+        setIncomingCall(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [bookingId]);
 
   useEffect(() => {
     if (!bookingId) return;
@@ -66,6 +99,56 @@ export default function UserConnectPage() {
           bookingId={booking.bookingId}
           role="client"
           onClose={() => setShowChat(false)}
+        />
+      )}
+
+      {incomingCall && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-sm text-center">
+            <h2 className="text-xl font-bold mb-2">
+              Incoming {incomingCall.type === "voice" ? "Voice" : "Video"} Call
+            </h2>
+
+            <p className="text-gray-600 mb-6">
+              {booking.expertName} is calling you
+            </p>
+
+            <div className="flex gap-4">
+              {/* Reject */}
+              <button
+                onClick={async () => {
+                  await remove(ref(rtdb, `calls/${bookingId}`));
+                  setIncomingCall(null);
+                }}
+                className="flex-1 py-2 rounded-lg bg-red-600 text-white"
+              >
+                Reject
+              </button>
+
+              {/* Accept */}
+              <button
+                onClick={async () => {
+                  await update(ref(rtdb, `calls/${bookingId}`), {
+                    status: "active",
+                  });
+
+                  setIncomingCall(null);
+                  setShowVoiceCall(true); // 🔥 THIS IS THE KEY
+                }}
+                className="flex-1 py-2 rounded-lg bg-green-600 text-white"
+              >
+                Accept
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showVoiceCall && (
+        <VoiceCallModal
+          bookingId={booking.bookingId}
+          role="client"
+          onClose={() => setShowVoiceCall(false)}
         />
       )}
     </>
