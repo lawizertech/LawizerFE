@@ -586,7 +586,10 @@ export function Header() {
                 </HoverDropdown>
 
                 <HoverDropdown label="Resources">
-                  <Link href="/blogs" className="text-sm py-1 hover:text-[#c92c41]">
+                  <Link
+                    href="/blogs"
+                    className="text-sm py-1 hover:text-[#c92c41]"
+                  >
                     Blogs
                   </Link>
                   <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
@@ -770,15 +773,53 @@ export function Header() {
                     </Button>
                   </div>
                 ) : (
-                  <Link
-                    href="/profile"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-lg font-semibold text-[#ff1d46] block mb-4"
-                  >
-                    My Profile
-                  </Link>
-                )}
+                  <div className="flex flex-col gap-4 mb-6 pb-6 border-b">
+                    <div className="flex items-center gap-2">
+                      <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-[#c92c41] font-bold">
+                        {loggedUser.email[0].toUpperCase()}
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-sm font-semibold text-gray-900 truncate max-w-[150px]">
+                          {loggedUser.email}
+                        </span>
+                        <span className="text-xs text-gray-500 capitalize">
+                          {loggedUser.role.toLowerCase()}
+                        </span>
+                      </div>
+                    </div>
 
+                    <div className="flex flex-col gap-3 mt-2">
+                      {/* DASHBOARD LINK START */}
+                      {loggedUser.role === "USER" ? (
+                        <>
+                          <Link
+                            href="/dashboard"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="text-lg font-semibold text-gray-700 flex items-center gap-2"
+                          >
+                            Dashboard
+                          </Link>
+                          <Link
+                            href="/profile"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="text-lg font-semibold text-[#ff1d46] flex items-center gap-2"
+                          >
+                            My Profile
+                          </Link>
+                        </>
+                      ) : loggedUser.role === "ADVOCATE_CA" ? (
+                        <Link
+                          href="/lawyer/dashboard"
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="text-lg font-semibold text-gray-700 flex items-center gap-2"
+                        >
+                          Dashboard
+                        </Link>
+                      ) : null}
+                      {/* DASHBOARD LINK END */}
+                    </div>
+                  </div>
+                )}
                 {/* Main Links */}
                 <div className="flex flex-col gap-4">
                   <Link
