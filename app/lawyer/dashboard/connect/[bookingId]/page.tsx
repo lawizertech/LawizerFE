@@ -4,9 +4,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { serverApi } from "@/lib/apis/axios";
 import ChatModal from "@/components/chat/ChatModal";
+import VoiceCallModal from "@/components/call/VoiceCallModal";
+import { ref, set } from "firebase/database";
+import { rtdb } from "@/lib/firebaseClient";
 
 export default function ConnectPage() {
   const { bookingId } = useParams<{ bookingId: string }>();
+  const [showVoiceCall, setShowVoiceCall] = useState(false);
 
   const [booking, setBooking] = useState<any>(null);
   const [showChat, setShowChat] = useState(false);
@@ -18,6 +22,8 @@ export default function ConnectPage() {
     const loadBooking = async () => {
       const res = await serverApi.get(`/api/expert/consultations/${bookingId}`);
       setBooking(res.data.booking);
+      console.log(res.data.booking);
+
       setLoading(false);
     };
 
@@ -48,10 +54,21 @@ export default function ConnectPage() {
         </button>
 
         <button
-          disabled
-          className="w-full py-3 rounded-lg bg-gray-100 text-gray-400"
+          onClick={async () => {
+            await set(ref(rtdb, `calls/${booking.bookingId}`), {
+              status: "ringing",
+              type: "voice",
+              caller: "lawyer",
+              userId: booking.userId,
+              lawyerId: booking.expertUid,
+              createdAt: Date.now(),
+            });
+
+            setShowVoiceCall(true);
+          }}
+          className="w-full py-3 rounded-lg bg-green-600 text-white"
         >
-          Audio Call (Coming Soon)
+          Voice Call
         </button>
 
         <button
@@ -67,6 +84,14 @@ export default function ConnectPage() {
           bookingId={booking.bookingId}
           role="expert"
           onClose={() => setShowChat(false)}
+        />
+      )}
+
+      {showVoiceCall && (
+        <VoiceCallModal
+          bookingId={booking.bookingId}
+          role="lawyer"
+          onClose={() => setShowVoiceCall(false)}
         />
       )}
     </div>
