@@ -75,7 +75,7 @@ export default function EmblaCarouselCards({
 
   const today = new Date();
   const minDate = new Date(today);
-  minDate.setDate(today.getDate() + 1);
+  minDate.setDate(today.getDate() - 1);
 
   const maxDate = new Date(today);
   maxDate.setDate(today.getDate() + 20);
