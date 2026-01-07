@@ -85,10 +85,6 @@ export default function EmblaCarouselCards({
     onBook(key);
   };
 
-  React.useEffect(() => {
-    setLocalBookedKeys(bookedKeys);
-  }, [bookedKeys]);
-
   const handleConfirmBooking = async () => {
     if (!pendingKey || !pendingExpert) return;
 
@@ -144,13 +140,18 @@ export default function EmblaCarouselCards({
       >
         <CarouselContent className="-ml-2 py-4">
           {list.map((expert, i) => {
-            const key = `${expert.expertId}`;
-
-            const isBooked = localBookedKeys.includes(expert.expertId);
+            console.log(expert);
+            
+            const safeKey =
+              expert.expertId ??
+              expert.uid ??
+              expert.email ??
+              `${expert.name}-${i}`;
+            const isBooked = localBookedKeys.includes(safeKey);
 
             return (
               <CarouselItem
-                key={key}
+                key={safeKey}
                 className="basis-[160px] sm:basis-[180px] md:basis-[200px] lg:basis-[220px] pl-2 px-2"
               >
                 <motion.div
@@ -215,7 +216,7 @@ export default function EmblaCarouselCards({
                               : "bg-blue-600 hover:bg-blue-700"
                           }`}
                           onClick={() => {
-                            setPendingKey(key);
+                            setPendingKey(safeKey);
                             setPendingExpert(expert);
                             setCallType(null);
                             setShowCallTypeDialog(true);
