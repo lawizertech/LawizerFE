@@ -127,22 +127,29 @@ export default function StartConsultationPage() {
     fetchBookings();
   }, [isLoggedIn]);
 
+  const ROLE_KEYWORDS: Record<string, string[]> = {
+    civil_commercial: [
+      "civil",
+      "commercial",
+      "corporate",
+      "property",
+      "arbitration",
+      "ibc",
+      "litigation",
+    ],
+    criminal: ["criminal", "cyber", "ndps"],
+  };
+
   const filteredAdvocates = useMemo(() => {
-    if (userQueryType === "civil_commercial") {
-      return ALL_ADVOCATES.filter((adv) =>
-        ["Civil Lawyer", "Corporate Lawyer", "Property Lawyer"].includes(
-          adv.role
-        )
-      );
-    }
+    if (!userQueryType) return ALL_ADVOCATES;
 
-    if (userQueryType === "criminal") {
-      return ALL_ADVOCATES.filter((adv) =>
-        ["Criminal Lawyer", "Cyber Crime Lawyer"].includes(adv.role)
-      );
-    }
+    const keywords = ROLE_KEYWORDS[userQueryType];
 
-    return ALL_ADVOCATES;
+    if (!keywords) return ALL_ADVOCATES;
+
+    return ALL_ADVOCATES.filter((adv) =>
+      keywords.some((keyword) => adv.role.toLowerCase().includes(keyword))
+    );
   }, [userQueryType, ALL_ADVOCATES]);
 
   const shouldShowCAs = userQueryType !== "civil_commercial";
