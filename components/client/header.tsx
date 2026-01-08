@@ -505,7 +505,7 @@ export function Header() {
             {/* Logo */}
             <div
               className="flex items-center gap-2 cursor-pointer"
-              onClick={() => window.location.replace("/")}
+              onClick={() => router.push("/")}
             >
               <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
                 <img
@@ -713,7 +713,7 @@ export function Header() {
                   className="flex items-center gap-2 cursor-pointer"
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    window.location.replace("/");
+                    router.push("/");
                   }}
                 >
                   <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">

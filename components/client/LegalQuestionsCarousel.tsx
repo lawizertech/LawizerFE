@@ -11,6 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useRouter } from "next/navigation";
 
 type LegalCard = {
   icon: any;
@@ -25,6 +26,7 @@ type Props = {
 };
 
 export default function LegalQuestionsCarousel({ list }: Props) {
+  const router = useRouter();
   const autoplay = React.useRef(
     Autoplay({
       delay: 2200,
@@ -55,7 +57,7 @@ export default function LegalQuestionsCarousel({ list }: Props) {
           basis-[180px] sm:basis-[220px] md:basis-[260px] lg:basis-[300px] 
           pl-3
         "
-              onClick={() => window.location.replace(item.route)}
+              onClick={() => router.push(item.route)}
             >
               <div
                 className="

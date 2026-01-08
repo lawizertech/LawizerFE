@@ -20,7 +20,7 @@ export default function LawyerLoginPage() {
     const role = localStorage.getItem("role");
 
     if (token && uid && role === "ADVOCATE_CA") {
-      router.replace("/lawyer/dashboard");
+      router.push("/lawyer/dashboard");
     }
   }, [router]);
 

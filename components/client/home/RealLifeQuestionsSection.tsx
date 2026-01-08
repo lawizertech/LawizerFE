@@ -11,6 +11,7 @@ import {
   Banknote,
 } from "lucide-react";
 import LegalQuestionsCarousel from "../LegalQuestionsCarousel";
+import { useRouter } from "next/navigation";
 
 const legalQuestions = [
   {
@@ -65,6 +66,8 @@ const legalQuestions = [
 ];
 
 export function RealLifeQuestionsSection() {
+  const router = useRouter();
+
   return (
     <section className="py-16 sm:py-20 bg-white relative overflow-hidden">
       {/* Background blur animation */}
@@ -106,7 +109,7 @@ export function RealLifeQuestionsSection() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-sm sm:text-base lg:text-lg font-medium rounded-full shadow-lg hover:shadow-xl transition-all text-white"
-            onClick={() => window.location.replace("/start-consultation")}
+            onClick={() => router.push("/start-consultation")}
           >
             Talk to a Lawyer Now
           </motion.button>
