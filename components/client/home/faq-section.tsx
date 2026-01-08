@@ -53,7 +53,7 @@ export function FAQSection() {
 
             <div className="flex flex-col gap-4">
               <a
-                href="tel:+1234567890"
+                href="tel:+919062815535"
                 className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors"
               >
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 flex items-center justify-center">
@@ -63,6 +63,14 @@ export function FAQSection() {
               </a>
               <a
                 href="mailto:admin@lawizer.com"
+                onClick={() => {
+                  setTimeout(() => {
+                    window.open(
+                      "https://mail.google.com/mail/?view=cm&fs=1&to=admin@lawizer.com",
+                      "_blank"
+                    );
+                  }, 300);
+                }}
                 className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors"
               >
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 flex items-center justify-center">
