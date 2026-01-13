@@ -602,7 +602,7 @@ export function Header() {
 
                 <Link
                   onClick={handleLinkClick}
-                  href="#"
+                  href="/about"
                   className="text-gray-700 hover:text-[#c92c41] text-sm font-medium transition-colors"
                 >
                   About

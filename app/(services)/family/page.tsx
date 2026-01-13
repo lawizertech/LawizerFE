@@ -13,7 +13,6 @@ import {
 import EmblaCarouselCards from "@/components/client/EmblaCarouselCards";
 
 export default function FamilyLegalPage() {
-  const router = useRouter();
   const [requestedIndex, setRequestedIndex] = useState<string | null>(null);
 
   const FamilyIcon = Heart;
