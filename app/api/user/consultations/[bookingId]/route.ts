@@ -23,8 +23,6 @@ export async function GET(
     }
 
     /* ===================== BACKEND REQUEST ===================== */
-    console.log("Fetching consultation details for booking ID:", bookingId);
-    console.log(`${BASE}/consultation/fetch-consultation/${bookingId}`);
 
     const backendRes = await fetch(
       `${BASE}/consultation/fetch-consultation/${bookingId}`,

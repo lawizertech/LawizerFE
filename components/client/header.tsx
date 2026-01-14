@@ -472,30 +472,42 @@ export function Header() {
     };
   }, [mobileMenuOpen]);
 
+  const isHome = pathname === "/";
+  const isDashboard =
+    pathname.startsWith("/dashboard") || pathname.startsWith("/lawyer");
+
   return (
     <>
       <motion.header
         initial={{
-          width: "80px",
-          height: "80px",
-          borderRadius: "9999px",
-          y: 0,
+          width: isHome ? "80px" : "100%",
           opacity: 0,
+          y: isHome ? 0 : -20,
+          borderRadius: isHome ? "9999px" : "0px",
         }}
         animate={{
-          width: "90%",
-          height: "auto",
-          borderRadius: "2rem",
-          y: 0,
+          width: isHome ? "90%" : "100%",
           opacity: 1,
+          y: 0,
+          borderRadius: isHome ? "2rem" : "0px",
         }}
         transition={{
-          duration: 0.6,
-          ease: [0.25, 0.1, 0.25, 1],
+          duration: 0.5,
+          ease: "easeOut",
         }}
-        className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-white/80 backdrop-blur-md border border-gray-200/50 shadow-lg overflow-visible"
+        className={`
+    fixed z-50 bg-white/80 backdrop-blur-md shadow-md
+    ${isHome ? "top-4 left-1/2 -translate-x-1/2" : "top-0 left-0"}
+    ${isHome ? "border border-gray-200/50" : "border-none"}
+    w-full
+  `}
       >
-        <div className="container mx-auto px-4 py-4">
+        <div
+          className={`
+    mx-auto
+    ${isHome ? "max-w-7xl px-4 py-4" : "w-full px-6 py-5"}
+  `}
+        >
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
