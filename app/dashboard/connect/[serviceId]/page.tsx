@@ -10,7 +10,7 @@ import VoiceCallModal from "@/components/call/VoiceCallModal";
 import { rtdb } from "@/lib/firebaseClient";
 
 export default function UserConnectPage() {
-  const { bookingId } = useParams<{ bookingId: string }>();
+  const { serviceId } = useParams<{ serviceId: string }>();
   const [incomingCall, setIncomingCall] = useState<{
     type: "voice" | "video";
   } | null>(null);
@@ -20,10 +20,10 @@ export default function UserConnectPage() {
   const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
-    if (!bookingId) return;
+    if (!serviceId) return;
 
-    const callRef = ref(rtdb, `calls/${bookingId}`);
-    console.log(`calls/${bookingId}`);
+    const callRef = ref(rtdb, `calls/${serviceId}`);
+    console.log(`calls/${serviceId}`);
 
     const unsubscribe = onValue(callRef, (snapshot) => {
       if (!snapshot.exists()) return;
@@ -42,18 +42,18 @@ export default function UserConnectPage() {
     });
 
     return () => unsubscribe();
-  }, [bookingId]);
+  }, [serviceId]);
 
   useEffect(() => {
-    if (!bookingId) return;
+    if (!serviceId) return;
 
     const loadBooking = async () => {
-      const res = await serverApi.get(`/api/user/consultations/${bookingId}`);
+      const res = await serverApi.get(`/api/user/consultations/${serviceId}`);
       setBooking(res.data.booking);
     };
 
     loadBooking();
-  }, [bookingId]);
+  }, [serviceId]);
 
   if (!booking)
     return <p className="pt-6 text-2xl font-bold">Loading consultation...</p>;
@@ -117,7 +117,7 @@ export default function UserConnectPage() {
               {/* Reject */}
               <button
                 onClick={async () => {
-                  await remove(ref(rtdb, `calls/${bookingId}`));
+                  await remove(ref(rtdb, `calls/${serviceId}`));
                   setIncomingCall(null);
                 }}
                 className="flex-1 py-2 rounded-lg bg-red-600 text-white"
@@ -128,7 +128,7 @@ export default function UserConnectPage() {
               {/* Accept */}
               <button
                 onClick={async () => {
-                  await update(ref(rtdb, `calls/${bookingId}`), {
+                  await update(ref(rtdb, `calls/${serviceId}`), {
                     status: "active",
                   });
 

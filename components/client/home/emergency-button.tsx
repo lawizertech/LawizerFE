@@ -22,6 +22,7 @@ export function EmergencyButton() {
   const confirmSOS = () => {
     setShowConfirm(false);
     setShowPopup(true);
+    window.location.href = "tel:9062815535";
     setTimeout(() => {
       setShowPopup(false);
     }, 5000);
