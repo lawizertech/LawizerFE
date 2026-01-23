@@ -15,6 +15,47 @@ interface Booking {
   createdAt: any;
 }
 
+const defaultStatusUI = {
+  border: "border-gray-200",
+  bg: "bg-gray-50",
+  text: "text-gray-600",
+  badge: "bg-gray-100 text-gray-700",
+  clickable: false,
+};
+
+const statusUI: Record<string, any> = {
+  scheduled: {
+    bg: "bg-white",
+    border: "border-blue-400",
+    badge: "bg-blue-100 text-blue-700",
+    clickable: true,
+  },
+  confirmed: {
+    bg: "bg-white",
+    border: "border-blue-400",
+    badge: "bg-blue-100 text-blue-700",
+    clickable: true,
+  },
+  accepted: {
+    bg: "bg-green-50",
+    border: "border-green-400",
+    badge: "bg-green-100 text-green-700",
+    clickable: false,
+  },
+  completed: {
+    bg: "bg-gray-50",
+    border: "border-gray-300",
+    badge: "bg-gray-200 text-gray-700",
+    clickable: false,
+  },
+  cancelled: {
+    bg: "bg-white",
+    border: "border-red-400",
+    badge: "bg-red-100 text-red-700",
+    clickable: false,
+  },
+};
+
 export default function DashboardPage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,7 +77,8 @@ export default function DashboardPage() {
   }, []);
 
   const handleBookingClick = (b: Booking) => {
-    if (b.status !== "scheduled") return;
+    const ui = statusUI[b.status] ?? defaultStatusUI;
+    if (!ui.clickable) return;
     router.push(`/dashboard/connect/${b.bookingId}`);
   };
 
@@ -51,41 +93,55 @@ export default function DashboardPage() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-6 text-gray-900">Your Bookings</h1>
+      <h1 className="text-3xl font-bold mb-6 text-gray-900">
+        Your Appointments
+      </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {bookings.map((b) => (
-          <div
-            key={b.bookingId}
-            onClick={() => handleBookingClick(b)}
-            className={`bg-white shadow-lg rounded-2xl p-6 border transition ${
-              b.status === "scheduled"
-                ? "hover:shadow-2xl cursor-pointer"
-                : "opacity-70 cursor-not-allowed"
-            }`}
-          >
-            <h3 className="font-semibold text-lg text-gray-800">
-              {b.expertName}
-            </h3>
+        {bookings.map((b) => {
+          const ui = statusUI[b.status] ?? defaultStatusUI;
 
-            <p className="text-gray-500 text-sm mt-2">
-              Status: <span className="font-medium capitalize">{b.status}</span>
-            </p>
+          return (
+            <div
+              key={b.bookingId}
+              onClick={() => handleBookingClick(b)}
+              className={`
+        rounded-2xl p-6 border-2 transition
+        ${ui.bg} ${ui.border}
+        ${
+          ui.clickable
+            ? "cursor-pointer hover:shadow-2xl"
+            : "opacity-90 cursor-not-allowed"
+        }
+      `}
+            >
+              <div className="flex items-center justify-between">
+                <h3 className="font-semibold text-lg text-gray-800">
+                  {b.expertName}
+                </h3>
 
-            <div className="mt-4 flex items-center gap-2 text-xs text-gray-500">
-              <Calendar size={14} />
-              {new Date(b.bookingDate._seconds * 1000).toLocaleDateString(
-                "en-IN"
+                <span
+                  className={`text-xs px-3 py-1 rounded-full font-medium ${ui.badge}`}
+                >
+                  {b.status.charAt(0).toUpperCase() + b.status.slice(1)}
+                </span>
+              </div>
+
+              <div className="mt-4 flex items-center gap-2 text-xs text-gray-500">
+                <Calendar size={14} />
+                {new Date(b.bookingDate._seconds * 1000).toLocaleDateString(
+                  "en-IN"
+                )}
+              </div>
+
+              {ui.clickable && (
+                <div className="mt-3 text-xs font-medium text-indigo-600">
+                  Click to connect →
+                </div>
               )}
             </div>
-
-            {b.status === "scheduled" && (
-              <div className="mt-3 text-xs text-indigo-500 font-medium">
-                Click to connect →
-              </div>
-            )}
-          </div>
-        ))}
+          );
+        })}
       </div>
     </>
   );
