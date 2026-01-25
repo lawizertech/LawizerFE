@@ -4,14 +4,12 @@ const BASE = process.env.NEXT_PUBLIC_API_URL!;
 
 export async function GET(
   req: NextRequest,
-  context: { params: Promise<{ bookingId: string }> }
+  { params }: { params: { bookingId: string } },
 ) {
   try {
-    const { bookingId } = await context.params;
-    console.log(bookingId);
+    const { bookingId } = params;
 
     const authHeader = req.headers.get("authorization");
-
     if (!authHeader) {
       return NextResponse.json(
         {
@@ -19,54 +17,39 @@ export async function GET(
           message: "Authorization token missing",
           errorCode: "TOKEN_MISSING",
         },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
-    /* ===================== BACKEND REQUEST ===================== */
-
     const backendRes = await fetch(
-      `${BASE}/advocate/fetch-consultation/${bookingId}`,
+      `${BASE}/expert/consultations/${bookingId}`,
       {
         method: "GET",
-        headers: {
-          Authorization: authHeader,
-        },
+        headers: { Authorization: authHeader },
         cache: "no-store",
-      }
+      },
     );
 
     if (!backendRes.ok) {
       const errorBody = await backendRes.json().catch(() => null);
-
       return NextResponse.json(
         {
           success: false,
           message: errorBody?.message || "Failed to fetch consultation",
           errorCode: errorBody?.errorCode || null,
         },
-        { status: backendRes.status }
+        { status: backendRes.status },
       );
     }
 
     const data = await backendRes.json();
 
-    return NextResponse.json(
-      {
-        success: true,
-        ...data,
-      },
-      { status: 200 }
-    );
+    return NextResponse.json({ success: true, ...data });
   } catch (error) {
     console.error("/api/expert/consultations/[bookingId] error:", error);
-
     return NextResponse.json(
-      {
-        success: false,
-        message: "Internal server error",
-      },
-      { status: 500 }
+      { success: false, message: "Internal server error" },
+      { status: 500 },
     );
   }
 }

@@ -5,7 +5,6 @@ const BASE = process.env.NEXT_PUBLIC_API_URL!;
 export async function GET(req: Request) {
   try {
     const authHeader = req.headers.get("authorization");
-
     if (!authHeader) {
       return NextResponse.json(
         {
@@ -13,48 +12,35 @@ export async function GET(req: Request) {
           message: "Authorization token missing",
           errorCode: "TOKEN_MISSING",
         },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
-    const firebaseRes = await fetch(
-      `${BASE}/advocate/expert/dashboard-metrics`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: authHeader,
-        },
-        cache: "no-store",
-      }
-    );
+    const backendRes = await fetch(`${BASE}/expert/dashboard`, {
+      method: "GET",
+      headers: { Authorization: authHeader },
+      cache: "no-store",
+    });
 
-    if (!firebaseRes.ok) {
-      const errorBody = await firebaseRes.json().catch(() => null);
+    if (!backendRes.ok) {
+      const errorBody = await backendRes.json().catch(() => null);
       return NextResponse.json(
         {
           success: false,
-          message: errorBody?.message || "Failed to fetch dashboard metrics",
+          message: errorBody?.message || "Failed to fetch dashboard",
           errorCode: errorBody?.errorCode || null,
         },
-        { status: firebaseRes.status }
+        { status: backendRes.status },
       );
     }
 
-    const data = await firebaseRes.json();
-
-    return NextResponse.json({
-      success: true,
-      ...data,
-    });
-  } catch (err: any) {
-    console.error("/api/expert/dashboard error:", err);
+    const data = await backendRes.json();
+    return NextResponse.json({ success: true, ...data });
+  } catch (error) {
+    console.error("/api/expert/dashboard error:", error);
     return NextResponse.json(
-      {
-        success: false,
-        message: "Internal server error",
-        errorCode: null,
-      },
-      { status: 500 }
+      { success: false, message: "Internal server error", errorCode: null },
+      { status: 500 },
     );
   }
 }

@@ -5,7 +5,6 @@ const BASE = process.env.NEXT_PUBLIC_API_URL!;
 export async function GET(req: Request) {
   try {
     const authHeader = req.headers.get("authorization");
-
     if (!authHeader) {
       return NextResponse.json(
         {
@@ -13,45 +12,39 @@ export async function GET(req: Request) {
           message: "Authorization token missing",
           errorCode: "TOKEN_MISSING",
         },
-        { status: 401 }
+        { status: 401 },
       );
     }
+    console.log("Hello");
 
-    const firebaseRes = await fetch(`${BASE}/advocate/expert/profile`, {
+    const backendRes = await fetch(`${BASE}/expert/profile`, {
       method: "GET",
-      headers: {
-        Authorization: authHeader,
-      },
+      headers: { Authorization: authHeader },
       cache: "no-store",
     });
 
-    if (!firebaseRes.ok) {
-      const errorBody = await firebaseRes.json().catch(() => null);
+    if (!backendRes.ok) {
+      console.log("Not Found");
+      
+      const errorBody = await backendRes.json().catch(() => null);
       return NextResponse.json(
         {
           success: false,
-          message: errorBody?.message || "Failed to fetch expert profile",
+          message: errorBody?.message || "Failed to fetch profile",
           errorCode: errorBody?.errorCode || null,
         },
-        { status: firebaseRes.status }
+        { status: backendRes.status },
       );
     }
 
-    const data = await firebaseRes.json();
-
-    return NextResponse.json({
-      success: true,
-      ...data,
-    });
-  } catch (err: any) {
-    console.error("/api/expert/profile error:", err);
+    const data = await backendRes.json();
+    console.log(data);
+    return NextResponse.json({ success: true, ...data });
+  } catch (error) {
+    console.error("/api/expert/profile error:", error);
     return NextResponse.json(
-      {
-        success: false,
-        message: "Internal server error",
-        errorCode: null,
-      },
-      { status: 500 }
+      { success: false, message: "Internal server error", errorCode: null },
+      { status: 500 },
     );
   }
 }

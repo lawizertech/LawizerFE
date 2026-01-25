@@ -4,12 +4,10 @@ const BASE = process.env.NEXT_PUBLIC_API_URL!;
 
 export async function GET(req: Request) {
   try {
-
     const { searchParams } = new URL(req.url);
     const expertType = searchParams.get("expertType");
 
     const authHeader = req.headers.get("authorization");
-
     if (!authHeader) {
       return NextResponse.json(
         {
@@ -17,59 +15,41 @@ export async function GET(req: Request) {
           message: "Authorization token missing",
           errorCode: "TOKEN_MISSING",
         },
-        { status: 401 } // Status Code
+        { status: 401 },
       );
     }
 
-    /* ===================== FIREBASE REQUEST ===================== */
-
-    const url = new URL(`${BASE}/advocate/fetch-consultations`);
+    const url = new URL(`${BASE}/expert/consultations`);
     if (expertType) {
       url.searchParams.set("expertType", expertType);
     }
 
-    const firebaseRes = await fetch(url.toString(), {
+    const backendRes = await fetch(url.toString(), {
       method: "GET",
-      headers: {
-        Authorization: authHeader,
-      },
+      headers: { Authorization: authHeader },
       cache: "no-store",
     });
 
-    if (!firebaseRes.ok) {
-      const errorBody = await firebaseRes.json().catch(() => null);
-
+    if (!backendRes.ok) {
+      const errorBody = await backendRes.json().catch(() => null);
       return NextResponse.json(
         {
           success: false,
           message: errorBody?.message || "Failed to fetch consultations",
           errorCode: errorBody?.errorCode || null,
         },
-        { status: firebaseRes.status } // Status Code
+        { status: backendRes.status },
       );
     }
 
-    const data = await firebaseRes.json();
+    const data = await backendRes.json();
 
-    /* ===================== SUCCESS RESPONSE ===================== */
-
+    return NextResponse.json({ success: true, ...data });
+  } catch (error) {
+    console.error("/api/expert/consultations error:", error);
     return NextResponse.json(
-      {
-        success: true,
-        ...data,
-      },
-      { status: 200 } // Status Code
-    );
-  } catch (err: any) {
-    console.error("/api/expert/consultations error:", err);
-
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Internal server error",
-        errorCode: null,
-      },
-      { status: 500 } // Status Code
+      { success: false, message: "Internal server error", errorCode: null },
+      { status: 500 },
     );
   }
 }
