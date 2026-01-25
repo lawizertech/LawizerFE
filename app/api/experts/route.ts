@@ -4,32 +4,32 @@ const BASE = process.env.NEXT_PUBLIC_API_URL!;
 
 export async function GET() {
   try {
-    const firebaseRes = await fetch(`${BASE}/consultation/fetch-advocates`, {
+    const apiRes = await fetch(`${BASE}/user/experts`, {
       method: "GET",
       cache: "no-store",
     });
 
-    if (!firebaseRes.ok) {
-      const errorBody = await firebaseRes.json().catch(() => null);
+    if (!apiRes.ok) {
+      const errorBody = await apiRes.json().catch(() => null);
 
       return NextResponse.json(
         {
           success: false,
-          message: errorBody?.message || "Failed to fetch advocates",
+          message: errorBody?.message || "Failed to fetch experts",
           errorCode: errorBody?.errorCode || null,
         },
-        { status: firebaseRes.status }
+        { status: apiRes.status },
       );
     }
 
-    const data = await firebaseRes.json();
+    const data = await apiRes.json();
 
     return NextResponse.json({
       success: true,
       ...data,
     });
-  } catch (err: any) {
-    console.error("/api/advocates error:", err);
+  } catch (error) {
+    console.error("/api/experts error:", error);
 
     return NextResponse.json(
       {
@@ -37,7 +37,7 @@ export async function GET() {
         message: "Internal server error",
         errorCode: null,
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
