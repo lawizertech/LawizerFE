@@ -4,8 +4,8 @@ import { useState, FormEvent, useEffect } from "react";
 import { Mail, Lock, Loader2, ArrowRight } from "lucide-react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebaseClient";
-import { advLoginUser } from "@/lib/apis/api";
 import { useRouter } from "next/navigation";
+import { expertLogin } from "@/lib/apis/api";
 
 export default function LawyerLoginPage() {
   const [email, setEmail] = useState("");
@@ -36,6 +36,8 @@ export default function LawyerLoginPage() {
         password
       );
       const user = userCredential.user;
+      console.log(user);
+      
 
       if (!user.emailVerified) {
         setLoading(false);
@@ -45,7 +47,7 @@ export default function LawyerLoginPage() {
 
       const idToken = await user.getIdToken();
 
-      const res = await advLoginUser(idToken);
+      const res = await expertLogin(idToken);
 
       if (!res.success) {
         throw new Error(res.message || "Login failed");

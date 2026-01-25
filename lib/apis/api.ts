@@ -85,7 +85,7 @@ export const signupUser = async (
   name: string,
   email: string,
   password: string,
-  phoneNumber: string
+  phoneNumber: string,
 ) => {
   try {
     const res = await backendApi.post(`/auth/signup`, {
@@ -107,7 +107,7 @@ export const signupUser = async (
         { name, email, password },
         {
           headers: { Authorization: `Bearer ${newToken}` },
-        }
+        },
       );
 
       return retryRes.data;
@@ -127,7 +127,7 @@ export const signupUser = async (
 
 export const completeUserProfile = async (
   idToken: string,
-  formData: ProfilePayload
+  formData: ProfilePayload,
 ) => {
   try {
     const res = await backendApi.post(`/auth/complete-profile`, formData, {
@@ -147,7 +147,7 @@ export const completeUserProfile = async (
         formData,
         {
           headers: { Authorization: `Bearer ${newToken}` },
-        }
+        },
       );
 
       return retryRes.data;
@@ -172,7 +172,7 @@ export const loginUser = async (idToken: string) => {
       { idToken },
       {
         headers: { Authorization: `Bearer ${idToken}` },
-      }
+      },
     );
 
     return {
@@ -191,7 +191,7 @@ export const loginUser = async (idToken: string) => {
         { idToken },
         {
           headers: { Authorization: `Bearer ${newToken}` },
-        }
+        },
       );
 
       return { success: true, ...retryRes.data };
@@ -209,18 +209,9 @@ export const loginUser = async (idToken: string) => {
 /*                           🔹 scheduleCall API                              */
 /* -------------------------------------------------------------------------- */
 
-export const scheduleCall = async (
-  payload: ScheduleCallPayload,
-  type: "adv" | "ca"
-) => {
+export const scheduleCall = async (payload: ScheduleCallPayload) => {
   try {
-    const endpoint =
-      type === "adv"
-        ? "/consultation/schedule-adv-consultation"
-        : "/consultation/schedule-ca-consultation";
-
-    const res = await backendApi.post(endpoint, payload);
-
+    const res = await backendApi.post("/user/consultations", payload);
     return res.data;
   } catch (err: any) {
     const errorCode = err?.response?.data?.errorCode;
@@ -229,10 +220,8 @@ export const scheduleCall = async (
       const newToken = await renewToken();
       if (!newToken) return err.response.data;
 
-      const endpoint =
-        type === "adv" ? "/call/schedule-adv" : "/call/schedule-ca";
-
-      const retryRes = await backendApi.post(endpoint, payload);
+      // retry SAME endpoint
+      const retryRes = await backendApi.post("/user/consultations", payload);
 
       return retryRes.data;
     }
@@ -251,8 +240,7 @@ export const scheduleCall = async (
 
 export const getUserBookings = async () => {
   try {
-    const res = await backendApi.get("/consultation/fetch-consultations");
-
+    const res = await backendApi.get("/user/consultations");
     return res.data;
   } catch (err: any) {
     const errorCode = err?.response?.data?.errorCode;
@@ -261,12 +249,10 @@ export const getUserBookings = async () => {
       const newToken = await renewToken();
       if (!newToken) return err.response.data;
 
-      const retryRes = await backendApi.get(
-        "/consultation/fetch-consultations",
-        {
-          headers: { Authorization: `Bearer ${newToken}` },
-        }
-      );
+      // retry SAME endpoint
+      const retryRes = await backendApi.get("/user/consultations", {
+        headers: { Authorization: `Bearer ${newToken}` },
+      });
 
       return retryRes.data;
     }
@@ -280,17 +266,11 @@ export const getUserBookings = async () => {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                           🔹 advocateLogin API                              */
+/*                           🔹 expertLogin API                                */
 /* -------------------------------------------------------------------------- */
-export const advLoginUser = async (idToken: string) => {
+export const expertLogin = async (idToken: string) => {
   try {
-    const res = await backendApi.post(
-      `/advocate/login`,
-      { idToken },
-      {
-        headers: { Authorization: `Bearer ${idToken}` },
-      }
-    );
+    const res = await backendApi.post("/expert/login", { idToken });
 
     return {
       success: true,
@@ -303,13 +283,9 @@ export const advLoginUser = async (idToken: string) => {
       const newToken = await renewToken();
       if (!newToken) return err.response.data;
 
-      const retryRes = await backendApi.post(
-        `/advocate/login`,
-        { idToken },
-        {
-          headers: { Authorization: `Bearer ${newToken}` },
-        }
-      );
+      const retryRes = await backendApi.post("/expert/login", {
+        idToken: newToken,
+      });
 
       return { success: true, ...retryRes.data };
     }
@@ -323,9 +299,9 @@ export const advLoginUser = async (idToken: string) => {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                           🔹 advocateCompleteProfile API                   */
+/*                        🔹 expertCompleteProfile API                          */
 /* -------------------------------------------------------------------------- */
-export const advCompleteProfile = async (payload: {
+export const expertCompleteProfile = async (payload: {
   expertId: string;
   name: string;
   role: string;
@@ -335,7 +311,7 @@ export const advCompleteProfile = async (payload: {
   experience?: string;
 }) => {
   try {
-    const res = await backendApi.post("/advocate/complete-profile", payload);
+    const res = await backendApi.post("/expert/complete-profile", payload);
     return res.data;
   } catch (err: any) {
     const errorCode = err?.response?.data?.errorCode;
@@ -345,11 +321,11 @@ export const advCompleteProfile = async (payload: {
       if (!newToken) return err.response.data;
 
       const retryRes = await backendApi.post(
-        "/advocate/complete-profile",
+        "/expert/complete-profile",
         payload,
         {
           headers: { Authorization: `Bearer ${newToken}` },
-        }
+        },
       );
 
       return retryRes.data;

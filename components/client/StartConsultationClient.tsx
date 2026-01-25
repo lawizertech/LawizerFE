@@ -88,19 +88,19 @@ export default function StartConsultationPage() {
   useEffect(() => {
     const fetchAllAdvocates = async () => {
       try {
-        const res = await serverApi.get("/api/advocates");
+        const res = await serverApi.get("/api/experts");
 
         const data = await res.data;
 
         if (!data.success) {
-          console.error("Failed to fetch advocates:", data.message);
+          console.error("Failed to fetch experts:", data.message);
           setALL_ADVOCATES([]);
           return;
         }
 
-        setALL_ADVOCATES(data.advocates || []);
+        setALL_ADVOCATES(data.experts || []);
       } catch (err) {
-        console.error("Failed to fetch advocates", err);
+        console.error("Failed to fetch experts", err);
         setALL_ADVOCATES([]);
       } finally {
         setLoadingAdvocates(false);
@@ -148,7 +148,7 @@ export default function StartConsultationPage() {
     if (!keywords) return ALL_ADVOCATES;
 
     return ALL_ADVOCATES.filter((adv) =>
-      keywords.some((keyword) => adv.role.toLowerCase().includes(keyword))
+      keywords.some((keyword) => adv.role.toLowerCase().includes(keyword)),
     );
   }, [userQueryType, ALL_ADVOCATES]);
 

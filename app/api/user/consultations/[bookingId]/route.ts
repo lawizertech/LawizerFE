@@ -4,10 +4,10 @@ const BASE = process.env.NEXT_PUBLIC_API_URL!;
 
 export async function GET(
   req: NextRequest,
-  context: { params: Promise<{ bookingId: string }> }
+  context: { params: { bookingId: string } },
 ) {
   try {
-    const { bookingId } = await context.params;
+    const { bookingId } = context.params;
 
     const authHeader = req.headers.get("authorization");
 
@@ -18,22 +18,19 @@ export async function GET(
           message: "Authorization token missing",
           errorCode: "TOKEN_MISSING",
         },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
     /* ===================== BACKEND REQUEST ===================== */
 
-    const backendRes = await fetch(
-      `${BASE}/consultation/fetch-consultation/${bookingId}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: authHeader,
-        },
-        cache: "no-store",
-      }
-    );
+    const backendRes = await fetch(`${BASE}/user/consultations/${bookingId}`, {
+      method: "GET",
+      headers: {
+        Authorization: authHeader,
+      },
+      cache: "no-store",
+    });
 
     if (!backendRes.ok) {
       const errorBody = await backendRes.json().catch(() => null);
@@ -44,7 +41,7 @@ export async function GET(
           message: errorBody?.message || "Failed to fetch consultation",
           errorCode: errorBody?.errorCode || null,
         },
-        { status: backendRes.status }
+        { status: backendRes.status },
       );
     }
 
@@ -57,7 +54,7 @@ export async function GET(
         success: true,
         ...data,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("/api/user/consultations/[bookingId] error:", error);
@@ -67,7 +64,7 @@ export async function GET(
         success: false,
         message: "Internal server error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
