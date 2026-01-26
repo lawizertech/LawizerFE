@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import MobileMenuButton from "@/components/lawyer/MobileMenuButton";
-import Sidebar from "@/components/lawyer/Sidebar";
+import MobileMenuButton from "@/components/expert/MobileMenuButton";
+import Sidebar from "@/components/expert/Sidebar";
+import ExpertHeader from "@/components/expert/ExpertHeader";
 
 export default function DashboardLayoutClient({
   children,
@@ -28,7 +29,7 @@ export default function DashboardLayoutClient({
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="flex bg-[#fafafa] overflow-hidden">
       <Sidebar
         activeTab={activeTab}
         handleLogout={handleLogout}
@@ -37,7 +38,13 @@ export default function DashboardLayoutClient({
 
       <MobileMenuButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
-      <main className="flex-1 ml-0 lg:ml-64 p-6 lg:p-10 pt-24">{children}</main>
+      {/* HEADER */}
+      <ExpertHeader />
+
+      {/* CONTENT */}
+      <main className="flex-1 ml-0 lg:ml-64 pt-20 px-6 lg:px-10">
+        {children}
+      </main>
     </div>
   );
 }

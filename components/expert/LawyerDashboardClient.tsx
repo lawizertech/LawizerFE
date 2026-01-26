@@ -1,9 +1,9 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import DashboardTab from "@/components/lawyer/DashboardTab";
-import ProfileTab from "@/components/lawyer/ProfileTab";
-import BookingsTab from "@/components/lawyer/BookingsTab";
+import DashboardTab from "@/components/expert/DashboardTab";
+import ProfileTab from "@/components/expert/ProfileTab";
+import BookingsTab from "@/components/expert/BookingsTab";
 
 export default function LawyerDashboardClient() {
   const searchParams = useSearchParams();
