@@ -9,7 +9,7 @@ export default function ExpertDashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="h-screen overflow-hidden bg-[#fafafa]">
+    <div className="h-screen overflow-scroll bg-[#fafafa]">
       {/* MAIN CONTENT */}
       <main
         className="          

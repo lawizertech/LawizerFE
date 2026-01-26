@@ -652,7 +652,7 @@ export function Header() {
                       Dashboard
                     </Link>
                   </div>
-                ) : loggedUser.role === "ADVOCATE_CA" ? (
+                ) : loggedUser.role === "EXPERT" ? (
                   <Link
                     className="text-sm font-medium text-gray-700"
                     href="/lawyer/dashboard"
@@ -819,7 +819,7 @@ export function Header() {
                             My Profile
                           </Link>
                         </>
-                      ) : loggedUser.role === "ADVOCATE_CA" ? (
+                      ) : loggedUser.role === "EXPERT" ? (
                         <Link
                           href="/lawyer/dashboard"
                           onClick={() => setMobileMenuOpen(false)}

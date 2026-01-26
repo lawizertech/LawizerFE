@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { Header } from "@/components/client/header";
 import { Footer } from "@/components/client/footer";
-import Header2 from "../header2";
+import Header2 from "../expert/header2";
 
 export default function LayoutWrapper({
   children,
@@ -21,8 +21,6 @@ export default function LayoutWrapper({
           <Header />
         </div>
       )}
-
-      {hideLayout && <Header2 />}
 
       {children}
 

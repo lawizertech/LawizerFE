@@ -6,7 +6,7 @@ export default function Header2() {
   const router = useRouter();
 
   return (
-    <header className="fixed top-0 left-0 w-full bg-white shadow-sm z-50 h-16 flex items-center px-10 rounded-b-md">
+    <header className="fixed top-0 left-0 w-full bg-white border border-b z-50 h-16 flex items-center px-10 rounded-b-md">
       <div
         className="flex items-center gap-2 cursor-pointer"
         onClick={() => router.push("/")}

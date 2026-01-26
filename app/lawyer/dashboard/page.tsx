@@ -1,4 +1,4 @@
-import LawyerDashboardClient from "@/components/lawyer/LawyerDashboardClient";
+import LawyerDashboardClient from "@/components/expert/LawyerDashboardClient";
 import { Suspense } from "react";
 
 export default function LawyerDashboardPage() {
