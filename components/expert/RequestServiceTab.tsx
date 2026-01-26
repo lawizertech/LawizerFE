@@ -24,6 +24,7 @@ export default function RequestServiceTab() {
   const [customDocs, setCustomDocs] = useState<string[]>([]);
   const [newDoc, setNewDoc] = useState("");
   const [instructions, setInstructions] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   /* =========================
      LOAD CONSULTED USERS
@@ -72,6 +73,42 @@ export default function RequestServiceTab() {
     ...templateDocs.map((d) => ({ name: d, status: "pending" })),
     ...customDocs.map((d) => ({ name: d, status: "pending" })),
   ];
+
+  /* =========================
+     SUBMIT
+  ========================= */
+
+  const submitRequest = async () => {
+    if (!selectedUser || !service || !fee) return;
+
+    try {
+      setSubmitting(true);
+
+      await serverApi.post("/api/expert/request-service", {
+        userId: selectedUser,
+        category,
+        serviceName: service,
+        fee: Number(fee),
+        documentsRequired: finalDocuments,
+        instructions,
+      });
+
+      alert("Service request sent to admin");
+
+      // reset
+      setCategory("");
+      setService("");
+      setFee("");
+      setTemplateDocs([]);
+      setCustomDocs([]);
+      setInstructions("");
+      setSelectedUser("");
+    } catch (err: any) {
+      alert(err?.response?.data?.message || "Failed to request service");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   /* =========================
      UI
@@ -257,25 +294,13 @@ export default function RequestServiceTab() {
       )}
 
       {/* SUBMIT */}
-      <div className="mb-8">
-        <button
-          disabled={!selectedUser || !service || !fee}
-          className="px-6 py-3 rounded-xl bg-[#c92c41] text-white font-medium
-                     disabled:opacity-50"
-          onClick={() => {
-            console.log({
-              selectedUser,
-              category,
-              service,
-              fee,
-              documentsRequired: finalDocuments,
-              instructions,
-            });
-          }}
-        >
-          Request Service
-        </button>
-      </div>
+      <button
+        disabled={submitting || !selectedUser || !service || !fee}
+        onClick={submitRequest}
+        className="px-6 py-3 mb-8 rounded-xl bg-[#c92c41] text-white font-medium disabled:opacity-50"
+      >
+        {submitting ? "Requesting..." : "Request Service"}
+      </button>
     </motion.div>
   );
 }
