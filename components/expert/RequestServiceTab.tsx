@@ -25,6 +25,7 @@ export default function RequestServiceTab() {
   const [newDoc, setNewDoc] = useState("");
   const [instructions, setInstructions] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [requests, setRequests] = useState<any[]>([]);
 
   /* =========================
      LOAD CONSULTED USERS
@@ -36,6 +37,14 @@ export default function RequestServiceTab() {
       setUsers(res.data.users || []);
     };
     loadUsers();
+  }, []);
+
+  useEffect(() => {
+    const loadRequests = async () => {
+      const res = await serverApi.get("/api/expert/service-requests");
+      setRequests(res.data.services || []);
+    };
+    loadRequests();
   }, []);
 
   /* =========================
@@ -301,6 +310,46 @@ export default function RequestServiceTab() {
       >
         {submitting ? "Requesting..." : "Request Service"}
       </button>
+
+      {/* =========================
+   MY SERVICE REQUESTS
+========================= */}
+      <div className="space-y-4 pt-10 border-t">
+        <h3 className="text-lg font-semibold">My Service Requests</h3>
+
+        {requests.length === 0 ? (
+          <p className="text-sm text-gray-500">No service requests yet</p>
+        ) : (
+          <div className="space-y-3">
+            {requests.map((r) => (
+              <div
+                key={r.serviceId}
+                className="border rounded-xl p-4 flex justify-between items-center"
+              >
+                <div>
+                  <p className="font-medium">{r.serviceName}</p>
+                  <p className="text-sm text-gray-500">
+                    Client: {r.userDetails?.name}
+                  </p>
+                  <p className="text-xs text-gray-400">Fee: ₹{r.fee}</p>
+                </div>
+
+                <span
+                  className={`text-xs px-3 py-1 rounded-full ${
+                    r.status === "pending"
+                      ? "bg-yellow-100 text-yellow-700"
+                      : r.status === "approved"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
+                  }`}
+                >
+                  {r.status.charAt(0).toUpperCase() + r.status.slice(1)}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </motion.div>
   );
 }
