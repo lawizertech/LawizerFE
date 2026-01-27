@@ -441,7 +441,7 @@ export function Header() {
     }
   }, []);
 
-  const hideNavbarSections = pathname.startsWith("/lawyer");
+  const hideNavbarSections = pathname.startsWith("/expert");
 
   const refereshUserData = () => {
     if (typeof window !== "undefined") {
@@ -474,7 +474,7 @@ export function Header() {
 
   const isHome = pathname === "/";
   const isDashboard =
-    pathname.startsWith("/dashboard") || pathname.startsWith("/lawyer");
+    pathname.startsWith("/dashboard") || pathname.startsWith("/expert");
 
   return (
     <>
