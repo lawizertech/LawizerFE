@@ -5,6 +5,7 @@ import DashboardTab from "@/components/expert/DashboardTab";
 import ProfileTab from "@/components/expert/ProfileTab";
 import BookingsTab from "@/components/expert/BookingsTab";
 import RequestServiceTab from "./RequestServiceTab";
+import ActiveServicesTab from "./ActiveServices";
 
 export default function LawyerDashboardClient() {
   const searchParams = useSearchParams();
@@ -15,6 +16,7 @@ export default function LawyerDashboardClient() {
       {tab === "dashboard" && <DashboardTab />}
       {tab === "profile" && <ProfileTab />}
       {tab === "request-service" && <RequestServiceTab />}
+      {tab === "active-services" && <ActiveServicesTab />}
       {tab === "bookings" && <BookingsTab />}
     </>
   );

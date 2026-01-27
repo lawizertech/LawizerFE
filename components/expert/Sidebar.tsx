@@ -1,6 +1,13 @@
 "use client";
 
-import { Home, User, Calendar, LogOut, LayoutDashboard } from "lucide-react";
+import {
+  Home,
+  User,
+  Calendar,
+  LogOut,
+  LayoutDashboard,
+  ClipboardList,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface SidebarProps {
@@ -56,6 +63,13 @@ export default function Sidebar({
           icon={Calendar}
           active={activeTab === "request-service"}
           onClick={() => router.push("/lawyer/dashboard?tab=request-service")}
+        />
+
+        <SidebarItem
+          label="Active Services"
+          icon={ClipboardList}
+          active={activeTab === "active-services"}
+          onClick={() => router.push("/lawyer/dashboard?tab=active-services")}
         />
 
         {/* Profile */}
