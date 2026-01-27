@@ -46,7 +46,7 @@ export default function Sidebar({
           label="Dashboard"
           icon={LayoutDashboard}
           active={activeTab === "dashboard"}
-          onClick={() => router.push("/lawyer/dashboard")}
+          onClick={() => router.push("/expert/dashboard")}
         />
 
         {/* Bookings */}
@@ -54,7 +54,7 @@ export default function Sidebar({
           label="Bookings"
           icon={Calendar}
           active={activeTab === "bookings"}
-          onClick={() => router.push("/lawyer/dashboard?tab=bookings")}
+          onClick={() => router.push("/expert/dashboard?tab=bookings")}
         />
 
         {/* Request Service */}
@@ -62,14 +62,14 @@ export default function Sidebar({
           label="Request Service"
           icon={Calendar}
           active={activeTab === "request-service"}
-          onClick={() => router.push("/lawyer/dashboard?tab=request-service")}
+          onClick={() => router.push("/expert/dashboard?tab=request-service")}
         />
 
         <SidebarItem
           label="Active Services"
           icon={ClipboardList}
           active={activeTab === "active-services"}
-          onClick={() => router.push("/lawyer/dashboard?tab=active-services")}
+          onClick={() => router.push("/expert/dashboard?tab=active-services")}
         />
 
         {/* Profile */}
@@ -77,7 +77,7 @@ export default function Sidebar({
           label="My Profile"
           icon={User}
           active={activeTab === "profile"}
-          onClick={() => router.push("/lawyer/dashboard?tab=profile")}
+          onClick={() => router.push("/expert/dashboard?tab=profile")}
         />
 
         {/* Logout */}

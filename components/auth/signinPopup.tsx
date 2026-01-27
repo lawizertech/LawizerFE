@@ -181,7 +181,7 @@ export function SignInModal({
         <div className="mt-1 text-center text-sm text-gray-700">
           Are you a Lawyer / CA ?{" "}
           <a
-            href="/lawyer/login"
+            href="/expert/login"
             className="text-indigo-600 font-semibold hover:text-indigo-500"
           >
             Login here

@@ -20,7 +20,7 @@ export default function LawyerLoginPage() {
     const role = localStorage.getItem("role");
 
     if (token && uid && role === "EXPERT") {
-      router.push("/lawyer/dashboard");
+      router.push("/expert/dashboard");
     }
   }, [router]);
 
@@ -57,7 +57,7 @@ export default function LawyerLoginPage() {
       localStorage.setItem("role", "EXPERT");
       localStorage.setItem("userProfile", JSON.stringify(res.expert));
 
-      window.location.href = "/lawyer/dashboard";
+      window.location.href = "/expert/dashboard";
     } catch (err: any) {
       setError(err.message || "Failed to sign in");
     } finally {

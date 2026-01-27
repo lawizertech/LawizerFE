@@ -25,7 +25,7 @@ export default function DashboardLayoutClient({
 
   const handleLogout = () => {
     localStorage.clear();
-    window.location.href = "/lawyer/login";
+    window.location.href = "/expert/login";
   };
 
   return (

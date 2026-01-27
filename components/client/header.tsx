@@ -655,7 +655,7 @@ export function Header() {
                 ) : loggedUser.role === "EXPERT" ? (
                   <Link
                     className="text-sm font-medium text-gray-700"
-                    href="/lawyer/dashboard"
+                    href="/expert/dashboard"
                   >
                     Dashboard
                   </Link>
@@ -821,7 +821,7 @@ export function Header() {
                         </>
                       ) : loggedUser.role === "EXPERT" ? (
                         <Link
-                          href="/lawyer/dashboard"
+                          href="/expert/dashboard"
                           onClick={() => setMobileMenuOpen(false)}
                           className="text-lg font-semibold text-gray-700 flex items-center gap-2"
                         >
