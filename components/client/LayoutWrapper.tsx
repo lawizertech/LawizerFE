@@ -12,7 +12,8 @@ export default function LayoutWrapper({
 }) {
   const pathname = usePathname();
 
-  const hideLayout = pathname.startsWith("/expert");
+  const hideLayout =
+    pathname.startsWith("/expert") || pathname.startsWith("/user");
 
   return (
     <>

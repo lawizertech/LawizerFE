@@ -474,7 +474,7 @@ export function Header() {
 
   const isHome = pathname === "/";
   const isDashboard =
-    pathname.startsWith("/dashboard") || pathname.startsWith("/expert");
+    pathname.startsWith("/user") || pathname.startsWith("/expert");
 
   return (
     <>
@@ -647,7 +647,7 @@ export function Header() {
                     </Link>
                     <Link
                       className="text-sm font-medium text-gray-700"
-                      href="/dashboard"
+                      href="/user/dashboard"
                     >
                       Dashboard
                     </Link>
@@ -805,7 +805,7 @@ export function Header() {
                       {loggedUser.role === "USER" ? (
                         <>
                           <Link
-                            href="/dashboard"
+                            href="/user/dashboard"
                             onClick={() => setMobileMenuOpen(false)}
                             className="text-lg font-semibold text-gray-700 flex items-center gap-2"
                           >
