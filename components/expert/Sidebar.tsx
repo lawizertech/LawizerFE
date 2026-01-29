@@ -57,21 +57,6 @@ export default function Sidebar({
           onClick={() => router.push("/expert/dashboard?tab=bookings")}
         />
 
-        {/* Request Service */}
-        <SidebarItem
-          label="Request Service"
-          icon={Calendar}
-          active={activeTab === "request-service"}
-          onClick={() => router.push("/expert/dashboard?tab=request-service")}
-        />
-
-        <SidebarItem
-          label="Active Services"
-          icon={ClipboardList}
-          active={activeTab === "active-services"}
-          onClick={() => router.push("/expert/dashboard?tab=active-services")}
-        />
-
         {/* Profile */}
         <SidebarItem
           label="My Profile"

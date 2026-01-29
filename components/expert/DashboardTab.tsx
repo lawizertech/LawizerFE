@@ -135,19 +135,9 @@ export default function DashboardTab() {
           <div>
             <h3 className="text-xl font-semibold mb-5">Quick Actions</h3>
             <div className="space-y-4">
-              <ActionButton label="Manage Services" icon={TrendingUp} />
               <ActionButton label="Update Schedule" icon={Calendar} />
               <ActionButton label="View All Bookings" icon={Clock} />
             </div>
-          </div>
-
-          {/* TODAY */}
-          <div
-            className="rounded-2xl p-8 text-center bg-white text-gray-500 text-lg
-             border border-transparent hover:border-[#c92c4130]
-             transition-colors duration-200"
-          >
-            No sessions today
           </div>
         </motion.div>
       </div>
