@@ -1,4 +1,4 @@
-import DashboardLayoutClient from "@/components/expert/DashboardLayoutClient";
+import DashboardLayoutClient from "@/components/expert/ExpertDashboardLayout";
 import { Suspense } from "react";
 
 export default function DashboardLayout({

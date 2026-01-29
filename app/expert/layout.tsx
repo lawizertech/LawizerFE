@@ -1,8 +1,5 @@
 "use client";
 
-import { MessageCircle, PhoneCall } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
-
 export default function ExpertDashboardLayout({
   children,
 }: {

@@ -1,10 +1,10 @@
-import LawyerDashboardClient from "@/components/expert/LawyerDashboardClient";
+import ExpertDashboardClient from "@/components/expert/ExpertDashboardRenderer";
 import { Suspense } from "react";
 
-export default function LawyerDashboardPage() {
+export default function ExpertDashboardPage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <LawyerDashboardClient />
+      <ExpertDashboardClient />
     </Suspense>
   );
 }
