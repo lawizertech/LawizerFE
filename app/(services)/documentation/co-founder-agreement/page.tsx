@@ -11,10 +11,45 @@ import {
   Gavel, // For legal advisory
   ChevronDown,
 } from "lucide-react";
+import { toast } from "sonner";
+import { serverApi } from "@/lib/apis/axios";
 
 export default function CoFounderAgreementPage() {
-  // Use a sensible default, e.g., the first FAQ open on initial load
   const [openFaq, setOpenFaq] = useState(0);
+  const SERVICE_CODE = "CO_FOUNDER_AGREEMENT";
+  const [requesting, setRequesting] = useState(false);
+
+  const handleStartService = async () => {
+    try {
+      setRequesting(true);
+
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Please login to continue");
+        return;
+      }
+
+      console.log("Hello ");
+
+      const res = await serverApi.post("/api/user/service-request", {
+        serviceCode: SERVICE_CODE,
+      });
+
+      const data = res.data;
+
+      if (!data.success) {
+        toast.error(data.message || "Failed to start service");
+        return;
+      }
+
+      toast.success("Service request submitted successfully 🎉");
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.response?.data?.message || "Something went wrong");
+    } finally {
+      setRequesting(false);
+    }
+  };
 
   const benefits = [
     {
@@ -238,7 +273,11 @@ export default function CoFounderAgreementPage() {
 
               {/* Buttons - slightly smaller padding and text size */}
               <button
-                className={`w-full group relative overflow-hidden px-5 py-3 sm:px-6 sm:py-4 rounded-xl font-semibold ${primaryBg} text-white shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 mb-3`}
+                onClick={handleStartService}
+                disabled={requesting}
+                className={`w-full group relative overflow-hidden px-5 py-3 sm:px-6 sm:py-4 rounded-xl font-semibold ${primaryBg} text-white shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 mb-3 ${
+                  requesting ? "opacity-70 cursor-not-allowed" : ""
+                }`}
               >
                 <span className="relative z-10 flex items-center justify-center gap-2 text-sm sm:text-base">
                   Start Co-founder Drafting
