@@ -10,18 +10,18 @@ import { serverApi } from "@/lib/apis/axios";
 /* -------------------------------------------------------------------------- */
 
 type DocumentItem = {
-  name: string;
-  status: "pending" | "uploaded" | "approved" | "rejected";
-  fileUrl?: string;
+  key: string;
+  label: string;
+  required: boolean;
+  status: "PENDING" | "UPLOADED" | "APPROVED" | "REJECTED";
+  fileUrl?: string | null;
 };
 
 type ActiveService = {
   serviceId: string;
-  serviceName: string;
-  category: string;
-  fee: number;
-  status: "active";
-  expertName: string;
+  serviceCode: string;
+  title: string;
+  status: "ACTIVE" | "IN_PROGRESS" | "ON_HOLD" | "COMPLETED";
   documentStats: {
     totalRequired: number;
     uploaded: number;
@@ -76,22 +76,20 @@ export default function ActiveServicesTab() {
 
   /* ===================== UPLOAD DOC ===================== */
 
-  const uploadDocument = async (docName: string, file: File) => {
+  const uploadDocument = async (docKey: string, file: File) => {
     try {
-      setUploadingDoc(docName);
+      setUploadingDoc(docKey);
 
-      // 🔹 upload to storage (placeholder)
       const fakeUrl = URL.createObjectURL(file);
 
       await serverApi.post(
         `/api/user/services/${selectedService?.serviceId}/upload`,
         {
-          documentName: docName,
+          documentKey: docKey,
           fileUrl: fakeUrl,
         },
       );
 
-      // reload details
       await openService(selectedService!.serviceId);
     } finally {
       setUploadingDoc(null);
@@ -128,12 +126,8 @@ export default function ActiveServicesTab() {
 
         {/* HEADER */}
         <div>
-          <h2 className="text-2xl font-semibold">
-            {selectedService.serviceName}
-          </h2>
-          <p className="text-sm text-gray-500">
-            {selectedService.category} · Expert: {selectedService.expertName}
-          </p>
+          <h2 className="text-2xl font-semibold">{selectedService.title}</h2>
+          <p className="text-sm text-gray-500">{selectedService.serviceCode}</p>
         </div>
 
         {/* DOCUMENTS */}
@@ -145,36 +139,34 @@ export default function ActiveServicesTab() {
           ) : (
             selectedService.documentsRequired.map((doc) => (
               <div
-                key={doc.name}
+                key={doc.key}
                 className="flex justify-between items-center border rounded-lg p-3"
               >
                 <div className="flex items-center gap-3">
                   <FileText size={18} />
                   <div>
-                    <p className="text-sm font-medium">{doc.name}</p>
-                    <p className="text-xs text-gray-500 capitalize">
-                      {doc.status}
-                    </p>
+                    <p className="text-sm font-medium">{doc.label}</p>
+                    <p className="text-xs text-gray-500">{doc.status}</p>
                   </div>
                 </div>
 
-                {(doc.status === "pending" || doc.status === "rejected") && (
+                {(doc.status === "PENDING" || doc.status === "REJECTED") && (
                   <label className="cursor-pointer flex items-center gap-2 text-sm text-[#c92c41]">
                     <Upload size={16} />
-                    {uploadingDoc === doc.name ? "Uploading..." : "Upload"}
+                    {uploadingDoc === doc.key ? "Uploading..." : "Upload"}
                     <input
                       type="file"
                       hidden
                       onChange={(e) => {
                         if (e.target.files?.[0]) {
-                          uploadDocument(doc.name, e.target.files[0]);
+                          uploadDocument(doc.key, e.target.files[0]);
                         }
                       }}
                     />
                   </label>
                 )}
 
-                {doc.status === "approved" && (
+                {doc.status === "APPROVED" && (
                   <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
                     Approved
                   </span>
@@ -226,11 +218,9 @@ export default function ActiveServicesTab() {
           className="border rounded-xl p-5 bg-white flex justify-between items-center"
         >
           <div>
-            <h3 className="font-semibold">{s.serviceName}</h3>
-            <p className="text-xs text-gray-500">{s.category}</p>
-            <p className="text-sm mt-1">
-              Expert: <span className="font-medium">{s.expertName}</span>
-            </p>
+            <h3 className="font-semibold">{s.title}</h3>
+            <p className="text-xs text-gray-500">{s.serviceCode}</p>
+            <p className="text-sm mt-1"></p>
             <p className="text-xs text-gray-500 mt-1">
               Documents: {s.documentStats.uploaded}/
               {s.documentStats.totalRequired} uploaded
