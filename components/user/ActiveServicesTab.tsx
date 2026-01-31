@@ -17,6 +17,13 @@ type DocumentItem = {
   fileUrl?: string | null;
 };
 
+type ExpertFile = {
+  id: string;
+  title: string;
+  fileUrl: string;
+  uploadedAt: any;
+};
+
 type ActiveService = {
   serviceId: string;
   serviceCode: string;
@@ -33,6 +40,7 @@ type ActiveService = {
 type ServiceDetails = ActiveService & {
   instructions?: string | null;
   documentsRequired: DocumentItem[];
+  expertUploadedFiles?: ExpertFile[];
 };
 
 /* -------------------------------------------------------------------------- */
@@ -68,7 +76,10 @@ export default function ActiveServicesTab() {
     try {
       setDetailsLoading(true);
       const res = await serverApi.get(`/api/user/services/${serviceId}`);
-      setSelectedService(res.data.service);
+      setSelectedService({
+        ...res.data.service,
+        expertUploadedFiles: res.data.service.expertUploadedFiles || [],
+      });
     } finally {
       setDetailsLoading(false);
     }
@@ -109,6 +120,8 @@ export default function ActiveServicesTab() {
   /* -------------------------------------------------------------------------- */
 
   if (selectedService) {
+    const expertFiles = selectedService.expertUploadedFiles ?? [];
+
     return (
       <motion.div
         initial={{ opacity: 0, x: 12 }}
@@ -175,6 +188,34 @@ export default function ActiveServicesTab() {
             ))
           )}
         </div>
+
+        {/* ================= EXPERT SHARED DOCUMENTS ================= */}
+        {expertFiles.length > 0 && (
+          <div className="bg-white border rounded-xl p-5 space-y-4">
+            <h3 className="font-medium text-lg">Documents from Expert</h3>
+
+            {expertFiles.map((file) => (
+              <div
+                key={file.id}
+                className="flex justify-between items-center border rounded-lg p-3"
+              >
+                <div>
+                  <p className="font-medium text-sm">{file.title}</p>
+                  <p className="text-xs text-gray-500">Uploaded by expert</p>
+                </div>
+
+                <a
+                  href={file.fileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-[#c92c41] underline"
+                >
+                  View
+                </a>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* INSTRUCTIONS */}
         {selectedService.instructions && (
