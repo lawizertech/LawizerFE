@@ -64,6 +64,41 @@ export default function ITR1Page() {
     },
   ];
 
+  const startITRFiling = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        alert("Please login to continue");
+        return;
+      }
+
+      const res = await fetch("/api/user/service-request", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          serviceCode: "ITR_1_FILING",
+          notes: "Started from ITR-1 landing page",
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data?.message || "Failed to start service");
+      }
+
+      // ✅ Success
+      // redirect user to dashboard or service detail page
+      window.location.href = "/user/dashboard";
+    } catch (err: any) {
+      alert(err.message || "Something went wrong");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-green-50/30 to-slate-100">
       {/* HERO SECTION - Adjusted for mobile
@@ -220,6 +255,7 @@ export default function ITR1Page() {
 
               {/* Buttons - slightly smaller padding and text size */}
               <button
+                onClick={startITRFiling}
                 className={`w-full group relative overflow-hidden px-5 py-3 sm:px-6 sm:py-4 rounded-xl font-semibold ${primaryBg} text-white shadow-lg shadow-teal-500/30 hover:shadow-xl hover:shadow-teal-500/40 transition-all duration-300 mb-3`}
               >
                 <span className="relative z-10 flex items-center justify-center gap-2 text-sm sm:text-base">
