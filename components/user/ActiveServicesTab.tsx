@@ -91,13 +91,17 @@ export default function ActiveServicesTab() {
     try {
       setUploadingDoc(docKey);
 
-      const fakeUrl = URL.createObjectURL(file);
+      const formData = new FormData();
+      formData.append("documentKey", docKey);
+      formData.append("file", file);
 
       await serverApi.post(
         `/api/user/services/${selectedService?.serviceId}/upload`,
+        formData,
         {
-          documentKey: docKey,
-          fileUrl: fakeUrl,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         },
       );
 

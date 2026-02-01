@@ -4,52 +4,34 @@ const BASE = process.env.NEXT_PUBLIC_API_URL!;
 
 export async function POST(
   req: Request,
-  { params }: { params: { serviceId: string } },
+  context: { params: { serviceId: string } },
 ) {
   try {
-    const authHeader = req.headers.get("authorization");
+    const { serviceId } = await context.params;
 
+    const authHeader = req.headers.get("authorization");
     if (!authHeader) {
-      return NextResponse.json(
-        { success: false, message: "Authorization token missing" },
-        { status: 401 },
-      );
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await req.json();
-
+    const formData = await req.formData();
+    console.log("Starting Uploading");
     const backendRes = await fetch(
-      `${BASE}/user/services/${params.serviceId}/upload`,
+      `${BASE}/user/services/${serviceId}/upload`,
       {
         method: "POST",
         headers: {
           Authorization: authHeader,
-          "Content-Type": "application/json",
         },
-        body: JSON.stringify(body),
-        cache: "no-store",
+        body: formData,
       },
     );
 
-    if (!backendRes.ok) {
-      const error = await backendRes.json().catch(() => null);
-      return NextResponse.json(
-        {
-          success: false,
-          message: error?.message || "Failed to upload document",
-        },
-        { status: backendRes.status },
-      );
-    }
-
-    const data = await backendRes.json();
-
-    return NextResponse.json({
-      success: true,
-      ...data,
-    });
+    const text = await backendRes.text();
+    console.log("Upload response:", text);
+    return new NextResponse(text, { status: backendRes.status });
   } catch (err) {
-    console.error("/api/user/services/upload error:", err);
+    console.error("Upload error:", err);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },
