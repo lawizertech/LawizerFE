@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Calendar,
   Clock,
@@ -8,44 +8,24 @@ import {
   Video,
   MessageCircle,
   ArrowLeft,
+  Send,
 } from "lucide-react";
 import { getUserBookings } from "@/lib/apis/api";
+import { Booking } from "@/types/booking";
+import ConsultationChat from "./ConsulationChat";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
 /* -------------------------------------------------------------------------- */
-
-type FirestoreTimestamp = {
-  _seconds: number;
-  _nanoseconds: number;
-};
-
-type UserConsultation = {
-  bookingId: string;
-  userId: string;
-  expertUid: string;
-  expertId: string;
-  expertName: string;
-  expertType: "adv" | "ca";
-  callType: "voice" | "video" | "chat";
-  bookingDate: FirestoreTimestamp;
-  rate: number | null;
-  status: "pending" | "confirmed" | "cancelled";
-
-  // EXTRA DETAILS (mock / backend later)
-  expertBio?: string;
-  experienceYears?: number;
-  specialization?: string[];
-};
 
 /* -------------------------------------------------------------------------- */
 /*                               MAIN COMPONENT                               */
 /* -------------------------------------------------------------------------- */
 
 export default function MyConsultationsTab() {
-  const [consultations, setConsultations] = useState<UserConsultation[]>([]);
+  const [consultations, setConsultations] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selected, setSelected] = useState<UserConsultation | null>(null);
+  const [selected, setSelected] = useState<Booking | null>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -141,7 +121,7 @@ function ConsultationDetails({
   consultation,
   onBack,
 }: {
-  consultation: UserConsultation;
+  consultation: Booking;
   onBack: () => void;
 }) {
   const [showChat, setShowChat] = useState(false);
@@ -193,19 +173,12 @@ function ConsultationDetails({
             <Calendar size={14} />
             {bookingDate.toLocaleDateString()}
           </span>
-          <span className="flex items-center gap-1">
-            <Clock size={14} />
-            {bookingDate.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </span>
         </div>
 
         {/* ACTIONS */}
         <div className="flex gap-3">
           {consultation.callType !== "chat" && (
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg flex gap-2">
+            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg flex gap-2 items-center">
               {consultation.callType === "video" ? (
                 <Video size={16} />
               ) : (
@@ -217,7 +190,7 @@ function ConsultationDetails({
 
           <button
             onClick={() => setShowChat(true)}
-            className="border px-4 py-2 rounded-lg flex gap-2"
+            className="border px-4 py-2 rounded-lg flex gap-2 items-center"
           >
             <MessageCircle size={16} />
             Chat with Expert
@@ -226,54 +199,13 @@ function ConsultationDetails({
       </div>
 
       {/* CHAT MODAL */}
-      {showChat && <ChatModal onClose={() => setShowChat(false)} />}
-    </div>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/*                                CHAT MODAL                                  */
-/* -------------------------------------------------------------------------- */
-
-function ChatModal({ onClose }: { onClose: () => void }) {
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<string[]>([]);
-
-  return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-md rounded-xl p-4 space-y-3">
-        <div className="flex justify-between items-center">
-          <h3 className="font-medium">Chat</h3>
-          <button onClick={onClose}>✕</button>
-        </div>
-
-        <div className="h-60 border rounded p-2 text-sm overflow-y-auto">
-          {messages.map((m, i) => (
-            <div key={i} className="mb-1">
-              {m}
-            </div>
-          ))}
-        </div>
-
-        <div className="flex gap-2">
-          <input
-            className="flex-1 border rounded px-2 py-1"
-            placeholder="Type a message…"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <button
-            className="bg-blue-600 text-white px-3 rounded"
-            onClick={() => {
-              if (!message.trim()) return;
-              setMessages((m) => [...m, message]);
-              setMessage("");
-            }}
-          >
-            Send
-          </button>
-        </div>
-      </div>
+      {showChat && (
+        <ConsultationChat
+          booking={consultation}
+          currentUserId={consultation.userId} // or auth.user.id
+          currentUserRole="USER"
+        />
+      )}
     </div>
   );
 }
