@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Upload, FileText } from "lucide-react";
 import { serverApi } from "@/lib/apis/axios";
+import ServiceChat from "./ServiceChat";
+import { useAuth } from "@/context/authContext";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
@@ -55,6 +57,7 @@ export default function ActiveServicesTab() {
   const [loading, setLoading] = useState(true);
   const [detailsLoading, setDetailsLoading] = useState(false);
   const [uploadingDoc, setUploadingDoc] = useState<string | null>(null);
+  const { user } = useAuth();
 
   /* ===================== LOAD SERVICES ===================== */
 
@@ -229,6 +232,17 @@ export default function ActiveServicesTab() {
               {selectedService.instructions}
             </p>
           </div>
+        )}
+
+        {/* ================= CHAT WITH EXPERT ================= */}
+        {user?.uid ? (
+          <ServiceChat
+            serviceId={selectedService.serviceId}
+            currentUserRole="USER"
+            currentUserId={user?.uid}
+          />
+        ) : (
+          <p className="text-sm text-gray-500">Loading chat…</p>
         )}
       </motion.div>
     );
