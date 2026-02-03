@@ -3,7 +3,16 @@
 import { useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { serverApi } from "@/lib/apis/axios";
-import { Calendar, Clock, User } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  User,
+  ArrowLeft,
+  MessageCircle,
+  Phone,
+  Video,
+} from "lucide-react";
+import ConsultationChat from "../user/ConsulationChat";
 
 type Tab = "pending" | "confirmed" | "completed";
 
@@ -11,13 +20,14 @@ export default function BookingsTab() {
   const [consultations, setConsultations] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState<Tab>("pending");
   const [loading, setLoading] = useState(true);
+  const [selected, setSelected] = useState<any | null>(null);
+  const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
     const loadConsultations = async () => {
       try {
         const res = await serverApi.get("/api/expert/consultations");
         if (res.data?.consultations) {
-          console.log(res.data.consultations);
           setConsultations(res.data.consultations);
         }
       } catch (err) {
@@ -30,10 +40,7 @@ export default function BookingsTab() {
     loadConsultations();
   }, []);
 
-  /* =========================
-     NORMALIZE DATA (ALWAYS)
-  ========================= */
-
+  /* ========================= NORMALIZE ========================= */
   const normalized = useMemo(
     () =>
       consultations.map((c) => ({
@@ -44,9 +51,7 @@ export default function BookingsTab() {
     [consultations],
   );
 
-  /* =========================
-     TAB COUNTS (ALWAYS)
-  ========================= */
+  /* ========================= COUNTS ========================= */
   const counts = useMemo(
     () => ({
       pending: normalized.filter((c) => c.status === "pending").length,
@@ -56,27 +61,114 @@ export default function BookingsTab() {
     [normalized],
   );
 
-  /* =========================
-     FILTERED LIST (ALWAYS)
-  ========================= */
-
+  /* ========================= FILTER ========================= */
   const filtered = useMemo(
     () => normalized.filter((c) => c.status === activeTab),
     [normalized, activeTab],
   );
 
-  /* =========================
-     LOADING STATE (AFTER HOOKS)
-  ========================= */
+  if (loading) return <p className="mt-8 text-gray-500">Loading…</p>;
 
-  if (loading) {
-    return <p className="mt-8 text-gray-500">Loading…</p>;
+  /* ========================= DETAILS VIEW ========================= */
+  if (selected) {
+    const date = dayjs(
+      selected.bookingDate?._seconds
+        ? selected.bookingDate._seconds * 1000
+        : selected.bookingDate,
+    );
+
+    return (
+      <div className="space-y-6">
+        {/* BACK */}
+        <button
+          onClick={() => {
+            setSelected(null);
+            setShowChat(false);
+          }}
+          className="flex items-center gap-2 text-sm text-gray-600"
+        >
+          <ArrowLeft size={16} />
+          Back to bookings
+        </button>
+
+        <div className="bg-white rounded-2xl p-6 shadow-sm space-y-6">
+          {/* CLIENT */}
+          <div>
+            <h2 className="text-xl font-medium text-gray-900">
+              {selected.userDetails?.displayName || "Client"}
+            </h2>
+            <p className="text-sm text-gray-500">
+              Consultation · {selected.callType}
+            </p>
+          </div>
+
+          {/* INFO */}
+          <div className="flex gap-6 text-sm text-gray-600">
+            <div className="flex items-center gap-2">
+              <Calendar size={16} />
+              {date.format("DD MMM YYYY")}
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock size={16} />
+              {date.format("hh:mm A")} ({selected.duration} min)
+            </div>
+          </div>
+
+          {selected.note && (
+            <p className="italic text-gray-500">“{selected.note}”</p>
+          )}
+
+          {/* STATUS + PRICE */}
+          <div className="flex justify-between items-center">
+            <span className="text-sm capitalize text-gray-600">
+              Status: <b>{selected.status}</b>
+            </span>
+            <span className="text-xl font-semibold">
+              ₹{selected.rate?.toLocaleString() || 0}
+            </span>
+          </div>
+
+          {/* ACTIONS */}
+          {selected.status === "confirmed" && (
+            <div className="flex gap-3">
+              {selected.callType !== "chat" && (
+                <button className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+                  {selected.callType === "video" ? (
+                    <Video size={16} />
+                  ) : (
+                    <Phone size={16} />
+                  )}
+                  Join {selected.callType} Call
+                </button>
+              )}
+
+              <button
+                onClick={() => setShowChat(true)}
+                className="border px-4 py-2 rounded-lg flex items-center gap-2"
+              >
+                <MessageCircle size={16} />
+                Chat with Client
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* CHAT */}
+        {showChat && (
+          <ConsultationChat
+            booking={selected}
+            currentUserId={selected.expertUid}
+            currentUserRole="EXPERT"
+          />
+        )}
+      </div>
+    );
   }
 
+  /* ========================= LIST VIEW ========================= */
   return (
     <div className="space-y-8 pt-4">
-      {/* HEADER */}
-      <h3 className="text-lg font-sans font-light text-[#373737]">
+      <h3 className="text-lg font-light text-[#373737]">
         Manage your client consultations
       </h3>
 
@@ -86,12 +178,11 @@ export default function BookingsTab() {
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-5 py-2 rounded-lg text-sm font-medium transition
-              ${
-                activeTab === tab
-                  ? "bg-white shadow text-gray-900"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
+            className={`px-5 py-2 rounded-lg text-sm font-medium transition ${
+              activeTab === tab
+                ? "bg-white shadow text-gray-900"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
           >
             {tab.charAt(0).toUpperCase() + tab.slice(1)} ({counts[tab]})
           </button>
@@ -101,7 +192,7 @@ export default function BookingsTab() {
       {/* LIST */}
       <div className="space-y-6">
         {filtered.length === 0 && (
-          <div className="bg-white rounded-2xl p-10 text-center text-gray-500 shadow-sm  m-1">
+          <div className="bg-white rounded-2xl p-10 text-center text-gray-500 shadow-sm">
             No consultations found
           </div>
         )}
@@ -116,54 +207,57 @@ export default function BookingsTab() {
           return (
             <div
               key={b.bookingId}
-              className="bg-white rounded-2xl p-5 shadow-sm flex justify-between items-start m-1"
+              onClick={() => setSelected(b)}
+              className="bg-white rounded-2xl p-5 mb-2 shadow-sm flex justify-between items-start cursor-pointer hover:shadow"
             >
               {/* LEFT */}
-              <div className="space-y-4">
-                <h3 className="text-lg text-gray-900 font-sans font-medium ">
+              <div className="space-y-3">
+                <h3 className="text-lg font-medium">
                   {b.serviceName || "Consultation"}
                 </h3>
 
-                <div className="flex items-center gap-2 text-gray-600 text-sm">
+                <div className="flex items-center gap-2 text-sm text-gray-500">
                   <User size={16} />
-                  <span className="font-sans font-light text-gray-500">
-                    {b.userDetails?.displayName || "Client"}
-                  </span>
+                  {b.userDetails?.displayName || "Client"}
                 </div>
 
-                <div className="flex items-center gap-6 text-gray-500 text-sm">
-                  <div className="flex items-center gap-2 font-sans font-light text-gray-500">
-                    <Calendar size={16} />
-                    {date.format("DD MMM YYYY")}
-                  </div>
-
-                  <div className="flex items-center gap-2 font-sans font-light text-gray-500">
-                    <Clock size={16} />
-                    {date.format("hh:mm A")} ({b.duration} min)
-                  </div>
+                <div className="flex gap-6 text-sm text-gray-500">
+                  <span>{date.format("DD MMM YYYY")}</span>
+                  <span>{date.format("hh:mm A")}</span>
                 </div>
-
-                {b.note && <p className="text-gray-500 italic">“{b.note}”</p>}
               </div>
 
               {/* RIGHT */}
-              <div className="flex flex-col items-end gap-4">
+              <div className="flex flex-col items-end gap-3">
                 <span
-                  className={`px-4 py-1 rounded-full text-sm font-medium
-                    ${
-                      b.status === "confirmed"
-                        ? "bg-green-100 text-green-700"
-                        : b.status === "pending"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-gray-100 text-gray-600"
-                    }`}
+                  className={`px-4 py-1 rounded-full text-sm font-medium capitalize
+      ${
+        b.status === "confirmed"
+          ? "bg-green-100 text-green-700"
+          : b.status === "pending"
+            ? "bg-yellow-100 text-yellow-700"
+            : "bg-gray-100 text-gray-600"
+      }`}
                 >
-                  {b.status.charAt(0).toUpperCase() + b.status.slice(1)}
+                  {b.status}
                 </span>
 
-                <p className="text-xl font-semibold text-gray-900">
+                <span className="text-lg font-semibold">
                   ₹{b.rate?.toLocaleString() || 0}
-                </p>
+                </span>
+
+                {/* PROCEED */}
+                {b.status === "confirmed" && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // prevent double trigger
+                      setSelected(b);
+                    }}
+                    className="text-sm font-medium text-blue-600 hover:underline"
+                  >
+                    Proceed →
+                  </button>
+                )}
               </div>
             </div>
           );
