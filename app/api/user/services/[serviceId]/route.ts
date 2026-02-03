@@ -4,9 +4,10 @@ const BASE = process.env.NEXT_PUBLIC_API_URL!;
 
 export async function GET(
   req: Request,
-  { params }: { params: { serviceId: string } },
+  context: { params: { serviceId: string } },
 ) {
   try {
+    const { serviceId } = await context.params;
     const authHeader = req.headers.get("authorization");
 
     if (!authHeader) {
@@ -16,16 +17,13 @@ export async function GET(
       );
     }
 
-    const backendRes = await fetch(
-      `${BASE}/user/services/${params.serviceId}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: authHeader,
-        },
-        cache: "no-store",
+    const backendRes = await fetch(`${BASE}/user/services/${serviceId}`, {
+      method: "GET",
+      headers: {
+        Authorization: authHeader,
       },
-    );
+      cache: "no-store",
+    });
 
     if (!backendRes.ok) {
       const error = await backendRes.json().catch(() => null);
