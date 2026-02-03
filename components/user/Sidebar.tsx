@@ -37,10 +37,10 @@ export default function Sidebar({
       {/* LOGO */}
       <div
         className="flex items-center gap-2 cursor-pointer pb-6"
-        onClick={() => go()}
+        onClick={() => router.push("/")}
       >
-        <div className="w-10 h-10 rounded-lg shadow-sm overflow-hidden">
-          <img src="/logoLawizer.jpg" alt="Lawizer" />
+        <div className="w-10 h-10 rounded-lg shadow-sm overflow-hidden flex justify-center items-center">
+          <img src="/logoLawizer.jpg" alt="Lawizer" width={28} height={28} />
         </div>
         <span className="text-2xl font-bold text-[#c92c41]">Lawizer</span>
       </div>
