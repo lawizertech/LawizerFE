@@ -10,7 +10,7 @@ export const iceServers: RTCIceServer[] = [
 
 export function createPeerConnection(
   onTrack: (stream: MediaStream) => void,
-  onIceCandidate: (candidate: RTCIceCandidate) => void
+  onIceCandidate: (candidate: RTCIceCandidate) => void,
 ) {
   const pc = new RTCPeerConnection({ iceServers });
 
@@ -23,9 +23,5 @@ export function createPeerConnection(
       onIceCandidate(event.candidate);
     }
   };
-
-  // Connection State Logging
-  pc.oniceconnectionstatechange = () =>
-
   return pc;
 }
