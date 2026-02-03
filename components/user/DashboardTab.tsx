@@ -2,7 +2,7 @@
 
 import { serverApi } from "@/lib/apis/axios";
 import { useEffect, useState } from "react";
-import { Calendar, Clock, Users, IndianRupee } from "lucide-react";
+import { Calendar, Clock, Users, IndianRupee, CheckCircle, FileText } from "lucide-react";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
@@ -41,6 +41,12 @@ type UserDashboard = {
   totalSpent: number;
   upcomingBookings: UpcomingBooking[];
   topExperts: TopExpert[];
+
+  /* services */
+  totalServices: number;
+  activeServices: number;
+  completedServices: number;
+  pendingServiceDocuments: number;
 };
 
 /* -------------------------------------------------------------------------- */
@@ -54,6 +60,10 @@ const EMPTY_DASHBOARD: UserDashboard = {
   totalSpent: 0,
   upcomingBookings: [],
   topExperts: [],
+  totalServices: 0,
+  activeServices: 0,
+  completedServices: 0,
+  pendingServiceDocuments: 0,
 };
 
 const PRIMARY = "#c92c41";
@@ -128,8 +138,12 @@ export default function UserDashboardTab() {
                 status: b.status,
               };
             }),
-
             topExperts: raw.topExperts || [],
+
+            totalServices: raw.totalServices ?? 0,
+            activeServices: raw.activeServices ?? 0,
+            completedServices: raw.completedServices ?? 0,
+            pendingServiceDocuments: raw.pendingServiceDocuments ?? 0,
           });
         }
       } finally {
@@ -184,6 +198,34 @@ export default function UserDashboardTab() {
           value={`₹${dashboard.totalSpent}`}
           icon={IndianRupee}
         />
+      </div>
+
+      {/* SERVICE STATS */}
+      <div>
+        <h2 className="text-lg font-semibold mb-4">Your Services</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Stat
+            label="Total Services"
+            value={dashboard.totalServices}
+            icon={FileText}
+          />
+          <Stat
+            label="Active Services"
+            value={dashboard.activeServices}
+            icon={Clock}
+          />
+          <Stat
+            label="Pending Documents"
+            value={dashboard.pendingServiceDocuments}
+            icon={Calendar}
+          />
+          <Stat
+            label="Completed Services"
+            value={dashboard.completedServices}
+            icon={CheckCircle}
+          />
+        </div>
       </div>
 
       {/* MAIN GRID */}
