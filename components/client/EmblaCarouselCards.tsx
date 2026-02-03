@@ -139,9 +139,7 @@ export default function EmblaCarouselCards({
         onDragEnd={() => autoplay.current.play()}
       >
         <CarouselContent className="-ml-2 py-4">
-          {list.map((expert, i) => {
-            console.log(expert);
-            
+          {list.map((expert, i) => {            
             const safeKey =
               expert.expertId ??
               expert.uid ??

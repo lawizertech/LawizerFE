@@ -49,7 +49,6 @@ export default function LawyerLoginPage() {
       if (!res.success) {
         throw new Error(res.message || "Login failed");
       }
-      console.log(res);
 
       localStorage.setItem("uid", res.expert.uid);
       localStorage.setItem("email", res.expert.email);

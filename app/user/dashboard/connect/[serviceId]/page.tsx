@@ -23,7 +23,6 @@ export default function UserConnectPage() {
     if (!serviceId) return;
 
     const callRef = ref(rtdb, `calls/${serviceId}`);
-    console.log(`calls/${serviceId}`);
 
     const unsubscribe = onValue(callRef, (snapshot) => {
       if (!snapshot.exists()) return;

@@ -22,7 +22,6 @@ export default function ConnectPage() {
     const loadBooking = async () => {
       const res = await serverApi.get(`/api/expert/consultations/${bookingId}`);
       setBooking(res.data.booking);
-      console.log(res.data.booking);
 
       setLoading(false);
     };

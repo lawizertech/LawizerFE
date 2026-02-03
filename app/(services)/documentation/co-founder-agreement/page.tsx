@@ -29,8 +29,6 @@ export default function CoFounderAgreementPage() {
         return;
       }
 
-      console.log("Hello ");
-
       const res = await serverApi.post("/api/user/service-request", {
         serviceCode: SERVICE_CODE,
       });

@@ -15,7 +15,6 @@ export function createPeerConnection(
   const pc = new RTCPeerConnection({ iceServers });
 
   pc.ontrack = (event) => {
-    console.log("WebRTC: Remote track received");
     onTrack(event.streams[0]);
   };
 
@@ -27,8 +26,6 @@ export function createPeerConnection(
 
   // Connection State Logging
   pc.oniceconnectionstatechange = () =>
-    console.log("ICE:", pc.iceConnectionState);
-  pc.onconnectionstatechange = () => console.log("PC:", pc.connectionState);
 
   return pc;
 }

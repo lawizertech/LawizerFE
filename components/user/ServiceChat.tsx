@@ -45,8 +45,6 @@ export default function ServiceChat({
 
   /* ===================== REALTIME LISTENER ===================== */
   useEffect(() => {
-    console.log(currentUserId);
-
     if (!currentUserId) return;
 
     const q = query(

@@ -15,7 +15,6 @@ export async function POST(
     }
 
     const formData = await req.formData();
-    console.log("Starting Uploading");
     const backendRes = await fetch(
       `${BASE}/user/services/${serviceId}/upload`,
       {
@@ -28,7 +27,6 @@ export async function POST(
     );
 
     const text = await backendRes.text();
-    console.log("Upload response:", text);
     return new NextResponse(text, { status: backendRes.status });
   } catch (err) {
     console.error("Upload error:", err);

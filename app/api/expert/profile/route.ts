@@ -15,17 +15,13 @@ export async function GET(req: Request) {
         { status: 401 },
       );
     }
-    console.log("Hello");
-
     const backendRes = await fetch(`${BASE}/expert/profile`, {
       method: "GET",
       headers: { Authorization: authHeader },
       cache: "no-store",
     });
 
-    if (!backendRes.ok) {
-      console.log("Not Found");
-      
+    if (!backendRes.ok) {      
       const errorBody = await backendRes.json().catch(() => null);
       return NextResponse.json(
         {
@@ -38,7 +34,6 @@ export async function GET(req: Request) {
     }
 
     const data = await backendRes.json();
-    console.log(data);
     return NextResponse.json({ success: true, ...data });
   } catch (error) {
     console.error("/api/expert/profile error:", error);
