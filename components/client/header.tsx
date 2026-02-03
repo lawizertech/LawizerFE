@@ -88,26 +88,26 @@ export function Header() {
       ],
     },
 
-    {
-      title: "Civil & Criminal",
-      tagline: "Fighting for Your Rights, One Case at a Time",
-      color: "from-red-500/10 to-red-500/30 text-red-600",
-      url: "/civil-commercial",
-      items: [
-        {
-          name: "Family Law Matters (Divorce, Custody, Alimony)",
-          url: "/civil-commercial",
-        },
-        { name: "Property Disputes", url: "/civil-commercial" },
-        { name: "Contract Disputes", url: "/civil-commercial" },
-        { name: "Personal Injury Cases", url: "/civil-commercial" },
-        { name: "Employment Law Claims", url: "/civil-commercial" },
-        { name: "Violent Crimes Defense", url: "/civil-commercial" },
-        { name: "Property Crimes", url: "/civil-commercial" },
-        { name: "White-Collar Crimes", url: "/civil-commercial" },
-        { name: "Financial Frauds", url: "/civil-commercial" },
-      ],
-    },
+    // {
+    //   title: "Civil & Criminal",
+    //   tagline: "Fighting for Your Rights, One Case at a Time",
+    //   color: "from-red-500/10 to-red-500/30 text-red-600",
+    //   url: "/civil-commercial",
+    //   items: [
+    //     {
+    //       name: "Family Law Matters (Divorce, Custody, Alimony)",
+    //       url: "/civil-commercial",
+    //     },
+    //     { name: "Property Disputes", url: "/civil-commercial" },
+    //     { name: "Contract Disputes", url: "/civil-commercial" },
+    //     { name: "Personal Injury Cases", url: "/civil-commercial" },
+    //     { name: "Employment Law Claims", url: "/civil-commercial" },
+    //     { name: "Violent Crimes Defense", url: "/civil-commercial" },
+    //     { name: "Property Crimes", url: "/civil-commercial" },
+    //     { name: "White-Collar Crimes", url: "/civil-commercial" },
+    //     { name: "Financial Frauds", url: "/civil-commercial" },
+    //   ],
+    // },
 
     {
       title: "Family Matters",

@@ -6,6 +6,7 @@ import { RealLifeQuestionsSection } from "@/components/client/home/RealLifeQuest
 import ServicesSection from "@/components/client/home/services-section";
 import { StatsSection } from "@/components/client/home/stats-section";
 import { TestimonialsSection } from "@/components/client/home/testimonials-section";
+import { TrustSection } from "@/components/client/home/trust-section";
 import { WhatsAppButton } from "@/components/client/home/whatsapp-button";
 
 export default function Home() {
@@ -13,7 +14,7 @@ export default function Home() {
     <main className="min-h-screen lg:min-h-screen h-auto">
       <HeroSection />
       <StatsSection />
-      {/* <TrustSection /> */}
+      <TrustSection />
       <RealLifeQuestionsSection />
       <ServicesSection />
       <PopularServicesSection />
