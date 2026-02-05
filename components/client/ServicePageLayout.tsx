@@ -12,7 +12,9 @@ import {
   FileText,
   Home,
   Heart,
+  Clock,
 } from "lucide-react";
+import build from "next/dist/build";
 import { useState } from "react";
 
 /* ---------- ICON MAP ---------- */
@@ -26,6 +28,9 @@ const ICON_MAP = {
   home: Home,
   heart: Heart,
   checkCircle: CheckCircle2,
+  clock: Clock,
+  building: Home,
+  factory: Home,
 } as const;
 
 export type IconName = keyof typeof ICON_MAP;
