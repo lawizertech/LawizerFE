@@ -29,7 +29,7 @@ export function HeroSection() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/95 to-slate-900/60"></div>
       </div>
-      <div className="absolute top-24 right-8 z-10">
+      <div className="absolute top-42 right-8 z-10">
         <div className="relative">
           <div className="hidden lg:flex bg-accent-brand rounded-full w-26 h-26 flex items-center justify-center border-4 border-white shadow-lg transform rotate-12">
             <div className="text-center transform -rotate-12">
