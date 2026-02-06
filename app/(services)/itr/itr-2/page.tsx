@@ -1,289 +1,354 @@
 "use client";
 
-import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  DollarSign, // Icon for Investor/Capital Gains
   ArrowRight,
   CheckCircle2,
+  ChevronDown,
+  Shield,
+  Gavel,
+  Users,
+  Scale,
   FileText,
   Home,
-  ChevronDown,
-  Scale,
+  Heart,
+  Clock,
+  TrendingUp,
+  Calendar,
+  MapPin,
+  FileWarning,
+  Building2,
+  UserMinus,
+  Banknote,
+  User,
+  Copyright,
+  RefreshCw,
+  PenTool,
+  BadgeIndianRupee,
+  Briefcase,
+  Rocket,
 } from "lucide-react";
+import { useState } from "react";
 
-export default function ITR2Page() {
-  // Use a sensible default, e.g., the first FAQ open on initial load
+/* ---------- ICON MAP ---------- */
+
+const ICON_MAP = {
+  gavel: Gavel,
+  shield: Shield,
+  users: Users,
+  scale: Scale,
+  fileText: FileText,
+  home: Home,
+  heart: Heart,
+  checkCircle: CheckCircle2,
+  clock: Clock,
+  building: Home,
+  factory: Home,
+  trendingUp: TrendingUp,
+  calendar: Calendar,
+  mapPin: MapPin,
+  fileWarning: FileWarning,
+  building2: Building2,
+  userMinus: UserMinus,
+  banknote: Banknote,
+  user: User,
+  copyright: Copyright,
+  refresh: RefreshCw,
+  penTool: PenTool,
+  badgeIndianRupee: BadgeIndianRupee,
+  briefcase: Briefcase,
+  rocket: Rocket,
+} as const;
+
+export type IconName = keyof typeof ICON_MAP;
+
+/* ---------- TYPES ---------- */
+
+export interface BenefitItem {
+  icon: IconName;
+  text: string;
+}
+
+export interface FAQItem {
+  q: string;
+  a: string;
+}
+
+export interface SectionBlock {
+  title: string;
+  icon?: IconName;
+  type: "list" | "grid";
+  data: string[];
+}
+
+/* ---------- ALERT TYPES ---------- */
+
+type AlertType = "info" | "warning" | "success" | "danger";
+
+interface AlertConfig {
+  type: AlertType;
+  title: string;
+  description?: string;
+}
+
+interface ThemeConfig {
+  orb1: string;
+  orb2: string;
+  iconBg: string;
+  badgeText: string;
+}
+
+interface ServicePageLayoutProps {
+  title: string;
+  subtitle: string;
+  badgeText: string;
+  icon: IconName;
+
+  contentTitle: string;
+  contentDescription?: string;
+  section1Title: string;
+
+  benefits: BenefitItem[];
+  sections?: SectionBlock[];
+  faqs: FAQItem[];
+
+  alert?: AlertConfig;
+
+  theme: ThemeConfig;
+  primaryColor: string;
+  primaryBg: string;
+  primaryHoverBg: string;
+}
+
+/* ---------- ALERT ICON ---------- */
+
+function AlertIcon({ type }: { type: AlertType }) {
+  const cls = "w-5 h-5 mt-0.5 shrink-0";
+
+  switch (type) {
+    case "info":
+      return <FileText className={`${cls} text-blue-600`} />;
+    case "warning":
+      return <Clock className={`${cls} text-yellow-600`} />;
+    case "success":
+      return <CheckCircle2 className={`${cls} text-green-600`} />;
+    case "danger":
+      return <FileWarning className={`${cls} text-red-600`} />;
+  }
+}
+
+/* ---------- COMPONENT ---------- */
+
+export default function ServicePageLayout({
+  theme,
+  icon,
+  title,
+  subtitle,
+  badgeText,
+  contentTitle,
+  contentDescription,
+  section1Title,
+  benefits,
+  sections,
+  faqs,
+  alert,
+  primaryColor,
+  primaryBg,
+  primaryHoverBg,
+}: ServicePageLayoutProps) {
   const [openFaq, setOpenFaq] = useState(0);
-
-  // Content based on ITR-2 details
-  const applicableTo = [
-    "Individual or Hindu Undivided Family (HUF) who is not eligible to file ITR-1 ",
-    "Does not have income from 'Profits and Gains of Business or Profession' ",
-    "Total Income exceeding ₹50 Lakh ",
-    "Income from more than one House Property ",
-    "Income from Capital Gains (Long-term or Short-term) ",
-    "Having Foreign Assets or Foreign Income ",
-    "Being a Director in a company or having held unlisted equity shares ",
-  ];
-
-  const documentsNeeded = [
-    "All documents from ITR-1 ",
-    "Capital Gains statement (from sale of shares, mutual funds, property, etc.) ",
-    "Details of all Foreign Assets and Foreign Income (if applicable) ",
-    "Rental receipts/property tax receipts (for House Property income) ",
-  ];
-
-  const faqs = [
-    {
-      q: "Who should file ITR-2?",
-      a: "ITR-2 is for individuals or HUFs who are not eligible for ITR-1 and do NOT have business or professional income. This usually includes those with high salaries, capital gains, multiple properties, or foreign income/assets.",
-    },
-    {
-      q: "If I sell mutual funds and make a profit, which ITR form should I use?",
-      a: "You must file ITR-2 since the profit from the sale of mutual funds is considered Capital Gains income. ITR-1 is not applicable for Capital Gains.",
-    },
-    {
-      q: "Can I file ITR-2 if I am a Director in a Private Limited Company?",
-      a: "Yes, ITR-2 is applicable if you are a Director in a company or have held unlisted equity shares at any time during the financial year.",
-    },
-    {
-      q: "What extra documents are needed for ITR-2 compared to ITR-1?",
-      a: "You will need the Capital Gains statement, details of all foreign assets/income, and rental receipts for multiple properties, in addition to all ITR-1 documents.",
-    },
-  ];
-
-  // Set primary color palette
-  const primaryColor = "text-indigo-600";
-  const primaryBg = "bg-gradient-to-r from-indigo-600 to-purple-600";
-  const primaryHoverBg = "bg-gradient-to-r from-indigo-700 to-purple-700";
+  const HeroIcon = ICON_MAP[icon];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50/30 to-slate-100">
-      {/* HERO SECTION - Adjusted for mobile
-       * min-h-[50vh] instead of [65vh] for mobile screens
-       * px-4 for tighter padding on small screens
-       */}
-      <section className="relative flex items-center justify-center text-center min-h-[50vh] md:min-h-[65vh] overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-        <div className="absolute inset-0 bg-[url('/taxhero.png')] bg-cover bg-center opacity-10" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50/30 to-slate-100">
+      {/* ================= HERO ================= */}
+      <section className="relative flex items-center justify-center text-center min-h-[60vh] overflow-hidden bg-slate-900">
+        <div className="absolute inset-0 bg-[url('/propertylegal.png')] bg-cover bg-center opacity-10" />
 
-        {/* Animated gradient orbs - Reduced size and opacity for mobile */}
-        <div className="absolute top-1/4 left-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-indigo-500/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div
+          className={`absolute top-1/4 left-1/4 w-72 h-72 ${theme.orb1} blur-3xl rounded-full`}
+        />
+        <div
+          className={`absolute bottom-1/4 right-1/4 w-72 h-72 ${theme.orb2} blur-3xl rounded-full`}
+        />
 
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative z-10 max-w-4xl px-4 py-10 sm:px-6 sm:py-12"
+          transition={{ duration: 0.8 }}
+          className="relative z-10 max-w-4xl px-4 py-10"
         >
-          <motion.div
-            animate={{ y: [0, -12, 0], rotateY: [0, 10, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="flex justify-center mb-4"
-          >
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl blur-md opacity-50" />
-              <div className="relative bg-gradient-to-br from-indigo-500 to-purple-500 p-3 rounded-xl sm:p-4">
-                <DollarSign
-                  className="w-10 h-10 text-white sm:w-16 sm:h-16"
-                  strokeWidth={1.5}
-                />
-              </div>
+          <div className="flex justify-center mb-6">
+            <div className={`p-4 rounded-xl bg-gradient-to-br ${theme.iconBg}`}>
+              <HeroIcon className="w-14 h-14 text-white" />
             </div>
-          </motion.div>
+          </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 tracking-tight text-white">
-            ITR-2 Filing
-          </h1>
-          <p className="text-sm md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed px-2">
-            **The Investor's Choice:** For individuals/HUFs with **Capital
-            Gains**, **Foreign Assets**, or **multiple properties**, but
-            **excluding** income from business or profession.
-          </p>
-          <p className="mt-3 text-xs sm:text-sm text-purple-300 px-2">
-            Our CAs simplify complex filings involving foreign assets and
-            capital gains, ensuring full compliance and accurate tax
-            computation.
-          </p>
+          <h1 className="text-4xl font-bold text-white mb-3">{title}</h1>
+          <p className="text-slate-300 mb-3">{subtitle}</p>
+          <p className={`text-sm ${theme.badgeText}`}>{badgeText}</p>
         </motion.div>
       </section>
 
-      {/* MAIN CONTENT AREA - Adjusted for mobile
-       * px-4 instead of px-6
-       * py-10 instead of py-16
-       */}
-      <div className="max-w-6xl mx-auto px-4 py-10 sm:px-6 sm:py-16">
-        {/* Grid Layout - Stacked on small screens */}
-        <div className="grid lg:grid-cols-3 gap-8 mb-10 sm:mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-2"
+      {/* ================= ALERT ================= */}
+      {alert && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="max-w-6xl mx-auto px-4 mt-6"
+        >
+          <div
+            className={`flex gap-4 p-5 rounded-2xl border
+              ${
+                alert.type === "info"
+                  ? "bg-blue-50 border-blue-200 text-blue-800"
+                  : alert.type === "warning"
+                    ? "bg-yellow-50 border-yellow-200 text-yellow-800"
+                    : alert.type === "success"
+                      ? "bg-green-50 border-green-200 text-green-800"
+                      : "bg-red-50 border-red-200 text-red-800"
+              }`}
           >
-            {/* PRIMARY CONTENT CARD
-             * p-6 instead of p-8 for mobile
-             */}
-            <div className="bg-white rounded-xl sm:rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 border border-slate-100">
-              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
-                <div className="w-1 h-6 sm:h-8 bg-gradient-to-b from-indigo-500 to-purple-500 rounded-full" />
-                Who Should File ITR-2?
-              </h2>
-
-              <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
-                Applicable to:
-              </h3>
-              {/* Applicable To List - Adjusted padding and text size */}
-              <div className="space-y-2 mb-6 sm:mb-8">
-                {applicableTo.map((p, i) => (
-                  <div
-                    key={i}
-                    className="flex items-start gap-3 p-3 rounded-lg bg-indigo-50/50 border border-indigo-100 transition-colors"
-                  >
-                    <CheckCircle2
-                      className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0 mt-0.5"
-                      strokeWidth={2}
-                    />
-                    <p className="text-slate-700 text-sm">{p}</p>
-                  </div>
-                ))}
-              </div>
-
-              <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
-                <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600" />
-                Key Documents Needed:
-              </h3>
-              {/* Documents Needed List - Adjusted padding and text size */}
-              <div className="space-y-2 mb-6 sm:mb-8">
-                {documentsNeeded.map((p, i) => (
-                  <div
-                    key={i}
-                    className="flex items-start gap-3 p-3 rounded-lg hover:bg-slate-50 transition-colors"
-                  >
-                    <FileText
-                      className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600 flex-shrink-0 mt-0.5"
-                      strokeWidth={2}
-                    />
-                    <p className="text-slate-700 text-sm">{p}</p>
-                  </div>
-                ))}
-              </div>
-
-              <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
-                <Scale className="w-4 h-4 sm:w-5 sm:h-5 text-red-600" />
-                Crucial Exclusion: Business Income
-              </h3>
-              {/* Exclusion Box - Adjusted padding and text size */}
-              <div className="space-y-2 mb-6 sm:mb-8">
-                <div className="flex items-start gap-3 p-3 rounded-lg bg-red-50/50 border border-red-100 transition-colors">
-                  <CheckCircle2
-                    className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 flex-shrink-0 mt-0.5"
-                    strokeWidth={2}
-                  />
-                  <p className="text-slate-700 text-sm">
-                    ITR-2 cannot be used if you have income from "**Profits and
-                    Gains of Business or Profession**". You must use ITR-3
-                    instead.
-                  </p>
-                </div>
-              </div>
+            <AlertIcon type={alert.type} />
+            <div>
+              <p className="font-semibold text-sm">{alert.title}</p>
+              {alert.description && (
+                <p className="text-sm mt-1 opacity-90">{alert.description}</p>
+              )}
             </div>
-          </motion.div>
+          </div>
+        </motion.div>
+      )}
 
-          {/* SIDEBAR ASIDE - Adjusted for mobile */}
-          <motion.aside
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            // No sticky on mobile, better for scrolling
-            className="lg:sticky lg:top-24 h-fit"
-          >
-            {/* ASIDE CARD
-             * p-6 instead of p-8 for mobile
-             */}
-            <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-xl sm:rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-700">
-              <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
-                Still having queries?
+      {/* ================= MAIN ================= */}
+      <div className="max-w-6xl mx-auto px-4 py-16">
+        <div className="grid lg:grid-cols-3 gap-8 mb-16">
+          {/* CONTENT */}
+          <div className="lg:col-span-2 bg-white rounded-3xl p-8 shadow border">
+            <h2 className="text-2xl font-bold mb-6 flex gap-3">
+              <span className="w-1 bg-gradient-to-b from-red-500 to-orange-500 rounded-full" />
+              {contentTitle}
+            </h2>
+
+            {contentDescription && (
+              <p className="text-slate-700 text-sm mb-8 max-w-2xl">
+                {contentDescription}
+              </p>
+            )}
+
+            {/* BENEFITS */}
+            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+              <Shield className={primaryColor} />
+              {section1Title}
+            </h3>
+
+            <div className="grid sm:grid-cols-2 gap-4 mb-12">
+              {benefits.map((b) => {
+                const Icon = ICON_MAP[b.icon];
+                return (
+                  <div
+                    key={b.text}
+                    className="flex gap-4 p-4 bg-slate-50 rounded-xl border hover:shadow-xl hover:-translate-y-1 transition"
+                  >
+                    <Icon className={`${primaryColor} w-10 h-10`} />
+                    <p className="text-sm text-slate-800">{b.text}</p>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* SECTIONS */}
+            {sections?.map((section) => {
+              const SectionIcon = section.icon ? ICON_MAP[section.icon] : null;
+
+              return (
+                <div key={section.title} className="mb-12">
+                  <h3 className="text-xl font-bold mb-5 flex gap-3">
+                    {SectionIcon && (
+                      <SectionIcon className="w-5 h-5 text-green-600" />
+                    )}
+                    {section.title}
+                  </h3>
+
+                  {section.type === "list" && (
+                    <div className="space-y-3">
+                      {section.data.map((item) => (
+                        <div
+                          key={item}
+                          className="flex gap-4 p-4 bg-slate-50 rounded-xl border"
+                        >
+                          <CheckCircle2 className="text-green-600 mt-1" />
+                          <p className="text-sm">{item}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {section.type === "grid" && (
+                    <ul className="grid sm:grid-cols-2 gap-4">
+                      {section.data.map((item) => (
+                        <li
+                          key={item}
+                          className="flex items-center gap-3 bg-blue-50 border border-blue-100 rounded-xl px-4 py-2"
+                        >
+                          <span className="w-2 h-2 bg-blue-600 rounded-full" />
+                          <span className="text-sm">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* SIDEBAR */}
+          <aside className="lg:sticky lg:top-24 h-fit">
+            <div className="bg-slate-900 text-white rounded-3xl p-8 shadow">
+              <h3 className="text-xl font-bold mb-3">
+                Start Your Legal Process
               </h3>
-              <p className="text-slate-300 text-xs sm:text-sm mb-5 sm:mb-6 leading-relaxed">
-                Feel free to talk to our tax consultant for free over call/chat
-                as per your convenience.
+              <p className="text-slate-300 text-sm mb-6">
+                Expert legal guidance, end-to-end support.
               </p>
 
-              {/* Buttons - slightly smaller padding and text size */}
               <button
-                className={`w-full group relative overflow-hidden px-5 py-3 sm:px-6 sm:py-4 rounded-xl font-semibold ${primaryBg} text-white shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 mb-3`}
+                className={`w-full ${primaryBg} py-4 rounded-xl font-semibold`}
               >
-                <span className="relative z-10 flex items-center justify-center gap-2 text-sm sm:text-base">
-                  Start ITR-2 Filing
-                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-                <div
-                  className={`absolute inset-0 ${primaryHoverBg} opacity-0 group-hover:opacity-100 transition-opacity`}
-                />
-              </button>
-
-              <button className="w-full px-5 py-3 sm:px-6 sm:py-4 rounded-xl font-semibold bg-white/10 text-white border border-white/20 hover:bg-white/20 backdrop-blur-sm transition-all duration-300 text-sm sm:text-base">
-                Book Free Tax Consultation
+                Start Process <ArrowRight className="inline ml-2" />
               </button>
             </div>
-          </motion.aside>
+          </aside>
         </div>
 
-        {/* FAQ SECTION - Adjusted for mobile
-         * p-6 instead of p-8
-         */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="bg-white rounded-xl sm:rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 border border-slate-100"
-        >
-          <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-5 sm:mb-6 flex items-center gap-3">
-            <div className="w-1 h-6 sm:h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
+        {/* FAQs */}
+        <section className="bg-white rounded-3xl p-8 shadow border">
+          <h3 className="text-2xl font-bold mb-6">
             Frequently Asked Questions
           </h3>
 
           <div className="space-y-3">
             {faqs.map((f, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 }}
-                className="border border-slate-200 rounded-lg sm:rounded-xl overflow-hidden hover:border-indigo-300 transition-colors"
-              >
+              <div key={i} className="border rounded-xl overflow-hidden">
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? -1 : i)}
-                  className="w-full flex items-center justify-between p-4 sm:p-5 text-left bg-gradient-to-r from-slate-50 to-transparent hover:from-indigo-50 transition-colors"
+                  className="w-full p-5 text-left flex justify-between bg-slate-50"
                 >
-                  <span className="font-semibold text-sm sm:text-base text-slate-900 pr-4">
-                    {f.q}
-                  </span>
+                  <span className="font-semibold">{f.q}</span>
                   <ChevronDown
-                    className={`w-4 h-4 sm:w-5 sm:h-5 text-slate-600 flex-shrink-0 transition-transform duration-300 ${
+                    className={`transition ${
                       openFaq === i ? "rotate-180" : ""
                     }`}
                   />
                 </button>
-                {/* Adjusted max-height for better collapse transition on mobile */}
-                <div
-                  className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                    openFaq === i
-                      ? "max-h-screen opacity-100"
-                      : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <p className="px-4 pb-4 sm:px-5 sm:pb-5 text-sm text-slate-700 leading-relaxed">
-                    {f.a}
-                  </p>
-                </div>
-              </motion.div>
+                {openFaq === i && (
+                  <p className="p-5 text-sm text-slate-700">{f.a}</p>
+                )}
+              </div>
             ))}
           </div>
-        </motion.section>
+        </section>
       </div>
     </div>
   );
