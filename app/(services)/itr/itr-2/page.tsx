@@ -81,7 +81,7 @@ export interface SectionBlock {
   data: string[];
 }
 
-/* ---------- ALERT TYPES ---------- */
+/* ---------- ALERT ---------- */
 
 type AlertType = "info" | "warning" | "success" | "danger";
 
@@ -139,28 +139,31 @@ function AlertIcon({ type }: { type: AlertType }) {
 
 /* ---------- COMPONENT ---------- */
 
-export default function ServicePageLayout({
-  theme,
-  icon,
-  title,
-  subtitle,
-  badgeText,
-  contentTitle,
-  contentDescription,
-  section1Title,
-  benefits,
-  sections,
-  faqs,
-  alert,
-  primaryColor,
-  primaryBg,
-  primaryHoverBg,
-}: ServicePageLayoutProps) {
-  const [openFaq, setOpenFaq] = useState(0);
+export default function ServicePageLayout(props: ServicePageLayoutProps) {
+  const {
+    theme,
+    icon,
+    title,
+    subtitle,
+    badgeText,
+    contentTitle,
+    contentDescription,
+    section1Title,
+    benefits,
+    sections,
+    faqs,
+    alert,
+    primaryColor,
+    primaryBg,
+    primaryHoverBg,
+  } = props;
+
+  /** ✅ FAQ CLOSED BY DEFAULT */
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const HeroIcon = ICON_MAP[icon];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50/30 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-slate-50">
       {/* ================= HERO ================= */}
       <section className="relative flex items-center justify-center text-center min-h-[60vh] overflow-hidden bg-slate-900">
         <div className="absolute inset-0 bg-[url('/propertylegal.png')] bg-cover bg-center opacity-10" />
@@ -192,33 +195,27 @@ export default function ServicePageLayout({
 
       {/* ================= ALERT ================= */}
       {alert && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="max-w-6xl mx-auto px-4 mt-6"
-        >
+        <div className="max-w-6xl mx-auto px-4 mt-6">
           <div
-            className={`flex gap-4 p-5 rounded-2xl border
-              ${
-                alert.type === "info"
-                  ? "bg-blue-50 border-blue-200 text-blue-800"
-                  : alert.type === "warning"
-                    ? "bg-yellow-50 border-yellow-200 text-yellow-800"
-                    : alert.type === "success"
-                      ? "bg-green-50 border-green-200 text-green-800"
-                      : "bg-red-50 border-red-200 text-red-800"
-              }`}
+            className={`flex gap-4 p-5 rounded-2xl border ${
+              alert.type === "info"
+                ? "bg-blue-50 border-blue-200"
+                : alert.type === "warning"
+                  ? "bg-yellow-50 border-yellow-200"
+                  : alert.type === "success"
+                    ? "bg-green-50 border-green-200"
+                    : "bg-red-50 border-red-200"
+            }`}
           >
             <AlertIcon type={alert.type} />
             <div>
               <p className="font-semibold text-sm">{alert.title}</p>
               {alert.description && (
-                <p className="text-sm mt-1 opacity-90">{alert.description}</p>
+                <p className="text-sm opacity-90">{alert.description}</p>
               )}
             </div>
           </div>
-        </motion.div>
+        </div>
       )}
 
       {/* ================= MAIN ================= */}
@@ -227,7 +224,9 @@ export default function ServicePageLayout({
           {/* CONTENT */}
           <div className="lg:col-span-2 bg-white rounded-3xl p-8 shadow border">
             <h2 className="text-2xl font-bold mb-6 flex gap-3">
-              <span className="w-1 bg-gradient-to-b from-red-500 to-orange-500 rounded-full" />
+              <span
+                className={`w-1 rounded-full bg-gradient-to-b ${theme.iconBg}`}
+              />
               {contentTitle}
             </h2>
 
@@ -249,7 +248,7 @@ export default function ServicePageLayout({
                 return (
                   <div
                     key={b.text}
-                    className="flex gap-4 p-4 bg-slate-50 rounded-xl border hover:shadow-xl hover:-translate-y-1 transition"
+                    className="flex gap-4 p-4 bg-slate-50 rounded-xl border hover:shadow-lg transition"
                   >
                     <Icon className={`${primaryColor} w-10 h-10`} />
                     <p className="text-sm text-slate-800">{b.text}</p>
@@ -258,16 +257,14 @@ export default function ServicePageLayout({
               })}
             </div>
 
-            {/* SECTIONS */}
+            {/* EXTRA SECTIONS */}
             {sections?.map((section) => {
-              const SectionIcon = section.icon ? ICON_MAP[section.icon] : null;
+              const Icon = section.icon ? ICON_MAP[section.icon] : null;
 
               return (
                 <div key={section.title} className="mb-12">
                   <h3 className="text-xl font-bold mb-5 flex gap-3">
-                    {SectionIcon && (
-                      <SectionIcon className="w-5 h-5 text-green-600" />
-                    )}
+                    {Icon && <Icon className="w-5 h-5 text-green-600" />}
                     {section.title}
                   </h3>
 
@@ -314,7 +311,7 @@ export default function ServicePageLayout({
               </p>
 
               <button
-                className={`w-full ${primaryBg} py-4 rounded-xl font-semibold`}
+                className={`w-full ${primaryBg} py-4 rounded-xl font-semibold hover:opacity-90 transition`}
               >
                 Start Process <ArrowRight className="inline ml-2" />
               </button>
@@ -332,7 +329,9 @@ export default function ServicePageLayout({
             {faqs.map((f, i) => (
               <div key={i} className="border rounded-xl overflow-hidden">
                 <button
-                  onClick={() => setOpenFaq(openFaq === i ? -1 : i)}
+                  aria-expanded={openFaq === i}
+                  aria-controls={`faq-${i}`}
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full p-5 text-left flex justify-between bg-slate-50"
                 >
                   <span className="font-semibold">{f.q}</span>
@@ -342,8 +341,11 @@ export default function ServicePageLayout({
                     }`}
                   />
                 </button>
+
                 {openFaq === i && (
-                  <p className="p-5 text-sm text-slate-700">{f.a}</p>
+                  <p id={`faq-${i}`} className="p-5 text-sm text-slate-700">
+                    {f.a}
+                  </p>
                 )}
               </div>
             ))}
