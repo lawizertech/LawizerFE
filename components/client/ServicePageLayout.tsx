@@ -13,6 +13,19 @@ import {
   Home,
   Heart,
   Clock,
+  TrendingUp,
+  Calendar,
+  MapPin,
+  FileWarning,
+  Building2,
+  UserMinus,
+  Banknote,
+  User,
+  Copyright,
+  RefreshCw,
+  PenTool,
+  BadgeIndianRupee,
+  Briefcase,
 } from "lucide-react";
 import build from "next/dist/build";
 import { useState } from "react";
@@ -31,6 +44,19 @@ const ICON_MAP = {
   clock: Clock,
   building: Home,
   factory: Home,
+  trendingUp: TrendingUp,
+  calendar: Calendar,
+  mapPin: MapPin,
+  fileWarning: FileWarning,
+  building2: Building2,
+  userMinus: UserMinus,
+  banknote: Banknote,
+  user: User,
+  copyright: Copyright,
+  refresh: RefreshCw,
+  penTool: PenTool,
+  badgeIndianRupee: BadgeIndianRupee,
+  briefcase: Briefcase,
 } as const;
 
 export type IconName = keyof typeof ICON_MAP;

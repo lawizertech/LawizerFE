@@ -604,6 +604,12 @@ export function Header() {
                   >
                     Blogs
                   </Link>
+                  <Link
+                    href="/blogs"
+                    className="text-sm py-1 hover:text-[#c92c41]"
+                  >
+                    News
+                  </Link>
                   <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
                     Guides
                   </Link>
