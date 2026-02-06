@@ -26,8 +26,8 @@ import {
   PenTool,
   BadgeIndianRupee,
   Briefcase,
+  Rocket,
 } from "lucide-react";
-import build from "next/dist/build";
 import { useState } from "react";
 
 /* ---------- ICON MAP ---------- */
@@ -57,6 +57,7 @@ const ICON_MAP = {
   penTool: PenTool,
   badgeIndianRupee: BadgeIndianRupee,
   briefcase: Briefcase,
+  rocket: Rocket,
 } as const;
 
 export type IconName = keyof typeof ICON_MAP;
@@ -73,11 +74,23 @@ export interface FAQItem {
   a: string;
 }
 
-export interface SectionBlock {
+/* ---------- ALERT ---------- */
+
+type AlertType = "info" | "warning" | "success" | "danger";
+
+interface AlertSectionData {
+  type: AlertType;
   title: string;
+  description?: string;
+}
+
+/* ---------- SECTIONS ---------- */
+
+export interface SectionBlock {
+  title?: string;
   icon?: IconName;
-  type: "list" | "grid";
-  data: string[];
+  type: "list" | "grid" | "alert";
+  data: string[] | AlertSectionData;
 }
 
 interface ThemeConfig {
@@ -107,6 +120,17 @@ interface ServicePageLayoutProps {
   primaryHoverBg: string;
 }
 
+/* ---------- ALERT ICON ---------- */
+
+function AlertIcon({ type }: { type: AlertType }) {
+  const cls = "w-5 h-5 mt-0.5 shrink-0";
+  if (type === "info") return <FileText className={`${cls} text-blue-600`} />;
+  if (type === "warning") return <Clock className={`${cls} text-yellow-600`} />;
+  if (type === "success")
+    return <CheckCircle2 className={`${cls} text-green-600`} />;
+  return <FileWarning className={`${cls} text-red-600`} />;
+}
+
 /* ---------- COMPONENT ---------- */
 
 export default function ServicePageLayout({
@@ -123,7 +147,6 @@ export default function ServicePageLayout({
   faqs,
   primaryColor,
   primaryBg,
-  primaryHoverBg,
 }: ServicePageLayoutProps) {
   const [openFaq, setOpenFaq] = useState(0);
   const HeroIcon = ICON_MAP[icon];
@@ -131,7 +154,7 @@ export default function ServicePageLayout({
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50/30 to-slate-100">
       {/* ================= HERO ================= */}
-      <section className="relative flex items-center justify-center text-center min-h-[60vh] overflow-hidden bg-slate-900">
+      <section className="relative min-h-[60vh] flex items-center justify-center bg-slate-900 text-center overflow-hidden">
         <div className="absolute inset-0 bg-[url('/propertylegal.png')] bg-cover bg-center opacity-10" />
 
         <div
@@ -170,7 +193,7 @@ export default function ServicePageLayout({
             </h2>
 
             {contentDescription && (
-              <p className="text-slate-700 text-sm leading-relaxed mb-8 max-w-2xl">
+              <p className="text-slate-700 text-sm mb-8 max-w-2xl">
                 {contentDescription}
               </p>
             )}
@@ -203,8 +226,44 @@ export default function ServicePageLayout({
               })}
             </div>
 
-            {/* SECTIONS */}
-            {sections?.map((section) => {
+            {/* ================= SECTIONS ================= */}
+            {sections?.map((section, idx) => {
+              /* ---------- ALERT SECTION ---------- */
+              if (section.type === "alert") {
+                const alert = section.data as AlertSectionData;
+
+                return (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4 }}
+                    className={`mb-10 flex gap-4 p-5 rounded-2xl border
+                      ${
+                        alert.type === "info"
+                          ? "bg-blue-50 border-blue-200 text-blue-800"
+                          : alert.type === "warning"
+                            ? "bg-yellow-50 border-yellow-200 text-yellow-800"
+                            : alert.type === "success"
+                              ? "bg-green-50 border-green-200 text-green-800"
+                              : "bg-red-50 border-red-200 text-red-800"
+                      }`}
+                  >
+                    <AlertIcon type={alert.type} />
+                    <div>
+                      <p className="font-semibold text-sm">{alert.title}</p>
+                      {alert.description && (
+                        <p className="text-sm mt-1 opacity-90">
+                          {alert.description}
+                        </p>
+                      )}
+                    </div>
+                  </motion.div>
+                );
+              }
+
+              /* ---------- NORMAL SECTIONS ---------- */
               const SectionIcon = section.icon ? ICON_MAP[section.icon] : null;
 
               return (
@@ -216,17 +275,18 @@ export default function ServicePageLayout({
                   transition={{ duration: 0.4 }}
                   className="mb-12"
                 >
-                  <h3 className="text-xl font-bold mb-5 flex items-center gap-3">
-                    {SectionIcon && (
-                      <SectionIcon className="w-5 h-5 text-green-600" />
-                    )}
-                    {section.title}
-                  </h3>
+                  {section.title && (
+                    <h3 className="text-xl font-bold mb-5 flex gap-3">
+                      {SectionIcon && (
+                        <SectionIcon className="w-5 h-5 text-green-600" />
+                      )}
+                      {section.title}
+                    </h3>
+                  )}
 
-                  {/* LIST */}
                   {section.type === "list" && (
                     <div className="space-y-3">
-                      {section.data.map((item) => (
+                      {(section.data as string[]).map((item) => (
                         <div
                           key={item}
                           className="
@@ -246,8 +306,8 @@ export default function ServicePageLayout({
 
                   {/* GRID */}
                   {section.type === "grid" && (
-                    <ul className="grid sm:grid-cols-2 gap-5">
-                      {section.data.map((item) => (
+                    <ul className="grid sm:grid-cols-2 gap-4">
+                      {(section.data as string[]).map((item) => (
                         <li
                           key={item}
                           className="
