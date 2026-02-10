@@ -54,13 +54,13 @@ export default function BlogLayout({
               key={post.uri}
               className="group rounded-xl border bg-card p-6 transition-all hover:shadow-lg hover:border-primary/40"
             >
-              <Link href={`/blogs${post.uri}`} className="block space-y-3">
+              <Link href={`/blogs/${post.slug}`} className="block space-y-3">
                 <h3 className="text-xl font-semibold group-hover:text-primary">
                   {post.title}
                 </h3>
 
                 <p className="text-sm text-muted-foreground line-clamp-3">
-                  {getExcerpt(post.content)}
+                  {getExcerpt(post.excerpt)}
                 </p>
 
                 <span className="text-sm font-medium text-primary">

@@ -8,7 +8,8 @@ async function getPosts() {
       posts(first: 20) {
         nodes {
           title
-          content
+          slug
+          excerpt
           uri
           categories {
             nodes {
