@@ -89,13 +89,13 @@ export default async function BlogPostPage(props: {
           </div>
         )}
 
-        <p className="text-slate-500 font-medium">
+        {/* <p className="text-slate-500 font-medium"> */}
           {publishedDate && (
             <p className="text-slate-500 font-medium">
               Published on {publishedDate}
             </p>
           )}
-        </p>
+        {/* </p> */}
       </header>
 
       {/* CENTERED CONTENT - SIDE PANEL REMOVED */}
