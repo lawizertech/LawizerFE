@@ -92,6 +92,8 @@ export default function BusinessPartnershipAgreementPage() {
       subtitle="A legally enforceable agreement defining investment, profit-sharing, roles, and exit mechanisms among partners."
       badgeText="Custom-drafted • Legally enforceable • Dispute-proof"
       icon="users"
+
+      serviceID="BUSINESS_PARTNERSHIP_AGREEMENT_DRAFTING"
       contentTitle="Why a Business Partnership Agreement Is Essential"
       contentDescription="A well-drafted partnership agreement is the foundation of a stable business relationship. It clearly documents expectations, prevents misunderstandings, and safeguards the interests of all partners from day one."
       section1Title="Key Protections & Benefits"

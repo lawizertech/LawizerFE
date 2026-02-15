@@ -102,6 +102,8 @@ export default function RelinquishmentDeedPage() {
       subtitle="Legally transfer a co-owner’s share in a property voluntarily to another co-owner or family member with complete legal clarity."
       badgeText="Professionally drafted, legally compliant, and hassle-free property ownership transfer."
       icon="users"
+
+      serviceID="RELINQUISHMENT_DEED_DRAFTING"
       contentTitle="Why a Relinquishment Deed Is Important"
       contentDescription="A Relinquishment Deed is commonly used in inheritance or partition cases to formally record the transfer of ownership shares. It removes ambiguity, updates property records, and prevents future disputes by clearly documenting the consent and intention of all co-owners."
       section1Title="Key Benefits of a Relinquishment Deed"

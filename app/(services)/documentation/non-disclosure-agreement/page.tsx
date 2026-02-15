@@ -80,6 +80,8 @@ export default function NDAAgreementPage() {
       subtitle="A legally enforceable agreement to protect confidential information and trade secrets."
       badgeText="Confidentiality • Trade secrets • Legal protection"
       icon="shield"
+
+      serviceID="NON-DISCLOSURE_AGREEMENT_DRAFTING"
       contentTitle="Why an NDA Is Essential for Business"
       contentDescription="An NDA safeguards proprietary information while allowing businesses to collaborate, negotiate, and explore opportunities without risking misuse or disclosure of sensitive data."
       section1Title="Key Protections & Benefits"

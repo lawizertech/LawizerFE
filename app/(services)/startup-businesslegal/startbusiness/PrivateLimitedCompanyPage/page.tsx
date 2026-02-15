@@ -117,6 +117,8 @@ export default function PrivateLimitedCompanyPage() {
       subtitle="A scalable, investor-friendly business structure with limited liability protection."
       badgeText="Startup Friendly • Investor Ready • Limited Liability"
       icon="briefcase"
+
+      serviceID="PRIVATE_LIMITED_COMPANY"
       contentTitle="Overview"
       contentDescription="A Private Limited Company (Pvt. Ltd.) is one of the most popular business structures in India. It requires a minimum of two directors and shareholders, offers limited liability protection, and operates as a separate legal entity. This structure is ideal for startups and growing businesses looking to raise funds, attract talent, and scale operations with credibility."
       section1Title="Key Benefits of Private Limited Company"

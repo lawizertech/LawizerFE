@@ -129,6 +129,8 @@ export default function CoFounderAgreementPage() {
       subtitle="A legally enforceable agreement defining equity, roles, responsibilities, and exit mechanisms for startup founders."
       badgeText="Startup-ready • Investor-friendly • Dispute-proof"
       icon="users"
+
+      serviceID="CO-FOUNDER_AGREEMENT_DRAFTING"
       contentTitle="Why a Co-Founder Agreement Is Crucial"
       contentDescription="A Co-Founder Agreement establishes clarity among founders, safeguards intellectual property, and creates a strong legal foundation required for scaling and raising investment."
       section1Title="Key Protections & Benefits"

@@ -112,6 +112,8 @@ export default function ITR6Page() {
       subtitle="For all Companies registered under the Companies Act."
       badgeText="Private Ltd • Public Ltd • OPC"
       icon="building"
+
+      serviceID="ITR-6_FILING"
       contentTitle="Overview"
       contentDescription="ITR-6 is the prescribed Income Tax Return for companies registered under the Companies Act. It requires filing with audited financial statements, mandatory digital signature, and detailed corporate tax or MAT computation where applicable."
       section1Title="Key Highlights of ITR-6"

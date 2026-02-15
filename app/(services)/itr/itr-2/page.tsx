@@ -96,6 +96,8 @@ export default function ITR2Page() {
       subtitle="For individuals and HUFs with capital gains, foreign assets, or multiple properties — excluding business income."
       badgeText="Capital gains • Foreign assets • High-income taxpayers"
       icon="badgeIndianRupee"
+
+      serviceID="ITR-2_FILING"
       contentTitle="When Is ITR-2 Applicable?"
       contentDescription="ITR-2 is designed for individuals and HUFs with complex income structures such as capital gains, foreign income, or multiple house properties. Accurate filing is crucial to avoid scrutiny and penalties."
       section1Title="Why Choose Professional ITR-2 Filing"

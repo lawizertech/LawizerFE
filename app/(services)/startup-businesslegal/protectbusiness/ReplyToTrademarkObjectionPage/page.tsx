@@ -82,6 +82,8 @@ export default function ReplyToTrademarkObjectionPage() {
       subtitle="Defend your trademark application with a professionally drafted and timely response."
       badgeText="Trademark Objection • Reply Filing"
       icon="fileWarning"
+
+      serviceID="REPLY_TO_TRADEMARK_OBJECTION"
       contentTitle="Why Replying to a Trademark Objection Matters"
       contentDescription="When the Trademark Registry raises an objection, a legally sound reply must be filed within 30 days. A strong response protects your brand from abandonment, strengthens your ownership claim, and moves your application closer to registration."
       section1Title="Key Benefits of Filing a Proper Reply"

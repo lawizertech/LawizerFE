@@ -79,6 +79,8 @@ export default function JointVentureAgreementPage() {
       subtitle="A legally binding agreement defining investment, management, and profit-sharing in a joint venture."
       badgeText="Investment protection • Governance clarity • Dispute control"
       icon="users"
+
+      serviceID="JOINT_VENTURE_AGREEMENT_DRAFTING"
       contentTitle="Why a Joint Venture Agreement Is Essential"
       contentDescription="A well-drafted Joint Venture Agreement protects the interests of all parties by clearly defining management roles, profit sharing, governance, and exit mechanisms from the outset."
       section1Title="Key Protections & Benefits"

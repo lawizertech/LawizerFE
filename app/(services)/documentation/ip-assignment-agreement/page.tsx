@@ -79,6 +79,7 @@ export default function IPAssignmentAgreementPage() {
       subtitle="A legally enforceable document to formally transfer intellectual property ownership."
       badgeText="Clear ownership • Dispute prevention • Registration-ready"
       icon="shield"
+      serviceID="IP_ASSIGNMENT_AGREEMENT_DRAFTING"
       contentTitle="Why an IP Assignment Agreement Is Essential"
       contentDescription="An IP Assignment Agreement ensures that ownership of intellectual property is legally transferred, eliminating ambiguity and protecting the assignee from future claims."
       section1Title="Key Protections & Benefits"

@@ -109,6 +109,8 @@ export default function ResignationOfDirectorPage() {
       subtitle="Ensure the voluntary resignation of a Director is legally executed, protecting both the Director (DIR-11) and the Company (DIR-12) from future liabilities and penalties."
       badgeText="Companies Act, 2013 • DIR-11 • DIR-12"
       icon="userMinus"
+
+      serviceID="RESIGNATION_OF_DIRECTOR_&_ROC_FILING"
       contentTitle="The Importance of Formal Compliance"
       contentDescription="A Director's resignation requires dual compliance: the Company must file DIR-12 (within 30 days of acceptance) and the resigning Director must file DIR-11 (within 30 days of resignation). Failing to file DIR-11 leaves the director's name on the records and exposed to non-compliance penalties. A correctly executed process formally ends the director's statutory liabilities."
       section1Title="Key Benefits of a Compliant Resignation"

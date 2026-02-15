@@ -105,6 +105,8 @@ export default function GiftDeedDraftingPage() {
       subtitle="Legally transfer ownership of your property or assets voluntarily and without monetary exchange, ensuring the transfer is valid and secure."
       badgeText="Lawizer ensures your Gift Deed is legally compliant and registered to secure the ownership transfer."
       icon="heart"
+
+      serviceID="GIFT_DEED_DRAFTING_&_REGISTRATION"
       contentTitle="Why a Registered Gift Deed is Important"
       contentDescription="A registered Gift Deed is the legally recognized instrument for transferring ownership of property or assets without consideration. Proper registration ensures enforceability, updates government records, and prevents future disputes among family members or heirs."
       section1Title="Key Benefits of Gift Deed Registration"

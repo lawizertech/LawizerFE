@@ -115,6 +115,8 @@ export default function ROCReturnFilingForLLPPage() {
       subtitle="Mandatory annual compliance for Limited Liability Partnerships (LLP), involving timely filing of Form 8 (Financials) and Form 11 (Annual Return) to avoid heavy penalties."
       badgeText="LLP Act, 2008 • Form 8 • Form 11"
       icon="fileText"
+
+      serviceID="ROC_ANNUAL_RETURN_FILING_FOR_LLP"
       contentTitle="The Importance of Timely Annual Filing"
       contentDescription="ROC Annual Filing is non-negotiable for an LLP. Failing to file Form 8 and Form 11 by their respective deadlines (October 30th and May 30th) results in an uncapped, cumulative late fee of ₹100 per day per form. This compliance step is crucial for maintaining 'Active' status and protecting Designated Partners' DINs from disqualification."
       section1Title="Key Benefits of Compliant LLP Filing"

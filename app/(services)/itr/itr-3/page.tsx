@@ -103,6 +103,8 @@ export default function ITR3Page() {
       subtitle="Mandatory income tax return for individuals and HUFs with business or professional income."
       badgeText="Business Income • Audit Ready • CA Assisted"
       icon="trendingUp"
+
+      serviceID="ITR-3_FILING"
       contentTitle="Who Should File ITR-3?"
       contentDescription="ITR-3 is designed for entrepreneurs, professionals, and business owners. It requires detailed disclosure of financial statements, business income, and audit reports where applicable. Professional filing ensures compliance and avoids penalties."
       section1Title="Key Benefits of Professional ITR-3 Filing"

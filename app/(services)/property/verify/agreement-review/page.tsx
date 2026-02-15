@@ -84,6 +84,8 @@ export default function SaleAgreementReviewPage() {
       subtitle="Expert legal review to ensure your Agreement to Sale or Sale Agreement is legally sound, valid, and enforceable."
       badgeText="Lawizer ensures your agreement is clear, legally valid, and enforceable under Indian property laws."
       icon="fileText"
+
+      serviceID="SALE_AGREEMENT_AGREEMENT_TO_SALE_REVIEW"
       contentTitle="Why Reviewing a Sale Agreement Is Important"
       contentDescription="A properly drafted and reviewed Sale Agreement or Agreement to Sale clearly defines the rights and obligations of the buyer and seller. Legal review helps prevent disputes, detect unfair clauses, and ensures the agreement forms a strong and enforceable foundation for the final property transfer."
       section1Title="Key Benefits of Sale Agreement Review"

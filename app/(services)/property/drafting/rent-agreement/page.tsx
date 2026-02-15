@@ -94,6 +94,8 @@ export default function WillDraftingPage() {
       subtitle="Ensure your assets are distributed exactly according to your wishes after your lifetime, with complete legal clarity."
       badgeText="Secure your legacy. Prevent disputes. Ensure peace of mind for your loved ones."
       icon="heart"
+
+      serviceID="WILL_DRAFTING_&_ESTATE_PLANNING"
       contentTitle="Importance of Drafting a Will"
       contentDescription="Drafting a Will is an act of responsibility that protects your loved ones and secures your legacy. A properly drafted Will ensures smooth transfer of assets, avoids disputes under succession laws, and provides legal certainty to your intentions."
       section1Title="Key Benefits of a Legally Drafted Will"

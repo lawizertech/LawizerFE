@@ -106,6 +106,8 @@ export default function CommercialLeaseAgreementPage() {
       subtitle="Legally define the terms for your office, shop, or warehouse lease with a professionally drafted agreement that protects your business interests."
       badgeText="Lawizer ensures your commercial lease agreement is customized, compliant, and legally enforceable."
       icon="building"
+
+      serviceID="COMMERCIAL_LEASE_AGREEMENT_DRAFTING"
       contentTitle="Why a Proper Commercial Lease Agreement Is Important"
       contentDescription="A well-drafted Commercial Lease Agreement is the backbone of any business property transaction. It establishes clear terms on rent, duration, maintenance, and responsibilities while minimizing legal risks and protecting long-term business investments."
       section1Title="Key Protections and Benefits"

@@ -106,6 +106,8 @@ export default function JointDevelopmentAgreementPage() {
       subtitle="A legally binding agreement between a landowner and developer defining responsibilities, profit-sharing, timelines, and legal safeguards for property development."
       badgeText="Lawizer ensures your Joint Development Agreement is professionally drafted, compliant, and legally enforceable."
       icon="factory"
+
+      serviceID="JOINT_DEVELOPMENT_AGREEMENT"
       contentTitle="Why a Joint Development Agreement Is Crucial"
       contentDescription="A Joint Development Agreement governs the entire lifecycle of a development project. It establishes legal clarity on revenue sharing, construction obligations, approvals, timelines, and rights of both the landowner and developer, reducing risks and ensuring smooth project execution."
       section1Title="Key Protections and Benefits"

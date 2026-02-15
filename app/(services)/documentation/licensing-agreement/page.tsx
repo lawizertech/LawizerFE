@@ -76,6 +76,7 @@ export default function LicensingAgreementPage() {
       subtitle="A legally binding agreement governing the licensed use of intellectual property, technology, or products."
       badgeText="IP protection • Royalties • Enforceable terms"
       icon="fileText"
+      serviceID="LICENSING_AGREEMENT_DRAFTING"
       contentTitle="Why a Licensing Agreement Is Critical"
       contentDescription="A Licensing Agreement enables you to monetize intellectual property while retaining ownership. It clearly defines how, where, and for how long your IP can be used, protecting both revenue and legal rights."
       section1Title="Key Protections & Benefits"

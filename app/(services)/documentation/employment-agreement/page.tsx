@@ -79,6 +79,8 @@ export default function EmploymentAgreementPage() {
       subtitle="A legally compliant contract defining roles, salary, benefits, and termination terms."
       badgeText="Labour-law compliant • Dispute prevention • Clear obligations"
       icon="users"
+
+      serviceID="EMPLOYMENT_AGREEMENT_DRAFTING"
       contentTitle="Why a Compliant Employment Agreement Is Essential"
       contentDescription="A strong employment agreement creates a clear framework for the working relationship, reduces legal risk, and ensures compliance with labour and employment laws."
       section1Title="Key Protections & Benefits"

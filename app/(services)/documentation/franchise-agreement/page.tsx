@@ -79,6 +79,7 @@ export default function FranchiseAgreementPage() {
       subtitle="A legally sound contract defining rights, obligations, royalties, and operational standards."
       badgeText="Brand protection • Indian law compliant • Dispute prevention"
       icon="building2"
+      serviceID="FRANCHISE_AGREEMENT_DRAFTING"
       contentTitle="Why a Franchise Agreement Is Crucial"
       contentDescription="A strong Franchise Agreement safeguards brand integrity and creates a clear, enforceable framework for a successful franchisor–franchisee relationship."
       section1Title="Key Protections & Benefits"

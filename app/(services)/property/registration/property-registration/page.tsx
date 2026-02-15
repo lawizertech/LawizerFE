@@ -104,6 +104,8 @@ export default function PropertyRegistrationPage() {
       subtitle="Register your property safely and hassle-free with expert legal support, from document verification to final submission."
       badgeText="Lawizer — Making Property Registration Easy, Transparent & Legally Secure."
       icon="gavel"
+
+      serviceID="PROPERTY_REGISTRATION"
       contentTitle="Key Benefits of Lawizer's Registration Support"
       section1Title="Service Highlights"
       benefits={benefits}

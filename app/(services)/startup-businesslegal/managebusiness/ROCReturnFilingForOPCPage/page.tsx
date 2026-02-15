@@ -97,6 +97,8 @@ export default function ROCReturnFilingForOPCPage() {
       subtitle="Mandatory annual compliance for One Person Companies to avoid penalties, DIN disqualification, and strike-off."
       badgeText="AOC-4 • MGT-7 • ADT-1 • Companies Act, 2013"
       icon="user"
+
+      serviceID="ROC_ANNUAL_RETURN_FILING_FOR_OPC"
       contentTitle="Why Timely ROC Filing for OPC Is Critical"
       contentDescription="ROC annual filing is mandatory for OPCs even if no business activity has occurred. Failure to file AOC-4 and MGT-7 results in uncapped penalties of ₹100 per day per form and risks DIN disqualification. Timely compliance ensures the company remains active and legally protected."
       section1Title="Key Benefits of OPC ROC Compliance"

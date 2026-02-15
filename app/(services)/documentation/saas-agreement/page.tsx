@@ -81,6 +81,8 @@ export default function SaaSAgreementPage() {
       subtitle="Legally structured agreements for subscription-based software platforms."
       badgeText="Subscription • IP • SLA • Compliance"
       icon="fileText"
+
+      serviceID="SOFTWARE_AS_A_SERVICE_AGREEMENT"
       contentTitle="Why a Customized SaaS Agreement Is Crucial"
       contentDescription="Standard contracts are insufficient for SaaS businesses. A customized SaaS Agreement clearly defines licensing boundaries, service levels, data responsibilities, and revenue protection for subscription-based software platforms."
       section1Title="Key Protections & Benefits"

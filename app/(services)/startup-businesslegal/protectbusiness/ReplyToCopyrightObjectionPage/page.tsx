@@ -89,6 +89,8 @@ export default function ReplyToCopyrightObjectionPage() {
       subtitle="File a professional reply to copyright objections and secure your registration without delays."
       badgeText="Legal Drafting • Timely Filing • Expert Handling"
       icon="penTool"
+
+      serviceID="REPLY_TO_COPYRIGHT_OBJECTION"
       contentTitle="Why Responding to an Objection Matters"
       contentDescription="When the Copyright Office raises an objection, it means your application requires clarification or justification. A well-drafted and timely reply is mandatory to avoid rejection. Our legal experts analyze the objection grounds, prepare a professional response, and ensure correct filing within the prescribed timeline."
       section1Title="Key Benefits of Filing a Proper Reply"

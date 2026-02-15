@@ -104,6 +104,8 @@ export default function TrademarkRegistrationPage() {
       subtitle="Secure exclusive rights to your brand identity and safeguard against infringement."
       badgeText="Brand Protection • ® Rights • Legal Enforcement"
       icon="penTool"
+
+      serviceID="TRADEMARK_REGISTRATION"
       contentTitle="Overview"
       contentDescription="Trademark registration is a legal process for securing exclusive rights over a distinctive brand name, logo, slogan, or symbol that identifies your goods or services. Registered trademarks protect your intellectual property, prevent unauthorized use, and build brand credibility. A registered trademark is valid for 10 years and can be renewed indefinitely."
       section1Title="Key Benefits of Trademark Registration"

@@ -101,6 +101,8 @@ export default function ITR4Page() {
       subtitle="Simplified income tax return for small businesses and professionals under the Presumptive Taxation Scheme."
       badgeText="Presumptive Tax • Small Business • Fast Filing"
       icon="users"
+
+      serviceID="ITR-4_FILING"
       contentTitle="Who Should File ITR-4?"
       contentDescription="ITR-4 (Sugam) is designed for small businesses and professionals opting for presumptive taxation. It offers simplified compliance without maintaining detailed books, making it ideal for quick and hassle-free filing."
       section1Title="Key Benefits of ITR-4 Filing"

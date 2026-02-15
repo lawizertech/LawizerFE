@@ -98,6 +98,8 @@ export default function ChangeInOfficeAddressPage() {
       subtitle="Update your company’s statutory address legally and compliantly, ensuring all ROC filings (INC-22) are completed on time."
       badgeText="ROC compliant • INC-22 filing • Timely updates"
       icon="mapPin"
+
+      serviceID="CHANGE_IN_REGISTERED_OFFICE_ADDRESS"
       contentTitle="The Importance of Timely Filing"
       contentDescription="Changing your registered office address is a mandatory, multi-step compliance process. It requires passing a Board Resolution and filing Form INC-22 with the Registrar of Companies (ROC) within 30 days of the resolution. Timely compliance prevents penalties and maintains your company's legal status."
       section1Title="Key Benefits of Proper Address Filing"

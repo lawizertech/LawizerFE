@@ -103,6 +103,8 @@ export default function CopyrightRegistrationPage() {
       subtitle="Legally establish ownership of your original creative works and gain enforceable proof against infringement."
       badgeText="Copyright Act • IP Protection • Legal Proof"
       icon="copyright"
+
+      serviceID="COPYRIGHT_REGISTRATION"
       contentTitle="Overview"
       contentDescription="Copyright registration is the process of legally establishing the ownership of original creative works such as literary content, art, music, films, software, and more. While copyright exists automatically upon creation, registration provides official proof and makes enforcement easier in case of infringement. The process is done before the Copyright Office, and a certificate is issued upon approval."
       section1Title="Key Benefits"

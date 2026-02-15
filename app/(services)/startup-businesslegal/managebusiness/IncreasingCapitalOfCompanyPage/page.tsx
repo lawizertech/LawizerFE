@@ -115,6 +115,8 @@ export default function IncreasingCapitalOfCompanyPage() {
       subtitle="Legally expand your company’s capital base to unlock growth, attract investors, and stay compliant with ROC filings."
       badgeText="Form SH-7 • Companies Act, 2013 • Growth Ready"
       icon="banknote"
+
+      serviceID="INCREASE_IN_AUTHORIZED_SHARE_CAPITAL"
       contentTitle="The Importance of Capital Expansion"
       contentDescription="Increasing Authorized Capital raises the ceiling for issuing shares, enabling fundraising and expansion without repeated MOA amendments. The process requires a Special Resolution and timely filing of Form SH-7 to avoid penalties."
       section1Title="Key Benefits of Increasing Share Capital"

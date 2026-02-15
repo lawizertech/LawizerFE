@@ -79,6 +79,8 @@ export default function LetterOfIntentPage() {
       subtitle="A preliminary legal document defining intent, key terms, and negotiation framework."
       badgeText="Preliminary terms • Negotiation clarity • Risk reduction"
       icon="fileText"
+
+      serviceID="LETTER_OF_INTENT_DRAFTING"
       contentTitle="Why a Letter of Intent Is Important"
       contentDescription="A Letter of Intent helps parties align on essential commercial terms before entering complex legal agreements, reducing misunderstandings and strengthening negotiations."
       section1Title="Key Protections & Benefits"

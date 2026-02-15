@@ -90,6 +90,8 @@ export default function WillDraftingPage() {
       subtitle="Ensure your assets are distributed exactly as you wish, preventing disputes and maintaining family harmony."
       badgeText="Legally valid • Clear • Secure"
       icon="heart"
+
+      serviceID="WILL_DRAFTING_&_ESTATE_PLANNING"
       contentTitle="Importance of Drafting a Will"
       contentDescription="A Will ensures your legacy is safely passed on according to your wishes, protecting your beneficiaries and preventing legal disputes."
       section1Title="Key Benefits"

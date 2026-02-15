@@ -110,6 +110,8 @@ export default function AppointmentOfDirectorPage() {
       subtitle="Legally add a director to your Board, handling board resolutions, DIR-12 filing, and MCA formalities to ensure full compliance."
       badgeText="Companies Act compliant • MCA filing • Board governance"
       icon="users"
+
+      serviceID="APPOINTMENT_OF_DIRECTOR_&_DIR-12_FILING"
       contentTitle="The Importance of Formal Appointment"
       contentDescription="Appointing a director is a statutory requirement that involves specific forms (DIR-2 and DIR-12), board approvals, and filing with the Registrar of Companies (ROC). A compliant appointment is essential for legal validity and governance."
       section1Title="Key Benefits of a Compliant Appointment"

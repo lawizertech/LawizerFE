@@ -82,6 +82,7 @@ export default function ISOCertificationPage() {
       subtitle="Achieve international standards for quality and efficiency to boost credibility and access global opportunities."
       badgeText="Globally recognized • Quality-driven • Trustworthy"
       icon="shield"
+      serviceID="ISO_CERTIFICATION"
       contentTitle="Overview"
       contentDescription="ISO Certification signifies that a company adheres to established International Organization for Standardization (ISO) standards, indicating a commitment to quality and efficient management systems."
       section1Title="Key Benefits"

@@ -86,6 +86,8 @@ export default function PropertyPaperReviewPage() {
       subtitle="Get expert legal review of your property documents and a clear oral consultation on ownership, risks, and compliance."
       badgeText="Lawizer ensures your property papers are genuine, updated, and dispute-free before any transaction."
       icon="fileText"
+
+      serviceID="PROPERTY_PAPER_REVIEW_&_LEGAL_CONSULTATION"
       contentTitle="Why Property Paper Review Is Important"
       contentDescription="Before buying, selling, or inheriting a property, it is essential to verify that all documents are legally sound. A professional property paper review helps identify ownership issues, encumbrances, regulatory non-compliance, and potential disputes—protecting you from financial and legal risks."
       section1Title="Key Benefits of Property Paper Review"

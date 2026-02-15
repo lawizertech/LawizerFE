@@ -80,6 +80,8 @@ export default function ServiceAgreementTermSheetPage() {
       subtitle="Clear, enforceable contracts defining scope, fees, deliverables, and timelines."
       badgeText="Scope • Fees • Timelines • Enforceable"
       icon="fileText"
+
+      serviceID="SERVICE_AGREEMENT_&_TERM_SHEET_DRAFTING"
       contentTitle="Why a Service Agreement Is Critical"
       contentDescription="A properly drafted Service Agreement or Term Sheet ensures clarity on service expectations, payments, and timelines. It legally binds both parties and prevents disputes arising from unclear obligations or deliverables."
       section1Title="Key Protections & Benefits"

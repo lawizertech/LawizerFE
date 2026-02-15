@@ -84,6 +84,8 @@ export default function PropertyReportPage() {
       subtitle="Make every property deal safe and stress-free with Lawizer’s comprehensive Verified Property Report."
       badgeText="Lawizer — Legal clarity for every property."
       icon="home"
+
+      serviceID="VERIFIED_PROPERTY_REPORT"
       contentTitle="Why You Need a Property Search Report"
       contentDescription="A Verified Property Report gives you complete visibility into ownership history, title clarity, encumbrances, approvals, and potential disputes. This detailed legal due diligence protects you from fraud, hidden liabilities, and costly mistakes before buying or investing in property."
       section1Title="Key Benefits of a Verified Property Report"

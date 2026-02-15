@@ -91,6 +91,8 @@ export default function ConsultancyAgreementPage() {
       subtitle="A legally binding contract defining scope, deliverables, fees, and confidentiality for consultancy engagements."
       badgeText="Clear scope • Secure payments • Confidentiality protected"
       icon="fileText"
+
+      serviceID="CONSULTANCY_AGREEMENT_DRAFTING"
       contentTitle="Why a Consultancy Agreement Is Essential"
       contentDescription="A Consultancy Agreement sets clear expectations, protects confidential information, and provides a legally enforceable framework for professional engagements."
       section1Title="Key Protections & Benefits"

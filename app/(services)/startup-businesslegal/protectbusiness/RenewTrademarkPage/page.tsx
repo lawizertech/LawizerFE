@@ -84,6 +84,8 @@ export default function RenewTrademarkPage() {
       subtitle="Extend your trademark protection for another 10 years and safeguard your brand identity."
       badgeText="Form TM-R • Trademark Act, 1999"
       icon="refresh"
+
+      serviceID="TRADEMARK_RENEWAL"
       contentTitle="Why Trademark Renewal Is Essential"
       contentDescription="Trademark renewal keeps your registration active and enforceable. Filing Form TM-R on time extends statutory protection for another 10 years, preserving goodwill, exclusivity, and legal rights associated with your brand."
       section1Title="Key Benefits of Trademark Renewal"

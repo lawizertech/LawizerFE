@@ -80,6 +80,8 @@ export default function ShareholderSubscriptionAgreementPage() {
       subtitle="Legally structured agreements governing investment and share issuance."
       badgeText="Funding • Shareholding • Governance"
       icon="gavel"
+
+      serviceID="SHAREHOLDER_SUBSCRIPTION_AGREEMENT"
       contentTitle="Why a Subscription Agreement Is Essential for Funding"
       contentDescription="A Shareholder Subscription Agreement formalizes capital investment into a company, clearly defining shareholder rights, obligations, and governance structures. It ensures legal compliance and reduces the risk of future disputes between founders and investors."
       section1Title="Key Protections & Benefits"

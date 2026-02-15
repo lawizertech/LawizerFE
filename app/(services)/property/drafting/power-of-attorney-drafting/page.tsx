@@ -98,6 +98,8 @@ export default function PowerOfAttorneyDraftingPage() {
       subtitle="A legally binding document that authorizes a trusted person to act on your behalf in financial, property, or legal matters."
       badgeText="Lawizer drafts your Power of Attorney professionally with full legal clarity and compliance."
       icon="gavel"
+
+      serviceID="POWER_OF_ATTORNEY_DRAFTING"
       contentTitle="Why a Properly Drafted Power of Attorney Is Essential"
       contentDescription="A well-drafted Power of Attorney is critical when the principal cannot be present or needs assistance managing affairs. It prevents misuse, defines legal authority clearly, and ensures the document is valid, enforceable, and compliant with applicable laws."
       section1Title="Key Protections and Benefits"

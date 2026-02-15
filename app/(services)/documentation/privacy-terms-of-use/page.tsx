@@ -80,6 +80,8 @@ export default function PrivacyTermsOfUsePage() {
       subtitle="Essential legal documents governing data protection and platform usage."
       badgeText="IT Act • GDPR • Digital compliance"
       icon="scale"
+
+      serviceID="PRIVACY_POLICY_&_TERMS_OF_USE_DRAFTING"
       contentTitle="Why Privacy & Terms Documents Are Non-Negotiable"
       contentDescription="Privacy Policies and Terms of Use are legally mandatory for digital platforms. They ensure regulatory compliance, mitigate legal risk, and build long-term trust with users."
       section1Title="Key Protections & Benefits"

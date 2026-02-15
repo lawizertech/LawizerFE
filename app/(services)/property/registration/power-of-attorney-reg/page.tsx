@@ -76,6 +76,8 @@ export default function PowerOfAttorneyRegistrationPage() {
       subtitle="Ensure your Power of Attorney is legally enforceable and valid for property and financial matters by completing the official registration process."
       badgeText="Lawizer guides you through West Bengal registration requirements to ensure the POA is valid for property or legal matters."
       icon="gavel"
+
+      serviceID="REGISTRATION_OF_POWER_OF_ATTORNEY"
       contentTitle="Why POA Registration is Mandatory for Property"
       contentDescription="For property sale, transfer, or significant legal transactions, registration is key. It converts the POA into a public record, enhancing its authenticity and preventing legal challenges to the actions taken by the attorney."
       section1Title="Key Benefits of Lawizer's POA Registration Support"

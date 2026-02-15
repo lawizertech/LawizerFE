@@ -110,6 +110,8 @@ export default function ITR5Page() {
       subtitle="For Firms, LLPs, AOPs, BOIs & other non-individual entities."
       badgeText="Firms • LLPs • AOPs • BOIs"
       icon="briefcase"
+
+      serviceID="ITR-5_FILING"
       contentTitle="Overview"
       contentDescription="ITR-5 is the prescribed Income Tax Return for non-individual entities such as partnership firms, LLPs, AOPs, BOIs, and business trusts. It requires detailed financial reporting, including books of accounts, partner capital details, and audit compliance where applicable."
       section1Title="Key Highlights of ITR-5"

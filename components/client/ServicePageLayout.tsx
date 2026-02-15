@@ -149,28 +149,90 @@ export default function ServicePageLayout({
   faqs,
   primaryColor,
   primaryBg,
-  serviceID
+  serviceID,
 }: ServicePageLayoutProps) {
   const [openFaq, setOpenFaq] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const HeroIcon = ICON_MAP[icon];
   const { setIsSignInModalOpen } = useAuth();
 
-  // Check if user is authenticated
-  const checkAuthAndStartProcess = () => {
+  // Direct API call - no form needed
+  const handleStartProcess = async () => {
     const token = localStorage.getItem("token");
     const uid = localStorage.getItem("uid");
     const role = localStorage.getItem("role");
 
-    if (token && uid && role) {
-      // User is authenticated
-      console.log("Starting the process for authenticated user");
-      console.log("User ID:", uid);
-      console.log("Role:", role);
-
-      // Add your process start logic here
-      // For example: router.push("/start-process") or open a modal
-    } else {
+    // Check authentication
+    if (!token || !uid || !role) {
       setIsSignInModalOpen(true);
+      return;
+    }
+
+    // Get user profile from localStorage
+    const userProfile = localStorage.getItem("userProfile");
+    let userData = null;
+
+    if (userProfile) {
+      try {
+        userData = JSON.parse(userProfile);
+      } catch (e) {
+        console.error("Error parsing user profile:", e);
+      }
+    }
+
+    // Extract user info
+    const email = localStorage.getItem("email") || userData?.email || "";
+    const name = userData?.displayName || userData?.name || "";
+    const phone = userData?.phone || "";
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/user/start-process", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          serviceCode: serviceID,
+          serviceTitle: title,
+          clientDetails: {
+            fullName: name,
+            email: email,
+            phone: phone,
+          },
+          urgency: "NORMAL",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success && response.ok) {
+        // Success message
+        alert(
+          "✅ Service Request Submitted!\n\n" +
+            "Your service has been requested successfully.\n" +
+            "We will get back to you within 24 hours.\n\n" +
+            `Process Code: ${data.process?.processCode || "Will be assigned soon"}`,
+        );
+      } else {
+        // Error from API
+        alert(
+          "❌ Request Failed\n\n" +
+            (data.message ||
+              "Unable to submit request. Please try again or contact support."),
+        );
+      }
+    } catch (error) {
+      console.error("Error starting process:", error);
+      alert(
+        "❌ Network Error\n\n" +
+          "Unable to connect to the server. Please check your internet connection and try again.",
+      );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -233,12 +295,7 @@ export default function ServicePageLayout({
                 return (
                   <div
                     key={b.text}
-                    className="
-    flex gap-4 p-4 bg-slate-50 rounded-xl border
-    transition-all duration-300
-    hover:shadow-xl hover:-translate-y-1
-    hover:border-slate-200
-  "
+                    className="flex gap-4 p-4 bg-slate-50 rounded-xl border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-slate-200"
                   >
                     <Icon className={`${primaryColor} w-10 h-10`} />
                     <p className="text-sm text-slate-800 leading-relaxed">
@@ -312,11 +369,7 @@ export default function ServicePageLayout({
                       {(section.data as string[]).map((item) => (
                         <div
                           key={item}
-                          className="
-    flex items-start gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100
-    transition-all duration-300
-    hover:shadow-lg hover:bg-white
-  "
+                          className="flex items-start gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 transition-all duration-300 hover:shadow-lg hover:bg-white"
                         >
                           <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
                           <p className="text-sm text-slate-800 leading-relaxed">
@@ -333,13 +386,7 @@ export default function ServicePageLayout({
                       {(section.data as string[]).map((item) => (
                         <li
                           key={item}
-                          className="
-    flex items-center gap-4 px-4 py-2
-    bg-blue-50/70 border border-blue-100 rounded-2xl
-    transition-all duration-300
-    hover:shadow-xl hover:bg-blue-100/70
-    hover:-translate-y-0.5
-  "
+                          className="flex items-center gap-4 px-4 py-2 bg-blue-50/70 border border-blue-100 rounded-2xl transition-all duration-300 hover:shadow-xl hover:bg-blue-100/70 hover:-translate-y-0.5"
                         >
                           <span className="w-2 h-2 bg-blue-600 rounded-full shrink-0" />
                           <span className="text-sm font-medium text-slate-800">
@@ -365,11 +412,27 @@ export default function ServicePageLayout({
               </p>
 
               <button
-                onClick={checkAuthAndStartProcess}
-                className={`w-full ${primaryBg} py-4 rounded-xl font-semibold hover:opacity-90 transition-opacity`}
+                onClick={handleStartProcess}
+                disabled={isSubmitting}
+                className={`w-full ${primaryBg} py-4 rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 ${
+                  isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
-                Start Process <ArrowRight className="inline ml-2" />
+                {isSubmitting ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    Start Process <ArrowRight className="inline w-5 h-5" />
+                  </>
+                )}
               </button>
+
+              <p className="text-xs text-slate-400 mt-4 text-center">
+                We&apos;ll get back to you within 24 hours
+              </p>
             </div>
           </aside>
         </div>

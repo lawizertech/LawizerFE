@@ -111,6 +111,8 @@ export default function AgreementToSaleDraftingPage() {
       subtitle="The critical first legal step defining price, payment schedule, and possession terms to safeguard buyer and seller interests."
       badgeText="Lawizer ensures your Agreement to Sale is precise, legally valid, and tailored to local property laws."
       icon="fileText"
+
+      serviceID="AGREEMENT_TO_SALE_DRAFTING"
       contentTitle="Why a Proper Agreement to Sale Is Essential"
       contentDescription="An Agreement to Sale prevents disputes by clearly defining the rights and obligations of both parties. A professionally drafted agreement ensures legal enforceability, protects your financial interests, and creates a strong foundation for smooth execution of the final Sale Deed."
       section1Title="Key Protections and Benefits"

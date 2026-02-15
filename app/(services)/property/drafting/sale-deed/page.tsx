@@ -100,6 +100,8 @@ export default function SaleDeedDraftingPage() {
       subtitle="The final and most critical legal document that officially transfers property ownership and secures your investment."
       badgeText="Legally compliant • Secure • Registration-ready"
       icon="fileText"
+
+      serviceID="SALE_DEED_DRAFTING"
       contentTitle="Why a Properly Drafted Sale Deed Is Essential"
       contentDescription="A Sale Deed is the ultimate proof of ownership. Any error or ambiguity can lead to serious legal disputes. A professionally drafted Sale Deed ensures legal compliance, smooth registration, and long-term protection of your property rights."
       section1Title="Key Benefits of a Professionally Drafted Sale Deed"

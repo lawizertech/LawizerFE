@@ -92,6 +92,8 @@ export default function SellYourTrademarkPage() {
       subtitle="Legally transfer your trademark ownership and monetize your brand with a secure assignment process."
       badgeText="Trademark Assignment • Ownership Transfer"
       icon="badgeIndianRupee"
+
+      serviceID="SELL_YOUR_TRADEMARK"
       contentTitle="Why Trademark Assignment Matters"
       contentDescription="A trademark is a valuable intellectual property asset. Through a legally valid assignment process, you can permanently transfer ownership, unlock financial value, and ensure the new owner receives full statutory protection."
       section1Title="Key Benefits of Selling a Trademark"

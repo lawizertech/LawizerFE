@@ -107,6 +107,8 @@ export default function ClosureOfLLPPage() {
       subtitle="Formally dissolve your non-operational Limited Liability Partnership by striking its name off the ROC records via Form 24 to avoid future penalties."
       badgeText="LLP Act compliant • Form 24 filing • Penalty-free exit"
       icon="fileWarning"
+
+      serviceID="CLOSURE_OF_LLP"
       contentTitle="The Importance of Legal Closure"
       contentDescription="Even if your LLP has ceased business, it remains a legal entity with mandatory annual filing obligations (Form 8 and 11). Legal closure via striking off (Form 24) is critical to eliminate statutory compliance requirements, remove the tag of defaulter, and prevent the accrual of heavy penalties."
       section1Title="Key Benefits of Formal LLP Closure"
