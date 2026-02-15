@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/context/authContext";
+import ProcessResultModal from "./ProcessResultModal"; // Import the modal
 
 /* ---------- ICON MAP ---------- */
 
@@ -75,8 +76,6 @@ export interface FAQItem {
   a: string;
 }
 
-/* ---------- ALERT ---------- */
-
 type AlertType = "info" | "warning" | "success" | "danger";
 
 interface AlertSectionData {
@@ -84,8 +83,6 @@ interface AlertSectionData {
   title: string;
   description?: string;
 }
-
-/* ---------- SECTIONS ---------- */
 
 export interface SectionBlock {
   title?: string;
@@ -106,15 +103,12 @@ interface ServicePageLayoutProps {
   subtitle: string;
   badgeText: string;
   icon: IconName;
-
   contentTitle: string;
   contentDescription?: string;
   section1Title: string;
-
   benefits: BenefitItem[];
   sections?: SectionBlock[];
   faqs: FAQItem[];
-
   theme: ThemeConfig;
   primaryColor: string;
   primaryBg: string;
@@ -154,37 +148,57 @@ export default function ServicePageLayout({
   const [openFaq, setOpenFaq] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Modal states
+  const [showResultModal, setShowResultModal] = useState(false);
+  const [modalType, setModalType] = useState<"success" | "error">("success");
+  const [processCode, setProcessCode] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
   const HeroIcon = ICON_MAP[icon];
   const { setIsSignInModalOpen } = useAuth();
 
-  // Direct API call - no form needed
   const handleStartProcess = async () => {
     const token = localStorage.getItem("token");
     const uid = localStorage.getItem("uid");
     const role = localStorage.getItem("role");
 
-    // Check authentication
     if (!token || !uid || !role) {
       setIsSignInModalOpen(true);
       return;
     }
 
-    // Get user profile from localStorage
-    const userProfile = localStorage.getItem("userProfile");
+    const userProfileStr = localStorage.getItem("userProfile");
     let userData = null;
 
-    if (userProfile) {
+    if (userProfileStr) {
       try {
-        userData = JSON.parse(userProfile);
+        userData = JSON.parse(userProfileStr);
       } catch (e) {
         console.error("Error parsing user profile:", e);
       }
     }
 
-    // Extract user info
+    const extractPhone = () => {
+      const possiblePhoneFields = [
+        userData?.phone,
+        userData?.phoneNumber,
+        userData?.mobile,
+        userData?.contactNumber,
+        userData?.mobileNumber,
+      ];
+
+      for (const phone of possiblePhoneFields) {
+        if (phone && phone.trim()) {
+          return phone.trim();
+        }
+      }
+      return "";
+    };
+
     const email = localStorage.getItem("email") || userData?.email || "";
-    const name = userData?.displayName || userData?.name || "";
-    const phone = userData?.phone || "";
+    const name =
+      userData?.displayName || userData?.name || userData?.fullName || "";
+    const phone = extractPhone();
 
     setIsSubmitting(true);
 
@@ -210,27 +224,27 @@ export default function ServicePageLayout({
       const data = await response.json();
 
       if (data.success && response.ok) {
-        // Success message
-        alert(
-          "✅ Service Request Submitted!\n\n" +
-            "Your service has been requested successfully.\n" +
-            "We will get back to you within 24 hours.\n\n" +
-            `Process Code: ${data.process?.processCode || "Will be assigned soon"}`,
-        );
+        // Show SUCCESS modal
+        setModalType("success");
+        setProcessCode(data.process?.processCode || "");
+        setShowResultModal(true);
       } else {
-        // Error from API
-        alert(
-          "❌ Request Failed\n\n" +
-            (data.message ||
-              "Unable to submit request. Please try again or contact support."),
+        // Show ERROR modal
+        setModalType("error");
+        setErrorMessage(
+          data.message || "Unable to submit request. Please try again.",
         );
+        setShowResultModal(true);
       }
     } catch (error) {
       console.error("Error starting process:", error);
-      alert(
-        "❌ Network Error\n\n" +
-          "Unable to connect to the server. Please check your internet connection and try again.",
+
+      // Show ERROR modal for network errors
+      setModalType("error");
+      setErrorMessage(
+        "Unable to connect to the server. Please check your internet connection.",
       );
+      setShowResultModal(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -283,7 +297,6 @@ export default function ServicePageLayout({
               </p>
             )}
 
-            {/* BENEFITS */}
             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
               <Shield className={primaryColor} />
               {section1Title}
@@ -306,12 +319,9 @@ export default function ServicePageLayout({
               })}
             </div>
 
-            {/* ================= SECTIONS ================= */}
             {sections?.map((section, idx) => {
-              /* ---------- ALERT SECTION ---------- */
               if (section.type === "alert") {
                 const alert = section.data as AlertSectionData;
-
                 return (
                   <motion.div
                     key={idx}
@@ -319,16 +329,15 @@ export default function ServicePageLayout({
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4 }}
-                    className={`mb-10 flex gap-4 p-5 rounded-2xl border
-                      ${
-                        alert.type === "info"
-                          ? "bg-blue-50 border-blue-200 text-blue-800"
-                          : alert.type === "warning"
-                            ? "bg-yellow-50 border-yellow-200 text-yellow-800"
-                            : alert.type === "success"
-                              ? "bg-green-50 border-green-200 text-green-800"
-                              : "bg-red-50 border-red-200 text-red-800"
-                      }`}
+                    className={`mb-10 flex gap-4 p-5 rounded-2xl border ${
+                      alert.type === "info"
+                        ? "bg-blue-50 border-blue-200 text-blue-800"
+                        : alert.type === "warning"
+                          ? "bg-yellow-50 border-yellow-200 text-yellow-800"
+                          : alert.type === "success"
+                            ? "bg-green-50 border-green-200 text-green-800"
+                            : "bg-red-50 border-red-200 text-red-800"
+                    }`}
                   >
                     <AlertIcon type={alert.type} />
                     <div>
@@ -343,7 +352,6 @@ export default function ServicePageLayout({
                 );
               }
 
-              /* ---------- NORMAL SECTIONS ---------- */
               const SectionIcon = section.icon ? ICON_MAP[section.icon] : null;
 
               return (
@@ -380,7 +388,6 @@ export default function ServicePageLayout({
                     </div>
                   )}
 
-                  {/* GRID */}
                   {section.type === "grid" && (
                     <ul className="grid sm:grid-cols-2 gap-4">
                       {(section.data as string[]).map((item) => (
@@ -488,6 +495,15 @@ export default function ServicePageLayout({
           </div>
         </motion.section>
       </div>
+
+      {/* ================= RESULT MODAL ================= */}
+      <ProcessResultModal
+        isOpen={showResultModal}
+        onClose={() => setShowResultModal(false)}
+        type={modalType}
+        processCode={processCode}
+        message={errorMessage}
+      />
     </div>
   );
 }
