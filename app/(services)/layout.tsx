@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, PhoneCall } from "lucide-react";
+import { Check, PhoneCall, X } from "lucide-react";
 import { useAuth } from "@/context/authContext";
 
 const Button = ({
@@ -18,22 +18,97 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { isLoggedIn, setIsSignInModalOpen } = useAuth();
 
-  const handleClick = () => {
+  const handleClick = async () => {
+    // Check if user is logged in
     if (!isLoggedIn) {
       setIsSignInModalOpen(true);
       return;
     }
 
-    setSuccess(true);
-    setTimeout(() => setSuccess(false), 1200);
+    // Prevent multiple requests
+    if (loading || success) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setIsSignInModalOpen(true);
+        return;
+      }
+
+      const response = await fetch("/api/user/request-call", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.success && response.ok) {
+        // Success - show checkmark
+        setSuccess(true);
+
+        // Optional: Show toast notification
+        // toast.success("Call request submitted! We'll contact you within 24 hours.");
+
+        // Keep success state for 3 seconds
+        setTimeout(() => setSuccess(false), 3000);
+      } else {
+        // Error from API
+        setError(data.message || "Failed to request call");
+
+        // Clear error after 3 seconds
+        setTimeout(() => setError(null), 3000);
+      }
+    } catch (err) {
+      console.error("Error requesting call:", err);
+      setError("Network error. Please try again.");
+
+      // Clear error after 3 seconds
+      setTimeout(() => setError(null), 3000);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen relative">
       <main>{children}</main>
 
+      {/* Error Toast */}
+      {error && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="fixed top-4 right-4 z-50 bg-red-50 border border-red-200 rounded-lg px-4 py-3 shadow-lg max-w-md"
+        >
+          <div className="flex items-start gap-3">
+            <div className="bg-red-100 rounded-full p-1">
+              <X className="h-4 w-4 text-red-600" />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-medium text-red-800">{error}</p>
+            </div>
+            <button
+              onClick={() => setError(null)}
+              className="text-red-400 hover:text-red-600"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Fixed Bottom Bar */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -52,9 +127,13 @@ export default function Layout({ children }: LayoutProps) {
 
           <Button
             onClick={handleClick}
-            disabled={success}
-            className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-1 transition-all duration-300 ${
-              success ? "bg-[#21ae17]" : "bg-blue-600 hover:bg-blue-700"
+            disabled={loading || success}
+            className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-1 transition-all duration-300 disabled:cursor-not-allowed ${
+              success
+                ? "bg-[#21ae17]"
+                : loading
+                  ? "bg-blue-400"
+                  : "bg-blue-600 hover:bg-blue-700"
             } text-white`}
           >
             {success ? (
@@ -74,6 +153,11 @@ export default function Layout({ children }: LayoutProps) {
                 </motion.div>
                 <span className="text-white font-medium">Requested</span>
               </motion.div>
+            ) : loading ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+                Requesting...
+              </>
             ) : (
               <>
                 <PhoneCall className="h-4 w-4" />

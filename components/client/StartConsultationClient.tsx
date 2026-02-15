@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, use } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { PhoneCall, Check } from "lucide-react";
+import { PhoneCall, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import EmblaCarouselCards from "@/components/client/EmblaCarouselCards";
 import { getUserBookings } from "@/lib/apis/api";
@@ -73,16 +73,67 @@ export interface Advocate {
 export default function StartConsultationPage() {
   const [requestedIndex, setRequestedIndex] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [bookedExpertIds, setBookedExpertIds] = useState<string[]>([]);
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, setIsSignInModalOpen } = useAuth();
   const [ALL_ADVOCATES, setALL_ADVOCATES] = useState<Advocate[]>([]);
   const [loadingAdvocates, setLoadingAdvocates] = useState(true);
   const searchParams = useSearchParams();
   const userQueryType = searchParams.get("type");
 
-  const handleClick = () => {
-    setSuccess(true);
-    setTimeout(() => setSuccess(false), 1200);
+  const handleClick = async () => {
+    // Check if user is logged in
+    if (!isLoggedIn) {
+      setIsSignInModalOpen(true);
+      return;
+    }
+
+    // Prevent multiple requests
+    if (loading || success) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setIsSignInModalOpen(true);
+        return;
+      }
+
+      const response = await fetch("/api/user/request-call", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.success && response.ok) {
+        // Success - show checkmark
+        setSuccess(true);
+
+        // Keep success state for 3 seconds
+        setTimeout(() => setSuccess(false), 3000);
+      } else {
+        // Error from API
+        setError(data.message || "Failed to request call");
+
+        // Clear error after 4 seconds
+        setTimeout(() => setError(null), 4000);
+      }
+    } catch (err) {
+      console.error("Error requesting call:", err);
+      setError("Network error. Please try again.");
+
+      // Clear error after 4 seconds
+      setTimeout(() => setError(null), 4000);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -156,6 +207,31 @@ export default function StartConsultationPage() {
 
   return (
     <section className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-gray-50 flex flex-col items-center py-24 px-6 space-y-6">
+      {/* Error Toast */}
+      {error && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="fixed top-4 right-4 z-50 bg-red-50 border border-red-200 rounded-lg px-4 py-3 shadow-lg max-w-md"
+        >
+          <div className="flex items-start gap-3">
+            <div className="bg-red-100 rounded-full p-1">
+              <X className="h-4 w-4 text-red-600" />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-medium text-red-800">{error}</p>
+            </div>
+            <button
+              onClick={() => setError(null)}
+              className="text-red-400 hover:text-red-600"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        </motion.div>
+      )}
+
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -171,6 +247,7 @@ export default function StartConsultationPage() {
         </p>
       </motion.div>
 
+      {/* Call Request Card */}
       <div className="w-full max-w-4xl flex justify-between items-center bg-white border border-gray-200 rounded-xl shadow-sm px-6 py-8">
         <div>
           <h3 className="text-lg font-semibold text-gray-800">
@@ -182,9 +259,13 @@ export default function StartConsultationPage() {
         </div>
         <Button
           onClick={handleClick}
-          disabled={success}
-          className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-1 transition-all duration-300 ${
-            success ? "bg-[#21ae17]" : "bg-blue-600 hover:bg-blue-700"
+          disabled={loading }
+          className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-1 transition-all duration-300 disabled:cursor-not-allowed ${
+            success
+              ? "bg-[#21ae17]"
+              : loading
+                ? "bg-blue-400"
+                : "bg-blue-600 hover:bg-blue-700"
           } text-white`}
         >
           {success ? (
@@ -204,6 +285,11 @@ export default function StartConsultationPage() {
               </motion.div>
               <span className="text-white font-medium">Requested</span>
             </motion.div>
+          ) : loading ? (
+            <>
+              <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+              Requesting...
+            </>
           ) : (
             <>
               <PhoneCall className="h-4 w-4" />
@@ -213,6 +299,7 @@ export default function StartConsultationPage() {
         </Button>
       </div>
 
+      {/* Advocates Section */}
       <div className="w-full flex flex-col items-center space-y-10 overflow-hidden justify-center">
         <h2 className="text-3xl font-semibold text-gray-800">
           👩‍⚖️ Our Top Advocates
