@@ -98,6 +98,7 @@ const faqs = [
 export default function ChequeBounceS138Page() {
   return (
     <ServicePageLayout
+      serviceID="CHEQUE_BOUNCE_S138"
       title="Cheque Bounce Case (Section 138)"
       subtitle="Criminal proceedings under the Negotiable Instruments Act for fast and effective debt recovery."
       badgeText="Criminal Remedy • Strict Timelines • Court Representation"

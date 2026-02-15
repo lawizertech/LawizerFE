@@ -112,6 +112,7 @@ const faqs = [
 export default function ClosureOfOPCPage() {
   return (
     <ServicePageLayout
+      serviceID="CLOSURE_OF_OPC"
       title="Closure of OPC (Striking Off)"
       subtitle="Formally dissolve your One Person Company via the Fast Track Exit (FTE) Scheme and strike its name off the ROC records using Form STK-2."
       badgeText="Companies Act, 2013 • FTE Scheme • STK-2 Filing"

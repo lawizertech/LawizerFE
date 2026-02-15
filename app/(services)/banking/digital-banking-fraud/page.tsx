@@ -90,6 +90,7 @@ const faqs = [
 export default function DigitalBankingFraudPage() {
   return (
     <ServicePageLayout
+      serviceID="DIGITAL_BANKING_FRAUD"
       title="Digital & Electronic Banking Fraud"
       subtitle="Legal recovery of losses from unauthorized digital transactions."
       badgeText="RBI Ombudsman • Consumer Commission"

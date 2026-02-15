@@ -121,6 +121,7 @@ const faqs = [
 export default function StartupIndiaRegistrationPage() {
   return (
     <ServicePageLayout
+      serviceID="STARTUP_INDIA_REGISTRATION"
       title="Startup India Registration"
       subtitle="Get DPIIT recognition and unlock tax benefits, funding access, and compliance relaxations."
       badgeText="DPIIT Recognition • Tax Benefits • Govt-backed"

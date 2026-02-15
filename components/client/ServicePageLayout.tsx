@@ -29,6 +29,7 @@ import {
   Rocket,
 } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/context/authContext";
 
 /* ---------- ICON MAP ---------- */
 
@@ -118,6 +119,7 @@ interface ServicePageLayoutProps {
   primaryColor: string;
   primaryBg: string;
   primaryHoverBg: string;
+  serviceID: string;
 }
 
 /* ---------- ALERT ICON ---------- */
@@ -147,9 +149,30 @@ export default function ServicePageLayout({
   faqs,
   primaryColor,
   primaryBg,
+  serviceID
 }: ServicePageLayoutProps) {
   const [openFaq, setOpenFaq] = useState(0);
   const HeroIcon = ICON_MAP[icon];
+  const { setIsSignInModalOpen } = useAuth();
+
+  // Check if user is authenticated
+  const checkAuthAndStartProcess = () => {
+    const token = localStorage.getItem("token");
+    const uid = localStorage.getItem("uid");
+    const role = localStorage.getItem("role");
+
+    if (token && uid && role) {
+      // User is authenticated
+      console.log("Starting the process for authenticated user");
+      console.log("User ID:", uid);
+      console.log("Role:", role);
+
+      // Add your process start logic here
+      // For example: router.push("/start-process") or open a modal
+    } else {
+      setIsSignInModalOpen(true);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50/30 to-slate-100">
@@ -342,7 +365,8 @@ export default function ServicePageLayout({
               </p>
 
               <button
-                className={`w-full ${primaryBg} py-4 rounded-xl font-semibold`}
+                onClick={checkAuthAndStartProcess}
+                className={`w-full ${primaryBg} py-4 rounded-xl font-semibold hover:opacity-90 transition-opacity`}
               >
                 Start Process <ArrowRight className="inline ml-2" />
               </button>

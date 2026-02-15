@@ -122,6 +122,7 @@ const faqs = [
 export default function Section8NGOCompanyPage() {
   return (
     <ServicePageLayout
+      serviceID="SECTION_8_NGO_COMPANY"
       title="Section 8 NGO Company"
       subtitle="A highly credible non-profit structure for social, charitable, and public welfare initiatives."
       badgeText="Non-Profit • Tax Benefits • Limited Liability"

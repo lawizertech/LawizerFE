@@ -84,6 +84,7 @@ const faqs = [
 export default function LoanAdvanceDisputesPage() {
   return (
     <ServicePageLayout
+      serviceID="LOAN_ADVANCE_DISPUTES"
       title="Loan & Advance Disputes"
       subtitle="Legal remedy for incorrect CIBIL reporting and harassment by banks or recovery agents."
       badgeText="CIBIL Rectification • Anti-Harassment • Legal Protection"

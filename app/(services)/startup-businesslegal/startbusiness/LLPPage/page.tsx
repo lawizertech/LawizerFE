@@ -107,6 +107,7 @@ const faqs = [
 export default function LLPIncorporationPage() {
   return (
     <ServicePageLayout
+      serviceID="LIMITED_LIABILITY_PARTNERSHIP"
       title="Limited Liability Partnership (LLP)"
       subtitle="A flexible business structure combining partnership benefits with limited liability protection."
       badgeText="LLP Registration • Startup Friendly • Low Compliance"

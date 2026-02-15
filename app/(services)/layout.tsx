@@ -38,7 +38,7 @@ export default function Layout({ children }: LayoutProps) {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
-        className="fixed bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 z-50 w-full px-4"
+        className="fixed bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 z-5 w-full px-4"
       >
         <div className="w-full max-w-4xl flex justify-between items-center bg-white border border-gray-200 rounded-xl shadow-lg px-4 py-3 md:px-6 md:py-4 mx-auto">
           <div className="flex-1 min-w-0 pr-4">

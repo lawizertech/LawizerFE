@@ -118,6 +118,7 @@ export default function ITR1Page() {
       primaryColor="text-green-600"
       primaryBg="bg-gradient-to-r from-green-600 to-teal-600"
       primaryHoverBg="bg-gradient-to-r from-green-700 to-teal-700"
+      serviceID="ITR_1_FILLING"
     />
   );
 }

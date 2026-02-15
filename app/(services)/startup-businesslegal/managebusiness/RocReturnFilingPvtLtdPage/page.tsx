@@ -101,6 +101,7 @@ const faqs = [
 export default function RocReturnFilingPvtLtdPage() {
   return (
     <ServicePageLayout
+      serviceID="ROC_ANNUAL_RETURN_FILING_PVT_LTD"
       title="ROC Annual Return Filing for Pvt Ltd"
       subtitle="Mandatory annual compliance for Private Limited Companies, involving timely filing of AOC-4 (Financials) and MGT-7 (Annual Return) to avoid heavy penalties."
       badgeText="Companies Act, 2013 • AOC-4 • MGT-7"

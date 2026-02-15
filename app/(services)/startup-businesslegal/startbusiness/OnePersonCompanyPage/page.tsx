@@ -109,6 +109,7 @@ const faqs = [
 export default function OnePersonCompanyPage() {
   return (
     <ServicePageLayout
+      serviceID="ONE_PERSON_COMPANY"
       title="One Person Company (OPC)"
       subtitle="A smart business structure for solo entrepreneurs with limited liability and full legal recognition."
       badgeText="Single Owner • Limited Liability • Company Status"

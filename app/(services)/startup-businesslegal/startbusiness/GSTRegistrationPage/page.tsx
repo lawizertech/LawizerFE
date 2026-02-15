@@ -102,6 +102,7 @@ const faqs = [
 export default function GSTRegistrationPage() {
   return (
     <ServicePageLayout
+      serviceID="GST_REGISTRATION"
       title="GST Registration"
       subtitle="Enroll your business under India’s unified tax system to comply, collect, and claim credits seamlessly."
       badgeText="GSTIN • ITC Benefits • Nationwide Compliance"

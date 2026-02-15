@@ -91,6 +91,7 @@ const faqs = [
 export default function MSMEUdhyamRegistrationPage() {
   return (
     <ServicePageLayout
+      serviceID="MSME_UDHYAM_REGISTRATION"
       title="MSME / Udhyam Registration"
       subtitle="Register your business online for free to unlock government benefits, priority lending, and protections."
       badgeText="Govt-recognized • Free • Fast"

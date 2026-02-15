@@ -104,6 +104,7 @@ const faqs = [
 export default function ClosureOfPvtLtdPage() {
   return (
     <ServicePageLayout
+      serviceID="CLOSURE_OF_PRIVATE_LIMITED_COMPANY"
       title="Closure of Private Limited Company"
       subtitle="Formally dissolve your non-operational Private Limited Company by striking its name off the ROC records via Form STK-2 (Fast Track Exit)."
       badgeText="Companies Act, 2013 • STK-2 Filing • Director Protection"

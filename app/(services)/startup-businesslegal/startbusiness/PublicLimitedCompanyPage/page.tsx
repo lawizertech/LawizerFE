@@ -115,6 +115,7 @@ const faqs = [
 export default function PublicLimitedCompanyPage() {
   return (
     <ServicePageLayout
+      serviceID="PUBLIC_LIMITED_COMPANY"
       title="Public Limited Company"
       subtitle="A large-scale corporate structure designed to raise public capital with strong credibility."
       badgeText="Public Company • Investor Ready • Limited Liability"
