@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { extractHeadings, injectHeadingIds } from "@/lib/extractHeadings";
 import Image from "next/image";
+import BlogTableOfContents from "@/components/blogs/BlogTableOfContents";
 
 const ENDPOINT = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!;
 
@@ -58,6 +59,7 @@ export default async function BlogPostPage(props: {
     : null;
 
   const contentWithIds = post.content ? injectHeadingIds(post.content) : "";
+  const headings = post.content ? extractHeadings(post.content) : [];
 
   return (
     // Changed background to a soft tint like the UI image
@@ -98,11 +100,13 @@ export default async function BlogPostPage(props: {
         {/* </p> */}
       </header>
 
-      {/* CENTERED CONTENT - SIDE PANEL REMOVED */}
-      <section className="max-w-4xl mx-auto px-6">
-        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 md:p-16">
-          <div
-            className="
+      {/* CONTENT + TOC SIDEBAR */}
+      <section className="max-w-6xl mx-auto px-6">
+        <div className="lg:grid lg:grid-cols-[1fr_280px] lg:gap-10 lg:items-start">
+          {/* Main content */}
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 md:p-16">
+            <div
+              className="
               prose
               prose-lg
               dark:prose-invert
@@ -148,8 +152,12 @@ export default async function BlogPostPage(props: {
               prose-a:no-underline
               prose-a:hover:underline
             "
-            dangerouslySetInnerHTML={{ __html: contentWithIds }}
-          />
+              dangerouslySetInnerHTML={{ __html: contentWithIds }}
+            />
+          </div>
+
+          {/* TOC Sidebar */}
+          <BlogTableOfContents headings={headings} />
         </div>
       </section>
     </article>
