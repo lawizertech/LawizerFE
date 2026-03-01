@@ -30,7 +30,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/context/authContext";
-import ProcessResultModal from "./ProcessResultModal"; // Import the modal
+import ProcessResultModal from "./ProcessResultModal";
 
 /* ---------- ICON MAP ---------- */
 
@@ -114,6 +114,7 @@ interface ServicePageLayoutProps {
   primaryBg: string;
   primaryHoverBg: string;
   serviceID: string;
+  hideHero?: boolean; // ← NEW
 }
 
 /* ---------- ALERT ICON ---------- */
@@ -144,11 +145,11 @@ export default function ServicePageLayout({
   primaryColor,
   primaryBg,
   serviceID,
+  hideHero = false, // ← NEW
 }: ServicePageLayoutProps) {
   const [openFaq, setOpenFaq] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Modal states
   const [showResultModal, setShowResultModal] = useState(false);
   const [modalType, setModalType] = useState<"success" | "error">("success");
   const [processCode, setProcessCode] = useState("");
@@ -186,11 +187,8 @@ export default function ServicePageLayout({
         userData?.contactNumber,
         userData?.mobileNumber,
       ];
-
       for (const phone of possiblePhoneFields) {
-        if (phone && phone.trim()) {
-          return phone.trim();
-        }
+        if (phone && phone.trim()) return phone.trim();
       }
       return "";
     };
@@ -212,11 +210,7 @@ export default function ServicePageLayout({
         body: JSON.stringify({
           serviceCode: serviceID,
           serviceTitle: title,
-          clientDetails: {
-            fullName: name,
-            email: email,
-            phone: phone,
-          },
+          clientDetails: { fullName: name, email, phone },
           urgency: "NORMAL",
         }),
       });
@@ -224,25 +218,21 @@ export default function ServicePageLayout({
       const data = await response.json();
 
       if (data.success && response.ok) {
-        // Show SUCCESS modal
         setModalType("success");
         setProcessCode(data.process?.processCode || "");
         setShowResultModal(true);
       } else {
-        // Show ERROR modal
         setModalType("error");
         setErrorMessage(
-          data.message || "Unable to submit request. Please try again.",
+          data.message || "Unable to submit request. Please try again."
         );
         setShowResultModal(true);
       }
     } catch (error) {
       console.error("Error starting process:", error);
-
-      // Show ERROR modal for network errors
       setModalType("error");
       setErrorMessage(
-        "Unable to connect to the server. Please check your internet connection.",
+        "Unable to connect to the server. Please check your internet connection."
       );
       setShowResultModal(true);
     } finally {
@@ -252,34 +242,31 @@ export default function ServicePageLayout({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50/30 to-slate-100">
-      {/* ================= HERO ================= */}
-      <section className="relative min-h-[60vh] flex items-center justify-center bg-slate-900 text-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/propertylegal.png')] bg-cover bg-center opacity-10" />
 
-        <div
-          className={`absolute top-1/4 left-1/4 w-72 h-72 ${theme.orb1} blur-3xl rounded-full`}
-        />
-        <div
-          className={`absolute bottom-1/4 right-1/4 w-72 h-72 ${theme.orb2} blur-3xl rounded-full`}
-        />
+      {/* ================= HERO — hidden when hideHero=true ================= */}
+      {!hideHero && (
+        <section className="relative min-h-[60vh] flex items-center justify-center bg-slate-900 text-center overflow-hidden">
+          <div className="absolute inset-0 bg-[url('/propertylegal.png')] bg-cover bg-center opacity-10" />
+          <div className={`absolute top-1/4 left-1/4 w-72 h-72 ${theme.orb1} blur-3xl rounded-full`} />
+          <div className={`absolute bottom-1/4 right-1/4 w-72 h-72 ${theme.orb2} blur-3xl rounded-full`} />
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative z-10 max-w-4xl px-4 py-10 sm:px-6 sm:py-12"
-        >
-          <div className="flex justify-center mb-6">
-            <div className={`p-4 rounded-xl bg-gradient-to-br ${theme.iconBg}`}>
-              <HeroIcon className="w-14 h-14 text-white" />
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="relative z-10 max-w-4xl px-4 py-10 sm:px-6 sm:py-12"
+          >
+            <div className="flex justify-center mb-6">
+              <div className={`p-4 rounded-xl bg-gradient-to-br ${theme.iconBg}`}>
+                <HeroIcon className="w-14 h-14 text-white" />
+              </div>
             </div>
-          </div>
-
-          <h1 className="text-4xl font-bold text-white mb-3">{title}</h1>
-          <p className="text-slate-300 mb-3">{subtitle}</p>
-          <p className={`text-sm ${theme.badgeText}`}>{badgeText}</p>
-        </motion.div>
-      </section>
+            <h1 className="text-4xl font-bold text-white mb-3">{title}</h1>
+            <p className="text-slate-300 mb-3">{subtitle}</p>
+            <p className={`text-sm ${theme.badgeText}`}>{badgeText}</p>
+          </motion.div>
+        </section>
+      )}
 
       {/* ================= MAIN ================= */}
       <div className="max-w-6xl mx-auto px-4 py-16">
@@ -311,9 +298,7 @@ export default function ServicePageLayout({
                     className="flex gap-4 p-4 bg-slate-50 rounded-xl border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-slate-200"
                   >
                     <Icon className={`${primaryColor} w-10 h-10`} />
-                    <p className="text-sm text-slate-800 leading-relaxed">
-                      {b.text}
-                    </p>
+                    <p className="text-sm text-slate-800 leading-relaxed">{b.text}</p>
                   </div>
                 );
               })}
@@ -343,9 +328,7 @@ export default function ServicePageLayout({
                     <div>
                       <p className="font-semibold text-sm">{alert.title}</p>
                       {alert.description && (
-                        <p className="text-sm mt-1 opacity-90">
-                          {alert.description}
-                        </p>
+                        <p className="text-sm mt-1 opacity-90">{alert.description}</p>
                       )}
                     </div>
                   </motion.div>
@@ -380,9 +363,7 @@ export default function ServicePageLayout({
                           className="flex items-start gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 transition-all duration-300 hover:shadow-lg hover:bg-white"
                         >
                           <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
-                          <p className="text-sm text-slate-800 leading-relaxed">
-                            {item}
-                          </p>
+                          <p className="text-sm text-slate-800 leading-relaxed">{item}</p>
                         </div>
                       ))}
                     </div>
@@ -396,9 +377,7 @@ export default function ServicePageLayout({
                           className="flex items-center gap-4 px-4 py-2 bg-blue-50/70 border border-blue-100 rounded-2xl transition-all duration-300 hover:shadow-xl hover:bg-blue-100/70 hover:-translate-y-0.5"
                         >
                           <span className="w-2 h-2 bg-blue-600 rounded-full shrink-0" />
-                          <span className="text-sm font-medium text-slate-800">
-                            {item}
-                          </span>
+                          <span className="text-sm font-medium text-slate-800">{item}</span>
                         </li>
                       ))}
                     </ul>
@@ -411,9 +390,7 @@ export default function ServicePageLayout({
           {/* SIDEBAR */}
           <aside className="lg:sticky lg:top-24 h-fit">
             <div className="bg-slate-900 text-white rounded-3xl p-8 shadow">
-              <h3 className="text-xl font-bold mb-3">
-                Start Your Legal Process
-              </h3>
+              <h3 className="text-xl font-bold mb-3">Start Your Legal Process</h3>
               <p className="text-slate-300 text-sm mb-6">
                 Expert legal guidance, end-to-end support.
               </p>
@@ -481,9 +458,7 @@ export default function ServicePageLayout({
 
                 <div
                   className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                    openFaq === i
-                      ? "max-h-screen opacity-100"
-                      : "max-h-0 opacity-0"
+                    openFaq === i ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
                   }`}
                 >
                   <p className="px-4 pb-4 sm:px-5 sm:pb-5 text-sm text-slate-700">

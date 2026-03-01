@@ -31,14 +31,10 @@ export function EmergencyButton() {
   return (
     <div>
       {/* Emergency Floating Icon */}
-      <div onClick={handleOpen}>
-        <Image
-          src={"/emergency-call.png"}
-          alt="emergency"
-          width={48}
-          height={48}
-          className="fixed bottom-24 right-8 z-50 cursor-pointer"
-        />
+      <div onClick={handleOpen} className="fixed bottom-24 right-8 z-50 cursor-pointer group">
+        <div className="w-12 h-12 rounded-full transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_6px_rgba(239,68,68,0.5)]">
+          <Image src="/emergency-call.png" alt="emergency" width={48} height={48} className="rounded-full" />
+        </div>
       </div>
 
       {/* Confirm Modal */}

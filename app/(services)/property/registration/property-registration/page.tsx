@@ -1,59 +1,175 @@
+"use client";
+
+import { useRef } from "react";
+import { motion } from "framer-motion";
 import ServicePageLayout, {
   BenefitItem,
   SectionBlock,
   FAQItem,
 } from "@/components/client/ServicePageLayout";
 
-/* ---------- BENEFITS (UNCHANGED MEANING) ---------- */
+/* -------------------------------------------------------------------------- */
+/*                                   HERO                                     */
+/* -------------------------------------------------------------------------- */
+
+function HeroWithAddons() {
+  const heroRef = useRef<HTMLElement>(null);
+
+  const addons = [
+    {
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
+          <path d="M7 8h10M7 12h6M7 16h8"/>
+          <rect x="3" y="4" width="18" height="16" rx="2"/>
+        </svg>
+      ),
+      label: "Sale Deed\nVerification",
+    },
+    {
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      ),
+      label: "Stamp Duty\nCalculation Support",
+    },
+    {
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
+          <path d="M9 12h6M9 16h6M9 8h6"/>
+          <rect x="3" y="4" width="18" height="16" rx="2"/>
+        </svg>
+      ),
+      label: "Complete\nRegistration Guidance",
+    },
+    {
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
+          <path d="M8 10h.01M12 10h.01M16 10h.01M9 16h6"/>
+          <rect x="3" y="4" width="18" height="16" rx="2"/>
+        </svg>
+      ),
+      label: "Location-Specific\nCompliance Check",
+    },
+  ];
+
+  return (
+    <section
+      ref={heroRef}
+      className="relative flex flex-col items-center justify-center text-center overflow-hidden bg-gradient-to-br from-[#1f0f0f] via-[#7c2d12] to-[#431407] text-white px-4 sm:px-6"
+      style={{ paddingTop: "100px", paddingBottom: "56px" }}
+    >
+      {/* Glow Orbs */}
+      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-red-500/20 blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-orange-500/20 blur-3xl rounded-full pointer-events-none" />
+
+      <div className="relative z-10 w-full max-w-3xl flex flex-col items-center">
+
+        {/* Floating Icon */}
+        <motion.div
+          animate={{ y: [0, -12, 0], rotate: [0, 2, -2, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="mb-6"
+        >
+          <div className="p-4 rounded-2xl bg-gradient-to-br from-red-600 to-orange-600 shadow-lg inline-flex">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2} className="w-12 h-12 sm:w-14 sm:h-14">
+              <path d="M6 3h12l3 6-9 12L3 9l3-6z"/>
+            </svg>
+          </div>
+        </motion.div>
+
+        {/* Text */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="flex flex-col items-center"
+        >
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 tracking-tight">
+            Property <span className="text-orange-300">Registration</span>
+          </h1>
+
+          <p className="text-slate-300 text-sm sm:text-base max-w-xl mb-2">
+            Register your property safely and hassle-free with expert legal support.
+          </p>
+
+          <p className="text-sm mb-8 text-orange-300">
+            Legally Secure Transfer • Government Compliance • Hassle-Free Process
+          </p>
+
+          {/* PRICE */}
+          <p className="text-3xl sm:text-4xl font-extrabold text-white mb-1">
+            @ Rs. 4,999 <sup className="text-lg font-semibold">*</sup>
+          </p>
+
+          <p className="text-slate-400 text-xs sm:text-sm mb-8 tracking-wide">
+            Drafting + Stamp Guidance · Registration Support · Legal Compliance
+          </p>
+
+          {/* ADDONS */}
+          <div className="w-full rounded-2xl overflow-hidden bg-white/5 border border-white/10 backdrop-blur-md shadow-[0_0_60px_rgba(234,88,12,0.15)]">
+            <div className="bg-white/10 py-2.5 px-4 border-b border-white/20">
+              <p className="text-white font-semibold text-sm sm:text-base">
+                Also Get Absolutely Free
+              </p>
+            </div>
+
+            <div className="py-8 px-4 sm:px-8">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 items-start justify-items-center">
+                {addons.map((addon, i) => (
+                  <div key={i} className="flex flex-col items-center gap-3 w-full">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/90 text-slate-800 flex items-center justify-center shadow-md transition-all duration-300 hover:scale-110 hover:shadow-xl">
+                      {addon.icon}
+                    </div>
+                    <p className="text-white text-xs sm:text-sm whitespace-pre-line leading-snug text-center">
+                      {addon.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <p className="mt-4 text-slate-500 text-xs italic">
+            *Final pricing depends on property value and state-specific charges.
+          </p>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               PAGE CONTENT                                 */
+/* -------------------------------------------------------------------------- */
 
 const benefits = [
-  {
-    icon: "shield",
-    text: "Makes Property Registration Easy, Transparent & Legally Secure",
-  },
-  {
-    icon: "gavel",
-    text: "Ensures all government compliances are met",
-  },
-  {
-    icon: "users",
-    text: "Verifies ownership papers and checks stamp duty and registration charges",
-  },
-  {
-    icon: "scale",
-    text: "Ensures a smooth, legally valid transfer of ownership",
-  },
-  {
-    icon: "fileText",
-    text: "Guidance through the entire process, from document drafting to final registration",
-  },
+  { icon: "shield", text: "Makes Property Registration Easy, Transparent & Legally Secure" },
+  { icon: "gavel", text: "Ensures all government compliances are met" },
+  { icon: "users", text: "Verifies ownership papers and checks stamp duty charges" },
+  { icon: "scale", text: "Ensures a smooth, legally valid transfer of ownership" },
+  { icon: "fileText", text: "Guidance from drafting to final registration" },
 ] satisfies BenefitItem[];
 
-/* ---------- ORIGINAL PROCEDURE (RESTORED, DETAILED) ---------- */
-
 const registrationProcedure = [
-  "Documents must be submitted to the Sub-Registrar of Assurances within whose jurisdiction the property is situated.",
-  "The authorised signatories for the seller and the purchaser must be present along with two witnesses for registration.",
-  "All signatories must carry valid proof of identity such as Aadhaar Card, PAN Card, or other government-issued ID.",
-  "If any signatory is representing another person, a valid Power of Attorney must be furnished.",
-  "In case of company transactions, authorised representatives must carry documents such as a Power of Attorney or Letter of Authority along with a copy of the Board Resolution.",
-  "The property card, original ownership documents, and proof of stamp duty payment must be presented to the Sub-Registrar.",
-  "The Sub-Registrar will verify whether adequate stamp duty has been paid as per the applicable ready reckoner rates.",
-  "Witnesses must establish their identity by submitting ID and address proofs, and their biometric identity will also be recorded.",
+  "Submit documents to Sub-Registrar within property jurisdiction.",
+  "Seller, purchaser, and two witnesses must be present.",
+  "Carry valid ID proofs (Aadhaar, PAN, etc.).",
+  "Provide valid POA if representing another person.",
+  "Company transactions require Board Resolution & authorization.",
+  "Present ownership documents & stamp duty proof.",
+  "Sub-Registrar verifies stamp duty as per ready reckoner rates.",
+  "Witness biometric verification required.",
 ];
-
-/* ---------- ORIGINAL PRE-REQUISITES (RESTORED) ---------- */
 
 const prerequisites = [
-  "Estimation of the property value",
+  "Estimation of property value",
   "Sale deed",
-  "Payment of stamp duty and registration charges",
-  "Approaching the Sub-Registrar for registration",
-  "Submission of documents",
-  "Other documents as per local jurisdictional requirements",
+  "Stamp duty & registration charge payment",
+  "Approaching Sub-Registrar",
+  "Submission of required documents",
+  "Other local jurisdictional documents",
 ];
-
-/* ---------- SECTIONS (STRUCTURE ONLY) ---------- */
 
 const sections = [
   {
@@ -70,56 +186,59 @@ const sections = [
   },
 ] satisfies SectionBlock[];
 
-/* ---------- FAQs (RESTORED, EXPANDED) ---------- */
-
 const faqs = [
   {
     q: "What is the purpose of property registration?",
-    a: "Property registration makes the transfer of ownership legally valid and enforceable. It is the formal process of officially recording the transaction in government records.",
+    a: "It makes ownership transfer legally valid and officially recorded.",
   },
   {
-    q: "What is the difference between Stamp Duty and Registration Charge?",
-    a: "Stamp duty is the tax paid to the government for acquiring legal ownership of an asset, whereas the registration charge is the fee paid to officially record this legal transaction in government records.",
+    q: "Difference between Stamp Duty and Registration Charge?",
+    a: "Stamp duty is tax on ownership transfer; registration charge records it officially.",
   },
   {
-    q: "What happens if stamp duty is deficient?",
-    a: "If there is any deficit in the stamp duty paid, the Sub-Registrar has the authority to refuse registration of the documents.",
+    q: "What if stamp duty is deficient?",
+    a: "Sub-Registrar may refuse registration.",
   },
   {
-    q: "Are witnesses mandatory for property registration?",
-    a: "Yes. The authorised signatories for both the seller and the purchaser must be present along with two witnesses. Witnesses are also required to establish their identity during registration.",
+    q: "Are witnesses mandatory?",
+    a: "Yes, seller and purchaser must be present with two witnesses.",
   },
   {
-    q: "Does Lawizer assist with location-specific registration requirements?",
-    a: "Yes. Lawizer assists with verifying ownership papers, checking applicable charges, and ensuring compliance with location-specific requirements to facilitate a smooth and legally valid transfer.",
+    q: "Does Lawizer assist with location requirements?",
+    a: "Yes, Lawizer ensures compliance with local registration rules.",
   },
 ] satisfies FAQItem[];
 
-/* ---------- PAGE ---------- */
+/* -------------------------------------------------------------------------- */
+/*                                   EXPORT                                   */
+/* -------------------------------------------------------------------------- */
 
 export default function PropertyRegistrationPage() {
   return (
-    <ServicePageLayout
-      title="Property Registration (Sale Deed Registration)"
-      subtitle="Register your property safely and hassle-free with expert legal support, from document verification to final submission."
-      badgeText="Lawizer — Making Property Registration Easy, Transparent & Legally Secure."
-      icon="gavel"
-
-      serviceID="PROPERTY_REGISTRATION"
-      contentTitle="Key Benefits of Lawizer's Registration Support"
-      section1Title="Service Highlights"
-      benefits={benefits}
-      sections={sections}
-      faqs={faqs}
-      theme={{
-        orb1: "bg-red-500/20",
-        orb2: "bg-orange-500/20",
-        iconBg: "from-red-500 to-orange-500",
-        badgeText: "text-orange-300",
-      }}
-      primaryColor="text-red-600"
-      primaryBg="bg-gradient-to-r from-red-600 to-orange-600"
-      primaryHoverBg="bg-gradient-to-r from-red-700 to-orange-700"
-    />
+    <>
+      <HeroWithAddons />
+      <ServicePageLayout
+        hideHero={true}
+        title="Property Registration (Sale Deed Registration)"
+        subtitle="Register your property safely and hassle-free with expert legal support."
+        badgeText="Lawizer — Making Property Registration Easy, Transparent & Legally Secure."
+        icon="gavel"
+        serviceID="PROPERTY_REGISTRATION"
+        contentTitle="Key Benefits of Lawizer's Registration Support"
+        section1Title="Service Highlights"
+        benefits={benefits}
+        sections={sections}
+        faqs={faqs}
+        theme={{
+          orb1: "bg-red-500/20",
+          orb2: "bg-orange-500/20",
+          iconBg: "from-red-500 to-orange-500",
+          badgeText: "text-orange-300",
+        }}
+        primaryColor="text-red-600"
+        primaryBg="bg-gradient-to-r from-red-600 to-orange-600"
+        primaryHoverBg="bg-gradient-to-r from-red-700 to-orange-700"
+      />
+    </>
   );
 }
