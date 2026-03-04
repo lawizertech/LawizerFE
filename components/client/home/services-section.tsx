@@ -314,48 +314,48 @@ export default function ServicesSection() {
         "Power of attorney",
       ],
     },
-    {
-      icon: Landmark, // you can replace this with a more traffic-related icon if available
-      title: "Pay Your Traffic Challan",
-      tagline:
-        "Lawizer: Skip the court hassle. Clear your traffic fines securely, instantly, and affordably.",
-      color: "from-yellow-500/10 to-red-500/30 text-red-600",
-      url: "/challan",
-      items: [
-        {
-          section: "Pay Your Challan",
-          items: [
-            "Instant, secure e-challan payment",
-            "Avoid legal escalation & license suspension",
-            "Maintain a clean driving record",
-            "Get digital proof immediately after payment",
-            "24/7 support & verified payment channels",
-          ],
-        },
-        {
-          section: "View Your Challan",
-          items: [
-            "Check challan details using vehicle/chassis number",
-            "View status, fine amount & violation info",
-          ],
-        },
-        {
-          section: "Dispute Your Challan",
-          items: [
-            "Challenge incorrect challans legally",
-            "Expert lawyer review & legal drafting",
-            "End-to-end case assistance till resolution",
-          ],
-        },
-        {
-          section: "Consult an Expert",
-          items: [
-            "Free consultation for any vehicle-related queries",
-            "Connect instantly with motor vehicle law experts",
-          ],
-        },
-      ],
-    },
+    //{
+    //  icon: Landmark, // you can replace this with a more traffic-related icon if available
+    //  title: "Pay Your Traffic Challan",
+    //  tagline:
+    //    "Lawizer: Skip the court hassle. Clear your traffic fines securely, instantly, and affordably.",
+    //  color: "from-yellow-500/10 to-red-500/30 text-red-600",
+    //  url: "/challan",
+    //  items: [
+    //    {
+    //      section: "Pay Your Challan",
+    //      items: [
+    //        "Instant, secure e-challan payment",
+    //        "Avoid legal escalation & license suspension",
+    //        "Maintain a clean driving record",
+    //        "Get digital proof immediately after payment",
+    //        "24/7 support & verified payment channels",
+    //      ],
+    //    },
+    //    {
+    //      section: "View Your Challan",
+    //      items: [
+    //        "Check challan details using vehicle/chassis number",
+    //        "View status, fine amount & violation info",
+    //      ],
+    //    },
+    //    {
+    //      section: "Dispute Your Challan",
+    //      items: [
+    //        "Challenge incorrect challans legally",
+    //        "Expert lawyer review & legal drafting",
+    //        "End-to-end case assistance till resolution",
+    //      ],
+    //    },
+    //    {
+    //      section: "Consult an Expert",
+    //      items: [
+    //        "Free consultation for any vehicle-related queries",
+    //        "Connect instantly with motor vehicle law experts",
+    //      ],
+    //    },
+    //  ],
+    //},
   ];
 
   return (
