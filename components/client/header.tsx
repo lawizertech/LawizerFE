@@ -362,71 +362,71 @@ export function Header() {
       ],
     },
 
-    {
-      title: "Pay Your Traffic Challan",
-      tagline:
-        "Lawizer: Skip the Court Hassle. Clear Your Traffic Fines Securely, Instantly, and Affordably.",
-      color: "from-yellow-500/10 to-red-500/30 text-red-600",
-      url: "/challan",
-      items: [
-        {
-          section: "Pay Your Challan",
-          items: [
-            { name: "Instant, Secure E-Challan Payment", url: "/challan" },
-            {
-              name: "Avoid Legal Escalation & License Suspension",
-              url: "/challan",
-            },
-            { name: "Maintain a Clean Driving Record", url: "/challan" },
-            {
-              name: "Get Digital Proof Immediately After Payment",
-              url: "/challan",
-            },
-            {
-              name: "24/7 Support & Verified Payment Channels",
-              url: "/challan",
-            },
-          ],
-        },
-        {
-          section: "View Your Challan",
-          items: [
-            {
-              name: "Check Challan Details Using Vehicle/Chassis Number",
-              url: "/challan",
-            },
-            {
-              name: "View Status, Fine Amount & Violation Info",
-              url: "/challan",
-            },
-          ],
-        },
-        {
-          section: "Dispute Your Challan",
-          items: [
-            { name: "Challenge Incorrect Challans Legally", url: "/challan" },
-            { name: "Expert Lawyer Review & Legal Drafting", url: "/challan" },
-            {
-              name: "End-to-End Case Assistance Till Resolution",
-              url: "/challan",
-            },
-          ],
-        },
-        {
-          section: "Consult an Expert",
-          items: [
-            {
-              name: "Free Consultation for Any Vehicle-Related Queries",
-              url: "/challan",
-            },
-            {
-              name: "Connect Instantly With Motor Vehicle Law Experts",
-              url: "/challan",
-            },
-          ],
-        },
-      ],
-    },
+    //{
+    //  title: "Pay Your Traffic Challan",
+    //  tagline:
+    //    "Lawizer: Skip the Court Hassle. Clear Your Traffic Fines Securely, Instantly, and Affordably.",
+    //  color: "from-yellow-500/10 to-red-500/30 text-red-600",
+    //  url: "/challan",
+    //  items: [
+    //    {
+    //      section: "Pay Your Challan",
+    //      items: [
+    //        { name: "Instant, Secure E-Challan Payment", url: "/challan" },
+    //        {
+    //          name: "Avoid Legal Escalation & License Suspension",
+    //          url: "/challan",
+    //        },
+    //        { name: "Maintain a Clean Driving Record", url: "/challan" },
+    //        {
+    //          name: "Get Digital Proof Immediately After Payment",
+    //          url: "/challan",
+    //        },
+    //        {
+    //          name: "24/7 Support & Verified Payment Channels",
+    //          url: "/challan",
+    //        },
+    //      ],
+    //    },
+    //    {
+    //      section: "View Your Challan",
+    //      items: [
+    //        {
+    //          name: "Check Challan Details Using Vehicle/Chassis Number",
+    //          url: "/challan",
+    //        },
+    //        {
+    //          name: "View Status, Fine Amount & Violation Info",
+    //          url: "/challan",
+    //        },
+    //      ],
+    //    },
+    //    {
+    //      section: "Dispute Your Challan",
+    //      items: [
+    //        { name: "Challenge Incorrect Challans Legally", url: "/challan" },
+    //        { name: "Expert Lawyer Review & Legal Drafting", url: "/challan" },
+    //        {
+    //          name: "End-to-End Case Assistance Till Resolution",
+    //          url: "/challan",
+    //        },
+    //      ],
+    //    },
+    //    {
+    //      section: "Consult an Expert",
+    //      items: [
+    //        {
+    //          name: "Free Consultation for Any Vehicle-Related Queries",
+    //          url: "/challan",
+    //        },
+    //        {
+    //          name: "Connect Instantly With Motor Vehicle Law Experts",
+    //          url: "/challan",
+    //        },
+    //      ],
+    //    },
+    //  ],
+    //},
   ];
 
   useEffect(() => {

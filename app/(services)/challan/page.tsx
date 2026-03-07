@@ -2,6 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { notFound } from "next/navigation";
 import {
   Car,
   FileText,
@@ -10,7 +11,10 @@ import {
   CheckCircle,
 } from "lucide-react";
 
+
 export default function TrafficChallanPage() {
+  notFound();
+  
   const router = useRouter();
 
   return (
