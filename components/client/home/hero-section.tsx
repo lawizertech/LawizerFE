@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Shield, Lock, PhoneCall, Star, CheckCircle } from "lucide-react";
-import EmergencySOS from "./emergency-sos";
+//import EmergencySOS from "./emergency-sos";
 
 const consultationCategories = [
   { label: "Family Law", href: "/family" },
@@ -89,7 +89,7 @@ export function HeroSection() {
                 </Button>
               </div>
 
-              <EmergencySOS />
+              {/*<EmergencySOS />*/}
             </div>
 
             {/* Trust Indicators */}
