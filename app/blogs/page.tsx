@@ -11,6 +11,13 @@ async function getPosts() {
           slug
           excerpt
           uri
+          date
+          featuredImage {
+            node {
+              sourceUrl
+              altText
+            }
+          }
           categories {
             nodes {
               name

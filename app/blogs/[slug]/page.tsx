@@ -8,20 +8,25 @@ const ENDPOINT = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!;
 
 async function getPostBySlug(slug: string) {
   const query = `
-query GetPostBySlugWithImage($slug: ID!) {
-  post(id: $slug, idType: SLUG) {
-    title
-    content
-    date
-    # Add the featured image field here
-    featuredImage {
-      node {
-        sourceUrl
-        altText
+    query GetPostBySlugWithImage($slug: ID!) {
+      post(id: $slug, idType: SLUG) {
+        title
+        content
+        date
+        featuredImage {
+          node {
+            sourceUrl
+            altText
+          }
+        }
+        categories {
+          nodes {
+            name
+            slug
+          }
+        }
       }
     }
-  }
-}
   `;
 
   const res = await fetch(ENDPOINT, {
@@ -32,11 +37,7 @@ query GetPostBySlugWithImage($slug: ID!) {
   });
 
   const json = await res.json();
-
-  if (json.errors || !json?.data?.post) {
-    return null;
-  }
-
+  if (json.errors || !json?.data?.post) return null;
   return json.data.post;
 }
 
@@ -47,7 +48,6 @@ export default async function BlogPostPage(props: {
   if (!slug) notFound();
 
   const post = await getPostBySlug(slug);
-
   if (!post) notFound();
 
   const publishedDate = post.date
@@ -61,103 +61,160 @@ export default async function BlogPostPage(props: {
   const contentWithIds = post.content ? injectHeadingIds(post.content) : "";
   const headings = post.content ? extractHeadings(post.content) : [];
 
+  const categoryName = post.categories?.nodes?.[0]?.name ?? null;
+  const categorySlug = post.categories?.nodes?.[0]?.slug ?? null;
+
   return (
-    // Changed background to a soft tint like the UI image
-    <article className="bg-[#fcfdfe] min-h-screen pb-20">
-      {/* HERO */}
-      <header className="max-w-4xl mx-auto px-6 pt-14 pb-8">
-        <nav className="text-sm text-muted-foreground mb-6">
-          <Link href="/blogs" className="hover:text-primary transition-colors">
+    <article className="bg-[#f4f5f7] min-h-screen pb-24">
+      {/* ── HERO HEADER ─────────────────────────────────────────── */}
+      <header className="max-w-5xl mx-auto px-5 pt-12 pb-6">
+        {/* Breadcrumb — matches image 1: "Home > Category > Title" */}
+        <nav className="text-sm text-slate-500 mb-5 flex items-center gap-2 flex-wrap">
+          <Link
+            href="/blogs"
+            className="hover:text-[#1a2f6e] transition-colors font-medium"
+          >
             Blogs
           </Link>
-          <span className="mx-2">/</span>
-          <span className="text-foreground/60">{post.title}</span>
+          {categoryName && (
+            <>
+              <span className="text-slate-400">&gt;</span>
+              <Link
+                href={`/blogs?category=${categorySlug}`}
+                className="hover:text-[#1a2f6e] transition-colors font-medium"
+              >
+                {categoryName}
+              </Link>
+            </>
+          )}
+          <span className="text-slate-400">&gt;</span>
+          <span className="text-slate-400 line-clamp-1">{post.title}</span>
         </nav>
 
-        <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
+        {/* H1 — large, dark navy, NOT uppercase (matches image 1) */}
+        <h1 className="text-4xl md:text-5xl font-extrabold text-[#1a2f6e] leading-tight tracking-tight mb-4">
           {post.title}
         </h1>
 
+        {/* Published date */}
+        {publishedDate && (
+          <p className="text-sm text-slate-500 mb-6">
+            Published on{" "}
+            <span className="font-medium text-slate-600">{publishedDate}</span>
+          </p>
+        )}
+
+        {/* Featured Image */}
         {post.featuredImage?.node?.sourceUrl && (
-          <div className="mt-8 rounded-3xl overflow-hidden border border-slate-100 shadow-sm">
+          <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm mb-2">
             <Image
               src={post.featuredImage.node.sourceUrl}
               alt={post.featuredImage.node.altText || post.title}
               width={1200}
-              height={630}
+              height={600}
               priority
               className="w-full h-auto object-cover"
             />
           </div>
         )}
-
-        {/* <p className="text-slate-500 font-medium"> */}
-          {publishedDate && (
-            <p className="text-slate-500 font-medium">
-              Published on {publishedDate}
-            </p>
-          )}
-        {/* </p> */}
       </header>
 
-      {/* CONTENT + TOC SIDEBAR */}
-      <section className="max-w-6xl mx-auto px-6">
-        <div className="lg:grid lg:grid-cols-[1fr_280px] lg:gap-10 lg:items-start">
-          {/* Main content */}
-          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 md:p-16">
+      {/* ── CONTENT + TOC ───────────────────────────────────────── */}
+      <section className="max-w-5xl mx-auto px-5">
+        <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-8 lg:items-start">
+          {/* TOC Sidebar */}
+          <BlogTableOfContents headings={headings} />
+
+          {/* Main content card */}
+          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm px-8 ">
             <div
               className="
-              prose
-              prose-lg
-              dark:prose-invert
-              max-w-none
+                prose max-w-none
 
-              /* Paragraph Spacing & Color */
-              prose-p:leading-relaxed
-              prose-p:text-slate-600
+                /* ── Paragraphs ── */
+                prose-p:text-slate-600
+                prose-p:leading-relaxed
+                prose-p:text-[1rem]
+                prose-p:my-5
 
-              /* Subheading (H2) Styling - Large, Blue, and Spaced */
-              prose-h2:text-3xl
-              prose-h2:text-[#2c3e8e]
-              prose-h2:font-bold
-              prose-h2:mt-16
-              prose-h2:mb-8
-              prose-h2:scroll-mt-10
-              
-              /* Added the blue dot indicator from the UI image */
-              prose-h2:flex
-              prose-h2:items-start
-              prose-h2:before:content-['•']
-              prose-h2:before:text-blue-600
-              prose-h2:before:mr-4
-              prose-h2:before:text-4xl
-              prose-h2:before:leading-none
+                /* ── H2: blue dot + bold dark navy — matches image 1 & 2 ── */
+                prose-h2:flex
+                prose-h2:items-center
+                prose-h2:gap-3
+                prose-h2:text-2xl
+                prose-h2:font-extrabold
+                prose-h2:text-[#1a2f6e]
+                prose-h2:mt-12
+                prose-h2:mb-4
+                prose-h2:scroll-mt-28
+                prose-h2:before:content-['•']
+                prose-h2:before:text-blue-500
+                prose-h2:before:text-3xl
+                prose-h2:before:leading-none
+                prose-h2:before:shrink-0
 
-              /* Sub-subheadings (H3) */
-              prose-h3:text-2xl
-              prose-h3:text-slate-800
-              prose-h3:font-bold
-              prose-h3:mt-12
-              prose-h3:mb-6
+                /* ── H3: plain bold slate ── */
+                prose-h3:text-lg
+                prose-h3:font-bold
+                prose-h3:text-[#1a2f6e]
+                prose-h3:mt-8
+                prose-h3:mb-3
+                prose-h3:scroll-mt-28
 
-              /* List Spacing */
-              prose-ul:my-8
-              prose-ol:my-8
-              prose-li:my-4
-              prose-li:text-slate-600
+                /* ── H4 ── */
+                prose-h4:text-base
+                prose-h4:font-semibold
+                prose-h4:text-slate-700
+                prose-h4:mt-6
+                prose-h4:mb-2
 
-              /* Links */
-              prose-a:text-blue-600
-              prose-a:font-semibold
-              prose-a:no-underline
-              prose-a:hover:underline
-            "
+                /* ── Lists ── */
+                prose-ul:my-5
+                prose-ol:my-5
+                prose-li:text-slate-600
+                prose-li:text-[0.97rem]
+                prose-li:my-1.5
+
+                /* ── Links ── */
+                prose-a:text-blue-600
+                prose-a:font-medium
+                prose-a:no-underline
+                hover:prose-a:underline
+
+                /* ── Strong ── */
+                prose-strong:text-slate-800
+                prose-strong:font-bold
+
+                /* ── Inline code ── */
+                prose-code:text-blue-700
+                prose-code:bg-blue-50
+                prose-code:px-1
+                prose-code:rounded
+
+                /* ── Images inside content ── */
+                prose-img:rounded-xl
+                prose-img:shadow-sm
+                prose-img:border
+                prose-img:border-slate-100
+                prose-img:my-8
+
+                /* ── Blockquote ── */
+                prose-blockquote:border-l-4
+                prose-blockquote:border-blue-400
+                prose-blockquote:bg-blue-50
+                prose-blockquote:rounded-r-lg
+                prose-blockquote:px-5
+                prose-blockquote:py-3
+                prose-blockquote:text-slate-600
+                prose-blockquote:not-italic
+
+                /* ── HR ── */
+                prose-hr:border-slate-100
+                prose-hr:my-10
+              "
               dangerouslySetInnerHTML={{ __html: contentWithIds }}
             />
           </div>
-
-          {/* TOC Sidebar */}
-          <BlogTableOfContents headings={headings} />
         </div>
       </section>
     </article>

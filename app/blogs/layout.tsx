@@ -7,7 +7,7 @@ export default function BlogsLayout({ children }: { children: ReactNode }) {
       <div className="h-20" />
 
       {/* Blog Container */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">{children}</main>
+      <main className="w-full mx-auto">{children}</main>
 
       {/* Footer CTA */}
       <footer className="mt-20 border-t bg-card">
