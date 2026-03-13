@@ -203,7 +203,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-gray-200 pt-6 text-center text-gray-600 text-xs sm:text-sm">
-          <p>&copy; 2025 Lawizer. All rights reserved.</p>
+          <p>&copy; 2026 Lawizer. All rights reserved.</p>
         </div>
       </div>
     </footer>
