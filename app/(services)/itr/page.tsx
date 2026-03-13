@@ -1,229 +1,511 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import {
-  FileText,
-  ArrowRight,
-  User,
-  TrendingUp,
-  DollarSign,
-  Briefcase,
-  Building,
-  Users,
-} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, Copy, Phone, X, ArrowRight, Shield, Lock, Sparkles } from "lucide-react";
 
-export default function ITRFilingPage() {
+/* ─────────────────────────────────────────────────────────
+   THEME CONSTANTS
+   Match the Lawizer site palette: red primary, navy text
+───────────────────────────────────────────────────────── */
+const RED       = "#c0392b";
+const RED_LIGHT = "#e74c3c";
+const NAVY      = "#0e172b";
+
+/* ─────────────────────────────────────────────────────────
+   PLAN DATA
+   To add / edit a plan, update this array only.
+   - accentColor : the tier's signature color
+   - glowColor   : same color as RGB string for box-shadow rgba()
+   - popular     : shows the "Most Popular" pill + red CTA
+   - excludedSources : only Bronze has this; set null for others
+───────────────────────────────────────────────────────── */
+const plans = [
+  {
+    id:            "bronze",
+    name:          "Bronze",
+    subtitle:      "Tax Filing + Computation Explanation",
+    price:         2499,
+    originalPrice: 6873,
+    tier:          "Essential",
+    accentColor:   "#c17f3a",
+    glowColor:     "193,127,58",
+    emoji:         "🥉",
+    features: [
+      "Direct Interaction with Expert",
+      "Tax calculation walkthrough",
+      "Filing done in 24 hours",
+    ],
+    incomeSources: [
+      "Salary income < ₹50L",
+      "Interest Income (Savings, Term deposits)",
+    ],
+    excludedSources: "Capital Gains, FnO, Business Income, Crypto",
+  },
+  {
+    id:            "silver",
+    name:          "Silver",
+    subtitle:      "Tax Filing with Interactive Video Call",
+    price:         4499,
+    originalPrice: 12498,
+    tier:          "Most Popular",
+    accentColor:   RED,
+    glowColor:     "192,57,43",
+    emoji:         "🥈",
+    popular:       true,           // ← controls red border, pill, red Buy Now
+    features: [
+      "Video Call with Expert",
+      "Tax calculation walkthrough",
+      "Graphical Tax Reports",
+    ],
+    incomeSources: [
+      "Salary & Interest Income – any range",
+      "Capital Gains (Stocks, MF, FnO, Intraday, Crypto, Property)",
+      "Freelance, Online gaming",
+    ],
+    excludedSources: null,
+  },
+  {
+    id:            "gold",
+    name:          "Gold",
+    subtitle:      "Tax Filing + Tax Planning for the Next Year",
+    price:         6499,
+    originalPrice: 17498,
+    tier:          "Advanced",
+    accentColor:   "#b8860b",
+    glowColor:     "184,134,11",
+    emoji:         "🥇",
+    features: [
+      "Tax filing in direct video call",
+      "Tax calculation walkthrough",
+      "Next year tax planning in video call",
+    ],
+    incomeSources: [
+      "All income sources covered",
+      "NRI, ESOPs, RSUs, Foreign income",
+      "Business income included",
+    ],
+    excludedSources: null,
+  },
+  {
+    id:            "diamond",
+    name:          "Diamond",
+    subtitle:      "Tax Filing + Advisory Assistance All Year-round",
+    price:         34999,
+    originalPrice: 99998,
+    tier:          "Elite",
+    accentColor:   "#3d6ab0",
+    glowColor:     "61,106,176",
+    emoji:         "💎",
+    features: [
+      "Unlimited video calls",
+      "Tax calculation walkthrough",
+      "Monthly advisory video calls",
+      "Dedicated priority support",
+    ],
+    incomeSources: [
+      "All income sources covered",
+      "NRI, ESOPs, RSUs, Foreign income",
+      "Complex business structures",
+    ],
+    excludedSources: null,
+  },
+];
+
+/* ─────────────────────────────────────────────────────────
+   OFFER CODE
+   Displayed on every card with a copy-to-clipboard button
+───────────────────────────────────────────────────────── */
+const OFFER_CODE = "OFFERITR";
+
+/* ─────────────────────────────────────────────────────────
+   COPY CODE BUTTON
+   Copies OFFER_CODE to clipboard; shows "Copied!" for 2s
+───────────────────────────────────────────────────────── */
+function CopyCode({ code, accent }: { code: string; accent: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      onClick={() => {
+        navigator.clipboard.writeText(code);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }}
+      className="transition-all hover:opacity-100 opacity-40"
+    >
+      {copied
+        ? <span className="text-[10px] font-semibold" style={{ color: accent }}>Copied!</span>
+        : <Copy className="w-3 h-3 text-gray-400" />}
+    </button>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────
+   REQUEST CALLBACK POPUP
+   Triggered by "Talk to a tax expert" in the bottom bar.
+   Collects: Name, Mobile, Email → wire to your API/CRM
+───────────────────────────────────────────────────────── */
+function RequestCallPopup({ onClose }: { onClose: () => void }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.95, opacity: 0, y: 20 }}
+        transition={{ type: "spring", stiffness: 300, damping: 26 }}
+        className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden"
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Red accent top bar */}
+        <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${RED}, ${RED_LIGHT})` }} />
+
+        <div className="p-10">
+          <button onClick={onClose} className="absolute top-6 right-6 text-gray-300 hover:text-gray-500 transition-colors">
+            <X className="w-5 h-5" />
+          </button>
+
+          {/* Header */}
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: `${RED}10` }}>
+              <Phone className="w-5 h-5" style={{ color: RED }} />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-gray-900">Request a Callback</h3>
+              <p className="text-sm text-gray-400 mt-0.5">Our tax expert calls within 2 hours</p>
+            </div>
+          </div>
+
+          {/* Form fields — wire onSubmit to your backend */}
+          <div className="space-y-4">
+            {["Full Name", "Mobile Number", "Email Address"].map(ph => (
+              <input
+                key={ph} type="text" placeholder={ph}
+                className="w-full border border-gray-200 rounded-2xl px-5 py-3.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-red-300 transition"
+              />
+            ))}
+            <button
+              className="w-full mt-1 py-4 rounded-2xl text-sm font-semibold text-white transition-all hover:shadow-lg hover:brightness-110"
+              style={{ background: `linear-gradient(135deg, ${RED}, ${RED_LIGHT})` }}
+            >
+              Request Callback
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────
+   ITR PLANS SECTION
+   Drop this anywhere on the ITR services page.
+   Routes:
+     Buy Now   → /payment?plan={id}
+     Know more → /itr/itr-plans/{id}  (matches folder structure)
+───────────────────────────────────────────────────────── */
+export default function ITRPlans() {
+  const [showCallPopup, setShowCallPopup] = useState(false);
   const router = useRouter();
-  const basePath = "/itr/";
-  const primaryColor = "#008080";
-  const primaryAccent = "#00bfa5";
-
-  const sections = [
-    {
-      id: "itr-forms",
-      title: "Select Your Income Tax Return (ITR) Form",
-      icon: FileText,
-      description:
-        "We offer hassle-free income tax return filing services with Chartered Accountants (CAs) and tax advisors. Select the form applicable to your income structure below.",
-      services: [
-        {
-          name: 'ITR-1 (Sahaj) "The Salaried Simplifier"',
-          slug: "itr-1",
-          icon: User,
-          price: "₹499 – ₹799",
-          originalPrice: "₹999 – ₹1,499",
-          description:
-            "For Resident Individuals with Total Income up to ₹50 Lakh from Salary, One House Property, and Other Sources.",
-        },
-        {
-          name: 'ITR-2 "The Investor\'s Choice"',
-          slug: "itr-2",
-          icon: DollarSign,
-          price: "₹799 – ₹1,299",
-          originalPrice: "₹1,499 – ₹2,499",
-          description:
-            "For Individuals/HUFs having Total Income > ₹50 Lakh, Capital Gains, Foreign Assets, or Multiple House Properties (No Business Income).",
-        },
-        {
-          name: 'ITR-3 "The Entrepreneur\'s Form"',
-          slug: "itr-3",
-          icon: TrendingUp,
-          price: "₹1,199 – ₹1,999",
-          originalPrice: "₹2,499 – ₹3,999",
-          description:
-            "For Individuals/HUFs having income from 'Profits and Gains of Business or Profession' (including partners in a firm).",
-        },
-        {
-          name: 'ITR-4 (Sugam) "The Small Business Special"',
-          slug: "itr-4",
-          icon: Users,
-          price: "₹699 – ₹1,399",
-          originalPrice: "₹1,499 – ₹2,999",
-          description:
-            "For Resident Individuals, HUFs, or Firms (other than LLP) opting for the Presumptive Taxation Scheme.",
-        },
-        {
-          name: 'ITR-5 "The Entity Form"',
-          slug: "itr-5",
-          icon: Briefcase,
-          price: "₹1,499 – ₹2,499",
-          originalPrice: "₹2,999 – ₹4,999",
-          description:
-            "For Firms, LLPs, AOPs, BOIs, etc. (Non-individual entities).",
-        },
-        {
-          name: 'ITR-6 "The Corporate Form"',
-          slug: "itr-6",
-          icon: Building,
-          price: "₹4,999 – ₹9,999",
-          originalPrice: "₹9,999 – ₹14,999",
-          description:
-            "Mandatory Filing for all Companies registered under the Companies Act.",
-        },
-      ],
-    },
-  ];
-
-  const handleViewDetails = (slug: string) => {
-    router.push(`${basePath}${slug}`);
-  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100">
-      {/* Hero Section */}
-      <section
-        className="relative flex items-center justify-center text-center h-[55vh] sm:h-[50vh] overflow-hidden"
-        style={{
-          background: `linear-gradient(to right, ${primaryColor}, ${primaryAccent})`,
-          color: "white",
-        }}
-      >
-        <div className="absolute inset-0 bg-[url('/taxhero.png')] bg-cover bg-center opacity-25" />
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="relative z-10 max-w-4xl px-4 sm:px-6"
-        >
-          <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 3, repeat: Infinity }}
-            className="flex justify-center mb-4 sm:mb-6 pt-12"
-          >
-            <FileText className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
-          </motion.div>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 tracking-tight">
-            Income Tax Return (ITR) Filing Services
-          </h1>
-          <p className="text-sm sm:text-base md:text-lg text-gray-200 max-w-2xl mx-auto">
-            Hassle-free ITR filing with Chartered Accountants and tax advisors.
-            Get your ITR filed quickly, easily, and maximize your tax savings.
-          </p>
-        </motion.div>
-      </section>
+    <section className="relative py-28 overflow-hidden" style={{ background: "#f8f9fb" }}>
 
-      {/* Services Section */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-        {sections.map((section, index) => {
-          const Icon = section.icon;
-          return (
-            <motion.section
-              key={section.id}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="mb-16 sm:mb-20"
-            >
-              <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-                <div
-                  className="p-2 sm:p-3 rounded-full"
-                  style={{ backgroundColor: `${primaryAccent}20` }}
-                >
-                  <Icon
-                    className="w-5 h-5 sm:w-6 sm:h-6"
-                    style={{ color: primaryAccent }}
-                  />
-                </div>
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0e172b]">
-                  {section.title}
-                </h2>
-              </div>
-              <p className="text-gray-700 text-sm sm:text-base mb-6 sm:mb-10 max-w-3xl">
-                {section.description}
-              </p>
+      {/* ── Global styles + card animations ─────────────── */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
+        .itr-root { font-family: 'Outfit', sans-serif; }
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                {section.services.map((service, idx) => {
-                  const ServiceIcon = service.icon;
-                  return (
-                    <motion.div
-                      key={service.slug}
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: idx * 0.1 }}
-                      whileHover={{ scale: 1.03, y: -5 }}
-                      className="relative bg-white/90 border border-gray-100 rounded-2xl p-4 sm:p-6 shadow-md hover:shadow-xl backdrop-blur-lg transition-all group overflow-hidden"
-                    >
-                      <div
-                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                        style={{
-                          background: `linear-gradient(to right, ${primaryAccent}10, transparent)`,
-                        }}
-                      />
-                      <ServiceIcon
-                        className="w-6 h-6 sm:w-8 sm:h-8 mb-3 sm:mb-4"
-                        style={{ color: primaryAccent }}
-                      />
-                      <h3 className="text-base sm:text-lg md:text-xl font-semibold text-[#0e172b] mb-1 sm:mb-2">
-                        {service.name}
-                      </h3>
-                      <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-5 leading-relaxed">
-                        {service.description}
-                      </p>
-                      <div className="mb-2 sm:mb-3">
-                        {service.originalPrice && (
-                          <p className="text-[10px] sm:text-xs text-gray-400 line-through">
-                            {service.originalPrice}
-                          </p>
-                        )}
-                        <p className="text-gray-900 font-semibold text-xs sm:text-sm">
-                          {service.price}
-                        </p>
-                      </div>
+        /* Card lift + scale on hover */
+        .plan-card {
+          transition: transform 0.32s cubic-bezier(0.34, 1.3, 0.64, 1), box-shadow 0.32s ease;
+        }
+        .plan-card:hover { transform: translateY(-12px) scale(1.01); }
 
-                      <button
-                        onClick={() => handleViewDetails(service.slug)}
-                        className="flex items-center gap-1 sm:gap-2 font-medium group cursor-pointer text-xs sm:text-sm"
-                        style={{ color: primaryAccent }}
-                      >
-                        View Details
-                        <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
-                      </button>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </motion.section>
-          );
-        })}
+        /* Buy Now shimmer sweep on hover */
+        .buy-btn { position: relative; overflow: hidden; transition: all 0.25s ease; }
+        .buy-btn::after {
+          content: '';
+          position: absolute; inset: 0;
+          background: linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent);
+          transform: translateX(-100%);
+          transition: transform 0.5s ease;
+        }
+        .buy-btn:hover::after { transform: translateX(100%); }
+        .buy-btn:hover { filter: brightness(1.1); }
+      `}</style>
+
+      {/* ── Subtle top red hairline ──────────────────────── */}
+      <div
+        className="absolute top-0 left-0 right-0 h-px"
+        style={{ background: `linear-gradient(90deg, transparent, ${RED}60, transparent)` }}
+      />
+
+      {/* ── Ambient red glow blob (top-centre background) ── */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div
+          className="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-64 opacity-[0.06] blur-3xl rounded-full"
+          style={{ background: RED }}
+        />
       </div>
 
-      {/* Floating CTA Section */}
-      <section className="sticky bottom-0 bg-white shadow-2xl border-t border-gray-200 py-3 sm:py-4 z-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0">
-          <p className="text-gray-700 text-sm sm:text-base font-medium text-center sm:text-left">
-            Still having queries for what to select? Feel free to talk to our
-            tax consultant for free.
-          </p>
-          <button
-            className="flex items-center gap-2 px-4 py-2 rounded-full text-white font-semibold transition-all hover:shadow-lg"
-            style={{ background: primaryAccent }}
+      <div className="itr-root max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+
+        {/* ── Section header ───────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+          className="text-center mb-20"
+        >
+          {/* Pill label */}
+          <div
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full border mb-6 text-xs font-semibold tracking-widest uppercase"
+            style={{ color: RED, borderColor: `${RED}30`, background: `${RED}08` }}
           >
-            Talk to a Tax Consultant
-          </button>
+            <Sparkles className="w-3 h-3" /> ITR Filing Plans
+          </div>
+
+          <h2 className="text-4xl sm:text-5xl font-bold mb-5 leading-tight" style={{ color: NAVY }}>
+            Transparent Pricing.<br />
+            <span style={{ color: RED }}>Expert-Assisted</span> ITR Filing.
+          </h2>
+          <p className="text-gray-400 max-w-md mx-auto text-base leading-relaxed">
+            Every plan includes a dedicated Chartered Accountant.
+            Choose based on your income complexity.
+          </p>
+        </motion.div>
+
+        {/* ── Plan cards grid ──────────────────────────────── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+          {plans.map((plan, idx) => (
+            <motion.div
+              key={plan.id}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: idx * 0.09 }}
+              className="plan-card relative flex flex-col rounded-[28px] overflow-visible bg-white"
+              style={{
+                /* Popular (Silver): red ring + stronger dual-layer glow
+                   Others: faint grey ring + softer tier-colored glow      */
+                boxShadow: plan.popular
+                  ? `0 0 0 2px ${plan.accentColor}, 0 16px 48px rgba(${plan.glowColor},0.30), 0 32px 80px rgba(${plan.glowColor},0.18), 0 4px 12px rgba(0,0,0,0.06)`
+                  : `0 0 0 1.5px rgba(0,0,0,0.06), 0 12px 40px rgba(${plan.glowColor},0.18), 0 28px 64px rgba(${plan.glowColor},0.10), 0 2px 8px rgba(0,0,0,0.04)`,
+              }}
+            >
+
+              {/* ── "Most Popular" floating pill — Silver only ── */}
+              {plan.popular && (
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20">
+                  <div
+                    className="px-4 py-1.5 rounded-full text-[11px] font-bold text-white shadow-lg whitespace-nowrap"
+                    style={{
+                      background: `linear-gradient(135deg, ${RED}, ${RED_LIGHT})`,
+                      boxShadow: `0 4px 16px rgba(192,57,43,0.4)`,
+                    }}
+                  >
+                    ✦ Most Popular
+                  </div>
+                </div>
+              )}
+
+              {/* ── Card header: tinted bg, tier label, name, price ── */}
+              <div
+                className="relative px-7 pt-8 pb-7 rounded-t-[28px] overflow-hidden"
+                style={{ background: `linear-gradient(135deg, ${plan.accentColor}12, ${plan.accentColor}05)` }}
+              >
+                {/* Decorative corner glow circle */}
+                <div
+                  className="absolute -top-8 -right-8 w-32 h-32 rounded-full opacity-10"
+                  style={{ background: plan.accentColor }}
+                />
+
+                {/* Tier label + plan name + subtitle + emoji badge */}
+                <div className="flex items-start justify-between mb-5">
+                  <div>
+                    <span
+                      className="text-[10px] font-bold tracking-[0.18em] uppercase block mb-1"
+                      style={{ color: plan.accentColor }}
+                    >
+                      {plan.tier}
+                    </span>
+                    <h3 className="text-2xl font-bold" style={{ color: NAVY }}>{plan.name}</h3>
+                    <p className="text-gray-400 text-xs mt-1 leading-relaxed max-w-[150px]">{plan.subtitle}</p>
+                  </div>
+
+                  {/* Emoji on a white raised tile with tier-colored glow */}
+                  <div
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-sm flex-shrink-0"
+                    style={{
+                      background: "white",
+                      border: `1.5px solid ${plan.accentColor}25`,
+                      boxShadow: `0 4px 12px rgba(${plan.glowColor},0.2)`,
+                    }}
+                  >
+                    {plan.emoji}
+                  </div>
+                </div>
+
+                {/* Original price (strikethrough) + current price + 60% OFF badge */}
+                <div className="mb-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-400 text-xs">Just at</span>
+                    <span className="text-gray-400 text-xs line-through">
+                      ₹{plan.originalPrice.toLocaleString("en-IN")}
+                    </span>
+                    <span
+                      className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white"
+                      style={{ background: plan.accentColor }}
+                    >
+                      60% OFF
+                    </span>
+                  </div>
+                  <div className="text-4xl font-extrabold mt-1 tracking-tight" style={{ color: NAVY }}>
+                    ₹{plan.price.toLocaleString("en-IN")}
+                  </div>
+                </div>
+
+                {/* Offer code chip with one-click copy */}
+                <div
+                  className="flex items-center gap-2 mt-3 px-3 py-2 rounded-xl w-fit"
+                  style={{ background: "rgba(255,255,255,0.8)", border: `1px dashed ${plan.accentColor}40` }}
+                >
+                  <span className="text-gray-500 text-[11px]">Code:</span>
+                  <span className="text-[11px] font-bold" style={{ color: NAVY }}>{OFFER_CODE}</span>
+                  <CopyCode code={OFFER_CODE} accent={plan.accentColor} />
+                </div>
+              </div>
+
+              {/* ── Gradient divider (header → body) ─────────── */}
+              <div
+                className="h-px mx-7"
+                style={{ background: `linear-gradient(90deg, transparent, ${plan.accentColor}30, transparent)` }}
+              />
+
+              {/* ── Card body ────────────────────────────────── */}
+              <div className="px-7 py-6 flex flex-col flex-1">
+
+                {/* Features checklist */}
+                <ul className="space-y-3 mb-6">
+                  {plan.features.map((f, i) => (
+                    <li key={i} className="flex items-center gap-3">
+                      <div
+                        className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
+                        style={{ background: `${plan.accentColor}18` }}
+                      >
+                        <Check className="w-3 h-3" style={{ color: plan.accentColor }} />
+                      </div>
+                      <span className="text-gray-600 text-sm">{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Income sources — tinted box per tier color */}
+                <div
+                  className="rounded-2xl px-5 py-4 mb-6 flex-1"
+                  style={{ background: `${plan.accentColor}07`, border: `1px solid ${plan.accentColor}20` }}
+                >
+                  <p
+                    className="text-[10px] font-bold tracking-[0.15em] uppercase mb-3"
+                    style={{ color: plan.accentColor }}
+                  >
+                    For Income Sources
+                  </p>
+                  <ul className="space-y-2">
+                    {plan.incomeSources.map((src, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <div
+                          className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
+                          style={{ background: `${plan.accentColor}80` }}
+                        />
+                        <span className="text-gray-500 text-xs leading-relaxed">{src}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Excluded sources row — only rendered for Bronze */}
+                  {plan.excludedSources && (
+                    <div className="mt-3 pt-3 border-t border-gray-100">
+                      <span className="text-[10px] font-semibold text-gray-400">Excluded: </span>
+                      <span className="text-[10px] text-gray-400">{plan.excludedSources}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* ── CTAs ─────────────────────────────────────── */}
+                <div className="flex flex-col gap-2 mt-auto">
+
+                  {/* Buy Now → /payment?plan={id} */}
+                  <button
+                    onClick={() => router.push("/payment?plan=" + plan.id)}
+                    className="buy-btn w-full py-3.5 rounded-2xl text-sm font-bold text-white"
+                    style={{
+                      /* Silver (popular): full red gradient
+                         Others: tier accent gradient             */
+                      background: plan.popular
+                        ? `linear-gradient(135deg, ${RED} 0%, ${RED_LIGHT} 100%)`
+                        : `linear-gradient(135deg, ${plan.accentColor} 0%, ${plan.accentColor}cc 100%)`,
+                      boxShadow: `0 4px 20px rgba(${plan.glowColor}, 0.35)`,
+                    }}
+                  >
+                    Buy Now
+                  </button>
+
+                  {/* Know more → /itr/itr-plans/{id}
+                      Navigates to the individual plan detail page
+                      (app/itr/itr-plans/{bronze|silver|gold|diamond}/page.tsx) */}
+                  <button
+                    onClick={() => router.push("/itr/itr-plans/" + plan.id)}
+                    className="w-full py-2.5 text-center text-sm font-medium flex items-center justify-center gap-1.5 group opacity-50 hover:opacity-80 transition-opacity"
+                    style={{ color: plan.accentColor }}
+                  >
+                    Know more
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+
+              </div>
+            </motion.div>
+          ))}
         </div>
-      </section>
-    </div>
+
+        {/* ── Bottom trust + callback bar ──────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-8"
+        >
+          <div className="flex items-center gap-2 text-gray-400 text-sm">
+            <Shield className="w-4 h-4" style={{ color: RED }} />
+            Secure payments
+          </div>
+          <div className="hidden sm:block w-px h-4 bg-gray-200" />
+          <div className="flex items-center gap-2 text-gray-400 text-sm">
+            <Lock className="w-4 h-4" style={{ color: RED }} />
+            100% confidential
+          </div>
+          <div className="hidden sm:block w-px h-4 bg-gray-200" />
+
+          {/* Opens RequestCallPopup modal */}
+          <button
+            onClick={() => setShowCallPopup(true)}
+            className="flex items-center gap-2 text-sm font-semibold group transition-all"
+            style={{ color: NAVY }}
+          >
+            <Phone className="w-4 h-4" style={{ color: RED }} />
+            Not sure? Talk to a tax expert — free
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" style={{ color: RED }} />
+          </button>
+        </motion.div>
+
+      </div>
+
+      {/* ── Request Callback modal (AnimatePresence for exit animation) ── */}
+      <AnimatePresence>
+        {showCallPopup && <RequestCallPopup onClose={() => setShowCallPopup(false)} />}
+      </AnimatePresence>
+    </section>
   );
 }
