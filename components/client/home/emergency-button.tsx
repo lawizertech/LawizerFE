@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/authContext";
 
-const LETTERS = ["E", "-", "S", "O", "S"];
+const LETTERS = ["S", "O", "S"];
 
 export function EmergencyButton() {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -40,7 +40,7 @@ export function EmergencyButton() {
         <motion.div
           initial={false}
           animate={{
-            width: hovered ? "148px" : "48px",
+            width: hovered ? "115px" : "48px",
             backgroundColor: hovered ? "#dc2626" : "transparent",
             boxShadow: hovered
               ? "0 4px 20px rgba(220,38,38,0.5), 0 2px 8px rgba(0,0,0,0.2)"
