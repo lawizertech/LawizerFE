@@ -3,8 +3,10 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Banknote, ArrowRight } from "lucide-react";
+import { notFound } from "next/navigation";
 
 export default function BankingLegalPage() {
+  notFound();
   const router = useRouter();
 
   const BankingIcon = Banknote;

@@ -22,7 +22,7 @@ function HeroWithAddons() {
           <path d="M12 3l7 4v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7l7-4z"/>
         </svg>
       ),
-      label: "Legally Compliant\nDrafted POA",
+      label: "Stamp Duty\nGuidance",
     },
     {
       icon: (
@@ -31,7 +31,7 @@ function HeroWithAddons() {
           <rect x="3" y="4" width="18" height="16" rx="2"/>
         </svg>
       ),
-      label: "Clearly Defined\nPowers & Limits",
+      label: "Registered POA\nDocument",
     },
     {
       icon: (
@@ -40,28 +40,27 @@ function HeroWithAddons() {
           <rect x="3" y="4" width="18" height="16" rx="2"/>
         </svg>
       ),
-      label: "Clause-wise\nExplanation",
+      label: "Step-by-Step\nProcess Support",
     },
     {
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-          <path d="M9 12h6M9 16h6M9 8h6"/>
-          <rect x="3" y="4" width="18" height="16" rx="2"/>
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
         </svg>
       ),
-      label: "Notarization &\nRegistration Guidance",
+      label: "Legal Validity\nAssurance",
     },
   ];
 
   return (
     <section
       ref={heroRef}
-      className="relative flex flex-col items-center justify-center text-center overflow-hidden bg-gradient-to-br from-[#1c0f0a] via-[#92400e] to-[#451a03] text-white px-4 sm:px-6"
+      className="relative flex flex-col items-center justify-center text-center overflow-hidden bg-gradient-to-br from-[#0f172a] via-[#1e3a8a] to-[#0b1120] text-white px-4 sm:px-6"
       style={{ paddingTop: "100px", paddingBottom: "56px" }}
     >
       {/* Glow Orbs */}
-      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-yellow-500/20 blur-3xl rounded-full pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-orange-500/20 blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-indigo-500/20 blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-blue-500/20 blur-3xl rounded-full pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-3xl flex flex-col items-center">
 
@@ -71,14 +70,14 @@ function HeroWithAddons() {
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           className="mb-6"
         >
-          <div className="p-4 rounded-2xl bg-gradient-to-br from-yellow-500 to-orange-500 shadow-lg inline-flex">
+          <div className="p-4 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-500 shadow-lg inline-flex">
             <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2} className="w-12 h-12 sm:w-14 sm:h-14">
               <path d="M6 3h12l3 6-9 12L3 9l3-6z"/>
             </svg>
           </div>
         </motion.div>
 
-        {/* Title */}
+        {/* Text */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -86,28 +85,33 @@ function HeroWithAddons() {
           className="flex flex-col items-center"
         >
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 tracking-tight">
-            Power of Attorney <span className="text-yellow-300">Drafting</span>
+            Registration of <span className="text-blue-300">Power of Attorney</span>
           </h1>
 
           <p className="text-slate-300 text-sm sm:text-base max-w-xl mb-2">
-            Authorize a trusted person to legally act on your behalf in financial, property, or legal matters.
+            Ensure your Power of Attorney is legally enforceable and valid for property and financial matters.
           </p>
 
-          <p className="text-sm mb-8 text-yellow-300">
-            Legal Authority • Risk Protection • Compliance Assured
+          <p className="text-sm mb-8 text-blue-300">
+            Legal Recognition • Property Validity • Government Acceptance
           </p>
 
           {/* PRICE */}
-          <p className="text-3xl sm:text-4xl font-extrabold text-white mb-1">
-            @ Rs. 1,299 <sup className="text-lg font-semibold">*</sup>
-          </p>
+          <div className="flex items-center justify-center gap-3 mb-1">
+            <p className="text-3xl sm:text-4xl font-extrabold text-white">
+              @ Rs. 1,499 <sup className="text-lg font-semibold">*</sup>
+            </p>
+            <p className="text-lg sm:text-xl font-semibold text-slate-400 line-through">
+              ₹4,999
+            </p>
+          </div>
 
           <p className="text-slate-400 text-xs sm:text-sm mb-8 tracking-wide">
-            Customized Drafting · Legal Clarity · Registration Guidance
+            3–5 Days &nbsp;·&nbsp; Expert Guidance &nbsp;·&nbsp; Full Legal Support
           </p>
 
           {/* ADDONS BOX */}
-          <div className="w-full rounded-2xl overflow-hidden bg-white/5 border border-white/10 backdrop-blur-md shadow-[0_0_60px_rgba(234,179,8,0.15)]">
+          <div className="w-full rounded-2xl overflow-hidden bg-white/5 border border-white/10 backdrop-blur-md shadow-[0_0_60px_rgba(99,102,241,0.15)]">
             <div className="bg-white/10 py-2.5 px-4 border-b border-white/20">
               <p className="text-white font-semibold text-sm sm:text-base">
                 Also Get Absolutely Free
@@ -131,7 +135,7 @@ function HeroWithAddons() {
           </div>
 
           <p className="mt-4 text-slate-500 text-xs italic">
-            *Final pricing depends on scope of powers and customization.
+            *Final pricing depends on state stamp duty and complexity of authority granted.
           </p>
         </motion.div>
       </div>
@@ -144,35 +148,21 @@ function HeroWithAddons() {
 /* -------------------------------------------------------------------------- */
 
 const benefits = [
-  { icon: "users", text: "Authorizes another person to legally act on your behalf." },
-  { icon: "shield", text: "Protects your interests in transactions." },
-  { icon: "scale", text: "Prevents misuse by defining clear limitations." },
-  { icon: "home", text: "Ensures validity under local laws." },
-  { icon: "fileText", text: "Professionally drafted document outlining powers." },
+  { icon: "gavel", text: "A registered POA is legally enforceable and accepted by institutions." },
+  { icon: "shield", text: "Guidance through West Bengal registration requirements." },
+  { icon: "users", text: "Prevents disputes by establishing validity of granted power." },
 ] satisfies BenefitItem[];
 
-const prerequisites = [
-  "Principal and attorney details with ID proofs",
-  "Scope of powers (general or specific)",
-  "Property or asset details (if applicable)",
-];
-
 const deliverables = [
-  "Legally compliant POA document",
-  "Clause-wise explanation",
-  "Digital copy with notarization guidance",
+  "Guidance on stamp duty & registration",
+  "Registered POA document",
+  "Step-by-step process support",
 ];
 
 const sections = [
   {
-    title: "Information Required for Drafting",
+    title: "Lawizer Deliverables",
     icon: "fileText",
-    type: "list",
-    data: prerequisites,
-  },
-  {
-    title: "What Lawizer Delivers",
-    icon: "home",
     type: "grid",
     data: deliverables,
   },
@@ -180,53 +170,57 @@ const sections = [
 
 const faqs = [
   {
-    q: "What is a Power of Attorney?",
-    a: "A legal document authorizing someone to act on your behalf.",
+    q: "Why is registering a POA necessary?",
+    a: "Registration ensures enforceability and acceptance by institutions.",
   },
   {
-    q: "Why is POA important for property?",
-    a: "It allows execution of transactions when principal is absent.",
+    q: "Is registration mandatory for property matters?",
+    a: "Yes, registration is generally required for immovable property transactions.",
   },
   {
-    q: "Difference between General and Special POA?",
-    a: "General grants broad powers; Special limits to specific acts.",
+    q: "What does Lawizer provide?",
+    a: "Stamp duty guidance and complete registration process support.",
   },
   {
-    q: "Is registration necessary?",
-    a: "Registered POA is legally enforceable and widely accepted.",
+    q: "How does Sub-Registrar verify POA?",
+    a: "Identity verification and authentication during registration.",
   },
   {
-    q: "What details are required?",
-    a: "Principal & attorney details with specific powers granted.",
+    q: "Can overseas POA be registered?",
+    a: "Yes, after embassy authentication and local stamping.",
   },
 ] satisfies FAQItem[];
 
-export default function PowerOfAttorneyDraftingPage() {
+/* -------------------------------------------------------------------------- */
+/*                                   EXPORT                                   */
+/* -------------------------------------------------------------------------- */
+
+export default function PowerOfAttorneyRegistrationPage() {
   return (
     <>
       <HeroWithAddons />
       <ServicePageLayout
         hideHero={true}
-        title="Power of Attorney (POA) Drafting"
-        subtitle="A legally binding document authorizing someone to act on your behalf."
-        badgeText="Lawizer drafts your POA with full legal clarity and compliance."
+        title="Registration of Power of Attorney (POA)"
+        subtitle="Ensure your Power of Attorney is legally enforceable and valid for property and financial matters."
+        badgeText="Lawizer guides you through West Bengal registration requirements."
         icon="gavel"
-        serviceID="POWER_OF_ATTORNEY_DRAFTING"
-        contentTitle="Why a Properly Drafted POA Is Essential"
-        contentDescription="A professionally drafted POA defines authority clearly, prevents misuse, and ensures enforceability."
-        section1Title="Key Protections and Benefits"
+        serviceID="REGISTRATION_OF_POWER_OF_ATTORNEY"
+        contentTitle="Why POA Registration is Mandatory for Property"
+        contentDescription="Registration converts the POA into a public record, ensuring authenticity and preventing legal challenges."
+        section1Title="Key Benefits of Lawizer's POA Registration Support"
         benefits={benefits}
         sections={sections}
         faqs={faqs}
         theme={{
-          orb1: "bg-yellow-500/20",
-          orb2: "bg-orange-500/20",
-          iconBg: "from-yellow-500 to-orange-500",
-          badgeText: "text-yellow-300",
+          orb1: "bg-indigo-500/20",
+          orb2: "bg-blue-500/20",
+          iconBg: "from-indigo-500 to-blue-500",
+          badgeText: "text-blue-300",
         }}
-        primaryColor="text-yellow-600"
-        primaryBg="bg-gradient-to-r from-yellow-500 to-orange-500"
-        primaryHoverBg="bg-gradient-to-r from-yellow-600 to-orange-600"
+        primaryColor="text-indigo-600"
+        primaryBg="bg-gradient-to-r from-indigo-600 to-blue-600"
+        primaryHoverBg="bg-gradient-to-r from-indigo-700 to-blue-700"
       />
     </>
   );

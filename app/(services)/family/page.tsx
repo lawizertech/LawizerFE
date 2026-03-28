@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { notFound } from "next/navigation";
 import {
   Heart,
   Users,
@@ -13,6 +14,7 @@ import {
 import EmblaCarouselCards from "@/components/client/EmblaCarouselCards";
 
 export default function FamilyLegalPage() {
+  notFound();
   const [requestedIndex, setRequestedIndex] = useState<string | null>(null);
 
   const FamilyIcon = Heart;
@@ -85,88 +87,136 @@ export default function FamilyLegalPage() {
 
   const familyAdvocates = [
     {
+      uid: "1",
       name: "Adv. Priya Kapoor",
       role: "Family Lawyer",
       rate: "₹55/min",
       img: "/adv/Adv2.png",
       gender: "female",
+      location: "New Delhi",
+      experience: 8,
+      expertId: "exp001",
     },
     {
+      uid: "2",
       name: "Adv. Neha Sinha",
       role: "Family Lawyer",
       rate: "₹70/min",
       img: "/adv/Adv6.png",
       gender: "female",
+      location: "Mumbai",
+      experience: 10,
+      expertId: "exp002",
     },
     {
+      uid: "3",
       name: "Adv. Priya Kapoor",
       role: "Family Lawyer",
       rate: "₹55/min",
       img: "/adv/Adv2.png",
       gender: "female",
+      location: "New Delhi",
+      experience: 8,
+      expertId: "exp001",
     },
     {
+      uid: "4",
       name: "Adv. Neha Sinha",
       role: "Family Lawyer",
       rate: "₹70/min",
       img: "/adv/Adv6.png",
       gender: "female",
+      location: "Mumbai",
+      experience: 10,
+      expertId: "exp002",
     },
     {
+      uid: "5",
       name: "Adv. Priya Kapoor",
       role: "Family Lawyer",
       rate: "₹55/min",
       img: "/adv/Adv2.png",
       gender: "female",
+      location: "New Delhi",
+      experience: 8,
+      expertId: "exp001",
     },
     {
+      uid: "6",
       name: "Adv. Neha Sinha",
       role: "Family Lawyer",
       rate: "₹70/min",
       img: "/adv/Adv6.png",
       gender: "female",
+      location: "Mumbai",
+      experience: 10,
+      expertId: "exp002",
     },
     {
+      uid: "7",
       name: "Adv. Priya Kapoor",
       role: "Family Lawyer",
       rate: "₹55/min",
       img: "/adv/Adv2.png",
       gender: "female",
+      location: "New Delhi",
+      experience: 8,
+      expertId: "exp001",
     },
     {
+      uid: "8",
       name: "Adv. Neha Sinha",
       role: "Family Lawyer",
       rate: "₹70/min",
       img: "/adv/Adv6.png",
       gender: "female",
+      location: "Mumbai",
+      experience: 10,
+      expertId: "exp002",
     },
     {
+      uid: "9",
       name: "Adv. Priya Kapoor",
       role: "Family Lawyer",
       rate: "₹55/min",
       img: "/adv/Adv2.png",
       gender: "female",
+      location: "New Delhi",
+      experience: 8,
+      expertId: "exp001",
     },
     {
+      uid: "10",
       name: "Adv. Neha Sinha",
       role: "Family Lawyer",
       rate: "₹70/min",
       img: "/adv/Adv6.png",
       gender: "female",
+      location: "Mumbai",
+      experience: 10,
+      expertId: "exp002",
     },
     {
+      uid: "11",
       name: "Adv. Priya Kapoor",
       role: "Family Lawyer",
       rate: "₹55/min",
       img: "/adv/Adv2.png",
       gender: "female",
+      location: "New Delhi",
+      experience: 8,
+      expertId: "exp001",
     },
     {
+      uid: "12",
       name: "Adv. Neha Sinha",
       role: "Family Lawyer",
       rate: "₹70/min",
       img: "/adv/Adv6.png",
       gender: "female",
+      location: "Mumbai",
+      experience: 10,
+      expertId: "exp002",
     },
   ];
 

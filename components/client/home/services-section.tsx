@@ -165,7 +165,6 @@ export default function ServicesSection() {
         "Agreement to sale drafting",
         "Property paper review",
         "Sale agreement review",
-        "Power of attorney",
         "Will registration",
         "Gift deed",
         "Joint development agreement",
@@ -192,7 +191,7 @@ export default function ServicesSection() {
     //     "Financial frauds",
     //   ],
     // },
-    {
+    /*{
       icon: Users,
       title: "Family Matters",
       tagline: "Protecting families, preserving relationships",
@@ -205,8 +204,8 @@ export default function ServicesSection() {
         "Property and inheritance disputes",
         "Domestic violence protection",
       ],
-    },
-    {
+    },*/
+    /*{
       icon: Landmark,
       title: "Banking Matters",
       tagline: "Your financial disputes, our expertise",
@@ -219,7 +218,7 @@ export default function ServicesSection() {
         "Financial frauds and cybercrimes",
         "Customer service disputes",
       ],
-    },
+    },*/
     {
       icon: LayoutGrid,
       title: "ITR Filing",
@@ -306,12 +305,13 @@ export default function ServicesSection() {
         "Employment agreement",
         "Consultancy agreement",
         "Business partnership agreement",
+        "Power of attorney drafting",
+        "Power of attorney registration",
         "Privacy policy",
         "Terms of use",
         "Service agreement",
         "Licensing agreement",
         "Loan agreement",
-        "Power of attorney",
       ],
     },
     //{

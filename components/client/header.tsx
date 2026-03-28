@@ -53,10 +53,6 @@ export function Header() {
           name: "Gift Deed Registration",
           url: "/property/registration/gift-deed",
         },
-        {
-          name: "Power of Attorney Registration",
-          url: "/property/registration/power-of-attorney-reg",
-        },
 
         // --- Drafting Routes ---
         { name: "Sale Deed Drafting", url: "/property/drafting/sale-deed" },
@@ -65,10 +61,6 @@ export function Header() {
           url: "/property/drafting/agreement-to-sale",
         },
         { name: "Will Drafting", url: "/property/drafting/will-drafting" },
-        {
-          name: "Power of Attorney Drafting",
-          url: "/property/drafting/power-of-attorney-drafting",
-        },
         {
           name: "Joint Development Agreement Drafting",
           url: "/property/drafting/joint-development-agreement",
@@ -109,7 +101,7 @@ export function Header() {
     //   ],
     // },
 
-    {
+    /*{
       title: "Family Matters",
       tagline: "Protecting Families, Preserving Relationships",
       color: "from-pink-500/10 to-pink-500/30 text-pink-600",
@@ -121,9 +113,9 @@ export function Header() {
         { name: "Property and Inheritance Disputes", url: "/family" },
         { name: "Domestic Violence Protection", url: "/family" },
       ],
-    },
+    },*/
 
-    {
+    /*{
       title: "Banking Matters",
       tagline: "Your Financial Disputes, Our Expertise",
       color: "from-green-500/10 to-green-500/30 text-green-600",
@@ -141,7 +133,7 @@ export function Header() {
         },
         { name: "Customer Service Disputes", url: "/banking" },
       ],
-    },
+    },*/
 
     {
       title: "ITR Filing",
@@ -345,6 +337,14 @@ export function Header() {
         {
           name: "Non-Disclosure Agreement (NDA)",
           url: "/documentation/non-disclosure-agreement",
+        },
+        {
+          name: "Power of Attorney Drafting",
+          url: "/documentation/power-of-attorney-drafting",
+        },
+        {
+          name: "Power of Attorney Registration",
+          url: "/documentation/power-of-attorney-registration",
         },
         {
           name: "Privacy Policy / Terms of Use",

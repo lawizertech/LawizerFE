@@ -1,6 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { motion } from "framer-motion";
+import { notFound } from "next/navigation";
 import ServicePageLayout, { BenefitItem, SectionBlock, FAQItem } from "@/components/client/ServicePageLayout";
 
 const benefits = [
@@ -114,6 +115,7 @@ function HeroWithAddons() {
 }
 
 export default function LoanAdvanceDisputesPage() {
+  notFound();
   return (
     <>
       <HeroWithAddons />
