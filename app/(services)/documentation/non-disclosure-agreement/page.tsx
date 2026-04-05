@@ -92,9 +92,14 @@ function HeroWithAddons() {
             Confidentiality • Trade Secrets • Legal Protection
           </p>
 
-          <p className="text-3xl sm:text-4xl font-extrabold text-white mb-1">
-            @ Rs. 999 <sup className="text-lg font-semibold">*</sup>
-          </p>
+          <div className="flex items-center justify-center gap-3 mb-1">
+            <p className="text-3xl sm:text-4xl font-extrabold text-white">
+              @ Rs. 1,499 <sup className="text-lg font-semibold">*</sup>
+            </p>
+            <p className="text-lg sm:text-xl font-semibold text-slate-400 line-through">
+              ₹1,999
+            </p>
+          </div>
           <p className="text-slate-400 text-xs sm:text-sm mb-8 tracking-wide">
             1–2 Days &nbsp;·&nbsp; Expert Drafting &nbsp;·&nbsp; Fully Customized
           </p>

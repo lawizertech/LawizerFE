@@ -23,14 +23,15 @@ export default function Layout({ children }: LayoutProps) {
   const [showBar, setShowBar] = useState(false);
   const { isLoggedIn, setIsSignInModalOpen } = useAuth();
 
-  // Only show the bottom bar after user scrolls past 80% of the viewport height
+  // Show bar only after user scrolls past 200% of viewport height
+  // (well past the hero and into the services content)
   useEffect(() => {
     const handleScroll = () => {
-      setShowBar(window.scrollY > window.innerHeight * 0.8);
+      setShowBar(window.scrollY > window.innerHeight * 2);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // run once on mount
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -82,7 +83,7 @@ export default function Layout({ children }: LayoutProps) {
     <div className="min-h-screen relative">
       <main>{children}</main>
 
-      {/* Error Toast */}
+      {/* Error Toast — keeps z-50 so it's always visible */}
       {error && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -107,7 +108,10 @@ export default function Layout({ children }: LayoutProps) {
         </motion.div>
       )}
 
-      {/* Fixed Bottom Bar — only visible after scrolling past the hero */}
+      {/* Fixed Bottom Bar
+          z-index dropped from z-50 → z-10 so page sections with
+          `relative z-10 isolate` (e.g. the bundle cards) render above it.
+          The error toast above retains z-50 and is unaffected. */}
       <AnimatePresence>
         {showBar && (
           <motion.div
@@ -116,9 +120,9 @@ export default function Layout({ children }: LayoutProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="fixed bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 z-50 w-full px-4"
+            className="fixed bottom-2 left-1/2 -translate-x-1/2 z-10 w-full px-3"
           >
-            <div className="w-full max-w-4xl flex justify-between items-center bg-white border border-gray-200 rounded-xl shadow-lg px-4 py-3 md:px-6 md:py-4 mx-auto">
+            <div className="w-fit max-w-xl flex items-center gap-4 bg-white/90 backdrop-blur-md border border-gray-200 rounded-full shadow-lg px-4 py-2 mx-auto">
               <div className="flex-1 min-w-0 pr-4">
                 <h3 className="text-base md:text-lg font-semibold text-gray-800 truncate">
                   Free Consultation

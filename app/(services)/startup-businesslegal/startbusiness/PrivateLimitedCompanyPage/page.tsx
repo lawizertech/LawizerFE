@@ -160,7 +160,7 @@ function HeroWithAddons() {
           <path d="M9 12h6M9 16h6M9 8h6M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" />
         </svg>
       ),
-      label: "PF + ESIC +\nProfessional Tax",
+      label: "MOA + AOA +\nIncorporation Certificate",
     },
     {
       icon: (
@@ -231,9 +231,20 @@ function HeroWithAddons() {
           </p>
 
           {/* Pricing */}
-          <p className="text-3xl sm:text-4xl font-extrabold text-white mb-1">
-            @ Rs. 4,999 – 8,999 <sup className="text-lg font-semibold">*</sup>
-          </p>
+          <div className="flex items-center justify-center gap-3 mb-1">
+            <p className="text-3xl sm:text-4xl font-extrabold text-white">
+              @ Rs. 1,499 <sup className="text-lg font-semibold">*</sup>
+            </p>
+            <p className="text-lg sm:text-xl font-semibold text-slate-400 line-through">
+              ₹4,999
+            </p>
+            <motion.div
+              whileHover={{ boxShadow: "0 0 20px rgba(34, 197, 94, 0.6)" }}
+              className="bg-green-500 text-white px-4 py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-300"
+            >
+              70% OFF
+            </motion.div>
+          </div>
           <p className="text-slate-400 text-xs sm:text-sm mb-8 tracking-wide">
             In 15 days &nbsp;·&nbsp; Online Process &nbsp;·&nbsp; Facilitation
           </p>

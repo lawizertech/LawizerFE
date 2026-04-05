@@ -96,12 +96,17 @@ function HeroWithAddons() {
           </p>
 
           {/* PRICE */}
-          <p className="text-3xl sm:text-4xl font-extrabold text-white mb-1">
-            @ Rs. 1,499 <sup className="text-lg font-semibold">*</sup>
-          </p>
+          <div className="flex items-center justify-center gap-3 mb-1">
+            <p className="text-3xl sm:text-4xl font-extrabold text-white">
+              @ Rs. 999 <sup className="text-lg font-semibold">*</sup>
+            </p>
+            <p className="text-lg sm:text-xl font-semibold text-slate-400 line-through">
+              ₹2,999
+            </p>
+          </div>
 
           <p className="text-slate-400 text-xs sm:text-sm mb-8 tracking-wide">
-            Personalized Drafting · Legally Compliant · Registration Support
+            *Facilitation Fees. Government Charges Extra.
           </p>
 
           {/* FREE ADDONS */}

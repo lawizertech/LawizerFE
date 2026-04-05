@@ -185,9 +185,20 @@ function HeroWithAddons() {
           </p>
 
           {/* Pricing */}
-          <p className="text-3xl sm:text-4xl font-extrabold text-white mb-1">
-            @ Rs. 999 – 1,999 <sup className="text-lg font-semibold">*</sup>
-          </p>
+          <div className="flex items-center justify-center gap-3 mb-1">
+            <p className="text-3xl sm:text-4xl font-extrabold text-white">
+              @ Rs. 999 <sup className="text-lg font-semibold">*</sup>
+            </p>
+            <p className="text-lg sm:text-xl font-semibold text-slate-400 line-through">
+              ₹1,999
+            </p>
+            <motion.div
+              whileHover={{ boxShadow: "0 0 20px rgba(34, 197, 94, 0.6)" }}
+              className="bg-green-500 text-white px-4 py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-300"
+            >
+              50% OFF
+            </motion.div>
+          </div>
           <p className="text-slate-400 text-xs sm:text-sm mb-8 tracking-wide">
             In 7 days &nbsp;·&nbsp; Online Process &nbsp;·&nbsp; Facilitation
           </p>
