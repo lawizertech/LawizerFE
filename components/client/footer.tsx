@@ -66,34 +66,34 @@ export function Footer() {
               <ul className="space-y-3 text-sm">
                 <li>
                   <Link
-                    href="/family"
+                    href="/property"
                     className="text-gray-600 hover:text-primary"
                   >
-                    Family Law
+                    Property Law
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/business"
+                    href="/itr"
                     className="text-gray-600 hover:text-primary"
                   >
-                    Business Law
+                    ITR Filing
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/real-estate"
+                    href="/startup-businesslegal"
                     className="text-gray-600 hover:text-primary"
                   >
-                    Real Estate
+                    Startup & Business Legal
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/attorneys"
+                    href="/documentation"
                     className="text-gray-600 hover:text-primary"
                   >
-                    Find Attorneys
+                    Documentation
                   </Link>
                 </li>
               </ul>
