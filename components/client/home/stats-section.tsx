@@ -1,68 +1,74 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 export function StatsSection() {
   const stats = [
     {
-      number: 5000,
+      number: 10000,
       suffix: "+",
-      label: "Legal Consultations",
+      label: "Businesses Registered",
     },
     {
-      number: 1000,
+      number: 20000,
       suffix: "+",
-      label: "Documents Drafted",
+      label: "Happy Reviews",
     },
     {
-      number: 100,
-      suffix: "+",
-      label: "Businesses Served",
+      number: 4.5,
+      suffix: "/5",
+      label: "Google Rating",
     },
   ];
 
-  // Custom hook to animate number
   function AnimatedNumber({ value }: { value: number }) {
     const [count, setCount] = useState(0);
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: false, amount: 0.5 });
 
     useEffect(() => {
       let start = 0;
-      const duration = 2000; 
-      const increment = value / (duration / 16); 
-      const timer = setInterval(() => {
-        start += increment;
-        if (start >= value) {
-          start = value;
-          clearInterval(timer);
-        }
-        setCount(Math.floor(start));
-      }, 16);
+      if (isInView) {
+        const duration = 1500; 
+        const increment = value / (duration / 16); 
+        const timer = setInterval(() => {
+          start += increment;
+          if (start >= value) {
+            start = value;
+            clearInterval(timer);
+          }
+          setCount(Math.floor(start));
+        }, 16);
+        return () => clearInterval(timer);
+      } else {
+        setCount(0); // Reset when out of view
+      }
+    }, [value, isInView]);
 
-      return () => clearInterval(timer);
-    }, [value]);
-
-    return <>{count.toLocaleString()}</>;
+    return <span ref={ref}>{count.toLocaleString()}</span>;
   }
 
   return (
-    <section className="bg-primary py-12 sm:py-16 lg:py-20">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12 lg:gap-16">
+        <section className="bg-primary py-6 sm:py-8 lg:py-10 px-4 md:px-12">
+          <div className="container mx-auto max-w-4xl">
+            <div className="flex flex-wrap gap-4 justify-center">
+
+
           {stats.map((stat, index) => (
             <motion.div
               key={index}
-              className="text-center"
-              initial={{ opacity: 0, y: 20 }}
+              className="flex-1 text-center"
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
+              viewport={{ once: false, amount: 0.5 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
             >
-              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1">
                 <AnimatedNumber value={stat.number} />
                 {stat.suffix}
               </div>
-              <div className="text-base sm:text-lg md:text-xl text-white/90">
+              <div className="text-sm sm:text-base text-white/90">
                 {stat.label}
               </div>
             </motion.div>

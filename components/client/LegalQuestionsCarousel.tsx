@@ -57,7 +57,13 @@ export default function LegalQuestionsCarousel({ list }: Props) {
           basis-[180px] sm:basis-[220px] md:basis-[260px] lg:basis-[300px] 
           pl-3
         "
-              onClick={() => router.push(item.route)}
+              onClick={() => {
+                if (item.route.startsWith("http")) {
+                  window.open(item.route, "_blank", "noopener,noreferrer");
+                } else {
+                  router.push(item.route);
+                }
+              }}
             >
               <div
                 className="

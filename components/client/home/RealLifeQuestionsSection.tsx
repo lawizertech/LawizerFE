@@ -54,14 +54,14 @@ const legalQuestions = [
     question: "Received a legal notice or court summon?",
     color: "from-red-500 to-orange-600",
     image: "/needHelp/legalnotice.png",
-    route: "/start-consultation",
+    route: "/free-consultation",
   },
   {
     icon: HelpCircle,
     question: "Want to consult a lawyer for your personal or business issue?",
     color: "from-cyan-500 to-blue-600",
     image: "/needHelp/consultlawyer.png",
-    route: "/start-consultation",
+    route: "/free-consultation",
   },
 ];
 
@@ -109,7 +109,7 @@ export function RealLifeQuestionsSection() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-sm sm:text-base lg:text-lg font-medium rounded-full shadow-lg hover:shadow-xl transition-all text-white"
-            onClick={() => router.push("/start-consultation")}
+            onClick={() => router.push("/free-consultation")}
           >
             Talk to a Lawyer Now
           </motion.button>

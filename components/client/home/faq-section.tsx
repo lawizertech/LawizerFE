@@ -77,7 +77,7 @@ export function FAQSection() {
   ];
 
   return (
-    <section className="py-16 sm:py-20 bg-slate-900 text-white overflow-hidden">
+    <section className="py-12 md:py-20 bg-slate-900 text-white overflow-hidden px-4 md:px-12">
       <style>{`
         /* ── Contact icon float + glow ── */
         @keyframes float {
@@ -216,13 +216,16 @@ export function FAQSection() {
         .title-word:nth-child(4) { animation-delay: 0.35s; }
       `}</style>
 
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
 
           {/* ── Left column ── */}
           <div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-              <span className="title-word">Questions?</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-tight" style={{
+              fontFamily: "var(--font-head)",
+              fontWeight: 800
+            }}>
+              <span className="title-word" style={{ color: "var(--brand)" }}>Questions?</span>
               <br />
               <span className="title-word">We're</span>{" "}
               <span className="title-word">here</span>{" "}

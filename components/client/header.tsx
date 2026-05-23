@@ -515,9 +515,9 @@ export function Header() {
             className="flex items-center justify-between"
           >
             {/* Logo */}
-            <div
+            <Link
               className="flex items-center gap-2 cursor-pointer"
-              onClick={() => router.push("/")}
+              href="/"
             >
               <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
                 <img
@@ -531,7 +531,7 @@ export function Header() {
                   Lawizer
                 </span>
               </div>
-            </div>
+            </Link>
 
             {/* Navigation */}
             {!hideNavbarSections && (
@@ -670,13 +670,12 @@ export function Header() {
             )}
 
             <div className="flex items-center lg:hidden">
-              <Button
-                onClick={() => router.push("/start-consultation")}
-                className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-4 py-2 rounded-full font-medium shadow-md mr-3 text-sm"
-                size="sm"
+              <Link
+                href="/free-consultation"
+                className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-4 py-2 rounded-full font-medium shadow-md mr-3 text-sm flex items-center justify-center"
               >
                 Help
-              </Button>
+              </Link>
               <Button
                 variant="ghost"
                 size="icon"
@@ -692,12 +691,12 @@ export function Header() {
               </Button>
             </div>
 
-            <Button
-              onClick={() => router.push("/start-consultation")}
-              className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-6 py-2 rounded-full font-medium shadow-md hidden lg:inline-flex"
+            <Link
+              href="/free-consultation"
+              className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-6 py-2 rounded-full font-medium shadow-md hidden lg:inline-flex items-center justify-center"
             >
               Get Legal Help
-            </Button>
+            </Link>
           </motion.div>
         </div>
       </motion.header>
@@ -727,12 +726,10 @@ export function Header() {
               role="dialog"
             >
               <div className="flex items-center justify-between px-6 py-4 border-b">
-                <div
+                <Link
                   className="flex items-center gap-2 cursor-pointer"
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    router.push("/");
-                  }}
+                  href="/"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
                     <img
@@ -746,16 +743,16 @@ export function Header() {
                       Lawizer
                     </span>
                   </div>
-                </div>
+                </Link>
 
                 <div className="flex items-center gap-3">
-                  <Button
-                    onClick={() => router.push("/start-consultation")}
-                    className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-4 py-2 rounded-full font-medium shadow-md text-sm"
-                    size="sm"
+                  <Link
+                    href="/free-consultation"
+                    className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-4 py-2 rounded-full font-medium shadow-md text-sm flex items-center justify-center"
+                    onClick={() => setMobileMenuOpen(false)}
                   >
                     Help
-                  </Button>
+                  </Link>
                   <button
                     aria-label="Close menu"
                     onClick={() => setMobileMenuOpen(false)}
@@ -898,15 +895,13 @@ export function Header() {
                 </div>
 
                 <div className="mt-8">
-                  <Button
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      router.push("/start-consultation");
-                    }}
-                    className="w-full bg-[#c92c41] text-white"
+                  <Link
+                    href="/free-consultation"
+                    className="w-full bg-[#c92c41] text-white py-3 rounded-lg font-semibold shadow-md flex items-center justify-center"
+                    onClick={() => setMobileMenuOpen(false)}
                   >
                     Get Legal Help
-                  </Button>
+                  </Link>
                 </div>
               </div>
             </motion.aside>

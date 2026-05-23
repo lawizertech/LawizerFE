@@ -159,13 +159,13 @@ export default function ServicesSection() {
       color: "from-blue-500/10 to-blue-500/30 text-blue-600",
       url: "/property",
       items: [
-        "Property report",
-        "Property registration (sales deed registration)",
-        "Sales deed drafting",
-        "Agreement to sale drafting",
-        "Property paper review",
-        "Sale agreement review",
-        "Will registration",
+        "Property report (₹999)",
+        "Property registration (₹999)",
+        "Sales deed drafting (₹999)",
+        "Agreement to sale drafting (₹999)",
+        "Property paper review (₹999)",
+        "Sale agreement review (₹999)",
+        "Will registration (₹999)",
         "Gift deed",
         "Joint development agreement",
         "Relinquishment deed",
@@ -227,6 +227,14 @@ export default function ServicesSection() {
       url: "/itr",
       items: [
         {
+          section: "Plans",
+          items: [
+            "Bronze Plan - ₹2,499",
+            "Silver Plan - ₹4,499",
+            "Gold Plan - ₹6,499",
+          ],
+        },
+        {
           section: "Individuals",
           items: [
             "ITR-1 (Salaried up to ₹50L)",
@@ -239,7 +247,6 @@ export default function ServicesSection() {
           section: "Entities",
           items: ["ITR-5 (LLP, Firms, AOPs)", "ITR-6 (Companies)"],
         },
-        // Placeholder for the "Show More" functionality to ensure 6 items are present
         "Tax saving consultations",
         "Form 16/26AS reconciliation",
       ],
@@ -255,12 +262,12 @@ export default function ServicesSection() {
         {
           section: "Start",
           items: [
-            "Private limited company",
-            "One person company",
-            "Limited liability partnership",
-            "Startup India registration",
-            "MSME Udyam registration",
-            "GST registration",
+            "Private limited company - ₹1,499",
+            "One person company - ₹999",
+            "Limited liability partnership - ₹1,499",
+            "Startup India registration - ₹999",
+            "MSME Udyam registration - ₹999",
+            "GST registration - ₹999",
           ],
         },
         {
@@ -359,7 +366,7 @@ export default function ServicesSection() {
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+    <section id="services" className="py-16 sm:py-24 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 opacity-60 blur-3xl" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

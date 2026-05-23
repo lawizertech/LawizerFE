@@ -1,7 +1,4 @@
 @import "tailwindcss";
-@import "tw-animate-css";
-@plugin "@tailwindcss/typography";
-
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap");
 
 @custom-variant dark (&:is(.dark *));
@@ -9,6 +6,7 @@
 html,
 body {
   background: #0e172b;
+  overflow-x: hidden;
 }
 
 :root {
@@ -18,12 +16,12 @@ body {
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  /* Updated primary color to teal for Lawizer brand */
-  --primary: rgb(201, 44, 65);
+  /* Updated primary color for Lawizer brand */
+  --primary: #ca2d42;
   --primary-foreground: oklch(1 0 0);
   /* Updated accent color to amber/gold */
   --accent-brand: oklch(0.75 0.15 70);
-  --secondary: oklch(0.97 0 0);
+  --secondary: #384651;
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);

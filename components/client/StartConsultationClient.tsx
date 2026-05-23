@@ -9,7 +9,21 @@ import EmblaCarouselCards from "@/components/client/EmblaCarouselCards";
 import { getUserBookings } from "@/lib/apis/api";
 import { useAuth } from "@/context/authContext";
 import LoadingSkeletonCards from "./LoadingSkeleton";
-import { serverApi } from "@/lib/apis/axios";
+export interface Advocate {
+  uid: string;
+  expertId: string;
+  name: string;
+  role: string;
+  img: string;
+  gender: string;
+  location: string | null;
+  experience: string | null;
+  isProfileComplete?: boolean;
+  createdAt?: number;
+  updatedAt?: number;
+  email?: string;
+  profession?: string;
+}
 
 const ALL_CAS = [
   {
@@ -54,21 +68,48 @@ const ALL_CAS = [
   },
 ];
 
-export interface Advocate {
-  uid: string;
-  expertId: string;
-  name: string;
-  role: string;
-  img: string;
-  gender: string;
-  location: string | null;
-  experience: string | null;
-  isProfileComplete?: boolean;
-  createdAt?: number;
-  updatedAt?: number;
-  email?: string;
-  profession?: string;
-}
+const ALL_ADVOCATES: Advocate[] = [
+  {
+    uid: "adv_01",
+    expertId: "adv_01",
+    name: "Adv. Chandramouli Bagchi",
+    role: "General Practice",
+    experience: "25+ yrs exp",
+    location: "Kolkata",
+    img: "user.png",
+    gender: "male",
+  },
+  {
+    uid: "adv_02",
+    expertId: "adv_02",
+    name: "Adv. Himadree Ghosh",
+    role: "Property, Criminal, Drafting",
+    experience: "20+ yrs exp",
+    location: "Kolkata",
+    img: "user.png",
+    gender: "female",
+  },
+  {
+    uid: "adv_03",
+    expertId: "adv_03",
+    name: "Adv. Rahul Das",
+    role: "Civil Lawyer",
+    experience: "15+ yrs exp",
+    location: "Kolkata",
+    img: "user.png",
+    gender: "male",
+  },
+  {
+    uid: "adv_04",
+    expertId: "adv_04",
+    name: "Adv. Indranil Banerjee",
+    role: "Property, Criminal, Civil",
+    experience: "18+ yrs exp",
+    location: "Kolkata",
+    img: "user.png",
+    gender: "male",
+  },
+];
 
 export default function StartConsultationPage() {
   const [requestedIndex, setRequestedIndex] = useState<string | null>(null);
@@ -77,19 +118,15 @@ export default function StartConsultationPage() {
   const [error, setError] = useState<string | null>(null);
   const [bookedExpertIds, setBookedExpertIds] = useState<string[]>([]);
   const { isLoggedIn, setIsSignInModalOpen } = useAuth();
-  const [ALL_ADVOCATES, setALL_ADVOCATES] = useState<Advocate[]>([]);
-  const [loadingAdvocates, setLoadingAdvocates] = useState(true);
   const searchParams = useSearchParams();
   const userQueryType = searchParams.get("type");
 
   const handleClick = async () => {
-    // Check if user is logged in
     if (!isLoggedIn) {
       setIsSignInModalOpen(true);
       return;
     }
 
-    // Prevent multiple requests
     if (loading || success) return;
 
     setLoading(true);
@@ -113,53 +150,20 @@ export default function StartConsultationPage() {
       const data = await response.json();
 
       if (data.success && response.ok) {
-        // Success - show checkmark
         setSuccess(true);
-
-        // Keep success state for 3 seconds
         setTimeout(() => setSuccess(false), 3000);
       } else {
-        // Error from API
         setError(data.message || "Failed to request call");
-
-        // Clear error after 4 seconds
         setTimeout(() => setError(null), 4000);
       }
     } catch (err) {
       console.error("Error requesting call:", err);
       setError("Network error. Please try again.");
-
-      // Clear error after 4 seconds
       setTimeout(() => setError(null), 4000);
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    const fetchAllAdvocates = async () => {
-      try {
-        const res = await serverApi.get("/api/experts");
-
-        const data = await res.data;
-
-        if (!data.success) {
-          console.error("Failed to fetch experts:", data.message);
-          setALL_ADVOCATES([]);
-          return;
-        }
-
-        setALL_ADVOCATES(data.experts || []);
-      } catch (err) {
-        console.error("Failed to fetch experts", err);
-        setALL_ADVOCATES([]);
-      } finally {
-        setLoadingAdvocates(false);
-      }
-    };
-
-    fetchAllAdvocates();
-  }, []);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -201,7 +205,7 @@ export default function StartConsultationPage() {
     return ALL_ADVOCATES.filter((adv) =>
       keywords.some((keyword) => adv.role.toLowerCase().includes(keyword)),
     );
-  }, [userQueryType, ALL_ADVOCATES]);
+  }, [userQueryType]);
 
   const shouldShowCAs = userQueryType !== "civil_commercial";
 
@@ -259,7 +263,7 @@ export default function StartConsultationPage() {
         </div>
         <Button
           onClick={handleClick}
-          disabled={loading }
+          disabled={loading}
           className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-1 transition-all duration-300 disabled:cursor-not-allowed ${
             success
               ? "bg-[#21ae17]"
@@ -305,16 +309,12 @@ export default function StartConsultationPage() {
           👩‍⚖️ Our Top Advocates
         </h2>
 
-        {loadingAdvocates ? (
-          <LoadingSkeletonCards />
-        ) : (
-          <EmblaCarouselCards
-            list={filteredAdvocates}
-            type="adv"
-            onBook={(key) => setRequestedIndex(key)}
-            bookedKeys={bookedExpertIds}
-          />
-        )}
+        <EmblaCarouselCards
+          list={filteredAdvocates}
+          type="adv"
+          onBook={(key) => setRequestedIndex(key)}
+          bookedKeys={bookedExpertIds}
+        />
       </div>
 
       {/* CA Carousel */}

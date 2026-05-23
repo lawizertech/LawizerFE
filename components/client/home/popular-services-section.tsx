@@ -31,7 +31,7 @@ const PopularServiceCard = memo(function PopularServiceCard({
       viewport={{ once: true }}
       className="flex w-full"
     >
-      <Card className="flex flex-col justify-between w-full border border-gray-100 bg-white/80 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[400px] sm:min-h-[420px] relative pb-2">
+        <Card className="flex flex-col justify-between w-full max-w-xs md:max-w-sm mx-auto border border-gray-100 bg-white/80 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[400px] sm:min-h-[420px] relative pb-2">
         <div
           className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 hover:opacity-20 transition-all duration-500`}
         />
@@ -149,7 +149,7 @@ export default function PopularServicesSection() {
       title: "Cheque Bounce",
       tagline: "Resolve cheque bounce cases legally and effectively",
       color: "from-red-500/10 to-red-500/30 text-red-600",
-      url: "/banking/cheque-bounce-s138",
+      url: "/baning/cheque-bounce-s138",
       items: [
         "Draft & send legal notice under Sec 138",
         "File cheque bounce complaint in court",
@@ -162,7 +162,8 @@ export default function PopularServicesSection() {
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
+    <section id="popular-services" className="py-16 sm:py-24 bg-gradient-to-b from-white to-gray-50 relative overflow-x-hidden">
+
       <div className="absolute inset-0 bg-gradient-to-r from-pink-50 via-purple-50 to-blue-50 opacity-60 blur-3xl" />
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-5xl text-left mb-12 sm:mb-16">
@@ -178,7 +179,7 @@ export default function PopularServicesSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
+        <div className="flex flex-wrap justify-center gap-6 sm:gap-8">
           {popularServices.map((service, i) => (
             <PopularServiceCard key={i} service={service} />
           ))}
