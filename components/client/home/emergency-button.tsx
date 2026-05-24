@@ -31,7 +31,7 @@ export function EmergencyButton() {
     <div>
       {/* Floating button — pill grows leftward from icon */}
       <div
-        className="fixed bottom-24 right-8 z-50 flex items-center justify-end cursor-pointer"
+        className="fixed bottom-20 right-4 z-50 flex items-center justify-end cursor-pointer"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         onClick={handleOpen}

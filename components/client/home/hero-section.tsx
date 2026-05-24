@@ -82,16 +82,16 @@ export function HeroSection() {
           From Private Limited Company to GST and Trademark — Lawizer handles everything so you can focus on building your startup. Fast, affordable, fully online.
         </p>
 
-        <div className="hero-actions flex flex-col gap-3 w-full px-4 md:flex-row">
-          <a href="#services" className="btn-hero w-full">
+        <div className="hero-actions flex flex-col gap-3 w-full px-4 md:flex-row md:w-auto md:gap-3">
+          <a href="#services" className="btn-hero">
             Register Now
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </a>
-          <a href="https://wa.me/919999999999" className="btn-outline-hero border-2 border-primary p-2 rounded-full w-full">💬 WhatsApp Us</a>
+          <a href="https://wa.me/919999999999" className="btn-outline-hero">💬 WhatsApp Us</a>
         </div>
 
         {/* Google Rating + Trust Stats */}
-        <div className="trust-row flex flex-wrap gap-6 items-center justify-center mx-auto">
+        <div className="trust-row flex flex-col gap-3 w-full px-4 md:flex-row md:w-auto md:gap-3">
           <div className="google-rating flex items-center gap-3">
             <div className="google-logo">
               {/* Google G SVG */}
