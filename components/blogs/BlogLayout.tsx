@@ -250,7 +250,14 @@ export default function BlogLayout({
         ) : (
           <>
             <h2 className="text-2xl font-bold mb-8">{activeLabel}</h2>
-            <PostGrid posts={activePosts} />
+            {activePosts.length === 0 ? (
+              <div className="rounded-xl border bg-card p-10 text-center text-muted-foreground">
+                <p className="text-lg font-medium">No posts available yet</p>
+                <p className="text-sm mt-1">Check back soon for legal insights and guides.</p>
+              </div>
+            ) : (
+              <PostGrid posts={activePosts} />
+            )}
           </>
         )}
       </section>
