@@ -1,8 +1,13 @@
 import BlogLayout from "@/components/blogs/BlogLayout";
 
-const ENDPOINT = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!;
-
 async function getPosts() {
+  const ENDPOINT = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT;
+  
+  if (!ENDPOINT) {
+    console.error("NEXT_PUBLIC_GRAPHQL_ENDPOINT is not configured");
+    return [];
+  }
+
   const query = `
     query GetPosts {
       posts(first: 20) {
@@ -28,15 +33,34 @@ async function getPosts() {
     }
   `;
 
-  const res = await fetch(ENDPOINT, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ query }),
-    cache: "no-store",
-  });
+  try {
+    const res = await fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query }),
+      cache: "no-store",
+    });
 
-  const json = await res.json();
-  return json?.data?.posts?.nodes ?? [];
+    if (!res.ok) {
+      console.error(`GraphQL endpoint error: ${res.status} ${res.statusText}`);
+      return [];
+    }
+
+    const json = await res.json();
+
+    // Check for GraphQL errors
+    if (json.errors) {
+      console.error("GraphQL errors:", json.errors);
+      return [];
+    }
+
+    const posts = json?.data?.posts?.nodes ?? [];
+    console.log(`Fetched ${posts.length} posts from GraphQL endpoint`);
+    return posts;
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    return [];
+  }
 }
 
 function groupPostsByCategory(posts: any[]) {
