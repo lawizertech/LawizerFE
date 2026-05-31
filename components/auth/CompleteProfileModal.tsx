@@ -3,7 +3,6 @@
 import { useState, useEffect, FormEvent } from "react";
 import { Loader2, X } from "lucide-react";
 import { completeUserProfile } from "@/lib/apis/api";
-import { auth } from "@/lib/firebaseClient";
 
 export default function CompleteProfileModal({ onClose, onDone }: any) {
   const [profile, setProfile] = useState<any>(null);
@@ -47,11 +46,16 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
     setError("");
 
     try {
-      const idToken = await auth.currentUser?.getIdToken();
+      const authToken = localStorage.getItem("token");
 
-      await completeUserProfile(idToken!, {
+      if (!authToken) {
+        setError("You are not logged in. Please sign in again.");
+        setLoading(false);
+        return;
+      }
+
+      await completeUserProfile(authToken, {
         uid: profile.uid,
-        email: profile.email,
         displayName,
         phoneNumber,
         city,

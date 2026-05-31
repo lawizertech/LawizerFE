@@ -68,7 +68,12 @@ export function SignInModal({
       refreshUser();
       onClose();
     } catch (err: any) {
-      setError(err.message || "Failed to sign in");
+      const errorCode = err?.code || err?.message || "";
+      if (String(errorCode).includes("auth/invalid-credential")) {
+        setError("Invalid email or password. Try resetting your password.");
+      } else {
+        setError(err.message || "Failed to sign in");
+      }
     } finally {
       setLoading(false);
     }
