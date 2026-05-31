@@ -126,12 +126,12 @@ export const signupUser = async (
 /* -------------------------------------------------------------------------- */
 
 export const completeUserProfile = async (
-  idToken: string,
+  authToken: string,
   formData: ProfilePayload,
 ) => {
   try {
     const res = await backendApi.post(`/auth/complete-profile`, formData, {
-      headers: { Authorization: `Bearer ${idToken}` },
+      headers: { Authorization: `Bearer ${authToken}` },
     });
 
     return res.data;
@@ -311,7 +311,15 @@ export const expertCompleteProfile = async (payload: {
   experience?: string;
 }) => {
   try {
-    const res = await backendApi.post("/expert/complete-profile", payload);
+    const res = await backendApi.post("/admin/experts/complete-profile", {
+      uid: payload.expertId,
+      name: payload.name,
+      role: payload.role,
+      img: payload.img,
+      gender: payload.gender,
+      location: payload.location,
+      experience: payload.experience,
+    });
     return res.data;
   } catch (err: any) {
     const errorCode = err?.response?.data?.errorCode;
@@ -321,8 +329,16 @@ export const expertCompleteProfile = async (payload: {
       if (!newToken) return err.response.data;
 
       const retryRes = await backendApi.post(
-        "/expert/complete-profile",
-        payload,
+        "/admin/experts/complete-profile",
+        {
+          uid: payload.expertId,
+          name: payload.name,
+          role: payload.role,
+          img: payload.img,
+          gender: payload.gender,
+          location: payload.location,
+          experience: payload.experience,
+        },
         {
           headers: { Authorization: `Bearer ${newToken}` },
         },

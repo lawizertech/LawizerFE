@@ -1,5 +1,5 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 import { getFirestore } from "firebase/firestore";
 
@@ -18,6 +18,16 @@ let app, auth, db, rtdb;
 try {
   app = getApps().length ? getApp() : initializeApp(firebaseConfig);
   auth = getAuth(app);
+  if (typeof window !== "undefined") {
+    const emulatorHost = process.env.NEXT_PUBLIC_FIREBASE_AUTH_EMULATOR_HOST;
+    const authAny = auth as unknown as { emulatorConfig?: unknown };
+
+    if (emulatorHost && !authAny.emulatorConfig) {
+      connectAuthEmulator(auth, `http://${emulatorHost}`, {
+        disableWarnings: true,
+      });
+    }
+  }
   db = getFirestore(app);
   rtdb = getDatabase(app);
 } catch (error) {

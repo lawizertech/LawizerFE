@@ -11,6 +11,9 @@ interface SignupModalProps {
 
 export function SignupModal({ onClose, onSignInRedirect }: SignupModalProps) {
   const [step, setStep] = useState<1 | 2>(1);
+  const [emailSent, setEmailSent] = useState(true);
+  const isAuthEmulator =
+    !!process.env.NEXT_PUBLIC_FIREBASE_AUTH_EMULATOR_HOST;
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -38,6 +41,8 @@ export function SignupModal({ onClose, onSignInRedirect }: SignupModalProps) {
         return;
       }
 
+      const sent = isAuthEmulator ? false : res?.emailSent !== false;
+      setEmailSent(sent);
       setStep(2);
     } catch (err: any) {
       setError(err.message || "Failed to create account.");
@@ -60,12 +65,18 @@ export function SignupModal({ onClose, onSignInRedirect }: SignupModalProps) {
         {/* TITLE */}
         <div className="text-center mb-6">
           <h2 className="text-3xl font-bold text-gray-900">
-            {step === 1 ? "Create Account" : "Verify Your Email"}
+            {step === 1
+              ? "Create Account"
+              : emailSent
+                ? "Verify Your Email"
+                : "Account Created"}
           </h2>
           <p className="text-sm text-gray-500 mt-1">
             {step === 1
               ? "Enter your details to get started."
-              : "A verification link has been sent to your email."}
+              : emailSent
+                ? "A verification link has been sent to your email."
+                : "Account created. No verification email was sent."}
           </p>
         </div>
 
@@ -189,9 +200,17 @@ export function SignupModal({ onClose, onSignInRedirect }: SignupModalProps) {
         {step === 2 && (
           <div className="text-center space-y-4">
             <p className="text-gray-700">
-              We've sent a verification link to <strong>{email}</strong>.
-              <br />
-              Please check your inbox and click the link to verify your email.
+              {emailSent ? (
+                <>
+                  We've sent a verification link to <strong>{email}</strong>.
+                  <br />
+                  Please check your inbox and click the link to verify your email.
+                </>
+              ) : (
+                <>
+                  Your account is ready. You can sign in now.
+                </>
+              )}
             </p>
             <button
               onClick={onSignInRedirect}
