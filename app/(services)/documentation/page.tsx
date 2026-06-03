@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef } from "react";
 import { useRouter } from "next/navigation";
+import { useCallback } from "@/context/callbackContext";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
   FileText,
@@ -22,8 +23,10 @@ export default function StartupDocumentsPage() {
 
   const basePath = "/documentation/";
 
+  const { openCallback } = useCallback();
+
   const handleRequestCallback = () => {
-    router.push("/contact?ref=documentation-callback");
+    openCallback("Documentation Services");
   };
 
   const handleViewDetails = (slug: string) => {

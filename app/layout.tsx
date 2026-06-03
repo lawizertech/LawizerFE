@@ -4,6 +4,7 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import "./lawizer-custom.css";
 import { AuthProvider } from "@/context/authContext";
+import { CallbackProvider } from "@/context/callbackContext";
 import LayoutWrapper from "@/components/client/LayoutWrapper";
 
 export const metadata: Metadata = {
@@ -28,7 +29,9 @@ export default function RootLayout({
         className={`font-sans ${GeistSans.variable} ${GeistMono.variable} overflow-x-hidden `}
       >
         <AuthProvider>
-          <LayoutWrapper>{children}</LayoutWrapper>
+          <CallbackProvider>
+            <LayoutWrapper>{children}</LayoutWrapper>
+          </CallbackProvider>
         </AuthProvider>
       </body>
     </html>
