@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef } from "react";
 import { useRouter } from "next/navigation";
+import { useCallback } from "@/context/callbackContext";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
   Briefcase,
@@ -23,8 +24,10 @@ export default function StartupAndBusinessLegalPage() {
   const heroY = useTransform(scrollY, [0, 500], [0, 120]);
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
 
+  const { openCallback } = useCallback();
+
   const handleRequestCallback = () => {
-    router.push("/contact?ref=startup-callback");
+    openCallback("Startup & Business Legal");
   };
 
   const handleScrollToRegistration = () => {

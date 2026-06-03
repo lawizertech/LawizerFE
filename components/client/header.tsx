@@ -656,11 +656,8 @@ export function Header() {
                   About
                 </Link>
                 <Link
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setShowContactCard(true);
-                  }}
-                  href="#"
+                  onClick={handleLinkClick}
+                  href="/contact"
                   className="text-gray-700 hover:text-[#c92c41] text-sm font-medium transition-colors"
                 >
                   Contact
@@ -875,11 +872,8 @@ export function Header() {
                     About
                   </Link>
                   <Link
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setShowContactCard(true);
-                    }}
-                    href="#"
+                    onClick={handleLinkClick}
+                    href="/contact"
                     className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
                   >
                     Contact

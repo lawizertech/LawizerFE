@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useCallback } from "@/context/callbackContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Copy, Phone, X, ArrowRight, Shield, Lock, Sparkles } from "lucide-react";
 
@@ -141,66 +142,6 @@ function CopyCode({ code, accent }: { code: string; accent: string }) {
 }
 
 /* ─────────────────────────────────────────────────────────
-   REQUEST CALLBACK POPUP
-   Triggered by "Talk to a tax expert" in the bottom bar.
-   Collects: Name, Mobile, Email → wire to your API/CRM
-───────────────────────────────────────────────────────── */
-function RequestCallPopup({ onClose }: { onClose: () => void }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4"
-      onClick={onClose}
-    >
-      <motion.div
-        initial={{ scale: 0.95, opacity: 0, y: 20 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.95, opacity: 0, y: 20 }}
-        transition={{ type: "spring", stiffness: 300, damping: 26 }}
-        className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden"
-        onClick={e => e.stopPropagation()}
-      >
-        {/* Red accent top bar */}
-        <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${RED}, ${RED_LIGHT})` }} />
-
-        <div className="p-10">
-          <button onClick={onClose} className="absolute top-6 right-6 text-gray-300 hover:text-gray-500 transition-colors">
-            <X className="w-5 h-5" />
-          </button>
-
-          {/* Header */}
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: `${RED}10` }}>
-              <Phone className="w-5 h-5" style={{ color: RED }} />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-gray-900">Request a Callback</h3>
-              <p className="text-sm text-gray-400 mt-0.5">Our tax expert calls within 2 hours</p>
-            </div>
-          </div>
-
-          {/* Form fields — wire onSubmit to your backend */}
-          <div className="space-y-4">
-            {["Full Name", "Mobile Number", "Email Address"].map(ph => (
-              <input
-                key={ph} type="text" placeholder={ph}
-                className="w-full border border-gray-200 rounded-2xl px-5 py-3.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-red-300 transition"
-              />
-            ))}
-            <button
-              className="w-full mt-1 py-4 rounded-2xl text-sm font-semibold text-white transition-all hover:shadow-lg hover:brightness-110"
-              style={{ background: `linear-gradient(135deg, ${RED}, ${RED_LIGHT})` }}
-            >
-              Request Callback
-            </button>
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────
    ITR PLANS SECTION
    Drop this anywhere on the ITR services page.
    Routes:
@@ -208,7 +149,7 @@ function RequestCallPopup({ onClose }: { onClose: () => void }) {
      Know more → /itr/itr-plans/{id}  (matches folder structure)
 ───────────────────────────────────────────────────────── */
 export default function ITRPlans() {
-  const [showCallPopup, setShowCallPopup] = useState(false);
+  const { openCallback } = useCallback();
   const router = useRouter();
 
   return (
@@ -490,7 +431,7 @@ export default function ITRPlans() {
 
           {/* Opens RequestCallPopup modal */}
           <button
-            onClick={() => setShowCallPopup(true)}
+            onClick={() => openCallback("Income Tax & GST")}
             className="flex items-center gap-2 text-sm font-semibold group transition-all"
             style={{ color: NAVY }}
           >
@@ -501,11 +442,6 @@ export default function ITRPlans() {
         </motion.div>
 
       </div>
-
-      {/* ── Request Callback modal (AnimatePresence for exit animation) ── */}
-      <AnimatePresence>
-        {showCallPopup && <RequestCallPopup onClose={() => setShowCallPopup(false)} />}
-      </AnimatePresence>
     </section>
   );
 }

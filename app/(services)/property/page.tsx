@@ -1,6 +1,7 @@
 "use client";
-import React, { useRef, useState, useEffect, useCallback } from "react";
+import React, { useRef, useState, useEffect, useCallback as useReactCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useCallback } from "@/context/callbackContext";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import {
   Home,
@@ -47,7 +48,7 @@ export default function PropertyLegalPage() {
   ];
 
   // Recalculate dropdown position from live button rect
-  const recalcPos = useCallback(() => {
+  const recalcPos = useReactCallback(() => {
     if (btnRef.current) {
       const r = btnRef.current.getBoundingClientRect();
       setDropdownPos({ top: r.bottom + 6, left: r.left, width: r.width });
@@ -102,7 +103,9 @@ export default function PropertyLegalPage() {
     setTimeout(() => setHighlightedSection(null), 1800);
   };
 
-  const handleRequestCallback = () => router.push("/contact?ref=property-callback");
+  const { openCallback } = useCallback();
+
+  const handleRequestCallback = () => openCallback("Property Legal");
 
   const sections = [
     {
