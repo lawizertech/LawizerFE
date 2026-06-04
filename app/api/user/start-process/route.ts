@@ -24,9 +24,9 @@ export async function POST(req: Request) {
       );
     }
 
+
     if (body.clientDetails) {
       const { fullName, email, phone } = body.clientDetails;
-
       if (!fullName || !email || !phone) {
         return NextResponse.json(
           {

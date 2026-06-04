@@ -2,12 +2,14 @@ import { NextResponse } from "next/server";
 import { sendEmail } from "@/lib/email/mailer";
 import { contactInquiryEmailTemplate } from "@/lib/email/templates";
 
+const BASE = process.env.NEXT_PUBLIC_API_URL!;
+
 export async function POST(req: Request) {
   try {
-    const { name, email, serviceType, inquiry, source } = await req.json();
+    const { name, email, phone, serviceType, inquiry, source } = await req.json();
 
     // Validation
-    if (!name || !email || !serviceType || !inquiry) {
+    if (!name || !email || !phone || !serviceType || !inquiry) {
       return NextResponse.json(
         { success: false, message: "All fields are required" },
         { status: 400 }
@@ -93,6 +95,34 @@ export async function POST(req: Request) {
       subject: `[NEW INQUIRY] ${serviceType} - ${name}`,
       html: adminEmailHtml,
     }).catch((err) => console.error("Failed to send admin notification:", err));
+
+    // SAVE TO ADMIN DASHBOARD DATABASE
+    try {
+      const saveRes = await fetch(`${BASE}/user/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          service: serviceType,
+          message: inquiry,
+          source,
+        }),
+      });
+
+      const saveData = await saveRes.json();
+
+      console.log("Contact Save Response:", saveData);
+
+      if (!saveRes.ok) {
+        console.error("Dashboard save failed:", saveData);
+      }
+    } catch (error) {
+      console.error("Failed to save contact inquiry:", error);
+    }
 
     return NextResponse.json({
       success: true,
