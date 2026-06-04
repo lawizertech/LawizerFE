@@ -21,6 +21,7 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     serviceType: "general",
     inquiry: "",
   });
@@ -78,6 +79,7 @@ export default function ContactPage() {
         setFormData({
           name: "",
           email: "",
+          phone: "",
           serviceType: "general",
           inquiry: "",
         });
@@ -236,6 +238,23 @@ export default function ContactPage() {
                     value={formData.name}
                     onChange={handleInputChange}
                     placeholder="Enter your name"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
+                  />
+                </div>
+
+                {/* Phone Field */}
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    placeholder="Enter your phone number"
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
                   />

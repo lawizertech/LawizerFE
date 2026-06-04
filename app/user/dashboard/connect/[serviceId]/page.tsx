@@ -10,7 +10,7 @@ import VoiceCallModal from "@/components/call/VoiceCallModal";
 import { rtdb } from "@/lib/firebaseClient";
 
 export default function UserConnectPage() {
-  const { serviceId: bookingId } = useParams<{ serviceId: string }>();
+    const { serviceId: bookingId } = useParams<{ serviceId: string }>();
   const [incomingCall, setIncomingCall] = useState<{
     type: "voice" | "video";
   } | null>(null);
