@@ -27,9 +27,12 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
 
 /* ─── HERO SECTION ─── */
 .hero-wrap {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 96px; /* fixed navbar (~72px) + 24px breathing room */
+  padding-bottom: 24px;
   margin-top: 0;
+  height: 100dvh;   /* exact viewport fit on desktop */
+  display: flex;
+  flex-direction: column;
   position: relative;
   overflow: hidden;
 }
@@ -61,7 +64,7 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
 }
 
 .hero-left { 
-  padding-bottom: 60px;
+  padding-bottom: 0;
   position: relative;
   z-index: 1;
 }
@@ -79,7 +82,7 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
   border-radius: 100px; 
   font-size: 13px; 
   font-weight: 600;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   box-shadow: 0 8px 32px rgba(202, 45, 66, 0.06);
   transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
 }
@@ -111,7 +114,7 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
   font-weight: 800;
   line-height: 1.1;
   color: var(--text-primary);
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   background: linear-gradient(135deg, var(--text-primary) 0%, #4A5060 50%, var(--brand) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -128,11 +131,11 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
 }
 
 .hero-sub {
-  font-size: 17px; 
+  font-size: 16px; 
   color: var(--text-secondary); 
-  line-height: 1.8;
+  line-height: 1.7;
   max-width: 520px; 
-  margin-bottom: 32px;
+  margin-bottom: 20px;
   font-weight: 500;
   letter-spacing: 0.3px;
 }
@@ -142,7 +145,7 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
   align-items: center; 
   gap: 14px; 
   flex-wrap: wrap; 
-  margin-bottom: 16px; 
+  margin-bottom: 12px; 
 }
 
 .btn-hero {
@@ -663,8 +666,12 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
 @media (max-width: 1024px) {
   .hero-wrap { 
     flex-direction: column; 
-    margin-top: 0; 
-    padding-bottom: 40px; 
+    margin-top: 0;
+    height: auto;
+    min-height: 100dvh;
+    padding-top: 96px;
+    padding-bottom: 40px;
+    overflow-y: auto;
   }
 
   .hero-wrap > .services-panel { 
@@ -696,9 +703,12 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
 }
 @media (max-width: 640px) {
   .hero-wrap { 
-    margin-top: 0; 
-    padding: 40px 16px; 
-    gap: 32px;
+    margin-top: 0;
+    height: auto;
+    min-height: 100dvh;
+    padding: 80px 16px 32px;
+    gap: 24px;
+    overflow-y: auto;
   }
 
   .hero-wrap::before {
