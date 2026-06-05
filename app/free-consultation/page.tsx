@@ -86,11 +86,11 @@ export default function FreeConsultationPage() {
   const calendlyUrl = "https://calendly.com/lawizer";
 
   return (
-    <div className="min-h-screen bg-slate-50 py-16 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-50 pt-30"> 
       <div className="max-w-6xl mx-auto">
         
         {/* Header Hero Section */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 px-4">
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -109,7 +109,7 @@ export default function FreeConsultationPage() {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16 px-4">
           {/* Main Action Card */}
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
@@ -201,13 +201,13 @@ export default function FreeConsultationPage() {
         </div>
 
         {/* Advocates Section */}
-        <div className="mb-16">
+        <div className="mb-16 px-4">
           <div className="flex items-center gap-4 mb-10">
             <h2 className="text-3xl font-extrabold text-slate-900">Top Advocates</h2>
             <div className="h-[2px] flex-1 bg-gradient-to-r from-slate-200 to-transparent"></div>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
             {ADVOCATES.map((adv, index) => (
               <motion.div
                 key={adv.id}
@@ -216,9 +216,9 @@ export default function FreeConsultationPage() {
                 transition={{ delay: 0.1 * index + 0.4 }}
                 className="bg-white rounded-2xl border border-slate-100 p-6 hover:shadow-2xl transition-all group relative overflow-hidden"
               >
-                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                {/* <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                   <User className="w-12 h-12" />
-                </div>
+                </div> */}
                 <div className="w-20 h-20 bg-slate-100 rounded-3xl mb-6 flex items-center justify-center overflow-hidden border-2 border-white shadow-sm grayscale group-hover:grayscale-0 transition-all duration-500">
                   <img src={adv.image} alt={adv.name} className="w-14 h-14" />
                 </div>
@@ -252,7 +252,7 @@ export default function FreeConsultationPage() {
         </div>
 
         {/* CA Section */}
-        <div className="mb-20">
+        <div className="mb-20 px-4">
           <div className="flex items-center gap-4 mb-10">
             <h2 className="text-3xl font-extrabold text-slate-900">Top Chartered Accountants</h2>
             <div className="h-[2px] flex-1 bg-gradient-to-r from-slate-200 to-transparent"></div>

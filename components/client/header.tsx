@@ -627,7 +627,7 @@ export function Header() {
                   </Link>
                 </HoverDropdown>
 
-                <HoverDropdown label="Legal">
+                {/* <HoverDropdown label="Legal">
                   <Link
                     href="/privacy-policy"
                     className="text-sm py-1 hover:text-[#c92c41]"
@@ -646,7 +646,7 @@ export function Header() {
                   >
                     Attorney Terms & Conditions
                   </Link>
-                </HoverDropdown>
+                </HoverDropdown> */}
 
                 <Link
                   onClick={handleLinkClick}

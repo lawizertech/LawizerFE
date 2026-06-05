@@ -179,7 +179,7 @@ export default function PopularServicesSection() {
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-6 sm:gap-8">
+        <div className="flex flex-wrap lg:flex-nowrap justify-center gap-6 sm:gap-8">
           {popularServices.map((service, i) => (
             <PopularServiceCard key={i} service={service} />
           ))}

@@ -172,7 +172,7 @@ export default function AboutLawizer() {
       <div className="w-full h-px bg-gray-300 my-6"></div>
 
       {/* Founders Section */}
-      <div className="space-y-12 pt-20">
+      <div className="space-y-12 pt-20 max-w-6xl mx-auto">
         <h2 className="text-3xl font-bold text-[#c92c41] text-left">
           Meet Our Founding Team
         </h2>

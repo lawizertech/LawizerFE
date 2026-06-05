@@ -48,7 +48,7 @@ export function HeroSection() {
 
   return (
     <div className="hero-wrap" id="home">
-      <div className="flex flex-col lg:flex-row max-w-7xl mx-auto w-full px-4 md:px-12 gap-8 lg:gap-16 lg:items-center flex-1">
+      <div className="flex flex-col lg:flex-row max-w-7xl mx-auto w-full px-4 md:px-12 gap-8 lg:gap-16 lg:items-center flex-1Home">
 
         {/* LEFT: Hero Copy */}
         <div className="hero-left w-full lg:w-3/5">
@@ -72,7 +72,7 @@ export function HeroSection() {
               Register Now
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </a>
-            <a href="https://wa.me/919999999999" className="btn-outline-hero">💬 WhatsApp Us</a>
+            <a href="https://wa.me/919999999999" target="_blank" className="btn-outline-hero ">💬 WhatsApp Us</a>
           </div>
 
           {/* Google Rating + Trust Stats */}
@@ -97,7 +97,7 @@ export function HeroSection() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-4 md:flex-row justify-center">
+            <div className="flex sm:flex-row gap-4 md:flex-row justify-center">
               <div className="trust-stat">
                 <div className="num"><AnimatedNumber value="10000" suffix="+" /></div>
                 <div className="lbl">Businesses<br/>Registered</div>
