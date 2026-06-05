@@ -1,7 +1,7 @@
-import { initializeApp, getApps, getApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getDatabase } from "firebase/database";
-import { getFirestore } from "firebase/firestore";
+import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
+import { getAuth, connectAuthEmulator, Auth } from "firebase/auth";
+import { getDatabase, Database } from "firebase/database";
+import { getFirestore, Firestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyDummyKeyDummyKeyDummyKeyDummyKey",
@@ -13,11 +13,25 @@ const firebaseConfig = {
   databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL || "https://dummy-project-id.firebaseio.com",
 };
 
-let app, auth, db, rtdb;
+// let app, auth, db, rtdb;
+let app: FirebaseApp;
+let auth: Auth;
+let db: Firestore;
+let rtdb: Database;
 
 try {
   app = getApps().length ? getApp() : initializeApp(firebaseConfig);
   auth = getAuth(app);
+  if (typeof window !== "undefined") {
+    const emulatorHost = process.env.NEXT_PUBLIC_FIREBASE_AUTH_EMULATOR_HOST;
+    const authAny = auth as unknown as { emulatorConfig?: unknown };
+
+    if (emulatorHost && !authAny.emulatorConfig) {
+      connectAuthEmulator(auth, `http://${emulatorHost}`, {
+        disableWarnings: true,
+      });
+    }
+  }
   db = getFirestore(app);
   rtdb = getDatabase(app);
 } catch (error) {

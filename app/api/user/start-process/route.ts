@@ -24,23 +24,18 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!body.clientDetails) {
-      return NextResponse.json(
-        { success: false, message: "Client details are required" },
-        { status: 400 },
-      );
-    }
 
-    const { fullName, email, phone } = body.clientDetails;
-
-    if (!fullName || !email || !phone) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Full name, email, and phone are required",
-        },
-        { status: 400 },
-      );
+    if (body.clientDetails) {
+      const { fullName, email, phone } = body.clientDetails;
+      if (!fullName || !email || !phone) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Full name, email, and phone are required",
+          },
+          { status: 400 },
+        );
+      }
     }
 
     // Forward request to backend

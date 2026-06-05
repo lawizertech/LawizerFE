@@ -10,17 +10,17 @@ import { WhatsAppButton } from "@/components/client/home/whatsapp-button";
 import { HowItWorksSection } from "@/components/client/home/how-it-works-section";
 import { WhyLawizerSection } from "@/components/client/home/why-lawizer-section";
 import { CTABannerSection } from "@/components/client/home/cta-banner-section";
-import UserDashboardSection from "@/components/client/home/user-dashboard-section";
+// import UserDashboardSection from "@/components/client/home/user-dashboard-section";
 
 export default function Home() {
   return (
-    <main className="min-h-screen lg:min-h-screen h-auto">
+    <main className="min-h-screen lg:min-h-screen h-auto sm:pt-12 pt-6 pb-16 lg:pb-24 bg-white">
       <HeroSection />
       <HowItWorksSection />
       <StatsSection />
       <TrustSection />
       <ServicesSection />
-      <UserDashboardSection />
+      {/* <UserDashboardSection /> */}
       <PopularServicesSection />
       <WhyLawizerSection />
       <TestimonialsSection />

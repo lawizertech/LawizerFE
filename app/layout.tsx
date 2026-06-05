@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 import "./lawizer-custom.css";
-import { AuthProvider } from "@/context/authContext";
-import LayoutWrapper from "@/components/client/LayoutWrapper";
+import RootLayoutClient from "@/components/client/RootLayoutClient";
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
+  variable: "--font-montserrat",
+});
 
 export const metadata: Metadata = {
   title: "Lawizer",
@@ -25,11 +31,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`font-sans ${GeistSans.variable} ${GeistMono.variable} overflow-x-hidden `}
+        className={`font-sans ${GeistSans.variable} ${GeistMono.variable} ${montserrat.variable} overflow-x-hidden `}
       >
-        <AuthProvider>
-          <LayoutWrapper>{children}</LayoutWrapper>
-        </AuthProvider>
+        <RootLayoutClient>{children}</RootLayoutClient>
       </body>
     </html>
   );

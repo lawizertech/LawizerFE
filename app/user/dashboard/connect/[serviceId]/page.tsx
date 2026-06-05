@@ -10,7 +10,7 @@ import VoiceCallModal from "@/components/call/VoiceCallModal";
 import { rtdb } from "@/lib/firebaseClient";
 
 export default function UserConnectPage() {
-  const { serviceId } = useParams<{ serviceId: string }>();
+    const { serviceId: bookingId } = useParams<{ serviceId: string }>();
   const [incomingCall, setIncomingCall] = useState<{
     type: "voice" | "video";
   } | null>(null);
@@ -20,9 +20,9 @@ export default function UserConnectPage() {
   const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
-    if (!serviceId) return;
+    if (!bookingId) return;
 
-    const callRef = ref(rtdb, `calls/${serviceId}`);
+    const callRef = ref(rtdb, `calls/${bookingId}`);
 
     const unsubscribe = onValue(callRef, (snapshot) => {
       if (!snapshot.exists()) return;
@@ -41,18 +41,18 @@ export default function UserConnectPage() {
     });
 
     return () => unsubscribe();
-  }, [serviceId]);
+  }, [bookingId]);
 
   useEffect(() => {
-    if (!serviceId) return;
+    if (!bookingId) return;
 
     const loadBooking = async () => {
-      const res = await serverApi.get(`/api/user/consultations/${serviceId}`);
+      const res = await serverApi.get(`/api/user/consultations/${bookingId}`);
       setBooking(res.data.booking);
     };
 
     loadBooking();
-  }, [serviceId]);
+  }, [bookingId]);
 
   if (!booking)
     return <p className="pt-6 text-2xl font-bold">Loading consultation...</p>;
@@ -116,7 +116,7 @@ export default function UserConnectPage() {
               {/* Reject */}
               <button
                 onClick={async () => {
-                  await remove(ref(rtdb, `calls/${serviceId}`));
+                  await remove(ref(rtdb, `calls/${bookingId}`));
                   setIncomingCall(null);
                 }}
                 className="flex-1 py-2 rounded-lg bg-red-600 text-white"
@@ -127,7 +127,7 @@ export default function UserConnectPage() {
               {/* Accept */}
               <button
                 onClick={async () => {
-                  await update(ref(rtdb, `calls/${serviceId}`), {
+                  await update(ref(rtdb, `calls/${bookingId}`), {
                     status: "active",
                   });
 

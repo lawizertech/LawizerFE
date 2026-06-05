@@ -527,7 +527,7 @@ export function Header() {
                 />
               </div>
               <div className="flex items-baseline gap-1">
-                <span className="text-2xl font-bold text-[#c92c41]">
+                <span className="text-2xl font-['Montserrat'] text-[#c92c41]">
                   Lawizer
                 </span>
               </div>
@@ -605,18 +605,48 @@ export function Header() {
                     Blogs
                   </Link>
                   <Link
-                    href="/blogs"
+                    href="/news"
                     className="text-sm py-1 hover:text-[#c92c41]"
                   >
                     News
                   </Link>
-                  <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                  <Link
+                    href="/guides"
+                    className="text-sm py-1 hover:text-[#c92c41]"
+                  >
                     Guides
                   </Link>
-                  <Link href="#" className="text-sm py-1 hover:text-[#c92c41]">
+                  <Link href="/faqs" className="text-sm py-1 hover:text-[#c92c41]">
                     FAQs
                   </Link>
+                  <Link
+                    href="/careers"
+                    className="text-sm py-1 hover:text-[#c92c41]"
+                  >
+                    Careers
+                  </Link>
                 </HoverDropdown>
+
+                {/* <HoverDropdown label="Legal">
+                  <Link
+                    href="/privacy-policy"
+                    className="text-sm py-1 hover:text-[#c92c41]"
+                  >
+                    Privacy Policy
+                  </Link>
+                  <Link
+                    href="/terms"
+                    className="text-sm py-1 hover:text-[#c92c41]"
+                  >
+                    Terms of Service
+                  </Link>
+                  <Link
+                    href="/attorney-terms"
+                    className="text-sm py-1 hover:text-[#c92c41]"
+                  >
+                    Attorney Terms & Conditions
+                  </Link>
+                </HoverDropdown> */}
 
                 <Link
                   onClick={handleLinkClick}
@@ -626,11 +656,8 @@ export function Header() {
                   About
                 </Link>
                 <Link
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setShowContactCard(true);
-                  }}
-                  href="#"
+                  onClick={handleLinkClick}
+                  href="/contact"
                   className="text-gray-700 hover:text-[#c92c41] text-sm font-medium transition-colors"
                 >
                   Contact
@@ -739,7 +766,7 @@ export function Header() {
                     />
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-[#c92c41]">
+                    <span className="text-2xl font-['Montserrat'] font-bold text-[#c92c41]">
                       Lawizer
                     </span>
                   </div>
@@ -845,11 +872,8 @@ export function Header() {
                     About
                   </Link>
                   <Link
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setShowContactCard(true);
-                    }}
-                    href="#"
+                    onClick={handleLinkClick}
+                    href="/contact"
                     className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
                   >
                     Contact
@@ -880,17 +904,58 @@ export function Header() {
                   </Link>
                   <Link
                     onClick={handleLinkClick}
-                    href="#"
+                    href="/news"
+                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                  >
+                    News
+                  </Link>
+                  <Link
+                    onClick={handleLinkClick}
+                    href="/guides"
                     className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
                   >
                     Guides
                   </Link>
                   <Link
                     onClick={handleLinkClick}
-                    href="#"
+                    href="/faqs"
                     className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
                   >
                     FAQs
+                  </Link>
+                  <Link
+                    onClick={handleLinkClick}
+                    href="/careers"
+                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                  >
+                    Careers
+                  </Link>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-bold text-[#c92c41] mt-6">
+                    Legal
+                  </h3>
+                  <Link
+                    onClick={handleLinkClick}
+                    href="/privacy-policy"
+                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                  >
+                    Privacy Policy
+                  </Link>
+                  <Link
+                    onClick={handleLinkClick}
+                    href="/terms"
+                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                  >
+                    Terms of Service
+                  </Link>
+                  <Link
+                    onClick={handleLinkClick}
+                    href="/attorney-terms"
+                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                  >
+                    Attorney Terms & Conditions
                   </Link>
                 </div>
 
