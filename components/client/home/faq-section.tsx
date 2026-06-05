@@ -294,7 +294,7 @@ export function FAQSection() {
           </div>
 
           {/* ── Right column – FAQs ── */}
-          <div className="space-y-1">
+          <div className="space-y-1 px-2">
             {faqs.map((faq, index) => (
               <div
                 key={index}
