@@ -2,396 +2,488 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Video, 
-  Phone, 
-  Calendar, 
-  Check, 
-  X, 
-  User, 
-  MapPin, 
-  Clock, 
-  ShieldCheck, 
-  ArrowRight,
-  Briefcase,
-  Lock,
-  Mail
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-
-const ADVOCATES = [
-  {
-    id: "adv_01",
-    name: "Adv. Chandramouli Bagchi",
-    role: "General Practice, Civil & Criminal Litigation",
-    experience: "25+ yrs exp",
-    location: "Kolkata",
-    image: "/user.png",
-  },
-  {
-    id: "adv_02",
-    name: "Adv. Himadree Ghosh",
-    role: "Property, Criminal, Matrimonial, Writ, Drafting",
-    experience: "20+ yrs exp",
-    location: "Kolkata",
-    image: "/user.png",
-  },
-  {
-    id: "adv_03",
-    name: "Adv. Rahul Das",
-    role: "Civil Lawyer, Property Disputes, Documentation",
-    experience: "15+ yrs exp",
-    location: "Kolkata",
-    image: "/user.png",
-  },
-  {
-    id: "adv_04",
-    name: "Adv. Indranil Banerjee",
-    role: "Property, Criminal (NDPS), Drafting, Civil Litigation",
-    experience: "18+ yrs exp",
-    location: "Kolkata",
-    image: "/user.png",
-  },
-];
-
-const CAS = [
-  {
-    id: "ca_01",
-    name: "CA Sayan Hajra",
-    role: "GST, Income Tax, Audit & Compliance",
-    experience: "12+ yrs exp",
-    location: "Kolkata",
-    image: "/user.png",
-  },
-  {
-    id: "ca_02",
-    name: "CA Preeti Jain",
-    role: "Corporate Taxation, Statutory Audit, Finance",
-    experience: "10+ yrs exp",
-    location: "Kolkata",
-    image: "/user.png",
-  },
-  {
-    id: "ca_03",
-    name: "CA Amit Verma",
-    role: "Financial Planning, MSME, Business Advisory",
-    experience: "8+ yrs exp",
-    location: "Kolkata",
-    image: "/user.png",
-  },
-];
+import { CheckCircle, ShieldCheck, Phone, MessageSquare, User, X } from "lucide-react";
 
 export default function FreeConsultationPage() {
-  const [showCallTypeModal, setShowCallTypeModal] = useState(false);
-  const calendlyUrl = "https://calendly.com/lawizer";
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [reason, setReason] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/free-consultation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, phone, reason }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSuccess(true);
+      } else {
+        setError(data.message || "Something went wrong. Please try again.");
+      }
+    } catch {
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const trustPoints = [
+    { icon: ShieldCheck, label: "100% Confidential" },
+    { icon: Phone, label: "We Call You Back" },
+    { icon: MessageSquare, label: "No Commitment" },
+  ];
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-30"> 
-      <div className="max-w-6xl mx-auto">
-        
-        {/* Header Hero Section */}
-        <div className="text-center mb-12 px-4">
-          <motion.h1 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-4xl sm:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight"
-          >
-            Start Your Consultation
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-lg text-slate-600 max-w-2xl mx-auto"
-          >
-            Connect with India's leading legal and financial experts instantly. 
-            Reliable, confidential, and professional support at your fingertips.
-          </motion.p>
-        </div>
+    <>
+      {/* Full-page layout with navbar offset */}
+      <div
+        style={{
+          minHeight: "100dvh",
+          paddingTop: "80px", // clears fixed navbar
+          background: "var(--bg-soft)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "96px 16px 48px",
+          fontFamily: "var(--font-body)",
+        }}
+      >
+        <div style={{ width: "100%", maxWidth: 520 }}>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16 px-4">
-          {/* Main Action Card */}
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-            className="lg:col-span-2 bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden"
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+            style={{ textAlign: "center", marginBottom: 36 }}
           >
-            <div className="p-8 sm:p-10 flex flex-col h-full">
-              <div className="flex-1">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-bold mb-6 uppercase tracking-wider">
-                  <ShieldCheck className="w-4 h-4" />
-                  Premium Consultation
-                </div>
-                <h2 className="text-3xl font-bold text-slate-900 mb-4">Free Consultation</h2>
-                <p className="text-slate-600 text-lg mb-8 leading-relaxed">
-                  Book a direct session with our senior legal consultants. 
-                  Whether it's property, business, or personal legal matters, 
-                  we provide the clarity you need to move forward.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                  <div className="flex items-center gap-3 text-slate-700 font-medium">
-                    <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-                      <Check className="w-5 h-5 text-green-600" />
-                    </div>
-                    Verified Advocates & CAs
-                  </div>
-                  <div className="flex items-center gap-3 text-slate-700 font-medium">
-                    <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-                      <Check className="w-5 h-5 text-green-600" />
-                    </div>
-                    100% Secure & Private
-                  </div>
-                  <div className="flex items-center gap-3 text-slate-700 font-medium">
-                    <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-                      <Check className="w-5 h-5 text-green-600" />
-                    </div>
-                    Instant Call Connect
-                  </div>
-                  <div className="flex items-center gap-3 text-slate-700 font-medium">
-                    <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-                      <Check className="w-5 h-5 text-green-600" />
-                    </div>
-                    Expert Documentation
-                  </div>
-                </div>
-              </div>
-              <Button 
-                onClick={() => setShowCallTypeModal(true)}
-                className="w-full sm:w-fit bg-[#c92c41] hover:bg-[#a82536] text-white px-10 py-7 text-xl rounded-2xl shadow-lg shadow-red-100 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center gap-3 font-bold"
-              >
-                <Calendar className="w-6 h-6" />
-                Book a Call Now
-              </Button>
+            {/* Brand badge */}
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: "var(--brand-light)",
+                border: "1.5px solid rgba(202,45,66,0.2)",
+                color: "var(--brand)",
+                padding: "6px 16px",
+                borderRadius: 100,
+                fontSize: 12,
+                fontWeight: 600,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+                marginBottom: 20,
+              }}
+            >
+              <span
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: "50%",
+                  background: "var(--brand)",
+                  display: "inline-block",
+                  animation: "pulse-premium 3s cubic-bezier(0.4,0,0.6,1) infinite",
+                }}
+              />
+              Free · No Commitment
             </div>
+
+            <h1
+              style={{
+                fontFamily: "var(--font-head)",
+                fontSize: "clamp(28px, 5vw, 40px)",
+                fontWeight: 800,
+                color: "var(--text-primary)",
+                lineHeight: 1.15,
+                letterSpacing: "-0.02em",
+                marginBottom: 12,
+              }}
+            >
+              Book a Free{" "}
+              <span style={{ color: "var(--brand)" }}>Consultation</span>
+            </h1>
+            <p
+              style={{
+                fontSize: 15,
+                color: "var(--text-secondary)",
+                lineHeight: 1.6,
+                maxWidth: 380,
+                margin: "0 auto",
+                fontWeight: 500,
+              }}
+            >
+              Tell us your concern and our legal experts will get back to you promptly.
+            </p>
           </motion.div>
 
-          {/* Login Placeholder Card */}
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-            className="bg-white rounded-3xl shadow-xl border border-slate-200 p-8 flex flex-col justify-center text-center"
+          {/* Form card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
+            style={{
+              background: "rgba(255,255,255,0.85)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              border: "1.5px solid rgba(228,232,240,0.7)",
+              borderRadius: "var(--radius-xl)",
+              padding: "36px 32px",
+              boxShadow: "var(--shadow-lg)",
+            }}
           >
-            <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <Lock className="w-8 h-8" />
-            </div>
-            <h3 className="text-xl font-bold text-slate-900 mb-2">Member Login</h3>
-            <p className="text-slate-500 text-sm mb-8">
-              Login or sign up to track your consultations and access legal documents.
-            </p>
-            <div className="space-y-4">
-              <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                <input 
-                  type="text" 
-                  placeholder="Email Address" 
-                  disabled
-                  className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-400 cursor-not-allowed"
+            <form onSubmit={handleSubmit}>
+              {/* Name */}
+              <div style={{ marginBottom: 20 }}>
+                <label
+                  htmlFor="fc-name"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    fontSize: 13,
+                    fontWeight: 600,
+                    color: "var(--text-primary)",
+                    marginBottom: 8,
+                  }}
+                >
+                  <User size={13} />
+                  Full Name
+                </label>
+                <input
+                  id="fc-name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter your name"
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "12px 16px",
+                    border: "1.5px solid var(--border)",
+                    borderRadius: "var(--radius-md)",
+                    fontSize: 14,
+                    fontFamily: "var(--font-body)",
+                    color: "var(--text-primary)",
+                    background: "var(--bg-soft)",
+                    outline: "none",
+                    transition: "border-color 0.2s",
+                    boxSizing: "border-box",
+                  }}
+                  onFocus={(e) => (e.target.style.borderColor = "var(--brand)")}
+                  onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
                 />
               </div>
-              <Button className="w-full bg-slate-900 text-white py-6 rounded-xl font-bold hover:bg-slate-800 transition-colors">
-                Continue with Lawizer
-              </Button>
-              <p className="text-xs text-slate-400">
-                By continuing, you agree to Lawizer's Terms & Privacy Policy.
-              </p>
-            </div>
+
+              {/* Phone */}
+              <div style={{ marginBottom: 20 }}>
+                <label
+                  htmlFor="fc-phone"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    fontSize: 13,
+                    fontWeight: 600,
+                    color: "var(--text-primary)",
+                    marginBottom: 8,
+                  }}
+                >
+                  <Phone size={13} />
+                  Phone Number
+                </label>
+                <input
+                  id="fc-phone"
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="Enter your phone number"
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "12px 16px",
+                    border: "1.5px solid var(--border)",
+                    borderRadius: "var(--radius-md)",
+                    fontSize: 14,
+                    fontFamily: "var(--font-body)",
+                    color: "var(--text-primary)",
+                    background: "var(--bg-soft)",
+                    outline: "none",
+                    transition: "border-color 0.2s",
+                    boxSizing: "border-box",
+                  }}
+                  onFocus={(e) => (e.target.style.borderColor = "var(--brand)")}
+                  onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
+                />
+              </div>
+
+              {/* Reason */}
+              <div style={{ marginBottom: 28 }}>
+                <label
+                  htmlFor="fc-reason"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    fontSize: 13,
+                    fontWeight: 600,
+                    color: "var(--text-primary)",
+                    marginBottom: 8,
+                  }}
+                >
+                  <MessageSquare size={13} />
+                  Reason for Consultation
+                </label>
+                <textarea
+                  id="fc-reason"
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
+                  placeholder="Briefly describe your legal concern (e.g. company registration, property dispute, GST issue...)"
+                  required
+                  rows={4}
+                  style={{
+                    width: "100%",
+                    padding: "12px 16px",
+                    border: "1.5px solid var(--border)",
+                    borderRadius: "var(--radius-md)",
+                    fontSize: 14,
+                    fontFamily: "var(--font-body)",
+                    color: "var(--text-primary)",
+                    background: "var(--bg-soft)",
+                    outline: "none",
+                    resize: "vertical",
+                    minHeight: 110,
+                    transition: "border-color 0.2s",
+                    boxSizing: "border-box",
+                    lineHeight: 1.6,
+                  }}
+                  onFocus={(e) => (e.target.style.borderColor = "var(--brand)")}
+                  onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
+                />
+              </div>
+
+              {/* Error */}
+              {error && (
+                <p
+                  style={{
+                    color: "var(--brand)",
+                    fontSize: 13,
+                    marginBottom: 16,
+                    fontWeight: 500,
+                  }}
+                >
+                  ⚠ {error}
+                </p>
+              )}
+
+              {/* Submit */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn-hero"
+                style={{
+                  width: "100%",
+                  justifyContent: "center",
+                  fontSize: 16,
+                  padding: "15px 24px",
+                  opacity: loading ? 0.7 : 1,
+                  cursor: loading ? "not-allowed" : "pointer",
+                  border: "none",
+                }}
+              >
+                {loading ? "Submitting..." : "Book Consultation"}
+              </button>
+            </form>
           </motion.div>
-        </div>
 
-        {/* Advocates Section */}
-        <div className="mb-16 px-4">
-          <div className="flex items-center gap-4 mb-10">
-            <h2 className="text-3xl font-extrabold text-slate-900">Top Advocates</h2>
-            <div className="h-[2px] flex-1 bg-gradient-to-r from-slate-200 to-transparent"></div>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
-            {ADVOCATES.map((adv, index) => (
-              <motion.div
-                key={adv.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 * index + 0.4 }}
-                className="bg-white rounded-2xl border border-slate-100 p-6 hover:shadow-2xl transition-all group relative overflow-hidden"
-              >
-                {/* <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                  <User className="w-12 h-12" />
-                </div> */}
-                <div className="w-20 h-20 bg-slate-100 rounded-3xl mb-6 flex items-center justify-center overflow-hidden border-2 border-white shadow-sm grayscale group-hover:grayscale-0 transition-all duration-500">
-                  <img src={adv.image} alt={adv.name} className="w-14 h-14" />
-                </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2 leading-tight group-hover:text-blue-600 transition-colors">{adv.name}</h3>
-                <p className="text-xs text-slate-500 font-semibold mb-6 uppercase tracking-wide leading-relaxed min-h-[48px]">{adv.role}</p>
-                
-                <div className="space-y-3 mb-8 border-t border-slate-50 pt-6">
-                  <div className="flex items-center gap-3 text-xs text-slate-600 font-medium">
-                    <div className="w-6 h-6 rounded-lg bg-slate-50 flex items-center justify-center">
-                      <Clock className="w-3 h-3 text-slate-400" />
-                    </div>
-                    {adv.experience}
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-slate-600 font-medium">
-                    <div className="w-6 h-6 rounded-lg bg-slate-50 flex items-center justify-center">
-                      <MapPin className="w-3 h-3 text-slate-400" />
-                    </div>
-                    {adv.location}
-                  </div>
-                </div>
-
-                <Button 
-                  onClick={() => setShowCallTypeModal(true)}
-                  className="w-full bg-white border border-slate-200 text-slate-700 hover:bg-[#c92c41] hover:text-white hover:border-[#c92c41] transition-all rounded-xl font-bold py-5"
+          {/* Trust row */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: 24,
+              flexWrap: "wrap",
+              marginTop: 24,
+            }}
+          >
+            {trustPoints.map((tp, i) => {
+              const Icon = tp.icon;
+              return (
+                <div
+                  key={i}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: "var(--text-muted)",
+                  }}
                 >
-                  Book a Call
-                </Button>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* CA Section */}
-        <div className="mb-20 px-4">
-          <div className="flex items-center gap-4 mb-10">
-            <h2 className="text-3xl font-extrabold text-slate-900">Top Chartered Accountants</h2>
-            <div className="h-[2px] flex-1 bg-gradient-to-r from-slate-200 to-transparent"></div>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {CAS.map((ca, index) => (
-              <motion.div
-                key={ca.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 * index + 0.5 }}
-                className="bg-white rounded-2xl border border-slate-100 p-8 hover:shadow-2xl transition-all group relative overflow-hidden"
-              >
-                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                  <Briefcase className="w-12 h-12" />
+                  <Icon size={13} style={{ color: "var(--accent-green)" }} />
+                  {tp.label}
                 </div>
-                <div className="w-20 h-20 bg-slate-100 rounded-3xl mb-6 flex items-center justify-center overflow-hidden border-2 border-white shadow-sm grayscale group-hover:grayscale-0 transition-all duration-500">
-                  <img src={ca.image} alt={ca.name} className="w-14 h-14" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2 leading-tight group-hover:text-blue-600 transition-colors">{ca.name}</h3>
-                <p className="text-sm text-slate-500 font-semibold mb-6 uppercase tracking-wide leading-relaxed min-h-[40px]">{ca.role}</p>
-                
-                <div className="space-y-4 mb-10 border-t border-slate-50 pt-8">
-                  <div className="flex items-center gap-4 text-sm text-slate-600 font-medium">
-                    <div className="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center">
-                      <Clock className="w-4 h-4 text-slate-400" />
-                    </div>
-                    {ca.experience}
-                  </div>
-                  <div className="flex items-center gap-4 text-sm text-slate-600 font-medium">
-                    <div className="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center">
-                      <MapPin className="w-4 h-4 text-slate-400" />
-                    </div>
-                    {ca.location}
-                  </div>
-                </div>
-
-                <Button 
-                  onClick={() => setShowCallTypeModal(true)}
-                  className="w-full bg-white border border-slate-200 text-slate-700 hover:bg-[#c92c41] hover:text-white hover:border-[#c92c41] transition-all rounded-xl font-bold py-6 text-base"
-                >
-                  Book a Call
-                </Button>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* Brand Trust Footer */}
-        <div className="text-center border-t border-slate-200 pt-16 pb-10">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-white rounded-lg shadow-sm p-1 border border-slate-100">
-              <img src="/logoLawizer.jpg" alt="Lawizer" className="w-full h-full object-contain" />
-            </div>
-            <span className="text-2xl font-bold text-[#c92c41]">Lawizer</span>
-          </div>
-          <p className="text-slate-400 text-sm mb-2">© 2026 Lawizer Legal Services. All rights reserved.</p>
-          <p className="text-slate-400 text-xs uppercase tracking-[0.2em]">Verified Professional Network</p>
+              );
+            })}
+          </motion.div>
         </div>
       </div>
 
-      {/* Call Type Selection Modal */}
+      {/* Success popup */}
       <AnimatePresence>
-        {showCallTypeModal && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <motion.div 
+        {success && (
+          <div
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 200,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 16,
+            }}
+          >
+            {/* Backdrop */}
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setShowCallTypeModal(false)}
-              className="absolute inset-0 bg-slate-900/80 backdrop-blur-md"
+              onClick={() => setSuccess(false)}
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: "rgba(13,15,20,0.6)",
+                backdropFilter: "blur(8px)",
+              }}
             />
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+
+            {/* Modal */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.88, y: 32 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 30 }}
-              className="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-md overflow-hidden"
+              exit={{ opacity: 0, scale: 0.88, y: 32 }}
+              transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
+              style={{
+                position: "relative",
+                background: "white",
+                borderRadius: "var(--radius-xl)",
+                padding: "48px 36px 40px",
+                maxWidth: 420,
+                width: "100%",
+                textAlign: "center",
+                boxShadow: "0 32px 80px rgba(0,0,0,0.2)",
+              }}
             >
-              <div className="p-8 border-b border-slate-50 flex items-center justify-between">
-                <div>
-                  <h3 className="text-2xl font-bold text-slate-900">Select Call Type</h3>
-                  <p className="text-slate-500 text-sm">Choose how you'd like to connect</p>
-                </div>
-                <button 
-                  onClick={() => setShowCallTypeModal(false)}
-                  className="p-3 hover:bg-slate-100 rounded-2xl transition-colors"
-                >
-                  <X className="w-6 h-6 text-slate-400" />
-                </button>
-              </div>
+              {/* Close */}
+              <button
+                onClick={() => setSuccess(false)}
+                style={{
+                  position: "absolute",
+                  top: 16,
+                  right: 16,
+                  background: "var(--bg-soft)",
+                  border: "none",
+                  borderRadius: "var(--radius-sm)",
+                  width: 32,
+                  height: 32,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  color: "var(--text-muted)",
+                }}
+              >
+                <X size={16} />
+              </button>
 
-              <div className="p-10 space-y-6">
-                <a 
-                  href={calendlyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-5 p-6 rounded-[1.5rem] border-2 border-slate-50 hover:border-blue-500 hover:bg-blue-50 transition-all group"
+              {/* Icon */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.15, type: "spring", stiffness: 260, damping: 20 }}
+                style={{
+                  width: 72,
+                  height: 72,
+                  borderRadius: "50%",
+                  background: "linear-gradient(135deg, var(--accent-green) 0%, #0e9254 100%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  margin: "0 auto 24px",
+                  boxShadow: "0 12px 32px rgba(20,168,90,0.3)",
+                }}
+              >
+                <CheckCircle size={36} color="white" strokeWidth={2.5} />
+              </motion.div>
+
+              <h2
+                style={{
+                  fontFamily: "var(--font-head)",
+                  fontSize: 22,
+                  fontWeight: 800,
+                  color: "var(--text-primary)",
+                  marginBottom: 12,
+                  lineHeight: 1.2,
+                }}
+              >
+                Request Received! 🎉
+              </h2>
+              <p
+                style={{
+                  fontSize: 15,
+                  color: "var(--text-secondary)",
+                  lineHeight: 1.65,
+                  marginBottom: 28,
+                  fontWeight: 500,
+                }}
+              >
+                Your request has been received. Our team will get back to you soon.
+              </p>
+
+              <button
+                onClick={() => setSuccess(false)}
+                className="btn-hero"
+                style={{
+                  width: "100%",
+                  justifyContent: "center",
+                  fontSize: 15,
+                  padding: "13px 24px",
+                  border: "none",
+                }}
+              >
+                Done
+              </button>
+
+              <p
+                style={{
+                  fontSize: 11,
+                  color: "var(--text-muted)",
+                  marginTop: 16,
+                }}
+              >
+                Questions? Email us at{" "}
+                <a
+                  href="mailto:lawizertech@gmail.com"
+                  style={{ color: "var(--brand)", fontWeight: 600 }}
                 >
-                  <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
-                    <Phone className="w-8 h-8" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="text-xl font-bold text-slate-900">Audio Call</div>
-                    <div className="text-slate-500">Instant voice consultation</div>
-                  </div>
-                  <ArrowRight className="w-6 h-6 text-slate-300 group-hover:text-blue-500" />
+                  lawizertech@gmail.com
                 </a>
-
-                <a 
-                  href={calendlyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-5 p-6 rounded-[1.5rem] border-2 border-slate-50 hover:border-purple-500 hover:bg-purple-50 transition-all group"
-                >
-                  <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center text-purple-600 group-hover:scale-110 transition-transform">
-                    <Video className="w-8 h-8" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="text-xl font-bold text-slate-900">Video Call</div>
-                    <div className="text-slate-500">Face-to-face consultation</div>
-                  </div>
-                  <ArrowRight className="w-6 h-6 text-slate-300 group-hover:text-purple-500" />
-                </a>
-              </div>
-
-              <div className="p-8 bg-slate-50 border-t border-slate-100">
-                <div className="flex items-center gap-3 justify-center mb-2">
-                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                  <span className="text-xs font-bold text-slate-600 uppercase tracking-widest">Available Now</span>
-                </div>
-                <p className="text-xs text-center text-slate-400">
-                  Redirecting to Calendly for secure slot booking.
-                </p>
-              </div>
+              </p>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }

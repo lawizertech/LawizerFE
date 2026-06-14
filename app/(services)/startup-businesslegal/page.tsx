@@ -49,7 +49,7 @@ export default function StartupAndBusinessLegalPage() {
       id: "opc-bundle",
       name: "OPC Bundle",
       tagline: "Incorporation + Annual Compliance",
-      price: "₹9,999",
+      price: "₹999",
       originalPrice: "₹19,999",
       discount: "50% OFF",
       popular: false,
@@ -59,7 +59,7 @@ export default function StartupAndBusinessLegalPage() {
       id: "llp-bundle",
       name: "LLP Bundle",
       tagline: "Incorporation + Annual Compliance",
-      price: "₹12,999",
+      price: "₹999",
       originalPrice: "₹24,999",
       discount: "48% OFF",
       popular: true,
@@ -69,7 +69,7 @@ export default function StartupAndBusinessLegalPage() {
       id: "pvt-ltd-bundle",
       name: "Pvt Ltd Bundle",
       tagline: "Incorporation + Annual Compliance",
-      price: "₹14,999",
+      price: "₹999",
       originalPrice: "₹29,999",
       discount: "50% OFF",
       popular: false,
@@ -89,7 +89,7 @@ export default function StartupAndBusinessLegalPage() {
         {
           name: "Private Limited Company",
           slug: "PrivateLimitedCompanyPage",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹4,999",
           discount: "70% OFF",
           description: "Ideal for startups planning to scale and raise investment. Offers limited liability and investor credibility.",
@@ -105,7 +105,7 @@ export default function StartupAndBusinessLegalPage() {
         {
           name: "Limited Liability Partnership (LLP)",
           slug: "LLPPage",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹3,999",
           discount: "Save ₹2,500",
           description: "Blend of partnership flexibility and limited liability protection. Suited for multi-partner businesses.",
@@ -129,7 +129,7 @@ export default function StartupAndBusinessLegalPage() {
         {
           name: "Public Limited Company (PLC)",
           slug: "PublicLimitedCompanyPage",
-          price: "₹19,999 – ₹29,999",
+          price: "₹999",
           originalPrice: "₹39,999 – ₹59,999",
           discount: null,
           description: "For large-scale enterprises looking to raise capital from the public and expand operations.",
@@ -137,7 +137,7 @@ export default function StartupAndBusinessLegalPage() {
         {
           name: "Section 8 Company (NGO)",
           slug: "Section8NGOCompanyPage",
-          price: "₹8,999 – ₹14,999",
+          price: "₹999",
           originalPrice: "₹17,999 – ₹24,999",
           discount: null,
           description: "Non-profit structure for charitable or social initiatives. Eligible for tax exemptions and grants.",
@@ -155,7 +155,7 @@ export default function StartupAndBusinessLegalPage() {
         {
           name: "Trademark Registration",
           slug: "TrademarkRegistrationPage",
-          price: "₹1,199",
+          price: "₹999",
           originalPrice: "₹3,499",
           discount: "Save ₹2,300",
           description: "Secure your brand name, logo, and identity with nationwide legal protection.",
@@ -554,6 +554,9 @@ export default function StartupAndBusinessLegalPage() {
                             </span>
                           )}
                         </div>
+                        <p className="text-[10px] font-bold text-gray-500 mt-2">
+                          <strong>Government charges excluded</strong>
+                        </p>
                       </div>
 
                       {/* CTA row */}

@@ -9,7 +9,7 @@ export function CTABannerSection() {
         <div className="t text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-2 leading-tight">Ready to Register Your Business?</div>
         <div className="s text-sm sm:text-base text-white/80">Join 2,000+ founders who started their journey with Lawizer.</div>
       </div>
-      <Link href="/#popular-services" className="btn-cta-white w-full md:w-auto text-center">Get Started Now</Link>
+      <Link href="/#home" className="btn-cta-white w-full md:w-auto text-center" style={{ display: "inline-block", position: "relative", zIndex: 1 }}>Get Started Now</Link>
     </div>
   );
 }

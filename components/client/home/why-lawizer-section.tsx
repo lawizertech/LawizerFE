@@ -92,7 +92,7 @@ export function WhyLawizerSection() {
         <div className="why-visual w-full lg:w-1/2 max-w-lg mx-auto">
           <div className="why-stat-grid grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
             <div className="why-stat p-3 sm:p-4 min-w-[80px]">
-              <div className="n text-xl sm:text-2xl md:text-3xl"><AnimatedNumber value="2000" suffix="K+" /></div>
+              <div className="n text-xl sm:text-2xl md:text-3xl"><AnimatedNumber value="1000" suffix="K+" /></div>
               <div className="l text-2xs sm:text-xs">Businesses<br />Registered</div>
             </div>
             <div className="why-stat p-3 sm:p-4">
