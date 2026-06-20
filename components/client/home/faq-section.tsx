@@ -2,62 +2,78 @@
 
 import { useState } from "react";
 import { ChevronDown, Phone, Mail, MessageCircle } from "lucide-react";
+import Link from "next/link";
 
 export function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const [activeContact, setActiveContact] = useState<number | null>(null);
   const [hoveredContact, setHoveredContact] = useState<number | null>(null);
 
-  const faqs = [
+  const faqs: { question: string; answer: React.ReactNode }[] = [
     {
-      question: "What is online legal consultation?",
-      answer:
-        "Online legal consultation is a method to connect users and lawyers virtually. It is a convenient and easy way to get legal advice using the Lawizer platform through video calls, phone calls, or chat messaging.",
+      question: "Which business structure should I choose if I intend to raise VC funding or offer stock options to early employees?",
+      answer: (
+        <>
+          If you are a high-growth tech startup looking to secure venture capital or attract top-tier talent through ESOPs, you should incorporate as a{" "}
+          <Link href="/startup-businesslegal/startbusiness/PrivateLimitedCompanyPage" className="text-blue-300 underline hover:text-blue-200">Private Limited Company</Link>.
+          {" "}Venture capitalists almost universally require this structure because capital is split into clear corporate shares, making equity distribution seamless. If you prefer a flexible framework with lower ongoing compliances and have no immediate plans for institutional funding, you can opt for an{" "}
+          <Link href="/startup-businesslegal/startbusiness/LLPPage" className="text-blue-300 underline hover:text-blue-200">LLP Registration</Link>.
+        </>
+      ),
     },
     {
-      question: "Are your attorneys qualified?",
-      answer:
-        "Yes, all attorneys on Lawizer are fully licensed, verified professionals with years of experience in their respective practice areas. We thoroughly vet each attorney before they join our platform.",
+      question: "What are the mandatory prerequisites I need to gather before launching my company incorporation process online?",
+      answer: (
+        <>
+          To initiate your registration, you need a minimum of 2 directors and shareholders (who can be the same individuals), with at least one director residing in India. You will need to provide standard KYC documents (PAN card, Aadhaar, and a recent bank statement or utility bill). You don&apos;t need to rent a commercial space right away — you can use a residential address for your registered office. Lawizer completely manages your application end-to-end, securing your DIN, DSC, and MCA name approval through our streamlined{" "}
+          <Link href="/startup-businesslegal/startbusiness/PrivateLimitedCompanyPage" className="text-blue-300 underline hover:text-blue-200">Private Limited Company Registration</Link>{" "}workflow.
+        </>
+      ),
     },
     {
-      question: "What happens if I don't get a response from an attorney?",
-      answer:
-        "If you don't receive a response within 15 minutes, our support team will immediately connect you with another available attorney. We also offer a full refund if you're not satisfied with the service.",
+      question: "Does Lawizer assist with opening our corporate bank account or securing our tax identity after incorporation is complete?",
+      answer: (
+        <>
+          Yes, incorporation is only the first step. Every standard business setup package processed through Lawizer automatically includes the generation of your company&apos;s PAN and TAN. Furthermore, our team provides dedicated bank account opening support to ensure your corporate entity can transition into daily commercial transactions without logistical delays.
+        </>
+      ),
     },
     {
-      question: "How do I start an online consultation with an attorney on Lawizer?",
-      answer:
-        "Simply click the 'Get Legal Help' button, select your practice area, describe your legal issue, and you'll be matched with a qualified attorney. You can then choose to connect via video call, phone, or chat.",
+      question: "How does a Trademark application differ from the name approval I get during my company incorporation?",
+      answer: (
+        <>
+          Ministry of Corporate Affairs name approval simply prevents another business from setting up a corporate shell with an identical legal name. It does <strong>not</strong> give you exclusive commercial rights to market products under that brand name. To fully prevent competitors from copying your logos, slogans, or consumer-facing identity, you must separately file for a{" "}
+          <Link href="/startup-businesslegal/protectbusiness/TrademarkRegistrationPage" className="text-blue-300 underline hover:text-blue-200">Trademark Registration</Link>{" "}to legally insulate your brand across the Indian market.
+        </>
+      ),
     },
     {
-      question: "Is online attorney consultation safe and secured on Lawizer?",
-      answer:
-        "Absolutely. Lawizer uses bank-level encryption and complies with all attorney-client privilege laws. All communications are confidential and protected by end-to-end encryption.",
+      question: "What essential legal contracts does my startup need to execute on day one to protect our internal operations?",
+      answer: (
+        <>
+          Before you scale, you must secure your internal ecosystem. First, a comprehensive Co-Founder Agreement is vital to establish equity vesting and prevent early-departure gridlock. Second, you must execute clear NDAs and Employment Agreements to ensure all intellectual property (IP) created by your team remains sole corporate property. Explore our robust drafting and contract management options through our{" "}
+          <Link href="/startup-businesslegal" className="text-blue-300 underline hover:text-blue-200">Legal Services Portal</Link>.
+        </>
+      ),
     },
     {
-      question: "What services does Lawizer offer?",
-      answer:
-        "Lawizer is a comprehensive online legal services platform in India designed to make the law accessible to everyone. Whether you are an individual seeking free legal consultation or a company looking for B2B legal solutions, we connect you with expert professionals. From contract drafting to resolving disputes, Lawizer is your one-stop destination for expert legal advice and representation.",
+      question: "Are GST setup and MSME registration required the moment my company is officially incorporated?",
+      answer: (
+        <>
+          No, these registrations are entirely milestone-driven. For a standard service-based startup,{" "}
+          <Link href="/startup-businesslegal/startbusiness/GSTRegistrationPage" className="text-blue-300 underline hover:text-blue-200">GST Registration</Link>{" "}becomes legally mandatory only when your domestic turnover crosses ₹20 Lakhs in a financial year. However, many founders choose to register early to claim Input Tax Credit (ITC) on operational setups. Similarly, securing an{" "}
+          <Link href="/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage" className="text-blue-300 underline hover:text-blue-200">MSME / Udyam Registration</Link>{" "}within your first 24 hours is highly recommended, as it unlocks collateral-free government loans and protects you against delayed payments from corporate clients.
+        </>
+      ),
     },
     {
-      question: 'How does the "Emergency SOS" button work?',
-      answer:
-        "Our Emergency SOS legal help feature is designed for urgent situations where you need immediate assistance. By pressing the SOS button, you are instantly connected to emergency legal support and nearby authorities. This ensures that you have access to instant lawyer help and protection right when you need it most, providing peace of mind 24/7.",
-    },
-    {
-      question: "Is the legal consultation really free?",
-      answer:
-        "Yes! We believe that justice should be accessible to all. Lawizer offers free legal consultation online to help you understand your rights without any financial burden. You can speak with a qualified advocate in India to get initial guidance on your case. If you require further representation or specialized documentation, we offer affordable packages tailored to your needs.",
-    },
-    {
-      question: "Can I file my Income Tax Return (ITR) through Lawizer?",
-      answer:
-        "Yes, filing your taxes is hassle-free with us. Lawizer connects you with experienced Chartered Accountants for online ITR filing in India. Whether you are a salaried employee, a freelancer, or a business owner, our tax experts ensure accurate calculations to help you maximize your tax refund and ensure compliance. Avoid penalties and experience seamless CA-assisted tax filing from the comfort of your home.",
-    },
-    {
-      question: "Can Lawizer help my business with legal compliance?",
-      answer:
-        "Absolutely. Lawizer provides robust corporate legal services for startups and established businesses alike. From business incorporation and startup legal compliance to employee contracts and intellectual property rights, our team handles the complexities of the law so you can focus on growing your business. We are the trusted partner for business legal solutions in India.",
+      question: "How can our newly formed corporate entity unlock tax holidays and angel tax exemptions under the Startup India scheme?",
+      answer: (
+        <>
+          Simply registering a company does not grant automatic tax breaks. To claim a 3-year consecutive income tax holiday and enjoy complete insulation from Angel Tax, your company must apply for official recognition via the{" "}
+          <Link href="/startup-businesslegal/startbusiness/StartupIndiaRegistrationPage" className="text-blue-300 underline hover:text-blue-200">Startup India Registration</Link>{" "}track. Lawizer helps you compile your pitch deck, outline your innovative business model, and secure your DPIIT recognition certificate seamlessly.
+        </>
+      ),
     },
   ];
 
@@ -314,7 +330,7 @@ export function FAQSection() {
 
                 {openIndex === index && (
                   <div className="faq-answer pb-5 text-gray-300 text-sm sm:text-base leading-relaxed">
-                    {faq.answer}
+                    <div>{faq.answer}</div>
                   </div>
                 )}
               </div>
