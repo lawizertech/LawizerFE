@@ -3,7 +3,7 @@
 import { useState, FormEvent } from "react";
 import { X, Mail, Loader2 } from "lucide-react";
 import { auth } from "@/lib/firebaseClient";
-import { userPasswordReset } from "@/lib/apis/api";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 interface ForgotPasswordModalProps {
   onClose: () => void;
@@ -25,7 +25,7 @@ export function ForgotPasswordModal({
     setLoading(true);
 
     try {
-      await userPasswordReset(email);
+      await sendPasswordResetEmail(auth, email);
       
       setSuccess(true);
     } catch (err: any) {

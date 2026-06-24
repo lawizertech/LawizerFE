@@ -4,6 +4,13 @@ import { useState, FormEvent } from "react";
 import { X, Mail, Lock, User, Loader2, ArrowRight, Phone } from "lucide-react";
 import { signupUser } from "@/lib/apis/api";
 
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+
+import { auth } from "@/lib/firebaseClient";
+
 interface SignupModalProps {
   onClose: () => void;
   onSignInRedirect?: () => void;
@@ -12,8 +19,7 @@ interface SignupModalProps {
 export function SignupModal({ onClose, onSignInRedirect }: SignupModalProps) {
   const [step, setStep] = useState<1 | 2>(1);
   const [emailSent, setEmailSent] = useState(true);
-  const isAuthEmulator =
-    !!process.env.NEXT_PUBLIC_FIREBASE_AUTH_EMULATOR_HOST;
+  const isAuthEmulator = !!process.env.NEXT_PUBLIC_FIREBASE_AUTH_EMULATOR_HOST;
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -34,15 +40,35 @@ export function SignupModal({ onClose, onSignInRedirect }: SignupModalProps) {
     }
 
     try {
-      const res = await signupUser(name, email, password, phone);
+      // Create user in Firebase Auth
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
 
-      if (res.success === false || res.message?.includes("already exists")) {
-        setError(res.message || "User already exists with this email.");
+      const user = userCredential.user;
+
+      // Send verification email
+      await sendEmailVerification(user);
+
+      // Create user record in backend
+      const idToken = await user.getIdToken(true);
+      
+      const res = await signupUser(
+  idToken,
+  user.uid,
+  name,
+  email,
+  phone
+);
+
+      if (!res.success) {
+        setError(res.message || "Failed to create profile.");
         return;
       }
 
-      const sent = isAuthEmulator ? false : res?.emailSent !== false;
-      setEmailSent(sent);
+      setEmailSent(true);
       setStep(2);
     } catch (err: any) {
       setError(err.message || "Failed to create account.");
@@ -204,12 +230,11 @@ export function SignupModal({ onClose, onSignInRedirect }: SignupModalProps) {
                 <>
                   We've sent a verification link to <strong>{email}</strong>.
                   <br />
-                  Please check your inbox and click the link to verify your email.
+                  Please check your inbox and click the link to verify your
+                  email.
                 </>
               ) : (
-                <>
-                  Your account is ready. You can sign in now.
-                </>
+                <>Your account is ready. You can sign in now.</>
               )}
             </p>
             <button
