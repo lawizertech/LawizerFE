@@ -30,28 +30,36 @@ export function EmergencyButton() {
   return (
     <div>
       {/* Floating button — pill grows leftward from icon */}
-      <div
-        className="fixed bottom-20 right-4 z-50 flex items-center justify-end cursor-pointer"
+      <motion.div
+        className="fixed bottom-20 right-4 z-50 cursor-pointer"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         onClick={handleOpen}
+        animate={{
+          width: hovered ? "115px" : "48px",
+        }}
+        transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+        style={{
+          height: "48px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
+          overflow: "hidden",
+          backgroundColor: "#dc2626",
+          borderRadius: "24px",
+          boxShadow: hovered
+            ? "0 4px 20px rgba(220,38,38,0.5), 0 2px 8px rgba(0,0,0,0.2)"
+            : "none",
+        }}
       >
-        {/* Expanding pill container — anchored to the right (icon side) */}
-        <motion.div
-          initial={false}
-          animate={{
-            width: hovered ? "115px" : "48px",
-            backgroundColor: hovered ? "#dc2626" : "transparent",
-            boxShadow: hovered
-              ? "0 4px 20px rgba(220,38,38,0.5), 0 2px 8px rgba(0,0,0,0.2)"
-              : "0 0 0 rgba(0,0,0,0)",
-          }}
-          transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
-          className="flex items-center justify-end overflow-hidden"
+        {/* Content wrapper */}
+        <div
           style={{
-            height: "48px",
-            borderRadius: "24px",
-            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            height: "100%",
           }}
         >
           {/* Letters — fade in after pill expands */}
@@ -97,13 +105,40 @@ export function EmergencyButton() {
             })}
           </div>
 
-          {/* Icon — always visible, sits on the right */}
+          {/* SOS Text — visible when not hovered */}
+          <AnimatePresence>
+            {!hovered && (
+              <motion.div
+                initial={false}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="absolute inset-0 flex items-center justify-center"
+              >
+                <span
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: "13px",
+                    fontWeight: 700,
+                    letterSpacing: "0.08em",
+                    color: "white",
+                    display: "inline-block",
+                    lineHeight: 1,
+                  }}
+                >
+                  SOS
+                </span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Icon — visible when hovered, sits on the right */}
           <motion.div
-            animate={
-              hovered
-                ? { filter: "drop-shadow(0 0 6px rgba(255,255,255,0.6))" }
-                : { filter: "drop-shadow(0 0 0px rgba(255,255,255,0))" }
-            }
+            animate={{
+              opacity: hovered ? 1 : 0,
+              filter: hovered
+                ? "drop-shadow(0 0 6px rgba(255,255,255,0.6))"
+                : "drop-shadow(0 0 0px rgba(255,255,255,0))",
+            }}
             transition={{ duration: 0.3 }}
             className="flex-shrink-0 w-12 h-12 relative z-10"
           >
@@ -115,8 +150,8 @@ export function EmergencyButton() {
               className="rounded-full"
             />
           </motion.div>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
 
       {/* Confirm Modal */}
       <AnimatePresence>

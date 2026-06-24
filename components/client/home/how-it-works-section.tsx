@@ -63,8 +63,8 @@ export function HowItWorksSection() {
             show: { opacity: 1, y: 0, transition: { delay: 2.6, duration: 0.6 } }
           }}>
             <div className="step-num">4</div>
-            <div className="step-h">Get Certificate</div>
-            <div className="step-p">Receive your incorporation certificate & you're official!</div>
+            <div className="step-h">Get Your Deliverables</div>
+            <div className="step-p">Receive what you asked for.</div>
           </motion.div>
         </motion.div>
       </div>

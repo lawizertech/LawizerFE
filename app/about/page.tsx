@@ -256,33 +256,6 @@ export default function AboutLawizer() {
           </p>
         </div>
 
-        {/* Technical Head */}
-        <div className="bg-gray-50 p-8 rounded-2xl shadow-sm border border-gray-200 space-y-6">
-          <h3 className="text-2xl font-bold text-[#c92c41]">
-            Debadyuti Mukherjee — Technical Head
-          </h3>
-          <p className="text-gray-700 leading-relaxed">
-            Debadyuti Mukherjee is the Technical Head at Lawizer, respected for
-            his exceptional ability to simplify complexity, provide strategic
-            technical support, and ensure smooth execution across all
-            engineering workflows. Known for his clarity, precision, and
-            solution-driven thinking, he plays a crucial role in maintaining
-            Lawizer’s technical stability and development efficiency.
-          </p>
-          <p className="text-gray-700 leading-relaxed">
-            He excels at evaluating new technical requirements, breaking down
-            challenging tasks into practical structures, and developing internal
-            tools, prototypes, and reference implementations that streamline the
-            engineering process for the entire team.
-          </p>
-          <p className="text-gray-700 leading-relaxed">
-            Debadyuti’s calm leadership, supportive approach, and strong
-            problem-solving mindset make him an indispensable part of Lawizer’s
-            technical ecosystem. He ensures that every feature, workflow, and
-            system is executed with clarity, precision, and long-term
-            reliability.
-          </p>
-        </div>
       </div>
     </main>
   );

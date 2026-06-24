@@ -82,36 +82,50 @@ export const getUserProfile = async (uid: string) => {
 /* -------------------------------------------------------------------------- */
 
 export const signupUser = async (
+  idToken: string,
+  uid: string,
   name: string,
   email: string,
-  password: string,
   phoneNumber: string,
 ) => {
   try {
-    const res = await backendApi.post(`/auth/signup`, {
-      name,
-      email,
-      password,
-      phoneNumber,
-    });
+    const res = await backendApi.post(
+  `/auth/signup`,
+  {
+    uid,
+    name,
+    email,
+    phoneNumber,
+  },
+  {
+    headers: {
+      Authorization: `Bearer ${idToken}`,
+    },
+  }
+);
     return res.data;
   } catch (err: any) {
     const errorCode = err?.response?.data?.errorCode;
 
     if (errorCode === "TOKEN_EXPIRED") {
-      const newToken = await renewToken();
-      if (!newToken) return err.response.data;
+  const newToken = await renewToken();
+  if (!newToken) return err.response.data;
 
-      const retryRes = await backendApi.post(
-        `/auth/init-user`,
-        { name, email, password },
-        {
-          headers: { Authorization: `Bearer ${newToken}` },
-        },
-      );
-
-      return retryRes.data;
+  const retryRes = await backendApi.post(
+    `/auth/signup`,
+    {
+      uid,
+      name,
+      email,
+      phoneNumber,
+    },
+    {
+      headers: { Authorization: `Bearer ${newToken}` },
     }
+  );
+
+  return retryRes.data;
+}
 
     return {
       success: false,
@@ -358,21 +372,21 @@ export const expertCompleteProfile = async (payload: {
 /* -------------------------------------------------------------------------- */
 /*                         🔹 Fetch Advocate Dashboard Metrics               */
 /* -------------------------------------------------------------------------- */
-export const userPasswordReset = async (email: string) => {
-  try {
-    const res = await backendApi.post("/auth/sendPasswordReset", {
-      email: email,
-    });
+// export const userPasswordReset = async (email: string) => {
+//   try {
+//     const res = await backendApi.post("/auth/sendPasswordReset", {
+//       email: email,
+//     });
 
-    return {
-      success: true,
-      ...res.data,
-    };
-  } catch (err: any) {
-    return {
-      success: false,
-      message: err?.response?.data?.message || "Failed to reset link",
-      errorCode: err?.response?.data?.errorCode || null,
-    };
-  }
-};
+//     return {
+//       success: true,
+//       ...res.data,
+//     };
+//   } catch (err: any) {
+//     return {
+//       success: false,
+//       message: err?.response?.data?.message || "Failed to reset link",
+//       errorCode: err?.response?.data?.errorCode || null,
+//     };
+//   }
+// };

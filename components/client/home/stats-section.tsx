@@ -6,12 +6,12 @@ import { motion, useInView } from "framer-motion";
 export function StatsSection() {
   const stats = [
     {
-      number: 10000,
+      number: 1000,
       suffix: "+",
       label: "Businesses Registered",
     },
     {
-      number: 20000,
+      number: 2000,
       suffix: "+",
       label: "Happy Reviews",
     },
@@ -23,6 +23,7 @@ export function StatsSection() {
   ];
 
   function AnimatedNumber({ value }: { value: number }) {
+    const isDecimal = !Number.isInteger(value);
     const [count, setCount] = useState(0);
     const ref = useRef(null);
     const isInView = useInView(ref, { once: false, amount: 0.5 });
@@ -38,15 +39,15 @@ export function StatsSection() {
             start = value;
             clearInterval(timer);
           }
-          setCount(Math.floor(start));
+          setCount(isDecimal ? Math.round(start * 10) / 10 : Math.floor(start));
         }, 16);
         return () => clearInterval(timer);
       } else {
         setCount(0); // Reset when out of view
       }
-    }, [value, isInView]);
+    }, [value, isInView, isDecimal]);
 
-    return <span ref={ref}>{count.toLocaleString()}</span>;
+    return <span ref={ref}>{isDecimal ? count.toFixed(1) : count.toLocaleString()}</span>;
   }
 
   return (

@@ -7,6 +7,7 @@ import ServicePageLayout, {
   SectionBlock,
   FAQItem,
 } from "@/components/client/ServicePageLayout";
+import { useCallback } from "@/context/callbackContext";
 
 /* ================================
    BENEFITS
@@ -114,6 +115,7 @@ const faqs = [
 
 function HeroWithAddons() {
   const heroRef = useRef<HTMLElement>(null);
+  const { openCallback } = useCallback();
 
   // Hide the floating "Free Consultation" popup while hero is visible,
   // show it again once user scrolls past the hero.
@@ -161,24 +163,6 @@ function HeroWithAddons() {
         </svg>
       ),
       label: "MOA + AOA +\nIncorporation Certificate",
-    },
-    {
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={1.5}>
-          <circle cx="12" cy="12" r="9" />
-          <path d="M12 3c-2.5 3-4 5.5-4 9s1.5 6 4 9M12 3c2.5 3 4 5.5 4 9s-1.5 6-4 9M3 12h18" />
-        </svg>
-      ),
-      label: "Web Domain\nName for 1 Year",
-    },
-    {
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={1.5}>
-          <rect x="2" y="5" width="20" height="14" rx="2" />
-          <path d="M2 9l10 6 10-6" />
-        </svg>
-      ),
-      label: "Web Hosting +\n10 emails for 1 Year",
     },
   ];
 
@@ -233,7 +217,7 @@ function HeroWithAddons() {
           {/* Pricing */}
           <div className="flex items-center justify-center gap-3 mb-1">
             <p className="text-3xl sm:text-4xl font-extrabold text-white">
-              @ Rs. 1,499 <sup className="text-lg font-semibold">*</sup>
+              @ Rs. 999 <sup className="text-lg font-semibold">*</sup>
             </p>
             <p className="text-lg sm:text-xl font-semibold text-slate-400 line-through">
               ₹4,999
@@ -242,12 +226,25 @@ function HeroWithAddons() {
               whileHover={{ boxShadow: "0 0 20px rgba(34, 197, 94, 0.6)" }}
               className="bg-green-500 text-white px-4 py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-300"
             >
-              70% OFF
+              80% OFF
             </motion.div>
           </div>
-          <p className="text-slate-400 text-xs sm:text-sm mb-8 tracking-wide">
+          <p className="text-slate-400 text-xs sm:text-sm mb-2 tracking-wide">
             In 15 days &nbsp;·&nbsp; Online Process &nbsp;·&nbsp; Facilitation
           </p>
+
+          {/* Govt Fees Notice + Callback */}
+          <div className="mb-8 flex flex-col items-center gap-2">
+            <p className="text-orange-300 text-sm sm:text-base font-bold tracking-wide">
+              ⚠️ Government Fees + DSC Fees Excluded
+            </p>
+            <button
+              onClick={() => openCallback("Private Limited Company")}
+              className="mt-1 text-xs sm:text-sm text-white/80 underline underline-offset-2 hover:text-orange-300 transition-colors duration-200 cursor-pointer"
+            >
+              📞 Want to know more about the fee structure? Request a Callback
+            </button>
+          </div>
 
           {/* Add-ons box */}
           <div className="w-full border border-white/20 rounded-2xl overflow-hidden backdrop-blur-sm">
@@ -256,8 +253,8 @@ function HeroWithAddons() {
                 Also Get Absolutely Free
               </p>
             </div>
-            <div className="bg-white/5 py-8 px-4 sm:px-8">
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 items-start justify-items-center">
+            <div className="bg-white/5 py-8 px-4 sm:px-12">
+              <div className="grid grid-cols-2 gap-8 items-start justify-items-center max-w-sm mx-auto">
                 {addons.map((addon, i) => (
                   <div key={i} className="relative flex flex-col items-center gap-3 w-full">
                     <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/90 text-slate-800 flex items-center justify-center shadow-md">
@@ -267,7 +264,7 @@ function HeroWithAddons() {
                       {addon.label}
                     </p>
                     {i < addons.length - 1 && (
-                      <span className="hidden sm:block absolute -right-3 top-4 text-white/40 text-xl font-light">
+                      <span className="absolute -right-4 top-4 text-white/40 text-xl font-light">
                         +
                       </span>
                     )}
@@ -278,7 +275,7 @@ function HeroWithAddons() {
           </div>
 
           <p className="mt-4 text-slate-500 text-xs italic">
-            *Facilitation Fees. Government Charges Extra.
+            *Facilitation Fees only. Government Fees & DSC Fees are charged separately.
           </p>
         </motion.div>
       </div>
