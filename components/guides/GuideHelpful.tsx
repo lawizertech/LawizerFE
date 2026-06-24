@@ -46,7 +46,8 @@ export default function GuideHelpful({ slug }: GuideHelpfulProps) {
           <p className="guide-helpful-thanks-text">
             {vote === 'up'
               ? 'Glad this guide helped!'
-              : 'Thanks — we'll improve it.'}
+              : "Thanks — we'll improve it."
+              }
           </p>
         </div>
       ) : (
