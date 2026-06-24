@@ -42,7 +42,7 @@ export default function LawyerLoginPage() {
         return;
       }
 
-      const idToken = await user.getIdToken();
+      const idToken = await user.getIdToken(true);
 
       const res = await expertLogin(idToken);
 

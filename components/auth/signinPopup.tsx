@@ -47,7 +47,7 @@ export function SignInModal({
         return;
       }
 
-      const idToken = await user.getIdToken();
+      const idToken = await user.getIdToken(true);
 
       // 2️⃣ Send token to backend
       const res = await loginUser(idToken);
