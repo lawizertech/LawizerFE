@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Search, X } from "lucide-react";
 
+
 function getExcerpt(html?: string, maxLength = 160) {
   if (!html) return "";
   const text = html.replace(/<[^>]*>?/gm, "").trim();

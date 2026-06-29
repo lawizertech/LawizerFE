@@ -1,16 +1,23 @@
 import BlogLayout from "@/components/blogs/BlogLayout";
 
-async function getPosts() {
-  const ENDPOINT = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT;
-  
-  if (!ENDPOINT) {
-    console.error("NEXT_PUBLIC_GRAPHQL_ENDPOINT is not configured");
-    return [];
-  }
+const WP_GRAPHQL =
+  process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT ||
+  "https://olive-dog-534584.hostingersite.com/graphql";
 
+interface GQLPost {
+  title: string;
+  slug: string;
+  excerpt: string;
+  uri: string;
+  date: string;
+  featuredImage: { node: { sourceUrl: string; altText: string } } | null;
+  categories: { nodes: { name: string }[] };
+}
+
+async function getAllPosts(): Promise<GQLPost[]> {
   const query = `
-    query GetPosts {
-      posts(first: 20) {
+    query GetAllPosts {
+      posts(first: 100, where: { status: PUBLISH }) {
         nodes {
           title
           slug
@@ -34,28 +41,27 @@ async function getPosts() {
   `;
 
   try {
-    const res = await fetch(ENDPOINT, {
+    const res = await fetch(WP_GRAPHQL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query }),
-      cache: "no-store",
+      next: { revalidate: 3600 },
     });
 
     if (!res.ok) {
-      console.error(`GraphQL endpoint error: ${res.status} ${res.statusText}`);
+      console.error(`GraphQL error: ${res.status} ${res.statusText}`);
       return [];
     }
 
     const json = await res.json();
 
-    // Check for GraphQL errors
     if (json.errors) {
       console.error("GraphQL errors:", json.errors);
       return [];
     }
 
-    const posts = json?.data?.posts?.nodes ?? [];
-    console.log(`Fetched ${posts.length} posts from GraphQL endpoint`);
+    const posts: GQLPost[] = json?.data?.posts?.nodes ?? [];
+    console.log(`Fetched ${posts.length} posts`);
     return posts;
   } catch (error) {
     console.error("Error fetching posts:", error);
@@ -63,8 +69,8 @@ async function getPosts() {
   }
 }
 
-function groupPostsByCategory(posts: any[]) {
-  const grouped: Record<string, any[]> = {};
+function groupPostsByCategory(posts: GQLPost[]) {
+  const grouped: Record<string, GQLPost[]> = {};
 
   posts.forEach((post) => {
     const categories = post.categories?.nodes;
@@ -75,7 +81,7 @@ function groupPostsByCategory(posts: any[]) {
       return;
     }
 
-    categories.forEach((cat: any) => {
+    categories.forEach((cat) => {
       grouped[cat.name] ??= [];
       grouped[cat.name].push(post);
     });
@@ -84,8 +90,8 @@ function groupPostsByCategory(posts: any[]) {
   return grouped;
 }
 
-export default async function PostList() {
-  const posts = await getPosts();
+export default async function BlogsPage() {
+  const posts = await getAllPosts();
   const postsByCategory = groupPostsByCategory(posts);
 
   return <BlogLayout postsByCategory={postsByCategory} />;
