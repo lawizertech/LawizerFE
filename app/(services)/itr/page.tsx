@@ -9,9 +9,9 @@ import { Check, Copy, Phone, X, ArrowRight, Shield, Lock, Sparkles } from "lucid
    THEME CONSTANTS
    Match the Lawizer site palette: red primary, navy text
 ───────────────────────────────────────────────────────── */
-const RED       = "#c0392b";
+const RED = "#c0392b";
 const RED_LIGHT = "#e74c3c";
-const NAVY      = "#0e172b";
+const NAVY = "#0e172b";
 
 /* ─────────────────────────────────────────────────────────
    PLAN DATA
@@ -23,15 +23,15 @@ const NAVY      = "#0e172b";
 ───────────────────────────────────────────────────────── */
 const plans = [
   {
-    id:            "bronze",
-    name:          "Bronze",
-    subtitle:      "Tax Filing + Computation Explanation",
-    price:         2499,
+    id: "bronze",
+    name: "Bronze",
+    subtitle: "Tax Filing + Computation Explanation",
+    price: 2499,
     originalPrice: 6873,
-    tier:          "Essential",
-    accentColor:   "#c17f3a",
-    glowColor:     "193,127,58",
-    emoji:         "🥉",
+    tier: "Essential",
+    accentColor: "#c17f3a",
+    glowColor: "193,127,58",
+    emoji: "🥉",
     features: [
       "Direct Interaction with Expert",
       "Tax calculation walkthrough",
@@ -44,16 +44,16 @@ const plans = [
     excludedSources: "Capital Gains, FnO, Business Income, Crypto",
   },
   {
-    id:            "silver",
-    name:          "Silver",
-    subtitle:      "Tax Filing with Interactive Video Call",
-    price:         4499,
+    id: "silver",
+    name: "Silver",
+    subtitle: "Tax Filing with Interactive Video Call",
+    price: 4499,
     originalPrice: 12498,
-    tier:          "Most Popular",
-    accentColor:   RED,
-    glowColor:     "192,57,43",
-    emoji:         "🥈",
-    popular:       true,           // ← controls red border, pill, red Buy Now
+    tier: "Most Popular",
+    accentColor: RED,
+    glowColor: "192,57,43",
+    emoji: "🥈",
+    popular: true,           // ← controls red border, pill, red Buy Now
     features: [
       "Video Call with Expert",
       "Tax calculation walkthrough",
@@ -67,15 +67,15 @@ const plans = [
     excludedSources: null,
   },
   {
-    id:            "gold",
-    name:          "Gold",
-    subtitle:      "Tax Filing + Tax Planning for the Next Year",
-    price:         6499,
+    id: "gold",
+    name: "Gold",
+    subtitle: "Tax Filing + Tax Planning for the Next Year",
+    price: 6499,
     originalPrice: 17498,
-    tier:          "Advanced",
-    accentColor:   "#b8860b",
-    glowColor:     "184,134,11",
-    emoji:         "🥇",
+    tier: "Advanced",
+    accentColor: "#b8860b",
+    glowColor: "184,134,11",
+    emoji: "🥇",
     features: [
       "Tax filing in direct video call",
       "Tax calculation walkthrough",
@@ -89,15 +89,15 @@ const plans = [
     excludedSources: null,
   },
   {
-    id:            "diamond",
-    name:          "Diamond",
-    subtitle:      "Tax Filing + Advisory Assistance All Year-round",
-    price:         34999,
+    id: "diamond",
+    name: "Diamond",
+    subtitle: "Tax Filing + Advisory Assistance All Year-round",
+    price: 34999,
     originalPrice: 99998,
-    tier:          "Elite",
-    accentColor:   "#3d6ab0",
-    glowColor:     "61,106,176",
-    emoji:         "💎",
+    tier: "Elite",
+    accentColor: "#3d6ab0",
+    glowColor: "61,106,176",
+    emoji: "💎",
     features: [
       "Unlimited video calls",
       "Tax calculation walkthrough",
@@ -153,7 +153,7 @@ export default function ITRPlans() {
   const router = useRouter();
 
   return (
-    <section className="relative py-28 overflow-hidden" style={{ background: "#f8f9fb" }}>
+    <section className="relative py-16 overflow-hidden" style={{ background: "#f8f9fb" }}>
 
       {/* ── Global styles + card animations ─────────────── */}
       <style>{`
@@ -193,7 +193,7 @@ export default function ITRPlans() {
         />
       </div>
 
-      <div className="itr-root max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+      <div className="itr-root max-w-[1440px] mx-10 px-6 lg:px-8 relative z-10">
 
         {/* ── Section header ───────────────────────────────── */}
         <motion.div
@@ -219,7 +219,7 @@ export default function ITRPlans() {
         </motion.div>
 
         {/* ── Plan cards grid ──────────────────────────────── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
           {plans.map((plan, idx) => (
             <motion.div
               key={plan.id}
@@ -253,7 +253,7 @@ export default function ITRPlans() {
 
               {/* ── Card header: tinted bg, tier label, name, price ── */}
               <div
-                className="relative px-7 pt-8 pb-7 rounded-t-[28px] overflow-hidden"
+                className="relative px-4 pt-5 pb-4 rounded-t-[28px] overflow-hidden"
                 style={{ background: `linear-gradient(135deg, ${plan.accentColor}12, ${plan.accentColor}05)` }}
               >
                 {/* Decorative corner glow circle */}
@@ -263,7 +263,7 @@ export default function ITRPlans() {
                 />
 
                 {/* Tier label + plan name + subtitle + emoji badge */}
-                <div className="flex items-start justify-between mb-5">
+                <div className="flex items-start justify-between mb-3">
                   <div>
                     <span
                       className="text-[10px] font-bold tracking-[0.18em] uppercase block mb-1"
@@ -309,7 +309,7 @@ export default function ITRPlans() {
 
                 {/* Offer code chip with one-click copy */}
                 <div
-                  className="flex items-center gap-2 mt-3 px-3 py-2 rounded-xl w-fit"
+                  className="flex items-center gap-2 mt-2 px-3 py-1.5 rounded-xl w-fit"
                   style={{ background: "rgba(255,255,255,0.8)", border: `1px dashed ${plan.accentColor}40` }}
                 >
                   <span className="text-gray-500 text-[11px]">Code:</span>
@@ -320,15 +320,15 @@ export default function ITRPlans() {
 
               {/* ── Gradient divider (header → body) ─────────── */}
               <div
-                className="h-px mx-7"
+                className="h-px mx-5"
                 style={{ background: `linear-gradient(90deg, transparent, ${plan.accentColor}30, transparent)` }}
               />
 
               {/* ── Card body ────────────────────────────────── */}
-              <div className="px-7 py-6 flex flex-col flex-1">
+              <div className="px-4 py-4 flex flex-col flex-1">
 
                 {/* Features checklist */}
-                <ul className="space-y-3 mb-6">
+                <ul className="space-y-2 mb-4">
                   {plan.features.map((f, i) => (
                     <li key={i} className="flex items-center gap-3">
                       <div
@@ -344,7 +344,7 @@ export default function ITRPlans() {
 
                 {/* Income sources — tinted box per tier color */}
                 <div
-                  className="rounded-2xl px-5 py-4 mb-6 flex-1"
+                  className="rounded-2xl px-4 py-3 mb-4 flex-1"
                   style={{ background: `${plan.accentColor}07`, border: `1px solid ${plan.accentColor}20` }}
                 >
                   <p
@@ -353,7 +353,7 @@ export default function ITRPlans() {
                   >
                     For Income Sources
                   </p>
-                  <ul className="space-y-2">
+                  <ul className="space-y-1.5">
                     {plan.incomeSources.map((src, i) => (
                       <li key={i} className="flex items-start gap-2">
                         <div
@@ -380,7 +380,7 @@ export default function ITRPlans() {
                   {/* Buy Now → /payment?plan={id} */}
                   <button
                     onClick={() => router.push("/payment?plan=" + plan.id)}
-                    className="buy-btn w-full py-3.5 rounded-2xl text-sm font-bold text-white"
+                    className="buy-btn w-full py-3 rounded-2xl text-sm font-bold text-white"
                     style={{
                       /* Silver (popular): full red gradient
                          Others: tier accent gradient             */

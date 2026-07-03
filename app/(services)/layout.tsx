@@ -70,9 +70,9 @@ export default function Layout({ children }: LayoutProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="fixed bottom-2 left-1/2 -translate-x-1/2 z-10 w-full px-3"
+            className="fixed bottom-2 left-1/2 -translate-x-1/2 z-10 w-full px-3 "
           >
-            <div className="w-fit max-w-xl flex items-center gap-4 bg-white/90 backdrop-blur-md border border-gray-200 rounded-full shadow-lg px-4 py-2 mx-auto">
+            <div className="w-fit max-w-xl flex items-center gap-4 bg-white/90 backdrop-blur-md border border-gray-200 rounded-full shadow-lg pr-4 pl-8 py-3 mx-auto">
               <div className="flex-1 min-w-0 pr-4">
                 <h3 className="text-base md:text-lg font-semibold text-gray-800 truncate">
                   Request a Callback
