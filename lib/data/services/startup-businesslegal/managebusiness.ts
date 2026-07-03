@@ -3,7 +3,8 @@ import { ServiceData } from "@/lib/types/service";
 export const servicesData: Record<string, ServiceData> = {
   ResignationOfDirectorPage: {
     title: "Resignation of Director & ROC Filing",
-    subtitle:"Ensure the voluntary resignation of a Director is legally executed, protecting both the Director (DIR-11) and the Company (DIR-12) from future liabilities and penalties.",
+    subtitle:
+      "Ensure the voluntary resignation of a Director is legally executed, protecting both the Director (DIR-11) and the Company (DIR-12) from future liabilities and penalties.",
     badgeText: "Companies Act, 2013 \u2022 DIR-11 \u2022 DIR-12",
     icon: "userMinus",
     serviceID: "RESIGNATION_OF_DIRECTOR_&_ROC_FILING",
@@ -106,12 +107,14 @@ export const servicesData: Record<string, ServiceData> = {
   },
   ClosureOfLLPPage: {
     title: "Closure of LLP (Striking Off)",
-    subtitle:"Formally dissolve your non-operational Limited Liability Partnership by striking its name off the ROC records via Form 24 to avoid future penalties.",
+    subtitle:
+      "Formally dissolve your non-operational Limited Liability Partnership by striking its name off the ROC records via Form 24 to avoid future penalties.",
     badgeText: "LLP Act compliant \u2022 Form 24 filing \u2022 Penalty-free exit",
     icon: "fileWarning",
     serviceID: "CLOSURE_OF_LLP",
     contentTitle: "The Importance of Legal Closure",
-    contentDescription:"Even if your LLP has ceased business, it remains a legal entity with mandatory annual filing obligations (Form 8 and 11). Legal closure via striking off (Form 24) is critical to eliminate statutory compliance requirements, remove the tag of defaulter, and prevent the accrual of heavy penalties.",
+    contentDescription:
+      "Even if your LLP has ceased business, it remains a legal entity with mandatory annual filing obligations (Form 8 and 11). Legal closure via striking off (Form 24) is critical to eliminate statutory compliance requirements, remove the tag of defaulter, and prevent the accrual of heavy penalties.",
     section1Title: "Key Benefits of Formal LLP Closure",
     price: 4999,
     originalPrice: 0,

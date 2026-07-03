@@ -6,14 +6,14 @@ import MyConsultationsTab from "./MyConsultationsTab";
 import ActiveServicesTab from "./ActiveServicesTab";
 
 export default function UserDashboardRenderer() {
- const searchParams = useSearchParams();
- const tab = searchParams.get("tab") || "dashboard";
+  const searchParams = useSearchParams();
+  const tab = searchParams.get("tab") || "dashboard";
 
- return (
- <>
- {tab === "dashboard" && <UserDashboard />}
- {tab === "consultations" && <MyConsultationsTab />}
- {tab === "services" && <ActiveServicesTab />}
- </>
- );
+  return (
+    <>
+      {tab === "dashboard" && <UserDashboard />}
+      {tab === "consultations" && <MyConsultationsTab />}
+      {tab === "services" && <ActiveServicesTab />}
+    </>
+  );
 }

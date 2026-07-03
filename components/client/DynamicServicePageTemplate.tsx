@@ -3,68 +3,26 @@
 import { useRef, use } from "react";
 import { motion } from "framer-motion";
 import { notFound } from "next/navigation";
-import ServicePageLayout, {
-  BenefitItem,
-  SectionBlock,
-  FAQItem,
-} from "@/components/client/ServicePageLayout";
+import ServicePageLayout, { BenefitItem, SectionBlock, FAQItem } from "@/components/client/ServicePageLayout";
 
 // Map lucide icons to SVG blocks (we just use standard lucide icons or fallback SVGs for addons)
-import {
-  Shield,
-  FileText,
-  CheckCircle,
-  Scale,
-  Users,
-  Gavel,
-  FileSignature,
-  Home,
-  Clock,
-} from "lucide-react";
+import { Shield, FileText, CheckCircle, Scale, Users, Gavel, FileSignature, Home, Clock } from "lucide-react";
 
 // For addons, we use a fixed set of SVGs or map them dynamically
 const AddonIconMapper = ({ index }: { index: number }) => {
   const svgs = [
-    <svg
-      key={0}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      className="w-6 h-6"
-    >
+    <svg key={0} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
       <path d="M7 8h10M7 12h6M7 16h8" />
       <rect x="3" y="4" width="18" height="16" rx="2" />
     </svg>,
-    <svg
-      key={1}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      className="w-6 h-6"
-    >
+    <svg key={1} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
     </svg>,
-    <svg
-      key={2}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      className="w-6 h-6"
-    >
+    <svg key={2} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
       <path d="M9 12h6M9 16h6M9 8h6" />
       <rect x="3" y="4" width="18" height="16" rx="2" />
     </svg>,
-    <svg
-      key={3}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      className="w-6 h-6"
-    >
+    <svg key={3} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
       <path d="M8 10h.01M12 10h.01M16 10h.01M9 16h6" />
       <rect x="3" y="4" width="18" height="16" rx="2" />
     </svg>,
@@ -114,10 +72,7 @@ function DynamicHeroWithAddons({ data }: { data: any }) {
           <div
             className={`p-4 rounded-2xl bg-gradient-to-br ${theme?.iconBg || "from-purple-500 to-violet-500"} shadow-lg inline-flex`}
           >
-            <FloatingIcon
-              className="w-12 h-12 sm:w-14 sm:h-14 text-white"
-              strokeWidth={1.5}
-            />
+            <FloatingIcon className="w-12 h-12 sm:w-14 sm:h-14 text-white" strokeWidth={1.5} />
           </div>
         </motion.div>
 
@@ -126,25 +81,16 @@ function DynamicHeroWithAddons({ data }: { data: any }) {
           transition={{ duration: 0.7 }}
           className="flex flex-col items-center"
         >
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 tracking-tight">
-            {title}
-          </h1>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 tracking-tight">{title}</h1>
 
-          <p className="text-slate-300 text-sm sm:text-base max-w-xl mb-2">
-            {subtitle}
-          </p>
+          <p className="text-slate-300 text-sm sm:text-base max-w-xl mb-2">{subtitle}</p>
 
-          <p
-            className={`text-sm mb-8 ${theme?.badgeText || "text-violet-300"}`}
-          >
-            {data.badgeText}
-          </p>
+          <p className={`text-sm mb-8 ${theme?.badgeText || "text-violet-300"}`}>{data.badgeText}</p>
 
           {/* PRICE */}
           <div className="flex items-center justify-center gap-3 mb-1">
             <p className="text-3xl sm:text-4xl font-extrabold text-white">
-              @ Rs. {price?.toLocaleString("en-IN")}{" "}
-              <sup className="text-lg font-semibold">*</sup>
+              @ Rs. {price?.toLocaleString("en-IN")} <sup className="text-lg font-semibold">*</sup>
             </p>
             {originalPrice > 0 && (
               <p className="text-lg sm:text-xl font-semibold text-slate-400 line-through">
@@ -161,18 +107,13 @@ function DynamicHeroWithAddons({ data }: { data: any }) {
           {addons && addons.length > 0 && (
             <div className="w-full rounded-2xl overflow-hidden bg-white/5 border border-white/10 backdrop-blur-md shadow-[0_0_60px_rgba(139,92,246,0.15)]">
               <div className="bg-white/10 py-2.5 px-4 border-b border-white/20">
-                <p className="text-white font-semibold text-sm sm:text-base">
-                  Also Get Absolutely Free
-                </p>
+                <p className="text-white font-semibold text-sm sm:text-base">Also Get Absolutely Free</p>
               </div>
 
               <div className="py-8 px-4 sm:px-8">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 items-start justify-items-center">
                   {addons.map((label: string, i: number) => (
-                    <div
-                      key={i}
-                      className="flex flex-col items-center gap-3 w-full"
-                    >
+                    <div key={i} className="flex flex-col items-center gap-3 w-full">
                       <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/90 text-slate-800 flex items-center justify-center shadow-md transition-all duration-300 hover:scale-110 hover:shadow-xl">
                         <AddonIconMapper index={i} />
                       </div>
@@ -195,11 +136,7 @@ function DynamicHeroWithAddons({ data }: { data: any }) {
   );
 }
 
-export default function DynamicServicePageTemplate({
-  pageData,
-}: {
-  pageData: any;
-}) {
+export default function DynamicServicePageTemplate({ pageData }: { pageData: any }) {
   if (!pageData) {
     return notFound();
   }

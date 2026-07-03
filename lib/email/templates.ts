@@ -2,15 +2,12 @@
  * Email templates for Lawizer
  */
 
-export const callbackRequestEmailTemplate = (
- userName: string,
- userEmail: string
-) => {
- const currentDate = new Date().toLocaleString("en-IN", {
- timeZone: "Asia/Kolkata",
- });
+export const callbackRequestEmailTemplate = (userName: string, userEmail: string) => {
+  const currentDate = new Date().toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+  });
 
- return `
+  return `
 <!DOCTYPE html>
 <html>
  <head>
@@ -183,12 +180,12 @@ export const callbackRequestEmailTemplate = (
 };
 
 export const callbackConfirmationEmailTemplate = (
- userName: string,
- expertName: string,
- scheduledDate: string,
- scheduledTime: string
+  userName: string,
+  expertName: string,
+  scheduledDate: string,
+  scheduledTime: string,
 ) => {
- return `
+  return `
 <!DOCTYPE html>
 <html>
  <head>
@@ -301,16 +298,16 @@ export const callbackConfirmationEmailTemplate = (
 };
 
 export const contactInquiryEmailTemplate = (
- userName: string,
- userEmail: string,
- serviceType: string,
- inquiry: string
+  userName: string,
+  userEmail: string,
+  serviceType: string,
+  inquiry: string,
 ) => {
- const currentDate = new Date().toLocaleString("en-IN", {
- timeZone: "Asia/Kolkata",
- });
+  const currentDate = new Date().toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+  });
 
- return `
+  return `
 <!DOCTYPE html>
 <html>
  <head>
@@ -518,15 +515,12 @@ export const contactInquiryEmailTemplate = (
  `;
 };
 
-export const callbackRequestUserEmailTemplate = (
- userName: string,
- serviceName: string
-) => {
- const currentDate = new Date().toLocaleString("en-IN", {
- timeZone: "Asia/Kolkata",
- });
+export const callbackRequestUserEmailTemplate = (userName: string, serviceName: string) => {
+  const currentDate = new Date().toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+  });
 
- return `
+  return `
 <!DOCTYPE html>
 <html>
  <head>
@@ -693,16 +687,16 @@ export const callbackRequestUserEmailTemplate = (
 };
 
 export const callbackRequestAdminEmailTemplate = (
- userName: string,
- userEmail: string,
- userPhone: string,
- serviceName: string
+  userName: string,
+  userEmail: string,
+  userPhone: string,
+  serviceName: string,
 ) => {
- const currentDate = new Date().toLocaleString("en-IN", {
- timeZone: "Asia/Kolkata",
- });
+  const currentDate = new Date().toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+  });
 
- return `
+  return `
 <!DOCTYPE html>
 <html>
  <head>

@@ -5,43 +5,32 @@ import { contactInquiryEmailTemplate } from "@/lib/email/templates";
 const BASE = process.env.NEXT_PUBLIC_API_URL!;
 
 export async function POST(req: Request) {
- try {
- const { name, email, phone, serviceType, inquiry, source } = await req.json();
+  try {
+    const { name, email, phone, serviceType, inquiry, source } = await req.json();
 
- // Validation
- if (!name || !email || !phone || !serviceType || !inquiry) {
- return NextResponse.json(
- { success: false, message: "All fields are required" },
- { status: 400 }
- );
- }
+    // Validation
+    if (!name || !email || !phone || !serviceType || !inquiry) {
+      return NextResponse.json({ success: false, message: "All fields are required" }, { status: 400 });
+    }
 
- // Basic email validation
- const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
- if (!emailRegex.test(email)) {
- return NextResponse.json(
- { success: false, message: "Invalid email address" },
- { status: 400 }
- );
- }
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json({ success: false, message: "Invalid email address" }, { status: 400 });
+    }
 
- // Generate email HTML
- const emailHtml = contactInquiryEmailTemplate(
- name,
- email,
- serviceType,
- inquiry
- );
+    // Generate email HTML
+    const emailHtml = contactInquiryEmailTemplate(name, email, serviceType, inquiry);
 
- // Send confirmation email to user
- await sendEmail({
- to: email,
- subject: `Your Inquiry Received - Lawizer (Ref: ${serviceType})`,
- html: emailHtml,
- });
+    // Send confirmation email to user
+    await sendEmail({
+      to: email,
+      subject: `Your Inquiry Received - Lawizer (Ref: ${serviceType})`,
+      html: emailHtml,
+    });
 
- // Send notification to admin
- const adminEmailHtml = `
+    // Send notification to admin
+    const adminEmailHtml = `
  <html>
  <head>
  <style>
@@ -89,50 +78,47 @@ export async function POST(req: Request) {
  </html>
  `;
 
- // Send admin notification (don't wait for it)
- sendEmail({
- to: "admin@lawizer.com",
- subject: `[NEW INQUIRY] ${serviceType} - ${name}`,
- html: adminEmailHtml,
- }).catch((err) => console.error("Failed to send admin notification:", err));
+    // Send admin notification (don't wait for it)
+    sendEmail({
+      to: "admin@lawizer.com",
+      subject: `[NEW INQUIRY] ${serviceType} - ${name}`,
+      html: adminEmailHtml,
+    }).catch((err) => console.error("Failed to send admin notification:", err));
 
- // SAVE TO ADMIN DASHBOARD DATABASE
- try {
- const saveRes = await fetch(`${BASE}/user/contact`, {
- method: "POST",
- headers: {
- "Content-Type": "application/json",
- },
- body: JSON.stringify({
- name,
- email,
- phone,
- service: serviceType,
- message: inquiry,
- source,
- }),
- });
+    // SAVE TO ADMIN DASHBOARD DATABASE
+    try {
+      const saveRes = await fetch(`${BASE}/user/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          service: serviceType,
+          message: inquiry,
+          source,
+        }),
+      });
 
- const saveData = await saveRes.json();
+      const saveData = await saveRes.json();
 
- console.log("Contact Save Response:", saveData);
+      console.log("Contact Save Response:", saveData);
 
- if (!saveRes.ok) {
- console.error("Dashboard save failed:", saveData);
- }
- } catch (error) {
- console.error("Failed to save contact inquiry:", error);
- }
+      if (!saveRes.ok) {
+        console.error("Dashboard save failed:", saveData);
+      }
+    } catch (error) {
+      console.error("Failed to save contact inquiry:", error);
+    }
 
- return NextResponse.json({
- success: true,
- message: "Your inquiry has been received. We'll get back to you shortly.",
- });
- } catch (err) {
- console.error("/api/contact error:", err);
- return NextResponse.json(
- { success: false, message: "Failed to submit inquiry" },
- { status: 500 }
- );
- }
+    return NextResponse.json({
+      success: true,
+      message: "Your inquiry has been received. We'll get back to you shortly.",
+    });
+  } catch (err) {
+    console.error("/api/contact error:", err);
+    return NextResponse.json({ success: false, message: "Failed to submit inquiry" }, { status: 500 });
+  }
 }

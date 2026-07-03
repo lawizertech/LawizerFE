@@ -2,29 +2,23 @@ import { NextResponse } from "next/server";
 import { sendEmail } from "@/lib/email/mailer";
 
 export async function POST(req: Request) {
- try {
- const { name, phone, reason } = await req.json();
+  try {
+    const { name, phone, reason } = await req.json();
 
- if (!name || !phone || !reason) {
- return NextResponse.json(
- { success: false, message: "All fields are required" },
- { status: 400 }
- );
- }
+    if (!name || !phone || !reason) {
+      return NextResponse.json({ success: false, message: "All fields are required" }, { status: 400 });
+    }
 
- const phoneRegex = /^[0-9\s\-\+\(\)]{10,}$/;
- if (!phoneRegex.test(phone)) {
- return NextResponse.json(
- { success: false, message: "Invalid phone number" },
- { status: 400 }
- );
- }
+    const phoneRegex = /^[0-9\s\-\+\(\)]{10,}$/;
+    if (!phoneRegex.test(phone)) {
+      return NextResponse.json({ success: false, message: "Invalid phone number" }, { status: 400 });
+    }
 
- // Notify team at lawizertech@gmail.com
- await sendEmail({
- to: "lawizertech@gmail.com",
- subject: `[FREE CONSULTATION REQUEST] ${name}`,
- html: `
+    // Notify team at lawizertech@gmail.com
+    await sendEmail({
+      to: "lawizertech@gmail.com",
+      subject: `[FREE CONSULTATION REQUEST] ${name}`,
+      html: `
  <div style="font-family: 'DM Sans', Arial, sans-serif; max-width: 560px; margin: 0 auto; background: #f8f9fc; padding: 32px; border-radius: 16px;">
  <div style="background: #ca2d42; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;">
  <h1 style="color: white; font-size: 22px; margin: 0; font-weight: 800;">New Free Consultation Request</h1>
@@ -49,17 +43,14 @@ export async function POST(req: Request) {
  <p style="color: #8a90a2; font-size: 12px; text-align: center; margin-top: 20px;">Lawizer · lawizertech@gmail.com</p>
  </div>
  `,
- });
+    });
 
- return NextResponse.json({
- success: true,
- message: "Your request has been received. Our team will get back to you soon.",
- });
- } catch (err) {
- console.error("/api/free-consultation error:", err);
- return NextResponse.json(
- { success: false, message: "Failed to submit request" },
- { status: 500 }
- );
- }
+    return NextResponse.json({
+      success: true,
+      message: "Your request has been received. Our team will get back to you soon.",
+    });
+  } catch (err) {
+    console.error("/api/free-consultation error:", err);
+    return NextResponse.json({ success: false, message: "Failed to submit request" }, { status: 500 });
+  }
 }

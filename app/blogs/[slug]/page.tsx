@@ -7,7 +7,7 @@ import BlogTableOfContents from "@/components/blogs/BlogTableOfContents";
 const ENDPOINT = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!;
 
 async function getPostBySlug(slug: string) {
- const query = `
+  const query = `
  query GetPostBySlugWithImage($slug: ID!) {
  post(id: $slug, idType: SLUG) {
  title
@@ -29,106 +29,100 @@ async function getPostBySlug(slug: string) {
  }
  `;
 
- const res = await fetch(ENDPOINT, {
- method: "POST",
- headers: { "Content-Type": "application/json" },
- body: JSON.stringify({ query, variables: { slug } }),
- cache: "no-store",
- });
+  const res = await fetch(ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query, variables: { slug } }),
+    cache: "no-store",
+  });
 
- const json = await res.json();
- if (json.errors || !json?.data?.post) return null;
- return json.data.post;
+  const json = await res.json();
+  if (json.errors || !json?.data?.post) return null;
+  return json.data.post;
 }
 
-export default async function BlogPostPage(props: {
- params: Promise<{ slug: string }>;
-}) {
- const { slug } = await props.params;
- if (!slug) notFound();
+export default async function BlogPostPage(props: { params: Promise<{ slug: string }> }) {
+  const { slug } = await props.params;
+  if (!slug) notFound();
 
- const post = await getPostBySlug(slug);
- if (!post) notFound();
+  const post = await getPostBySlug(slug);
+  if (!post) notFound();
 
- const publishedDate = post.date
- ? new Date(post.date).toLocaleDateString("en-IN", {
- day: "numeric",
- month: "long",
- year: "numeric",
- })
- : null;
+  const publishedDate = post.date
+    ? new Date(post.date).toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+    : null;
 
- const contentWithIds = post.content ? injectHeadingIds(post.content) : "";
- const headings = post.content ? extractHeadings(post.content) : [];
+  const contentWithIds = post.content ? injectHeadingIds(post.content) : "";
+  const headings = post.content ? extractHeadings(post.content) : [];
 
- const categoryName = post.categories?.nodes?.[0]?.name ?? null;
- const categorySlug = post.categories?.nodes?.[0]?.slug ?? null;
+  const categoryName = post.categories?.nodes?.[0]?.name ?? null;
+  const categorySlug = post.categories?.nodes?.[0]?.slug ?? null;
 
- return (
- <article className="bg-[#f4f5f7] min-h-screen pb-24">
- {/* ── HERO HEADER ─────────────────────────────────────────── */}
- <header className="max-w-5xl mx-auto px-5 pt-12 pb-6">
- {/* Breadcrumb — matches image 1: "Home > Category > Title" */}
- <nav className="text-sm text-slate-500 mb-5 flex items-center gap-2 flex-wrap">
- <Link
- href="/blogs"
- className="hover:text-[#1a2f6e] transition-colors font-medium"
- >
- Blogs
- </Link>
- {categoryName && (
- <>
- <span className="text-slate-400">&gt;</span>
- <Link
- href={`/blogs?category=${categorySlug}`}
- className="hover:text-[#1a2f6e] transition-colors font-medium"
- >
- {categoryName}
- </Link>
- </>
- )}
- <span className="text-slate-400">&gt;</span>
- <span className="text-slate-400 line-clamp-1">{post.title}</span>
- </nav>
+  return (
+    <article className="bg-[#f4f5f7] min-h-screen pb-24">
+      {/* ── HERO HEADER ─────────────────────────────────────────── */}
+      <header className="max-w-5xl mx-auto px-5 pt-12 pb-6">
+        {/* Breadcrumb — matches image 1: "Home > Category > Title" */}
+        <nav className="text-sm text-slate-500 mb-5 flex items-center gap-2 flex-wrap">
+          <Link href="/blogs" className="hover:text-[#1a2f6e] transition-colors font-medium">
+            Blogs
+          </Link>
+          {categoryName && (
+            <>
+              <span className="text-slate-400">&gt;</span>
+              <Link
+                href={`/blogs?category=${categorySlug}`}
+                className="hover:text-[#1a2f6e] transition-colors font-medium"
+              >
+                {categoryName}
+              </Link>
+            </>
+          )}
+          <span className="text-slate-400">&gt;</span>
+          <span className="text-slate-400 line-clamp-1">{post.title}</span>
+        </nav>
 
- {/* H1 — large, dark navy, NOT uppercase (matches image 1) */}
- <h1 className="text-4xl md:text-5xl font-extrabold text-[#1a2f6e] leading-tight tracking-tight mb-4">
- {post.title}
- </h1>
+        {/* H1 — large, dark navy, NOT uppercase (matches image 1) */}
+        <h1 className="text-4xl md:text-5xl font-extrabold text-[#1a2f6e] leading-tight tracking-tight mb-4">
+          {post.title}
+        </h1>
 
- {/* Published date */}
- {publishedDate && (
- <p className="text-sm text-slate-500 mb-6">
- Published on{" "}
- <span className="font-medium text-slate-600">{publishedDate}</span>
- </p>
- )}
+        {/* Published date */}
+        {publishedDate && (
+          <p className="text-sm text-slate-500 mb-6">
+            Published on <span className="font-medium text-slate-600">{publishedDate}</span>
+          </p>
+        )}
 
- {/* Featured Image */}
- {post.featuredImage?.node?.sourceUrl && (
- <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm mb-2">
- <Image
- src={post.featuredImage.node.sourceUrl}
- alt={post.featuredImage.node.altText || post.title}
- width={1200}
- height={600}
- priority
- className="w-full h-auto object-cover"
- />
- </div>
- )}
- </header>
+        {/* Featured Image */}
+        {post.featuredImage?.node?.sourceUrl && (
+          <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm mb-2">
+            <Image
+              src={post.featuredImage.node.sourceUrl}
+              alt={post.featuredImage.node.altText || post.title}
+              width={1200}
+              height={600}
+              priority
+              className="w-full h-auto object-cover"
+            />
+          </div>
+        )}
+      </header>
 
- {/* ── CONTENT + TOC ───────────────────────────────────────── */}
- <section className="max-w-5xl mx-auto px-5">
- <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-8 lg:items-start">
- {/* TOC Sidebar */}
- <BlogTableOfContents headings={headings} />
+      {/* ── CONTENT + TOC ───────────────────────────────────────── */}
+      <section className="max-w-5xl mx-auto px-5">
+        <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-8 lg:items-start">
+          {/* TOC Sidebar */}
+          <BlogTableOfContents headings={headings} />
 
- {/* Main content card */}
- <div className="bg-white rounded-2xl border border-slate-100 shadow-sm px-8">
- <div
- className="
+          {/* Main content card */}
+          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm px-8">
+            <div
+              className="
  prose max-w-none
 
  /* ── Paragraphs ── */
@@ -212,11 +206,11 @@ export default async function BlogPostPage(props: {
  prose-hr:border-slate-100
  prose-hr:my-10
  "
- dangerouslySetInnerHTML={{ __html: contentWithIds }}
- />
- </div>
- </div>
- </section>
- </article>
- );
+              dangerouslySetInnerHTML={{ __html: contentWithIds }}
+            />
+          </div>
+        </div>
+      </section>
+    </article>
+  );
 }
