@@ -472,7 +472,7 @@ export function Header() {
     };
   }, [mobileMenuOpen]);
 
-  const isHome = pathname === "/";
+  const isHome = true; // Use home page navbar design on all pages
   const isDashboard =
     pathname.startsWith("/user") || pathname.startsWith("/expert");
 
