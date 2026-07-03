@@ -13,7 +13,7 @@ module.exports = {
         secondary: 'var(--secondary)'
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-outfit)', 'system-ui', 'sans-serif'],
         serif: ['var(--font-playfair)', 'serif']
       }
     }

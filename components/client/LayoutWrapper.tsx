@@ -8,39 +8,39 @@ import CallbackModal from "./CallbackModal";
 import { useCallback } from "@/context/callbackContext";
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const { isOpen, serviceName, closeCallback } = useCallback();
+ const pathname = usePathname();
+ const { isOpen, serviceName, closeCallback } = useCallback();
 
-  const hideLayout =
-    pathname.startsWith("/expert") || pathname.startsWith("/user");
+ const hideLayout =
+ pathname.startsWith("/expert") || pathname.startsWith("/user");
 
-  return (
-    <>
-      {!hideLayout && (
-        <div className="w-full flex justify-center fixed top-4 z-50">
-          <Header />
-        </div>
-      )}
+ return (
+ <>
+ {!hideLayout && (
+ <div className="w-full flex justify-center fixed top-4 z-50">
+ <Header />
+ </div>
+ )}
 
-      {children}
+ {children}
 
-      {!hideLayout && <Footer />}
+ {!hideLayout && <Footer />}
 
-      {!hideLayout && (
-        <CallbackModal
-          isOpen={isOpen}
-          onClose={closeCallback}
-          serviceName={serviceName}
-        />
-      )}
-    </>
-  );
+ {!hideLayout && (
+ <CallbackModal
+ isOpen={isOpen}
+ onClose={closeCallback}
+ serviceName={serviceName}
+ />
+ )}
+ </>
+ );
 }
 
 export default function LayoutWrapper({
-  children,
+ children,
 }: {
-  children: React.ReactNode;
+ children: React.ReactNode;
 }) {
-  return <LayoutContent>{children}</LayoutContent>;
+ return <LayoutContent>{children}</LayoutContent>;
 }

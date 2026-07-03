@@ -13,21 +13,21 @@ import { CTABannerSection } from "@/components/client/home/cta-banner-section";
 // import UserDashboardSection from "@/components/client/home/user-dashboard-section";
 
 export default function Home() {
-  return (
-    <main className="min-h-screen lg:min-h-screen h-auto sm:pt-12 pt-6 pb-16 lg:pb-24 bg-white">
-      <HeroSection />
-      <HowItWorksSection />
-      <StatsSection />
-      <TrustSection />
-      <ServicesSection />
-      {/* <UserDashboardSection /> */}
-      <PopularServicesSection />
-      <WhyLawizerSection />
-      <TestimonialsSection />
-      <CTABannerSection />
-      <FAQSection />
-      <EmergencyButton />
-      <WhatsAppButton />
-    </main>
-  );
+ return (
+ <main className="min-h-screen lg:min-h-screen h-auto sm:pt-12 pt-6 pb-16 lg:pb-24 bg-white">
+ <HeroSection />
+ <HowItWorksSection />
+ <StatsSection />
+ <TrustSection />
+ <ServicesSection />
+ {/* <UserDashboardSection /> */}
+ <PopularServicesSection />
+ <WhyLawizerSection />
+ <TestimonialsSection />
+ <CTABannerSection />
+ <FAQSection />
+ <EmergencyButton />
+ <WhatsAppButton />
+ </main>
+ );
 }

@@ -5,15 +5,15 @@ import { CallbackProvider } from "@/context/callbackContext";
 import LayoutWrapper from "@/components/client/LayoutWrapper";
 
 export default function RootLayoutClient({
-  children,
+ children,
 }: {
-  children: React.ReactNode;
+ children: React.ReactNode;
 }) {
-  return (
-    <AuthProvider>
-      <CallbackProvider>
-        <LayoutWrapper>{children}</LayoutWrapper>
-      </CallbackProvider>
-    </AuthProvider>
-  );
+ return (
+ <AuthProvider>
+ <CallbackProvider>
+ <LayoutWrapper>{children}</LayoutWrapper>
+ </CallbackProvider>
+ </AuthProvider>
+ );
 }

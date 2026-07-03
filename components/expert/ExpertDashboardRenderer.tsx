@@ -6,14 +6,14 @@ import ProfileTab from "@/components/expert/ProfileTab";
 import BookingsTab from "@/components/expert/BookingsTab";
 
 export default function ExpertDashboard() {
-  const searchParams = useSearchParams();
-  const tab = searchParams.get("tab") || "dashboard";
+ const searchParams = useSearchParams();
+ const tab = searchParams.get("tab") || "dashboard";
 
-  return (
-    <>
-      {tab === "dashboard" && <DashboardTab />}
-      {tab === "profile" && <ProfileTab />}
-      {tab === "bookings" && <BookingsTab />}
-    </>
-  );
+ return (
+ <>
+ {tab === "dashboard" && <DashboardTab />}
+ {tab === "profile" && <ProfileTab />}
+ {tab === "bookings" && <BookingsTab />}
+ </>
+ );
 }

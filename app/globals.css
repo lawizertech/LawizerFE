@@ -1,5 +1,6 @@
-@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap");
+
+@import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -128,7 +129,7 @@ body {
   --color-sidebar-ring: var(--sidebar-ring);
   --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
-  --font-outfit: "Outfit", sans-serif;
+  --font-outfit: var(--font-outfit);
 
   /* Brand Colors */
   --color-brand-red: #c0392b;
@@ -677,7 +678,6 @@ body {
         }
 
 /* Extracted from app/(services)/itr/itr-plans/PlanPageTemplate.tsx */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap');
         .shimmer { position: relative; overflow: hidden; }
         .shimmer::after {
           content: '';

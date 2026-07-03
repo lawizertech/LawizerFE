@@ -1,12 +1,12 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: "https://lawizer.com",
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 1,
-    },
-  ];
+ return [
+ {
+ url: "https://lawizer.com",
+ lastModified: new Date(),
+ changeFrequency: "daily",
+ priority: 1,
+ },
+ ];
 }
