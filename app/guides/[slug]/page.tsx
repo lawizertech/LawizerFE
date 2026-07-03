@@ -60,7 +60,6 @@ export async function generateMetadata(props: {
   };
 }
 
-
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default async function GuideDetailPage(props: {
@@ -374,35 +373,7 @@ export default async function GuideDetailPage(props: {
       </article>
 
       {/* Print-only styles */}
-      <style>{`
-        .guide-print-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.4rem;
-          font-size: 0.75rem;
-          font-weight: 600;
-          color: #6b7280;
-          background: none;
-          border: 1px solid #e5e7eb;
-          border-radius: 6px;
-          padding: 4px 10px;
-          cursor: pointer;
-          transition: all 0.15s;
-        }
-        .guide-print-btn:hover {
-          color: #1a2f6e;
-          border-color: #1a2f6e;
-          background: #f8faff;
-        }
-
-        @media print {
-          .guide-print-btn,
-          [aria-label="Breadcrumb"],
-          nav { display: none !important; }
-          .guide-progress-bar { display: none !important; }
-          body { background: white !important; }
-        }
-      `}</style>
+      
     </>
   );
 }

@@ -39,26 +39,6 @@ export default function GuideProgressBar() {
 
   return (
     <>
-      <style>{`
-        @supports (animation-timeline: scroll()) {
-          .guide-progress-bar {
-            animation: guideProgress linear;
-            animation-timeline: scroll();
-            animation-range: 0% 100%;
-            transform-origin: left;
-          }
-          @keyframes guideProgress {
-            from { transform: scaleX(0); }
-            to   { transform: scaleX(1); }
-          }
-        }
-
-        @supports not (animation-timeline: scroll()) {
-          .guide-progress-bar {
-            width: var(--progress, 0%);
-          }
-        }
-      `}</style>
 
       {/* Track */}
       <div

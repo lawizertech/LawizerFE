@@ -146,14 +146,6 @@ export default function ServicesSection() {
 
   return (
     <>
-      <style>{`
-        .ls-tabs { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:32px; }
-        .ls-grid  { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:10px; }
-        @media(max-width:900px)  { .ls-grid  { grid-template-columns:1fr 1fr; } }
-        @media(max-width:640px)  { .ls-tabs  { grid-template-columns:1fr; gap:10px; }
-                                   .ls-grid  { grid-template-columns:1fr; } }
-        @media(prefers-reduced-motion:reduce){ *, *::before, *::after { transition:none!important; animation:none!important; } }
-      `}</style>
 
       <section id="services" className="bg-white pt-24 pb-20 relative overflow-hidden">
         {/* Decorative circle */}

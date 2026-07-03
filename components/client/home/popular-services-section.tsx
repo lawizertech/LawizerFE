@@ -191,40 +191,7 @@ export default function PopularServicesSection() {
       </div>
 
       {/* Responsive override */}
-      <style>{`
-        .pop-cards-row {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 20px;
-        }
-        @media (max-width: 1024px) {
-          .pop-cards-row {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-        @media (max-width: 640px) {
-          .pop-cards-row {
-            display: flex;
-            flex-direction: row;
-            overflow-x: auto;
-            gap: 14px;
-            padding-bottom: 12px;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-          }
-          .pop-cards-row > * {
-            scroll-snap-align: start;
-          }
-        }
-        .pop-card:hover {
-          border-color: var(--brand) !important;
-          box-shadow: 0 12px 36px rgba(202,45,66,0.12), inset 1px 1px 0 rgba(255,255,255,0.9) !important;
-          transform: translateY(-3px);
-        }
-        .pop-card:hover .pop-card-arrow {
-          transform: translateX(3px);
-        }
-      `}</style>
+      
     </section>
   );
 }

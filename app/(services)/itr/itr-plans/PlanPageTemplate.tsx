@@ -226,18 +226,6 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
 
   return (
     <div className="min-h-screen bg-white font-[family-name:var(--font-head)]">
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap');
-        .shimmer { position: relative; overflow: hidden; }
-        .shimmer::after {
-          content: '';
-          position: absolute; inset: 0;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-          transform: translateX(-100%);
-          transition: transform 0.6s ease;
-        }
-        .shimmer:hover::after { transform: translateX(100%); }
-      `}</style>
 
       {/* ══════════════════════════════════════════════════
           1. SLIM BUY BAR
@@ -253,7 +241,6 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
             exit={{   y: -80, opacity: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 28 }}
             className={`fixed top-16 left-0 right-0 z-40 bg-white border-t-2 shadow-[0_6px_20px_rgba(0,0,0,0.08)] ${tierStyles[plan.id].borderLight}`}>
-
 
             <div className="max-w-6xl mx-auto px-8 h-18 flex items-center justify-between gap-6">
 
