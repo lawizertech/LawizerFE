@@ -4,7 +4,7 @@ const BASE = process.env.NEXT_PUBLIC_API_URL!;
 
 export async function POST(
  req: Request,
- context: { params: { serviceId: string } },
+ context: { params: Promise<{ serviceId: string }> },
 ) {
  try {
  const { serviceId } = await context.params;

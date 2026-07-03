@@ -4,10 +4,10 @@ const BASE = process.env.NEXT_PUBLIC_API_URL!;
 
 export async function GET(
  req: NextRequest,
- { params }: { params: { bookingId: string } },
+ context: { params: Promise<{ bookingId: string }> },
 ) {
  try {
- const { bookingId } = params;
+ const { bookingId } = await context.params;
 
  const authHeader = req.headers.get("authorization");
  if (!authHeader) {

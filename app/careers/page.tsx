@@ -296,6 +296,18 @@ const containerVariants = {
  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
 }
 
+const contentVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+
 const cardVariants = {
  hidden: { opacity: 0, y: 28 },
  visible: {
@@ -334,7 +346,7 @@ function tagClass(tag: string) {
 function PublicJobCard({ job }: { job: PublicJobCard }) {
  return (
  <motion.div
- variants={cardVariants}
+ variants={cardVariants as any}
  className="group relative flex flex-col bg-white border border-[#e5e7eb] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-[#e94560]/40 transition-all duration-300 hover:-translate-y-1"
  >
  {/* Top accent bar */}
