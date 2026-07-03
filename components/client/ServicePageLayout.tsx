@@ -67,8 +67,9 @@ export type IconName = keyof typeof ICON_MAP;
 /* ---------- TYPES ---------- */
 
 export interface BenefitItem {
- icon: IconName;
- text: string;
+  icon: IconName;
+  text?: string;
+  description?: string;
 }
 
 export interface FAQItem {
@@ -290,15 +291,18 @@ export default function ServicePageLayout({
  </h3>
 
  <div className="grid sm:grid-cols-2 gap-4 mb-12">
- {benefits.map((b) => {
- const Icon = ICON_MAP[b.icon];
+ {benefits.map((b, i) => {
+ const Icon = ICON_MAP[b.icon] || ICON_MAP["checkCircle"];
  return (
  <div
- key={b.text}
+ key={i}
  className="flex gap-4 p-4 bg-slate-50 rounded-xl border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-slate-200"
  >
  <Icon className={`${primaryColor} w-10 h-10`} />
- <p className="text-sm text-slate-800 leading-relaxed">{b.text}</p>
+ <p className="text-sm text-slate-800 leading-relaxed">
+ {/* @ts-ignore */}
+ {b.description || b.text}
+ </p>
  </div>
  );
  })}
