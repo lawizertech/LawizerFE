@@ -84,7 +84,7 @@ export default function Layout({ children }: LayoutProps) {
 
               <Button
                 onClick={handleRequestCallback}
-                className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-1 transition-all duration-300 bg-[#c92c41] hover:bg-[#a8233a] text-white`}
+                className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-1 transition-all duration-300 bg-brand-red hover:brightness-110 text-white`}
               >
                 <PhoneCall className="h-4 w-4" />
                 Request Callback

@@ -75,11 +75,7 @@ export function RealLifeQuestionsSection() {
         className="absolute -z-10 top-0 left-0 w-full h-full pointer-events-none"
         animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
         transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 20% 30%, rgba(99,102,241,0.12), transparent 40%), radial-gradient(circle at 80% 70%, rgba(59,130,246,0.12), transparent 40%)",
-          backgroundSize: "200% 200%",
-        }}
+        className="bg-[radial-gradient(circle_at_20%_30%,rgba(99,102,241,0.12),transparent_40%),radial-gradient(circle_at_80%_70%,rgba(59,130,246,0.12),transparent_40%)] bg-[length:200%_200%]"
       />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

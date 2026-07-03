@@ -128,7 +128,7 @@ export default function WomenSafetyLegalPage() {
           {/* ✅ Title with logo added inline */}
           <h1 className="text-4xl md:text-5xl font-bold mb-3 tracking-tight flex items-center justify-center gap-3">
             Women Safety & Legal{" "}
-            <span style={{ color: "#f8c8c8" }}>Support</span>
+            <span className="text-[#f8c8c8]">Support</span>
           </h1>
 
           <p className="text-lg text-gray-200 max-w-xl mx-auto">

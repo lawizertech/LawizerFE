@@ -527,7 +527,7 @@ export function Header() {
                 />
               </div>
               <div className="flex items-baseline gap-1">
-                <span className="text-2xl font-['Montserrat'] text-[#c92c41]">
+                <span className="text-2xl font-['Montserrat'] text-brand-red">
                   Lawizer
                 </span>
               </div>
@@ -542,7 +542,7 @@ export function Header() {
                       {/* MAIN LINK */}
                       <Link
                         href={service.url}
-                        className="text-sm font-semibold py-1 hover:text-[#c92c41] flex items-center justify-between"
+                        className="text-sm font-semibold py-1 hover:text-brand-red flex items-center justify-between"
                       >
                         {service.title}
 
@@ -571,7 +571,7 @@ export function Header() {
                                     <Link
                                       key={j}
                                       href={sub.url}
-                                      className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-[#c92c41] block transition"
+                                      className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-brand-red block transition"
                                     >
                                       {sub.name}
                                     </Link>
@@ -585,7 +585,7 @@ export function Header() {
                               <Link
                                 key={i}
                                 href={item.url}
-                                className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-[#c92c41] transition"
+                                className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-brand-red transition"
                               >
                                 {item.name}
                               </Link>
@@ -600,28 +600,28 @@ export function Header() {
                 <HoverDropdown label="Resources">
                   <Link
                     href="/blogs"
-                    className="text-sm py-1 hover:text-[#c92c41]"
+                    className="text-sm py-1 hover:text-brand-red"
                   >
                     Blogs
                   </Link>
                   <Link
                     href="/news"
-                    className="text-sm py-1 hover:text-[#c92c41]"
+                    className="text-sm py-1 hover:text-brand-red"
                   >
                     News
                   </Link>
                   <Link
                     href="/guides"
-                    className="text-sm py-1 hover:text-[#c92c41]"
+                    className="text-sm py-1 hover:text-brand-red"
                   >
                     Guides
                   </Link>
-                  <Link href="/faqs" className="text-sm py-1 hover:text-[#c92c41]">
+                  <Link href="/faqs" className="text-sm py-1 hover:text-brand-red">
                     FAQs
                   </Link>
                   <Link
                     href="/careers"
-                    className="text-sm py-1 hover:text-[#c92c41]"
+                    className="text-sm py-1 hover:text-brand-red"
                   >
                     Careers
                   </Link>
@@ -630,19 +630,19 @@ export function Header() {
                 {/* <HoverDropdown label="Legal">
                   <Link
                     href="/privacy-policy"
-                    className="text-sm py-1 hover:text-[#c92c41]"
+                    className="text-sm py-1 hover:text-brand-red"
                   >
                     Privacy Policy
                   </Link>
                   <Link
                     href="/terms"
-                    className="text-sm py-1 hover:text-[#c92c41]"
+                    className="text-sm py-1 hover:text-brand-red"
                   >
                     Terms of Service
                   </Link>
                   <Link
                     href="/attorney-terms"
-                    className="text-sm py-1 hover:text-[#c92c41]"
+                    className="text-sm py-1 hover:text-brand-red"
                   >
                     Attorney Terms & Conditions
                   </Link>
@@ -651,14 +651,14 @@ export function Header() {
                 <Link
                   onClick={handleLinkClick}
                   href="/about"
-                  className="text-gray-700 hover:text-[#c92c41] text-sm font-medium transition-colors"
+                  className="text-gray-700 hover:text-brand-red text-sm font-medium transition-colors"
                 >
                   About
                 </Link>
                 <Link
                   onClick={handleLinkClick}
                   href="/contact"
-                  className="text-gray-700 hover:text-[#c92c41] text-sm font-medium transition-colors"
+                  className="text-gray-700 hover:text-brand-red text-sm font-medium transition-colors"
                 >
                   Contact
                 </Link>
@@ -673,7 +673,7 @@ export function Header() {
                 ) : loggedUser.role === "USER" ? (
                   <div className="flex items-center gap-8 cursor-pointer">
                     <Link
-                      className="text-sm font-medium text-[#ff1d46]"
+                      className="text-sm font-medium text-brand-red"
                       href="/profile"
                     >
                       Profile
@@ -699,7 +699,7 @@ export function Header() {
             <div className="flex items-center lg:hidden">
               <Link
                 href="/free-consultation"
-                className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-4 py-2 rounded-full font-medium shadow-md mr-3 text-sm flex items-center justify-center"
+                className="bg-brand-red hover:brightness-110 text-white px-4 py-2 rounded-full font-medium shadow-md mr-3 text-sm flex items-center justify-center"
               >
                 Help
               </Link>
@@ -707,7 +707,7 @@ export function Header() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="h-10 w-10 text-[#c92c41] hover:bg-gray-100"
+                className="h-10 w-10 text-brand-red hover:bg-gray-100"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               >
                 {mobileMenuOpen ? (
@@ -720,7 +720,7 @@ export function Header() {
 
             <Link
               href="/free-consultation"
-              className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-6 py-2 rounded-full font-medium shadow-md hidden lg:inline-flex items-center justify-center"
+              className="bg-brand-red hover:brightness-110 text-white px-6 py-2 rounded-full font-medium shadow-md hidden lg:inline-flex items-center justify-center"
             >
               Get Legal Help
             </Link>
@@ -766,7 +766,7 @@ export function Header() {
                     />
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-['Montserrat'] font-bold text-[#c92c41]">
+                    <span className="text-2xl font-['Montserrat'] font-bold text-brand-red">
                       Lawizer
                     </span>
                   </div>
@@ -775,7 +775,7 @@ export function Header() {
                 <div className="flex items-center gap-3">
                   <Link
                     href="/free-consultation"
-                    className="bg-[#c92c41] hover:bg-[#a91e33] text-white px-4 py-2 rounded-full font-medium shadow-md text-sm flex items-center justify-center"
+                    className="bg-brand-red hover:brightness-110 text-white px-4 py-2 rounded-full font-medium shadow-md text-sm flex items-center justify-center"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Help
@@ -817,7 +817,7 @@ export function Header() {
                 ) : (
                   <div className="flex flex-col gap-4 mb-6 pb-6 border-b">
                     <div className="flex items-center gap-2">
-                      <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-[#c92c41] font-bold">
+                      <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-brand-red font-bold">
                         {loggedUser.email[0].toUpperCase()}
                       </div>
                       <div className="flex flex-col">
@@ -844,7 +844,7 @@ export function Header() {
                           <Link
                             href="/profile"
                             onClick={() => setMobileMenuOpen(false)}
-                            className="text-lg font-semibold text-[#ff1d46] flex items-center gap-2"
+                            className="text-lg font-semibold text-brand-red flex items-center gap-2"
                           >
                             My Profile
                           </Link>
@@ -867,19 +867,19 @@ export function Header() {
                   <Link
                     onClick={handleLinkClick}
                     href="#"
-                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
                   >
                     About
                   </Link>
                   <Link
                     onClick={handleLinkClick}
                     href="/contact"
-                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
                   >
                     Contact
                   </Link>
 
-                  <h3 className="text-xl font-bold text-[#c92c41] mt-6">
+                  <h3 className="text-xl font-bold text-brand-red mt-6">
                     Services
                   </h3>
 
@@ -892,68 +892,68 @@ export function Header() {
                     />
                   ))}
 
-                  <h3 className="text-xl font-bold text-[#c92c41] mt-6">
+                  <h3 className="text-xl font-bold text-brand-red mt-6">
                     Resources
                   </h3>
                   <Link
                     onClick={handleLinkClick}
                     href="/blogs"
-                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
                   >
                     Blogs
                   </Link>
                   <Link
                     onClick={handleLinkClick}
                     href="/news"
-                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
                   >
                     News
                   </Link>
                   <Link
                     onClick={handleLinkClick}
                     href="/guides"
-                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
                   >
                     Guides
                   </Link>
                   <Link
                     onClick={handleLinkClick}
                     href="/faqs"
-                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
                   >
                     FAQs
                   </Link>
                   <Link
                     onClick={handleLinkClick}
                     href="/careers"
-                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
                   >
                     Careers
                   </Link>
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-bold text-[#c92c41] mt-6">
+                  <h3 className="text-xl font-bold text-brand-red mt-6">
                     Legal
                   </h3>
                   <Link
                     onClick={handleLinkClick}
                     href="/privacy-policy"
-                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
                   >
                     Privacy Policy
                   </Link>
                   <Link
                     onClick={handleLinkClick}
                     href="/terms"
-                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
                   >
                     Terms of Service
                   </Link>
                   <Link
                     onClick={handleLinkClick}
                     href="/attorney-terms"
-                    className="text-lg font-medium text-gray-700 hover:text-[#c92c41]"
+                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
                   >
                     Attorney Terms & Conditions
                   </Link>
@@ -962,7 +962,7 @@ export function Header() {
                 <div className="mt-8">
                   <Link
                     href="/free-consultation"
-                    className="w-full bg-[#c92c41] text-white py-3 rounded-lg font-semibold shadow-md flex items-center justify-center"
+                    className="w-full bg-brand-red text-white py-3 rounded-lg font-semibold shadow-md flex items-center justify-center"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Get Legal Help

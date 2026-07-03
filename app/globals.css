@@ -128,6 +128,19 @@ body {
   --color-sidebar-ring: var(--sidebar-ring);
   --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
+  --font-outfit: "Outfit", sans-serif;
+
+  /* Brand Colors */
+  --color-brand-red: #c0392b;
+  --color-brand-red-light: #e74c3c;
+  --color-brand-navy: #0e172b;
+  --color-brand-light-bg: #f8f9fb;
+
+  /* Pricing Tier Colors */
+  --color-tier-bronze: #c17f3a;
+  --color-tier-silver: #c0392b;
+  --color-tier-gold: #b8860b;
+  --color-tier-diamond: #3d6ab0;
 }
 
 @layer base {

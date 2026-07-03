@@ -235,15 +235,14 @@ export default function StartupAndBusinessLegalPage() {
   };
 
   return (
-    <div className="min-h-screen" style={{ background: "#f8f7f4" }}>
+    <div className="min-h-screen bg-[#f8f7f4]">
 
       {/* ══════════════════════════════════════════
           HERO — Cinematic immersive dark
       ══════════════════════════════════════════ */}
       <section
         ref={heroRef}
-        className="relative flex flex-col items-center justify-center text-center overflow-hidden"
-        style={{ minHeight: "100vh", background: "#050d1a" }}
+        className="relative flex flex-col items-center justify-center text-center overflow-hidden min-h-screen bg-[#050d1a]"
       >
         {/* Parallax background photo */}
         <motion.div
@@ -253,49 +252,28 @@ export default function StartupAndBusinessLegalPage() {
 
         {/* Multi-layer overlays for depth */}
         <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(160deg, rgba(5,13,26,0.97) 0%, rgba(10,20,45,0.88) 45%, rgba(140,20,35,0.22) 100%)",
-          }}
+          className="absolute inset-0 bg-[linear-gradient(160deg,rgba(5,13,26,0.97)_0%,rgba(10,20,45,0.88)_45%,rgba(140,20,35,0.22)_100%)]"
         />
         <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse 70% 55% at 50% 52%, rgba(201,44,65,0.14) 0%, transparent 68%)",
-          }}
+          className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_70%_55%_at_50%_52%,rgba(201,44,65,0.14)_0%,transparent_68%)]"
         />
 
         {/* Subtle grid texture */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{
-            opacity: 0.05,
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)",
-            backgroundSize: "64px 64px",
-          }}
+          style={{ opacity: 0.05, backgroundImage: "linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)", backgroundSize: "64px 64px" }}
         />
 
         {/* Floating ambient orbs */}
         <motion.div
           animate={{ x: [0, 28, 0], y: [0, -18, 0], opacity: [0.35, 0.65, 0.35] }}
           transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[22%] left-[14%] w-56 h-56 rounded-full pointer-events-none"
-          style={{
-            background: "radial-gradient(circle, rgba(201,44,65,0.28) 0%, transparent 70%)",
-            filter: "blur(32px)",
-          }}
+          className="absolute top-[22%] left-[14%] w-56 h-56 rounded-full pointer-events-none bg-[radial-gradient(circle,rgba(201,44,65,0.28)_0%,transparent_70%)] blur-[32px]"
         />
         <motion.div
           animate={{ x: [0, -18, 0], y: [0, 22, 0], opacity: [0.25, 0.5, 0.25] }}
           transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 3.5 }}
-          className="absolute bottom-[28%] right-[10%] w-72 h-72 rounded-full pointer-events-none"
-          style={{
-            background: "radial-gradient(circle, rgba(233,155,43,0.22) 0%, transparent 70%)",
-            filter: "blur(44px)",
-          }}
+          className="absolute bottom-[28%] right-[10%] w-72 h-72 rounded-full pointer-events-none bg-[radial-gradient(circle,rgba(233,155,43,0.22)_0%,transparent_70%)] blur-[44px]"
         />
 
         {/* Hero content */}
@@ -311,12 +289,7 @@ export default function StartupAndBusinessLegalPage() {
             className="flex justify-center mb-7"
           >
             <span
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase"
-              style={{
-                background: "rgba(201,44,65,0.14)",
-                border: "1px solid rgba(201,44,65,0.38)",
-                color: "#ff8a9a",
-              }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase bg-[#c92c41]/15 border border-[#c92c41]/40 text-[#ff8a9a]"
             >
               <Sparkles className="w-3 h-3" />
               India's Trusted Legal Platform
@@ -328,21 +301,12 @@ export default function StartupAndBusinessLegalPage() {
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-black tracking-tight text-white leading-[1.05] mb-5"
-            style={{
-              fontSize: "clamp(2rem, 5vw, 4rem)",
-              textShadow: "0 2px 48px rgba(0,0,0,0.55)",
-            }}
+            className="font-black tracking-tight text-white leading-[1.05] mb-5 text-[clamp(2rem,5vw,4rem)] drop-shadow-[0_2px_48px_rgba(0,0,0,0.55)]"
           >
             Startup & Business
             <br />
             <span
-              style={{
-                background: "linear-gradient(90deg, #e99b2b 0%, #f5c76a 50%, #e99b2b 100%)",
-                backgroundSize: "200%",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
+              className="bg-gradient-to-r from-[#e99b2b] via-[#f5c76a] to-[#e99b2b] bg-[length:200%] text-transparent bg-clip-text"
             >
               Legal Services
             </span>
@@ -353,8 +317,7 @@ export default function StartupAndBusinessLegalPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.2 }}
-            className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-2"
-            style={{ color: "rgba(215,222,235,0.85)", lineHeight: 1.72 }}
+            className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-2 text-[#d7deeb]/85 leading-[1.72]"
           >
             From idea to empire — built on solid legal ground.
           </motion.p>
@@ -362,8 +325,7 @@ export default function StartupAndBusinessLegalPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.28 }}
-            className="text-sm sm:text-base mb-10"
-            style={{ color: "#e99b2b", letterSpacing: "0.01em" }}
+            className="text-sm sm:text-base mb-10 text-[#e99b2b] tracking-[0.01em]"
           >
             End-to-end legal solutions to start, protect, manage, and grow your business.
           </motion.p>
@@ -379,11 +341,7 @@ export default function StartupAndBusinessLegalPage() {
               whileHover={{ scale: 1.05, boxShadow: "0 0 45px rgba(201,44,65,0.55)" }}
               whileTap={{ scale: 0.97 }}
               onClick={handleRequestCallback}
-              className="group relative flex items-center gap-2.5 px-8 py-4 rounded-2xl font-bold text-sm sm:text-base text-white overflow-hidden transition-all"
-              style={{
-                background: "linear-gradient(135deg, #c92c41 0%, #9d1f31 100%)",
-                boxShadow: "0 4px 28px rgba(201,44,65,0.38), inset 0 1px 0 rgba(255,255,255,0.14)",
-              }}
+              className="group relative flex items-center gap-2.5 px-8 py-4 rounded-2xl font-bold text-sm sm:text-base text-white overflow-hidden transition-all bg-gradient-to-br from-[#c92c41] to-[#9d1f31] shadow-[0_4px_28px_rgba(201,44,65,0.38),inset_0_1px_0_rgba(255,255,255,0.14)]"
             >
               <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
               Request a Callback
@@ -397,12 +355,7 @@ export default function StartupAndBusinessLegalPage() {
               }}
               whileTap={{ scale: 0.97 }}
               onClick={handleScrollToRegistration}
-              className="group flex items-center gap-2.5 px-8 py-4 rounded-2xl font-bold text-sm sm:text-base text-white transition-all"
-              style={{
-                background: "rgba(255,255,255,0.08)",
-                border: "1px solid rgba(255,255,255,0.2)",
-                backdropFilter: "blur(10px)",
-              }}
+              className="group flex items-center gap-2.5 px-8 py-4 rounded-2xl font-bold text-sm sm:text-base text-white transition-all bg-white/10 border border-white/20 backdrop-blur-md"
             >
               <span>🏢</span>
               Register Your Business
@@ -419,8 +372,8 @@ export default function StartupAndBusinessLegalPage() {
           >
             {["10,000+ Businesses Registered", "Expert Verified Lawyers", "Secure & Confidential"].map((badge) => (
               <div key={badge} className="flex items-center gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "#4ade80" }} />
-                <span className="text-xs sm:text-sm" style={{ color: "rgba(195,208,228,0.78)" }}>
+                <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 text-green-400" />
+                <span className="text-xs sm:text-sm text-[#c3d0e4]/80">
                   {badge}
                 </span>
               </div>
@@ -460,8 +413,7 @@ export default function StartupAndBusinessLegalPage() {
               {/* Section label */}
               <div className="flex items-center gap-3 mb-3">
                 <div
-                  className="p-2.5 rounded-xl"
-                  style={{ background: "rgba(201,44,65,0.1)" }}
+                  className="p-2.5 rounded-xl bg-brand-red/10"
                 >
                   <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#c92c41]" />
                 </div>
@@ -583,7 +535,7 @@ export default function StartupAndBusinessLegalPage() {
           className="mb-20 relative z-10 isolate"
         >
           <div className="flex items-center gap-3 mb-3">
-            <div className="p-2.5 rounded-xl" style={{ background: "rgba(201,44,65,0.1)" }}>
+            <div className="p-2.5 rounded-xl bg-brand-red/10">
               <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-[#c92c41]" />
             </div>
             <h2 className="text-xl sm:text-2xl font-extrabold text-[#0e172b] tracking-tight">
@@ -648,8 +600,7 @@ export default function StartupAndBusinessLegalPage() {
                   }`}
                 >
                   <h3
-                    className="text-base sm:text-lg font-extrabold mb-1 text-center"
-                    style={{ color: bundle.popular ? "white" : "#0e172b" }}
+                    className={`text-base sm:text-lg font-extrabold mb-1 text-center ${bundle.popular ? "text-white" : "text-[#0e172b]"}`}
                   >
                     {bundle.name}
                   </h3>
@@ -716,8 +667,7 @@ export default function StartupAndBusinessLegalPage() {
                     {bundle.includes.map((item) => (
                       <li key={item} className="flex items-center gap-2.5">
                         <CheckCircle2
-                          className="w-4 h-4 flex-shrink-0"
-                          style={{ color: bundle.popular ? "#4ade80" : "#22c55e" }}
+                          className={`w-4 h-4 flex-shrink-0 ${bundle.popular ? "text-green-400" : "text-green-500"}`}
                         />
                         <span
                           className="text-sm font-medium"

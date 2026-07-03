@@ -10,6 +10,10 @@ type Cat   = { label:string; items:Svc[] };
 type Phase = {
   id:number; key:string; label:string; tagline:string;
   accent:string; glow:string; soft:string;
+  tw: {
+    border: string; bgSoft: string; text: string; bg: string; shadow: string;
+    borderHover: string; gradient: string;
+  };
   categories:Cat[];
   cta:{ bold:string; rest:string; btn:string; href:string };
 };
@@ -21,6 +25,7 @@ const PHASES: Phase[] = [
     label:"Establish",
     tagline:"Register your business & lay the legal groundwork from day one.",
     accent:"#ca2d42", glow:"rgba(202,45,66,0.22)", soft:"#fef2f3",
+    tw: { border: "border-brand-red", bgSoft: "bg-[#fef2f3]", text: "text-brand-red", bg: "bg-brand-red", shadow: "shadow-[0_8px_36px_rgba(202,45,66,0.22)]", borderHover: "border-brand-red/50", gradient: "from-brand-red to-brand-red/80" },
     cta:{ bold:"Ready to register your business?", rest:"Browse all services or talk to a legal expert to find the right fit.", btn:"View All Services", href:"/startup-businesslegal" },
     categories:[
       {
@@ -59,6 +64,7 @@ const PHASES: Phase[] = [
     label:"Protect",
     tagline:"Legally bind every relationship before disputes or breaches arise.",
     accent:"#1d4ed8", glow:"rgba(29,78,216,0.22)", soft:"#eff6ff",
+    tw: { border: "border-blue-700", bgSoft: "bg-[#eff6ff]", text: "text-blue-700", bg: "bg-blue-700", shadow: "shadow-[0_8px_36px_rgba(29,78,216,0.22)]", borderHover: "border-blue-700/50", gradient: "from-blue-700 to-blue-700/80" },
     cta:{ bold:"Operating without agreements?", rest:"Don't wait for a dispute — get covered today.", btn:"Talk to a Lawyer", href:"/contact" },
     categories:[
       {
@@ -99,6 +105,7 @@ const PHASES: Phase[] = [
     label:"Sustain",
     tagline:"Stay compliant — ROC filings, renewals & changes handled for you.",
     accent:"#15803d", glow:"rgba(21,128,61,0.22)", soft:"#f0fdf4",
+    tw: { border: "border-green-700", bgSoft: "bg-[#f0fdf4]", text: "text-green-700", bg: "bg-green-700", shadow: "shadow-[0_8px_36px_rgba(21,128,61,0.22)]", borderHover: "border-green-700/50", gradient: "from-green-700 to-green-700/80" },
     cta:{ bold:"Missed a compliance deadline?", rest:"We handle late filings and penalty mitigation too.", btn:"Fix It Now", href:"/contact" },
     categories:[
       {
@@ -140,26 +147,19 @@ export default function ServicesSection() {
   return (
     <>
       <style>{`
-        .ls-section { background:#fff; padding:96px 0 80px; position:relative; overflow:hidden; }
-        .ls-section::before {
-          content:''; position:absolute; top:-160px; right:-120px;
-          width:520px; height:520px; border-radius:50%; pointer-events:none;
-          background:radial-gradient(circle, rgba(202,45,66,0.06) 0%, transparent 65%);
-        }
-        /* tab grid */
         .ls-tabs { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:32px; }
-        /* service grid */
         .ls-grid  { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:10px; }
         @media(max-width:900px)  { .ls-grid  { grid-template-columns:1fr 1fr; } }
         @media(max-width:640px)  { .ls-tabs  { grid-template-columns:1fr; gap:10px; }
-                                   .ls-grid  { grid-template-columns:1fr; }
-                                   .ls-panel-body { padding:20px 16px; }
-                                   .ls-panel-head { padding:18px 16px; } }
+                                   .ls-grid  { grid-template-columns:1fr; } }
         @media(prefers-reduced-motion:reduce){ *, *::before, *::after { transition:none!important; animation:none!important; } }
       `}</style>
 
-      <section id="services" className="ls-section">
-        <div style={{ maxWidth:1180, margin:"0 auto", padding:"0 24px", position:"relative", zIndex:1 }}>
+      <section id="services" className="bg-white pt-24 pb-20 relative overflow-hidden">
+        {/* Decorative circle */}
+        <div className="absolute -top-[160px] -right-[120px] w-[520px] h-[520px] rounded-full pointer-events-none bg-[radial-gradient(circle,rgba(202,45,66,0.06)_0%,transparent_65%)]" />
+
+        <div className="max-w-[1180px] mx-auto px-6 relative z-10">
 
           {/* HEADER ─────────────────────────────────────────────── */}
           <motion.div
@@ -167,30 +167,19 @@ export default function ServicesSection() {
             whileInView={{ opacity:1, y:0 }}
             viewport={{ once:true, amount:0.3 }}
             transition={{ duration:0.65, ease:[0.22,1,0.36,1] }}
-            style={{ textAlign:"center", marginBottom:56 }}
+            className="text-center mb-14"
           >
-            <span style={{
-              display:"inline-flex", alignItems:"center", gap:8,
-              background:"rgba(202,45,66,0.07)", border:"1.5px solid rgba(202,45,66,0.2)",
-              color:"#ca2d42", padding:"5px 18px", borderRadius:100,
-              fontSize:11, fontWeight:700, letterSpacing:"1.8px", textTransform:"uppercase",
-              marginBottom:22,
-            }}>
-              <span style={{ width:5, height:5, borderRadius:"50%", background:"#ca2d42", display:"inline-block" }}/>
+            <span className="inline-flex items-center gap-2 bg-brand-red/10 border-[1.5px] border-brand-red/20 text-brand-red px-[18px] py-[5px] rounded-full text-[11px] font-bold tracking-[1.8px] uppercase mb-[22px]">
+              <span className="w-[5px] h-[5px] rounded-full bg-brand-red inline-block"/>
               Legal Services
             </span>
 
-            <h2 style={{
-              fontFamily:"var(--font-head,'Syne',sans-serif)",
-              fontSize:"clamp(28px,3.8vw,50px)", fontWeight:800,
-              color:"#0D0F14", lineHeight:1.1, letterSpacing:"-0.025em",
-              margin:"0 0 16px",
-            }}>
+            <h2 className="font-[family-name:var(--font-head)] text-[clamp(28px,3.8vw,50px)] font-extrabold text-[#0D0F14] leading-[1.1] tracking-[-0.025em] m-0 mb-4">
               Every legal need.<br/>
-              <span style={{ color:"#ca2d42" }}>One trusted platform.</span>
+              <span className="text-brand-red">One trusted platform.</span>
             </h2>
 
-            <p style={{ fontSize:17, color:"#4A5060", lineHeight:1.75, maxWidth:520, margin:"0 auto" }}>
+            <p className="text-[17px] text-gray-600 leading-7 max-w-[520px] mx-auto">
               Pick a phase and explore all your services — with real prices, real pages, one click away.
             </p>
           </motion.div>
@@ -206,76 +195,35 @@ export default function ServicesSection() {
                   onClick={() => setActive(i)}
                   onMouseEnter={() => setActive(i)}
                   whileTap={{ scale:0.98 }}
-                  style={{
-                    all:"unset", boxSizing:"border-box",
-                    display:"flex", flexDirection:"column",
-                    padding:"22px 24px", borderRadius:18,
-                    border: on ? `2px solid ${p.accent}` : "2px solid #E8ECF0",
-                    background: on ? p.soft : "#FAFBFC",
-                    cursor:"pointer", position:"relative", overflow:"hidden",
-                    transition:"all 0.25s cubic-bezier(0.22,1,0.36,1)",
-                    boxShadow: on ? `0 8px 36px ${p.glow}` : "0 1px 4px rgba(0,0,0,0.04)",
-                    transform: on ? "translateY(-4px)" : "none",
-                  }}
+                  className={`all-unset box-border flex flex-col px-6 py-[22px] rounded-[18px] cursor-pointer relative overflow-hidden transition-all duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] border-2 ${on ? p.tw.border : 'border-[#E8ECF0]'} ${on ? p.tw.bgSoft : 'bg-[#FAFBFC]'} ${on ? p.tw.shadow : 'shadow-[0_1px_4px_rgba(0,0,0,0.04)]'} ${on ? '-translate-y-1' : 'translate-y-0'}`}
                 >
                   {/* animated top bar */}
                   <motion.span
                     animate={{ scaleX: on ? 1 : 0, opacity: on ? 1 : 0 }}
                     initial={false}
                     transition={{ duration:0.22 }}
-                    style={{
-                      position:"absolute", top:0, left:0, right:0, height:3,
-                      background:p.accent, borderRadius:"18px 18px 0 0",
-                      transformOrigin:"left",
-                    }}
+                    className={`absolute top-0 left-0 right-0 h-[3px] rounded-t-[18px] origin-left ${p.tw.bg}`}
                   />
 
                   {/* phase badge */}
-                  <span style={{
-                    display:"inline-flex", alignItems:"center", gap:6,
-                    width:"fit-content",
-                    background: on ? p.accent : "#EAEDF2",
-                    color: on ? "#fff" : "#8A90A2",
-                    borderRadius:100, padding:"4px 12px",
-                    fontSize:11, fontWeight:700, marginBottom:12,
-                    transition:"all 0.22s",
-                  }}>
-                    <span style={{
-                      width:16, height:16, borderRadius:"50%",
-                      background: on ? "rgba(255,255,255,0.25)" : "#C4C9D6",
-                      color: on ? "#fff" : "#6B7280",
-                      display:"inline-flex", alignItems:"center", justifyContent:"center",
-                      fontSize:9, fontWeight:900, lineHeight:1,
-                    }}>{p.id}</span>
+                  <span className={`inline-flex items-center gap-1.5 w-fit rounded-full px-3 py-1 text-[11px] font-bold mb-3 transition-all duration-220 ${on ? p.tw.bg : 'bg-[#EAEDF2]'} ${on ? 'text-white' : 'text-[#8A90A2]'}`}>
+                    <span className={`w-4 h-4 rounded-full inline-flex items-center justify-center text-[9px] font-black leading-none ${on ? 'bg-white/25 text-white' : 'bg-[#C4C9D6] text-[#6B7280]'}`}>
+                      {p.id}
+                    </span>
                     Phase {p.id}
                   </span>
 
-                  <span style={{
-                    fontFamily:"var(--font-head,'Syne',sans-serif)",
-                    fontSize:22, fontWeight:800, lineHeight:1.15,
-                    color: on ? p.accent : "#0D0F14",
-                    marginBottom:8, transition:"color 0.22s",
-                  }}>
+                  <span className={`font-[family-name:var(--font-head,'Syne',sans-serif)] text-[22px] font-extrabold leading-[1.15] mb-2 transition-colors duration-220 ${on ? p.tw.text : 'text-[#0D0F14]'}`}>
                     {p.label}
                   </span>
 
-                  <span style={{ fontSize:13, color:"#8A90A2", lineHeight:1.55, flex:1 }}>
+                  <span className="text-[13px] text-gray-400 leading-relaxed flex-1 text-left">
                     {p.tagline}
                   </span>
 
-                  <span style={{
-                    display:"inline-flex", alignItems:"center", gap:5,
-                    marginTop:14,
-                    fontSize:12, fontWeight:700,
-                    color: on ? p.accent : "#B0B7C3",
-                    transition:"color 0.22s",
-                  }}>
+                  <span className={`inline-flex items-center gap-1.5 mt-3.5 text-xs font-bold transition-colors duration-220 ${on ? p.tw.text : 'text-[#B0B7C3]'}`}>
                     {total} services
-                    <span style={{
-                      display:"inline-block",
-                      transition:"transform 0.22s",
-                      transform: on ? "translateX(3px)" : "none",
-                    }}>→</span>
+                    <span className={`inline-block transition-transform duration-220 ${on ? 'translate-x-[3px]' : 'translate-x-0'}`}>→</span>
                   </span>
                 </motion.button>
               );
@@ -290,42 +238,19 @@ export default function ServicesSection() {
               animate={{ opacity:1, y:0 }}
               exit={{ opacity:0, y:-12 }}
               transition={{ duration:0.28, ease:[0.22,1,0.36,1] }}
-              style={{
-                background:"#fff",
-                border:"1.5px solid #E4E8F0",
-                borderRadius:22,
-                boxShadow:"0 4px 40px rgba(0,0,0,0.07)",
-                overflow:"hidden",
-              }}
+              className="bg-white border-[1.5px] border-[#E4E8F0] rounded-[22px] shadow-[0_4px_40px_rgba(0,0,0,0.07)] overflow-hidden"
             >
               {/* panel header */}
-              <div
-                className="ls-panel-head"
-                style={{
-                  display:"flex", alignItems:"center", justifyContent:"space-between",
-                  flexWrap:"wrap", gap:14,
-                  padding:"22px 32px",
-                  background: phase.soft,
-                  borderBottom:"1.5px solid #EEF1F6",
-                }}
-              >
-                <div style={{ display:"flex", alignItems:"center", gap:14 }}>
-                  <div style={{
-                    width:48, height:48, borderRadius:14,
-                    background:phase.accent,
-                    display:"flex", alignItems:"center", justifyContent:"center",
-                    fontSize:22, flexShrink:0,
-                  }}>
+              <div className={`flex items-center justify-between flex-wrap gap-3.5 px-8 py-[22px] border-b-[1.5px] border-[#EEF1F6] ${phase.tw.bgSoft}`}>
+                <div className="flex items-center gap-3.5">
+                  <div className={`w-12 h-12 rounded-[14px] flex items-center justify-center text-[22px] shrink-0 ${phase.tw.bg}`}>
                     {phase.id===1?"🏗️":phase.id===2?"🛡️":"♻️"}
                   </div>
                   <div>
-                    <div style={{
-                      fontFamily:"var(--font-head,'Syne',sans-serif)",
-                      fontSize:18, fontWeight:800, color:"#0D0F14",
-                    }}>
+                    <div className="font-[family-name:var(--font-head,'Syne',sans-serif)] text-[18px] font-extrabold text-[#0D0F14]">
                       Phase {phase.id} — {phase.label}
                     </div>
-                    <div style={{ fontSize:13, color:"#8A90A2", marginTop:3 }}>
+                    <div className="text-[13px] text-gray-500 mt-[3px]">
                       {phase.categories.reduce((n,c)=>n+c.items.length,0)} services across {phase.categories.length} categories
                     </div>
                   </div>
@@ -334,57 +259,37 @@ export default function ServicesSection() {
                 {/* premium CTA button */}
                 <Link
                   href={phase.cta.href}
-                  style={{
-                    display:"inline-flex", alignItems:"center", gap:9,
-                    padding:"12px 24px",
-                    background:`linear-gradient(135deg, ${phase.accent} 0%, ${phase.accent}cc 100%)`,
-                    color:"#fff", borderRadius:12, textDecoration:"none",
-                    fontSize:13.5, fontWeight:700,
-                    boxShadow:`0 6px 20px ${phase.glow}`,
-                    transition:"all 0.2s",
-                    flexShrink:0, whiteSpace:"nowrap",
-                    position:"relative", overflow:"hidden",
-                  }}
+                  className={`inline-flex items-center gap-[9px] px-6 py-3 text-white rounded-xl no-underline text-[13.5px] font-bold transition-all duration-200 shrink-0 whitespace-nowrap relative overflow-hidden bg-gradient-to-br ${phase.tw.gradient} ${phase.tw.shadow}`}
                 >
-                  <span style={{ position:"relative", zIndex:1 }}>{phase.cta.btn}</span>
-                  <span style={{ position:"relative", zIndex:1, fontSize:16 }}>→</span>
+                  <span className="relative z-10">{phase.cta.btn}</span>
+                  <span className="relative z-10 text-base">→</span>
                 </Link>
               </div>
 
               {/* categories */}
-              <div className="ls-panel-body" style={{ padding:"28px 32px" }}>
+              <div className="p-4 sm:p-7 md:p-8">
                 {phase.categories.map((cat, ci) => (
                   <motion.div
                     key={cat.label}
                     initial={{ opacity:0, y:14 }}
                     animate={{ opacity:1, y:0 }}
                     transition={{ duration:0.3, delay:ci*0.07, ease:[0.22,1,0.36,1] }}
-                    style={{ marginBottom: ci < phase.categories.length-1 ? 32 : 0 }}
+                    className={ci < phase.categories.length - 1 ? "mb-8" : "mb-0"}
                   >
                     {/* category header */}
-                    <div style={{
-                      display:"flex", alignItems:"center", gap:12,
-                      marginBottom:14,
-                    }}>
-                      <span style={{
-                        fontSize:10.5, fontWeight:800,
-                        textTransform:"uppercase", letterSpacing:"1.8px",
-                        color:phase.accent,
-                        background:phase.soft,
-                        padding:"5px 14px", borderRadius:100,
-                        flexShrink:0,
-                      }}>
+                    <div className="flex items-center gap-3 mb-3.5">
+                      <span className={`text-[10.5px] font-extrabold uppercase tracking-[1.8px] px-3.5 py-1.5 rounded-full shrink-0 ${phase.tw.text} ${phase.tw.bgSoft}`}>
                         {cat.label}
                       </span>
-                      <div style={{ flex:1, height:1, background:"#EAEDF2" }}/>
-                      <span style={{ fontSize:11, color:"#C0C5D0", fontWeight:600, flexShrink:0 }}>
+                      <div className="flex-1 h-px bg-gray-100"/>
+                      <span className="text-[11px] text-gray-400 font-semibold shrink-0">
                         {cat.items.length} services
                       </span>
                     </div>
 
                     <div className="ls-grid">
                       {cat.items.map((svc) => (
-                        <SvcRow key={svc.url} svc={svc} accent={phase.accent} soft={phase.soft} glow={phase.glow}/>
+                        <SvcRow key={svc.url} svc={svc} phase={phase} />
                       ))}
                     </div>
                   </motion.div>
@@ -392,21 +297,12 @@ export default function ServicesSection() {
               </div>
 
               {/* CTA strip */}
-              <div style={{
-                margin:"0 24px 24px",
-                padding:"20px 24px",
-                borderRadius:16,
-                background:phase.soft,
-                border:`1.5px solid ${phase.accent}22`,
-                display:"flex", alignItems:"center",
-                flexWrap:"wrap", gap:16,
-                justifyContent:"space-between",
-              }}>
-                <p style={{ margin:0, fontSize:14, color:"#0D0F14", lineHeight:1.6 }}>
-                  <strong style={{ fontWeight:700 }}>{phase.cta.bold}</strong>{" "}
-                  <span style={{ color:"#4A5060" }}>{phase.cta.rest}</span>
+              <div className={`mx-4 sm:mx-6 mb-4 sm:mb-6 p-5 sm:px-6 rounded-2xl border-[1.5px] flex items-center flex-wrap gap-4 justify-between ${phase.tw.bgSoft} ${phase.tw.border}/20`}>
+                <p className="m-0 text-sm text-gray-900 leading-relaxed">
+                  <strong className="font-bold">{phase.cta.bold}</strong>{" "}
+                  <span className="text-gray-600">{phase.cta.rest}</span>
                 </p>
-                <CtaButton href={phase.cta.href} accent={phase.accent} glow={phase.glow}>
+                <CtaButton href={phase.cta.href} phase={phase}>
                   {phase.cta.btn}
                 </CtaButton>
               </div>
@@ -420,92 +316,51 @@ export default function ServicesSection() {
 }
 
 // ─── service row ──────────────────────────────────────────────────────────────
-function SvcRow({ svc, accent, soft, glow }: { svc:Svc; accent:string; soft:string; glow:string }) {
+function SvcRow({ svc, phase }: { svc:Svc; phase:Phase }) {
   const [hov, setHov] = useState(false);
   return (
     <Link
       href={svc.url}
       onMouseEnter={()=>setHov(true)}
       onMouseLeave={()=>setHov(false)}
-      style={{
-        display:"flex", alignItems:"center", gap:12,
-        padding:"12px 16px",
-        borderRadius:12,
-        border:`1.5px solid ${hov ? accent+"50" : "#EAEDF2"}`,
-        background: hov ? soft : "#FAFBFC",
-        textDecoration:"none",
-        transition:"all 0.18s cubic-bezier(0.22,1,0.36,1)",
-        transform: hov ? "translateY(-2px)" : "none",
-        boxShadow: hov ? `0 6px 20px ${glow}` : "none",
-        position:"relative", overflow:"hidden",
-      }}
+      className={`flex items-center gap-3 px-4 py-3 rounded-xl border-[1.5px] no-underline transition-all duration-150 ease-[cubic-bezier(0.22,1,0.36,1)] relative overflow-hidden ${hov ? phase.tw.borderHover : 'border-[#EAEDF2]'} ${hov ? phase.tw.bgSoft : 'bg-[#FAFBFC]'} ${hov ? '-translate-y-[2px]' : 'translate-y-0'} ${hov ? phase.tw.shadow : 'shadow-none'}`}
     >
       {/* left edge bar */}
-      <span style={{
-        position:"absolute", left:0, top:0, bottom:0,
-        width: hov ? 3 : 0,
-        background:accent,
-        borderRadius:"12px 0 0 12px",
-        transition:"width 0.18s",
-      }}/>
+      <span className={`absolute left-0 top-0 bottom-0 transition-all duration-150 rounded-l-xl ${phase.tw.bg}`} style={{ width: hov ? 3 : 0 }} />
 
       {/* name */}
-      <span style={{
-        flex:1, fontSize:13.5, fontWeight:600,
-        color: hov ? "#0D0F14" : "#2C3140",
-        lineHeight:1.35, transition:"color 0.18s",
-      }}>
+      <span className={`flex-1 text-[13.5px] font-semibold leading-[1.35] transition-colors duration-150 ${hov ? 'text-[#0D0F14]' : 'text-[#2C3140]'}`}>
         {svc.name}
       </span>
 
       {/* badge */}
       {svc.badge && (
-        <span style={{
-          fontSize:10, fontWeight:700,
-          padding:"2px 8px", borderRadius:100,
-          background:"rgba(22,163,74,0.09)",
-          color:"#15803d",
-          border:"1px solid rgba(22,163,74,0.18)",
-          whiteSpace:"nowrap", flexShrink:0,
-        }}>
+        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-600/10 text-green-700 border border-green-600/20 whitespace-nowrap shrink-0">
           {svc.badge}
         </span>
       )}
 
       {/* price block */}
-      <span style={{
-        display:"flex", flexDirection:"column", alignItems:"flex-end",
-        flexShrink:0, marginLeft:4,
-      }}>
-        <span style={{
-          fontSize:11, color:"#B0B7C3",
-          textDecoration:"line-through", lineHeight:1,
-        }}>
+      <span className="flex flex-col items-end shrink-0 ml-1">
+        <span className="text-[11px] text-[#B0B7C3] line-through leading-none">
           {svc.was}
         </span>
-        <span style={{
-          fontSize:14, fontWeight:800,
-          color: hov ? accent : "#0D0F14",
-          lineHeight:1.2, transition:"color 0.18s",
-        }}>
+        <span className={`text-[14px] font-extrabold leading-[1.2] transition-colors duration-150 ${hov ? phase.tw.text : 'text-[#0D0F14]'}`}>
           {svc.price}
         </span>
       </span>
 
       {/* arrow */}
-      <span style={{
-        fontSize:16, color:accent, flexShrink:0,
-        opacity: hov ? 1 : 0,
-        transform: hov ? "translateX(0)" : "translateX(-6px)",
-        transition:"all 0.18s",
-      }}>→</span>
+      <span className={`text-base shrink-0 transition-all duration-150 ${phase.tw.text} ${hov ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-1.5'}`}>
+        →
+      </span>
     </Link>
   );
 }
 
 // ─── premium cta button ───────────────────────────────────────────────────────
-function CtaButton({ href, accent, glow, children }: {
-  href:string; accent:string; glow:string; children:React.ReactNode;
+function CtaButton({ href, phase, children }: {
+  href:string; phase:Phase; children:React.ReactNode;
 }) {
   const [hov, setHov] = useState(false);
   return (
@@ -513,29 +368,12 @@ function CtaButton({ href, accent, glow, children }: {
       href={href}
       onMouseEnter={()=>setHov(true)}
       onMouseLeave={()=>setHov(false)}
-      style={{
-        display:"inline-flex", alignItems:"center", gap:8,
-        padding:"12px 26px",
-        background: hov
-          ? `linear-gradient(135deg, ${accent}ee, ${accent}aa)`
-          : `linear-gradient(135deg, ${accent}, ${accent}cc)`,
-        color:"#fff", borderRadius:12, textDecoration:"none",
-        fontSize:14, fontWeight:700, flexShrink:0, whiteSpace:"nowrap",
-        boxShadow: hov
-          ? `0 10px 32px ${glow}, 0 2px 8px ${glow}`
-          : `0 4px 16px ${glow}`,
-        transform: hov ? "translateY(-2px)" : "none",
-        transition:"all 0.2s cubic-bezier(0.22,1,0.36,1)",
-        letterSpacing:"0.01em",
-      }}
+      className={`inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl no-underline text-sm font-bold shrink-0 whitespace-nowrap transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] tracking-[0.01em] bg-gradient-to-br ${hov ? phase.tw.gradient : phase.tw.bg} ${hov ? phase.tw.shadow : 'shadow-sm'} ${hov ? '-translate-y-0.5' : 'translate-y-0'}`}
     >
       {children}
-      <span style={{
-        fontSize:16,
-        transform: hov ? "translateX(3px)" : "none",
-        transition:"transform 0.2s",
-        display:"inline-block",
-      }}>→</span>
+      <span className={`text-base inline-block transition-transform duration-200 ${hov ? 'translate-x-[3px]' : 'translate-x-0'}`}>
+        →
+      </span>
     </Link>
   );
 }

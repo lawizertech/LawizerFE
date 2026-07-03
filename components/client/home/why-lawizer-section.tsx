@@ -50,8 +50,8 @@ export function WhyLawizerSection() {
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
         <div className="w-full lg:w-1/2">
           <h2 className="section-title text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-gray-900 mb-6 break-words">
-            Why <span style={{ color: "var(--brand)" }}>Lawizer</span>: Built for India's<br />
-            <span style={{ color: "var(--brand)" }}>New-Age</span> Founders
+            Why <span className="text-brand-red">Lawizer</span>: Built for India's<br />
+            <span className="text-brand-red">New-Age</span> Founders
           </h2>
           <p className="section-sub text-base sm:text-lg text-gray-600 mb-8 max-w-xl">
             We understand the startup grind. No legalese, no hidden fees, no chasing — just clear, fast, and professional compliance support.

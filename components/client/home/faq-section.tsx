@@ -237,11 +237,8 @@ export function FAQSection() {
 
           {/* ── Left column ── */}
           <div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-tight" style={{
-              fontFamily: "var(--font-head)",
-              fontWeight: 800
-            }}>
-              <span className="title-word" style={{ color: "var(--brand)" }}>Questions?</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-tight" className="font-[family-name:var(--font-head)] font-extrabold">
+              <span className="title-word text-brand-red">Questions?</span>
               <br />
               <span className="title-word">We're</span>{" "}
               <span className="title-word">here</span>{" "}

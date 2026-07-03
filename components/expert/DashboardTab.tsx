@@ -185,8 +185,7 @@ function StatCard({
       </div>
 
       <div
-        className="h-14 w-14 rounded-2xl flex items-center justify-center"
-        style={{ backgroundColor: "#c92c4112" }}
+        className="h-14 w-14 rounded-2xl flex items-center justify-center bg-[#c92c4112]"
       >
         <Icon size={26} color={PRIMARY} />
       </div>

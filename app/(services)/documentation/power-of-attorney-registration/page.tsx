@@ -55,8 +55,7 @@ function HeroWithAddons() {
   return (
     <section
       ref={heroRef}
-      className="relative flex flex-col items-center justify-center text-center overflow-hidden bg-gradient-to-br from-[#0f172a] via-[#1e3a8a] to-[#0b1120] text-white px-4 sm:px-6"
-      style={{ paddingTop: "100px", paddingBottom: "56px" }}
+      className="relative flex flex-col items-center justify-center text-center overflow-hidden bg-gradient-to-br from-[#0f172a] via-[#1e3a8a] to-[#0b1120] text-white px-4 sm:px-6 pt-[100px] pb-[56px]"
     >
       {/* Glow Orbs */}
       <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-indigo-500/20 blur-3xl rounded-full pointer-events-none" />

@@ -66,8 +66,7 @@ export default function LawyerLoginPage() {
 
   return (
     <div
-      className="min-h-screen bg-gray-50 bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('/LCA.png')" }}
+      className="min-h-screen bg-gray-50 bg-cover bg-center bg-no-repeat bg-[url('/LCA.png')]"
     >
       {/* ================= HEADER ================= */}
       <header className="fixed top-0 left-0 w-full bg-white border border-b z-50 h-16 flex items-center px-10 rounded-b-md">

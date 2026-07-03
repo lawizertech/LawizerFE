@@ -39,28 +39,11 @@ export function EmergencyButton() {
           width: hovered ? "115px" : "48px",
         }}
         transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
-        style={{
-          height: "48px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-end",
-          overflow: "hidden",
-          backgroundColor: "#dc2626",
-          borderRadius: "24px",
-          boxShadow: hovered
-            ? "0 4px 20px rgba(220,38,38,0.5), 0 2px 8px rgba(0,0,0,0.2)"
-            : "none",
-        }}
+        className={`h-12 flex items-center justify-end overflow-hidden bg-red-600 rounded-[24px] ${hovered ? "shadow-[0_4px_20px_rgba(220,38,38,0.5),0_2px_8px_rgba(0,0,0,0.2)]" : "shadow-none"}`}
       >
         {/* Content wrapper */}
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-            height: "100%",
-          }}
+          className="flex items-center justify-center w-full h-full"
         >
           {/* Letters — fade in after pill expands */}
           <div className="flex items-center pl-4 pr-1 flex-shrink-0">
@@ -86,16 +69,7 @@ export function EmergencyButton() {
                         duration: 0.2,
                         ease: "easeOut",
                       }}
-                      style={{
-                        fontFamily: "'Inter', sans-serif",
-                        fontSize: "15px",
-                        fontWeight: 700,
-                        letterSpacing: "0.12em",
-                        color: "white",
-                        display: "inline-block",
-                        lineHeight: 1,
-                        marginLeft: "1px",
-                      }}
+                      className="font-['Inter',sans-serif] text-[15px] font-bold tracking-[0.12em] text-white inline-block leading-none ml-[1px]"
                     >
                       {letter}
                     </motion.span>

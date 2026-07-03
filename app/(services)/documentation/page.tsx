@@ -174,15 +174,14 @@ export default function StartupDocumentsPage() {
   const accentDark = "#007bff";
 
   return (
-    <div className="min-h-screen" style={{ background: "#f8f7f4" }}>
+    <div className="min-h-screen bg-[#f8f7f4]">
 
       {/* ══════════════════════════════════════════════
           HERO — Cinematic dark, matches Startup/Property pages
       ══════════════════════════════════════════════ */}
       <section
         ref={heroRef}
-        className="relative flex flex-col items-center justify-center text-center"
-        style={{ minHeight: "100vh", background: "#06101e", overflow: "hidden" }}
+        className="relative flex flex-col items-center justify-center text-center min-h-screen bg-[#06101e] overflow-hidden"
       >
         {/* Parallax background */}
         <motion.div style={{ y: heroY }} className="absolute inset-0 scale-110" aria-hidden>
@@ -190,7 +189,7 @@ export default function StartupDocumentsPage() {
         </motion.div>
 
         {/* Layered atmospheric overlays */}
-        <div className="absolute inset-0" style={{ background: "rgba(6,16,30,0.80)" }} />
+        <div className="absolute inset-0 bg-[#06101e]/80" />
         <div
           className="absolute inset-0"
           style={{
@@ -200,8 +199,7 @@ export default function StartupDocumentsPage() {
         />
         {/* Bottom fade */}
         <div
-          className="absolute bottom-0 left-0 right-0 h-48"
-          style={{ background: "linear-gradient(to top, rgba(6,16,30,0.88) 0%, transparent 100%)" }}
+          className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#06101e]/90 to-transparent"
         />
         {/* Teal radial glow — matches page accent */}
         <div
@@ -213,27 +211,17 @@ export default function StartupDocumentsPage() {
         />
         {/* Left vignette */}
         <div
-          className="absolute top-0 left-0 w-1/2 h-full pointer-events-none"
-          style={{ background: "linear-gradient(to right, rgba(6,16,30,0.5) 0%, transparent 100%)" }}
+          className="absolute top-0 left-0 w-1/2 h-full pointer-events-none bg-gradient-to-r from-[#06101e]/50 to-transparent"
         />
         {/* Scanline texture */}
         <div
           className="absolute inset-0 pointer-events-none opacity-[0.03]"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(0deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 3px)",
-            backgroundSize: "100% 3px",
-          }}
+          style={{ backgroundImage: "repeating-linear-gradient(0deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 3px)", backgroundSize: "100% 3px" }}
         />
         {/* Fine grid */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{
-            opacity: 0.04,
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.7) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.7) 1px, transparent 1px)",
-            backgroundSize: "72px 72px",
-          }}
+          style={{ opacity: 0.04, backgroundImage: "linear-gradient(rgba(255,255,255,0.7) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.7) 1px, transparent 1px)", backgroundSize: "72px 72px" }}
         />
 
         {/* Animated orbs */}
@@ -322,8 +310,7 @@ export default function StartupDocumentsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.2 }}
-            className="text-sm sm:text-base max-w-xl mx-auto mb-3"
-            style={{ color: "rgba(215,222,235,0.82)", lineHeight: 1.7 }}
+            className="text-sm sm:text-base max-w-xl mx-auto mb-3 text-[#d7deeb]/80 leading-relaxed"
           >
             Legal documents essential for defining relationships, protecting IP,
             and securing business transactions.
@@ -336,7 +323,7 @@ export default function StartupDocumentsPage() {
             transition={{ duration: 0.6, delay: 0.28 }}
             className="flex items-center justify-center gap-2 sm:gap-3 mb-9 flex-wrap"
           >
-            <span className="text-sm sm:text-base" style={{ color: "rgba(215,222,235,0.82)" }}>
+            <span className="text-sm sm:text-base text-[#d7deeb]/80">
               Get all your Agreements done at just{" "}
               <span className="font-bold text-white">₹1,499</span>
             </span>
@@ -384,8 +371,8 @@ export default function StartupDocumentsPage() {
           >
             {["Legally Vetted Templates", "Expert Lawyer Drafted", "Tailored to Your Business"].map((b) => (
               <div key={b} className="flex items-center gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "#4ade80" }} />
-                <span className="text-xs sm:text-sm" style={{ color: "rgba(195,208,228,0.78)" }}>{b}</span>
+                <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 text-green-400" />
+                <span className="text-xs sm:text-sm text-[#c3d0e4]/80">{b}</span>
               </div>
             ))}
           </motion.div>
@@ -419,8 +406,7 @@ export default function StartupDocumentsPage() {
             >
               <div className="flex items-center gap-3 mb-3">
                 <div
-                  className="p-2.5 rounded-xl"
-                  style={{ background: "rgba(0,191,165,0.1)" }}
+                  className="p-2.5 rounded-xl bg-[#00bfa5]/10"
                 >
                   <Icon className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: accent }} />
                 </div>
@@ -471,7 +457,7 @@ export default function StartupDocumentsPage() {
                     <div className="relative z-10 p-5 sm:p-6 flex flex-col h-full">
                       <h3
                         className="text-base sm:text-[17px] font-bold text-[#0e172b] mb-2 transition-colors duration-300 leading-snug"
-                        style={{}}
+                        
                       >
                         <span className="group-hover:text-[#00a896] transition-colors duration-300">
                           {service.name}

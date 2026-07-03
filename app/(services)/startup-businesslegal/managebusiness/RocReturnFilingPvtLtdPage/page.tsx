@@ -46,7 +46,7 @@ function HeroWithAddons() {
     { icon: <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={1.5}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, label: "Filing Compliance\nCertificate" },
   ];
   return (
-    <section ref={heroRef} className="relative flex flex-col items-center justify-center text-center overflow-hidden bg-gradient-to-r from-[#0e172b] to-[#1a2a4f] text-white px-4 sm:px-6" style={{ paddingTop: "100px", paddingBottom: "56px" }}>
+    <section ref={heroRef} className="relative flex flex-col items-center justify-center text-center overflow-hidden bg-gradient-to-r from-[#0e172b] to-[#1a2a4f] text-white px-4 sm:px-6 pt-[100px] pb-[56px]">
       <div className="absolute inset-0 bg-[url('/propertylegal.png')] bg-cover bg-center opacity-10 pointer-events-none" />
       <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-600/20 blur-3xl rounded-full pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-purple-600/20 blur-3xl rounded-full pointer-events-none" />

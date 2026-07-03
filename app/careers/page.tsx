@@ -394,94 +394,27 @@ function PublicJobCard({ job }: { job: PublicJobCard }) {
 
 export default function CareersPage() {
   return (
-    <div style={{ scrollBehavior: 'smooth' }} className="bg-white">
-      <style>{`
-        :root {
-          --accent-red: #ca2d42;
-          --light-bg: #f5f7fc;
-          --text-dark: #1a1a2e;
-          --text-muted: #6b7280;
-          --border-color: #e5e7eb;
-        }
-        .perk-card {
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          border: 1px solid var(--border-color);
-          background: white;
-        }
-        .perk-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 20px 40px rgba(202, 45, 66, 0.12);
-          border-color: var(--accent-red);
-        }
-        .testimonial-card {
-          border-left: 3px solid var(--accent-red);
-          transition: all 0.3s ease;
-          background: white;
-        }
-        .testimonial-card:hover {
-          box-shadow: 0 8px 24px rgba(202, 45, 66, 0.1);
-          transform: translateY(-2px);
-        }
-        .skill-remote  { background-color:#ecfdf5;color:#065f46;border:1px solid #d1fae5; }
-        .skill-onsite  { background-color:#eff6ff;color:#1e40af;border:1px solid #bfdbfe; }
-        .skill-default { background-color:#fef3c7;color:#92400e;border:1px solid #fcd34d; }
-        .job-card {
-          border: 1px solid var(--border-color);
-          transition: all 0.3s ease;
-          background: white;
-        }
-        .job-card:hover {
-          box-shadow: 0 16px 32px rgba(202, 45, 66, 0.1);
-          border-color: var(--accent-red);
-        }
-        .hiring-step-card {
-          transition: all 0.3s ease;
-          background: white;
-          border: 1px solid var(--border-color);
-        }
-        .hiring-step-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 12px 28px rgba(202, 45, 66, 0.12);
-          border-color: var(--accent-red);
-        }
-        .cta-button {
-          background-color: var(--accent-red);
-          color: white;
-          transition: all 0.3s ease;
-        }
-        .cta-button:hover {
-          background-color: #b1263c;
-          box-shadow: 0 12px 24px rgba(202, 45, 66, 0.35);
-          transform: translateY(-2px);
-        }
-        .divider-accent {
-          background: linear-gradient(90deg, var(--accent-red) 0%, var(--accent-red) 100%);
-        }
-      `}</style>
-
+    <div className="scroll-smooth bg-white">
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section
-        className="min-h-screen flex flex-col justify-center items-center px-4 py-16 text-center relative overflow-hidden"
-        style={{ background: '#06101e' }}
+        className="min-h-screen flex flex-col justify-center items-center px-4 py-16 text-center relative overflow-hidden bg-[#06101e]"
       >
         {/* Gradient layers */}
-        <div className="absolute inset-0" style={{ background: 'rgba(6,16,30,0.78)' }} />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(175deg, rgba(6,16,30,0.55) 0%, rgba(6,16,30,0.1) 40%, rgba(202,45,66,0.15) 70%, rgba(6,16,30,0.85) 100%)' }} />
-        <div className="absolute top-0 left-0 right-0 h-64" style={{ background: 'linear-gradient(to bottom, rgba(6,16,30,0.9) 0%, transparent 100%)' }} />
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2" style={{ background: 'radial-gradient(ellipse 65% 50% at 52% 48%, rgba(202,45,66,0.2) 0%, rgba(202,45,66,0.05) 40%, transparent 70%)', width: '100%', height: '100%' }} />
+        <div className="absolute inset-0 bg-[#06101e]/80" />
+        <div className="absolute inset-0 bg-[linear-gradient(175deg,rgba(6,16,30,0.55)_0%,rgba(6,16,30,0.1)_40%,rgba(202,45,66,0.15)_70%,rgba(6,16,30,0.85)_100%)]" />
+        <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-b from-[#06101e]/90 to-transparent" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(ellipse_65%_50%_at_52%_48%,rgba(202,45,66,0.2)_0%,rgba(202,45,66,0.05)_40%,transparent_70%)]" />
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'repeating-linear-gradient(0deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 3px)', backgroundSize: '100% 3px' }} />
 
         <div className="max-w-3xl mx-auto z-10 relative">
           <motion.div custom={0} variants={fadeUp} initial="hidden" animate="visible"
-            className="inline-block mb-8 px-6 py-2.5 rounded-full text-sm font-semibold text-white"
-            style={{ background: 'linear-gradient(135deg, #ca2d42 0%, #e94560 100%)', boxShadow: '0 8px 25px rgba(202,45,66,0.4)' }}
+            className="inline-block mb-8 px-6 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-br from-brand-red to-[#e94560] shadow-[0_8px_25px_rgba(202,45,66,0.4)]"
           >
             We&apos;re Hiring 🚀
           </motion.div>
 
           <motion.h1 custom={0.1} variants={fadeUp} initial="hidden" animate="visible"
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight tracking-tight text-white"
-            style={{ textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}
+            className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight tracking-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.3)]"
           >
             Work with Lawizer
           </motion.h1>
@@ -497,8 +430,7 @@ export default function CareersPage() {
           >
             <a
               href="#internship"
-              className="inline-block px-8 py-3.5 rounded-xl font-semibold text-white transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
-              style={{ background: 'linear-gradient(135deg, #ca2d42 0%, #e94560 100%)', boxShadow: '0 12px 30px rgba(202,45,66,0.45)' }}
+              className="inline-block px-8 py-3.5 rounded-xl font-semibold text-white transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 bg-gradient-to-br from-brand-red to-[#e94560] shadow-[0_12px_30px_rgba(202,45,66,0.45)]"
             >
               Apply for Internship
             </a>
@@ -513,15 +445,15 @@ export default function CareersPage() {
       </section>
 
       {/* ── STATS STRIP ──────────────────────────────────────────────────── */}
-      <section className="py-16 px-4" style={{ backgroundColor: 'var(--light-bg)' }}>
+      <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
             {stats.map((stat, idx) => (
               <div key={idx} className="text-center">
-                <div className="text-4xl sm:text-5xl font-bold mb-3" style={{ color: 'var(--accent-red)' }}>
+                <div className="text-4xl sm:text-5xl font-bold mb-3 text-brand-red">
                   {stat.number}
                 </div>
-                <div className="text-sm sm:text-base font-medium" style={{ color: 'var(--text-muted)' }}>
+                <div className="text-sm sm:text-base font-medium text-gray-500">
                   {stat.label}
                 </div>
               </div>
@@ -545,11 +477,11 @@ export default function CareersPage() {
               </span>
               <span className="text-[#e94560] text-xs font-bold uppercase tracking-widest">Now accepting applications</span>
             </div>
-            <h2 className="text-4xl sm:text-5xl font-bold mb-4" style={{ color: 'var(--text-dark)' }}>
+            <h2 className="text-4xl sm:text-5xl font-bold mb-4 text-gray-900">
               Internship at Lawizer
             </h2>
             <div className="w-20 h-1 mb-6 divider-accent rounded-full" />
-            <p className="text-lg max-w-2xl leading-relaxed mb-10" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-lg max-w-2xl leading-relaxed mb-10 text-gray-500">
               We&apos;re India&apos;s fastest growing LegalTech platform — looking for driven, curious, and enthusiastic individuals across legal, tech, and business roles. Fully remote, 1-month programme with real responsibility from day one.
             </p>
           </motion.div>
@@ -562,12 +494,12 @@ export default function CareersPage() {
           >
             {/* Open Roles */}
             <div className="rounded-2xl border border-[#e5e7eb] bg-[#fafafa] p-6">
-              <h3 className="font-bold text-base mb-4 flex items-center gap-2" style={{ color: 'var(--text-dark)' }}>
+              <h3 className="font-bold text-base mb-4 flex items-center gap-2 text-gray-900">
                 <span className="text-xl">🔹</span> Open Roles
               </h3>
               <ul className="space-y-2.5">
                 {['Social Media Marketing','Research','Sales','Legal','Web Development','AI / ML','Content Writing'].map((role) => (
-                  <li key={role} className="flex items-center gap-2.5 text-sm font-medium" style={{ color: 'var(--text-dark)' }}>
+                  <li key={role} className="flex items-center gap-2.5 text-sm font-medium text-gray-900">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#e94560] shrink-0" />
                     {role}
                   </li>
@@ -578,7 +510,7 @@ export default function CareersPage() {
             {/* Benefits + Quick facts */}
             <div className="flex flex-col gap-4">
               <div className="rounded-2xl border border-[#e5e7eb] bg-[#fafafa] p-6 flex-1">
-                <h3 className="font-bold text-base mb-4 flex items-center gap-2" style={{ color: 'var(--text-dark)' }}>
+                <h3 className="font-bold text-base mb-4 flex items-center gap-2 text-gray-900">
                   <span className="text-xl">🔸</span> What You Gain
                 </h3>
                 <ul className="space-y-2.5">
@@ -589,7 +521,7 @@ export default function CareersPage() {
                     'Networking opportunities',
                     'Potential for Future Employment',
                   ].map((benefit) => (
-                    <li key={benefit} className="flex items-center gap-2.5 text-sm font-medium" style={{ color: 'var(--text-dark)' }}>
+                    <li key={benefit} className="flex items-center gap-2.5 text-sm font-medium text-gray-900">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#f5a623] shrink-0" />
                       {benefit}
                     </li>
@@ -600,15 +532,15 @@ export default function CareersPage() {
                 <div className="rounded-xl border border-[#e5e7eb] bg-[#fafafa] px-4 py-3 flex items-center gap-3">
                   <span className="text-xl shrink-0">🕒</span>
                   <div>
-                    <p className="text-[10px] uppercase tracking-wider font-bold" style={{ color: 'var(--text-muted)' }}>Duration</p>
-                    <p className="text-sm font-bold" style={{ color: 'var(--text-dark)' }}>1 Month</p>
+                    <p className="text-[10px] uppercase tracking-wider font-bold text-gray-500">Duration</p>
+                    <p className="text-sm font-bold text-gray-900">1 Month</p>
                   </div>
                 </div>
                 <div className="rounded-xl border border-[#e5e7eb] bg-[#fafafa] px-4 py-3 flex items-center gap-3">
                   <span className="text-xl shrink-0">🌐</span>
                   <div>
-                    <p className="text-[10px] uppercase tracking-wider font-bold" style={{ color: 'var(--text-muted)' }}>Mode</p>
-                    <p className="text-sm font-bold" style={{ color: 'var(--text-dark)' }}>Remote</p>
+                    <p className="text-[10px] uppercase tracking-wider font-bold text-gray-500">Mode</p>
+                    <p className="text-sm font-bold text-gray-900">Remote</p>
                   </div>
                 </div>
               </div>
@@ -659,7 +591,7 @@ export default function CareersPage() {
 
             {/* Fallback link */}
             <div className="bg-[#fafafa] border-t border-[#e5e7eb] px-6 py-3 text-center">
-              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-xs text-gray-500">
                 Form not loading?{' '}
                 <a
                   href="https://forms.gle/4TJiH1ZEmNH3skQb8"
@@ -694,10 +626,10 @@ export default function CareersPage() {
             whileInView="visible" viewport={{ once: true, margin: '-80px' }}
             className="mb-8"
           >
-            <h2 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: 'var(--text-dark)' }}>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-2 text-gray-900">
               Legal &amp; Startup Jobs
             </h2>
-            <p className="text-base" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-base text-gray-500">
               Curated openings at India&apos;s leading startups and legal departments.
             </p>
           </motion.div>
@@ -729,22 +661,22 @@ export default function CareersPage() {
       <section className="py-20 sm:py-28 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold mb-4" style={{ color: 'var(--text-dark)' }}>
+            <h2 className="text-4xl sm:text-5xl font-bold mb-4 text-gray-900">
               Why Work at Lawizer?
             </h2>
             <div className="w-20 h-1 mb-8 divider-accent rounded-full" />
-            <p className="text-lg max-w-3xl leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-lg max-w-3xl leading-relaxed text-gray-500">
               We&apos;re not just another legal-services startup. We&apos;re a team of builders, lawyers, and problem-solvers who believe that legal protection shouldn&apos;t be a privilege.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {perks.map((perk, idx) => (
-              <div key={idx} className="perk-card p-8 rounded-2xl">
+              <div key={idx} className="transition-all duration-300 border border-gray-200 bg-white hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(202,45,66,0.12)] hover:border-brand-red p-8 rounded-2xl">
                 <div className="flex items-start gap-5">
                   <span className="text-6xl flex-shrink-0">{perk.emoji}</span>
                   <div className="text-left">
-                    <h3 className="font-bold text-xl mb-2" style={{ color: 'var(--text-dark)' }}>{perk.title}</h3>
-                    <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>{perk.description}</p>
+                    <h3 className="font-bold text-xl mb-2 text-gray-900">{perk.title}</h3>
+                    <p className="text-sm leading-relaxed text-gray-500">{perk.description}</p>
                   </div>
                 </div>
               </div>
@@ -754,24 +686,24 @@ export default function CareersPage() {
       </section>
 
       {/* ── INTERN TESTIMONIALS ──────────────────────────────────────────── */}
-      <section className="py-20 sm:py-28 px-4" style={{ backgroundColor: 'var(--light-bg)' }}>
+      <section className="py-20 sm:py-28 px-4 bg-gray-50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4" style={{ color: 'var(--text-dark)' }}>
+          <h2 className="text-4xl sm:text-5xl font-bold mb-4 text-gray-900">
             Hear From Our Interns
           </h2>
           <div className="w-20 h-1 mb-8 divider-accent rounded-full" />
-          <p className="text-lg mb-16 max-w-3xl leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-lg mb-16 max-w-3xl leading-relaxed text-gray-500">
             Every year we bring on talented students from law schools and business programs. Here&apos;s what they say about working with us.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {testimonials.map((testimonial, idx) => (
-              <div key={idx} className="testimonial-card p-8 rounded-2xl">
-                <q className="italic block mb-6 text-sm leading-relaxed" style={{ color: 'var(--text-dark)' }}>
+              <div key={idx} className="border-l-[3px] border-brand-red transition-all duration-300 bg-white hover:shadow-[0_8px_24px_rgba(202,45,66,0.1)] hover:-translate-y-0.5 p-8 rounded-2xl">
+                <q className="italic block mb-6 text-sm leading-relaxed text-gray-900">
                   &ldquo;{testimonial.quote}&rdquo;
                 </q>
-                <div className="font-bold text-sm" style={{ color: 'var(--text-dark)' }}>{testimonial.name}</div>
-                <div className="text-xs mt-2" style={{ color: 'var(--text-muted)' }}>{testimonial.role}</div>
-                <div className="text-xs" style={{ color: 'var(--text-muted)' }}>{testimonial.school} • {testimonial.batch}</div>
+                <div className="font-bold text-sm text-gray-900">{testimonial.name}</div>
+                <div className="text-xs mt-2 text-gray-500">{testimonial.role}</div>
+                <div className="text-xs text-gray-500">{testimonial.school} • {testimonial.batch}</div>
               </div>
             ))}
           </div>
@@ -781,22 +713,22 @@ export default function CareersPage() {
       {/* ── OPEN ROLES (internal) ────────────────────────────────────────── */}
       <section className="py-20 sm:py-28 px-4 bg-white" id="open-roles">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4" style={{ color: 'var(--text-dark)' }}>
+          <h2 className="text-4xl sm:text-5xl font-bold mb-4 text-gray-900">
             Open Roles at Lawizer
           </h2>
           <div className="w-20 h-1 mb-12 divider-accent rounded-full" />
           <div className="space-y-6">
             {internalJobs.map((job, idx) => (
-              <div key={idx} className="job-card flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 p-8 rounded-2xl">
+              <div key={idx} className="border border-gray-200 transition-all duration-300 bg-white hover:shadow-[0_16px_32px_rgba(202,45,66,0.1)] hover:border-brand-red flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 p-8 rounded-2xl">
                 <div className="flex-1 min-w-0">
-                  <div className="inline-block px-4 py-2 rounded-full text-xs font-semibold mb-5" style={{ backgroundColor: '#e0d9ff', color: 'var(--text-dark)' }}>
+                  <div className="inline-block px-4 py-2 rounded-full text-xs font-semibold mb-5 bg-[#e0d9ff] text-gray-900">
                     {job.department}
                   </div>
-                  <h3 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-dark)' }}>{job.title}</h3>
-                  <p className="text-sm mb-5 font-medium" style={{ color: 'var(--text-muted)' }}>
+                  <h3 className="text-2xl font-bold mb-3 text-gray-900">{job.title}</h3>
+                  <p className="text-sm mb-5 font-medium text-gray-500">
                     📍 {job.location}  •  {job.type}
                   </p>
-                  <p className="text-sm mb-6 leading-relaxed" style={{ color: 'var(--text-muted)' }}>{job.description}</p>
+                  <p className="text-sm mb-6 leading-relaxed text-gray-500">{job.description}</p>
                   <div className="flex flex-wrap gap-3">
                     {job.skills.map((skill, skillIdx) => (
                       <span key={skillIdx} className={`px-3 py-1.5 text-xs font-semibold rounded-full skill-${skill.tag}`}>
@@ -817,23 +749,23 @@ export default function CareersPage() {
       </section>
 
       {/* ── HIRING PROCESS ───────────────────────────────────────────────── */}
-      <section className="py-20 sm:py-28 px-4" style={{ backgroundColor: 'var(--light-bg)' }}>
+      <section className="py-20 sm:py-28 px-4 bg-gray-50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4" style={{ color: 'var(--text-dark)' }}>
+          <h2 className="text-4xl sm:text-5xl font-bold mb-4 text-gray-900">
             Our Hiring Process
           </h2>
           <div className="w-20 h-1 mb-16 divider-accent rounded-full" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {hiringSteps.map((step, idx) => (
-              <div key={idx} className="hiring-step-card p-8 rounded-2xl">
+              <div key={idx} className="transition-all duration-300 bg-white border border-gray-200 hover:-translate-y-1.5 hover:shadow-[0_12px_28px_rgba(202,45,66,0.12)] hover:border-brand-red p-8 rounded-2xl">
                 <div className="text-5xl mb-5">{step.emoji}</div>
-                <h3 className="font-bold text-lg mb-3" style={{ color: 'var(--text-dark)' }}>{step.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>{step.description}</p>
+                <h3 className="font-bold text-lg mb-3 text-gray-900">{step.title}</h3>
+                <p className="text-sm leading-relaxed text-gray-500">{step.description}</p>
               </div>
             ))}
           </div>
           <div className="text-center">
-            <p className="mb-8 text-lg font-medium" style={{ color: 'var(--text-dark)' }}>
+            <p className="mb-8 text-lg font-medium text-gray-900">
               Don&apos;t see a role that fits? We&apos;re always looking for talented people.
             </p>
             <a href="mailto:careers@lawizer.com" className="inline-block px-10 py-4 rounded-lg font-semibold cta-button text-lg">

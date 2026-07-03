@@ -41,7 +41,7 @@ const OFFER_CODE = "OFFERITR";
 function SectionHeading({ title, accent }: { title: string; accent: string }) {
   return (
     <div className="mb-8">
-      <h2 className="text-2xl font-bold mb-3" style={{ color: NAVY }}>{title}</h2>
+      <h2 className="text-2xl font-bold mb-3 text-brand-navy">{title}</h2>
       <div className="h-[3px] w-10 rounded-full" style={{ background: accent }} />
     </div>
   );
@@ -57,10 +57,9 @@ function FAQItem({ q, a, accent }: { q: string; a: string; accent: string }) {
       <button onClick={() => setOpen(o => !o)}
         className="w-full flex items-center justify-between gap-4 py-5 text-left group">
         <span className="text-sm font-semibold text-gray-800 leading-snug">{q}</span>
-        <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-colors"
-          style={{ background: open ? `${accent}15` : "transparent" }}>
+        <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-colors transition-colors duration-300 ${open ? tierStyles[plan.id].bgSoft : "bg-transparent"}`}>
           {open
-            ? <ChevronUp   className="w-3.5 h-3.5" style={{ color: accent }} />
+            ? <ChevronUp   className="w-3.5 h-3.5" className={tierStyles[plan.id].text} />
             : <ChevronDown className="w-3.5 h-3.5 text-gray-400" />}
         </div>
       </button>
@@ -89,12 +88,11 @@ function OfferChipGlass() {
   return (
     <button
       onClick={() => { navigator.clipboard.writeText(OFFER_CODE); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
-      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border transition-all hover:opacity-90"
-      style={{ background: "rgba(255,255,255,0.14)", borderColor: "rgba(255,255,255,0.28)" }}>
+      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border transition-all hover:opacity-90 bg-white/10 border-white/30">
       <span className="text-white/60 text-[11px]">Code</span>
       <span className="text-white font-bold text-[11px] tracking-wide">{OFFER_CODE}</span>
       {copied
-        ? <span className="text-[10px] font-bold" style={{ color: "rgba(255,255,255,0.8)" }}>✓ Copied</span>
+        ? <span className="text-[10px] font-bold text-white/80">✓ Copied</span>
         : <Copy className="w-3 h-3 text-white/50" />}
     </button>
   );
@@ -109,8 +107,7 @@ function OfferChipLight({ accent }: { accent: string }) {
   return (
     <button
       onClick={() => { navigator.clipboard.writeText(OFFER_CODE); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
-      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border transition-all hover:opacity-80"
-      style={{ background: `${accent}08`, borderColor: `${accent}30`, color: accent }}>
+      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border transition-all hover:opacity-80 ${tierStyles[plan.id].bgSoft} ${tierStyles[plan.id].borderLight} ${tierStyles[plan.id].text}`}>
       <Copy className="w-2.5 h-2.5" />
       <span className="text-[10px] font-bold">{copied ? "Copied!" : OFFER_CODE}</span>
     </button>
@@ -134,20 +131,18 @@ function SidebarCard({ plan, onCallback }: { plan: PlanConfig; onCallback: () =>
       }}>
 
       {/* Accent top stripe */}
-      <div className="h-1"
-        style={{ background: `linear-gradient(90deg, ${plan.accentColor}70, ${plan.accentColor}, ${plan.accentColor}70)` }} />
+      <div className={`h-1 ${tierStyles[plan.id].bgSoft} bg-gradient-to-r`} />
 
       {/* Pricing block — lightly tinted */}
-      <div className="px-6 pt-6 pb-5" style={{ background: `${plan.accentColor}06` }}>
+      <div className="px-6 pt-6 pb-5" className={tierStyles[plan.id].bgSoft}>
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-bold text-white px-2.5 py-1 rounded-lg"
-              style={{ background: plan.accentColor }}>{discount}% OFF</span>
+            <span className={`text-[11px] font-bold text-white px-2.5 py-1 rounded-lg ${tierStyles[plan.id].text.replace("text-", "bg-")} text-white`}>{discount}% OFF</span>
             <span className="text-gray-400 text-xs line-through">₹{plan.originalPrice.toLocaleString("en-IN")}</span>
           </div>
           <OfferChipLight accent={plan.accentColor} />
         </div>
-        <div className="text-[2.4rem] font-extrabold tracking-tight leading-none" style={{ color: NAVY }}>
+        <div className="text-[2.4rem] font-extrabold tracking-tight leading-none text-brand-navy">
           ₹{plan.price.toLocaleString("en-IN")}
         </div>
         <p className="text-gray-400 text-xs mt-1.5">All inclusive · No hidden charges</p>
@@ -167,8 +162,7 @@ function SidebarCard({ plan, onCallback }: { plan: PlanConfig; onCallback: () =>
         </button>
 
         <button onClick={onCallback}
-          className="w-full py-3 rounded-2xl text-sm font-semibold flex items-center justify-center gap-2 transition-all border hover:shadow-sm"
-          style={{ color: plan.accentColor, borderColor: `${plan.accentColor}30`, background: `${plan.accentColor}06` }}>
+          className={`w-full py-3 rounded-2xl text-sm font-semibold flex items-center justify-center gap-2 transition-all border hover:shadow-sm ${tierStyles[plan.id].text} ${tierStyles[plan.id].borderLight} ${tierStyles[plan.id].bgSoft}`}>
           <Phone className="w-3.5 h-3.5" /> Request a Callback
         </button>
 
@@ -182,8 +176,8 @@ function SidebarCard({ plan, onCallback }: { plan: PlanConfig; onCallback: () =>
           ].map(({ icon: Icon, text }) => (
             <div key={text} className="flex items-center gap-2.5">
               <div className="w-7 h-7 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: `${plan.accentColor}12` }}>
-                <Icon className="w-3.5 h-3.5" style={{ color: plan.accentColor }} />
+                className={tierStyles[plan.id].bgSoft}>
+                <Icon className="w-3.5 h-3.5" className={tierStyles[plan.id].text} />
               </div>
               <span className="text-xs text-gray-500">{text}</span>
             </div>
@@ -231,7 +225,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
   ];
 
   return (
-    <div className="min-h-screen bg-white" style={{ fontFamily: "'Outfit', sans-serif" }}>
+    <div className="min-h-screen bg-white font-[family-name:var(--font-head)]">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap');
         .shimmer { position: relative; overflow: hidden; }
@@ -258,8 +252,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
             animate={{ y: 0,   opacity: 1 }}
             exit={{   y: -80, opacity: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 28 }}
-            className="fixed top-16 left-0 right-0 z-40 bg-white"
-            style={{ borderTop: `2px solid ${plan.accentColor}40`, boxShadow: "0 6px 20px rgba(0,0,0,0.08)" }}>
+            className={`fixed top-16 left-0 right-0 z-40 bg-white border-t-2 shadow-[0_6px_20px_rgba(0,0,0,0.08)] ${tierStyles[plan.id].borderLight}`}>
 
 
             <div className="max-w-6xl mx-auto px-8 h-18 flex items-center justify-between gap-6">
@@ -274,9 +267,8 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
                 <div className="w-px h-4 bg-gray-200 flex-shrink-0" />
                 <div className="flex items-center gap-2 min-w-0">
                   <span className="text-base flex-shrink-0">{plan.emoji}</span>
-                  <span className="font-bold text-sm truncate" style={{ color: NAVY }}>{plan.name} Plan</span>
-                  <span className="text-[10px] font-bold text-white px-2 py-0.5 rounded-md flex-shrink-0"
-                    style={{ background: plan.accentColor }}>{discount}% OFF</span>
+                  <span className="font-bold text-sm truncate text-brand-navy">{plan.name} Plan</span>
+                  <span className={`text-[10px] font-bold text-white px-2 py-0.5 rounded-md flex-shrink-0 ${tierStyles[plan.id].text.replace("text-", "bg-")} text-white`}>{discount}% OFF</span>
                 </div>
               </div>
 
@@ -284,12 +276,11 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
               <div className="flex items-center gap-5 flex-shrink-0">
                 <div className="flex items-baseline gap-2 hidden sm:flex">
                   <span className="text-xs text-gray-400 line-through">₹{plan.originalPrice.toLocaleString("en-IN")}</span>
-                  <span className="text-lg font-extrabold" style={{ color: NAVY }}>₹{plan.price.toLocaleString("en-IN")}</span>
+                  <span className="text-lg font-extrabold text-brand-navy">₹{plan.price.toLocaleString("en-IN")}</span>
                 </div>
                 <div className="w-px h-4 bg-gray-200 hidden sm:block" />
                 <button onClick={() => openCallback("Income Tax & GST")}
-                  className="flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-xl border transition-all hover:shadow-sm hidden sm:flex"
-                  style={{ color: plan.accentColor, borderColor: `${plan.accentColor}30`, background: `${plan.accentColor}06` }}>
+                  className={`flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-xl border transition-all hover:shadow-sm hidden sm:flex ${tierStyles[plan.id].text} ${tierStyles[plan.id].borderLight} ${tierStyles[plan.id].bgSoft}`}>
                   <Phone className="w-3.5 h-3.5" /> Callback
                 </button>
                 <button onClick={() => router.push(`/payment?plan=${plan.id}`)}
@@ -314,16 +305,14 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
           A wave SVG melts it into the white body below.
       ══════════════════════════════════════════════════ */}
       <header ref={heroRef} className="relative overflow-hidden"
-        style={{ background: `linear-gradient(135deg, ${plan.accentColor} 0%, ${plan.accentColor}cc 60%, ${plan.accentColor}99 100%)` }}>
+        className={tierStyles[plan.id].gradientButton}>
 
         {/* Decorative overlays */}
         <div className="absolute inset-0 pointer-events-none">
           {/* Top-right glow */}
-          <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full opacity-20"
-            style={{ background: "rgba(255,255,255,0.2)", filter: "blur(60px)" }} />
+          <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full opacity-20 bg-white/20 blur-[60px]" />
           {/* Bottom fade */}
-          <div className="absolute bottom-0 left-0 right-0 h-28 opacity-30"
-            style={{ background: "linear-gradient(to top, rgba(0,0,0,0.12), transparent)" }} />
+          <div className="absolute bottom-0 left-0 right-0 h-28 opacity-30 bg-gradient-to-t from-black/10 to-transparent" />
           {/* Dot grid */}
           <svg className="absolute inset-0 w-full h-full opacity-[0.07]">
             <defs>
@@ -347,8 +336,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
             {/* Left — identity */}
             <div>
               {/* Tier pill */}
-              <div className="inline-flex items-center gap-2.5 bg-white/18 backdrop-blur-sm rounded-full px-4 py-2 mb-5"
-                style={{ border: "1px solid rgba(255,255,255,0.25)" }}>
+              <div className="inline-flex items-center gap-2.5 bg-white/18 backdrop-blur-sm rounded-full px-4 py-2 mb-5 border border-white/25">
                 <span className="text-xl">{plan.emoji}</span>
                 <span className="text-white/90 text-xs font-bold tracking-widest uppercase">{plan.tier}</span>
               </div>
@@ -376,7 +364,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
                 </div>
                 <button onClick={() => router.push(`/payment?plan=${plan.id}`)}
                   className="shimmer bg-white text-sm font-bold px-7 py-3.5 rounded-2xl transition-all hover:shadow-xl hover:scale-105"
-                  style={{ color: plan.accentColor }}>
+                  className={tierStyles[plan.id].text}>
                   Buy Now
                 </button>
                 <button onClick={() => openCallback("Income Tax & GST")}
@@ -415,8 +403,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
 
                   {/* Buy Now — white button on coloured bg */}
                   <button onClick={() => router.push(`/payment?plan=${plan.id}`)}
-                    className="shimmer w-full py-4 rounded-2xl text-sm font-bold mb-3 transition-all hover:shadow-xl hover:scale-[1.02]"
-                    style={{ background: "white", color: plan.accentColor }}>
+                    className={`shimmer w-full py-4 rounded-2xl text-sm font-bold mb-3 transition-all hover:shadow-xl hover:scale-[1.02] bg-white ${tierStyles[plan.id].text}`}>
                     Buy Now
                   </button>
 
@@ -461,11 +448,11 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
           {stats.map(({ icon: Icon, label, value }) => (
             <div key={label} className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: `${plan.accentColor}12` }}>
-                <Icon className="w-4 h-4" style={{ color: plan.accentColor }} />
+                className={tierStyles[plan.id].bgSoft}>
+                <Icon className="w-4 h-4" className={tierStyles[plan.id].text} />
               </div>
               <div>
-                <div className="text-sm font-bold leading-tight" style={{ color: NAVY }}>{value}</div>
+                <div className="text-sm font-bold leading-tight text-brand-navy">{value}</div>
                 <div className="text-[11px] text-gray-400">{label}</div>
               </div>
             </div>
@@ -497,8 +484,8 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
                 {plan.servicesIncluded.map((s, i) => (
                   <div key={i} className="flex items-start gap-3 p-4 rounded-2xl bg-gray-50 border border-gray-100 hover:border-gray-200 transition-colors">
                     <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                      style={{ background: `${plan.accentColor}18` }}>
-                      <Check className="w-3 h-3" style={{ color: plan.accentColor }} />
+                      className={tierStyles[plan.id].bgSoft}>
+                      <Check className="w-3 h-3" className={tierStyles[plan.id].text} />
                     </div>
                     <span className="text-gray-600 text-sm leading-relaxed">{s}</span>
                   </div>
@@ -512,9 +499,8 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
               <SectionHeading title="Who Should Buy" accent={plan.accentColor} />
               <div className="grid sm:grid-cols-2 gap-3">
                 {plan.whoShouldBuy.map((w, i) => (
-                  <div key={i} className="flex items-start gap-3 p-4 rounded-2xl transition-colors"
-                    style={{ background: `${plan.accentColor}06`, border: `1px solid ${plan.accentColor}18` }}>
-                    <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: plan.accentColor }} />
+                  <div key={i} className={`flex items-start gap-3 p-4 rounded-2xl transition-colors border ${tierStyles[plan.id].bgSoft} ${tierStyles[plan.id].borderLight}`}>
+                    <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${tierStyles[plan.id].text.replace("text-", "bg-")} text-white`} />
                     <span className="text-gray-600 text-sm leading-snug">{w}</span>
                   </div>
                 ))}
@@ -535,11 +521,11 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
                       {s.step}
                     </div>
                     {i < plan.howItsDone.length - 1 && (
-                      <div className="w-0.5 flex-1 my-1.5 rounded-full" style={{ background: `${plan.accentColor}25` }} />
+                      <div className="w-0.5 flex-1 my-1.5 rounded-full" className={tierStyles[plan.id].bgSoft} />
                     )}
                   </div>
                   <div className={`pt-1 ${i < plan.howItsDone.length - 1 ? "pb-10" : "pb-0"}`}>
-                    <div className="text-base font-semibold mb-1.5" style={{ color: NAVY }}>{s.title}</div>
+                    <div className="text-base font-semibold mb-1.5 text-brand-navy">{s.title}</div>
                     <p className="text-gray-500 text-sm leading-relaxed">{s.desc}</p>
                   </div>
                 </div>
@@ -554,8 +540,8 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
                 {plan.documentsRequired.map((doc, i) => (
                   <div key={i} className="flex items-center gap-3 p-4 rounded-2xl bg-white border border-gray-100 hover:border-gray-200 hover:shadow-sm transition-all">
                     <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
-                      style={{ background: `${plan.accentColor}10` }}>
-                      <Upload className="w-3.5 h-3.5" style={{ color: plan.accentColor }} />
+                      className={tierStyles[plan.id].bgSoft}>
+                      <Upload className="w-3.5 h-3.5" className={tierStyles[plan.id].text} />
                     </div>
                     <span className="text-gray-600 text-sm">{doc}</span>
                   </div>
@@ -598,18 +584,16 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
           background: `linear-gradient(135deg, ${plan.accentColor}0e 0%, ${plan.accentColor}06 100%)`,
           border: `1.5px solid ${plan.accentColor}20`,
         }}>
-        <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full blur-3xl pointer-events-none opacity-20"
-          style={{ background: plan.accentColor }} />
-        <div className="absolute -bottom-12 -left-12 w-40 h-40 rounded-full blur-2xl pointer-events-none opacity-10"
-          style={{ background: plan.accentColor }} />
+        <div className={`absolute -top-16 -right-16 w-56 h-56 rounded-full blur-3xl pointer-events-none opacity-20 ${tierStyles[plan.id].text.replace("text-", "bg-")} text-white`} />
+        <div className={`absolute -bottom-12 -left-12 w-40 h-40 rounded-full blur-2xl pointer-events-none opacity-10 ${tierStyles[plan.id].text.replace("text-", "bg-")} text-white`} />
         <div className="relative px-8 py-12 sm:px-14 sm:py-14 flex flex-col sm:flex-row items-center justify-between gap-8">
           <div className="text-center sm:text-left">
             <div className="flex items-center justify-center sm:justify-start gap-3 mb-3">
               <div className="w-10 h-10 rounded-2xl flex items-center justify-center"
-                style={{ background: `${plan.accentColor}18` }}>
-                <CalendarCheck className="w-5 h-5" style={{ color: plan.accentColor }} />
+                className={tierStyles[plan.id].bgSoft}>
+                <CalendarCheck className="w-5 h-5" className={tierStyles[plan.id].text} />
               </div>
-              <h3 className="text-xl font-bold" style={{ color: NAVY }}>Not sure yet?</h3>
+              <h3 className="text-xl font-bold text-brand-navy">Not sure yet?</h3>
             </div>
             <p className="text-gray-500 text-sm leading-relaxed max-w-md">
               Have questions about which plan suits you? Talk to one of our Chartered
@@ -626,8 +610,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
               <span className="flex items-center gap-2"><Phone className="w-4 h-4" /> Book a Free Call</span>
             </button>
             <button onClick={() => router.push("/itr")}
-              className="w-full sm:w-auto px-7 py-4 rounded-2xl text-sm font-semibold border transition-all hover:shadow-sm"
-              style={{ color: plan.accentColor, borderColor: `${plan.accentColor}35`, background: "white" }}>
+              className={`w-full sm:w-auto px-7 py-4 rounded-2xl text-sm font-semibold border transition-all hover:shadow-sm bg-white ${tierStyles[plan.id].text} ${tierStyles[plan.id].borderLight}`}>
               Compare All Plans
             </button>
           </div>
@@ -643,13 +626,12 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
         <div className="flex items-center gap-3">
           <div className="flex-1 min-w-0">
             <div className="text-xs text-gray-400 line-through">₹{plan.originalPrice.toLocaleString("en-IN")}</div>
-            <div className="text-xl font-extrabold leading-tight" style={{ color: NAVY }}>
+            <div className="text-xl font-extrabold leading-tight text-brand-navy">
               ₹{plan.price.toLocaleString("en-IN")}
             </div>
           </div>
           <button onClick={() => openCallback("Income Tax & GST")}
-            className="w-12 h-12 rounded-2xl border flex items-center justify-center flex-shrink-0 transition-all hover:shadow-sm"
-            style={{ borderColor: `${plan.accentColor}30`, background: `${plan.accentColor}08`, color: plan.accentColor }}>
+            className={`w-12 h-12 rounded-2xl border flex items-center justify-center flex-shrink-0 transition-all hover:shadow-sm ${tierStyles[plan.id].borderLight} ${tierStyles[plan.id].bgSoft} ${tierStyles[plan.id].text}`}>
             <Phone className="w-4 h-4" />
           </button>
           <button onClick={() => router.push(`/payment?plan=${plan.id}`)}

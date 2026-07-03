@@ -160,49 +160,14 @@ const SECTIONS: Section[] = [
 
 export default function AttorneyTermsPage() {
   return (
-    <div style={{ scrollBehavior: 'smooth' }} className="bg-white">
-      <style>{`
-        :root {
-          --navy-bg: #1a1a2e;
-          --accent: #e94560;
-          --gold: #f5a623;
-          --light-bg: #f8f9ff;
-          --text: #2d2d3a;
-          --muted: #6b7280;
-          --border: #e5e7eb;
-        }
-
-        .at-h2 {
-          border-left: 4px solid var(--accent);
-          color: var(--navy-bg);
-          font-weight: bold;
-          padding-left: 12px;
-          margin-top: 32px;
-          margin-bottom: 12px;
-        }
-
-        .at-link {
-          color: var(--accent);
-          text-decoration: none;
-        }
-
-        .at-link:hover {
-          text-decoration: underline;
-        }
-
-        .at-strong {
-          color: var(--navy-bg);
-          font-weight: 600;
-        }
-      `}</style>
-
+    <div className="bg-white scroll-smooth">
       {/* Header */}
-      <section className="px-5 pt-28 md:pt-32 pb-16 md:pb-20 border-b" style={{ borderColor: 'var(--border)' }}>
+      <section className="px-5 pt-28 md:pt-32 pb-16 md:pb-20 border-b border-gray-200">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: 'var(--navy-bg)' }}>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-[#0D1F3C]">
             Attorney Terms & Conditions
           </h1>
-          <p className="text-sm" style={{ color: 'var(--muted)' }}>
+          <p className="text-sm text-gray-500">
             Last updated: 1 May 2025 · Applicable to all legal professionals onboarded on the Lawizer Platform
           </p>
         </div>
@@ -212,8 +177,8 @@ export default function AttorneyTermsPage() {
       <div className="px-5 py-8 md:py-12">
         <div className="max-w-3xl mx-auto">
           {/* Table of Contents */}
-          <div className="p-6 md:p-8 rounded-xl mb-16" style={{ backgroundColor: 'var(--light-bg)', border: `1px solid var(--border)` }}>
-            <p className="text-xs font-bold uppercase mb-6" style={{ color: 'var(--muted)', letterSpacing: '0.05em' }}>
+          <div className="p-6 md:p-8 rounded-xl mb-16 bg-gray-50 border border-gray-200">
+            <p className="text-xs font-bold uppercase mb-6 text-gray-500 tracking-wider">
               Table of Contents
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2.5 gap-x-6">
@@ -221,8 +186,7 @@ export default function AttorneyTermsPage() {
                 <a
                   key={item.id}
                   href={`#${item.id}`}
-                  className="block text-sm at-link hover:font-medium transition"
-                  style={{ color: 'var(--accent)' }}>
+                  className="block text-sm at-link hover:font-medium transition text-brand-red">
                   {item.label}
                 </a>
               ))}
@@ -236,7 +200,7 @@ export default function AttorneyTermsPage() {
 
               {/* Paragraphs */}
               {section.paragraphs && section.paragraphs.map((para, idx) => (
-                <p key={idx} className="text-sm md:text-base mb-3" style={{ color: 'var(--text)' }}>
+                <p key={idx} className="text-sm md:text-base mb-3 text-gray-700">
                   {para}
                 </p>
               ))}
@@ -245,7 +209,7 @@ export default function AttorneyTermsPage() {
               {section.listItems && (
                 <ul className="pl-5 list-disc mb-4">
                   {section.listItems.map((item, idx) => (
-                    <li key={idx} className="text-sm md:text-base mb-1.5" style={{ color: 'var(--text)' }}>
+                    <li key={idx} className="text-sm md:text-base mb-1.5 text-gray-700">
                       {item.bold && <span className="at-strong">{item.bold}</span>}
                       {item.text}
                     </li>
@@ -255,7 +219,7 @@ export default function AttorneyTermsPage() {
 
               {/* Closing paragraph */}
               {section.closing && (
-                <p className="text-sm md:text-base mt-3" style={{ color: 'var(--text)' }}>
+                <p className="text-sm md:text-base mt-3 text-gray-700">
                   {section.closing}
                 </p>
               )}

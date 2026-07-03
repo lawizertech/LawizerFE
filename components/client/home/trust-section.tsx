@@ -21,7 +21,7 @@ export function TrustSection() {
     <section className="bg-white py-6 sm:py-8 lg:py-10 overflow-hidden">
       <div className="container mx-auto px-4">
         <h2 className="text-center text-base sm:text-lg lg:text-xl font-bold text-gray-600 mb-4 sm:mb-6 uppercase tracking-wide">
-          Associated <span style={{ color: "var(--brand)" }}>with</span>
+          Associated <span className="text-brand-red">with</span>
         </h2>
 
         <div className="relative w-full overflow-hidden">

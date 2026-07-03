@@ -65,8 +65,7 @@ function HeroWithAddons() {
   return (
     <section
       ref={heroRef}
-      className="relative flex flex-col items-center justify-center text-center overflow-hidden bg-gradient-to-r from-[#0e172b] to-[#1a2a4f] text-white px-4 sm:px-6"
-      style={{ paddingTop: "100px", paddingBottom: "56px" }}
+      className="relative flex flex-col items-center justify-center text-center overflow-hidden bg-gradient-to-r from-[#0e172b] to-[#1a2a4f] text-white px-4 sm:px-6 pt-[100px] pb-[56px]"
     >
       <div className="absolute inset-0 bg-[url('/propertylegal.png')] bg-cover bg-center opacity-10 pointer-events-none" />
       <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-teal-500/20 blur-3xl rounded-full pointer-events-none" />

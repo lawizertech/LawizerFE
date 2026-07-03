@@ -154,15 +154,14 @@ export default function PropertyLegalPage() {
   const handleViewDetails = (basePath: string, slug: string) => router.push(`${basePath}${slug}`);
 
   return (
-    <div className="min-h-screen" style={{ background: "#f8f7f4" }}>
+    <div className="min-h-screen bg-[#f8f7f4]">
 
       {/* ══════════════════════════════════════════════
           HERO
       ══════════════════════════════════════════════ */}
       <section
         ref={heroRef}
-        className="relative flex flex-col items-center justify-center text-center"
-        style={{ minHeight: "100vh", background: "#06101e", overflow: "hidden" }}
+        className="relative flex flex-col items-center justify-center text-center min-h-screen bg-[#06101e] overflow-hidden"
       >
         {/* Parallax photo */}
         <motion.div
@@ -175,62 +174,40 @@ export default function PropertyLegalPage() {
 
         {/* Rich atmospheric overlays */}
         {/* Base darkening layer */}
-        <div className="absolute inset-0" style={{ background: "rgba(6,16,30,0.78)" }} />
+        <div className="absolute inset-0 bg-[#06101e]/80" />
 
         {/* Directional cinematic vignette */}
         <div
           className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(175deg, rgba(6,16,30,0.55) 0%, rgba(6,16,30,0.1) 40%, rgba(120,70,10,0.22) 70%, rgba(6,16,30,0.85) 100%)",
-          }}
+          style={{ background: "linear-gradient(175deg, rgba(6,16,30,0.55) 0%, rgba(6,16,30,0.1) 40%, rgba(120,70,10,0.22) 70%, rgba(6,16,30,0.85) 100%)" }}
         />
 
         {/* Strong bottom fade so content reads clearly */}
         <div
-          className="absolute bottom-0 left-0 right-0 h-48"
-          style={{
-            background: "linear-gradient(to top, rgba(6,16,30,0.9) 0%, transparent 100%)",
-          }}
+          className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#06101e]/90 to-transparent"
         />
 
         {/* Warm amber radial glow — centered, feels like golden sunlight */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse 65% 50% at 52% 48%, rgba(233,155,43,0.18) 0%, rgba(180,100,10,0.08) 40%, transparent 70%)",
-          }}
+          style={{ background: "radial-gradient(ellipse 65% 50% at 52% 48%, rgba(233,155,43,0.18) 0%, rgba(180,100,10,0.08) 40%, transparent 70%)" }}
         />
 
         {/* Top-left dark vignette for depth */}
         <div
-          className="absolute top-0 left-0 w-1/2 h-full pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(to right, rgba(6,16,30,0.55) 0%, transparent 100%)",
-          }}
+          className="absolute top-0 left-0 w-1/2 h-full pointer-events-none bg-gradient-to-r from-[#06101e]/55 to-transparent"
         />
 
         {/* Subtle noise/grain layer via repeating gradient */}
         <div
           className="absolute inset-0 pointer-events-none opacity-[0.035]"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(0deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 3px)",
-            backgroundSize: "100% 3px",
-          }}
+          style={{ backgroundImage: "repeating-linear-gradient(0deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 3px)", backgroundSize: "100% 3px" }}
         />
 
         {/* Fine grid */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{
-            opacity: 0.04,
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.7) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.7) 1px, transparent 1px)",
-            backgroundSize: "72px 72px",
-          }}
+          style={{ opacity: 0.04, backgroundImage: "linear-gradient(rgba(255,255,255,0.7) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.7) 1px, transparent 1px)", backgroundSize: "72px 72px" }}
         />
 
         {/* Animated orbs */}
@@ -323,8 +300,7 @@ export default function PropertyLegalPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.2 }}
-            className="text-sm sm:text-base italic mb-3"
-            style={{ color: "rgba(220,228,240,0.78)", lineHeight: 1.7 }}
+            className="text-sm sm:text-base italic mb-3 text-[#d7deeb]/80 leading-relaxed"
           >
             "Before You Buy, Let Lawizer Verify"
           </motion.p>
@@ -336,7 +312,7 @@ export default function PropertyLegalPage() {
             transition={{ duration: 0.6, delay: 0.28 }}
             className="flex items-center justify-center gap-2 sm:gap-3 mb-9 flex-wrap"
           >
-            <span className="text-sm sm:text-base" style={{ color: "rgba(215,222,235,0.82)" }}>
+            <span className="text-sm sm:text-base text-[#d7deeb]/80">
               Get all types of Property Report/Review starting at just{" "}
               <span className="font-bold text-white">₹999</span>
             </span>
@@ -402,8 +378,8 @@ export default function PropertyLegalPage() {
           >
             {["Safe & Verified Transactions", "Expert Property Lawyers", "End-to-End Support"].map((b) => (
               <div key={b} className="flex items-center gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "#4ade80" }} />
-                <span className="text-xs sm:text-sm" style={{ color: "rgba(195,208,228,0.78)" }}>{b}</span>
+                <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 text-green-400" />
+                <span className="text-xs sm:text-sm text-[#c3d0e4]/80">{b}</span>
               </div>
             ))}
           </motion.div>
@@ -457,10 +433,10 @@ export default function PropertyLegalPage() {
                   borderBottom: "1px solid rgba(233,155,43,0.2)",
                 }}
               >
-                <span className="text-[10px] font-black tracking-[0.18em] uppercase" style={{ color: "#e99b2b" }}>
+                <span className="text-[10px] font-black tracking-[0.18em] uppercase text-[#e99b2b]">
                   Browse Services
                 </span>
-                <div className="flex-1 h-px" style={{ background: "rgba(233,155,43,0.2)" }} />
+                <div className="flex-1 h-px bg-[#e99b2b]/20" />
               </div>
 
               {/* Scrollable items — compact window, ~3.5 items visible */}
@@ -495,8 +471,7 @@ export default function PropertyLegalPage() {
                     }}
                   >
                     <ChevronRight
-                      className="w-3 h-3 flex-shrink-0 transition-transform group-hover:translate-x-0.5"
-                      style={{ color: "#e99b2b", opacity: 0.6 }}
+                      className="w-3 h-3 flex-shrink-0 transition-transform group-hover:translate-x-0.5 text-[#e99b2b]/60"
                     />
                     <span>{item.label}</span>
                   </motion.button>
@@ -540,8 +515,7 @@ export default function PropertyLegalPage() {
                       : {}
                   }
                   transition={{ duration: 1.0 }}
-                  className="p-2.5 rounded-xl"
-                  style={{ background: "rgba(233,155,43,0.1)" }}
+                  className="p-2.5 rounded-xl bg-[#e99b2b]/10"
                 >
                   <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#e99b2b]" />
                 </motion.div>
@@ -594,8 +568,7 @@ export default function PropertyLegalPage() {
                       variants={{ hovered: { scaleX: 1, opacity: 1 } }}
                       initial={{ scaleX: 0, opacity: 0 }}
                       transition={{ duration: 0.28, ease: "easeOut" }}
-                      className="absolute top-0 left-0 right-0 h-[3px] origin-left"
-                      style={{ background: "linear-gradient(90deg, #e99b2b, #c92c41)" }}
+                      className="absolute top-0 left-0 right-0 h-[3px] origin-left bg-gradient-to-r from-[#e99b2b] to-brand-red"
                     />
                     {/* Ambient glow */}
                     <motion.div

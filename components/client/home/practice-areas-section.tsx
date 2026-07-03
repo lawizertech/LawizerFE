@@ -140,7 +140,7 @@ export function PracticeAreasSection() {
               whileHover={{ y: -5, scale: 1.03 }}
               transition={{ type: "spring", stiffness: 300 }}
               className="min-w-[270px] max-w-sm flex-shrink-0"
-              style={{ overflow: "visible" }} // ensures inner shadow/glow isn't clipped
+              className="overflow-visible" // ensures inner shadow/glow isn't clipped
             >
               <Card className="rounded-2xl shadow-md hover:shadow-2xl border border-blue-100 transition-all bg-white">
                 <CardHeader className="bg-primary p-4 rounded-t-2xl">

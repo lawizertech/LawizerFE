@@ -21,11 +21,10 @@ export function HowItWorksSection() {
       <div className="steps-wrap">
         <div className="steps-label">How It Works</div>
         <div className="steps-title">
-          Register in 4 <span style={{ color: "var(--brand)" }}>Simple Steps</span>
+          Register in 4 <span className="text-brand-red">Simple Steps</span>
         </div>
         <motion.div
-          className="steps-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4"
-          style={{ position: "relative" }}
+          className="steps-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 relative"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
