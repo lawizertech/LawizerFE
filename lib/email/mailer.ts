@@ -46,8 +46,14 @@ export interface SendEmailOptions {
 }
 
 export const sendEmail = async (options: SendEmailOptions) => {
-  const transporter = getTransporter();
   const from = options.from || (process.env.EMAIL_FROM || process.env.EMAIL_USER);
+
+  if (!process.env.EMAIL_HOST || !process.env.EMAIL_PORT || !process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.warn("Email configuration missing; skipping outgoing email.");
+    return { success: false, skipped: true as const, message: "Email configuration missing." };
+  }
+
+  const transporter = getTransporter();
 
   try {
     const info = await transporter.sendMail({
