@@ -2,6 +2,35 @@ import { NextResponse } from "next/server";
 
 const BASE = process.env.NEXT_PUBLIC_API_URL!;
 
+async function renewToken(authHeader: string) {
+  const renewRes = await fetch(`${BASE}/auth/renew-token`, {
+    method: "GET",
+    headers: {
+      Authorization: authHeader,
+    },
+    cache: "no-store",
+  });
+
+  if (!renewRes.ok) {
+    return null;
+  }
+
+  const renewData = await renewRes.json().catch(() => null);
+  return renewData?.newToken || null;
+}
+
+async function forwardStartProcess(authHeader: string, body: unknown) {
+  return fetch(`${BASE}/user/start-process`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: authHeader,
+    },
+    body: JSON.stringify(body),
+    cache: "no-store",
+  });
+}
+
 export async function POST(req: Request) {
   try {
     const authHeader = req.headers.get("authorization");
@@ -39,15 +68,19 @@ export async function POST(req: Request) {
     }
 
     // Forward request to backend
-    const backendRes = await fetch(`${BASE}/user/start-process`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: authHeader,
-      },
-      body: JSON.stringify(body),
-      cache: "no-store",
-    });
+    let backendRes = await forwardStartProcess(authHeader, body);
+
+    if (!backendRes.ok) {
+      const error = await backendRes.json().catch(() => null);
+
+      if (backendRes.status === 401 && error?.errorCode === "TOKEN_EXPIRED") {
+        const newToken = await renewToken(authHeader);
+
+        if (newToken) {
+          backendRes = await forwardStartProcess(`Bearer ${newToken}`, body);
+        }
+      }
+    }
 
     if (!backendRes.ok) {
       const error = await backendRes.json().catch(() => null);
