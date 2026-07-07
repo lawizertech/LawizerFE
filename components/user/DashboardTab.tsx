@@ -1,7 +1,16 @@
 "use client";
 
 import { serverApi } from "@/lib/apis/axios";
+import { db } from "@/lib/firebaseClient";
+import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import { Calendar, Clock, Users, IndianRupee, CheckCircle, FileText } from "lucide-react";
 
 /* -------------------------------------------------------------------------- */
@@ -100,14 +109,21 @@ export default function UserDashboardTab() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [dashboard, setDashboard] = useState<UserDashboard>(EMPTY_DASHBOARD);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
+    let cancelled = false;
+
     const load = async () => {
       try {
         const [profileRes, dashRes] = await Promise.all([
           serverApi.get("/api/user/profile"),
           serverApi.get("/api/user/dashboard"),
         ]);
+
+        if (cancelled) {
+          return;
+        }
 
         /* PROFILE */
         if (profileRes.data?.profile) {
@@ -146,13 +162,68 @@ export default function UserDashboardTab() {
             pendingServiceDocuments: raw.pendingServiceDocuments ?? 0,
           });
         }
+      } catch (error) {
+        if (!cancelled) {
+          console.error("Failed to load dashboard", error);
+        }
       } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
     };
 
-    load();
+    void load();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
+
+  useEffect(() => {
+    if (!user?.uid) {
+      return;
+    }
+
+    const servicesQuery = query(
+      collection(db, "services"),
+      where("userId", "==", user.uid),
+      orderBy("createdAt", "desc"),
+    );
+
+    const unsubscribe = onSnapshot(
+      servicesQuery,
+      (snapshot) => {
+        const services = snapshot.docs.map((doc) => doc.data());
+
+        setDashboard((current) => ({
+          ...current,
+          totalServices: services.length,
+          activeServices: services.filter(
+            (service: any) => service.status === "ACTIVE",
+          ).length,
+          completedServices: services.filter(
+            (service: any) => service.status === "COMPLETED",
+          ).length,
+          pendingServiceDocuments: services.reduce(
+            (sum: number, service: any) =>
+              sum +
+              (service.documentsRequired || []).filter(
+                (document: any) =>
+                  document.status === "PENDING" ||
+                  document.status === "REJECTED",
+              ).length,
+            0,
+          ),
+        }));
+      },
+      (error) => {
+        console.error("Failed to subscribe to service updates", error);
+      },
+    );
+
+    return () => unsubscribe();
+  }, [user?.uid]);
 
   if (loading) {
     return <p className="mt-10 text-gray-500">Loading dashboard…</p>;

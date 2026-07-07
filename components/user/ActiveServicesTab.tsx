@@ -6,6 +6,14 @@ import { ArrowLeft, Upload, FileText } from "lucide-react";
 import { serverApi } from "@/lib/apis/axios";
 import ServiceChat from "./ServiceChat";
 import { useAuth } from "@/context/authContext";
+import { db } from "@/lib/firebaseClient";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
@@ -62,16 +70,38 @@ export default function ActiveServicesTab() {
   /* ===================== LOAD SERVICES ===================== */
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const res = await serverApi.get("/api/user/services");
-        setServices(res.data.services || []);
-      } finally {
+    if (!user?.uid) {
+      setLoading(false);
+      return;
+    }
+
+    const servicesQuery = query(
+      collection(db, "services"),
+      where("userId", "==", user.uid),
+      orderBy("createdAt", "desc"),
+    );
+
+    const unsubscribe = onSnapshot(
+      servicesQuery,
+      (snapshot) => {
+        setServices(
+          snapshot.docs.map((doc) => ({
+            serviceId: doc.id,
+            ...(doc.data() as ActiveService),
+          })),
+        );
         setLoading(false);
-      }
+      },
+      (error) => {
+        console.error("Failed to load services", error);
+        setLoading(false);
+      },
+    );
+
+    return () => {
+      unsubscribe();
     };
-    load();
-  }, []);
+  }, [user?.uid]);
 
   /* ===================== LOAD DETAILS ===================== */
 
