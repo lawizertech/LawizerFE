@@ -69,15 +69,10 @@ export default function ChatModal({
             const isMine = msg.senderRole === role;
 
             return (
-              <div
-                key={msg.id}
-                className={`flex ${isMine ? "justify-end" : "justify-start"}`}
-              >
+              <div key={msg.id} className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
                 <div
                   className={`px-3 py-2 rounded-xl text-sm max-w-[75%] ${
-                    isMine
-                      ? "bg-blue-600 text-white rounded-br-none"
-                      : "bg-white border rounded-bl-none"
+                    isMine ? "bg-blue-600 text-white rounded-br-none" : "bg-white border rounded-bl-none"
                   }`}
                 >
                   {msg.text}
@@ -86,9 +81,7 @@ export default function ChatModal({
             );
           })}
 
-          {isOtherTyping && (
-            <div className="text-xs text-gray-400 italic">Typing...</div>
-          )}
+          {isOtherTyping && <div className="text-xs text-gray-400 italic">Typing...</div>}
 
           <div ref={bottomRef} />
         </div>
@@ -114,11 +107,7 @@ export default function ChatModal({
             placeholder={!uid ? "Loading chat..." : "Type a message..."}
             className="flex-1 border rounded-lg px-3 py-2 text-sm disabled:bg-gray-100"
           />
-          <button
-            onClick={send}
-            disabled={!uid}
-            className="bg-blue-600 text-white px-4 rounded-lg disabled:opacity-50"
-          >
+          <button onClick={send} disabled={!uid} className="bg-blue-600 text-white px-4 rounded-lg disabled:opacity-50">
             Send
           </button>
         </div>

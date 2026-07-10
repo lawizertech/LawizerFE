@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -30,123 +30,132 @@ const newsItems: NewsItem[] = [
     id: 1,
     category: "Company Law",
     title: "MCA Processed 8 Million+ Form Submissions in FY 2024–25 — What Founders Need to Know",
-    description: "The Ministry of Corporate Affairs reported over 8.02 million form submissions last fiscal year as digital filing adoption surges. MCA has tightened cross-verification between GST and Income Tax records, meaning mismatches can now trigger automatic penalties.",
+    description:
+      "The Ministry of Corporate Affairs reported over 8.02 million form submissions last fiscal year as digital filing adoption surges. MCA has tightened cross-verification between GST and Income Tax records, meaning mismatches can now trigger automatic penalties.",
     date: "May 2025",
     href: "https://www.mca.gov.in",
     emoji: "📋",
-    gradient: "linear-gradient(135deg,#1a1a2e,#e94560)"
+    gradient: "linear-gradient(135deg,#1a1a2e,#e94560)",
   },
   {
     id: 2,
     category: "Trademark & IP",
     title: "Delhi High Court: Using a Registered Trademark as a Google Keyword Does Not Amount to Infringement",
-    description: "In the MakeMyTrip vs. Booking.com dispute, the Division Bench reversed an earlier ruling and held that using a competitor's trademark as a Google Ads keyword does not constitute trademark infringement — a major development for digital marketing strategy.",
+    description:
+      "In the MakeMyTrip vs. Booking.com dispute, the Division Bench reversed an earlier ruling and held that using a competitor's trademark as a Google Ads keyword does not constitute trademark infringement — a major development for digital marketing strategy.",
     date: "2025",
     href: "https://iclg.com/practice-areas/trade-marks-laws-and-regulations/india",
     emoji: "⚖️",
-    gradient: "linear-gradient(135deg,#0f3460,#533483)"
+    gradient: "linear-gradient(135deg,#0f3460,#533483)",
   },
   {
     id: 3,
     category: "Startups",
     title: "India Crosses 1.57 Lakh DPIIT-Recognised Startups — Now the Third Largest Startup Ecosystem Globally",
-    description: "India's startup ecosystem has grown to over 1.57 lakh DPIIT-recognised startups. Compliance obligations are becoming increasingly automated, with MCA and GST portals applying strict liability with minimal human discretion for errors.",
+    description:
+      "India's startup ecosystem has grown to over 1.57 lakh DPIIT-recognised startups. Compliance obligations are becoming increasingly automated, with MCA and GST portals applying strict liability with minimal human discretion for errors.",
     date: "March 2026",
     href: "https://www.legalserviceindia.com/Legal-Articles/navigating-startup-law-in-india-funding-compliance-and-intellectual-property/",
     emoji: "🚀",
-    gradient: "linear-gradient(135deg,#134e5e,#71b280)"
+    gradient: "linear-gradient(135deg,#134e5e,#71b280)",
   },
   {
     id: 4,
     category: "Company Law",
     title: "MCA Relaxes Compliance for Small Companies and Startups in 2025 — Key Changes Explained",
-    description: "MCA's 2025 amendments introduce relaxed compliance thresholds for small companies and startups. At the same time, penalty structures for repeated non-compliance have been tightened, with a preference for fast monetary penalties.",
+    description:
+      "MCA's 2025 amendments introduce relaxed compliance thresholds for small companies and startups. At the same time, penalty structures for repeated non-compliance have been tightened, with a preference for fast monetary penalties.",
     date: "2025",
     href: "https://www.mca.gov.in",
     emoji: "📊",
-    gradient: "linear-gradient(135deg,#2c3e50,#3498db)"
+    gradient: "linear-gradient(135deg,#2c3e50,#3498db)",
   },
   {
     id: 5,
     category: "GST",
     title: "GST Penalties for Non-Registration: What Startups Risk in 2025",
-    description: "Startups crossing the ₹40 lakh (goods) or ₹20 lakh (services) threshold face a penalty of 10% of tax payable or ₹10,000, whichever is higher, for non-registration. Wilful evasion can attract a 100% penalty.",
+    description:
+      "Startups crossing the ₹40 lakh (goods) or ₹20 lakh (services) threshold face a penalty of 10% of tax payable or ₹10,000, whichever is higher, for non-registration. Wilful evasion can attract a 100% penalty.",
     date: "2025",
     href: "https://e-startupindia.com/learn/gst-registration-for-startups-in-india-process-benefits-and-penalties-2025-guide/",
     emoji: "💰",
-    gradient: "linear-gradient(135deg,#f7971e,#ffd200)"
+    gradient: "linear-gradient(135deg,#f7971e,#ffd200)",
   },
   {
     id: 6,
     category: "Trademark & IP",
     title: "AI and Blockchain Set to Transform Indian Trademark Registration and IP Management",
-    description: "AI-driven search tools are expected to improve trademark examination accuracy, while blockchain-based records could enable tamper-proof ownership tracking. India is also aligning with the Madrid Convention for smoother cross-border registration.",
+    description:
+      "AI-driven search tools are expected to improve trademark examination accuracy, while blockchain-based records could enable tamper-proof ownership tracking. India is also aligning with the Madrid Convention for smoother cross-border registration.",
     date: "2025",
     href: "https://tmwala.com/blog-new-trademark-law-impact-indian-startups-in-2025/",
     emoji: "🔮",
-    gradient: "linear-gradient(135deg,#6a3093,#a044ff)"
+    gradient: "linear-gradient(135deg,#6a3093,#a044ff)",
   },
   {
     id: 7,
     category: "Startups",
     title: "India's LegalTech Sector Sees 781% Year-on-Year Funding Surge — What It Means for Founders",
-    description: "India's LegalTech sector — now comprising 960 companies and 86 funded startups — recorded a 781% YoY funding surge in 2025. The sector is valued at ₹8,500+ crore and projected to reach ₹20,700+ crore by 2030 at a CAGR of 16.2%.",
+    description:
+      "India's LegalTech sector — now comprising 960 companies and 86 funded startups — recorded a 781% YoY funding surge in 2025. The sector is valued at ₹8,500+ crore and projected to reach ₹20,700+ crore by 2030 at a CAGR of 16.2%.",
     date: "March 2026",
     href: "https://www.inventiva.co.in/trends/top-10-legaltech-startups-in-2026/",
     emoji: "🏛️",
-    gradient: "linear-gradient(135deg,#1a1a2e,#4a90d9)"
+    gradient: "linear-gradient(135deg,#1a1a2e,#4a90d9)",
   },
   {
     id: 8,
     category: "Company Law",
     title: "DPDP Act 2023: How India's New Data Protection Law Affects Your Startup",
-    description: "The Digital Personal Data Protection Act, 2023 introduces data fiduciary obligations, data principal rights including the right to erasure, and significant penalties for non-compliance — fundamentally changing how Indian businesses handle customer data.",
+    description:
+      "The Digital Personal Data Protection Act, 2023 introduces data fiduciary obligations, data principal rights including the right to erasure, and significant penalties for non-compliance — fundamentally changing how Indian businesses handle customer data.",
     date: "2025",
     href: "https://law.asia/india/",
     emoji: "🔒",
-    gradient: "linear-gradient(135deg,#005c97,#363795)"
+    gradient: "linear-gradient(135deg,#005c97,#363795)",
   },
   {
     id: 9,
     category: "Income Tax",
     title: "Budget 2026 in Step with India's Long-Term Growth Priorities — Tax Experts Weigh In",
-    description: "Tax experts note Budget 2026 aligns with India's long-term structural growth goals, with targeted relief for MSMEs and startup-friendly provisions. Founders should review revised ITR filing deadlines and updated presumptive taxation thresholds.",
+    description:
+      "Tax experts note Budget 2026 aligns with India's long-term structural growth goals, with targeted relief for MSMEs and startup-friendly provisions. Founders should review revised ITR filing deadlines and updated presumptive taxation thresholds.",
     date: "2026",
     href: "https://law.asia/india/",
     emoji: "📝",
-    gradient: "linear-gradient(135deg,#093028,#237a57)"
-  }
+    gradient: "linear-gradient(135deg,#093028,#237a57)",
+  },
 ];
 
 // ─── Tag colour map ────────────────────────────────────────────────────────────
 
 const TAG_COLOURS: Record<string, string> = {
-  'Supreme Court': '#e94560',
-  'Legal Education': '#3498db',
-  'Startup Compliance': '#71b280',
-  'Bar & Bench': '#a044ff',
-  'LiveLaw': '#f7971e',
+  "Supreme Court": "#e94560",
+  "Legal Education": "#3498db",
+  "Startup Compliance": "#71b280",
+  "Bar & Bench": "#a044ff",
+  LiveLaw: "#f7971e",
 };
 
 function tagColor(tag: string) {
-  return TAG_COLOURS[tag] ?? '#888';
+  return TAG_COLOURS[tag] ?? "#888";
 }
 
 // ─── Relative time helper ─────────────────────────────────────────────────────
 
 function relativeTime(dateStr: string): string {
-  if (!dateStr) return '';
+  if (!dateStr) return "";
   const d = new Date(dateStr);
-  if (isNaN(d.getTime())) return '';
+  if (isNaN(d.getTime())) return "";
   const diff = Date.now() - d.getTime();
   const mins = Math.floor(diff / 60000);
-  if (mins < 1) return 'Just now';
+  if (mins < 1) return "Just now";
   if (mins < 60) return `${mins}m ago`;
   const hrs = Math.floor(mins / 60);
   if (hrs < 24) return `${hrs}h ago`;
   const days = Math.floor(hrs / 24);
   if (days < 7) return `${days}d ago`;
-  return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+  return d.toLocaleDateString("en-IN", { day: "numeric", month: "short" });
 }
 
 // ─── Skeleton card ────────────────────────────────────────────────────────────
@@ -167,16 +176,11 @@ function SkeletonCard() {
 function LiveNewsCard({ item }: { item: LiveNewsItem }) {
   const color = tagColor(item.tag);
   return (
-    <article className="live-news-card" style={{ '--accent': color } as React.CSSProperties}>
+    <article className="live-news-card" style={{ "--accent": color } as React.CSSProperties}>
       <span className="live-news-tag" style={{ color, borderColor: color }}>
         {item.tag}
       </span>
-      <a
-        href={item.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="live-news-title"
-      >
+      <a href={item.link} target="_blank" rel="noopener noreferrer" className="live-news-title">
         {item.title}
       </a>
       <div className="live-news-meta">
@@ -194,24 +198,24 @@ const REFRESH_MS = 30 * 60 * 1000; // 30 minutes
 
 function LiveNewsSection() {
   const [items, setItems] = useState<LiveNewsItem[]>([]);
-  const [status, setStatus] = useState<'loading' | 'ok' | 'error'>('loading');
+  const [status, setStatus] = useState<"loading" | "ok" | "error">("loading");
   const [lastRefreshed, setLastRefreshed] = useState<Date | null>(null);
 
   const load = useCallback(async () => {
-    setStatus('loading');
+    setStatus("loading");
     try {
-      const res = await fetch('/api/legal-news', { cache: 'no-store' });
-      if (!res.ok) throw new Error('Non-OK response');
+      const res = await fetch("/api/legal-news", { cache: "no-store" });
+      if (!res.ok) throw new Error("Non-OK response");
       const data = await res.json();
       if (Array.isArray(data.items) && data.items.length > 0) {
         setItems(data.items);
-        setStatus('ok');
+        setStatus("ok");
         setLastRefreshed(new Date());
       } else {
-        throw new Error('Empty feed');
+        throw new Error("Empty feed");
       }
     } catch {
-      setStatus('error');
+      setStatus("error");
     }
   }, []);
 
@@ -232,16 +236,9 @@ function LiveNewsSection() {
         </div>
         <div className="live-news-header-right">
           {lastRefreshed && (
-            <span className="live-news-refreshed">
-              Updated {relativeTime(lastRefreshed.toISOString())}
-            </span>
+            <span className="live-news-refreshed">Updated {relativeTime(lastRefreshed.toISOString())}</span>
           )}
-          <button
-            onClick={load}
-            className="live-news-refresh-btn"
-            title="Refresh news"
-            aria-label="Refresh live news"
-          >
+          <button onClick={load} className="live-news-refresh-btn" title="Refresh news" aria-label="Refresh live news">
             ↻ Refresh
           </button>
         </div>
@@ -249,21 +246,15 @@ function LiveNewsSection() {
 
       {/* Feed chips */}
       <div className="live-feed-chips">
-        {['Supreme Court', 'Legal Education', 'Startup Compliance', 'Bar & Bench', 'LiveLaw'].map(
-          (tag) => (
-            <span
-              key={tag}
-              className="live-feed-chip"
-              style={{ '--chip-color': tagColor(tag) } as React.CSSProperties}
-            >
-              {tag}
-            </span>
-          )
-        )}
+        {["Supreme Court", "Legal Education", "Startup Compliance", "Bar & Bench", "LiveLaw"].map((tag) => (
+          <span key={tag} className="live-feed-chip" style={{ "--chip-color": tagColor(tag) } as React.CSSProperties}>
+            {tag}
+          </span>
+        ))}
       </div>
 
       {/* Cards */}
-      {status === 'loading' && (
+      {status === "loading" && (
         <div className="live-news-grid">
           {Array.from({ length: 6 }).map((_, i) => (
             <SkeletonCard key={i} />
@@ -271,7 +262,7 @@ function LiveNewsSection() {
         </div>
       )}
 
-      {status === 'ok' && (
+      {status === "ok" && (
         <div className="live-news-grid">
           {items.map((item, i) => (
             <LiveNewsCard key={`${item.link}-${i}`} item={item} />
@@ -279,7 +270,7 @@ function LiveNewsSection() {
         </div>
       )}
 
-      {status === 'error' && (
+      {status === "error" && (
         <div className="live-news-error">
           <span>⚠️</span>
           <p>Live news unavailable right now.</p>
@@ -295,272 +286,22 @@ function LiveNewsSection() {
 // ─── Main page ────────────────────────────────────────────────────────────────
 
 export default function NewsPage() {
-  const [activeFilter, setActiveFilter] = useState<string>('All');
-  const [email, setEmail] = useState<string>('');
+  const [activeFilter, setActiveFilter] = useState<string>("All");
+  const [email, setEmail] = useState<string>("");
 
-  const categories: string[] = ['All', 'Company Law', 'GST', 'Trademark & IP', 'Income Tax', 'Startups'];
+  const categories: string[] = ["All", "Company Law", "GST", "Trademark & IP", "Income Tax", "Startups"];
 
-  const filteredNews: NewsItem[] = activeFilter === 'All'
-    ? newsItems
-    : newsItems.filter(n => n.category === activeFilter);
+  const filteredNews: NewsItem[] =
+    activeFilter === "All" ? newsItems : newsItems.filter((n) => n.category === activeFilter);
 
   const handleSubscribe = () => {
     if (email.trim()) {
-      console.log('Subscribed:', email);
-      setEmail('');
+      setEmail("");
     }
   };
 
   return (
     <>
-      <style>{`
-        /* ── Live news section ─────────────────────────────────────────── */
-        .live-news-section {
-          max-width: 80rem;
-          margin: 0 auto;
-          padding: 2.5rem 1.25rem 0;
-        }
-
-        .live-news-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 0.75rem;
-          margin-bottom: 0.875rem;
-        }
-
-        .live-news-header-left {
-          display: flex;
-          align-items: center;
-          gap: 0.625rem;
-        }
-
-        /* Pulsing red dot */
-        .live-pulse {
-          display: inline-block;
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          background: #e94560;
-          box-shadow: 0 0 0 0 rgba(233, 69, 96, 0.4);
-          animation: livePulse 1.8s ease-out infinite;
-        }
-
-        @keyframes livePulse {
-          0%   { box-shadow: 0 0 0 0   rgba(233,69,96,0.5); }
-          70%  { box-shadow: 0 0 0 8px rgba(233,69,96,0);   }
-          100% { box-shadow: 0 0 0 0   rgba(233,69,96,0);   }
-        }
-
-        .live-news-heading {
-          font-size: 1.25rem;
-          font-weight: 800;
-          color: #1a1a2e;
-          margin: 0;
-          letter-spacing: -0.3px;
-        }
-
-        .live-news-header-right {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-        }
-
-        .live-news-refreshed {
-          font-size: 0.75rem;
-          color: #9ca3af;
-        }
-
-        .live-news-refresh-btn {
-          font-size: 0.78rem;
-          font-weight: 600;
-          color: #e94560;
-          background: none;
-          border: 1.5px solid #fecdd3;
-          border-radius: 6px;
-          padding: 4px 10px;
-          cursor: pointer;
-          transition: background 0.15s, border-color 0.15s;
-        }
-        .live-news-refresh-btn:hover {
-          background: #fff1f2;
-          border-color: #e94560;
-        }
-
-        /* Source chips */
-        .live-feed-chips {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.4rem;
-          margin-bottom: 1.25rem;
-        }
-        .live-feed-chip {
-          font-size: 0.7rem;
-          font-weight: 600;
-          padding: 2px 8px;
-          border-radius: 999px;
-          background: color-mix(in srgb, var(--chip-color) 10%, white);
-          color: var(--chip-color);
-          border: 1px solid color-mix(in srgb, var(--chip-color) 30%, white);
-          letter-spacing: 0.02em;
-        }
-
-        /* Grid */
-        .live-news-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-          gap: 1rem;
-        }
-
-        /* Live card */
-        .live-news-card {
-          background: #fff;
-          border: 1px solid #e5e7eb;
-          border-radius: 12px;
-          padding: 1rem 1.125rem;
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-          transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
-          position: relative;
-          overflow: hidden;
-        }
-        .live-news-card::before {
-          content: '';
-          position: absolute;
-          top: 0; left: 0;
-          width: 3px; height: 100%;
-          background: var(--accent, #e94560);
-          border-radius: 12px 0 0 12px;
-          opacity: 0;
-          transition: opacity 0.2s;
-        }
-        .live-news-card:hover {
-          box-shadow: 0 6px 24px rgba(0,0,0,0.09);
-          transform: translateY(-2px);
-          border-color: color-mix(in srgb, var(--accent, #e94560) 35%, #e5e7eb);
-        }
-        .live-news-card:hover::before {
-          opacity: 1;
-        }
-
-        .live-news-tag {
-          font-size: 0.68rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-          border: 1px solid;
-          border-radius: 4px;
-          padding: 1px 6px;
-          align-self: flex-start;
-        }
-
-        .live-news-title {
-          font-size: 0.875rem;
-          font-weight: 700;
-          color: #1a1a2e;
-          line-height: 1.45;
-          text-decoration: none;
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          transition: color 0.15s;
-          flex: 1;
-        }
-        .live-news-title:hover {
-          color: var(--accent, #e94560);
-        }
-
-        .live-news-meta {
-          display: flex;
-          align-items: center;
-          gap: 0.3rem;
-          margin-top: auto;
-        }
-        .live-news-source {
-          font-size: 0.7rem;
-          color: #9ca3af;
-          font-weight: 600;
-        }
-        .live-news-dot {
-          font-size: 0.7rem;
-          color: #d1d5db;
-        }
-        .live-news-time {
-          font-size: 0.7rem;
-          color: #9ca3af;
-        }
-
-        /* Error state */
-        .live-news-error {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 2.5rem;
-          color: #6b7280;
-          font-size: 0.9rem;
-          text-align: center;
-          background: #fafafa;
-          border: 1px dashed #e5e7eb;
-          border-radius: 12px;
-        }
-        .live-news-retry-btn {
-          font-size: 0.8rem;
-          font-weight: 600;
-          color: #e94560;
-          background: none;
-          border: none;
-          cursor: pointer;
-          text-decoration: underline;
-        }
-
-        /* Skeleton */
-        .live-news-card--skeleton {
-          pointer-events: none;
-        }
-        .sk-tag, .sk-title, .sk-meta {
-          background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-          background-size: 200% 100%;
-          animation: shimmer 1.4s infinite;
-          border-radius: 4px;
-        }
-        .sk-tag  { height: 16px; width: 80px; }
-        .sk-title { height: 14px; width: 100%; margin-top: 2px; }
-        .sk-title--short { width: 70%; }
-        .sk-meta { height: 12px; width: 50%; margin-top: 4px; }
-
-        @keyframes shimmer {
-          0%   { background-position: 200% 0; }
-          100% { background-position: -200% 0; }
-        }
-
-        /* Section divider */
-        .curated-divider {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          max-width: 80rem;
-          margin: 2.5rem auto 0;
-          padding: 0 1.25rem;
-        }
-        .curated-divider-line {
-          flex: 1;
-          height: 1px;
-          background: #e5e7eb;
-        }
-        .curated-divider-label {
-          font-size: 0.75rem;
-          font-weight: 700;
-          color: #9ca3af;
-          text-transform: uppercase;
-          letter-spacing: 0.08em;
-          white-space: nowrap;
-        }
-      `}</style>
-
       <div className="min-h-screen bg-white pt-28 md:pt-32">
         {/* ── SEO Meta hint (handled server side, but title shown in hero) ── */}
 
@@ -568,7 +309,8 @@ export default function NewsPage() {
         <div className="bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] py-16 px-5 text-center">
           <h1 className="text-5xl font-bold text-white">Legal News &amp; Updates</h1>
           <p className="text-white/80 max-w-lg mx-auto mt-3 text-lg">
-            Stay informed with the latest developments in Indian startup law, taxation, trademark, and compliance — curated by the Lawizer team.
+            Stay informed with the latest developments in Indian startup law, taxation, trademark, and compliance —
+            curated by the Lawizer team.
           </p>
         </div>
 
@@ -590,8 +332,8 @@ export default function NewsPage() {
               onClick={() => setActiveFilter(category)}
               className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
                 activeFilter === category
-                  ? 'bg-[#e94560] text-white border-2 border-[#e94560]'
-                  : 'bg-white text-[#1a1a2e] border-2 border-[#e5e7eb] hover:border-[#e94560] hover:text-[#e94560]'
+                  ? "bg-[#e94560] text-white border-2 border-[#e94560]"
+                  : "bg-white text-[#1a1a2e] border-2 border-[#e5e7eb] hover:border-[#e94560] hover:text-[#e94560]"
               }`}
             >
               {category}
@@ -624,7 +366,7 @@ export default function NewsPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSubscribe()}
+              onKeyPress={(e) => e.key === "Enter" && handleSubscribe()}
               placeholder="Enter your email"
               className="flex-1 border border-[#e5e7eb] rounded-l-lg px-4 py-3 text-sm outline-none focus:border-[#e94560] transition-colors"
             />
@@ -647,29 +389,20 @@ function NewsCard({ item }: { item: NewsItem }) {
   return (
     <article className="bg-white border border-[#e5e7eb] rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
       {/* Banner with emoji */}
-      <div
-        style={{ background: item.gradient }}
-        className="h-40 flex items-center justify-center text-5xl"
-      >
+      <div style={{ background: item.gradient }} className="h-40 flex items-center justify-center text-5xl">
         {item.emoji}
       </div>
 
       {/* Card Body */}
       <div className="p-5">
         {/* Category Tag */}
-        <p className="text-[#e94560] uppercase text-xs font-bold tracking-wide mb-1">
-          {item.category}
-        </p>
+        <p className="text-[#e94560] uppercase text-xs font-bold tracking-wide mb-1">{item.category}</p>
 
         {/* Title */}
-        <h3 className="text-[#1a1a2e] font-bold text-sm leading-snug mb-2 line-clamp-3">
-          {item.title}
-        </h3>
+        <h3 className="text-[#1a1a2e] font-bold text-sm leading-snug mb-2 line-clamp-3">{item.title}</h3>
 
         {/* Description */}
-        <p className="text-[#6b7280] text-xs sm:text-sm mb-3 line-clamp-3">
-          {item.description}
-        </p>
+        <p className="text-[#6b7280] text-xs sm:text-sm mb-3 line-clamp-3">{item.description}</p>
 
         {/* Meta Row */}
         <div className="border-t border-[#e5e7eb] pt-2 mt-2 flex justify-between items-center text-xs text-[#6b7280]">

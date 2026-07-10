@@ -3,14 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { notFound } from "next/navigation";
-import {
-  Heart,
-  Users,
-  FileText,
-  Gavel,
-  ArrowRight,
-  Shield,
-} from "lucide-react";
+import { Heart, Users, FileText, Gavel, ArrowRight, Shield } from "lucide-react";
 import EmblaCarouselCards from "@/components/client/EmblaCarouselCards";
 
 export default function FamilyLegalPage() {
@@ -94,7 +87,7 @@ export default function FamilyLegalPage() {
       img: "/adv/Adv2.png",
       gender: "female",
       location: "New Delhi",
-      experience: 8,
+      experience: "8 Years",
       expertId: "exp001",
     },
     {
@@ -105,7 +98,7 @@ export default function FamilyLegalPage() {
       img: "/adv/Adv6.png",
       gender: "female",
       location: "Mumbai",
-      experience: 10,
+      experience: "10 Years",
       expertId: "exp002",
     },
     {
@@ -116,7 +109,7 @@ export default function FamilyLegalPage() {
       img: "/adv/Adv2.png",
       gender: "female",
       location: "New Delhi",
-      experience: 8,
+      experience: "8 Years",
       expertId: "exp001",
     },
     {
@@ -127,7 +120,7 @@ export default function FamilyLegalPage() {
       img: "/adv/Adv6.png",
       gender: "female",
       location: "Mumbai",
-      experience: 10,
+      experience: "10 Years",
       expertId: "exp002",
     },
     {
@@ -138,7 +131,7 @@ export default function FamilyLegalPage() {
       img: "/adv/Adv2.png",
       gender: "female",
       location: "New Delhi",
-      experience: 8,
+      experience: "8 Years",
       expertId: "exp001",
     },
     {
@@ -149,7 +142,7 @@ export default function FamilyLegalPage() {
       img: "/adv/Adv6.png",
       gender: "female",
       location: "Mumbai",
-      experience: 10,
+      experience: "10 Years",
       expertId: "exp002",
     },
     {
@@ -160,7 +153,7 @@ export default function FamilyLegalPage() {
       img: "/adv/Adv2.png",
       gender: "female",
       location: "New Delhi",
-      experience: 8,
+      experience: "8 Years",
       expertId: "exp001",
     },
     {
@@ -171,7 +164,7 @@ export default function FamilyLegalPage() {
       img: "/adv/Adv6.png",
       gender: "female",
       location: "Mumbai",
-      experience: 10,
+      experience: "10 Years",
       expertId: "exp002",
     },
     {
@@ -182,7 +175,7 @@ export default function FamilyLegalPage() {
       img: "/adv/Adv2.png",
       gender: "female",
       location: "New Delhi",
-      experience: 8,
+      experience: "8 Years",
       expertId: "exp001",
     },
     {
@@ -193,7 +186,7 @@ export default function FamilyLegalPage() {
       img: "/adv/Adv6.png",
       gender: "female",
       location: "Mumbai",
-      experience: 10,
+      experience: "10 Years",
       expertId: "exp002",
     },
     {
@@ -204,7 +197,7 @@ export default function FamilyLegalPage() {
       img: "/adv/Adv2.png",
       gender: "female",
       location: "New Delhi",
-      experience: 8,
+      experience: "8 Years",
       expertId: "exp001",
     },
     {
@@ -215,7 +208,7 @@ export default function FamilyLegalPage() {
       img: "/adv/Adv6.png",
       gender: "female",
       location: "Mumbai",
-      experience: 10,
+      experience: "10 Years",
       expertId: "exp002",
     },
   ];
@@ -248,15 +241,10 @@ export default function FamilyLegalPage() {
             Family Law & Matrimonial Services
           </h1>
           <p className="text-base sm:text-lg md:text-xl text-gray-200 max-w-xl mx-auto">
-            Compassionate, effective legal counsel for life's most personal and
-            critical matters.
+            Compassionate, effective legal counsel for life's most personal and critical matters.
           </p>
-          <p
-            className="mt-3 text-base sm:text-lg md:text-lg"
-            style={{ color: "white" }}
-          >
-            Guidance through divorce, adoption, custody, and protective
-            agreements.
+          <p className="mt-3 text-base sm:text-lg md:text-lg" style={{ color: "white" }}>
+            Guidance through divorce, adoption, custody, and protective agreements.
           </p>
         </motion.div>
       </section>
@@ -266,11 +254,7 @@ export default function FamilyLegalPage() {
         <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-10 text-center">
           👩‍⚖️ Top Women Advocates (Available Now)
         </h2>
-        <EmblaCarouselCards
-          list={familyAdvocates}
-          type="adv"
-          onBook={(key) => setRequestedIndex(key)}
-        />
+        <EmblaCarouselCards list={familyAdvocates} type="adv" onBook={(key) => setRequestedIndex(key)} />
       </div>
 
       {/* Services Section */}
@@ -294,18 +278,11 @@ export default function FamilyLegalPage() {
                     className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center"
                     style={{ background: `${primaryAccent}22` }}
                   >
-                    <ServiceIcon
-                      className="w-6 h-6 sm:w-7 sm:h-7"
-                      style={{ color: primaryAccent }}
-                    />
+                    <ServiceIcon className="w-6 h-6 sm:w-7 sm:h-7" style={{ color: primaryAccent }} />
                   </div>
-                  <h3 className="text-lg sm:text-xl font-semibold text-[#0e172b] leading-tight">
-                    {service.title}
-                  </h3>
+                  <h3 className="text-lg sm:text-xl font-semibold text-[#0e172b] leading-tight">{service.title}</h3>
                 </div>
-                <p className="text-gray-700 text-sm sm:text-base">
-                  {service.description}
-                </p>
+                <p className="text-gray-700 text-sm sm:text-base">{service.description}</p>
               </motion.div>
             );
           })}
@@ -320,16 +297,12 @@ export default function FamilyLegalPage() {
       {/* Contact Form */}
       <section className="bg-gray-50 py-16 sm:py-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <h2
-            className="text-2xl sm:text-3xl font-bold mb-4"
-            style={{ color: secondaryColor }}
-          >
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4" style={{ color: secondaryColor }}>
             Contact our Family Law Team
           </h2>
           <p className="text-gray-700 mb-8 text-sm sm:text-base">
-            Write to us with your enquiries, questions or request a meeting with
-            a lawyer to discuss your potential case. One of our experts would
-            review the form and revert back shortly.
+            Write to us with your enquiries, questions or request a meeting with a lawyer to discuss your potential
+            case. One of our experts would review the form and revert back shortly.
           </p>
 
           <form className="space-y-6">

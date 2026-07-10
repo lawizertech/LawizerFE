@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Clock, ArrowRight, BookOpen, X } from 'lucide-react';
+import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Search, Clock, ArrowRight, BookOpen, X } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -22,143 +22,155 @@ const GUIDES: GuideCard[] = [
   // Company Registration
   {
     id: 1,
-    category: 'Company Registration',
-    icon: '🏢',
-    title: 'How to Register a Private Limited Company in India (Step-by-Step 2025)',
-    description: 'From Digital Signature Certificates and DIN to SPICe+ filing and your Certificate of Incorporation — a complete walkthrough for founders.',
-    readTime: '12 min read',
-    href: '#',
+    category: "Company Registration",
+    icon: "🏢",
+    title: "How to Register a Private Limited Company in India (Step-by-Step 2025)",
+    description:
+      "From Digital Signature Certificates and DIN to SPICe+ filing and your Certificate of Incorporation — a complete walkthrough for founders.",
+    readTime: "12 min read",
+    href: "#",
   },
   {
     id: 4,
-    category: 'Company Registration',
-    icon: '⚖️',
-    title: 'OPC vs LLP vs Pvt Ltd: Which Structure is Right for Your Startup?',
-    description: 'A practical side-by-side comparison of tax treatment, compliance burden, investor-readiness, and liability protection to help you choose wisely.',
-    readTime: '8 min read',
-    href: '#',
+    category: "Company Registration",
+    icon: "⚖️",
+    title: "OPC vs LLP vs Pvt Ltd: Which Structure is Right for Your Startup?",
+    description:
+      "A practical side-by-side comparison of tax treatment, compliance burden, investor-readiness, and liability protection to help you choose wisely.",
+    readTime: "8 min read",
+    href: "#",
   },
   {
     id: 6,
-    category: 'Company Registration',
-    icon: '👤',
-    title: 'How to Add a Director to Your Company (MCA e-form DIR-12 Guide)',
-    description: 'Step-by-step walkthrough of obtaining DIN, drafting consent letters, board resolutions, and filing DIR-12 on the MCA portal correctly.',
-    readTime: '7 min read',
-    href: '#',
+    category: "Company Registration",
+    icon: "👤",
+    title: "How to Add a Director to Your Company (MCA e-form DIR-12 Guide)",
+    description:
+      "Step-by-step walkthrough of obtaining DIN, drafting consent letters, board resolutions, and filing DIR-12 on the MCA portal correctly.",
+    readTime: "7 min read",
+    href: "#",
   },
   {
     id: 7,
-    category: 'Company Registration',
-    icon: '🚀',
-    title: 'Startup India DPIIT Recognition: Benefits & Application Process',
-    description: 'Unlock tax exemptions, self-certification, and easier winding up. Learn how to apply for DPIIT recognition through the Startup India portal.',
-    readTime: '9 min read',
-    href: '#',
+    category: "Company Registration",
+    icon: "🚀",
+    title: "Startup India DPIIT Recognition: Benefits & Application Process",
+    description:
+      "Unlock tax exemptions, self-certification, and easier winding up. Learn how to apply for DPIIT recognition through the Startup India portal.",
+    readTime: "9 min read",
+    href: "#",
   },
   {
     id: 10,
-    category: 'Company Registration',
-    icon: '📋',
-    title: 'Annual Compliance Checklist for Private Limited Companies',
-    description: 'MGT-7, AOC-4, DIR-3 KYC, auditor appointments — a month-by-month filing calendar so your company never misses a deadline.',
-    readTime: '10 min read',
-    href: '#',
+    category: "Company Registration",
+    icon: "📋",
+    title: "Annual Compliance Checklist for Private Limited Companies",
+    description:
+      "MGT-7, AOC-4, DIR-3 KYC, auditor appointments — a month-by-month filing calendar so your company never misses a deadline.",
+    readTime: "10 min read",
+    href: "#",
   },
   // GST
   {
     id: 2,
-    category: 'GST',
-    icon: '💰',
-    title: 'GST Registration for Startups: Documents, Process & Fees',
-    description: 'A plain-English walkthrough of GST thresholds, mandatory vs. voluntary registration, required documents, and the step-by-step GSTN portal process.',
-    readTime: '10 min read',
-    href: '#',
+    category: "GST",
+    icon: "💰",
+    title: "GST Registration for Startups: Documents, Process & Fees",
+    description:
+      "A plain-English walkthrough of GST thresholds, mandatory vs. voluntary registration, required documents, and the step-by-step GSTN portal process.",
+    readTime: "10 min read",
+    href: "#",
   },
   {
     id: 12,
-    category: 'GST',
-    icon: '🛒',
-    title: 'GST for E-Commerce Sellers: Registration, TCS & Returns',
-    description: 'TCS obligations, mandatory registration regardless of turnover, GSTR-8 filing, and how Amazon, Flipkart, and Meesho deduct tax at source.',
-    readTime: '9 min read',
-    href: '#',
+    category: "GST",
+    icon: "🛒",
+    title: "GST for E-Commerce Sellers: Registration, TCS & Returns",
+    description:
+      "TCS obligations, mandatory registration regardless of turnover, GSTR-8 filing, and how Amazon, Flipkart, and Meesho deduct tax at source.",
+    readTime: "9 min read",
+    href: "#",
   },
   // Trademark & IP
   {
     id: 3,
-    category: 'Trademark & IP',
-    icon: '™️',
-    title: 'Trademark Registration in India: Classes, Fees & Timeline',
-    description: 'Choose the right Nice class, run a pre-filing clearance search, file Form TM-A, and understand what happens from filing to registration certificate.',
-    readTime: '14 min read',
-    href: '#',
+    category: "Trademark & IP",
+    icon: "™️",
+    title: "Trademark Registration in India: Classes, Fees & Timeline",
+    description:
+      "Choose the right Nice class, run a pre-filing clearance search, file Form TM-A, and understand what happens from filing to registration certificate.",
+    readTime: "14 min read",
+    href: "#",
   },
   {
     id: 11,
-    category: 'Trademark & IP',
-    icon: '📝',
-    title: 'How to File a Trademark Objection Reply in India',
-    description: 'Received an examination report? Learn how to understand grounds of objection, draft a compelling reply under Rule 45, and file within the 30-day window.',
-    readTime: '8 min read',
-    href: '#',
+    category: "Trademark & IP",
+    icon: "📝",
+    title: "How to File a Trademark Objection Reply in India",
+    description:
+      "Received an examination report? Learn how to understand grounds of objection, draft a compelling reply under Rule 45, and file within the 30-day window.",
+    readTime: "8 min read",
+    href: "#",
   },
   // Funding & Cap Table
   {
     id: 8,
-    category: 'Funding & Cap Table',
-    icon: '📈',
-    title: 'Angel Funding 101: Term Sheets, SAFE Notes & Legal Checklist',
-    description: 'Understand valuation caps, pro-rata rights, information rights, and the key legal documents every founder must review before signing with an angel investor.',
-    readTime: '13 min read',
-    href: '#',
+    category: "Funding & Cap Table",
+    icon: "📈",
+    title: "Angel Funding 101: Term Sheets, SAFE Notes & Legal Checklist",
+    description:
+      "Understand valuation caps, pro-rata rights, information rights, and the key legal documents every founder must review before signing with an angel investor.",
+    readTime: "13 min read",
+    href: "#",
   },
   {
     id: 9,
-    category: 'Funding & Cap Table',
-    icon: '💼',
-    title: 'ESOP for Startups: How to Set Up an Employee Stock Option Plan',
-    description: 'Draft an ESOP pool, set vesting schedules, handle the Companies Act requirements, and communicate the plan clearly to attract and retain top talent.',
-    readTime: '11 min read',
-    href: '#',
+    category: "Funding & Cap Table",
+    icon: "💼",
+    title: "ESOP for Startups: How to Set Up an Employee Stock Option Plan",
+    description:
+      "Draft an ESOP pool, set vesting schedules, handle the Companies Act requirements, and communicate the plan clearly to attract and retain top talent.",
+    readTime: "11 min read",
+    href: "#",
   },
   // MSME/Udyam
   {
     id: 5,
-    category: 'MSME/Udyam',
-    icon: '🏭',
-    title: 'MSME/Udyam Registration: Who Qualifies & How to Apply Free',
-    description: 'Check if your business meets the turnover and investment criteria, then complete your Udyam Registration online in under 30 minutes — completely free.',
-    readTime: '6 min read',
-    href: '#',
+    category: "MSME/Udyam",
+    icon: "🏭",
+    title: "MSME/Udyam Registration: Who Qualifies & How to Apply Free",
+    description:
+      "Check if your business meets the turnover and investment criteria, then complete your Udyam Registration online in under 30 minutes — completely free.",
+    readTime: "6 min read",
+    href: "#",
   },
 ];
 
 // ─── Category config ──────────────────────────────────────────────────────────
 
 const CATEGORIES = [
-  { id: 'All', label: 'All Guides', emoji: '📚' },
-  { id: 'Company Registration', label: 'Company Registration', emoji: '🏢' },
-  { id: 'GST', label: 'GST', emoji: '💰' },
-  { id: 'Trademark & IP', label: 'Trademark & IP', emoji: '™️' },
-  { id: 'Funding & Cap Table', label: 'Funding & Cap Table', emoji: '📈' },
-  { id: 'Employment & HR', label: 'Employment & HR', emoji: '👥' },
-  { id: 'MSME/Udyam', label: 'MSME/Udyam', emoji: '🏭' },
+  { id: "All", label: "All Guides", emoji: "📚" },
+  { id: "Company Registration", label: "Company Registration", emoji: "🏢" },
+  { id: "GST", label: "GST", emoji: "💰" },
+  { id: "Trademark & IP", label: "Trademark & IP", emoji: "™️" },
+  { id: "Funding & Cap Table", label: "Funding & Cap Table", emoji: "📈" },
+  { id: "Employment & HR", label: "Employment & HR", emoji: "👥" },
+  { id: "MSME/Udyam", label: "MSME/Udyam", emoji: "🏭" },
 ];
 
 // ─── Category accent colours ──────────────────────────────────────────────────
 
 const CATEGORY_GRADIENT: Record<string, string> = {
-  'Company Registration': 'from-[#1a1a2e] to-[#e94560]',
-  'GST':                  'from-[#093028] to-[#237a57]',
-  'Trademark & IP':       'from-[#0f3460] to-[#533483]',
-  'Funding & Cap Table':  'from-[#134e5e] to-[#71b280]',
-  'Employment & HR':      'from-[#2c3e50] to-[#3498db]',
-  'MSME/Udyam':           'from-[#f7971e] to-[#ffd200]',
+  "Company Registration": "from-[#1a1a2e] to-[#e94560]",
+  GST: "from-[#093028] to-[#237a57]",
+  "Trademark & IP": "from-[#0f3460] to-[#533483]",
+  "Funding & Cap Table": "from-[#134e5e] to-[#71b280]",
+  "Employment & HR": "from-[#2c3e50] to-[#3498db]",
+  "MSME/Udyam": "from-[#f7971e] to-[#ffd200]",
 };
 
 function cardGradient(cat: string) {
-  return CATEGORY_GRADIENT[cat] ?? 'from-[#1a1a2e] to-[#302b63]';
+  return CATEGORY_GRADIENT[cat] ?? "from-[#1a1a2e] to-[#302b63]";
 }
 
 // ─── Animation variants ───────────────────────────────────────────────────────
@@ -175,7 +187,7 @@ const cardVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] },
+    transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] as const },
   },
   exit: { opacity: 0, y: -12, transition: { duration: 0.2 } },
 };
@@ -185,7 +197,7 @@ const heroVariants = {
   visible: (delay: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, delay, ease: 'easeOut' },
+    transition: { duration: 0.6, delay, ease: "easeOut" as const },
   }),
 };
 
@@ -199,9 +211,7 @@ function GuideCardComponent({ guide }: { guide: GuideCard }) {
       className="group relative flex flex-col bg-white border border-[#e5e7eb] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-[#e94560]/40 transition-all duration-400 hover:-translate-y-1"
     >
       {/* Coloured top banner */}
-      <div
-        className={`h-[6px] w-full bg-gradient-to-r ${cardGradient(guide.category)} shrink-0`}
-      />
+      <div className={`h-[6px] w-full bg-gradient-to-r ${cardGradient(guide.category)} shrink-0`} />
 
       {/* Icon area */}
       <div className="px-5 pt-5 pb-0 flex items-center gap-3">
@@ -211,9 +221,7 @@ function GuideCardComponent({ guide }: { guide: GuideCard }) {
         >
           {guide.icon}
         </span>
-        <span className="text-[#e94560] text-[10px] font-bold uppercase tracking-widest">
-          {guide.category}
-        </span>
+        <span className="text-[#e94560] text-[10px] font-bold uppercase tracking-widest">{guide.category}</span>
       </div>
 
       {/* Body */}
@@ -222,9 +230,7 @@ function GuideCardComponent({ guide }: { guide: GuideCard }) {
           {guide.title}
         </h3>
 
-        <p className="text-[#6b7280] text-xs leading-relaxed mb-4 line-clamp-3 flex-1">
-          {guide.description}
-        </p>
+        <p className="text-[#6b7280] text-xs leading-relaxed mb-4 line-clamp-3 flex-1">{guide.description}</p>
 
         {/* Footer */}
         <div className="flex items-center justify-between mt-auto pt-3 border-t border-[#f3f4f6]">
@@ -252,14 +258,13 @@ function GuideCardComponent({ guide }: { guide: GuideCard }) {
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function GuidesPage() {
-  const [activeCategory, setActiveCategory] = useState('All');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
 
   // AND logic: both category tab + search must match
   const visibleGuides = useMemo(() => {
     return GUIDES.filter((g) => {
-      const matchesCategory =
-        activeCategory === 'All' || g.category === activeCategory;
+      const matchesCategory = activeCategory === "All" || g.category === activeCategory;
       const q = searchQuery.toLowerCase().trim();
       const matchesSearch =
         !q ||
@@ -270,11 +275,10 @@ export default function GuidesPage() {
     });
   }, [activeCategory, searchQuery]);
 
-  const clearSearch = () => setSearchQuery('');
+  const clearSearch = () => setSearchQuery("");
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <div className="relative overflow-hidden bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] flex items-center min-h-screen pt-24 md:pt-28 pb-12 px-5">
         {/* Decorative glows */}
@@ -305,7 +309,7 @@ export default function GuidesPage() {
             animate="visible"
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 tracking-tight"
           >
-            Free Legal &amp; Compliance Guides{' '}
+            Free Legal &amp; Compliance Guides{" "}
             <span className="bg-gradient-to-r from-[#f5a623] via-[#e94560] to-[#ff6b8a] bg-clip-text text-transparent">
               for Indian Founders
             </span>
@@ -319,7 +323,8 @@ export default function GuidesPage() {
             animate="visible"
             className="text-white/70 text-lg max-w-2xl mx-auto mb-10 leading-relaxed"
           >
-            Plain-language how-to guides on company registration, GST, trademark, ESOP, and more — written by Lawizer&apos;s legal team. No jargon. No paywalls.
+            Plain-language how-to guides on company registration, GST, trademark, ESOP, and more — written by
+            Lawizer&apos;s legal team. No jargon. No paywalls.
           </motion.p>
 
           {/* Search bar */}
@@ -371,9 +376,9 @@ export default function GuidesPage() {
             className="flex flex-wrap justify-center gap-8"
           >
             {[
-              { value: '12', label: 'Expert Guides' },
-              { value: '6', label: 'Categories' },
-              { value: '100%', label: 'Free Forever' },
+              { value: "12", label: "Expert Guides" },
+              { value: "6", label: "Categories" },
+              { value: "100%", label: "Free Forever" },
             ].map(({ value, label }) => (
               <div key={label} className="text-center">
                 <div className="text-2xl font-extrabold text-white">{value}</div>
@@ -389,10 +394,7 @@ export default function GuidesPage() {
         <div className="max-w-7xl mx-auto px-5 py-3">
           <div className="flex flex-wrap gap-2">
             {CATEGORIES.map((cat) => {
-              const count =
-                cat.id === 'All'
-                  ? GUIDES.length
-                  : GUIDES.filter((g) => g.category === cat.id).length;
+              const count = cat.id === "All" ? GUIDES.length : GUIDES.filter((g) => g.category === cat.id).length;
               const isActive = activeCategory === cat.id;
               // Categories with 0 guides (Employment & HR) are greyed out
               const isEmpty = count === 0;
@@ -404,19 +406,15 @@ export default function GuidesPage() {
                   disabled={isEmpty}
                   className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 border-2 ${
                     isActive
-                      ? 'bg-[#e94560] text-white border-[#e94560] shadow-md shadow-[#e94560]/20'
+                      ? "bg-[#e94560] text-white border-[#e94560] shadow-md shadow-[#e94560]/20"
                       : isEmpty
-                      ? 'bg-white text-[#c9cdd4] border-[#f3f4f6] cursor-not-allowed'
-                      : 'bg-white text-[#1a1a2e] border-[#e5e7eb] hover:border-[#e94560] hover:text-[#e94560] hover:scale-105'
+                        ? "bg-white text-[#c9cdd4] border-[#f3f4f6] cursor-not-allowed"
+                        : "bg-white text-[#1a1a2e] border-[#e5e7eb] hover:border-[#e94560] hover:text-[#e94560] hover:scale-105"
                   }`}
                 >
                   <span aria-hidden="true">{cat.emoji}</span>
                   <span>{cat.label}</span>
-                  <span
-                    className={`text-xs font-normal ${
-                      isActive ? 'text-white/75' : 'text-[#9ca3af]'
-                    }`}
-                  >
+                  <span className={`text-xs font-normal ${isActive ? "text-white/75" : "text-[#9ca3af]"}`}>
                     ({count})
                   </span>
                 </button>
@@ -451,15 +449,16 @@ export default function GuidesPage() {
               className="text-center py-24"
             >
               <div className="text-6xl mb-4">🔍</div>
-              <h2 className="text-2xl font-bold text-[#1a1a2e] mb-2">
-                No guides found
-              </h2>
+              <h2 className="text-2xl font-bold text-[#1a1a2e] mb-2">No guides found</h2>
               <p className="text-[#6b7280] mb-6">
                 No guides match &ldquo;{searchQuery}&rdquo;
-                {activeCategory !== 'All' ? ` in ${activeCategory}` : ''}.
+                {activeCategory !== "All" ? ` in ${activeCategory}` : ""}.
               </p>
               <button
-                onClick={() => { clearSearch(); setActiveCategory('All'); }}
+                onClick={() => {
+                  clearSearch();
+                  setActiveCategory("All");
+                }}
                 className="inline-flex items-center gap-2 bg-[#e94560] text-white rounded-full px-6 py-2.5 font-bold text-sm hover:bg-[#d63550] transition-colors"
               >
                 <X className="w-4 h-4" />
@@ -470,11 +469,11 @@ export default function GuidesPage() {
         </AnimatePresence>
 
         {/* Result count */}
-        {visibleGuides.length > 0 && (searchQuery || activeCategory !== 'All') && (
+        {visibleGuides.length > 0 && (searchQuery || activeCategory !== "All") && (
           <p className="text-center text-sm text-[#9ca3af] mt-6">
             Showing {visibleGuides.length} of {GUIDES.length} guides
-            {activeCategory !== 'All' ? ` in ${activeCategory}` : ''}
-            {searchQuery ? ` matching "${searchQuery}"` : ''}
+            {activeCategory !== "All" ? ` in ${activeCategory}` : ""}
+            {searchQuery ? ` matching "${searchQuery}"` : ""}
           </p>
         )}
       </section>
@@ -490,23 +489,22 @@ export default function GuidesPage() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.55, ease: 'easeOut' }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.55, ease: "easeOut" as const }}
           className="relative z-10 max-w-3xl mx-auto text-center"
         >
           <div className="inline-flex items-center gap-2 mb-4 px-3 py-1.5 rounded-full bg-[#e94560]/20 border border-[#e94560]/30">
-            <span className="text-[#e94560] text-xs font-bold uppercase tracking-widest">
-              Ready to take action?
-            </span>
+            <span className="text-[#e94560] text-xs font-bold uppercase tracking-widest">Ready to take action?</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3 leading-tight">
-            Need help doing this?{' '}
+            Need help doing this?{" "}
             <span className="bg-gradient-to-r from-[#f5a623] to-[#e94560] bg-clip-text text-transparent">
               Lawizer handles it end-to-end.
             </span>
           </h2>
           <p className="text-white/65 text-base mb-8 max-w-xl mx-auto">
-            Stop wrestling with portals and paperwork. Our legal experts handle your registration, filings, and compliance — at fixed, transparent fees.
+            Stop wrestling with portals and paperwork. Our legal experts handle your registration, filings, and
+            compliance — at fixed, transparent fees.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <a

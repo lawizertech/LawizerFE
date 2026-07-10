@@ -10,10 +10,7 @@ interface ForgotPasswordModalProps {
   onBackToLogin?: () => void;
 }
 
-export function ForgotPasswordModal({
-  onClose,
-  onBackToLogin,
-}: ForgotPasswordModalProps) {
+export function ForgotPasswordModal({ onClose, onBackToLogin }: ForgotPasswordModalProps) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -26,12 +23,10 @@ export function ForgotPasswordModal({
 
     try {
       await sendPasswordResetEmail(auth, email);
-      
+
       setSuccess(true);
     } catch (err: any) {
-      setError(
-        err?.message || "Failed to send password reset email. Try again."
-      );
+      setError(err?.message || "Failed to send password reset email. Try again.");
     } finally {
       setLoading(false);
     }
@@ -41,19 +36,14 @@ export function ForgotPasswordModal({
     <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 relative">
         {/* Close */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-700"
-        >
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-700">
           <X className="w-6 h-6" />
         </button>
 
         {/* Title */}
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-gray-900">Reset Password</h2>
-          <p className="text-sm text-gray-500 mt-1">
-            Enter your registered email address
-          </p>
+          <p className="text-sm text-gray-500 mt-1">Enter your registered email address</p>
         </div>
 
         {/* Success */}
@@ -64,18 +54,12 @@ export function ForgotPasswordModal({
         ) : (
           <>
             {/* Error */}
-            {error && (
-              <div className="p-3 mb-4 text-sm text-red-800 bg-red-100 rounded-lg">
-                {error}
-              </div>
-            )}
+            {error && <div className="p-3 mb-4 text-sm text-red-800 bg-red-100 rounded-lg">{error}</div>}
 
             {/* Form */}
             <form onSubmit={handleReset} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Email*
-                </label>
+                <label className="block text-sm font-medium text-gray-700">Email*</label>
                 <div className="mt-1 relative">
                   <Mail className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
                   <input
@@ -103,10 +87,7 @@ export function ForgotPasswordModal({
 
         {/* Back to login */}
         <div className="mt-6 text-center">
-          <button
-            onClick={onBackToLogin}
-            className="text-sm text-indigo-600 hover:text-indigo-500 font-medium"
-          >
+          <button onClick={onBackToLogin} className="text-sm text-indigo-600 hover:text-indigo-500 font-medium">
             Back to Sign In
           </button>
         </div>

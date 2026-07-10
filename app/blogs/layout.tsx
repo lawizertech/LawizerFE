@@ -12,9 +12,7 @@ export default function BlogsLayout({ children }: { children: ReactNode }) {
       {/* Footer CTA */}
       <footer className="mt-20 border-t bg-card">
         <div className="max-w-7xl mx-auto px-4 py-10 text-center">
-          <h3 className="text-2xl font-semibold mb-2">
-            Start your business the right way
-          </h3>
+          <h3 className="text-2xl font-semibold mb-2">Start your business the right way</h3>
           <p className="text-muted-foreground mb-4">
             From company incorporation to compliance — Lawizer has you covered.
           </p>

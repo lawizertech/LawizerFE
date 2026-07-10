@@ -6,10 +6,7 @@ interface MobileMenuButtonProps {
   setMenuOpen: (open: boolean) => void;
 }
 
-export default function MobileMenuButton({
-  menuOpen,
-  setMenuOpen,
-}: MobileMenuButtonProps) {
+export default function MobileMenuButton({ menuOpen, setMenuOpen }: MobileMenuButtonProps) {
   return (
     <button
       className="lg:hidden fixed top-4 left-4 z-50 bg-white p-2 rounded-md shadow"

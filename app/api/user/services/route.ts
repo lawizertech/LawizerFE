@@ -7,10 +7,7 @@ export async function GET(req: Request) {
     const authHeader = req.headers.get("authorization");
 
     if (!authHeader) {
-      return NextResponse.json(
-        { success: false, message: "Authorization token missing" },
-        { status: 401 },
-      );
+      return NextResponse.json({ success: false, message: "Authorization token missing" }, { status: 401 });
     }
 
     const backendRes = await fetch(`${BASE}/user/services`, {
@@ -40,9 +37,6 @@ export async function GET(req: Request) {
     });
   } catch (err) {
     console.error("/api/user/services error:", err);
-    return NextResponse.json(
-      { success: false, message: "Internal server error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
   }
 }

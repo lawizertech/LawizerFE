@@ -4,7 +4,6 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Search, X } from "lucide-react";
 
-
 function getExcerpt(html?: string, maxLength = 160) {
   if (!html) return "";
   const text = html.replace(/<[^>]*>?/gm, "").trim();
@@ -20,11 +19,7 @@ function formatDate(dateString?: string) {
   });
 }
 
-export default function BlogLayout({
-  postsByCategory,
-}: {
-  postsByCategory: Record<string, any[]>;
-}) {
+export default function BlogLayout({ postsByCategory }: { postsByCategory: Record<string, any[]> }) {
   const categories = Object.keys(postsByCategory);
   const [activeCategory, setActiveCategory] = useState("__all__");
   const [searchQuery, setSearchQuery] = useState("");
@@ -43,10 +38,7 @@ export default function BlogLayout({
 
   // ── 2. activePosts depends on allPosts ────────────────────────────────────
   const activePosts = useMemo(
-    () =>
-      activeCategory === "__all__"
-        ? allPosts
-        : (postsByCategory[activeCategory] ?? []),
+    () => (activeCategory === "__all__" ? allPosts : (postsByCategory[activeCategory] ?? [])),
     [activeCategory, allPosts, postsByCategory],
   );
 
@@ -55,16 +47,13 @@ export default function BlogLayout({
     if (!searchQuery.trim()) return [];
     const q = searchQuery.toLowerCase();
     return allPosts.filter(
-      (post) =>
-        post.title?.toLowerCase().includes(q) ||
-        getExcerpt(post.excerpt).toLowerCase().includes(q),
+      (post) => post.title?.toLowerCase().includes(q) || getExcerpt(post.excerpt).toLowerCase().includes(q),
     );
   }, [searchQuery, allPosts]);
 
   const isSearching = searchQuery.trim().length > 0;
 
-  const activeLabel =
-    activeCategory === "__all__" ? "All Posts" : activeCategory;
+  const activeLabel = activeCategory === "__all__" ? "All Posts" : activeCategory;
 
   return (
     <div>
@@ -73,18 +62,14 @@ export default function BlogLayout({
         <div
           className="absolute inset-0 opacity-20"
           style={{
-            backgroundImage:
-              "radial-gradient(circle, currentColor 1px, transparent 1px)",
+            backgroundImage: "radial-gradient(circle, currentColor 1px, transparent 1px)",
             backgroundSize: "28px 28px",
           }}
         />
         <div className="relative w-full mx-auto px-4 py-16 text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-primary-foreground mb-3">
-            Legal Insights &amp; Guides
-          </h1>
+          <h1 className="text-4xl sm:text-5xl font-bold text-primary-foreground mb-3">Legal Insights &amp; Guides</h1>
           <p className="text-primary-foreground/80 mb-8 text-lg">
-            Expert resources on incorporation, compliance, and business law —
-            all in one place.
+            Expert resources on incorporation, compliance, and business law — all in one place.
           </p>
 
           {/* Search Bar */}
@@ -172,15 +157,10 @@ export default function BlogLayout({
               return (
                 <div className="flex flex-col items-center gap-2.5">
                   {renderable.map((row, rowIdx) => (
-                    <div
-                      key={rowIdx}
-                      className="flex justify-center gap-2 flex-wrap"
-                    >
+                    <div key={rowIdx} className="flex justify-center gap-2 flex-wrap">
                       {row.map((item) => {
                         const isActive = activeCategory === item.key;
-                        const count = item.isAll
-                          ? allPosts.length
-                          : (postsByCategory[item.key]?.length ?? 0);
+                        const count = item.isAll ? allPosts.length : (postsByCategory[item.key]?.length ?? 0);
 
                         return (
                           <button
@@ -195,11 +175,7 @@ export default function BlogLayout({
                             }`}
                           >
                             {item.label}
-                            <span
-                              className={`ml-1.5 text-xs ${
-                                isActive ? "opacity-80" : "opacity-50"
-                              }`}
-                            >
+                            <span className={`ml-1.5 text-xs ${isActive ? "opacity-80" : "opacity-50"}`}>
                               ({count})
                             </span>
                           </button>
@@ -234,9 +210,7 @@ export default function BlogLayout({
               <div className="rounded-xl border bg-card p-10 text-center text-muted-foreground">
                 <Search size={36} className="mx-auto mb-3 opacity-30" />
                 <p className="text-lg font-medium">No posts found</p>
-                <p className="text-sm mt-1">
-                  Try a different keyword or browse categories.
-                </p>
+                <p className="text-sm mt-1">Try a different keyword or browse categories.</p>
                 <button
                   onClick={() => setSearchQuery("")}
                   className="mt-4 text-sm text-primary font-medium hover:underline"
@@ -280,12 +254,8 @@ function PostGrid({ posts }: { posts: any[] }) {
 // ── Individual post card ──────────────────────────────────────────────────────
 function PostCard({ post }: { post: any }) {
   console.log("Rendering post:", post); // Debug log to check post data
-  const thumb =
-    post.featuredImage?.node?.sourceUrl ||
-    post.featuredImage?.sourceUrl ||
-    null;
-  const categoryName =
-    post.categories?.nodes?.[0]?.name ?? post._category ?? "";
+  const thumb = post.featuredImage?.node?.sourceUrl || post.featuredImage?.sourceUrl || null;
+  const categoryName = post.categories?.nodes?.[0]?.name ?? post._category ?? "";
 
   return (
     <article className="group flex flex-col">
@@ -301,12 +271,7 @@ function PostCard({ post }: { post: any }) {
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-primary/5">
-              <svg
-                className="w-12 h-12 text-primary/20"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
+              <svg className="w-12 h-12 text-primary/20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -333,9 +298,7 @@ function PostCard({ post }: { post: any }) {
         )}
 
         {/* Excerpt */}
-        <p className="text-sm text-muted-foreground line-clamp-3">
-          {getExcerpt(post.excerpt)}
-        </p>
+        <p className="text-sm text-muted-foreground line-clamp-3">{getExcerpt(post.excerpt)}</p>
       </Link>
     </article>
   );

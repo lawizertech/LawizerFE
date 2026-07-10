@@ -21,10 +21,7 @@ export default function VoiceCallModal({
   const [callStatus, setCallStatus] = useState("Initializing...");
 
   useEffect(() => {
-    let unsubStatus: any,
-      unsubOffer: any,
-      unsubAnswer: any,
-      unsubCandidates: any;
+    let unsubStatus: any, unsubOffer: any, unsubAnswer: any, unsubCandidates: any;
 
     const start = async () => {
       try {
@@ -40,91 +37,69 @@ export default function VoiceCallModal({
               if (audioRef.current.srcObject !== remoteStream) {
                 audioRef.current.srcObject = remoteStream;
                 audioRef.current.play().catch((err) => {
-                  if (err.name !== "AbortError")
-                    console.error("Play error:", err);
+                  if (err.name !== "AbortError") console.error("Play error:", err);
                 });
               }
             }
           },
           (candidate) => {
-            push(
-              ref(rtdb, `calls/${bookingId}/${role}Candidates`),
-              candidate.toJSON()
-            );
-          }
+            push(ref(rtdb, `calls/${bookingId}/${role}Candidates`), candidate.toJSON());
+          },
         );
 
         pcRef.current = pc;
-        localStream
-          .getTracks()
-          .forEach((track) => pc.addTrack(track, localStream));
+        localStream.getTracks().forEach((track) => pc.addTrack(track, localStream));
 
         // --- NEGOTIATION LOGIC ---
         if (role === "lawyer") {
-          unsubStatus = onValue(
-            ref(rtdb, `calls/${bookingId}/status`),
-            async (snap) => {
-              if (snap.val() === "active" && pc.signalingState === "stable") {
-                const offer = await pc.createOffer();
-                await pc.setLocalDescription(offer);
-                await set(ref(rtdb, `calls/${bookingId}/offer`), {
-                  type: offer.type,
-                  sdp: offer.sdp,
-                });
-                setCallStatus("Calling...");
-              }
+          unsubStatus = onValue(ref(rtdb, `calls/${bookingId}/status`), async (snap) => {
+            if (snap.val() === "active" && pc.signalingState === "stable") {
+              const offer = await pc.createOffer();
+              await pc.setLocalDescription(offer);
+              await set(ref(rtdb, `calls/${bookingId}/offer`), {
+                type: offer.type,
+                sdp: offer.sdp,
+              });
+              setCallStatus("Calling...");
             }
-          );
+          });
 
-          unsubAnswer = onValue(
-            ref(rtdb, `calls/${bookingId}/answer`),
-            async (snap) => {
-              if (snap.exists() && pc.signalingState === "have-local-offer") {
-                await pc.setRemoteDescription(
-                  new RTCSessionDescription(snap.val())
-                );
-                setCallStatus("Connected");
-              }
+          unsubAnswer = onValue(ref(rtdb, `calls/${bookingId}/answer`), async (snap) => {
+            if (snap.exists() && pc.signalingState === "have-local-offer") {
+              await pc.setRemoteDescription(new RTCSessionDescription(snap.val()));
+              setCallStatus("Connected");
             }
-          );
+          });
         } else {
-          unsubOffer = onValue(
-            ref(rtdb, `calls/${bookingId}/offer`),
-            async (snap) => {
-              if (snap.exists() && pc.signalingState === "stable") {
-                await pc.setRemoteDescription(
-                  new RTCSessionDescription(snap.val())
-                );
-                const answer = await pc.createAnswer();
-                await pc.setLocalDescription(answer);
-                await set(ref(rtdb, `calls/${bookingId}/answer`), {
-                  type: answer.type,
-                  sdp: answer.sdp,
-                });
-                setCallStatus("Connected");
-              }
+          unsubOffer = onValue(ref(rtdb, `calls/${bookingId}/offer`), async (snap) => {
+            if (snap.exists() && pc.signalingState === "stable") {
+              await pc.setRemoteDescription(new RTCSessionDescription(snap.val()));
+              const answer = await pc.createAnswer();
+              await pc.setLocalDescription(answer);
+              await set(ref(rtdb, `calls/${bookingId}/answer`), {
+                type: answer.type,
+                sdp: answer.sdp,
+              });
+              setCallStatus("Connected");
             }
-          );
+          });
         }
 
         // --- ICE CANDIDATE BUFFERING ---
         const remoteRole = role === "lawyer" ? "client" : "lawyer";
-        unsubCandidates = onChildAdded(
-          ref(rtdb, `calls/${bookingId}/${remoteRole}Candidates`),
-          async (snap) => {
-            const candidateData = snap.val();
-            const retryAdd = async () => {
-              if (pc.remoteDescription && pc.remoteDescription.type) {
-                try {
-                  await pc.addIceCandidate(new RTCIceCandidate(candidateData));
-                } catch (e) {}
-              } else {
-                setTimeout(retryAdd, 500);
-              }
-            };
-            retryAdd();
-          }
-        );
+        unsubCandidates = onChildAdded(ref(rtdb, `calls/${bookingId}/${remoteRole}Candidates`), async (snap) => {
+          const candidateData = snap.val();
+          const retryAdd = async () => {
+            if (pc.remoteDescription && pc.remoteDescription.type) {
+              try {
+                await pc.addIceCandidate(new RTCIceCandidate(candidateData));
+              } catch (e) {}
+            } else {
+              setTimeout(retryAdd, 500);
+            }
+          };
+          retryAdd();
+        });
       } catch (err) {
         setCallStatus("Mic Access Denied");
       }
@@ -147,13 +122,7 @@ export default function VoiceCallModal({
 
       <div className="bg-white p-8 rounded-2xl max-w-sm w-full text-center shadow-xl">
         <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-          <svg
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-8 h-8"
-          >
+          <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"

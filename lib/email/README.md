@@ -111,7 +111,7 @@ app/api/user/
 
 ```typescript
 // 1. User requests callback
-POST /api/user/request-call
+POST / api / user / request - call;
 
 // 2. Backend processes callback request
 // 3. API retrieves user profile
@@ -136,6 +136,7 @@ await sendEmail({
 **File**: `lib/email/templates.ts`
 
 Sent when user requests a callback. Includes:
+
 - Request confirmation
 - What happens next
 - Expected timeline
@@ -152,21 +153,24 @@ Template for when callback is officially scheduled with a specific expert and ti
 Sends an email with specified content.
 
 **Parameters**:
+
 ```typescript
 interface SendEmailOptions {
-  to: string;           // Recipient email
-  subject: string;      // Email subject
-  html: string;         // HTML content
-  from?: string;        // Sender email (optional)
+  to: string; // Recipient email
+  subject: string; // Email subject
+  html: string; // HTML content
+  from?: string; // Sender email (optional)
 }
 ```
 
 **Returns**:
+
 ```typescript
 { success: true, messageId: string }
 ```
 
 **Example**:
+
 ```typescript
 import { sendEmail } from "@/lib/email/mailer";
 import { callbackRequestEmailTemplate } from "@/lib/email/templates";
@@ -186,11 +190,13 @@ await sendEmail({
 Tests the email configuration without sending an email.
 
 **Returns**:
+
 ```typescript
 { success: true, message: "Email configuration is valid" }
 ```
 
 **Example**:
+
 ```typescript
 import { verifyEmailConfig } from "@/lib/email/mailer";
 
@@ -238,6 +244,7 @@ await sendEmail({
 ### 3. Check Logs
 
 Email sending is logged in the server console:
+
 ```
 Email sent: <message-id>
 ```
@@ -247,6 +254,7 @@ Email sent: <message-id>
 ### Email Not Sending
 
 **Error: "Email configuration missing"**
+
 - Check `.env.local` file exists
 - Verify all required variables are set:
   - `EMAIL_HOST`
@@ -255,11 +263,13 @@ Email sent: <message-id>
   - `EMAIL_PASS`
 
 **Error: "Invalid login credentials"**
+
 - Verify email and password are correct
 - For Gmail: Use App Password, not regular password
 - For SendGrid: Make sure API key is correct
 
 **Error: "Network error"**
+
 - Check EMAIL_PORT is correct (usually 587 for TLS)
 - Verify firewall allows SMTP connections
 - Test with `verifyEmailConfig()`
@@ -275,10 +285,7 @@ Email sent: <message-id>
 To customize email templates, edit `lib/email/templates.ts`:
 
 ```typescript
-export const callbackRequestEmailTemplate = (
-  userName: string,
-  userEmail: string
-) => {
+export const callbackRequestEmailTemplate = (userName: string, userEmail: string) => {
   // Modify the HTML here
   return `<html>...</html>`;
 };
@@ -313,6 +320,7 @@ export const callbackRequestEmailTemplate = (
 ## Support
 
 For issues or questions:
+
 - Check the logs in server console
 - Review `.env.local` configuration
 - Test with `verifyEmailConfig()`

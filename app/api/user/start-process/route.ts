@@ -36,10 +36,7 @@ export async function POST(req: Request) {
     const authHeader = req.headers.get("authorization");
 
     if (!authHeader) {
-      return NextResponse.json(
-        { success: false, message: "Authorization token missing" },
-        { status: 401 },
-      );
+      return NextResponse.json({ success: false, message: "Authorization token missing" }, { status: 401 });
     }
 
     // Parse request body
@@ -47,12 +44,8 @@ export async function POST(req: Request) {
 
     // Validate required fields
     if (!body.serviceCode) {
-      return NextResponse.json(
-        { success: false, message: "Service code is required" },
-        { status: 400 },
-      );
+      return NextResponse.json({ success: false, message: "Service code is required" }, { status: 400 });
     }
-
 
     if (body.clientDetails) {
       const { fullName, email, phone } = body.clientDetails;
@@ -101,9 +94,6 @@ export async function POST(req: Request) {
     });
   } catch (err) {
     console.error("/api/user/start-process error:", err);
-    return NextResponse.json(
-      { success: false, message: "Internal server error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
   }
 }

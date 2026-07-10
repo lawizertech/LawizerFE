@@ -24,9 +24,7 @@ export default function ChatsPage() {
   const [loading, setLoading] = useState(true);
 
   const [showChat, setShowChat] = useState(false);
-  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(
-    null
-  );
+  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(null);
 
   useEffect(() => {
     const loadChats = async () => {
@@ -57,9 +55,7 @@ export default function ChatsPage() {
           };
         });
 
-        const chatResults = (await Promise.all(chatPromises)).filter(
-          Boolean
-        ) as Chat[];
+        const chatResults = (await Promise.all(chatPromises)).filter(Boolean) as Chat[];
 
         /* 3️⃣ Sort by latest activity */
         chatResults.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
@@ -104,9 +100,7 @@ export default function ChatsPage() {
 
               <div className="min-w-0">
                 <p className="font-medium text-gray-800">{chat.expertName}</p>
-                <p className="text-sm text-gray-500 truncate">
-                  {chat.lastMessage || "Open chat"}
-                </p>
+                <p className="text-sm text-gray-500 truncate">{chat.lastMessage || "Open chat"}</p>
               </div>
             </div>
           </div>

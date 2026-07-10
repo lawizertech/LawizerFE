@@ -4,15 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import {
-  Phone,
-  Mail,
-  MapPin,
-  Send,
-  AlertCircle,
-  CheckCircle2,
-  Clock,
-} from "lucide-react";
+import { Phone, Mail, MapPin, Send, AlertCircle, CheckCircle2, Clock } from "lucide-react";
 
 export default function ContactPage() {
   const searchParams = useSearchParams();
@@ -42,11 +34,7 @@ export default function ContactPage() {
     { value: "challan", label: "Challan Issues" },
   ];
 
-  const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -108,12 +96,9 @@ export default function ContactPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-            Get In Touch With Us
-          </h1>
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Get In Touch With Us</h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Have a legal inquiry? Need expert guidance? Our team is here to help
-            you. Reach out using any method below.
+            Have a legal inquiry? Need expert guidance? Our team is here to help you. Reach out using any method below.
           </p>
         </motion.div>
 
@@ -134,10 +119,7 @@ export default function ContactPage() {
                 <h3 className="text-xl font-semibold text-gray-900">Phone</h3>
               </div>
               <p className="text-gray-600 mb-3">Call us 24/7 for urgent matters</p>
-              <a
-                href="tel:+919062815535"
-                className="text-blue-600 font-bold text-lg hover:text-blue-700"
-              >
+              <a href="tel:+919062815535" className="text-blue-600 font-bold text-lg hover:text-blue-700">
                 +91 90628 15535
               </a>
             </div>
@@ -151,10 +133,7 @@ export default function ContactPage() {
                 <h3 className="text-xl font-semibold text-gray-900">Email</h3>
               </div>
               <p className="text-gray-600 mb-3">We'll reply within 24 hours</p>
-              <a
-                href="mailto:admin@lawizer.com"
-                className="text-red-600 font-bold text-lg hover:text-red-700"
-              >
+              <a href="mailto:admin@lawizer.com" className="text-red-600 font-bold text-lg hover:text-red-700">
                 admin@lawizer.com
               </a>
             </div>
@@ -186,9 +165,7 @@ export default function ContactPage() {
             className="lg:col-span-2"
           >
             <div className="bg-white rounded-lg shadow-xl p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Send Us Your Inquiry
-              </h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Send Us Your Inquiry</h2>
 
               {/* Success Message */}
               {success && (
@@ -199,12 +176,9 @@ export default function ContactPage() {
                 >
                   <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-semibold text-green-900">
-                      Inquiry Submitted Successfully!
-                    </p>
+                    <p className="font-semibold text-green-900">Inquiry Submitted Successfully!</p>
                     <p className="text-sm text-green-700 mt-1">
-                      We've sent a confirmation email to your inbox. Our team will
-                      get back to you within 24 hours.
+                      We've sent a confirmation email to your inbox. Our team will get back to you within 24 hours.
                     </p>
                   </div>
                 </motion.div>
@@ -312,9 +286,7 @@ export default function ContactPage() {
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition resize-none"
                   />
-                  <p className="text-xs text-gray-500 mt-2">
-                    Minimum 20 characters recommended
-                  </p>
+                  <p className="text-xs text-gray-500 mt-2">Minimum 20 characters recommended</p>
                 </div>
 
                 {/* Submit Button */}
@@ -341,10 +313,7 @@ export default function ContactPage() {
                   <Clock className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
                   <div className="text-sm text-blue-700">
                     <p className="font-semibold">Response Time</p>
-                    <p>
-                      We typically respond to all inquiries within 24-48 hours
-                      during business days.
-                    </p>
+                    <p>We typically respond to all inquiries within 24-48 hours during business days.</p>
                   </div>
                 </div>
               </form>
@@ -359,20 +328,12 @@ export default function ContactPage() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="bg-gradient-to-r from-red-50 to-orange-50 rounded-lg p-8 text-center border border-red-100"
         >
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">
-            Quick Links
-          </h3>
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">Quick Links</h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Link
-              href="/faqs"
-              className="text-red-600 hover:text-red-700 font-semibold transition hover:underline"
-            >
+            <Link href="/faqs" className="text-red-600 hover:text-red-700 font-semibold transition hover:underline">
               📚 Frequently Asked Questions
             </Link>
-            <Link
-              href="/blogs"
-              className="text-red-600 hover:text-red-700 font-semibold transition hover:underline"
-            >
+            <Link href="/blogs" className="text-red-600 hover:text-red-700 font-semibold transition hover:underline">
               📝 Legal Blog & Guides
             </Link>
             <Link

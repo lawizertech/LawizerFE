@@ -12,13 +12,7 @@ interface ProcessModalProps {
   message?: string;
 }
 
-export default function ProcessResultModal({
-  isOpen,
-  onClose,
-  type,
-  processCode,
-  message,
-}: ProcessModalProps) {
+export default function ProcessResultModal({ isOpen, onClose, type, processCode, message }: ProcessModalProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopyProcessCode = () => {
@@ -72,10 +66,7 @@ export default function ProcessResultModal({
                   }}
                   className="mx-auto w-20 h-20 mb-6 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center"
                 >
-                  <CheckCircle
-                    className="w-12 h-12 text-white"
-                    strokeWidth={2.5}
-                  />
+                  <CheckCircle className="w-12 h-12 text-white" strokeWidth={2.5} />
                 </motion.div>
 
                 {/* Title */}
@@ -95,8 +86,7 @@ export default function ProcessResultModal({
                   transition={{ delay: 0.4 }}
                   className="text-slate-600 mb-6"
                 >
-                  Your service has been requested successfully. We will get back
-                  to you within 24 hours.
+                  Your service has been requested successfully. We will get back to you within 24 hours.
                 </motion.p>
 
                 {/* Process Code */}
@@ -107,13 +97,9 @@ export default function ProcessResultModal({
                     transition={{ delay: 0.5 }}
                     className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-5 mb-6 border border-slate-200"
                   >
-                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
-                      Process Code
-                    </p>
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Process Code</p>
                     <div className="flex items-center justify-between gap-3">
-                      <code className="text-lg font-mono font-bold text-slate-900 tracking-tight">
-                        {processCode}
-                      </code>
+                      <code className="text-lg font-mono font-bold text-slate-900 tracking-tight">{processCode}</code>
                       <button
                         onClick={handleCopyProcessCode}
                         className="flex items-center gap-2 px-3 py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg transition text-sm font-medium text-slate-700"
@@ -142,8 +128,7 @@ export default function ProcessResultModal({
                   className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6"
                 >
                   <p className="text-sm text-blue-800">
-                    📧 A confirmation email has been sent to your registered
-                    email address.
+                    📧 A confirmation email has been sent to your registered email address.
                   </p>
                 </motion.div>
 
@@ -192,8 +177,7 @@ export default function ProcessResultModal({
                   transition={{ delay: 0.4 }}
                   className="text-slate-600 mb-6"
                 >
-                  {message ||
-                    "Unable to submit your request. Please try again or contact support."}
+                  {message || "Unable to submit your request. Please try again or contact support."}
                 </motion.p>
 
                 {/* Support Info */}
@@ -203,15 +187,10 @@ export default function ProcessResultModal({
                   transition={{ delay: 0.5 }}
                   className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-6"
                 >
-                  <p className="text-sm text-slate-700 mb-2 font-medium">
-                    Need Help?
-                  </p>
+                  <p className="text-sm text-slate-700 mb-2 font-medium">Need Help?</p>
                   <p className="text-sm text-slate-600">
                     Contact our support team at{" "}
-                    <a
-                      href="mailto:support@example.com"
-                      className="text-blue-600 hover:underline font-medium"
-                    >
+                    <a href="mailto:support@example.com" className="text-blue-600 hover:underline font-medium">
                       support@example.com
                     </a>
                   </p>

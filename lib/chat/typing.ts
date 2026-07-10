@@ -2,11 +2,7 @@ import { ref, set, onValue } from "firebase/database";
 import { useEffect, useState } from "react";
 import { rtdb } from "../firebaseClient";
 
-export function setTyping(
-  bookingId: string,
-  role: "expert" | "client",
-  value: boolean
-) {
+export function setTyping(bookingId: string, role: "expert" | "client", value: boolean) {
   return set(ref(rtdb, `chatRooms/${bookingId}/typing/${role}`), value);
 }
 

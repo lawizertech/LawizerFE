@@ -2,13 +2,7 @@
 import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import {
-  Gavel,
-  ArrowRight,
-  Briefcase,
-  Lock,
-  MessageCircle,
-} from "lucide-react";
+import { Gavel, ArrowRight, Briefcase, Lock, MessageCircle } from "lucide-react";
 
 export default function CivilCriminalLegalPage() {
   const router = useRouter();
@@ -18,8 +12,7 @@ export default function CivilCriminalLegalPage() {
   const [activeTab, setActiveTab] = useState<"civil" | "criminal">("civil");
 
   const contactFormRef = useRef<HTMLDivElement | null>(null);
-  const scrollToForm = () =>
-    contactFormRef.current?.scrollIntoView({ behavior: "smooth" });
+  const scrollToForm = () => contactFormRef.current?.scrollIntoView({ behavior: "smooth" });
 
   const civilContent = {
     heading: "Civil & Commercial Litigation",
@@ -53,8 +46,7 @@ export default function CivilCriminalLegalPage() {
   };
 
   const ServiceSection = ({ content, icon, router }: ServiceSectionProps) => {
-    const handleSeeAdvocates = () =>
-      router.push(`/start-consultation?type=${content.query}`);
+    const handleSeeAdvocates = () => router.push(`/start-consultation?type=${content.query}`);
     return (
       <motion.section
         key={content.heading}
@@ -65,25 +57,17 @@ export default function CivilCriminalLegalPage() {
         className="mb-8"
       >
         <div className="flex items-center gap-4 mb-6">
-          <div
-            className="p-3 rounded-full"
-            style={{ backgroundColor: `${primaryAccent}20` }}
-          >
+          <div className="p-3 rounded-full" style={{ backgroundColor: `${primaryAccent}20` }}>
             {icon}
           </div>
-          <h2
-            className="text-2xl md:text-3xl font-bold"
-            style={{ color: secondaryColor }}
-          >
+          <h2 className="text-2xl md:text-3xl font-bold" style={{ color: secondaryColor }}>
             {content.heading}
           </h2>
         </div>
 
         <div className="space-y-4 text-gray-700 leading-relaxed text-base md:text-lg">
           <p>{content.introduction}</p>
-          <p className="mt-4 pt-4 border-t border-gray-100">
-            {content.services}
-          </p>
+          <p className="mt-4 pt-4 border-t border-gray-100">{content.services}</p>
         </div>
 
         <motion.button
@@ -159,12 +143,7 @@ export default function CivilCriminalLegalPage() {
           {activeTab === "civil" && (
             <ServiceSection
               content={civilContent}
-              icon={
-                <Briefcase
-                  className="w-6 h-6"
-                  style={{ color: primaryAccent }}
-                />
-              }
+              icon={<Briefcase className="w-6 h-6" style={{ color: primaryAccent }} />}
               router={router}
             />
           )}
@@ -172,9 +151,7 @@ export default function CivilCriminalLegalPage() {
           {activeTab === "criminal" && (
             <ServiceSection
               content={criminalContent}
-              icon={
-                <Lock className="w-6 h-6" style={{ color: primaryAccent }} />
-              }
+              icon={<Lock className="w-6 h-6" style={{ color: primaryAccent }} />}
               router={router}
             />
           )}

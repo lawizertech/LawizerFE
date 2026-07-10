@@ -68,7 +68,8 @@ export type IconName = keyof typeof ICON_MAP;
 
 export interface BenefitItem {
   icon: IconName;
-  text: string;
+  text?: string;
+  description?: string;
 }
 
 export interface FAQItem {
@@ -123,8 +124,7 @@ function AlertIcon({ type }: { type: AlertType }) {
   const cls = "w-5 h-5 mt-0.5 shrink-0";
   if (type === "info") return <FileText className={`${cls} text-blue-600`} />;
   if (type === "warning") return <Clock className={`${cls} text-yellow-600`} />;
-  if (type === "success")
-    return <CheckCircle2 className={`${cls} text-green-600`} />;
+  if (type === "success") return <CheckCircle2 className={`${cls} text-green-600`} />;
   return <FileWarning className={`${cls} text-red-600`} />;
 }
 
@@ -194,8 +194,7 @@ export default function ServicePageLayout({
     };
 
     const email = localStorage.getItem("email") || userData?.email || "";
-    const name =
-      userData?.displayName || userData?.name || userData?.fullName || "";
+    const name = userData?.displayName || userData?.name || userData?.fullName || "";
     const phone = extractPhone();
 
     setIsSubmitting(true);
@@ -223,17 +222,13 @@ export default function ServicePageLayout({
         setShowResultModal(true);
       } else {
         setModalType("error");
-        setErrorMessage(
-          data.message || "Unable to submit request. Please try again."
-        );
+        setErrorMessage(data.message || "Unable to submit request. Please try again.");
         setShowResultModal(true);
       }
     } catch (error) {
       console.error("Error starting process:", error);
       setModalType("error");
-      setErrorMessage(
-        "Unable to connect to the server. Please check your internet connection."
-      );
+      setErrorMessage("Unable to connect to the server. Please check your internet connection.");
       setShowResultModal(true);
     } finally {
       setIsSubmitting(false);
@@ -242,7 +237,6 @@ export default function ServicePageLayout({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50/30 to-slate-100">
-
       {/* ================= HERO — hidden when hideHero=true ================= */}
       {!hideHero && (
         <section className="relative min-h-[60vh] flex items-center justify-center bg-slate-900 text-center overflow-hidden">
@@ -278,11 +272,7 @@ export default function ServicePageLayout({
               {contentTitle}
             </h2>
 
-            {contentDescription && (
-              <p className="text-slate-700 text-sm mb-8 max-w-2xl">
-                {contentDescription}
-              </p>
-            )}
+            {contentDescription && <p className="text-slate-700 text-sm mb-8 max-w-2xl">{contentDescription}</p>}
 
             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
               <Shield className={primaryColor} />
@@ -290,15 +280,18 @@ export default function ServicePageLayout({
             </h3>
 
             <div className="grid sm:grid-cols-2 gap-4 mb-12">
-              {benefits.map((b) => {
-                const Icon = ICON_MAP[b.icon];
+              {benefits.map((b, i) => {
+                const Icon = ICON_MAP[b.icon] || ICON_MAP["checkCircle"];
                 return (
                   <div
-                    key={b.text}
+                    key={i}
                     className="flex gap-4 p-4 bg-slate-50 rounded-xl border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-slate-200"
                   >
                     <Icon className={`${primaryColor} w-10 h-10`} />
-                    <p className="text-sm text-slate-800 leading-relaxed">{b.text}</p>
+                    <p className="text-sm text-slate-800 leading-relaxed">
+                      {/* @ts-ignore */}
+                      {b.description || b.text}
+                    </p>
                   </div>
                 );
               })}
@@ -327,9 +320,7 @@ export default function ServicePageLayout({
                     <AlertIcon type={alert.type} />
                     <div>
                       <p className="font-semibold text-sm">{alert.title}</p>
-                      {alert.description && (
-                        <p className="text-sm mt-1 opacity-90">{alert.description}</p>
-                      )}
+                      {alert.description && <p className="text-sm mt-1 opacity-90">{alert.description}</p>}
                     </div>
                   </motion.div>
                 );
@@ -348,9 +339,7 @@ export default function ServicePageLayout({
                 >
                   {section.title && (
                     <h3 className="text-xl font-bold mb-5 flex gap-3">
-                      {SectionIcon && (
-                        <SectionIcon className="w-5 h-5 text-green-600" />
-                      )}
+                      {SectionIcon && <SectionIcon className="w-5 h-5 text-green-600" />}
                       {section.title}
                     </h3>
                   )}
@@ -391,9 +380,7 @@ export default function ServicePageLayout({
           <aside className="lg:sticky lg:top-24 h-fit">
             <div className="bg-slate-900 text-white rounded-3xl p-8 shadow">
               <h3 className="text-xl font-bold mb-3">Start Your Legal Process</h3>
-              <p className="text-slate-300 text-sm mb-6">
-                Expert legal guidance, end-to-end support.
-              </p>
+              <p className="text-slate-300 text-sm mb-6">Expert legal guidance, end-to-end support.</p>
 
               <button
                 onClick={handleStartProcess}
@@ -414,9 +401,7 @@ export default function ServicePageLayout({
                 )}
               </button>
 
-              <p className="text-xs text-slate-400 mt-4 text-center">
-                We&apos;ll get back to you within 24 hours
-              </p>
+              <p className="text-xs text-slate-400 mt-4 text-center">We&apos;ll get back to you within 24 hours</p>
             </div>
           </aside>
         </div>
@@ -447,12 +432,11 @@ export default function ServicePageLayout({
                   className="w-full flex items-center justify-between p-4 sm:p-5 text-left bg-gradient-to-r from-slate-50 to-transparent hover:from-red-50"
                 >
                   <span className="font-semibold text-sm sm:text-base text-slate-900 pr-4">
-                    {f.q}
+                    {/* @ts-ignore */}
+                    {f.question || f.q}
                   </span>
                   <ChevronDown
-                    className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${
-                      openFaq === i ? "rotate-180" : ""
-                    }`}
+                    className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${openFaq === i ? "rotate-180" : ""}`}
                   />
                 </button>
 
@@ -462,7 +446,8 @@ export default function ServicePageLayout({
                   }`}
                 >
                   <p className="px-4 pb-4 sm:px-5 sm:pb-5 text-sm text-slate-700">
-                    {f.a}
+                    {/* @ts-ignore */}
+                    {f.answer || f.a}
                   </p>
                 </div>
               </motion.div>

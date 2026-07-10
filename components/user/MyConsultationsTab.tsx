@@ -1,25 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  Calendar,
-  Clock,
-  Phone,
-  Video,
-  MessageCircle,
-  ArrowLeft,
-  Send,
-} from "lucide-react";
+import { Calendar, Clock, Phone, Video, MessageCircle, ArrowLeft, Send } from "lucide-react";
 import { getUserBookings } from "@/lib/apis/api";
 import { Booking } from "@/types/booking";
 import ConsultationChat from "./ConsulationChat";
 
 /* -------------------------------------------------------------------------- */
-/*                                   TYPES                                    */
+/* TYPES */
 /* -------------------------------------------------------------------------- */
 
 /* -------------------------------------------------------------------------- */
-/*                               MAIN COMPONENT                               */
+/* MAIN COMPONENT */
 /* -------------------------------------------------------------------------- */
 
 export default function MyConsultationsTab() {
@@ -41,12 +33,7 @@ export default function MyConsultationsTab() {
 
   /* --------------------------- DETAILS VIEW --------------------------- */
   if (selected) {
-    return (
-      <ConsultationDetails
-        consultation={selected}
-        onBack={() => setSelected(null)}
-      />
-    );
+    return <ConsultationDetails consultation={selected} onBack={() => setSelected(null)} />;
   }
 
   /* ----------------------------- LIST VIEW ---------------------------- */
@@ -83,11 +70,7 @@ export default function MyConsultationsTab() {
                     {bookingDate.toLocaleDateString()}
                   </span>
                   <span className="flex items-center gap-1 capitalize">
-                    {c.callType === "video" ? (
-                      <Video size={14} />
-                    ) : (
-                      <Phone size={14} />
-                    )}
+                    {c.callType === "video" ? <Video size={14} /> : <Phone size={14} />}
                     {c.callType}
                   </span>{" "}
                 </div>
@@ -114,26 +97,17 @@ export default function MyConsultationsTab() {
 }
 
 /* -------------------------------------------------------------------------- */
-/*                          CONSULTATION DETAILS VIEW                          */
+/* CONSULTATION DETAILS VIEW */
 /* -------------------------------------------------------------------------- */
 
-function ConsultationDetails({
-  consultation,
-  onBack,
-}: {
-  consultation: Booking;
-  onBack: () => void;
-}) {
+function ConsultationDetails({ consultation, onBack }: { consultation: Booking; onBack: () => void }) {
   const [showChat, setShowChat] = useState(false);
   const bookingDate = new Date(consultation.bookingDate._seconds * 1000);
 
   return (
     <div className="space-y-6">
       {/* HEADER */}
-      <button
-        onClick={onBack}
-        className="flex items-center gap-2 text-sm text-gray-600"
-      >
+      <button onClick={onBack} className="flex items-center gap-2 text-sm text-gray-600">
         <ArrowLeft size={16} />
         Back to consultations
       </button>
@@ -142,28 +116,20 @@ function ConsultationDetails({
         {/* EXPERT INFO */}
         <div>
           <h2 className="text-xl font-semibold">{consultation.expertName}</h2>
-          <p className="text-gray-500">
-            {consultation.expertType === "adv"
-              ? "Advocate"
-              : "Chartered Accountant"}
-          </p>
+          <p className="text-gray-500">{consultation.expertType === "adv" ? "Advocate" : "Chartered Accountant"}</p>
         </div>
 
         {/* DESCRIPTION */}
         <div className="text-sm text-gray-700 space-y-2">
           <p>
-            <strong>Experience:</strong> {consultation.experienceYears ?? 8}+
-            years
+            <strong>Experience:</strong> {consultation.experienceYears ?? 8}+ years
           </p>
           <p>
-            <strong>Specialization:</strong>{" "}
-            {consultation.specialization?.join(", ") ??
-              "Corporate Law, Taxation"}
+            <strong>Specialization:</strong> {consultation.specialization?.join(", ") ?? "Corporate Law, Taxation"}
           </p>
           <p>
             <strong>About:</strong>{" "}
-            {consultation.expertBio ??
-              "Experienced professional providing expert consultation."}
+            {consultation.expertBio ?? "Experienced professional providing expert consultation."}
           </p>
         </div>
 
@@ -179,19 +145,12 @@ function ConsultationDetails({
         <div className="flex gap-3">
           {consultation.callType !== "chat" && (
             <button className="bg-blue-600 text-white px-4 py-2 rounded-lg flex gap-2 items-center">
-              {consultation.callType === "video" ? (
-                <Video size={16} />
-              ) : (
-                <Phone size={16} />
-              )}
+              {consultation.callType === "video" ? <Video size={16} /> : <Phone size={16} />}
               Join {consultation.callType} Call
             </button>
           )}
 
-          <button
-            onClick={() => setShowChat(true)}
-            className="border px-4 py-2 rounded-lg flex gap-2 items-center"
-          >
+          <button onClick={() => setShowChat(true)} className="border px-4 py-2 rounded-lg flex gap-2 items-center">
             <MessageCircle size={16} />
             Chat with Expert
           </button>
@@ -211,7 +170,7 @@ function ConsultationDetails({
 }
 
 /* -------------------------------------------------------------------------- */
-/*                              STATUS BADGE                                  */
+/* STATUS BADGE */
 /* -------------------------------------------------------------------------- */
 
 function StatusBadge({ status }: { status: string }) {
@@ -222,11 +181,7 @@ function StatusBadge({ status }: { status: string }) {
   };
 
   return (
-    <span
-      className={`text-xs px-2 py-1 rounded-full capitalize ${
-        map[status] ?? "bg-gray-100 text-gray-600"
-      }`}
-    >
+    <span className={`text-xs px-2 py-1 rounded-full capitalize ${map[status] ?? "bg-gray-100 text-gray-600"}`}>
       {status}
     </span>
   );

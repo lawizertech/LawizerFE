@@ -1,8 +1,8 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const root = path.resolve(__dirname, '..', 'app');
-const exts = ['.tsx', '.ts', '.md', '.jsx', '.js'];
+const root = path.resolve(__dirname, "..", "app");
+const exts = [".tsx", ".ts", ".md", ".jsx", ".js"];
 
 function walk(dir) {
   const files = [];
@@ -23,10 +23,10 @@ const files = walk(root);
 const citeRegex = /\[cite:[^\]]+\]/g;
 let changed = 0;
 for (const f of files) {
-  let content = fs.readFileSync(f, 'utf8');
+  let content = fs.readFileSync(f, "utf8");
   if (citeRegex.test(content)) {
-    content = content.replace(citeRegex, '');
-    fs.writeFileSync(f, content, 'utf8');
+    content = content.replace(citeRegex, "");
+    fs.writeFileSync(f, content, "utf8");
     changed++;
   }
 }

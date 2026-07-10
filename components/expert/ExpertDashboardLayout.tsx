@@ -6,11 +6,7 @@ import MobileMenuButton from "@/components/expert/MobileMenuButton";
 import Sidebar from "@/components/expert/Sidebar";
 import ExpertHeader from "@/components/expert/ExpertHeader";
 
-export default function DashboardLayoutClient({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function DashboardLayoutClient({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,11 +26,7 @@ export default function DashboardLayoutClient({
 
   return (
     <div className="flex bg-[#fafafa] overflow-hidden">
-      <Sidebar
-        activeTab={activeTab}
-        handleLogout={handleLogout}
-        menuOpen={menuOpen}
-      />
+      <Sidebar activeTab={activeTab} handleLogout={handleLogout} menuOpen={menuOpen} />
 
       <MobileMenuButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
@@ -42,9 +34,7 @@ export default function DashboardLayoutClient({
       <ExpertHeader />
 
       {/* CONTENT */}
-      <main className="flex-1 ml-0 lg:ml-64 pt-20 px-6 lg:px-10">
-        {children}
-      </main>
+      <main className="flex-1 ml-0 lg:ml-64 pt-20 px-6 lg:px-10">{children}</main>
     </div>
   );
 }

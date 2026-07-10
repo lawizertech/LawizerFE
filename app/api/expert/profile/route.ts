@@ -21,7 +21,7 @@ export async function GET(req: Request) {
       cache: "no-store",
     });
 
-    if (!backendRes.ok) {      
+    if (!backendRes.ok) {
       const errorBody = await backendRes.json().catch(() => null);
       return NextResponse.json(
         {
@@ -37,9 +37,6 @@ export async function GET(req: Request) {
     return NextResponse.json({ success: true, ...data });
   } catch (error) {
     console.error("/api/expert/profile error:", error);
-    return NextResponse.json(
-      { success: false, message: "Internal server error", errorCode: null },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, message: "Internal server error", errorCode: null }, { status: 500 });
   }
 }

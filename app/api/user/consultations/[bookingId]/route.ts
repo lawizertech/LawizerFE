@@ -2,12 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 const BASE = process.env.NEXT_PUBLIC_API_URL!;
 
-export async function GET(
-  req: NextRequest,
-  context: { params: { bookingId: string } },
-) {
+export async function GET(req: NextRequest, context: { params: Promise<{ bookingId: string }> }) {
   try {
-    const { bookingId } = context.params;
+    const { bookingId } = await context.params;
 
     const authHeader = req.headers.get("authorization");
 

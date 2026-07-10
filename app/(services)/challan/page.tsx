@@ -3,18 +3,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { notFound } from "next/navigation";
-import {
-  Car,
-  FileText,
-  AlertTriangle,
-  MessageCircle,
-  CheckCircle,
-} from "lucide-react";
-
+import { Car, FileText, AlertTriangle, MessageCircle, CheckCircle } from "lucide-react";
 
 export default function TrafficChallanPage() {
   notFound();
-  
+
   const router = useRouter();
 
   return (
@@ -39,8 +32,7 @@ export default function TrafficChallanPage() {
             Pay Your <span className="text-yellow-400">Traffic Challan</span>
           </h1>
           <p className="text-sm sm:text-base md:text-lg text-gray-200 max-w-xl mx-auto">
-            Lawizer: Skip the court hassle. Clear your traffic fines securely,
-            instantly, and affordably.
+            Lawizer: Skip the court hassle. Clear your traffic fines securely, instantly, and affordably.
           </p>
         </motion.div>
       </section>
@@ -57,20 +49,15 @@ export default function TrafficChallanPage() {
             <div className="p-2 sm:p-3 bg-yellow-500/10 rounded-full">
               <FileText className="w-5 sm:w-6 h-5 sm:h-6 text-yellow-600" />
             </div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0e172b]">
-              Pay Your Challan
-            </h2>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0e172b]">Pay Your Challan</h2>
           </div>
 
           <p className="text-gray-700 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6">
-            A <strong>Traffic Challan</strong> (or E-Challan in its modern
-            digital form) is an official legal document issued by the Traffic
-            Police under the <strong>Motor Vehicles Act, 1988</strong>, to a
-            motor vehicle owner or driver who has violated a traffic rule or
-            regulation. It serves as an automated penalty notification,
-            detailing the specific offense and fine amount. The e-challan system
-            ensures transparency, efficiency, and accountability in traffic
-            enforcement.
+            A <strong>Traffic Challan</strong> (or E-Challan in its modern digital form) is an official legal document
+            issued by the Traffic Police under the <strong>Motor Vehicles Act, 1988</strong>, to a motor vehicle owner
+            or driver who has violated a traffic rule or regulation. It serves as an automated penalty notification,
+            detailing the specific offense and fine amount. The e-challan system ensures transparency, efficiency, and
+            accountability in traffic enforcement.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
@@ -123,17 +110,13 @@ export default function TrafficChallanPage() {
             <div className="p-2 sm:p-3 bg-red-500/10 rounded-full">
               <AlertTriangle className="w-5 sm:w-6 h-5 sm:h-6 text-red-600" />
             </div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0e172b]">
-              Dispute Your Challan
-            </h2>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0e172b]">Dispute Your Challan</h2>
           </div>
 
           <p className="text-gray-700 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6">
-            Sometimes, a traffic challan may be issued wrongly — maybe your
-            vehicle wasn’t at the location, the photo proof is unclear, or the
-            system has an error. Lawizer’s “Dispute Your Challan” feature lets
-            you legally challenge incorrect or unfair challans with expert
-            lawyer assistance.
+            Sometimes, a traffic challan may be issued wrongly — maybe your vehicle wasn’t at the location, the photo
+            proof is unclear, or the system has an error. Lawizer’s “Dispute Your Challan” feature lets you legally
+            challenge incorrect or unfair challans with expert lawyer assistance.
           </p>
 
           <div className="space-y-2 sm:space-y-3 text-gray-700 text-sm sm:text-base">
@@ -170,15 +153,12 @@ export default function TrafficChallanPage() {
             <div className="p-2 sm:p-3 bg-blue-500/10 rounded-full">
               <MessageCircle className="w-5 sm:w-6 h-5 sm:h-6 text-blue-600" />
             </div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0e172b]">
-              Consult an Expert
-            </h2>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0e172b]">Consult an Expert</h2>
           </div>
 
           <p className="text-gray-700 text-sm sm:text-base mb-4 sm:mb-6">
-            Having any queries other than the above mentioned problems relating
-            to your vehicle? Please feel free to consult our motor vehicles
-            expert about it for free.
+            Having any queries other than the above mentioned problems relating to your vehicle? Please feel free to
+            consult our motor vehicles expert about it for free.
           </p>
 
           <div className="flex justify-center">

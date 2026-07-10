@@ -4,13 +4,7 @@ import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useRouter } from "next/navigation";
 
 type LegalCard = {
@@ -32,7 +26,7 @@ export default function LegalQuestionsCarousel({ list }: Props) {
       delay: 2200,
       stopOnInteraction: false,
       playOnInit: true,
-    })
+    }),
   );
 
   return (
@@ -54,9 +48,9 @@ export default function LegalQuestionsCarousel({ list }: Props) {
             <CarouselItem
               key={i}
               className="
-          basis-[180px] sm:basis-[220px] md:basis-[260px] lg:basis-[300px] 
-          pl-3
-        "
+ basis-[180px] sm:basis-[220px] md:basis-[260px] lg:basis-[300px] 
+ pl-3
+ "
               onClick={() => {
                 if (item.route.startsWith("http")) {
                   window.open(item.route, "_blank", "noopener,noreferrer");
@@ -67,10 +61,10 @@ export default function LegalQuestionsCarousel({ list }: Props) {
             >
               <div
                 className="
-          rounded-2xl border border-blue-100 bg-white shadow-md hover:shadow-xl transition-all
-          p-3 sm:p-4 md:p-5 hover:-translate-y-1
-          h-[280px] sm:h-[320px] md:h-[340px] lg:h-[360px]
-        "
+ rounded-2xl border border-blue-100 bg-white shadow-md hover:shadow-xl transition-all
+ p-3 sm:p-4 md:p-5 hover:-translate-y-1
+ h-[280px] sm:h-[320px] md:h-[340px] lg:h-[360px]
+ "
               >
                 {/* Icon */}
                 <div
