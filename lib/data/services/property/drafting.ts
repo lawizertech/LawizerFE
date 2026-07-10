@@ -3,13 +3,12 @@ import { ServiceData } from "@/lib/types/service";
 export const servicesData: Record<string, ServiceData> = {
   "joint-development-agreement": {
     title: "Joint Development Agreement (JDA)",
-    subtitle: "A legally binding agreement defining responsibilities, profit-sharing, and timelines.",
-    badgeText: "Lawizer ensures your JDA is professionally drafted and enforceable.",
+    subtitle:"A legally binding agreement defining responsibilities, profit-sharing, and timelines.",
+    badgeText:"Lawizer ensures your JDA is professionally drafted and enforceable.",
     icon: "factory",
     serviceID: "JOINT_DEVELOPMENT_AGREEMENT",
     contentTitle: "Why a Joint Development Agreement Is Crucial",
-    contentDescription:
-      "A professionally drafted JDA protects revenue sharing, timelines, and legal compliance for smooth project execution.",
+    contentDescription:"A professionally drafted JDA protects revenue sharing, timelines, and legal compliance for smooth project execution.",
     section1Title: "Key Protections and Benefits",
     price: 999,
     originalPrice: 8999,
@@ -65,7 +64,8 @@ export const servicesData: Record<string, ServiceData> = {
       },
       {
         question: "Is JDA suitable for commercial projects?",
-        answer: "Yes, JDAs apply to residential, commercial, and mixed-use developments.",
+        answer:
+          "Yes, JDAs apply to residential, commercial, and mixed-use developments.",
       },
       {
         question: "Does Lawizer assist with registration?",
@@ -107,13 +107,12 @@ export const servicesData: Record<string, ServiceData> = {
   },
   "rent-agreement": {
     title: "Will Drafting & Estate Planning",
-    subtitle: "Ensure your assets are distributed exactly according to your wishes.",
+    subtitle:"Ensure your assets are distributed exactly according to your wishes.",
     badgeText: "Secure your legacy and prevent disputes.",
     icon: "heart",
     serviceID: "WILL_DRAFTING_&_ESTATE_PLANNING",
     contentTitle: "Importance of Drafting a Will",
-    contentDescription:
-      "A professionally drafted Will secures your legacy, avoids succession disputes, and provides legal certainty.",
+    contentDescription:"A professionally drafted Will secures your legacy, avoids succession disputes, and provides legal certainty.",
     section1Title: "Key Benefits of a Legally Drafted Will",
     price: 999,
     originalPrice: 1499,
@@ -148,7 +147,8 @@ export const servicesData: Record<string, ServiceData> = {
     faqs: [
       {
         question: "What is the purpose of a Will?",
-        answer: "It ensures your assets are distributed according to your wishes.",
+        answer:
+          "It ensures your assets are distributed according to your wishes.",
       },
       {
         question: "Is registration mandatory?",
@@ -156,7 +156,8 @@ export const servicesData: Record<string, ServiceData> = {
       },
       {
         question: "What assets can be included?",
-        answer: "Immovable property, bank accounts, investments, and personal belongings.",
+        answer:
+          "Immovable property, bank accounts, investments, and personal belongings.",
       },
       {
         question: "Who is the Testator?",
@@ -199,7 +200,8 @@ export const servicesData: Record<string, ServiceData> = {
   "commercial-lease": {
     title: "Commercial Lease Agreement Drafting",
     subtitle: "Legally define the terms for your commercial property lease.",
-    badgeText: "Lawizer ensures your commercial lease is compliant and enforceable.",
+    badgeText:
+      "Lawizer ensures your commercial lease is compliant and enforceable.",
     icon: "building",
     serviceID: "COMMERCIAL_LEASE_AGREEMENT_DRAFTING",
     contentTitle: "Why a Proper Commercial Lease Agreement Is Important",
@@ -247,23 +249,28 @@ export const servicesData: Record<string, ServiceData> = {
     faqs: [
       {
         question: "What is a Commercial Lease Agreement?",
-        answer: "It defines the legal relationship between landlord and tenant for commercial property.",
+        answer:
+          "It defines the legal relationship between landlord and tenant for commercial property.",
       },
       {
         question: "How is it different from residential rent?",
-        answer: "Commercial leases include business-specific clauses and are more complex.",
+        answer:
+          "Commercial leases include business-specific clauses and are more complex.",
       },
       {
         question: "Why choose Lawizer?",
-        answer: "Specialized drafting tailored to West Bengal commercial property laws.",
+        answer:
+          "Specialized drafting tailored to West Bengal commercial property laws.",
       },
       {
         question: "Does it cover renewal and exit?",
-        answer: "Yes, renewal, exit clauses, and maintenance are clearly defined.",
+        answer:
+          "Yes, renewal, exit clauses, and maintenance are clearly defined.",
       },
       {
         question: "Is registration mandatory?",
-        answer: "Depends on duration and local laws; Lawizer guides compliance.",
+        answer:
+          "Depends on duration and local laws; Lawizer guides compliance.",
       },
     ],
     sections: [
@@ -301,8 +308,10 @@ export const servicesData: Record<string, ServiceData> = {
   },
   "agreement-to-sale": {
     title: "Agreement to Sale Drafting",
-    subtitle: "The critical first legal step defining price, payment schedule, and possession terms.",
-    badgeText: "Lawizer ensures your Agreement to Sale is precise and legally valid.",
+    subtitle:
+      "The critical first legal step defining price, payment schedule, and possession terms.",
+    badgeText:
+      "Lawizer ensures your Agreement to Sale is precise and legally valid.",
     icon: "fileText",
     serviceID: "AGREEMENT_TO_SALE_DRAFTING",
     contentTitle: "Why a Proper Agreement to Sale Is Essential",
@@ -328,7 +337,8 @@ export const servicesData: Record<string, ServiceData> = {
       },
       {
         icon: "fileText",
-        description: "Defines price, payment schedule, and possession timeline.",
+        description:
+          "Defines price, payment schedule, and possession timeline.",
       },
       {
         icon: "shield",
@@ -350,11 +360,13 @@ export const servicesData: Record<string, ServiceData> = {
     faqs: [
       {
         question: "What is an Agreement to Sale?",
-        answer: "It records mutually agreed terms before executing the Sale Deed.",
+        answer:
+          "It records mutually agreed terms before executing the Sale Deed.",
       },
       {
         question: "Is it the same as a Sale Deed?",
-        answer: "No. It promises future transfer; Sale Deed transfers ownership immediately.",
+        answer:
+          "No. It promises future transfer; Sale Deed transfers ownership immediately.",
       },
       {
         question: "Why is proper drafting important?",
@@ -366,7 +378,8 @@ export const servicesData: Record<string, ServiceData> = {
       },
       {
         question: "What is the drafting process?",
-        answer: "Lawyer discusses details, drafts agreement, and guides stamp requirements.",
+        answer:
+          "Lawyer discusses details, drafts agreement, and guides stamp requirements.",
       },
     ],
     sections: [
@@ -409,8 +422,10 @@ export const servicesData: Record<string, ServiceData> = {
   },
   "relinquishment-deed": {
     title: "Relinquishment Deed Drafting",
-    subtitle: "Legally transfer a co-owner\u2019s share with clarity and compliance.",
-    badgeText: "Professionally drafted and legally compliant ownership transfer.",
+    subtitle:
+      "Legally transfer a co-owner\u2019s share with clarity and compliance.",
+    badgeText:
+      "Professionally drafted and legally compliant ownership transfer.",
     icon: "users",
     serviceID: "RELINQUISHMENT_DEED_DRAFTING",
     contentTitle: "Why a Relinquishment Deed Is Important",
@@ -610,7 +625,8 @@ export const servicesData: Record<string, ServiceData> = {
     icon: "heart",
     serviceID: "WILL_DRAFTING_&_ESTATE_PLANNING",
     contentTitle: "Importance of Drafting a Will",
-    contentDescription: "A Will protects your legacy, prevents disputes, and ensures legal clarity.",
+    contentDescription:
+      "A Will protects your legacy, prevents disputes, and ensures legal clarity.",
     section1Title: "Key Benefits",
     price: 999,
     originalPrice: 2999,
@@ -627,7 +643,8 @@ export const servicesData: Record<string, ServiceData> = {
     benefits: [
       {
         icon: "checkCircle",
-        description: "Ensures your property is inherited according to your wishes",
+        description:
+          "Ensures your property is inherited according to your wishes",
       },
       {
         icon: "users",
@@ -639,13 +656,15 @@ export const servicesData: Record<string, ServiceData> = {
       },
       {
         icon: "shield",
-        description: "Drafted to be clear, legally valid, and compliant under Indian law",
+        description:
+          "Drafted to be clear, legally valid, and compliant under Indian law",
       },
     ],
     faqs: [
       {
         question: "What is the purpose of a Will?",
-        answer: "A Will ensures your assets are distributed according to your wishes.",
+        answer:
+          "A Will ensures your assets are distributed according to your wishes.",
       },
       {
         question: "Is registration mandatory?",
@@ -653,7 +672,8 @@ export const servicesData: Record<string, ServiceData> = {
       },
       {
         question: "What assets can be included?",
-        answer: "Movable and immovable assets including property and investments.",
+        answer:
+          "Movable and immovable assets including property and investments.",
       },
       {
         question: "Who is the Testator?",
@@ -669,13 +689,21 @@ export const servicesData: Record<string, ServiceData> = {
         title: "Pre-Requisites",
         icon: "fileText",
         type: "list",
-        data: ["Details of assets & beneficiaries", "Personal details of the testator", "Witness details for signing"],
+        data: [
+          "Details of assets & beneficiaries",
+          "Personal details of the testator",
+          "Witness details for signing",
+        ],
       },
       {
         title: "What You Receive",
         icon: "gavel",
         type: "grid",
-        data: ["Professionally drafted Will", "Clause-wise explanation", "Digital copy & registration guidance"],
+        data: [
+          "Professionally drafted Will",
+          "Clause-wise explanation",
+          "Digital copy & registration guidance",
+        ],
       },
     ],
     addons: [
