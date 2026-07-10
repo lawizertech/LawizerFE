@@ -1,0 +1,1853 @@
+[
+  {
+    "slug": "co-founder-agreement",
+    "title": "Co-Founder Agreement",
+
+    "hero": {
+      "title": "Co-Founder Agreement",
+      "highlight": "Drafting",
+      "subtitle": "A legally enforceable agreement defining equity, roles, responsibilities, and exit mechanisms for startup founders.",
+      "badge": "Startup-ready • Investor-friendly • Dispute-proof",
+
+      "price": "₹1,499",
+      "originalPrice": "₹3,999",
+
+      "timeline": "3–5 Days",
+      "features": ["Expert Drafting", "Fully Customized"],
+      "addons": [
+        {
+          "icon": "fileText",
+          "label": "Co-Founder\nAgreement Draft"
+        },
+        {
+          "icon": "clock",
+          "label": "Equity & Vesting\nClauses"
+        },
+        {
+          "icon": "shield",
+          "label": "IP Ownership\nProtection"
+        },
+        {
+          "icon": "clipboard",
+          "label": "Exit & Dispute\nResolution"
+        }
+      ]
+    },
+
+    "layout": {
+      "icon": "users",
+      "serviceID": "CO-FOUNDER_AGREEMENT_DRAFTING",
+      "contentTitle": "Why a Co-Founder Agreement Is Crucial",
+      "contentDescription": "A Co-Founder Agreement establishes clarity among founders, safeguards intellectual property, and creates a strong legal foundation required for scaling and raising investment.",
+      "section1Title": "Key Protections & Benefits"
+    },
+
+    "benefits": [
+      {
+        "icon": "gavel",
+        "text": "Prevents conflicts among founders by clearly defining rights and obligations."
+      },
+      {
+        "icon": "checkCircle",
+        "text": "Clarifies equity ownership, contributions, and decision-making authority."
+      },
+      {
+        "icon": "shield",
+        "text": "Protects business continuity and investor confidence."
+      },
+      {
+        "icon": "fileText",
+        "text": "Defines roles, responsibilities, profit-sharing, and exit mechanisms."
+      }
+    ],
+
+    "sections": [
+      {
+        "type": "alert",
+        "data": {
+          "type": "warning",
+          "title": "Critical for Every Startup",
+          "description": "Lack of a Co-Founder Agreement is one of the biggest reasons for startup failure and investor rejection."
+        }
+      },
+      {
+        "title": "Pre-Requisites for Drafting",
+        "icon": "checkCircle",
+        "type": "list",
+        "data": [
+          "Founder details, roles, and equity distribution",
+          "Decision-making mechanisms and voting rights",
+          "Contributions (monetary, intellectual property, or assets)",
+          "Exit, vesting, and dispute resolution clauses"
+        ]
+      },
+      {
+        "title": "What Lawizer Delivers",
+        "icon": "gavel",
+        "type": "grid",
+        "data": [
+          "Startup-specific co-founder agreement",
+          "Equity, vesting, and dilution-safe clauses",
+          "Governance and decision-making framework",
+          "Exit, deadlock, and dispute resolution provisions"
+        ]
+      }
+    ],
+
+    "faqs": [
+      {
+        "q": "What is a Co-Founder Agreement?",
+        "a": "It is a legal contract between startup founders defining equity ownership, roles, responsibilities, decision-making, and exit mechanisms."
+      },
+      {
+        "q": "Why is a Co-Founder Agreement important?",
+        "a": "It prevents founder disputes, protects the startup's future, and is essential for raising external investment."
+      },
+      {
+        "q": "Does it cover intellectual property?",
+        "a": "Yes. It clearly assigns ownership of intellectual property created by founders to the company."
+      },
+      {
+        "q": "Can the agreement be customized?",
+        "a": "Absolutely. Lawizer drafts agreements tailored to your startup's structure, stage, and long-term vision."
+      }
+    ],
+
+    "theme": {
+      "orb1": "bg-indigo-500/20",
+      "orb2": "bg-purple-500/20",
+      "iconBg": "from-indigo-500 to-purple-500",
+      "badgeText": "text-purple-300",
+      "primaryColor": "text-indigo-600",
+      "primaryBg": "bg-gradient-to-r from-indigo-600 to-purple-600",
+      "primaryHoverBg": "bg-gradient-to-r from-indigo-700 to-purple-700"
+    }
+  },
+
+  {
+    "slug": "business-partnership-agreement",
+
+    "title": "Business Partnership Agreement",
+
+    "hero": {
+      "title": "Business Partnership Agreement",
+      "highlight": "Drafting",
+      "subtitle": "A legally enforceable agreement defining investment, profit-sharing, roles, and exit mechanisms among partners.",
+      "badge": "Custom-drafted • Legally Enforceable • Dispute-proof",
+
+      "price": "₹1,499",
+      "originalPrice": "₹4,499",
+
+      "timeline": "3–5 Days",
+      "features": ["Expert Drafting", "Fully Customized"],
+      "addons": [
+        {
+          "icon": "fileText",
+          "label": "Partnership\nAgreement Draft"
+        },
+        {
+          "icon": "clock",
+          "label": "Profit Sharing\nClauses"
+        },
+        {
+          "icon": "shield",
+          "label": "Dispute Resolution\nClauses"
+        },
+        {
+          "icon": "clipboard",
+          "label": "Exit & Retirement\nClauses"
+        }
+      ]
+    },
+
+    "layout": {
+      "icon": "users",
+      "serviceID": "BUSINESS_PARTNERSHIP_AGREEMENT_DRAFTING",
+      "contentTitle": "Why a Business Partnership Agreement Is Essential",
+      "contentDescription": "A well-drafted partnership agreement is the foundation of a stable business relationship. It clearly documents expectations, prevents misunderstandings, and safeguards the interests of all partners from day one.",
+      "section1Title": "Key Protections & Benefits"
+    },
+
+    "benefits": [
+      {
+        "icon": "shield",
+        "text": "Prevents conflicts among partners by clearly defining rights and obligations."
+      },
+      {
+        "icon": "badgeIndianRupee",
+        "text": "Provides clarity on capital contribution, investment, and profit-sharing ratios."
+      },
+      {
+        "icon": "scale",
+        "text": "Legally enforceable document in case of disputes or disagreements."
+      },
+      {
+        "icon": "fileText",
+        "text": "Agreement tailored specifically to your business model and partnership structure."
+      }
+    ],
+
+    "sections": [
+      {
+        "type": "alert",
+        "data": {
+          "type": "warning",
+          "title": "Highly Recommended Before Starting Operations",
+          "description": "Operating without a written partnership agreement can lead to serious financial and legal disputes that are difficult to resolve later."
+        }
+      },
+      {
+        "title": "Pre-Requisites for Drafting the Agreement",
+        "icon": "checkCircle",
+        "type": "list",
+        "data": [
+          "Details of all partners (name, address, identity proof)",
+          "Capital contribution and investment amount of each partner",
+          "Profit-sharing ratio and roles & responsibilities"
+        ]
+      },
+      {
+        "title": "What Lawizer Delivers",
+        "icon": "scale",
+        "type": "grid",
+        "data": [
+          "Professionally drafted partnership agreement",
+          "Clear clauses on management, profit sharing, and decision-making",
+          "Exit, retirement, and dispute resolution clauses",
+          "Clause-wise explanation before finalisation"
+        ]
+      }
+    ],
+
+    "faqs": [
+      {
+        "q": "What is a Business Partnership Agreement?",
+        "a": "It is a legal contract between business partners that defines capital contribution, profit-sharing, management roles, rights, responsibilities, and exit mechanisms."
+      },
+      {
+        "q": "Why is a Partnership Agreement necessary?",
+        "a": "It prevents conflicts, provides legal clarity, and protects partners in case of disputes by clearly documenting financial and operational terms."
+      },
+      {
+        "q": "Is a partnership agreement legally enforceable?",
+        "a": "Yes. A properly drafted and executed partnership agreement is legally enforceable and can be relied upon in court or arbitration."
+      },
+      {
+        "q": "Can the agreement be customized?",
+        "a": "Absolutely. Lawizer drafts partnership agreements customized to your business, partner roles, and long-term goals."
+      }
+    ],
+
+    "theme": {
+      "orb1": "bg-orange-500/20",
+      "orb2": "bg-yellow-500/20",
+      "iconBg": "from-orange-500 to-yellow-500",
+      "badgeText": "text-yellow-300",
+      "primaryColor": "text-orange-600",
+      "primaryBg": "bg-gradient-to-r from-orange-600 to-yellow-600",
+      "primaryHoverBg": "bg-gradient-to-r from-orange-700 to-yellow-700"
+    }
+  },
+
+  {
+  "slug": "consultancy-agreement",
+  "title": "Consultancy Agreement",
+
+  "hero": {
+    "title": "Consultancy Agreement",
+    "highlight": "Drafting",
+    "subtitle": "A legally binding contract defining scope, deliverables, fees, and confidentiality for consultancy engagements.",
+    "badge": "Clear Scope • Secure Payments • Confidentiality Protected",
+
+    "price": "₹1,499",
+    "originalPrice": "₹3,199",
+
+    "timeline": "3–5 Days",
+    "features": ["Expert Drafting", "Fully Customized"],
+    "addons": [
+      {
+        "icon": "fileText",
+        "label": "Consultancy\nAgreement Draft"
+      },
+      {
+        "icon": "clipboard",
+        "label": "Scope & Milestone\nDefinition"
+      },
+      {
+        "icon": "badgeIndianRupee",
+        "label": "Payment &\nTermination Clauses"
+      },
+      {
+        "icon": "shield",
+        "label": "Confidentiality\n& IP Protection"
+      }
+    ]
+  },
+
+  "layout": {
+    "icon": "fileText",
+    "serviceID": "CONSULTANCY_AGREEMENT_DRAFTING",
+    "contentTitle": "Why a Consultancy Agreement Is Essential",
+    "contentDescription": "A Consultancy Agreement sets clear expectations, protects confidential information, and provides a legally enforceable framework for professional engagements.",
+    "section1Title": "Key Protections & Benefits"
+  },
+
+  "benefits": [
+    {
+      "icon": "shield",
+      "text": "Protects the legal and financial interests of both the consultant and the company."
+    },
+    {
+      "icon": "checkCircle",
+      "text": "Clearly defines scope of work, deliverables, timelines, and payment terms."
+    },
+    {
+      "icon": "users",
+      "text": "Prevents misuse of confidential and proprietary information."
+    },
+    {
+      "icon": "fileText",
+      "text": "Customized drafting aligned with your business requirements."
+    }
+  ],
+
+  "sections": [
+    {
+      "type": "alert",
+      "data": {
+        "type": "info",
+        "title": "Avoid Scope & Payment Disputes",
+        "description": "A properly drafted Consultancy Agreement prevents scope creep, delayed payments, and confidentiality breaches."
+      }
+    },
+    {
+      "title": "Pre-Requisites for Drafting",
+      "icon": "checkCircle",
+      "type": "list",
+      "data": [
+        "Consultant and company details",
+        "Scope of work and deliverables",
+        "Fees, payment schedule, and duration",
+        "Confidentiality and IP ownership requirements"
+      ]
+    },
+    {
+      "title": "What Lawizer Delivers",
+      "icon": "scale",
+      "type": "grid",
+      "data": [
+        "Tailored consultancy agreement",
+        "Clear scope and milestone definition",
+        "Payment and termination clauses",
+        "Confidentiality and IP protection"
+      ]
+    }
+  ],
+
+  "faqs": [
+    {
+      "q": "What is a Consultancy Agreement?",
+      "a": "It is a legal contract defining the relationship, scope of work, deliverables, fees, and confidentiality obligations between a consultant and a company."
+    },
+    {
+      "q": "Why is defining scope important?",
+      "a": "Clear scope prevents disputes related to additional work, delayed delivery, and payment conflicts."
+    },
+    {
+      "q": "Does it protect confidential information?",
+      "a": "Yes. The agreement includes confidentiality and non-disclosure clauses to safeguard sensitive business information."
+    }
+  ],
+
+  "theme": {
+    "orb1": "bg-cyan-500/20",
+    "orb2": "bg-blue-500/20",
+    "iconBg": "from-cyan-500 to-blue-500",
+    "badgeText": "text-blue-300",
+    "primaryColor": "text-cyan-600",
+    "primaryBg": "bg-gradient-to-r from-cyan-600 to-blue-600",
+    "primaryHoverBg": "bg-gradient-to-r from-cyan-700 to-blue-700"
+  }
+},
+
+  {
+  "slug": "employment-agreement",
+  "title": "Employment Agreement",
+
+  "hero": {
+    "title": "Employment Agreement",
+    "highlight": "Drafting",
+    "subtitle": "A legally compliant contract defining roles, salary, benefits, and termination terms.",
+    "badge": "Labour-law Compliant • Dispute Prevention • Clear Obligations",
+
+    "price": "₹1,499",
+    "originalPrice": "₹3,499",
+
+    "timeline": "3–5 Days",
+    "features": ["Expert Drafting", "Fully Customized"],
+    "addons": [
+      {
+        "icon": "fileText",
+        "label": "Employment\nAgreement Draft"
+      },
+      {
+        "icon": "shield",
+        "label": "Non-Compete &\nConfidentiality"
+      },
+      {
+        "icon": "clock",
+        "label": "Termination &\nNotice Period"
+      },
+      {
+        "icon": "clipboard",
+        "label": "Labour Law\nCompliance"
+      }
+    ]
+  },
+
+  "layout": {
+    "icon": "users",
+    "serviceID": "EMPLOYMENT_AGREEMENT_DRAFTING",
+    "contentTitle": "Why a Compliant Employment Agreement Is Essential",
+    "contentDescription": "A strong employment agreement creates a clear framework for the working relationship, reduces legal risk, and ensures compliance with labour and employment laws.",
+    "section1Title": "Key Protections & Benefits"
+  },
+
+  "benefits": [
+    {
+      "icon": "checkCircle",
+      "text": "Provides clarity on employee rights and employer obligations."
+    },
+    {
+      "icon": "shield",
+      "text": "Prevents disputes over compensation, termination, or confidentiality."
+    },
+    {
+      "icon": "scale",
+      "text": "Ensures compliance with labour and employment laws."
+    },
+    {
+      "icon": "fileText",
+      "text": "Includes clause-wise explanation on non-compete, confidentiality, and termination."
+    }
+  ],
+
+  "sections": [
+    {
+      "title": "Pre-Requisites for Drafting",
+      "icon": "checkCircle",
+      "type": "list",
+      "data": [
+        "Employee and employer details",
+        "Compensation, role, responsibilities, and benefits",
+        "Duration and termination clauses"
+      ]
+    },
+    {
+      "title": "What Lawizer Delivers",
+      "icon": "scale",
+      "type": "grid",
+      "data": [
+        "Drafting legally compliant employment agreements",
+        "Clause explanation including non-compete and confidentiality",
+        "Clear termination and notice-period clauses",
+        "Advice on dispute prevention and compliance"
+      ]
+    }
+  ],
+
+  "faqs": [
+    {
+      "q": "What is an Employment Agreement?",
+      "a": "It is a legal document outlining the terms of employment, including roles, salary, benefits, and termination policies."
+    },
+    {
+      "q": "Why is an Employment Agreement important?",
+      "a": "It provides clarity on employee rights and employer obligations, ensures compliance with labour laws, and prevents disputes over compensation or termination."
+    },
+    {
+      "q": "Does the agreement cover confidentiality and non-compete clauses?",
+      "a": "Yes. The agreement includes detailed clauses on confidentiality, non-compete, and termination with proper legal explanation."
+    }
+  ],
+
+  "theme": {
+    "orb1": "bg-green-500/20",
+    "orb2": "bg-teal-500/20",
+    "iconBg": "from-green-500 to-teal-500",
+    "badgeText": "text-teal-300",
+    "primaryColor": "text-green-600",
+    "primaryBg": "bg-gradient-to-r from-green-600 to-teal-600",
+    "primaryHoverBg": "bg-gradient-to-r from-green-700 to-teal-700"
+  }
+},
+
+{
+  "slug": "franchise-agreement",
+  "title": "Franchise Agreement",
+
+  "hero": {
+    "title": "Franchise Agreement",
+    "highlight": "Drafting",
+    "subtitle": "A legally sound contract defining rights, obligations, royalties, and operational standards.",
+    "badge": "Brand Protection • Indian Law Compliant • Dispute Prevention",
+
+    "price": "₹1,499",
+    "originalPrice": "₹6,999",
+
+    "timeline": "3–5 Days",
+    "features": ["Expert Drafting", "Fully Customized"],
+    "addons": [
+      {
+        "icon": "fileText",
+        "label": "Franchise\nAgreement Draft"
+      },
+      {
+        "icon": "badgeIndianRupee",
+        "label": "Royalty &\nTerritory Clauses"
+      },
+      {
+        "icon": "shield",
+        "label": "Brand Protection\nClauses"
+      },
+      {
+        "icon": "clipboard",
+        "label": "Clause-by-Clause\nExplanation"
+      }
+    ]
+  },
+
+  "layout": {
+    "icon": "building2",
+    "serviceID": "FRANCHISE_AGREEMENT_DRAFTING",
+    "contentTitle": "Why a Franchise Agreement Is Crucial",
+    "contentDescription": "A strong Franchise Agreement safeguards brand integrity and creates a clear, enforceable framework for a successful franchisor–franchisee relationship.",
+    "section1Title": "Key Protections & Benefits"
+  },
+
+  "benefits": [
+    {
+      "icon": "shield",
+      "text": "Protects the franchisor's brand identity and business model."
+    },
+    {
+      "icon": "checkCircle",
+      "text": "Ensures franchisee compliance with quality and operational standards."
+    },
+    {
+      "icon": "scale",
+      "text": "Prevents disputes related to royalties, territory, or termination."
+    },
+    {
+      "icon": "users",
+      "text": "Drafting franchise agreements compliant with Indian laws."
+    }
+  ],
+
+  "sections": [
+    {
+      "title": "Pre-Requisites from Client",
+      "icon": "checkCircle",
+      "type": "list",
+      "data": [
+        "Franchisor and franchisee details",
+        "Franchise model, fees, and territory",
+        "Operational guidelines and royalty structure"
+      ]
+    },
+    {
+      "title": "What Lawizer Delivers",
+      "icon": "fileText",
+      "type": "grid",
+      "data": [
+        "Drafting franchise agreements compliant with Indian laws",
+        "Clause-by-clause legal explanation",
+        "Clear definition of rights, obligations, and royalties",
+        "Guidance on registration, if required"
+      ]
+    }
+  ],
+
+  "faqs": [
+    {
+      "q": "What is a Franchise Agreement?",
+      "a": "A Franchise Agreement is a legal contract between a franchisor (brand owner) and a franchisee defining rights, obligations, royalties, territory, and operational standards."
+    },
+    {
+      "q": "Why is a Franchise Agreement important for the franchisor?",
+      "a": "It protects the franchisor's brand and business model while ensuring franchisee compliance with quality and operational standards."
+    },
+    {
+      "q": "What key details should be clearly defined?",
+      "a": "The agreement must define rights, obligations, royalty structure, territory, and termination terms to prevent disputes."
+    }
+  ],
+
+  "theme": {
+    "orb1": "bg-yellow-500/20",
+    "orb2": "bg-orange-500/20",
+    "iconBg": "from-yellow-500 to-orange-500",
+    "badgeText": "text-yellow-300",
+    "primaryColor": "text-yellow-600",
+    "primaryBg": "bg-gradient-to-r from-yellow-500 to-orange-500",
+    "primaryHoverBg": "bg-gradient-to-r from-yellow-600 to-orange-600"
+  }
+},
+
+{
+  "slug": "ip-assignment-agreement",
+  "title": "IP Assignment Agreement",
+
+  "hero": {
+    "title": "IP Assignment Agreement",
+    "highlight": "Drafting",
+    "subtitle": "A legally enforceable document to formally transfer intellectual property ownership.",
+    "badge": "Clear Ownership • Dispute Prevention • Registration-ready",
+
+    "price": "₹1,499",
+    "originalPrice": "₹4,999",
+
+    "timeline": "3–5 Days",
+    "features": ["Expert Drafting", "Fully Customized"],
+    "addons": [
+      {
+        "icon": "fileText",
+        "label": "IP Assignment\nAgreement Draft"
+      },
+      {
+        "icon": "shield",
+        "label": "Ownership\nTransfer Clauses"
+      },
+      {
+        "icon": "checkCircle",
+        "label": "Future Claims\nProtection"
+      },
+      {
+        "icon": "clipboard",
+        "label": "Registration\nGuidance"
+      }
+    ]
+  },
+
+  "layout": {
+    "icon": "shield",
+    "serviceID": "IP_ASSIGNMENT_AGREEMENT_DRAFTING",
+    "contentTitle": "Why an IP Assignment Agreement Is Essential",
+    "contentDescription": "An IP Assignment Agreement ensures that ownership of intellectual property is legally transferred, eliminating ambiguity and protecting the assignee from future claims.",
+    "section1Title": "Key Protections & Benefits"
+  },
+
+  "benefits": [
+    {
+      "icon": "shield",
+      "text": "Ensures lawful and complete transfer of intellectual property rights."
+    },
+    {
+      "icon": "scale",
+      "text": "Prevents future disputes related to IP ownership."
+    },
+    {
+      "icon": "gavel",
+      "text": "Professionally drafted IP assignment agreements."
+    },
+    {
+      "icon": "fileText",
+      "text": "Guidance on registration, where applicable."
+    }
+  ],
+
+  "sections": [
+    {
+      "title": "Pre-Requisites for Drafting",
+      "icon": "checkCircle",
+      "type": "list",
+      "data": [
+        "Details of the intellectual property being assigned",
+        "Assignor and assignee information",
+        "Scope and nature of the IP transfer"
+      ]
+    },
+    {
+      "title": "What Lawizer Delivers",
+      "icon": "gavel",
+      "type": "grid",
+      "data": [
+        "Drafting legally sound IP assignment agreements",
+        "Clear definition of ownership transfer",
+        "Protection against future ownership claims",
+        "Registration guidance, if applicable"
+      ]
+    }
+  ],
+
+  "faqs": [
+    {
+      "q": "What is an Intellectual Property Assignment Agreement?",
+      "a": "It is a legal document that transfers ownership of intellectual property from one party (assignor) to another (assignee)."
+    },
+    {
+      "q": "Why is a formal IP assignment agreement necessary?",
+      "a": "Without a written agreement, IP ownership can remain unclear, leading to disputes. A formal assignment legally secures ownership."
+    },
+    {
+      "q": "What types of intellectual property can be assigned?",
+      "a": "The agreement can cover copyrights, trademarks, patents, trade secrets, and other intellectual property rights."
+    }
+  ],
+
+  "theme": {
+    "orb1": "bg-purple-500/20",
+    "orb2": "bg-indigo-500/20",
+    "iconBg": "from-purple-500 to-indigo-500",
+    "badgeText": "text-indigo-300",
+    "primaryColor": "text-purple-600",
+    "primaryBg": "bg-gradient-to-r from-purple-600 to-indigo-600",
+    "primaryHoverBg": "bg-gradient-to-r from-purple-700 to-indigo-700"
+  }
+},
+
+{
+  "slug": "joint-venture-agreement",
+  "title": "Joint Venture (JV) Agreement",
+
+  "hero": {
+    "title": "Joint Venture Agreement",
+    "highlight": "Drafting",
+    "subtitle": "A legally binding agreement defining investment, management, and profit-sharing in a joint venture.",
+    "badge": "Investment Protection • Governance Clarity • Dispute Control",
+
+    "price": "₹1,499",
+    "originalPrice": "₹7,999",
+
+    "timeline": "3–5 Days",
+    "features": ["Expert Drafting", "Fully Customized"],
+    "addons": [
+      {
+        "icon": "fileText",
+        "label": "JV Agreement\nDraft"
+      },
+      {
+        "icon": "badgeIndianRupee",
+        "label": "Profit Sharing\n& Governance"
+      },
+      {
+        "icon": "shield",
+        "label": "Dispute\nResolution"
+      },
+      {
+        "icon": "clipboard",
+        "label": "Exit &\nTermination Clauses"
+      }
+    ]
+  },
+
+  "layout": {
+    "icon": "users",
+    "serviceID": "JOINT_VENTURE_AGREEMENT_DRAFTING",
+    "contentTitle": "Why a Joint Venture Agreement Is Essential",
+    "contentDescription": "A well-drafted Joint Venture Agreement protects the interests of all parties by clearly defining management roles, profit sharing, governance, and exit mechanisms from the outset.",
+    "section1Title": "Key Protections & Benefits"
+  },
+
+  "benefits": [
+    {
+      "icon": "shield",
+      "text": "Protects investments of all joint venture partners."
+    },
+    {
+      "icon": "gavel",
+      "text": "Defines clear governance and dispute resolution mechanisms."
+    },
+    {
+      "icon": "fileText",
+      "text": "Joint Venture agreements drafted in compliance with Indian law."
+    },
+    {
+      "icon": "checkCircle",
+      "text": "Clear guidance on profit sharing, timelines, and exit strategies."
+    }
+  ],
+
+  "sections": [
+    {
+      "title": "Pre-Requisites for Drafting",
+      "icon": "checkCircle",
+      "type": "list",
+      "data": [
+        "Details of all joint venture parties",
+        "Investment contributions and ownership ratios",
+        "Governance and management structure"
+      ]
+    },
+    {
+      "title": "What Lawizer Delivers",
+      "icon": "gavel",
+      "type": "grid",
+      "data": [
+        "Legally compliant Joint Venture agreements",
+        "Clear profit-sharing and governance structure",
+        "Defined dispute resolution mechanisms",
+        "Well-structured exit and termination clauses"
+      ]
+    }
+  ],
+
+  "faqs": [
+    {
+      "q": "What is a Joint Venture (JV) Agreement?",
+      "a": "A Joint Venture Agreement defines the partnership structure, investment contributions, management responsibilities, and profit-sharing terms between collaborating parties."
+    },
+    {
+      "q": "Why is a formal JV Agreement necessary?",
+      "a": "It protects investments, establishes governance rules, and provides dispute resolution mechanisms, reducing legal and operational risks."
+    },
+    {
+      "q": "What key elements are covered in a JV Agreement?",
+      "a": "The agreement covers capital contribution, profit sharing, governance, decision-making, dispute resolution, and exit strategies."
+    }
+  ],
+
+  "theme": {
+    "orb1": "bg-yellow-500/20",
+    "orb2": "bg-orange-500/20",
+    "iconBg": "from-yellow-500 to-orange-500",
+    "badgeText": "text-orange-300",
+    "primaryColor": "text-yellow-600",
+    "primaryBg": "bg-gradient-to-r from-yellow-600 to-orange-600",
+    "primaryHoverBg": "bg-gradient-to-r from-yellow-700 to-orange-700"
+  }
+},
+
+{
+  "slug": "letter-of-intent",
+  "title": "Letter of Intent (LOI)",
+
+  "hero": {
+    "title": "Letter of Intent (LOI)",
+    "highlight": "Drafting",
+    "subtitle": "A preliminary legal document defining intent, key terms, and negotiation framework.",
+    "badge": "Preliminary Terms • Negotiation Clarity • Risk Reduction",
+
+    "price": "₹1,499",
+    "originalPrice": "₹2,999",
+
+    "timeline": "2–3 Days",
+    "features": ["Expert Drafting", "Fully Customized"],
+    "addons": [
+      {
+        "icon": "fileText",
+        "label": "LOI\nDraft"
+      },
+      {
+        "icon": "shield",
+        "label": "Binding vs\nNon-Binding Clauses"
+      },
+      {
+        "icon": "users",
+        "label": "Negotiation\nFramework"
+      },
+      {
+        "icon": "clipboard",
+        "label": "Commercial\nAlignment"
+      }
+    ]
+  },
+
+  "layout": {
+    "icon": "fileText",
+    "serviceID": "LETTER_OF_INTENT_DRAFTING",
+    "contentTitle": "Why a Letter of Intent Is Important",
+    "contentDescription": "A Letter of Intent helps parties align on essential commercial terms before entering complex legal agreements, reducing misunderstandings and strengthening negotiations.",
+    "section1Title": "Key Protections & Benefits"
+  },
+
+  "benefits": [
+    {
+      "icon": "users",
+      "text": "Establishes mutual understanding and preliminary transaction terms."
+    },
+    {
+      "icon": "checkCircle",
+      "text": "Reduces misunderstandings before drafting formal contracts."
+    },
+    {
+      "icon": "scale",
+      "text": "LOIs drafted specifically for your business transaction."
+    },
+    {
+      "icon": "shield",
+      "text": "Clear guidance on binding vs non-binding clauses."
+    }
+  ],
+
+  "sections": [
+    {
+      "title": "Pre-Requisites for Drafting",
+      "icon": "checkCircle",
+      "type": "list",
+      "data": [
+        "Details of all involved parties",
+        "Transaction overview and commercial intent",
+        "Preliminary terms and timelines"
+      ]
+    },
+    {
+      "title": "What Lawizer Delivers",
+      "icon": "scale",
+      "type": "grid",
+      "data": [
+        "Customized Letter of Intent drafting",
+        "Clear distinction between binding and non-binding clauses",
+        "Commercially aligned structure for negotiations",
+        "Legally sound documentation to support final agreements"
+      ]
+    }
+  ],
+
+  "faqs": [
+    {
+      "q": "What is a Letter of Intent (LOI)?",
+      "a": "A Letter of Intent is a document expressing a preliminary intention to enter into a business transaction, outlining key commercial terms before a formal contract is executed."
+    },
+    {
+      "q": "Is a Letter of Intent legally binding?",
+      "a": "An LOI may contain both binding and non-binding clauses. Typically, confidentiality and exclusivity clauses are binding, while commercial terms remain non-binding."
+    },
+    {
+      "q": "Why use an LOI before a formal agreement?",
+      "a": "An LOI helps align expectations early, reduces negotiation risks, and saves time and cost before drafting detailed legal agreements."
+    }
+  ],
+
+  "theme": {
+    "orb1": "bg-cyan-500/20",
+    "orb2": "bg-blue-500/20",
+    "iconBg": "from-cyan-500 to-blue-500",
+    "badgeText": "text-blue-300",
+    "primaryColor": "text-cyan-600",
+    "primaryBg": "bg-gradient-to-r from-cyan-600 to-blue-600",
+    "primaryHoverBg": "bg-gradient-to-r from-cyan-700 to-blue-700"
+  }
+},
+
+{
+  "slug": "licensing-agreement",
+  "title": "Licensing Agreement",
+
+  "hero": {
+    "title": "Licensing Agreement",
+    "highlight": "Drafting",
+    "subtitle": "A legally binding agreement governing the licensed use of intellectual property, technology, or products.",
+    "badge": "IP Protection • Royalties • Enforceable Terms",
+
+    "price": "₹1,499",
+    "originalPrice": "₹5,499",
+
+    "timeline": "3–5 Days",
+    "features": ["Expert Drafting", "Fully Customized"],
+    "addons": [
+      {
+        "icon": "fileText",
+        "label": "Licensing\nAgreement Draft"
+      },
+      {
+        "icon": "badgeIndianRupee",
+        "label": "Royalty &\nScope Definition"
+      },
+      {
+        "icon": "shield",
+        "label": "IP Ownership\nProtection"
+      },
+      {
+        "icon": "clock",
+        "label": "Duration &\nTerritory Clauses"
+      }
+    ]
+  },
+
+  "layout": {
+    "icon": "fileText",
+    "serviceID": "LICENSING_AGREEMENT_DRAFTING",
+    "contentTitle": "Why a Licensing Agreement Is Critical",
+    "contentDescription": "A Licensing Agreement enables you to monetize intellectual property while retaining ownership. It clearly defines how, where, and for how long your IP can be used, protecting both revenue and legal rights.",
+    "section1Title": "Key Protections & Benefits"
+  },
+
+  "benefits": [
+    {
+      "icon": "shield",
+      "text": "Protects intellectual property rights and revenue streams."
+    },
+    {
+      "icon": "scale",
+      "text": "Ensures legally enforceable usage terms and restrictions."
+    },
+    {
+      "icon": "gavel",
+      "text": "Clearly defines royalties, scope of use, and license terms."
+    }
+  ],
+
+  "sections": [
+    {
+      "title": "Pre-Requisites for Drafting",
+      "icon": "checkCircle",
+      "type": "list",
+      "data": [
+        "Licensor and licensee details",
+        "Scope of licensed intellectual property",
+        "Royalty structure or license fees",
+        "Duration, territory, and special conditions"
+      ]
+    },
+    {
+      "title": "What Lawizer Delivers",
+      "icon": "fileText",
+      "type": "grid",
+      "data": [
+        "Customized Licensing Agreement drafting",
+        "Clear royalty, scope, and term definitions",
+        "Risk-mitigated structure protecting IP ownership",
+        "Legally enforceable agreement aligned with business goals"
+      ]
+    }
+  ],
+
+  "faqs": [
+    {
+      "q": "What is a Licensing Agreement?",
+      "a": "A Licensing Agreement allows one party (the licensee) to use intellectual property, technology, or products owned by another party (the licensor) under defined terms."
+    },
+    {
+      "q": "Why is a Licensing Agreement important?",
+      "a": "It protects the licensor's IP and revenue by clearly defining usage rights, restrictions, royalties, and legal enforceability."
+    },
+    {
+      "q": "What details must be clearly defined?",
+      "a": "The agreement must specify the scope of the license, royalty or fee structure, duration, territory, and termination conditions."
+    }
+  ],
+
+  "theme": {
+    "orb1": "bg-red-500/20",
+    "orb2": "bg-pink-500/20",
+    "iconBg": "from-red-500 to-pink-500",
+    "badgeText": "text-pink-300",
+    "primaryColor": "text-red-600",
+    "primaryBg": "bg-gradient-to-r from-red-600 to-pink-600",
+    "primaryHoverBg": "bg-gradient-to-r from-red-700 to-pink-700"
+  }
+},
+
+{
+  "slug": "non-disclosure-agreement",
+  "title": "Non-Disclosure Agreement (NDA)",
+
+  "hero": {
+    "title": "Non-Disclosure Agreement (NDA)",
+    "highlight": "Drafting",
+    "subtitle": "A legally enforceable agreement to protect confidential information and trade secrets.",
+    "badge": "Confidentiality • Trade Secrets • Legal Protection",
+
+    "price": "₹1,499",
+    "originalPrice": "₹1,999",
+
+    "timeline": "1–2 Days",
+    "features": ["Expert Drafting", "Fully Customized"],
+    "addons": [
+      {
+        "icon": "fileText",
+        "label": "NDA\nDraft"
+      },
+      {
+        "icon": "shield",
+        "label": "Confidential Info\nDefinition"
+      },
+      {
+        "icon": "clock",
+        "label": "Duration &\nPermitted Disclosures"
+      },
+      {
+        "icon": "clipboard",
+        "label": "Breach &\nRemedies Clauses"
+      }
+    ]
+  },
+
+  "layout": {
+    "icon": "shield",
+    "serviceID": "NON-DISCLOSURE_AGREEMENT_DRAFTING",
+    "contentTitle": "Why an NDA Is Essential for Business",
+    "contentDescription": "An NDA safeguards proprietary information while allowing businesses to collaborate, negotiate, and explore opportunities without risking misuse or disclosure of sensitive data.",
+    "section1Title": "Key Protections & Benefits"
+  },
+
+  "benefits": [
+    {
+      "icon": "shield",
+      "text": "Protects sensitive business information and trade secrets."
+    },
+    {
+      "icon": "scale",
+      "text": "Legally enforceable protection in case of unauthorized disclosure."
+    },
+    {
+      "icon": "users",
+      "text": "Enables safe collaboration, partnerships, and funding discussions."
+    },
+    {
+      "icon": "fileText",
+      "text": "Customized NDA drafting based on your business or project needs."
+    }
+  ],
+
+  "sections": [
+    {
+      "title": "Pre-Requisites for Drafting",
+      "icon": "checkCircle",
+      "type": "list",
+      "data": [
+        "Details of all parties involved",
+        "Nature and scope of confidential information",
+        "Duration of confidentiality obligations",
+        "Exclusions and permitted disclosures"
+      ]
+    },
+    {
+      "title": "What Lawizer Delivers",
+      "icon": "scale",
+      "type": "grid",
+      "data": [
+        "Tailor-made Non-Disclosure Agreement drafting",
+        "Clear definition of confidential information",
+        "Balanced obligations for both parties",
+        "Legally enforceable NDA aligned with business goals"
+      ]
+    }
+  ],
+
+  "faqs": [
+    {
+      "q": "What is a Non-Disclosure Agreement (NDA)?",
+      "a": "A Non-Disclosure Agreement is a legal contract that obligates parties to keep shared confidential information private and protected from unauthorized disclosure."
+    },
+    {
+      "q": "Why is an NDA important for startups and businesses?",
+      "a": "An NDA protects sensitive business information and trade secrets, allowing startups and businesses to discuss ideas, partnerships, or funding safely."
+    },
+    {
+      "q": "What should an NDA clearly define?",
+      "a": "An NDA must define what constitutes confidential information, the duration of confidentiality, permitted disclosures, and consequences of breach."
+    }
+  ],
+
+  "theme": {
+    "orb1": "bg-red-500/20",
+    "orb2": "bg-pink-500/20",
+    "iconBg": "from-red-500 to-pink-500",
+    "badgeText": "text-pink-300",
+    "primaryColor": "text-red-600",
+    "primaryBg": "bg-gradient-to-r from-red-600 to-pink-600",
+    "primaryHoverBg": "bg-gradient-to-r from-red-700 to-pink-700"
+  }
+},
+
+{
+  "slug": "power-of-attorney-drafting",
+  "title": "Power of Attorney (POA)",
+
+  "hero": {
+    "title": "Power of Attorney",
+    "highlight": "Drafting",
+    "subtitle": "Authorize a trusted person to legally act on your behalf in financial, property, or legal matters.",
+    "badge": "Legal Authority • Risk Protection • Compliance Assured",
+
+    "price": "₹1,499",
+    "originalPrice": "₹2,499",
+
+    "timeline": "Customized Drafting",
+    "features": [
+      "Legal Clarity",
+      "Registration Guidance"
+    ],
+    "addons": [
+      {
+        "icon": "shield",
+        "label": "Legally Compliant\nDrafted POA"
+      },
+      {
+        "icon": "fileText",
+        "label": "Clearly Defined\nPowers & Limits"
+      },
+      {
+        "icon": "clipboard",
+        "label": "Clause-wise\nExplanation"
+      },
+      {
+        "icon": "fileText",
+        "label": "Notarization &\nRegistration Guidance"
+      }
+    ]
+  },
+
+  "layout": {
+    "icon": "gavel",
+    "serviceID": "POWER_OF_ATTORNEY_DRAFTING",
+    "contentTitle": "Why a Properly Drafted POA Is Essential",
+    "contentDescription": "A professionally drafted POA defines authority clearly, prevents misuse, and ensures enforceability.",
+    "section1Title": "Key Protections and Benefits"
+  },
+
+  "benefits": [
+    {
+      "icon": "users",
+      "text": "Authorizes another person to legally act on your behalf."
+    },
+    {
+      "icon": "shield",
+      "text": "Protects your interests in transactions."
+    },
+    {
+      "icon": "scale",
+      "text": "Prevents misuse by defining clear limitations."
+    },
+    {
+      "icon": "home",
+      "text": "Ensures validity under local laws."
+    },
+    {
+      "icon": "fileText",
+      "text": "Professionally drafted document outlining powers."
+    }
+  ],
+
+  "sections": [
+    {
+      "title": "Information Required for Drafting",
+      "icon": "fileText",
+      "type": "list",
+      "data": [
+        "Principal and attorney details with ID proofs",
+        "Scope of powers (general or specific)",
+        "Property or asset details (if applicable)"
+      ]
+    },
+    {
+      "title": "What Lawizer Delivers",
+      "icon": "home",
+      "type": "grid",
+      "data": [
+        "Legally compliant POA document",
+        "Clause-wise explanation",
+        "Digital copy with notarization guidance"
+      ]
+    }
+  ],
+
+  "faqs": [
+    {
+      "q": "What is a Power of Attorney?",
+      "a": "A legal document authorizing someone to act on your behalf."
+    },
+    {
+      "q": "Why is POA important for property?",
+      "a": "It allows execution of transactions when principal is absent."
+    },
+    {
+      "q": "Difference between General and Special POA?",
+      "a": "General grants broad powers; Special limits to specific acts."
+    },
+    {
+      "q": "Is registration necessary?",
+      "a": "Registered POA is legally enforceable and widely accepted."
+    },
+    {
+      "q": "What details are required?",
+      "a": "Principal & attorney details with specific powers granted."
+    }
+  ],
+
+  "theme": {
+    "orb1": "bg-yellow-500/20",
+    "orb2": "bg-orange-500/20",
+    "iconBg": "from-yellow-500 to-orange-500",
+    "badgeText": "text-yellow-300",
+    "primaryColor": "text-yellow-600",
+    "primaryBg": "bg-gradient-to-r from-yellow-500 to-orange-500",
+    "primaryHoverBg": "bg-gradient-to-r from-yellow-600 to-orange-600"
+  }
+},
+
+{
+  "slug": "power-of-attorney-registration",
+  "title": "Registration of Power of Attorney (POA)",
+
+  "hero": {
+    "title": "Registration of",
+    "highlight": "Power of Attorney",
+    "subtitle": "Ensure your Power of Attorney is legally enforceable and valid for property and financial matters.",
+    "badge": "Legal Recognition • Property Validity • Government Acceptance",
+
+    "price": "₹1,499",
+    "originalPrice": "₹4,999",
+
+    "timeline": "3–5 Days",
+    "features": [
+      "Expert Guidance",
+      "Full Legal Support"
+    ],
+    "addons": [
+      {
+        "icon": "shield",
+        "label": "Stamp Duty\nGuidance"
+      },
+      {
+        "icon": "fileText",
+        "label": "Registered POA\nDocument"
+      },
+      {
+        "icon": "clipboard",
+        "label": "Step-by-Step\nProcess Support"
+      },
+      {
+        "icon": "gavel",
+        "label": "Legal Validity\nAssurance"
+      }
+    ]
+  },
+
+  "layout": {
+    "icon": "gavel",
+    "serviceID": "REGISTRATION_OF_POWER_OF_ATTORNEY",
+    "contentTitle": "Why POA Registration is Mandatory for Property",
+    "contentDescription": "Registration converts the POA into a public record, ensuring authenticity and preventing legal challenges.",
+    "section1Title": "Key Benefits of Lawizer's POA Registration Support"
+  },
+
+  "benefits": [
+    {
+      "icon": "gavel",
+      "text": "A registered POA is legally enforceable and accepted by institutions."
+    },
+    {
+      "icon": "shield",
+      "text": "Guidance through West Bengal registration requirements."
+    },
+    {
+      "icon": "users",
+      "text": "Prevents disputes by establishing validity of granted power."
+    }
+  ],
+
+  "sections": [
+    {
+      "title": "Lawizer Deliverables",
+      "icon": "fileText",
+      "type": "grid",
+      "data": [
+        "Guidance on stamp duty & registration",
+        "Registered POA document",
+        "Step-by-step process support"
+      ]
+    }
+  ],
+
+  "faqs": [
+    {
+      "q": "Why is registering a POA necessary?",
+      "a": "Registration ensures enforceability and acceptance by institutions."
+    },
+    {
+      "q": "Is registration mandatory for property matters?",
+      "a": "Yes, registration is generally required for immovable property transactions."
+    },
+    {
+      "q": "What does Lawizer provide?",
+      "a": "Stamp duty guidance and complete registration process support."
+    },
+    {
+      "q": "How does Sub-Registrar verify POA?",
+      "a": "Identity verification and authentication during registration."
+    },
+    {
+      "q": "Can overseas POA be registered?",
+      "a": "Yes, after embassy authentication and local stamping."
+    }
+  ],
+
+  "theme": {
+    "orb1": "bg-indigo-500/20",
+    "orb2": "bg-blue-500/20",
+    "iconBg": "from-indigo-500 to-blue-500",
+    "badgeText": "text-blue-300",
+    "primaryColor": "text-indigo-600",
+    "primaryBg": "bg-gradient-to-r from-indigo-600 to-blue-600",
+    "primaryHoverBg": "bg-gradient-to-r from-indigo-700 to-blue-700"
+  }
+},
+
+{
+  "slug": "privacy-terms-of-use",
+  "title": "Privacy Policy & Terms of Use",
+
+  "hero": {
+    "title": "Privacy Policy & Terms of Use",
+    "highlight": "Drafting",
+    "subtitle": "Essential legal documents governing data protection and platform usage.",
+    "badge": "IT Act • GDPR • Digital Compliance",
+
+    "price": "₹1,499",
+    "originalPrice": "₹2,999",
+
+    "timeline": "2–3 Days",
+    "features": [
+      "Expert Drafting",
+      "Platform-Specific"
+    ],
+    "addons": [
+      {
+        "icon": "shield",
+        "label": "Privacy Policy\nDraft"
+      },
+      {
+        "icon": "fileText",
+        "label": "Terms of Use\nDraft"
+      },
+      {
+        "icon": "clock",
+        "label": "GDPR & IT Act\nCompliance"
+      },
+      {
+        "icon": "clipboard",
+        "label": "Cookie &\nDisclaimer Clauses"
+      }
+    ]
+  },
+
+  "layout": {
+    "icon": "scale",
+    "serviceID": "PRIVACY_POLICY_&_TERMS_OF_USE_DRAFTING",
+    "contentTitle": "Why Privacy & Terms Documents Are Non-Negotiable",
+    "contentDescription": "Privacy Policies and Terms of Use are legally mandatory for digital platforms. They ensure regulatory compliance, mitigate legal risk, and build long-term trust with users.",
+    "section1Title": "Key Protections & Benefits"
+  },
+
+  "benefits": [
+    {
+      "icon": "scale",
+      "text": "Ensures compliance under IT Act, GDPR, and other data protection regulations."
+    },
+    {
+      "icon": "shield",
+      "text": "Protects both the business and users legally."
+    },
+    {
+      "icon": "users",
+      "text": "Builds trust and transparency with users."
+    },
+    {
+      "icon": "fileText",
+      "text": "Tailored policies for websites, apps, and software platforms."
+    }
+  ],
+
+  "sections": [
+    {
+      "title": "Pre-Requisites for Drafting",
+      "icon": "checkCircle",
+      "type": "list",
+      "data": [
+        "Business and platform details",
+        "Data collection, storage, and usage practices",
+        "User rights, obligations, and prohibited actions",
+        "Cookies, tracking, and third-party integrations"
+      ]
+    },
+    {
+      "title": "What Lawizer Delivers",
+      "icon": "scale",
+      "type": "grid",
+      "data": [
+        "Customized Privacy Policy drafting",
+        "Clear and enforceable Terms of Use",
+        "Regulatory-aligned disclosures and disclaimers",
+        "Policies tailored to your platform's business model"
+      ]
+    }
+  ],
+
+  "faqs": [
+    {
+      "q": "What is a Privacy Policy?",
+      "a": "A Privacy Policy is a legal document that explains how user data is collected, stored, processed, and protected by a website, app, or digital platform."
+    },
+    {
+      "q": "Why are Privacy Policy and Terms of Use mandatory?",
+      "a": "These documents are essential for legal compliance under the IT Act, GDPR, and global regulations, and they protect businesses from legal disputes."
+    },
+    {
+      "q": "What does a Terms of Use document cover?",
+      "a": "It defines the rules, rights, responsibilities, and limitations for users accessing and using your website, app, or services."
+    }
+  ],
+
+  "theme": {
+    "orb1": "bg-blue-500/20",
+    "orb2": "bg-indigo-500/20",
+    "iconBg": "from-blue-500 to-indigo-500",
+    "badgeText": "text-indigo-300",
+    "primaryColor": "text-blue-600",
+    "primaryBg": "bg-gradient-to-r from-blue-600 to-indigo-600",
+    "primaryHoverBg": "bg-gradient-to-r from-blue-700 to-indigo-700"
+  }
+},
+
+{
+  "slug": "saas-agreement",
+  "title": "Software as a Service (SaaS) Agreement",
+
+  "hero": {
+    "title": "Software as a Service (SaaS) Agreement",
+    "highlight": "Drafting",
+    "subtitle": "Legally structured agreements for subscription-based software platforms.",
+    "badge": "Subscription • IP • SLA • Compliance",
+
+    "price": "₹1,499",
+    "originalPrice": "₹5,999",
+
+    "timeline": "3–5 Days",
+    "features": [
+      "Expert Drafting",
+      "Fully Customized"
+    ],
+    "addons": [
+      {
+        "icon": "fileText",
+        "label": "SaaS Subscription\nAgreement Draft"
+      },
+      {
+        "icon": "shield",
+        "label": "IP Ownership\n& Licensing"
+      },
+      {
+        "icon": "scale",
+        "label": "SLA\nStructuring"
+      },
+      {
+        "icon": "clipboard",
+        "label": "Termination &\nLiability Clauses"
+      }
+    ]
+  },
+
+  "layout": {
+    "icon": "fileText",
+    "serviceID": "SOFTWARE_AS_A_SERVICE_AGREEMENT",
+    "contentTitle": "Why a Customized SaaS Agreement Is Crucial",
+    "contentDescription": "Standard contracts are insufficient for SaaS businesses. A customized SaaS Agreement clearly defines licensing boundaries, service levels, data responsibilities, and revenue protection for subscription-based software platforms.",
+    "section1Title": "Key Protections & Benefits"
+  },
+
+  "benefits": [
+    {
+      "icon": "shield",
+      "text": "Protects software intellectual property, revenue, and service obligations."
+    },
+    {
+      "icon": "scale",
+      "text": "Prevents misuse of software and ensures regulatory compliance."
+    },
+    {
+      "icon": "gavel",
+      "text": "Subscription-based SaaS agreement drafting."
+    },
+    {
+      "icon": "fileText",
+      "text": "Clear guidance on IP ownership, SLA, and termination clauses."
+    }
+  ],
+
+  "sections": [
+    {
+      "title": "Pre-Requisites for Drafting",
+      "icon": "checkCircle",
+      "type": "list",
+      "data": [
+        "Software provider and client details",
+        "Subscription model and pricing structure",
+        "IP ownership and licensing scope",
+        "Support, SLA, and maintenance terms",
+        "Termination, suspension, and liability clauses"
+      ]
+    },
+    {
+      "title": "What Lawizer Delivers",
+      "icon": "gavel",
+      "type": "grid",
+      "data": [
+        "Customized SaaS subscription agreement",
+        "Clearly defined IP ownership and licensing rights",
+        "Service Level Agreement (SLA) structuring",
+        "Termination, suspension, and liability protection clauses"
+      ]
+    }
+  ],
+
+  "faqs": [
+    {
+      "q": "What is a SaaS Agreement?",
+      "a": "A SaaS Agreement governs the subscription, licensing, support obligations, and intellectual property rights for cloud-based software services."
+    },
+    {
+      "q": "Why is a dedicated SaaS Agreement necessary?",
+      "a": "SaaS businesses operate on subscription models with ongoing service delivery. A dedicated agreement protects IP, revenue streams, and clearly defines service obligations."
+    },
+    {
+      "q": "What are the key clauses in a SaaS Agreement?",
+      "a": "It typically includes subscription terms, IP ownership, Service Level Agreements (SLA), data handling, termination conditions, and liability limitations."
+    }
+  ],
+
+  "theme": {
+    "orb1": "bg-indigo-500/20",
+    "orb2": "bg-purple-500/20",
+    "iconBg": "from-indigo-500 to-purple-500",
+    "badgeText": "text-purple-300",
+    "primaryColor": "text-indigo-600",
+    "primaryBg": "bg-gradient-to-r from-indigo-600 to-purple-600",
+    "primaryHoverBg": "bg-gradient-to-r from-indigo-700 to-purple-700"
+  }
+},
+
+{
+  "slug": "service-agreement-term-sheet",
+  "title": "Service Agreement & Term Sheet",
+
+  "hero": {
+    "title": "Service Agreement & Term Sheet",
+    "highlight": "Drafting",
+    "subtitle": "Clear, enforceable contracts defining scope, fees, deliverables, and timelines.",
+    "badge": "Scope • Fees • Timelines • Enforceable",
+
+    "price": "₹1,499",
+    "originalPrice": "₹4,499",
+
+    "timeline": "2–3 Days",
+    "features": [
+      "Expert Drafting",
+      "Fully Customized"
+    ],
+    "addons": [
+      {
+        "icon": "fileText",
+        "label": "Service Agreement\nDraft"
+      },
+      {
+        "icon": "clipboard",
+        "label": "Term Sheet\nDraft"
+      },
+      {
+        "icon": "clock",
+        "label": "Milestone &\nTimeline Clauses"
+      },
+      {
+        "icon": "badgeIndianRupee",
+        "label": "Scope & Fees\nDefinition"
+      }
+    ]
+  },
+
+  "layout": {
+    "icon": "fileText",
+    "serviceID": "SERVICE_AGREEMENT_&_TERM_SHEET_DRAFTING",
+    "contentTitle": "Why a Service Agreement Is Critical",
+    "contentDescription": "A properly drafted Service Agreement or Term Sheet ensures clarity on service expectations, payments, and timelines. It legally binds both parties and prevents disputes arising from unclear obligations or deliverables.",
+    "section1Title": "Key Protections & Benefits"
+  },
+
+  "benefits": [
+    {
+      "icon": "checkCircle",
+      "text": "Clearly defines scope, fees, deliverables, and timelines for services."
+    },
+    {
+      "icon": "shield",
+      "text": "Prevents disputes related to services, payments, or expectations."
+    },
+    {
+      "icon": "scale",
+      "text": "Ensures legal enforceability of service commitments."
+    },
+    {
+      "icon": "clock",
+      "text": "Provides clarity on obligations, milestones, and timelines."
+    }
+  ],
+
+  "sections": [
+    {
+      "title": "Pre-Requisites for Drafting",
+      "icon": "fileText",
+      "type": "list",
+      "data": [
+        "Details of the service provider and client",
+        "Scope of services and deliverables",
+        "Fees, payment terms, and deadlines",
+        "Service timelines and milestones"
+      ]
+    },
+    {
+      "title": "What Lawizer Delivers",
+      "icon": "clock",
+      "type": "grid",
+      "data": [
+        "Drafting of Service Agreements or Term Sheets",
+        "Clear definition of scope, fees, and deliverables",
+        "Timeline and milestone structuring",
+        "Guidance on obligations and legal clauses"
+      ]
+    }
+  ],
+
+  "faqs": [
+    {
+      "q": "What is a Service Agreement?",
+      "a": "A Service Agreement is a legally binding document that defines the scope of services, fees, deliverables, and timelines between parties."
+    },
+    {
+      "q": "What is a Term Sheet in service arrangements?",
+      "a": "A Term Sheet is a preliminary, usually non-binding document that outlines key commercial terms before a detailed Service Agreement is executed."
+    },
+    {
+      "q": "Why is defining scope and timelines important?",
+      "a": "Clear scope, fees, and timelines prevent misunderstandings, reduce disputes, and ensure enforceability of service obligations."
+    }
+  ],
+
+  "theme": {
+    "orb1": "bg-teal-500/20",
+    "orb2": "bg-green-500/20",
+    "iconBg": "from-teal-500 to-green-500",
+    "badgeText": "text-green-300",
+    "primaryColor": "text-teal-600",
+    "primaryBg": "bg-gradient-to-r from-teal-600 to-green-600",
+    "primaryHoverBg": "bg-gradient-to-r from-teal-700 to-green-700"
+  }
+},
+
+{
+  "slug": "shareholder-subscription-agreement",
+  "title": "Shareholder Subscription Agreement",
+
+  "hero": {
+    "title": "Shareholder Subscription Agreement",
+    "highlight": "Drafting",
+    "subtitle": "Legally structured agreements governing investment and share issuance.",
+    "badge": "Funding • Shareholding • Governance",
+
+    "price": "₹1,499",
+    "originalPrice": "₹8,999",
+
+    "timeline": "3–5 Days",
+    "features": [
+      "Expert Drafting",
+      "Investor-Ready"
+    ],
+    "addons": [
+      {
+        "icon": "fileText",
+        "label": "Subscription\nAgreement Draft"
+      },
+      {
+        "icon": "users",
+        "label": "Shareholding &\nVoting Rights"
+      },
+      {
+        "icon": "badgeIndianRupee",
+        "label": "Dividend &\nLiquidation Rights"
+      },
+      {
+        "icon": "clipboard",
+        "label": "Exit & Investor\nProtection"
+      }
+    ]
+  },
+
+  "layout": {
+    "icon": "gavel",
+    "serviceID": "SHAREHOLDER_SUBSCRIPTION_AGREEMENT",
+    "contentTitle": "Why a Subscription Agreement Is Essential for Funding",
+    "contentDescription": "A Shareholder Subscription Agreement formalizes capital investment into a company, clearly defining shareholder rights, obligations, and governance structures. It ensures legal compliance and reduces the risk of future disputes between founders and investors.",
+    "section1Title": "Key Protections & Benefits"
+  },
+
+  "benefits": [
+    {
+      "icon": "shield",
+      "text": "Protects investor and company rights through legally structured funding."
+    },
+    {
+      "icon": "checkCircle",
+      "text": "Ensures clarity on shareholding, voting rights, and dividend entitlement."
+    },
+    {
+      "icon": "scale",
+      "text": "Legally enforceable agreement in case of shareholder disputes."
+    },
+    {
+      "icon": "users",
+      "text": "Suitable for startup funding rounds and corporate investments."
+    }
+  ],
+
+  "sections": [
+    {
+      "title": "Pre-Requisites for Drafting",
+      "icon": "fileText",
+      "type": "list",
+      "data": [
+        "Company and investor details",
+        "Number, class, and type of shares to be issued",
+        "Share price and investment amount",
+        "Rights, obligations, and exit clauses"
+      ]
+    },
+    {
+      "title": "What Lawizer Delivers",
+      "icon": "users",
+      "type": "grid",
+      "data": [
+        "Drafting Shareholder Subscription Agreements",
+        "Structuring shareholding and voting rights",
+        "Guidance on dividend and liquidation rights",
+        "Exit clauses and investor protection mechanisms"
+      ]
+    }
+  ],
+
+  "faqs": [
+    {
+      "q": "What is a Shareholder Subscription Agreement?",
+      "a": "It is a legal agreement governing the issuance of shares to investors and defining their rights, obligations, and relationship with the company."
+    },
+    {
+      "q": "Why is this agreement important for investors?",
+      "a": "It ensures clarity on shareholding, voting rights, dividend entitlement, and protects the investor's interests legally."
+    },
+    {
+      "q": "What clauses are typically included?",
+      "a": "It includes share issuance details, rights and obligations of shareholders, governance provisions, and exit clauses."
+    }
+  ],
+
+  "theme": {
+    "orb1": "bg-purple-500/20",
+    "orb2": "bg-violet-500/20",
+    "iconBg": "from-purple-500 to-violet-500",
+    "badgeText": "text-violet-300",
+    "primaryColor": "text-purple-600",
+    "primaryBg": "bg-gradient-to-r from-purple-600 to-violet-600",
+    "primaryHoverBg": "bg-gradient-to-r from-purple-700 to-violet-700"
+  }
+}
+]
