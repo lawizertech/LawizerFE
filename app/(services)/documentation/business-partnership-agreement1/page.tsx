@@ -1,24 +1,28 @@
 "use client";
 import { useRef } from "react";
 import { motion } from "framer-motion";
-import ServicePageLayout, { BenefitItem, SectionBlock, FAQItem } from "@/components/client/ServicePageLayout";
+import ServicePageLayout, { BenefitItem, SectionBlock, FAQItem } from "../../../../components/client/ServicePageLayout";
 
 const benefits = [
-  { icon: "checkCircle", text: "Provides clarity on employee rights and employer obligations." },
-  { icon: "shield", text: "Prevents disputes over compensation, termination, or confidentiality." },
-  { icon: "scale", text: "Ensures compliance with labour and employment laws." },
-  { icon: "fileText", text: "Includes clause-wise explanation on non-compete, confidentiality, and termination." },
+  { icon: "shield", text: "Prevents conflicts among partners by clearly defining rights and obligations." },
+  { icon: "badgeIndianRupee", text: "Provides clarity on capital contribution, investment, and profit-sharing ratios." },
+  { icon: "scale", text: "Legally enforceable document in case of disputes or disagreements." },
+  { icon: "fileText", text: "Agreement tailored specifically to your business model and partnership structure." },
 ] satisfies BenefitItem[];
 
 const sections = [
   {
-    title: "Pre-Requisites for Drafting",
+    type: "alert",
+    data: { type: "warning", title: "Highly Recommended Before Starting Operations", description: "Operating without a written partnership agreement can lead to serious financial and legal disputes that are difficult to resolve later." },
+  },
+  {
+    title: "Pre-Requisites for Drafting the Agreement",
     icon: "checkCircle",
     type: "list",
     data: [
-      "Employee and employer details",
-      "Compensation, role, responsibilities, and benefits",
-      "Duration and termination clauses",
+      "Details of all partners (name, address, identity proof)",
+      "Capital contribution and investment amount of each partner",
+      "Profit-sharing ratio and roles & responsibilities",
     ],
   },
   {
@@ -26,18 +30,19 @@ const sections = [
     icon: "scale",
     type: "grid",
     data: [
-      "Drafting legally compliant employment agreements",
-      "Clause explanation including non-compete and confidentiality",
-      "Clear termination and notice-period clauses",
-      "Advice on dispute prevention and compliance",
+      "Professionally drafted partnership agreement",
+      "Clear clauses on management, profit sharing, and decision-making",
+      "Exit, retirement, and dispute resolution clauses",
+      "Clause-wise explanation before finalisation",
     ],
   },
 ] satisfies SectionBlock[];
 
 const faqs = [
-  { q: "What is an Employment Agreement?", a: "It is a legal document outlining the terms of employment, including roles, salary, benefits, and termination policies." },
-  { q: "Why is an Employment Agreement important?", a: "It provides clarity on employee rights and employer obligations, ensures compliance with labour laws, and prevents disputes over compensation or termination." },
-  { q: "Does the agreement cover confidentiality and non-compete clauses?", a: "Yes. The agreement includes detailed clauses on confidentiality, non-compete, and termination with proper legal explanation." },
+  { q: "What is a Business Partnership Agreement?", a: "It is a legal contract between business partners that defines capital contribution, profit-sharing, management roles, rights, responsibilities, and exit mechanisms." },
+  { q: "Why is a Partnership Agreement necessary?", a: "It prevents conflicts, provides legal clarity, and protects partners in case of disputes by clearly documenting financial and operational terms." },
+  { q: "Is a partnership agreement legally enforceable?", a: "Yes. A properly drafted and executed partnership agreement is legally enforceable and can be relied upon in court or arbitration." },
+  { q: "Can the agreement be customized?", a: "Absolutely. Lawizer drafts partnership agreements customized to your business, partner roles, and long-term goals." },
 ] satisfies FAQItem[];
 
 function HeroWithAddons() {
@@ -45,19 +50,19 @@ function HeroWithAddons() {
   const addons = [
     {
       icon: <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={1.5}><path d="M9 12h6M9 16h6M9 8h6M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg>,
-      label: "Employment\nAgreement Draft",
+      label: "Partnership\nAgreement Draft",
+    },
+    {
+      icon: <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={1.5}><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>,
+      label: "Profit Sharing\nClauses",
     },
     {
       icon: <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={1.5}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
-      label: "Non-Compete &\nConfidentiality",
-    },
-    {
-      icon: <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={1.5}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
-      label: "Termination &\nNotice Period",
+      label: "Dispute Resolution\nClauses",
     },
     {
       icon: <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={1.5}><path d="M9 14l2 2 4-4M7 4H4a1 1 0 00-1 1v16a1 1 0 001 1h16a1 1 0 001-1V5a1 1 0 00-1-1h-3"/><rect x="7" y="2" width="10" height="4" rx="1"/></svg>,
-      label: "Labour Law\nCompliance",
+      label: "Exit & Retirement\nClauses",
     },
   ];
 
@@ -68,12 +73,12 @@ function HeroWithAddons() {
       style={{ paddingTop: "100px", paddingBottom: "56px" }}
     >
       <div className="absolute inset-0 bg-[url('/propertylegal.png')] bg-cover bg-center opacity-10 pointer-events-none" />
-      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-green-500/20 blur-3xl rounded-full pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-teal-500/20 blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-orange-500/20 blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-yellow-500/20 blur-3xl rounded-full pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-3xl flex flex-col items-center">
         <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="mb-6">
-          <div className="p-4 rounded-2xl bg-gradient-to-br from-green-500 to-teal-500 shadow-lg inline-flex">
+          <div className="p-4 rounded-2xl bg-gradient-to-br from-orange-500 to-yellow-500 shadow-lg inline-flex">
             <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2} className="w-12 h-12 sm:w-14 sm:h-14">
               <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
               <circle cx="9" cy="7" r="4"/>
@@ -84,13 +89,13 @@ function HeroWithAddons() {
 
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="flex flex-col items-center">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 tracking-tight">
-            Employment Agreement <span className="text-teal-300">Drafting</span>
+            Business Partnership Agreement <span className="text-yellow-300">Drafting</span>
           </h1>
           <p className="text-slate-300 text-sm sm:text-base max-w-xl mb-2">
-            A legally compliant contract defining roles, salary, benefits, and termination terms.
+            A legally enforceable agreement defining investment, profit-sharing, roles, and exit mechanisms among partners.
           </p>
-          <p className="text-sm mb-8 text-teal-300">
-            Labour-law Compliant • Dispute Prevention • Clear Obligations
+          <p className="text-sm mb-8 text-yellow-300">
+            Custom-drafted • Legally Enforceable • Dispute-proof
           </p>
 
           <div className="flex items-center justify-center gap-3 mb-1">
@@ -98,7 +103,7 @@ function HeroWithAddons() {
               @ Rs. 1,499 <sup className="text-lg font-semibold">*</sup>
             </p>
             <p className="text-lg sm:text-xl font-semibold text-slate-400 line-through">
-              ₹3,499
+              ₹4,499
             </p>
           </div>
           <p className="text-slate-400 text-xs sm:text-sm mb-8 tracking-wide">
@@ -129,27 +134,27 @@ function HeroWithAddons() {
   );
 }
 
-export default function EmploymentAgreementPage() {
+export default function BusinessPartnershipAgreementPage() {
   return (
     <>
       <HeroWithAddons />
       <ServicePageLayout
-        title="Employment Agreement Drafting"
-        subtitle="A legally compliant contract defining roles, salary, benefits, and termination terms."
-        badgeText="Labour-law compliant • Dispute prevention • Clear obligations"
+        title="Business Partnership Agreement Drafting"
+        subtitle="A legally enforceable agreement defining investment, profit-sharing, roles, and exit mechanisms among partners."
+        badgeText="Custom-drafted • Legally enforceable • Dispute-proof"
         icon="users"
-        serviceID="EMPLOYMENT_AGREEMENT_DRAFTING"
-        contentTitle="Why a Compliant Employment Agreement Is Essential"
-        contentDescription="A strong employment agreement creates a clear framework for the working relationship, reduces legal risk, and ensures compliance with labour and employment laws."
+        serviceID="BUSINESS_PARTNERSHIP_AGREEMENT_DRAFTING"
+        contentTitle="Why a Business Partnership Agreement Is Essential"
+        contentDescription="A well-drafted partnership agreement is the foundation of a stable business relationship. It clearly documents expectations, prevents misunderstandings, and safeguards the interests of all partners from day one."
         section1Title="Key Protections & Benefits"
         benefits={benefits}
         sections={sections}
         faqs={faqs}
         hideHero={true}
-        theme={{ orb1: "bg-green-500/20", orb2: "bg-teal-500/20", iconBg: "from-green-500 to-teal-500", badgeText: "text-teal-300" }}
-        primaryColor="text-green-600"
-        primaryBg="bg-gradient-to-r from-green-600 to-teal-600"
-        primaryHoverBg="bg-gradient-to-r from-green-700 to-teal-700"
+        theme={{ orb1: "bg-orange-500/20", orb2: "bg-yellow-500/20", iconBg: "from-orange-500 to-yellow-500", badgeText: "text-yellow-300" }}
+        primaryColor="text-orange-600"
+        primaryBg="bg-gradient-to-r from-orange-600 to-yellow-600"
+        primaryHoverBg="bg-gradient-to-r from-orange-700 to-yellow-700"
       />
     </>
   );
