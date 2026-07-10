@@ -1,20 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-  addDoc,
-  serverTimestamp,
-  limit,
-} from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query, addDoc, serverTimestamp, limit } from "firebase/firestore";
 import { Send } from "lucide-react";
 import { db } from "@/lib/firebaseClient";
 
 /* -------------------------------------------------------------------------- */
-/*                                   TYPES                                    */
+/* TYPES */
 /* -------------------------------------------------------------------------- */
 
 type Message = {
@@ -26,7 +18,7 @@ type Message = {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                               COMPONENT                                    */
+/* COMPONENT */
 /* -------------------------------------------------------------------------- */
 
 export default function ServiceChat({
@@ -47,11 +39,7 @@ export default function ServiceChat({
   useEffect(() => {
     if (!currentUserId) return;
 
-    const q = query(
-      collection(db, "serviceChats", serviceId, "messages"),
-      orderBy("createdAt", "asc"),
-      limit(200),
-    );
+    const q = query(collection(db, "serviceChats", serviceId, "messages"), orderBy("createdAt", "asc"), limit(200));
 
     const unsub = onSnapshot(q, (snap) => {
       setMessages(snap.docs.map((d) => ({ id: d.id, ...(d.data() as any) })));
@@ -82,7 +70,7 @@ export default function ServiceChat({
   };
 
   /* -------------------------------------------------------------------------- */
-  /*                                  UI                                        */
+  /* UI */
   /* -------------------------------------------------------------------------- */
 
   return (
@@ -107,15 +95,10 @@ export default function ServiceChat({
             {messages.map((m) => {
               const isMe = m.senderId === currentUserId;
               return (
-                <div
-                  key={m.id}
-                  className={`flex ${isMe ? "justify-end" : "justify-start"}`}
-                >
+                <div key={m.id} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
                   <div
                     className={`inline-block max-w-[80%] px-3 py-2 rounded-2xl break-words whitespace-pre-wrap ${
-                      isMe
-                        ? "bg-[#c92c41] text-white"
-                        : "bg-gray-100 text-gray-800"
+                      isMe ? "bg-[#c92c41] text-white" : "bg-gray-100 text-gray-800"
                     }`}
                   >
                     {m.text}
@@ -135,10 +118,7 @@ export default function ServiceChat({
               className="flex-1 border rounded-md px-2 py-1 text-xs"
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
             />
-            <button
-              onClick={sendMessage}
-              className="bg-[#c92c41] text-white px-2 rounded-md"
-            >
+            <button onClick={sendMessage} className="bg-[#c92c41] text-white px-2 rounded-md">
               <Send size={14} />
             </button>
           </div>

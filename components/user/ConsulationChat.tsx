@@ -1,21 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-  serverTimestamp,
-  limit,
-  addDoc,
-} from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query, serverTimestamp, limit, addDoc } from "firebase/firestore";
 import { Send, Phone, Video } from "lucide-react";
 import { db } from "@/lib/firebaseClient";
 import { Booking } from "@/types/booking";
 
 /* -------------------------------------------------------------------------- */
-/*                                   TYPES                                    */
+/* TYPES */
 /* -------------------------------------------------------------------------- */
 
 type Message = {
@@ -27,7 +19,7 @@ type Message = {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                               COMPONENT                                    */
+/* COMPONENT */
 /* -------------------------------------------------------------------------- */
 
 export default function ConsultationChat({
@@ -77,24 +69,21 @@ export default function ConsultationChat({
   const sendMessage = async () => {
     if (!text.trim()) return;
 
-    await addDoc(
-      collection(db, "consultationChats", booking.bookingId, "messages"),
-      {
-        bookingId: booking.bookingId,
-        text,
-        senderId: currentUserId,
-        senderRole: currentUserRole,
-        createdAt: serverTimestamp(),
-        createdAtMs: Date.now(),
-        read: false,
-      },
-    );
+    await addDoc(collection(db, "consultationChats", booking.bookingId, "messages"), {
+      bookingId: booking.bookingId,
+      text,
+      senderId: currentUserId,
+      senderRole: currentUserRole,
+      createdAt: serverTimestamp(),
+      createdAtMs: Date.now(),
+      read: false,
+    });
 
     setText("");
   };
 
   /* -------------------------------------------------------------------------- */
-  /*                                  UI                                        */
+  /* UI */
   /* -------------------------------------------------------------------------- */
 
   return (
@@ -112,13 +101,8 @@ export default function ConsultationChat({
           <p className="font-medium text-sm">{booking.expertName}</p>
           {open && (
             <p className="text-xs text-gray-500 capitalize flex items-center gap-1">
-              {booking.callType === "video" ? (
-                <Video size={12} />
-              ) : (
-                <Phone size={12} />
-              )}
-              {booking.callType} consultation ·{" "}
-              {bookingDate.toLocaleDateString()}
+              {booking.callType === "video" ? <Video size={12} /> : <Phone size={12} />}
+              {booking.callType} consultation · {bookingDate.toLocaleDateString()}
             </p>
           )}
         </div>
@@ -137,24 +121,15 @@ export default function ConsultationChat({
 
           {/* MESSAGES */}
           <div className="flex-1 overflow-y-auto p-3 text-xs flex flex-col gap-2">
-            {messages.length === 0 && (
-              <p className="text-gray-400 text-center mt-4">
-                Start your consultation chat…
-              </p>
-            )}
+            {messages.length === 0 && <p className="text-gray-400 text-center mt-4">Start your consultation chat…</p>}
 
             {messages.map((m) => {
               const isMe = m.senderId === currentUserId;
               return (
-                <div
-                  key={m.id}
-                  className={`flex ${isMe ? "justify-end" : "justify-start"}`}
-                >
+                <div key={m.id} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
                   <div
                     className={`max-w-[80%] px-3 py-2 rounded-2xl whitespace-pre-wrap break-words ${
-                      isMe
-                        ? "bg-[#c92c41] text-white"
-                        : "bg-gray-100 text-gray-800"
+                      isMe ? "bg-[#c92c41] text-white" : "bg-gray-100 text-gray-800"
                     }`}
                   >
                     {m.text}
@@ -175,10 +150,7 @@ export default function ConsultationChat({
                 className="flex-1 border rounded-md px-2 py-1 text-xs"
                 onKeyDown={(e) => e.key === "Enter" && sendMessage()}
               />
-              <button
-                onClick={sendMessage}
-                className="bg-[#c92c41] text-white px-2 rounded-md"
-              >
+              <button onClick={sendMessage} className="bg-[#c92c41] text-white px-2 rounded-md">
                 <Send size={14} />
               </button>
             </div>

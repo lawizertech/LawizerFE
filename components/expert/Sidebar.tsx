@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Home,
-  User,
-  Calendar,
-  LogOut,
-  LayoutDashboard,
-  ClipboardList,
-} from "lucide-react";
+import { Home, User, Calendar, LogOut, LayoutDashboard, ClipboardList } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface SidebarProps {
@@ -16,23 +9,16 @@ interface SidebarProps {
   menuOpen: boolean;
 }
 
-export default function Sidebar({
-  activeTab,
-  handleLogout,
-  menuOpen,
-}: SidebarProps) {
+export default function Sidebar({ activeTab, handleLogout, menuOpen }: SidebarProps) {
   const router = useRouter();
 
   return (
     <aside
       className={`bg-white border-r border-[#ebebeb] w-64 p-5 fixed top-0 left-0 h-full
-        transition-transform duration-300 z-40
-        ${menuOpen ? "translate-x-0" : "-translate-x-64"} lg:translate-x-0`}
+ transition-transform duration-300 z-40
+ ${menuOpen ? "translate-x-0" : "-translate-x-64"} lg:translate-x-0`}
     >
-      <div
-        className="flex items-center gap-2 cursor-pointer justify-start pb-5"
-        onClick={() => router.push("/")}
-      >
+      <div className="flex items-center gap-2 cursor-pointer justify-start pb-5" onClick={() => router.push("/")}>
         <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
           <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-7 h-7" />
         </div>
@@ -69,7 +55,7 @@ export default function Sidebar({
         <button
           onClick={handleLogout}
           className="flex items-center gap-3 w-full px-4 py-2 rounded-md
-                     text-red-600 font-normal hover:bg-red-50 transition"
+ text-red-600 font-normal hover:bg-red-50 transition"
         >
           <LogOut size={18} />
           Logout
@@ -80,7 +66,7 @@ export default function Sidebar({
 }
 
 /* =========================
-   SIDEBAR ITEM
+ SIDEBAR ITEM
 ========================= */
 
 function SidebarItem({
@@ -98,10 +84,8 @@ function SidebarItem({
     <button
       onClick={onClick}
       className={`flex items-center gap-3 w-full px-4 py-4 rounded-md
-        font-light transition
-        ${
-          active ? "bg-[#d62038] text-white" : "text-[#737373] hover:bg-red-50"
-        }`}
+ font-light transition
+ ${active ? "bg-[#d62038] text-white" : "text-[#737373] hover:bg-red-50"}`}
     >
       <Icon size={18} />
       {label}

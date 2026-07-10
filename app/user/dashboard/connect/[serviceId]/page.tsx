@@ -10,7 +10,7 @@ import VoiceCallModal from "@/components/call/VoiceCallModal";
 import { rtdb } from "@/lib/firebaseClient";
 
 export default function UserConnectPage() {
-    const { serviceId: bookingId } = useParams<{ serviceId: string }>();
+  const { serviceId: bookingId } = useParams<{ serviceId: string }>();
   const [incomingCall, setIncomingCall] = useState<{
     type: "voice" | "video";
   } | null>(null);
@@ -54,18 +54,13 @@ export default function UserConnectPage() {
     loadBooking();
   }, [bookingId]);
 
-  if (!booking)
-    return <p className="pt-6 text-2xl font-bold">Loading consultation...</p>;
+  if (!booking) return <p className="pt-6 text-2xl font-bold">Loading consultation...</p>;
 
   return (
     <>
       <div className="bg-white rounded-2xl shadow p-6 mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">
-          Consultation with {booking.expertName}
-        </h1>
-        <p className="text-gray-500 text-sm mt-1">
-          Booking ID: {booking.bookingId}
-        </p>
+        <h1 className="text-2xl font-bold text-gray-800">Consultation with {booking.expertName}</h1>
+        <p className="text-gray-500 text-sm mt-1">Booking ID: {booking.bookingId}</p>
       </div>
 
       <div className="bg-white rounded-2xl shadow p-6 space-y-4 max-w-xl">
@@ -78,28 +73,16 @@ export default function UserConnectPage() {
           Chat
         </button>
 
-        <button
-          disabled
-          className="w-full py-3 rounded-lg bg-gray-100 text-gray-400"
-        >
+        <button disabled className="w-full py-3 rounded-lg bg-gray-100 text-gray-400">
           Voice Call (Coming Soon)
         </button>
 
-        <button
-          disabled
-          className="w-full py-3 rounded-lg bg-gray-100 text-gray-400"
-        >
+        <button disabled className="w-full py-3 rounded-lg bg-gray-100 text-gray-400">
           Video Call (Coming Soon)
         </button>
       </div>
 
-      {showChat && (
-        <ChatModal
-          bookingId={booking.bookingId}
-          role="client"
-          onClose={() => setShowChat(false)}
-        />
-      )}
+      {showChat && <ChatModal bookingId={booking.bookingId} role="client" onClose={() => setShowChat(false)} />}
 
       {incomingCall && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
@@ -108,9 +91,7 @@ export default function UserConnectPage() {
               Incoming {incomingCall.type === "voice" ? "Voice" : "Video"} Call
             </h2>
 
-            <p className="text-gray-600 mb-6">
-              {booking.expertName} is calling you
-            </p>
+            <p className="text-gray-600 mb-6">{booking.expertName} is calling you</p>
 
             <div className="flex gap-4">
               {/* Reject */}
@@ -144,11 +125,7 @@ export default function UserConnectPage() {
       )}
 
       {showVoiceCall && (
-        <VoiceCallModal
-          bookingId={booking.bookingId}
-          role="client"
-          onClose={() => setShowVoiceCall(false)}
-        />
+        <VoiceCallModal bookingId={booking.bookingId} role="client" onClose={() => setShowVoiceCall(false)} />
       )}
     </>
   );

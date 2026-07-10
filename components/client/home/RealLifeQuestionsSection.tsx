@@ -1,15 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  HelpCircle,
-  Building2,
-  AlertTriangle,
-  Users,
-  FileWarning,
-  MessageCircle,
-  Banknote,
-} from "lucide-react";
+import { HelpCircle, Building2, AlertTriangle, Users, FileWarning, MessageCircle, Banknote } from "lucide-react";
 import LegalQuestionsCarousel from "../LegalQuestionsCarousel";
 import { useRouter } from "next/navigation";
 
@@ -72,14 +64,9 @@ export function RealLifeQuestionsSection() {
     <section className="py-16 sm:py-20 bg-white relative overflow-hidden">
       {/* Background blur animation */}
       <motion.div
-        className="absolute -z-10 top-0 left-0 w-full h-full pointer-events-none"
+        className="absolute -z-10 top-0 left-0 w-full h-full pointer-events-none bg-[radial-gradient(circle_at_20%_30%,rgba(99,102,241,0.12),transparent_40%),radial-gradient(circle_at_80%_70%,rgba(59,130,246,0.12),transparent_40%)] bg-[length:200%_200%]"
         animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
         transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 20% 30%, rgba(99,102,241,0.12), transparent 40%), radial-gradient(circle at 80% 70%, rgba(59,130,246,0.12), transparent 40%)",
-          backgroundSize: "200% 200%",
-        }}
       />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -96,8 +83,8 @@ export function RealLifeQuestionsSection() {
             Real-life legal issues need real lawyers. Whether it’s{" "}
             <span className="font-semibold text-gray-800">personal</span>,{" "}
             <span className="font-semibold text-gray-800">property</span>, or{" "}
-            <span className="font-semibold text-gray-800">business</span> — our
-            advocates are here to guide you every step of the way.
+            <span className="font-semibold text-gray-800">business</span> — our advocates are here to guide you every
+            step of the way.
           </p>
         </div>
 

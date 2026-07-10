@@ -122,8 +122,8 @@ Request Callback
    │ Nodemailer wrapper      │  │ with styling & content      │
    │                         │  │                             │
    └─────────────────────────┘  └─────────────────────────────┘
-        │                              
-        ▼                              
+        │
+        ▼
    ┌────────────────────────────────┐
    │  Environment Variables         │
    ├────────────────────────────────┤

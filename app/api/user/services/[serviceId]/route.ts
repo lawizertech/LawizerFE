@@ -2,19 +2,13 @@ import { NextResponse } from "next/server";
 
 const BASE = process.env.NEXT_PUBLIC_API_URL!;
 
-export async function GET(
-  req: Request,
-  context: { params: { serviceId: string } },
-) {
+export async function GET(req: Request, context: { params: Promise<{ serviceId: string }> }) {
   try {
     const { serviceId } = await context.params;
     const authHeader = req.headers.get("authorization");
 
     if (!authHeader) {
-      return NextResponse.json(
-        { success: false, message: "Authorization token missing" },
-        { status: 401 },
-      );
+      return NextResponse.json({ success: false, message: "Authorization token missing" }, { status: 401 });
     }
 
     const backendRes = await fetch(`${BASE}/user/services/${serviceId}`, {
@@ -44,9 +38,6 @@ export async function GET(
     });
   } catch (err) {
     console.error("/api/user/services/[id] error:", err);
-    return NextResponse.json(
-      { success: false, message: "Internal server error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
   }
 }

@@ -10,13 +10,7 @@ import { scheduleCall } from "@/lib/apis/api";
 import { useAuth } from "@/context/authContext";
 import { Calendar } from "@/components/ui/calendar";
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 import {
   Dialog,
@@ -53,17 +47,9 @@ type CarouselProps = {
 
 type CallType = "voice" | "video" | null;
 
-export default function EmblaCarouselCards({
-  list,
-  type,
-  onBook,
-  bookedKeys = [],
-}: CarouselProps) {
-  const autoplay = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: false, playOnInit: true })
-  );
-  const [localBookedKeys, setLocalBookedKeys] =
-    React.useState<string[]>(bookedKeys);
+export default function EmblaCarouselCards({ list, type, onBook, bookedKeys = [] }: CarouselProps) {
+  const autoplay = React.useRef(Autoplay({ delay: 2000, stopOnInteraction: false, playOnInit: true }));
+  const [localBookedKeys, setLocalBookedKeys] = React.useState<string[]>(bookedKeys);
   const [pendingKey, setPendingKey] = React.useState<string | null>(null);
   const [pendingExpert, setPendingExpert] = React.useState<Expert | null>(null);
   const [loading, setLoading] = React.useState(false);
@@ -110,7 +96,7 @@ export default function EmblaCarouselCards({
         bookedAt: new Date().toISOString(),
       };
 
-      await scheduleCall(payload, type as "ca" | "adv");
+      await scheduleCall(payload);
 
       handleBook(pendingKey);
       setShowConfirmDialog(false);
@@ -139,12 +125,8 @@ export default function EmblaCarouselCards({
         onDragEnd={() => autoplay.current.play()}
       >
         <CarouselContent className="-ml-2 py-4">
-          {list.map((expert, i) => {            
-            const safeKey =
-              expert.expertId ??
-              expert.uid ??
-              expert.email ??
-              `${expert.name}-${i}`;
+          {list.map((expert, i) => {
+            const safeKey = expert.expertId ?? expert.uid ?? expert.email ?? `${expert.name}-${i}`;
             const isBooked = localBookedKeys.includes(safeKey);
 
             return (
@@ -154,9 +136,7 @@ export default function EmblaCarouselCards({
               >
                 <motion.div
                   className={`rounded-2xl border border-gray-200 bg-white shadow-md hover:shadow-lg transition-all p-3 hover:-translate-y-1 h-92 ${
-                    expert.gender === "female"
-                      ? "hover:border-pink-400"
-                      : "hover:border-blue-400"
+                    expert.gender === "female" ? "hover:border-pink-400" : "hover:border-blue-400"
                   }`}
                   animate={
                     isBooked
@@ -177,22 +157,14 @@ export default function EmblaCarouselCards({
                     />
                   </div>
 
-                  <div
-                    className={`${
-                      type === "ca" ? "h-36" : "h-28"
-                    } flex flex-col justify-between `}
-                  >
+                  <div className={`${type === "ca" ? "h-36" : "h-28"} flex flex-col justify-between `}>
                     <div className="text-center space-y-1">
-                      <p className="font-semibold text-gray-800 text-xs">
-                        {expert.name}
-                      </p>
+                      <p className="font-semibold text-gray-800 text-xs">{expert.name}</p>
 
                       <p className="text-[11px] text-gray-500">{expert.role}</p>
 
                       {type === "ca" && expert.rate && (
-                        <p className="text-[11px] font-semibold text-green-600">
-                          {expert.rate}
-                        </p>
+                        <p className="text-[11px] font-semibold text-green-600">{expert.rate}</p>
                       )}
                     </div>
 
@@ -259,8 +231,7 @@ export default function EmblaCarouselCards({
             <DialogDescription className="text-sm">
               {isLoggedIn ? (
                 <>
-                  Are you sure you want to book a call with{" "}
-                  <span className="font-bold">{pendingExpert?.name}</span>?
+                  Are you sure you want to book a call with <span className="font-bold">{pendingExpert?.name}</span>?
                 </>
               ) : (
                 "Please log in first to book a call."
@@ -272,7 +243,7 @@ export default function EmblaCarouselCards({
             <Button
               variant="outline"
               onClick={() => {
-                setPendingKey(null), setShowConfirmDialog(false);
+                (setPendingKey(null), setShowConfirmDialog(false));
               }}
               className="text-sm"
               disabled={loading}
@@ -315,21 +286,16 @@ export default function EmblaCarouselCards({
       >
         <DialogContent className="rounded-xl">
           <DialogHeader>
-            <DialogTitle className="text-lg font-semibold">
-              Select Call Type
-            </DialogTitle>
+            <DialogTitle className="text-lg font-semibold">Select Call Type</DialogTitle>
             <DialogDescription className="text-sm">
-              How would you like to connect with{" "}
-              <span className="font-bold">{pendingExpert?.name}</span>?
+              How would you like to connect with <span className="font-bold">{pendingExpert?.name}</span>?
             </DialogDescription>
           </DialogHeader>
 
           <div className="flex gap-3 justify-center mt-4">
             <Button
               className={`rounded-full px-4 ${
-                callType === "voice"
-                  ? "bg-green-600 text-white"
-                  : "bg-gray-200 text-gray-800"
+                callType === "voice" ? "bg-green-600 text-white" : "bg-gray-200 text-gray-800"
               }`}
               onClick={() => setCallType("voice")}
             >
@@ -339,9 +305,7 @@ export default function EmblaCarouselCards({
 
             <Button
               className={`rounded-full px-4 ${
-                callType === "video"
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-800"
+                callType === "video" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800"
               }`}
               onClick={() => setCallType("video")}
             >

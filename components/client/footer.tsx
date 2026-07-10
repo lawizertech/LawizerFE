@@ -13,11 +13,7 @@ export function Footer() {
             <div className="flex items-center gap-2 mb-4">
               <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-lg">
                 <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
-                  <img
-                    src="/logoLawizer.jpg"
-                    alt="Lawizer Logo"
-                    className="w-6 h-6"
-                  />
+                  <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-6 h-6" />
                 </div>
               </div>
               <span className="text-2xl font-bold text-primary">Lawizer</span>
@@ -65,34 +61,22 @@ export function Footer() {
               <h3 className="font-semibold text-gray-900 mb-4">Services</h3>
               <ul className="space-y-3 text-sm">
                 <li>
-                  <Link
-                    href="/family"
-                    className="text-gray-600 hover:text-primary"
-                  >
+                  <Link href="/family" className="text-gray-600 hover:text-primary">
                     Family Law
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/business"
-                    className="text-gray-600 hover:text-primary"
-                  >
+                  <Link href="/business" className="text-gray-600 hover:text-primary">
                     Business Law
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/real-estate"
-                    className="text-gray-600 hover:text-primary"
-                  >
+                  <Link href="/real-estate" className="text-gray-600 hover:text-primary">
                     Real Estate
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/attorneys"
-                    className="text-gray-600 hover:text-primary"
-                  >
+                  <Link href="/attorneys" className="text-gray-600 hover:text-primary">
                     Find Attorneys
                   </Link>
                 </li>
@@ -103,26 +87,17 @@ export function Footer() {
               <h3 className="font-semibold text-gray-900 mb-4">Support</h3>
               <ul className="space-y-3 text-sm">
                 <li>
-                  <a
-                    href="tel:+919062815535"
-                    className="text-gray-600 hover:text-primary"
-                  >
+                  <a href="tel:+919062815535" className="text-gray-600 hover:text-primary">
                     +91 90628 15535
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="mailto:admin@lawizer.com"
-                    className="text-gray-600 hover:text-primary"
-                  >
+                  <a href="mailto:admin@lawizer.com" className="text-gray-600 hover:text-primary">
                     admin@lawizer.com
                   </a>
                 </li>
                 <li>
-                  <Link
-                    href="/support"
-                    className="text-gray-600 hover:text-primary"
-                  >
+                  <Link href="/support" className="text-gray-600 hover:text-primary">
                     Live Chat
                   </Link>
                 </li>
@@ -136,42 +111,27 @@ export function Footer() {
               <h3 className="font-semibold text-gray-900 mb-4">Company</h3>
               <ul className="space-y-3 text-sm">
                 <li>
-                  <Link
-                    href="/about"
-                    className="text-gray-600 hover:text-primary"
-                  >
+                  <Link href="/about" className="text-gray-600 hover:text-primary">
                     About
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/contact"
-                    className="text-gray-600 hover:text-primary"
-                  >
+                  <Link href="/contact" className="text-gray-600 hover:text-primary">
                     Contact Us
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/blogs"
-                    className="text-gray-600 hover:text-primary"
-                  >
+                  <Link href="/blogs" className="text-gray-600 hover:text-primary">
                     Blog
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/guides"
-                    className="text-gray-600 hover:text-primary"
-                  >
+                  <Link href="/guides" className="text-gray-600 hover:text-primary">
                     Guides
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/careers"
-                    className="text-gray-600 hover:text-primary"
-                  >
+                  <Link href="/careers" className="text-gray-600 hover:text-primary">
                     Careers
                   </Link>
                 </li>
@@ -182,26 +142,17 @@ export function Footer() {
               <h3 className="font-semibold text-gray-900 mb-4">Legal</h3>
               <ul className="space-y-3 text-sm">
                 <li>
-                  <Link
-                    href="/privacy-policy"
-                    className="text-gray-600 hover:text-primary"
-                  >
+                  <Link href="/privacy-policy" className="text-gray-600 hover:text-primary">
                     Privacy Policy
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/terms"
-                    className="text-gray-600 hover:text-primary"
-                  >
+                  <Link href="/terms" className="text-gray-600 hover:text-primary">
                     Terms of Service
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/attorney-terms"
-                    className="text-gray-600 hover:text-primary"
-                  >
+                  <Link href="/attorney-terms" className="text-gray-600 hover:text-primary">
                     Attorney Terms
                   </Link>
                 </li>

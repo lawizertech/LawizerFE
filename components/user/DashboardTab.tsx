@@ -14,7 +14,7 @@ import {
 import { Calendar, Clock, Users, IndianRupee, CheckCircle, FileText } from "lucide-react";
 
 /* -------------------------------------------------------------------------- */
-/*                                   TYPES                                    */
+/* TYPES */
 /* -------------------------------------------------------------------------- */
 
 type UserProfile = {
@@ -59,7 +59,7 @@ type UserDashboard = {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                              SAFE DEFAULTS                                 */
+/* SAFE DEFAULTS */
 /* -------------------------------------------------------------------------- */
 
 const EMPTY_DASHBOARD: UserDashboard = {
@@ -78,7 +78,7 @@ const EMPTY_DASHBOARD: UserDashboard = {
 const PRIMARY = "#c92c41";
 
 /* -------------------------------------------------------------------------- */
-/*                                HELPERS                                     */
+/* HELPERS */
 /* -------------------------------------------------------------------------- */
 
 const formatDateTime = (value: any) => {
@@ -102,7 +102,7 @@ const formatDateTime = (value: any) => {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                               COMPONENT                                    */
+/* COMPONENT */
 /* -------------------------------------------------------------------------- */
 
 export default function UserDashboardTab() {
@@ -230,7 +230,7 @@ export default function UserDashboardTab() {
   }
 
   /* -------------------------------------------------------------------------- */
-  /*                                   UI                                       */
+  /* UI */
   /* -------------------------------------------------------------------------- */
 
   return (
@@ -239,36 +239,17 @@ export default function UserDashboardTab() {
       <div>
         <h1 className="text-2xl font-semibold">Dashboard</h1>
         <p className="text-gray-500 mt-1">
-          Welcome back,{" "}
-          <span className="font-medium">{profile?.name ?? "User"}</span>
+          Welcome back, <span className="font-medium">{profile?.name ?? "User"}</span>
         </p>
-        <p className="text-sm text-gray-400">
-          Here’s your legal consultation overview
-        </p>
+        <p className="text-sm text-gray-400">Here’s your legal consultation overview</p>
       </div>
 
       {/* STATS */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Stat
-          label="Upcoming Sessions"
-          value={dashboard.upcomingCount}
-          icon={Calendar}
-        />
-        <Stat
-          label="Completed Consultations"
-          value={dashboard.completedCount}
-          icon={Clock}
-        />
-        <Stat
-          label="Experts Consulted"
-          value={dashboard.expertsConsulted}
-          icon={Users}
-        />
-        <Stat
-          label="Total Spent"
-          value={`₹${dashboard.totalSpent}`}
-          icon={IndianRupee}
-        />
+        <Stat label="Upcoming Sessions" value={dashboard.upcomingCount} icon={Calendar} />
+        <Stat label="Completed Consultations" value={dashboard.completedCount} icon={Clock} />
+        <Stat label="Experts Consulted" value={dashboard.expertsConsulted} icon={Users} />
+        <Stat label="Total Spent" value={`₹${dashboard.totalSpent}`} icon={IndianRupee} />
       </div>
 
       {/* SERVICE STATS */}
@@ -276,26 +257,10 @@ export default function UserDashboardTab() {
         <h2 className="text-lg font-semibold mb-4">Your Services</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Stat
-            label="Total Services"
-            value={dashboard.totalServices}
-            icon={FileText}
-          />
-          <Stat
-            label="Active Services"
-            value={dashboard.activeServices}
-            icon={Clock}
-          />
-          <Stat
-            label="Pending Documents"
-            value={dashboard.pendingServiceDocuments}
-            icon={Calendar}
-          />
-          <Stat
-            label="Completed Services"
-            value={dashboard.completedServices}
-            icon={CheckCircle}
-          />
+          <Stat label="Total Services" value={dashboard.totalServices} icon={FileText} />
+          <Stat label="Active Services" value={dashboard.activeServices} icon={Clock} />
+          <Stat label="Pending Documents" value={dashboard.pendingServiceDocuments} icon={Calendar} />
+          <Stat label="Completed Services" value={dashboard.completedServices} icon={CheckCircle} />
         </div>
       </div>
 
@@ -311,9 +276,7 @@ export default function UserDashboardTab() {
           {dashboard.upcomingBookings.length === 0 ? (
             <EmptyCard text="No upcoming bookings" />
           ) : (
-            dashboard.upcomingBookings.map((b) => (
-              <BookingCard key={b.id} booking={b} />
-            ))
+            dashboard.upcomingBookings.map((b) => <BookingCard key={b.id} booking={b} />)
           )}
         </div>
 
@@ -327,9 +290,7 @@ export default function UserDashboardTab() {
           {dashboard.topExperts.length === 0 ? (
             <EmptyCard text="No experts yet" />
           ) : (
-            dashboard.topExperts.map((e) => (
-              <ExpertCard key={e.uid} expert={e} />
-            ))
+            dashboard.topExperts.map((e) => <ExpertCard key={e.uid} expert={e} />)
           )}
         </div>
       </div>
@@ -338,18 +299,10 @@ export default function UserDashboardTab() {
 }
 
 /* -------------------------------------------------------------------------- */
-/*                               UI PIECES                                    */
+/* UI PIECES */
 /* -------------------------------------------------------------------------- */
 
-function Stat({
-  label,
-  value,
-  icon: Icon,
-}: {
-  label: string;
-  value: number | string;
-  icon: React.ElementType;
-}) {
+function Stat({ label, value, icon: Icon }: { label: string; value: number | string; icon: React.ElementType }) {
   return (
     <div className="bg-white rounded-xl p-5 flex justify-between items-center">
       <div>
@@ -388,9 +341,7 @@ function BookingCard({ booking }: { booking: UpcomingBooking }) {
 
       <div className="flex justify-between items-center pt-2">
         <span className="font-medium">₹{booking.fee}</span>
-        {booking.status === "pending" && (
-          <button className="text-sm text-red-500">Cancel</button>
-        )}
+        {booking.status === "pending" && <button className="text-sm text-red-500">Cancel</button>}
       </div>
     </div>
   );
@@ -405,18 +356,12 @@ function ExpertCard({ expert }: { expert: TopExpert }) {
         <p className="text-xs text-gray-400">
           ⭐ {expert.rating ?? 0} · {expert.experience ?? 0} yrs
         </p>
-        <button className="mt-2 text-sm bg-[#c92c41] text-white px-3 py-1 rounded-lg">
-          Book Consultation
-        </button>
+        <button className="mt-2 text-sm bg-[#c92c41] text-white px-3 py-1 rounded-lg">Book Consultation</button>
       </div>
     </div>
   );
 }
 
 function EmptyCard({ text }: { text: string }) {
-  return (
-    <div className="bg-white rounded-xl p-10 text-center text-gray-500">
-      {text}
-    </div>
-  );
+  return <div className="bg-white rounded-xl p-10 text-center text-gray-500">{text}</div>;
 }

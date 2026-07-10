@@ -18,7 +18,7 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
   const [error, setError] = useState("");
 
   /* -------------------------------------------------------------------------- */
-  /* 🚀 Load user profile from localStorage when modal opens                    */
+  /* 🚀 Load user profile from localStorage when modal opens */
   /* -------------------------------------------------------------------------- */
   useEffect(() => {
     const stored = localStorage.getItem("userProfile");
@@ -38,7 +38,7 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
   if (!profile) return null; // prevent UI flash
 
   /* -------------------------------------------------------------------------- */
-  /* ✨ Submit Handler                                                          */
+  /* ✨ Submit Handler */
   /* -------------------------------------------------------------------------- */
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -56,6 +56,7 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
 
       await completeUserProfile(authToken, {
         uid: profile.uid,
+        email: profile.email || "",
         displayName,
         phoneNumber,
         city,
@@ -75,12 +76,8 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
       <div className="bg-white w-full max-w-md rounded-2xl p-6 relative shadow-xl animate-[fadeIn_0.25s_ease]">
-
         {/* Close */}
-        <button
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition"
-          onClick={onClose}
-        >
+        <button className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition" onClick={onClose}>
           <X className="w-5 h-5" />
         </button>
 
@@ -92,9 +89,7 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
 
         {/* Error */}
         {error && (
-          <div className="mb-4 text-red-700 bg-red-100 border border-red-200 p-3 rounded-lg text-sm">
-            {error}
-          </div>
+          <div className="mb-4 text-red-700 bg-red-100 border border-red-200 p-3 rounded-lg text-sm">{error}</div>
         )}
 
         {/* Form */}
@@ -107,9 +102,7 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
             { label: "Photo URL", value: photoURL, setter: setPhotoURL },
           ].map((item, i) => (
             <div key={i}>
-              <label className="block mb-1 text-sm font-medium text-gray-700">
-                {item.label}
-              </label>
+              <label className="block mb-1 text-sm font-medium text-gray-700">{item.label}</label>
               <input
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500"
                 value={item.value}

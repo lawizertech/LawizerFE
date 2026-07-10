@@ -17,7 +17,7 @@ interface ScheduleCallPayload {
 }
 
 /* -------------------------------------------------------------------------- */
-/*                           🔄 TOKEN RENEW FUNCTION                           */
+/* 🔄 TOKEN RENEW FUNCTION */
 /* -------------------------------------------------------------------------- */
 
 const renewToken = async (): Promise<string | null> => {
@@ -42,7 +42,7 @@ const renewToken = async (): Promise<string | null> => {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                              🔹 getUserProfile                              */
+/* 🔹 getUserProfile */
 /* -------------------------------------------------------------------------- */
 
 export const getUserProfile = async (uid: string) => {
@@ -78,76 +78,25 @@ export const getUserProfile = async (uid: string) => {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                                  🔹 initUser                                */
+/* 🔹 initUser */
 /* -------------------------------------------------------------------------- */
 
-export const signupUser = async (
-  idToken: string,
-  uid: string,
-  name: string,
-  email: string,
-  phoneNumber: string,
-) => {
+export const signupUser = async (idToken: string, uid: string, name: string, email: string, phoneNumber: string) => {
   try {
     const res = await backendApi.post(
-  `/auth/signup`,
-  {
-    uid,
-    name,
-    email,
-    phoneNumber,
-  },
-  {
-    headers: {
-      Authorization: `Bearer ${idToken}`,
-    },
-  }
-);
-    return res.data;
-  } catch (err: any) {
-    const errorCode = err?.response?.data?.errorCode;
-
-    if (errorCode === "TOKEN_EXPIRED") {
-  const newToken = await renewToken();
-  if (!newToken) return err.response.data;
-
-  const retryRes = await backendApi.post(
-    `/auth/signup`,
-    {
-      uid,
-      name,
-      email,
-      phoneNumber,
-    },
-    {
-      headers: { Authorization: `Bearer ${newToken}` },
-    }
-  );
-
-  return retryRes.data;
-}
-
-    return {
-      success: false,
-      message: err?.response?.data?.message,
-      errorCode,
-    };
-  }
-};
-
-/* -------------------------------------------------------------------------- */
-/*                           🔹 completeUserProfile                            */
-/* -------------------------------------------------------------------------- */
-
-export const completeUserProfile = async (
-  authToken: string,
-  formData: ProfilePayload,
-) => {
-  try {
-    const res = await backendApi.post(`/auth/complete-profile`, formData, {
-      headers: { Authorization: `Bearer ${authToken}` },
-    });
-
+      `/auth/signup`,
+      {
+        uid,
+        name,
+        email,
+        phoneNumber,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      },
+    );
     return res.data;
   } catch (err: any) {
     const errorCode = err?.response?.data?.errorCode;
@@ -157,8 +106,13 @@ export const completeUserProfile = async (
       if (!newToken) return err.response.data;
 
       const retryRes = await backendApi.post(
-        `/auth/complete-profile`,
-        formData,
+        `/auth/signup`,
+        {
+          uid,
+          name,
+          email,
+          phoneNumber,
+        },
         {
           headers: { Authorization: `Bearer ${newToken}` },
         },
@@ -176,7 +130,40 @@ export const completeUserProfile = async (
 };
 
 /* -------------------------------------------------------------------------- */
-/*                                  🔹 loginUser                               */
+/* 🔹 completeUserProfile */
+/* -------------------------------------------------------------------------- */
+
+export const completeUserProfile = async (authToken: string, formData: ProfilePayload) => {
+  try {
+    const res = await backendApi.post(`/auth/complete-profile`, formData, {
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
+
+    return res.data;
+  } catch (err: any) {
+    const errorCode = err?.response?.data?.errorCode;
+
+    if (errorCode === "TOKEN_EXPIRED") {
+      const newToken = await renewToken();
+      if (!newToken) return err.response.data;
+
+      const retryRes = await backendApi.post(`/auth/complete-profile`, formData, {
+        headers: { Authorization: `Bearer ${newToken}` },
+      });
+
+      return retryRes.data;
+    }
+
+    return {
+      success: false,
+      message: err?.response?.data?.message,
+      errorCode,
+    };
+  }
+};
+
+/* -------------------------------------------------------------------------- */
+/* 🔹 loginUser */
 /* -------------------------------------------------------------------------- */
 
 export const loginUser = async (idToken: string) => {
@@ -220,7 +207,7 @@ export const loginUser = async (idToken: string) => {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                           🔹 scheduleCall API                              */
+/* 🔹 scheduleCall API */
 /* -------------------------------------------------------------------------- */
 
 export const scheduleCall = async (payload: ScheduleCallPayload) => {
@@ -249,7 +236,7 @@ export const scheduleCall = async (payload: ScheduleCallPayload) => {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                           🔹 getUserBookings API                            */
+/* 🔹 getUserBookings API */
 /* -------------------------------------------------------------------------- */
 
 export const getUserBookings = async () => {
@@ -280,7 +267,7 @@ export const getUserBookings = async () => {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                           🔹 expertLogin API                                */
+/* 🔹 expertLogin API */
 /* -------------------------------------------------------------------------- */
 export const expertLogin = async (idToken: string) => {
   try {
@@ -313,7 +300,7 @@ export const expertLogin = async (idToken: string) => {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                        🔹 expertCompleteProfile API                          */
+/* 🔹 expertCompleteProfile API */
 /* -------------------------------------------------------------------------- */
 export const expertCompleteProfile = async (payload: {
   expertId: string;
@@ -370,23 +357,23 @@ export const expertCompleteProfile = async (payload: {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                         🔹 Fetch Advocate Dashboard Metrics               */
+/* 🔹 Fetch Advocate Dashboard Metrics */
 /* -------------------------------------------------------------------------- */
 // export const userPasswordReset = async (email: string) => {
-//   try {
-//     const res = await backendApi.post("/auth/sendPasswordReset", {
-//       email: email,
-//     });
+// try {
+// const res = await backendApi.post("/auth/sendPasswordReset", {
+// email: email,
+// });
 
-//     return {
-//       success: true,
-//       ...res.data,
-//     };
-//   } catch (err: any) {
-//     return {
-//       success: false,
-//       message: err?.response?.data?.message || "Failed to reset link",
-//       errorCode: err?.response?.data?.errorCode || null,
-//     };
-//   }
+// return {
+// success: true,
+// ...res.data,
+// };
+// } catch (err: any) {
+// return {
+// success: false,
+// message: err?.response?.data?.message || "Failed to reset link",
+// errorCode: err?.response?.data?.errorCode || null,
+// };
+// }
 // };

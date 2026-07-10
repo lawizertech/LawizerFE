@@ -29,7 +29,7 @@ export default function ConnectPage() {
     loadBooking();
   }, [bookingId]);
 
-  if (loading) return <p className="pt-6 text-2xl font-bold ">Loading...</p>;
+  if (loading) return <p className="pt-6 text-2xl font-bold">Loading...</p>;
   if (!booking) return null;
 
   const client = booking.userDetails;
@@ -37,9 +37,7 @@ export default function ConnectPage() {
   return (
     <div className="pt-10">
       <div className="bg-white rounded-2xl shadow p-6 mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">
-          Consultation with {client?.displayName}
-        </h1>
+        <h1 className="text-2xl font-bold text-gray-800">Consultation with {client?.displayName}</h1>
       </div>
 
       <div className="bg-white rounded-2xl shadow p-6 space-y-4 max-w-xl">
@@ -70,28 +68,15 @@ export default function ConnectPage() {
           Voice Call
         </button>
 
-        <button
-          disabled
-          className="w-full py-3 rounded-lg bg-gray-100 text-gray-400"
-        >
+        <button disabled className="w-full py-3 rounded-lg bg-gray-100 text-gray-400">
           Video Call (Coming Soon)
         </button>
       </div>
 
-      {showChat && (
-        <ChatModal
-          bookingId={booking.bookingId}
-          role="expert"
-          onClose={() => setShowChat(false)}
-        />
-      )}
+      {showChat && <ChatModal bookingId={booking.bookingId} role="expert" onClose={() => setShowChat(false)} />}
 
       {showVoiceCall && (
-        <VoiceCallModal
-          bookingId={booking.bookingId}
-          role="lawyer"
-          onClose={() => setShowVoiceCall(false)}
-        />
+        <VoiceCallModal bookingId={booking.bookingId} role="lawyer" onClose={() => setShowVoiceCall(false)} />
       )}
     </div>
   );

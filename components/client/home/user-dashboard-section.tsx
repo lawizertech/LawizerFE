@@ -8,7 +8,8 @@ export function UserDashboardSection() {
           Your Personal Dashboard (Coming Soon)
         </h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
-          Track the progress of your legal work, view status updates, and easily upload required documents all in one place.
+          Track the progress of your legal work, view status updates, and easily upload required documents all in one
+          place.
         </p>
         <button
           className="px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition"

@@ -40,8 +40,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
-  const [isCompleteProfileModalOpen, setIsCompleteProfileModalOpen] =
-    useState(false);
+  const [isCompleteProfileModalOpen, setIsCompleteProfileModalOpen] = useState(false);
 
   // 🔥 CHECK LOCAL STORAGE FOR LOGIN
   const refreshUser = () => {

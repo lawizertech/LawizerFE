@@ -35,12 +35,7 @@ function getPageNumbers(current: number, total: number): (number | "…")[] {
   return pages;
 }
 
-export default function BlogPagination({
-  currentPage,
-  totalPages,
-  totalPosts,
-  postsPerPage,
-}: BlogPaginationProps) {
+export default function BlogPagination({ currentPage, totalPages, totalPosts, postsPerPage }: BlogPaginationProps) {
   if (totalPages <= 1) return null;
 
   const start = (currentPage - 1) * postsPerPage + 1;
@@ -49,19 +44,19 @@ export default function BlogPagination({
 
   const btnBase =
     "inline-flex items-center justify-center min-w-[36px] h-9 px-2 rounded-lg border text-sm font-medium transition-all duration-150 select-none";
-  const activeBtn =
-    "bg-primary text-primary-foreground border-primary shadow-sm scale-105";
-  const inactiveBtn =
-    "border-border text-foreground hover:border-primary hover:text-primary bg-background";
-  const disabledBtn =
-    "border-border text-muted-foreground bg-background cursor-not-allowed opacity-40";
+  const activeBtn = "bg-primary text-primary-foreground border-primary shadow-sm scale-105";
+  const inactiveBtn = "border-border text-foreground hover:border-primary hover:text-primary bg-background";
+  const disabledBtn = "border-border text-muted-foreground bg-background cursor-not-allowed opacity-40";
 
   return (
     <div className="mt-10 flex flex-col items-center gap-4">
       {/* Post count info */}
       <p className="text-sm text-muted-foreground">
-        Showing <span className="font-medium text-foreground">{start}–{end}</span> of{" "}
-        <span className="font-medium text-foreground">{totalPosts}</span> posts
+        Showing{" "}
+        <span className="font-medium text-foreground">
+          {start}–{end}
+        </span>{" "}
+        of <span className="font-medium text-foreground">{totalPosts}</span> posts
       </p>
 
       {/* Page buttons */}

@@ -21,8 +21,7 @@ export default function DashboardTab() {
         ]);
 
         if (profileRes.data.success) setProfile(profileRes.data.profile);
-        if (dashboardRes.data.success)
-          setDashboard(dashboardRes.data.dashboard);
+        if (dashboardRes.data.success) setDashboard(dashboardRes.data.dashboard);
       } catch (err) {
         console.error("Failed to load dashboard", err);
       } finally {
@@ -52,15 +51,12 @@ export default function DashboardTab() {
         className="space-y-2"
       >
         {/* Greeting */}
-        <p className="text-lg font-sans font-light text-[#373737]">
-          Good day,{" "}
-          <span className="font-semibold text-[#737373">
-            {profile?.name || "Expert"}
-          </span>
+        <p className="text-lg font-light text-[#373737]">
+          Good day, <span className="font-semibold text-[#737373">{profile?.name || "Expert"}</span>
         </p>
 
         {/* Subtitle */}
-        <p className="text-base font-sans font-light text-gray-500 max-w-xl">
+        <p className="text-base font-light text-gray-500 max-w-xl">
           Here’s a quick overview of your legal practice and upcoming work.
         </p>
       </motion.div>
@@ -75,21 +71,9 @@ export default function DashboardTab() {
           show: { transition: { staggerChildren: 0.08 } },
         }}
       >
-        <StatCard
-          title="Pending Requests"
-          value={dashboard?.pendingRequests ?? 0}
-          icon={Clock}
-        />
-        <StatCard
-          title="Today's Sessions"
-          value={dashboard?.todayBookings ?? 0}
-          icon={Calendar}
-        />
-        <StatCard
-          title="Active Services"
-          value={dashboard?.activeServices ?? 0}
-          icon={TrendingUp}
-        />
+        <StatCard title="Pending Requests" value={dashboard?.pendingRequests ?? 0} icon={Clock} />
+        <StatCard title="Today's Sessions" value={dashboard?.todayBookings ?? 0} icon={Calendar} />
+        <StatCard title="Active Services" value={dashboard?.activeServices ?? 0} icon={TrendingUp} />
         <StatCard
           title="Total Earnings"
           value={`₹${dashboard?.totalEarnings ?? 0}`}
@@ -117,8 +101,8 @@ export default function DashboardTab() {
 
           <div
             className="rounded-2xl p-10 text-center bg-white text-lg
-             border border-transparent hover:border-[#c92c4130]
-             transition-colors duration-200 font-sans font-light text-[#373737]"
+ border border-transparent hover:border-[#c92c4130]
+ transition-colors duration-200 font-light text-[#373737]"
           >
             No pending requests
           </div>
@@ -173,21 +157,10 @@ function StatCard({
       <div>
         <p className="text-sm text-gray-500 tracking-wide">{title}</p>
         <p className="text-3xl font-semibold mt-2 tabular-nums">{value}</p>
-        {sub && (
-          <p
-            className={`text-sm ${
-              positive ? "text-green-600" : "text-gray-500"
-            }`}
-          >
-            {sub}
-          </p>
-        )}
+        {sub && <p className={`text-sm ${positive ? "text-green-600" : "text-gray-500"}`}>{sub}</p>}
       </div>
 
-      <div
-        className="h-14 w-14 rounded-2xl flex items-center justify-center"
-        style={{ backgroundColor: "#c92c4112" }}
-      >
+      <div className="h-14 w-14 rounded-2xl flex items-center justify-center bg-[#c92c4112]">
         <Icon size={26} color={PRIMARY} />
       </div>
     </motion.div>
@@ -198,8 +171,8 @@ function ActionButton({ label, icon: Icon }: { label: string; icon: any }) {
   return (
     <motion.button
       className="w-full flex items-center gap-4 px-5 py-3
-                 rounded-2xl bg-white text-base font-medium
-                 border border-transparent"
+ rounded-2xl bg-white text-base font-medium
+ border border-transparent"
       whileHover={{
         boxShadow: "0 8px 20px rgba(0, 0, 0, 0.08)",
         borderColor: "#c92c4130",
@@ -210,7 +183,7 @@ function ActionButton({ label, icon: Icon }: { label: string; icon: any }) {
       transition={{ type: "spring", stiffness: 220, damping: 20 }}
     >
       <Icon size={20} color={PRIMARY} />
-      <span className="font-sans text-[#373737] font-medium">{label}</span>
+      <span className=" text-[#373737] font-medium">{label}</span>
     </motion.button>
   );
 }

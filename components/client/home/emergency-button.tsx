@@ -31,7 +31,6 @@ export function EmergencyButton() {
     <div>
       {/* Floating button — pill grows leftward from icon */}
       <motion.div
-        className="fixed bottom-20 right-4 z-50 cursor-pointer"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         onClick={handleOpen}
@@ -39,29 +38,10 @@ export function EmergencyButton() {
           width: hovered ? "115px" : "48px",
         }}
         transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
-        style={{
-          height: "48px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-end",
-          overflow: "hidden",
-          backgroundColor: "#dc2626",
-          borderRadius: "24px",
-          boxShadow: hovered
-            ? "0 4px 20px rgba(220,38,38,0.5), 0 2px 8px rgba(0,0,0,0.2)"
-            : "none",
-        }}
+        className={`fixed bottom-20 right-4 z-50 cursor-pointer h-12 flex items-center justify-end overflow-hidden bg-red-600 rounded-3xl ${hovered ? "shadow-[0_4px_20px_rgba(220,38,38,0.5),0_2px_8px_rgba(0,0,0,0.2)]" : "shadow-none"}`}
       >
         {/* Content wrapper */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-            height: "100%",
-          }}
-        >
+        <div className="flex items-center justify-center w-full h-full">
           {/* Letters — fade in after pill expands */}
           <div className="flex items-center pl-4 pr-1 flex-shrink-0">
             {LETTERS.map((letter, i) => {
@@ -86,16 +66,7 @@ export function EmergencyButton() {
                         duration: 0.2,
                         ease: "easeOut",
                       }}
-                      style={{
-                        fontFamily: "'Inter', sans-serif",
-                        fontSize: "15px",
-                        fontWeight: 700,
-                        letterSpacing: "0.12em",
-                        color: "white",
-                        display: "inline-block",
-                        lineHeight: 1,
-                        marginLeft: "1px",
-                      }}
+                      className="font-['Inter',sans-serif] text-[15px] font-bold tracking-[0.12em] text-white inline-block leading-none ml-[1px]"
                     >
                       {letter}
                     </motion.span>
@@ -142,13 +113,7 @@ export function EmergencyButton() {
             transition={{ duration: 0.3 }}
             className="flex-shrink-0 w-12 h-12 relative z-10"
           >
-            <Image
-              src="/emergency-call.png"
-              alt="emergency"
-              width={48}
-              height={48}
-              className="rounded-full"
-            />
+            <Image src="/emergency-call.png" alt="emergency" width={48} height={48} className="rounded-full" />
           </motion.div>
         </div>
       </motion.div>
@@ -169,12 +134,9 @@ export function EmergencyButton() {
               transition={{ duration: 0.3 }}
               className="bg-white rounded-2xl shadow-2xl px-10 py-8 text-center max-w-sm mx-auto"
             >
-              <h2 className="text-2xl font-semibold text-red-600 mb-3">
-                ⚠️ Confirm Emergency Alert
-              </h2>
+              <h2 className="text-2xl font-semibold text-red-600 mb-3">⚠️ Confirm Emergency Alert</h2>
               <p className="text-gray-700 mb-6">
-                Are you sure you want to send an emergency alert? This will
-                notify your emergency contact immediately.
+                Are you sure you want to send an emergency alert? This will notify your emergency contact immediately.
               </p>
               <div className="flex justify-center space-x-4">
                 <Button
@@ -211,12 +173,9 @@ export function EmergencyButton() {
               transition={{ duration: 0.3 }}
               className="bg-white rounded-2xl shadow-2xl px-10 py-8 text-center max-w-sm mx-auto"
             >
-              <h2 className="text-2xl font-semibold text-blue-800 mb-3">
-                ✅ Emergency Alert Sent
-              </h2>
+              <h2 className="text-2xl font-semibold text-blue-800 mb-3">✅ Emergency Alert Sent</h2>
               <p className="text-gray-700 font-medium">
-                Help is on the way. Please wait for{" "}
-                <span className="text-red-600 font-semibold">2 minutes</span>.
+                Help is on the way. Please wait for <span className="text-red-600 font-semibold">2 minutes</span>.
               </p>
             </motion.div>
           </motion.div>

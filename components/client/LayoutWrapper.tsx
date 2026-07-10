@@ -11,8 +11,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { isOpen, serviceName, closeCallback } = useCallback();
 
-  const hideLayout =
-    pathname.startsWith("/expert") || pathname.startsWith("/user");
+  const hideLayout = pathname.startsWith("/expert") || pathname.startsWith("/user");
 
   return (
     <>
@@ -26,21 +25,11 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 
       {!hideLayout && <Footer />}
 
-      {!hideLayout && (
-        <CallbackModal
-          isOpen={isOpen}
-          onClose={closeCallback}
-          serviceName={serviceName}
-        />
-      )}
+      {!hideLayout && <CallbackModal isOpen={isOpen} onClose={closeCallback} serviceName={serviceName} />}
     </>
   );
 }
 
-export default function LayoutWrapper({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   return <LayoutContent>{children}</LayoutContent>;
 }

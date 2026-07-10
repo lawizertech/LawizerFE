@@ -83,15 +83,10 @@ export default function BankingLegalPage() {
             Banking & Financial Legal Services
           </h1>
           <p className="text-base sm:text-lg md:text-xl text-gray-200 max-w-xl mx-auto">
-            Legal action and recovery support against banks, NBFCs, and
-            financial fraud.
+            Legal action and recovery support against banks, NBFCs, and financial fraud.
           </p>
-          <p
-            className="mt-3 text-base sm:text-lg md:text-lg"
-            style={{ color: "white" }}
-          >
-            Enforcing your rights under RBI rules and the Negotiable Instruments
-            Act.
+          <p className="mt-3 text-base sm:text-lg md:text-lg" style={{ color: "white" }}>
+            Enforcing your rights under RBI rules and the Negotiable Instruments Act.
           </p>
         </motion.div>
       </section>
@@ -109,22 +104,12 @@ export default function BankingLegalPage() {
               className="mb-20"
             >
               <div className="flex items-center gap-3 mb-6">
-                <div
-                  className="p-3 rounded-full"
-                  style={{ backgroundColor: `${primaryAccent}20` }}
-                >
-                  <Icon
-                    className="w-6 h-6 sm:w-7 sm:h-7"
-                    style={{ color: primaryAccent }}
-                  />
+                <div className="p-3 rounded-full" style={{ backgroundColor: `${primaryAccent}20` }}>
+                  <Icon className="w-6 h-6 sm:w-7 sm:h-7" style={{ color: primaryAccent }} />
                 </div>
-                <h2 className="text-2xl sm:text-3xl md:text-3xl font-bold text-[#0e172b]">
-                  {section.title}
-                </h2>
+                <h2 className="text-2xl sm:text-3xl md:text-3xl font-bold text-[#0e172b]">{section.title}</h2>
               </div>
-              <p className="text-gray-700 mb-10 text-sm sm:text-base md:text-base max-w-3xl">
-                {section.description}
-              </p>
+              <p className="text-gray-700 mb-10 text-sm sm:text-base md:text-base max-w-3xl">{section.description}</p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 {section.services.map((service) => (
@@ -141,9 +126,7 @@ export default function BankingLegalPage() {
                       }}
                     />
 
-                    <h3 className="text-lg sm:text-lg md:text-xl font-semibold text-[#0e172b] mb-2">
-                      {service.name}
-                    </h3>
+                    <h3 className="text-lg sm:text-lg md:text-xl font-semibold text-[#0e172b] mb-2">{service.name}</h3>
 
                     <p className="text-gray-600 text-sm sm:text-sm md:text-base mb-5 leading-relaxed">
                       {service.description}
@@ -151,19 +134,13 @@ export default function BankingLegalPage() {
 
                     <div className="mb-4">
                       {service.originalPrice && (
-                        <p className="text-sm text-gray-400 line-through">
-                          {service.originalPrice}
-                        </p>
+                        <p className="text-sm text-gray-400 line-through">{service.originalPrice}</p>
                       )}
-                      <p className="text-lg font-semibold text-[#c92c41]">
-                        {service.price}
-                      </p>
+                      <p className="text-lg font-semibold text-[#c92c41]">{service.price}</p>
                     </div>
 
                     <button
-                      onClick={() =>
-                        handleViewDetails(section.basePath, service.slug)
-                      }
+                      onClick={() => handleViewDetails(section.basePath, service.slug)}
                       className="flex items-center gap-2 font-medium group cursor-pointer text-sm sm:text-sm md:text-base"
                       style={{ color: primaryAccent }}
                     >

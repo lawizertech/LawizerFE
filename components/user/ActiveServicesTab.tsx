@@ -16,7 +16,7 @@ import {
 } from "firebase/firestore";
 
 /* -------------------------------------------------------------------------- */
-/*                                   TYPES                                    */
+/* TYPES */
 /* -------------------------------------------------------------------------- */
 
 type DocumentItem = {
@@ -54,14 +54,12 @@ type ServiceDetails = ActiveService & {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                               COMPONENT                                    */
+/* COMPONENT */
 /* -------------------------------------------------------------------------- */
 
 export default function ActiveServicesTab() {
   const [services, setServices] = useState<ActiveService[]>([]);
-  const [selectedService, setSelectedService] = useState<ServiceDetails | null>(
-    null,
-  );
+  const [selectedService, setSelectedService] = useState<ServiceDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [detailsLoading, setDetailsLoading] = useState(false);
   const [uploadingDoc, setUploadingDoc] = useState<string | null>(null);
@@ -128,15 +126,11 @@ export default function ActiveServicesTab() {
       formData.append("documentKey", docKey);
       formData.append("file", file);
 
-      await serverApi.post(
-        `/api/user/services/${selectedService?.serviceId}/upload`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+      await serverApi.post(`/api/user/services/${selectedService?.serviceId}/upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-      );
+      });
 
       await openService(selectedService!.serviceId);
     } finally {
@@ -145,7 +139,7 @@ export default function ActiveServicesTab() {
   };
 
   /* -------------------------------------------------------------------------- */
-  /*                                  STATES                                    */
+  /* STATES */
   /* -------------------------------------------------------------------------- */
 
   if (loading) {
@@ -153,18 +147,14 @@ export default function ActiveServicesTab() {
   }
 
   /* -------------------------------------------------------------------------- */
-  /*                             DETAILS VIEW                                   */
+  /* DETAILS VIEW */
   /* -------------------------------------------------------------------------- */
 
   if (selectedService) {
     const expertFiles = selectedService.expertUploadedFiles ?? [];
 
     return (
-      <motion.div
-        initial={{ opacity: 0, x: 12 }}
-        animate={{ opacity: 1, x: 0 }}
-        className="space-y-6 max-w-4xl"
-      >
+      <motion.div initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} className="space-y-6 max-w-4xl">
         {/* BACK */}
         <button
           onClick={() => setSelectedService(null)}
@@ -188,10 +178,7 @@ export default function ActiveServicesTab() {
             <p className="text-sm text-gray-500">Loading documents…</p>
           ) : (
             selectedService.documentsRequired.map((doc) => (
-              <div
-                key={doc.key}
-                className="flex justify-between items-center border rounded-lg p-3"
-              >
+              <div key={doc.key} className="flex justify-between items-center border rounded-lg p-3">
                 <div className="flex items-center gap-3">
                   <FileText size={18} />
                   <div>
@@ -217,9 +204,7 @@ export default function ActiveServicesTab() {
                 )}
 
                 {doc.status === "APPROVED" && (
-                  <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
-                    Approved
-                  </span>
+                  <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">Approved</span>
                 )}
               </div>
             ))
@@ -232,10 +217,7 @@ export default function ActiveServicesTab() {
             <h3 className="font-medium text-lg">Documents from Expert</h3>
 
             {expertFiles.map((file) => (
-              <div
-                key={file.id}
-                className="flex justify-between items-center border rounded-lg p-3"
-              >
+              <div key={file.id} className="flex justify-between items-center border rounded-lg p-3">
                 <div>
                   <p className="font-medium text-sm">{file.title}</p>
                   <p className="text-xs text-gray-500">Uploaded by expert</p>
@@ -258,19 +240,13 @@ export default function ActiveServicesTab() {
         {selectedService.instructions && (
           <div className="bg-white border rounded-xl p-5">
             <h3 className="font-medium mb-1">Instructions</h3>
-            <p className="text-sm text-gray-700">
-              {selectedService.instructions}
-            </p>
+            <p className="text-sm text-gray-700">{selectedService.instructions}</p>
           </div>
         )}
 
         {/* ================= CHAT WITH EXPERT ================= */}
         {user?.uid ? (
-          <ServiceChat
-            serviceId={selectedService.serviceId}
-            currentUserRole="USER"
-            currentUserId={user?.uid}
-          />
+          <ServiceChat serviceId={selectedService.serviceId} currentUserRole="USER" currentUserId={user?.uid} />
         ) : (
           <p className="text-sm text-gray-500">Loading chat…</p>
         )}
@@ -279,7 +255,7 @@ export default function ActiveServicesTab() {
   }
 
   /* -------------------------------------------------------------------------- */
-  /*                              LIST VIEW                                     */
+  /* LIST VIEW */
   /* -------------------------------------------------------------------------- */
 
   if (services.length === 0) {
@@ -287,32 +263,22 @@ export default function ActiveServicesTab() {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="space-y-6"
-    >
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
       {/* TITLE */}
       <div>
         <h2 className="text-2xl font-semibold">Active Services</h2>
-        <p className="text-sm text-gray-500">
-          Ongoing legal services & document submissions
-        </p>
+        <p className="text-sm text-gray-500">Ongoing legal services & document submissions</p>
       </div>
 
       {/* LIST */}
       {services.map((s) => (
-        <div
-          key={s.serviceId}
-          className="border rounded-xl p-5 bg-white flex justify-between items-center"
-        >
+        <div key={s.serviceId} className="border rounded-xl p-5 bg-white flex justify-between items-center">
           <div>
             <h3 className="font-semibold">{s.title}</h3>
             <p className="text-xs text-gray-500">{s.serviceCode}</p>
             <p className="text-sm mt-1"></p>
             <p className="text-xs text-gray-500 mt-1">
-              Documents: {s.documentStats.uploaded}/
-              {s.documentStats.totalRequired} uploaded
+              Documents: {s.documentStats.uploaded}/{s.documentStats.totalRequired} uploaded
             </p>
           </div>
 
