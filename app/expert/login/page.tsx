@@ -2,10 +2,9 @@
 
 import { useState, FormEvent, useEffect } from "react";
 import { Mail, Lock, Loader2, ArrowRight } from "lucide-react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/lib/firebaseClient";
 import { useRouter } from "next/navigation";
 import { expertLogin } from "@/lib/apis/api";
+import { supabaseSignIn } from "@/lib/supabaseClient";
 
 export default function LawyerLoginPage() {
   const [email, setEmail] = useState("");
@@ -30,16 +29,17 @@ export default function LawyerLoginPage() {
     setLoading(true);
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      if (!user.emailVerified) {
-        setLoading(false);
-        setError("Email not verified. Please check your inbox.");
-        return;
+      // 1️⃣ Login with Supabase
+      const signInRes = await supabaseSignIn(email, password);
+
+      if (!signInRes.success) {
+        throw new Error(signInRes.message || "Invalid email or password");
       }
 
-      const idToken = await user.getIdToken(true);
+      const dbUser = signInRes.user!;
+      const idToken = signInRes.session!.access_token;
 
+      // 2️⃣ Sync session with Backend expert route
       const res = await expertLogin(idToken);
 
       if (!res.success) {

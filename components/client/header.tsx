@@ -37,8 +37,9 @@ export function Header() {
       const email = localStorage.getItem("email");
       const token = localStorage.getItem("token");
       const role = localStorage.getItem("role");
+      const avatarUrl = localStorage.getItem("avatar_url");
       if (uid && email && token && role) {
-        setLoggedUser({ uid, email, token, role });
+        setLoggedUser({ uid, email, token, role, avatarUrl });
       }
     }
   }, []);
@@ -51,8 +52,9 @@ export function Header() {
       const email = localStorage.getItem("email");
       const token = localStorage.getItem("token");
       const role = localStorage.getItem("role");
+      const avatarUrl = localStorage.getItem("avatar_url");
       if (uid && email && token && role) {
-        setLoggedUser({ uid, email, token, role });
+        setLoggedUser({ uid, email, token, role, avatarUrl });
       }
     }
   };
@@ -246,20 +248,29 @@ export function Header() {
                   >
                     Login
                   </Button>
-                ) : loggedUser.role === "USER" ? (
-                  <div className="flex items-center gap-8 cursor-pointer">
-                    <Link className="text-sm font-medium text-brand-red" href="/profile">
-                      Profile
+                ) : (
+                  <div className="flex items-center gap-4 cursor-pointer">
+                    <Link href="/profile" className="flex items-center gap-2" title="My Profile">
+                      {loggedUser.avatarUrl ? (
+                        <img
+                          src={loggedUser.avatarUrl}
+                          alt="Profile Avatar"
+                          className="w-8 h-8 rounded-full border border-gray-200 object-cover"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm border border-indigo-200">
+                          {loggedUser.email ? loggedUser.email[0].toUpperCase() : "U"}
+                        </div>
+                      )}
                     </Link>
-                    <Link className="text-sm font-medium text-gray-700" href="/user/dashboard">
+                    <Link
+                      className="text-sm font-medium text-gray-700 hover:text-brand-red transition-colors"
+                      href={loggedUser.role === "EXPERT" ? "/expert/dashboard" : "/user/dashboard"}
+                    >
                       Dashboard
                     </Link>
                   </div>
-                ) : loggedUser.role === "EXPERT" ? (
-                  <Link className="text-sm font-medium text-gray-700" href="/expert/dashboard">
-                    Dashboard
-                  </Link>
-                ) : null}
+                )}
               </nav>
             )}
 
@@ -370,9 +381,17 @@ export function Header() {
                 ) : (
                   <div className="flex flex-col gap-4 mb-6 pb-6 border-b">
                     <div className="flex items-center gap-2">
-                      <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-brand-red font-bold">
-                        {loggedUser.email[0].toUpperCase()}
-                      </div>
+                      {loggedUser.avatarUrl ? (
+                        <img
+                          src={loggedUser.avatarUrl}
+                          alt="Avatar"
+                          className="w-10 h-10 rounded-full border border-gray-200 object-cover"
+                        />
+                      ) : (
+                        <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-brand-red font-bold">
+                          {loggedUser.email ? loggedUser.email[0].toUpperCase() : "U"}
+                        </div>
+                      )}
                       <div className="flex flex-col">
                         <span className="text-sm font-semibold text-gray-900 truncate max-w-[150px]">
                           {loggedUser.email}

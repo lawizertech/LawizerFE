@@ -31,10 +31,18 @@ export default function ProfilePage() {
 
     const uid = localStorage.getItem("uid") || "";
     const res = await getUserProfile(uid);
-    if (!res.success && (res.errorCode === "INVALID_TOKEN" || res.errorCode === "INVALID_FORMAT")) {
+
+    if (!res || (res.success === false && (res.errorCode === "INVALID_TOKEN" || res.errorCode === "INVALID_FORMAT"))) {
       handleLogout();
       return;
     }
+
+    if (res.success === false) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
     setUser(res);
     setLoading(false);
 
@@ -63,6 +71,10 @@ export default function ProfilePage() {
     );
   }
 
+  const userAvatar = user.photoURL || (typeof window !== "undefined" ? localStorage.getItem("avatar_url") : null) || "/user.jpg";
+  const userPhone = user.phoneNumber || user.phone || "Not Provided";
+  const userName = user.displayName || user.name || "No Name";
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-50 to-blue-50 py-12 px-4 sm:px-6 lg:px-8 pt-30">
       <div className="max-w-6xl mx-auto space-y-10">
@@ -83,7 +95,7 @@ export default function ProfilePage() {
         <div className="bg-white shadow-2xl rounded-3xl p-10 flex flex-col sm:flex-row items-center sm:items-start gap-10">
           <div className="relative">
             <img
-              src={user.photoURL || "/user.jpg"}
+              src={userAvatar}
               alt="avatar"
               className="w-36 h-36 rounded-full border-4 border-gray-100 shadow-lg object-cover"
             />
@@ -91,7 +103,7 @@ export default function ProfilePage() {
 
           <div className="flex-1 space-y-3 text-center sm:text-left">
             <div className="flex items-center justify-center sm:justify-start gap-3">
-              <h2 className="text-2xl font-semibold text-gray-800">{user.displayName || "No Name"}</h2>
+              <h2 className="text-2xl font-semibold text-gray-800">{userName}</h2>
               <button
                 onClick={() => setShowModal(true)}
                 className="p-2 hover:bg-gray-100 rounded-lg transition"
@@ -118,7 +130,7 @@ export default function ProfilePage() {
           <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-6">Personal Information</h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <DetailItem label="Phone Number" value={user.phoneNumber} />
+            <DetailItem label="Phone Number" value={userPhone} />
             <DetailItem label="City" value={user.city} />
             <DetailItem label="State" value={user.state} />
           </div>

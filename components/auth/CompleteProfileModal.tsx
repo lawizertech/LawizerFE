@@ -28,11 +28,11 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
     setProfile(user);
 
     // Populate state fields
-    setDisplayName(user.displayName || "");
-    setPhoneNumber(user.phoneNumber || "");
+    setDisplayName(user.displayName || user.name || "");
+    setPhoneNumber(user.phoneNumber || user.phone || "");
     setCity(user.city || "");
     setState(user.state || "");
-    setPhotoURL(user.photoURL || "");
+    setPhotoURL(user.photoURL || localStorage.getItem("avatar_url") || "");
   }, []);
 
   if (!profile) return null; // prevent UI flash
@@ -54,7 +54,7 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
         return;
       }
 
-      await completeUserProfile(authToken, {
+      const res = await completeUserProfile(authToken, {
         uid: profile.uid,
         email: profile.email || "",
         displayName,
@@ -63,6 +63,10 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
         state,
         photoURL,
       });
+
+      if (res && res.success) {
+        localStorage.setItem("userProfile", JSON.stringify(res.data));
+      }
 
       onDone();
       onClose();

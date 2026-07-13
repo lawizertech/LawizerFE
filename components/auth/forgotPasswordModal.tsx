@@ -2,8 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { X, Mail, Loader2 } from "lucide-react";
-import { auth } from "@/lib/firebaseClient";
-import { sendPasswordResetEmail } from "firebase/auth";
+import { supabaseResetPassword } from "@/lib/supabaseClient";
 
 interface ForgotPasswordModalProps {
   onClose: () => void;
@@ -22,7 +21,11 @@ export function ForgotPasswordModal({ onClose, onBackToLogin }: ForgotPasswordMo
     setLoading(true);
 
     try {
-      await sendPasswordResetEmail(auth, email);
+      const resetRes = await supabaseResetPassword(email);
+
+      if (!resetRes.success) {
+        throw new Error(resetRes.message || "Failed to send reset email");
+      }
 
       setSuccess(true);
     } catch (err: any) {

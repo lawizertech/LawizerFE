@@ -1,11 +1,16 @@
 import DynamicServicePageTemplate from "@/components/client/DynamicServicePageTemplate";
-import { servicesData } from "@/lib/data/services/itr";
+import { getServiceBySlug } from "@/lib/apis/services";
+import { notFound } from "next/navigation";
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
-  const servicesDB = servicesData;
-  const pageData = servicesDB[slug];
+  const pageData = await getServiceBySlug(slug);
+
+  if (!pageData) {
+    notFound();
+  }
 
   return <DynamicServicePageTemplate pageData={pageData} />;
 }
+
