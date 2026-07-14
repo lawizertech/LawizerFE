@@ -110,8 +110,11 @@ export async function supabaseResetPassword(email: string): Promise<{ success: b
     const payload: Record<string, any> = { email };
 
     if (typeof window !== "undefined") {
+      // Must point to the reset-password page, NOT the site root.
+      // Supabase appends #access_token=...&type=recovery to this URL.
+      // authContext checks type=recovery and redirects here instead of logging in.
       payload.options = {
-        redirectTo: window.location.origin,
+        redirectTo: `${window.location.origin}/auth/reset-password`,
       };
     }
 
@@ -143,5 +146,32 @@ export function supabaseGoogleSignIn() {
   if (typeof window !== "undefined") {
     const redirectUrl = window.location.origin;
     window.location.href = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${redirectUrl}`;
+  }
+}
+
+export async function supabaseUpdatePassword(accessToken: string, newPassword: string): Promise<{ success: boolean; message?: string }> {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ password: newPassword }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: data.msg || data.message || "Failed to update password",
+      };
+    }
+
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, message: error.message || "Network error during password update" };
   }
 }

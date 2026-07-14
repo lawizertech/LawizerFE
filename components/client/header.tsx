@@ -17,11 +17,12 @@ import { MobileServiceItem } from "./MobileServiceItem";
 
 export function Header() {
   const pathname = usePathname();
-  const [loggedUser, setLoggedUser] = useState<any>(null);
   const [showContactCard, setShowContactCard] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const {
+    user,
+    refreshUser,
     isSignupModalOpen,
     setIsSignupModalOpen,
     isSignInModalOpen,
@@ -31,33 +32,7 @@ export function Header() {
   } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const uid = localStorage.getItem("uid");
-      const email = localStorage.getItem("email");
-      const token = localStorage.getItem("token");
-      const role = localStorage.getItem("role");
-      const avatarUrl = localStorage.getItem("avatar_url");
-      if (uid && email && token && role) {
-        setLoggedUser({ uid, email, token, role, avatarUrl });
-      }
-    }
-  }, []);
-
   const hideNavbarSections = pathname.startsWith("/expert");
-
-  const refereshUserData = () => {
-    if (typeof window !== "undefined") {
-      const uid = localStorage.getItem("uid");
-      const email = localStorage.getItem("email");
-      const token = localStorage.getItem("token");
-      const role = localStorage.getItem("role");
-      const avatarUrl = localStorage.getItem("avatar_url");
-      if (uid && email && token && role) {
-        setLoggedUser({ uid, email, token, role, avatarUrl });
-      }
-    }
-  };
 
   const handleLinkClick = () => {
     setMobileMenuOpen(false);
@@ -76,7 +51,7 @@ export function Header() {
     };
   }, [mobileMenuOpen]);
 
-  const isHome = true; // Use home page navbar design on all pages
+  const isHome = true;
   const isDashboard = pathname.startsWith("/user") || pathname.startsWith("/expert");
 
   return (
@@ -241,7 +216,7 @@ export function Header() {
                   Contact
                 </Link>
 
-                {!loggedUser ? (
+                {!user ? (
                   <Button
                     onClick={() => setIsSignInModalOpen(true)}
                     className="bg-blue-600 text-white rounded-full px-6 py-2 shadow-md"
@@ -251,21 +226,21 @@ export function Header() {
                 ) : (
                   <div className="flex items-center gap-4 cursor-pointer">
                     <Link href="/profile" className="flex items-center gap-2" title="My Profile">
-                      {loggedUser.avatarUrl ? (
+                      {user.avatarUrl ? (
                         <img
-                          src={loggedUser.avatarUrl}
+                          src={user.avatarUrl}
                           alt="Profile Avatar"
                           className="w-8 h-8 rounded-full border border-gray-200 object-cover"
                         />
                       ) : (
                         <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm border border-indigo-200">
-                          {loggedUser.email ? loggedUser.email[0].toUpperCase() : "U"}
+                          {user.email ? user.email[0].toUpperCase() : "U"}
                         </div>
                       )}
                     </Link>
                     <Link
                       className="text-sm font-medium text-gray-700 hover:text-brand-red transition-colors"
-                      href={loggedUser.role === "EXPERT" ? "/expert/dashboard" : "/user/dashboard"}
+                      href={user.role === "EXPERT" ? "/expert/dashboard" : "/user/dashboard"}
                     >
                       Dashboard
                     </Link>
@@ -356,7 +331,7 @@ export function Header() {
 
               <div className="p-6">
                 {/* Auth Buttons */}
-                {!loggedUser ? (
+                {!user ? (
                   <div className="flex gap-3 mb-6">
                     <Button
                       className="flex-1 bg-blue-600 text-white"
@@ -381,45 +356,45 @@ export function Header() {
                 ) : (
                   <div className="flex flex-col gap-4 mb-6 pb-6 border-b">
                     <div className="flex items-center gap-2">
-                      {loggedUser.avatarUrl ? (
+                      {user.avatarUrl ? (
                         <img
-                          src={loggedUser.avatarUrl}
+                          src={user.avatarUrl}
                           alt="Avatar"
                           className="w-10 h-10 rounded-full border border-gray-200 object-cover"
                         />
                       ) : (
                         <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-brand-red font-bold">
-                          {loggedUser.email ? loggedUser.email[0].toUpperCase() : "U"}
+                          {user.email ? user.email[0].toUpperCase() : "U"}
                         </div>
                       )}
                       <div className="flex flex-col">
                         <span className="text-sm font-semibold text-gray-900 truncate max-w-[150px]">
-                          {loggedUser.email}
+                          {user.email}
                         </span>
-                        <span className="text-xs text-gray-500 capitalize">{loggedUser.role.toLowerCase()}</span>
+                        <span className="text-xs text-gray-500 capitalize">{user.role?.toLowerCase()}</span>
                       </div>
                     </div>
 
                     <div className="flex flex-col gap-3 mt-2">
                       {/* DASHBOARD LINK START */}
-                      {loggedUser.role === "USER" ? (
+                      {user.role === "USER" ? (
                         <>
-                          <Link
-                            href="/user/dashboard"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="text-lg font-semibold text-gray-700 flex items-center gap-2"
-                          >
-                            Dashboard
-                          </Link>
-                          <Link
-                            href="/profile"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="text-lg font-semibold text-brand-red flex items-center gap-2"
-                          >
-                            My Profile
-                          </Link>
+                           <Link
+                             href="/user/dashboard"
+                             onClick={() => setMobileMenuOpen(false)}
+                             className="text-lg font-semibold text-gray-700 flex items-center gap-2"
+                           >
+                             Dashboard
+                           </Link>
+                           <Link
+                             href="/profile"
+                             onClick={() => setMobileMenuOpen(false)}
+                             className="text-lg font-semibold text-brand-red flex items-center gap-2"
+                           >
+                             My Profile
+                           </Link>
                         </>
-                      ) : loggedUser.role === "EXPERT" ? (
+                      ) : user.role === "EXPERT" ? (
                         <Link
                           href="/expert/dashboard"
                           onClick={() => setMobileMenuOpen(false)}
@@ -617,7 +592,7 @@ export function Header() {
             setIsForgotPasswordOpen(true);
           }}
           onLoginSuccess={(data) => {
-            refereshUserData();
+            refreshUser();
             if (!data.isProfileComplete) setIsCompleteProfileModalOpen(true);
           }}
         />

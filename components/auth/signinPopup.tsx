@@ -33,7 +33,6 @@ export function SignInModal({ onClose, onSignupRedirect, onLoginSuccess, onForgo
         throw new Error(signInRes.message || "Invalid email or password");
       }
 
-      const dbUser = signInRes.user!;
       const idToken = signInRes.session!.access_token;
 
       // 2️⃣ Send token to backend

@@ -1,14 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Calendar, Clock, Phone, Video, MessageCircle, ArrowLeft, Send } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Calendar, Phone, Video, MessageCircle, ArrowLeft } from "lucide-react";
 import { getUserBookings } from "@/lib/apis/api";
 import { Booking } from "@/types/booking";
 import ConsultationChat from "./ConsulationChat";
-
-/* -------------------------------------------------------------------------- */
-/* TYPES */
-/* -------------------------------------------------------------------------- */
 
 /* -------------------------------------------------------------------------- */
 /* MAIN COMPONENT */
@@ -74,19 +70,6 @@ export default function MyConsultationsTab() {
                     {c.callType}
                   </span>{" "}
                 </div>
-                {c.status === "confirmed" && (
-                  <div className=" flex justify-end">
-                    <button
-                      className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700"
-                      onClick={(e) => {
-                        e.stopPropagation(); // prevent card click double-trigger
-                        setSelected(c);
-                      }}
-                    >
-                      Proceed
-                    </button>
-                  </div>
-                )}
               </div>
             </div>
           );
@@ -121,16 +104,21 @@ function ConsultationDetails({ consultation, onBack }: { consultation: Booking; 
 
         {/* DESCRIPTION */}
         <div className="text-sm text-gray-700 space-y-2">
-          <p>
-            <strong>Experience:</strong> {consultation.experienceYears ?? 8}+ years
-          </p>
-          <p>
-            <strong>Specialization:</strong> {consultation.specialization?.join(", ") ?? "Corporate Law, Taxation"}
-          </p>
-          <p>
-            <strong>About:</strong>{" "}
-            {consultation.expertBio ?? "Experienced professional providing expert consultation."}
-          </p>
+          {consultation.experienceYears !== undefined && consultation.experienceYears !== null && (
+            <p>
+              <strong>Experience:</strong> {consultation.experienceYears}+ years
+            </p>
+          )}
+          {consultation.specialization && consultation.specialization.length > 0 && (
+            <p>
+              <strong>Specialization:</strong> {consultation.specialization.join(", ")}
+            </p>
+          )}
+          {consultation.expertBio && (
+            <p>
+              <strong>About:</strong> {consultation.expertBio}
+            </p>
+          )}
         </div>
 
         {/* BOOKING INFO */}

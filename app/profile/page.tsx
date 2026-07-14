@@ -15,12 +15,7 @@ export default function ProfilePage() {
   const router = useRouter();
 
   const handleLogout = () => {
-    router.push("/");
-    setTimeout(() => {
-      setUser(null);
-      logout();
-      window.location.reload();
-    }, 200);
+    logout();
   };
 
   const fetchProfile = async () => {

@@ -4,6 +4,7 @@ import { serverApi } from "@/lib/apis/axios";
 import { db } from "@/lib/firebaseClient";
 import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   collection,
   onSnapshot,
@@ -270,7 +271,9 @@ export default function UserDashboardTab() {
         <div className="lg:col-span-2 space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold">Upcoming Bookings</h2>
-            <button className="text-sm text-[#c92c41]">View All</button>
+            <Link href="/user/dashboard?tab=consultations" className="text-sm text-[#c92c41] font-medium hover:underline">
+              View All
+            </Link>
           </div>
 
           {dashboard.upcomingBookings.length === 0 ? (
@@ -284,7 +287,9 @@ export default function UserDashboardTab() {
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold">Top Experts</h2>
-            <button className="text-sm text-[#c92c41]">View All</button>
+            <Link href="/free-consultation" className="text-sm text-[#c92c41] font-medium hover:underline">
+              View All
+            </Link>
           </div>
 
           {dashboard.topExperts.length === 0 ? (
@@ -322,7 +327,7 @@ function BookingCard({ booking }: { booking: UpcomingBooking }) {
       <div className="flex justify-between">
         <h3 className="font-medium">{booking.serviceName}</h3>
         <span
-          className={`text-xs px-2 py-1 rounded-full ${
+          className={`text-xs px-2 py-1 rounded-full capitalize ${
             booking.status === "confirmed"
               ? "bg-green-100 text-green-700"
               : booking.status === "pending"
@@ -330,7 +335,7 @@ function BookingCard({ booking }: { booking: UpcomingBooking }) {
                 : "bg-red-100 text-red-700"
           }`}
         >
-          {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+          {booking.status}
         </span>
       </div>
 
@@ -341,7 +346,6 @@ function BookingCard({ booking }: { booking: UpcomingBooking }) {
 
       <div className="flex justify-between items-center pt-2">
         <span className="font-medium">₹{booking.fee}</span>
-        {booking.status === "pending" && <button className="text-sm text-red-500">Cancel</button>}
       </div>
     </div>
   );
@@ -350,7 +354,17 @@ function BookingCard({ booking }: { booking: UpcomingBooking }) {
 function ExpertCard({ expert }: { expert: TopExpert }) {
   return (
     <div className="bg-white rounded-xl p-4 flex gap-4">
-      <div className="h-12 w-12 rounded-full bg-gray-200" />
+      {expert.avatar ? (
+        <img
+          src={expert.avatar}
+          alt={expert.name}
+          className="h-12 w-12 rounded-full object-cover border"
+        />
+      ) : (
+        <div className="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-bold border">
+          {expert.name ? expert.name[0].toUpperCase() : "E"}
+        </div>
+      )}
       <div className="flex-1">
         <p className="font-medium">{expert.name}</p>
         <p className="text-xs text-gray-400">

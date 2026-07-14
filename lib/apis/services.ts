@@ -9,7 +9,8 @@ import { ServiceData } from "@/lib/types/service";
  */
 export async function getServiceBySlug(slug: string): Promise<ServiceData | null> {
   try {
-    const res = await fetch(`https://supabase-host-personal.onrender.com/api/services/${slug}`, {
+    const baseUrl = process.env.NEXT_PUBLIC_SERVICES_API_URL || "https://supabase-host-personal.onrender.com";
+    const res = await fetch(`${baseUrl}/api/services/${slug}`, {
       next: { revalidate: 3600 }, // Cache the result on server for 1 hour (ISR)
     });
 

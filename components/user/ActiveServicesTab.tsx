@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Upload, FileText } from "lucide-react";
 import { serverApi } from "@/lib/apis/axios";
@@ -84,8 +84,8 @@ export default function ActiveServicesTab() {
       (snapshot) => {
         setServices(
           snapshot.docs.map((doc) => ({
-            serviceId: doc.id,
             ...(doc.data() as ActiveService),
+            serviceId: doc.id,
           })),
         );
         setLoading(false);
@@ -276,7 +276,7 @@ export default function ActiveServicesTab() {
           <div>
             <h3 className="font-semibold">{s.title}</h3>
             <p className="text-xs text-gray-500">{s.serviceCode}</p>
-            <p className="text-sm mt-1"></p>
+
             <p className="text-xs text-gray-500 mt-1">
               Documents: {s.documentStats.uploaded}/{s.documentStats.totalRequired} uploaded
             </p>
