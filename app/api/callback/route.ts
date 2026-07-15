@@ -6,6 +6,23 @@ import {
 } from "@/lib/email/templates";
 
 export async function POST(req: Request) {
+  // Guard: check email config is present before doing anything
+  if (
+    !process.env.EMAIL_HOST ||
+    !process.env.EMAIL_PORT ||
+    !process.env.EMAIL_USER ||
+    !process.env.EMAIL_PASS
+  ) {
+    console.error(
+      "/api/callback: Email environment variables are not configured. " +
+      "Set EMAIL_HOST, EMAIL_PORT, EMAIL_USER, and EMAIL_PASS in .env.local"
+    );
+    return NextResponse.json(
+      { success: false, message: "Email service is not configured on the server." },
+      { status: 503 }
+    );
+  }
+
   try {
     const { name, email, phone, service } = await req.json();
 
@@ -53,7 +70,7 @@ export async function POST(req: Request) {
       service
     );
 
-    // Send support ticket to admin
+    // Send support ticket to admin (non-blocking)
     sendEmail({
       to: "admin@lawizer.com",
       subject: `[CALLBACK REQUEST] ${service} - ${name}`,
@@ -69,7 +86,7 @@ export async function POST(req: Request) {
   } catch (err) {
     console.error("/api/callback error:", err);
     return NextResponse.json(
-      { success: false, message: "Failed to submit callback request" },
+      { success: false, message: "Failed to send email. Please try again later." },
       { status: 500 }
     );
   }

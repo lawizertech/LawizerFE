@@ -7,7 +7,7 @@ export function Footer() {
   return (
     <footer className="bg-white border-t border-gray-200">
       <div className="container mx-auto px-4 py-10 sm:py-12">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-5 lg:gap-8 mb-8">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-6 lg:gap-8 mb-8">
           {/* Logo & Social */}
           <div className="md:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-2 mb-4">
@@ -66,34 +66,34 @@ export function Footer() {
               <ul className="space-y-3 text-sm">
                 <li>
                   <Link
-                    href="/family"
+                    href="/property"
                     className="text-gray-600 hover:text-primary"
                   >
-                    Family Law
+                    Property
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/business"
+                    href="/itr"
                     className="text-gray-600 hover:text-primary"
                   >
-                    Business Law
+                    ITR Filing
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/real-estate"
+                    href="/startup-businesslegal"
                     className="text-gray-600 hover:text-primary"
                   >
-                    Real Estate
+                    Startup & Business Legal
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/attorneys"
+                    href="/documentation"
                     className="text-gray-600 hover:text-primary"
                   >
-                    Find Attorneys
+                    Documentation
                   </Link>
                 </li>
               </ul>
@@ -128,6 +128,45 @@ export function Footer() {
                 </li>
               </ul>
             </div>
+          </div>
+
+          {/* Business */}
+          <div>
+            <h3 className="font-semibold text-gray-900 mb-4">Business</h3>
+            <ul className="space-y-3 text-sm">
+              <li>
+                <Link
+                  href="/startup-businesslegal/startbusiness/GSTRegistrationPage"
+                  className="text-gray-600 hover:text-primary"
+                >
+                  GST Registration
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/startup-businesslegal/startbusiness/PrivateLimitedCompanyPage"
+                  className="text-gray-600 hover:text-primary"
+                >
+                  Pvt Ltd Incorporation
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage"
+                  className="text-gray-600 hover:text-primary"
+                >
+                  MSME Udyam Registration
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/startup-businesslegal/protectbusiness/TrademarkRegistrationPage"
+                  className="text-gray-600 hover:text-primary"
+                >
+                  Trademark Registration
+                </Link>
+              </li>
+            </ul>
           </div>
 
           {/* Company & Legal */}

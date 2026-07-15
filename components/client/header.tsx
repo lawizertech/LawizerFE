@@ -527,7 +527,7 @@ export function Header() {
                 />
               </div>
               <div className="flex items-baseline gap-1">
-                <span className="text-2xl font-['Montserrat'] text-[#c92c41]">
+                <span className="text-2xl font-montserrat text-[#c92c41]">
                   Lawizer
                 </span>
               </div>
@@ -766,7 +766,7 @@ export function Header() {
                     />
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-['Montserrat'] font-bold text-[#c92c41]">
+                    <span className="text-2xl font-montserrat font-bold text-[#c92c41]">
                       Lawizer
                     </span>
                   </div>

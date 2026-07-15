@@ -282,7 +282,10 @@ export default function ServicesSection() {
             })}
           </div>
 
-          {/* CONTENT PANEL ───────────────────────────────────────── */}
+          {/* T&C note */}
+          <p style={{ fontSize:11, color:"#9CA3AF", marginBottom:28, marginTop:-16, paddingLeft:4 }}>
+            * T&amp;C applied. Prices shown are indicative and may vary based on requirements.
+          </p>
           <AnimatePresence mode="wait">
             <motion.div
               key={phase.key}
@@ -475,20 +478,28 @@ function SvcRow({ svc, accent, soft, glow }: { svc:Svc; accent:string; soft:stri
       {/* price block */}
       <span style={{
         display:"flex", flexDirection:"column", alignItems:"flex-end",
-        flexShrink:0, marginLeft:4,
+        flexShrink:0, marginLeft:6, gap:3,
       }}>
+        {/* was price — subtle strikethrough */}
         <span style={{
-          fontSize:11, color:"#B0B7C3",
+          fontSize:10, color:"#C0C5D0",
           textDecoration:"line-through", lineHeight:1,
+          fontWeight:500, letterSpacing:"0.01em",
         }}>
           {svc.was}
         </span>
+        {/* real price chip */}
         <span style={{
-          fontSize:14, fontWeight:800,
-          color: hov ? accent : "#0D0F14",
-          lineHeight:1.2, transition:"color 0.18s",
+          display:"inline-flex", alignItems:"baseline", gap:1,
+          background: hov ? accent : `${accent}18`,
+          color: hov ? "#fff" : accent,
+          padding:"3px 9px", borderRadius:8,
+          transition:"all 0.18s",
         }}>
-          {svc.price}
+          <span style={{ fontSize:13, fontWeight:800, lineHeight:1.2 }}>
+            {svc.price}
+          </span>
+          <span style={{ fontSize:11, fontWeight:900, lineHeight:1, marginLeft:1 }}>*</span>
         </span>
       </span>
 
