@@ -23,6 +23,8 @@ export default async function DocumentationPage({ params }: PageProps) {
     notFound();
   }
 
+  const priceNum = Number(service.hero.price?.replace(/[^0-9]/g, '')) || 999;
+
   return (
     <>
       <HeroWithAddons service={service} />
@@ -49,6 +51,7 @@ export default async function DocumentationPage({ params }: PageProps) {
         primaryColor={service.theme.primaryColor}
         primaryBg={service.theme.primaryBg}
         primaryHoverBg={service.theme.primaryHoverBg}
+        price={priceNum}
       />
     </>
   );

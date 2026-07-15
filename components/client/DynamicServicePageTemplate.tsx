@@ -161,6 +161,7 @@ export default function DynamicServicePageTemplate({ pageData }: { pageData: any
         primaryColor={pageData.primaryColor}
         primaryBg={pageData.primaryBg}
         primaryHoverBg={pageData.primaryHoverBg}
+        price={pageData.price}
       />
     </>
   );
