@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutDashboard, Users, Plus, Calendar, ClipboardList, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, Users, Plus, Calendar, ClipboardList, Receipt, Settings, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface SidebarProps {
@@ -50,6 +50,13 @@ export default function Sidebar({ activeTab, handleLogout, menuOpen }: SidebarPr
           icon={ClipboardList}
           active={activeTab === "services"}
           onClick={() => go("services")}
+        />
+
+        <SidebarItem
+          label="Transactions"
+          icon={Receipt}
+          active={activeTab === "transactions"}
+          onClick={() => go("transactions")}
         />
 
         <SidebarItem
