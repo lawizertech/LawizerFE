@@ -155,6 +155,7 @@ export default function BusinessPartnershipAgreementPage() {
         primaryColor="text-orange-600"
         primaryBg="bg-gradient-to-r from-orange-600 to-yellow-600"
         primaryHoverBg="bg-gradient-to-r from-orange-700 to-yellow-700"
+        price={1499}
       />
     </>
   );

@@ -5,6 +5,7 @@ import { Mail, Lock, Loader2, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { expertLogin } from "@/lib/apis/api";
 import { supabaseSignIn } from "@/lib/supabaseClient";
+import { useAuth } from "@/context/authContext";
 
 export default function LawyerLoginPage() {
   const [email, setEmail] = useState("");
@@ -12,6 +13,7 @@ export default function LawyerLoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const { refreshUser } = useAuth();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -36,7 +38,6 @@ export default function LawyerLoginPage() {
         throw new Error(signInRes.message || "Invalid email or password");
       }
 
-      const dbUser = signInRes.user!;
       const idToken = signInRes.session!.access_token;
 
       // 2️⃣ Sync session with Backend expert route
@@ -52,6 +53,7 @@ export default function LawyerLoginPage() {
       localStorage.setItem("role", "EXPERT");
       localStorage.setItem("userProfile", JSON.stringify(res.expert));
 
+      refreshUser();
       window.location.href = "/expert/dashboard";
     } catch (err: any) {
       setError(err.message || "Failed to sign in");

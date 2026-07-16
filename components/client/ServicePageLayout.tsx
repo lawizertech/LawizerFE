@@ -116,6 +116,7 @@ interface ServicePageLayoutProps {
   primaryHoverBg: string;
   serviceID: string;
   hideHero?: boolean; // ← NEW
+  price?: number; // ← NEW
 }
 
 /* ---------- ALERT ICON ---------- */
@@ -146,6 +147,7 @@ export default function ServicePageLayout({
   primaryBg,
   serviceID,
   hideHero = false, // ← NEW
+  price = 999, // ← NEW
 }: ServicePageLayoutProps) {
   const [openFaq, setOpenFaq] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -157,6 +159,21 @@ export default function ServicePageLayout({
 
   const HeroIcon = ICON_MAP[icon];
   const { setIsSignInModalOpen } = useAuth();
+
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      if (typeof window !== "undefined" && (window as any).Razorpay) {
+        resolve(true);
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
 
   const handleStartProcess = async () => {
     const token = localStorage.getItem("token");
@@ -200,6 +217,7 @@ export default function ServicePageLayout({
     setIsSubmitting(true);
 
     try {
+      // 1. Request backend to create case & order
       const response = await fetch("/api/user/start-process", {
         method: "POST",
         headers: {
@@ -209,28 +227,105 @@ export default function ServicePageLayout({
         body: JSON.stringify({
           serviceCode: serviceID,
           serviceTitle: title,
-          clientDetails: { fullName: name, email, phone },
+          clientDetails: { 
+            fullName: name || "Client", 
+            email: email || "client@lawizer.com", 
+            phone: phone || "0000000000" 
+          },
           urgency: "NORMAL",
         }),
       });
 
       const data = await response.json();
 
-      if (data.success && response.ok) {
-        setModalType("success");
-        setProcessCode(data.process?.processCode || "");
-        setShowResultModal(true);
-      } else {
+      if (!response.ok || !data.success || !data.order) {
         setModalType("error");
-        setErrorMessage(data.message || "Unable to submit request. Please try again.");
+        setErrorMessage(data.message || "Failed to initiate payment. Please try again.");
         setShowResultModal(true);
+        setIsSubmitting(false);
+        return;
       }
+
+      // 2. Load Razorpay script dynamically
+      const scriptLoaded = await loadRazorpayScript();
+      if (!scriptLoaded) {
+        setModalType("error");
+        setErrorMessage("Failed to load payment gateway. Check your internet connection.");
+        setShowResultModal(true);
+        setIsSubmitting(false);
+        return;
+      }
+
+      // 3. Launch Razorpay payment gateway
+      const options = {
+        key: data.keyId || "rzp_test_placeholder",
+        amount: data.order.amount,
+        currency: data.order.currency || "INR",
+        name: "Lawizer",
+        description: `Payment for ${title}`,
+        order_id: data.order.id,
+        handler: async function (response: any) {
+          try {
+            setIsSubmitting(true);
+
+            // 4. Verify payment on the server
+            const verifyRes = await fetch("/api/payments/verify", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+                processCode: data.process.processCode,
+              }),
+            });
+
+            const verifyData = await verifyRes.json();
+
+            if (verifyRes.ok && verifyData.success) {
+              setModalType("success");
+              setProcessCode(data.process.processCode);
+              setShowResultModal(true);
+            } else {
+              setModalType("error");
+              setErrorMessage(verifyData.message || "Payment verification failed. Contact support.");
+              setShowResultModal(true);
+            }
+          } catch (verifyErr) {
+            console.error("Verification failed:", verifyErr);
+            setModalType("error");
+            setErrorMessage("Connection issue during payment verification.");
+            setShowResultModal(true);
+          } finally {
+            setIsSubmitting(false);
+          }
+        },
+        prefill: {
+          name: name,
+          email: email,
+          contact: phone,
+        },
+        theme: {
+          color: "#c92c41",
+        },
+        modal: {
+          ondismiss: function () {
+            setIsSubmitting(false);
+          },
+        },
+      };
+
+      const rzp = new (window as any).Razorpay(options);
+      rzp.open();
+
     } catch (error) {
       console.error("Error starting process:", error);
       setModalType("error");
       setErrorMessage("Unable to connect to the server. Please check your internet connection.");
       setShowResultModal(true);
-    } finally {
       setIsSubmitting(false);
     }
   };

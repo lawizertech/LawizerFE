@@ -2,6 +2,7 @@
 
 import { serverApi } from "@/lib/apis/axios";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Calendar, Clock, IndianRupee, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -94,9 +95,9 @@ export default function DashboardTab() {
         >
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-semibold">Pending Requests</h2>
-            <button className="text-sm font-medium" style={{ color: PRIMARY }}>
+            <Link href="/expert/dashboard?tab=bookings" className="text-sm font-medium hover:underline" style={{ color: PRIMARY }}>
               View All
-            </button>
+            </Link>
           </div>
 
           <div
@@ -119,8 +120,8 @@ export default function DashboardTab() {
           <div>
             <h3 className="text-xl font-semibold mb-5">Quick Actions</h3>
             <div className="space-y-4">
-              <ActionButton label="Update Schedule" icon={Calendar} />
-              <ActionButton label="View All Bookings" icon={Clock} />
+              <ActionButton label="Update Schedule" icon={Calendar} href="/expert/dashboard?tab=profile" />
+              <ActionButton label="View All Bookings" icon={Clock} href="/expert/dashboard?tab=bookings" />
             </div>
           </div>
         </motion.div>
@@ -167,12 +168,12 @@ function StatCard({
   );
 }
 
-function ActionButton({ label, icon: Icon }: { label: string; icon: any }) {
-  return (
+function ActionButton({ label, icon: Icon, href }: { label: string; icon: any; href?: string }) {
+  const content = (
     <motion.button
       className="w-full flex items-center gap-4 px-5 py-3
  rounded-2xl bg-white text-base font-medium
- border border-transparent"
+ border border-transparent text-left"
       whileHover={{
         boxShadow: "0 8px 20px rgba(0, 0, 0, 0.08)",
         borderColor: "#c92c4130",
@@ -186,4 +187,14 @@ function ActionButton({ label, icon: Icon }: { label: string; icon: any }) {
       <span className=" text-[#373737] font-medium">{label}</span>
     </motion.button>
   );
+
+  if (href) {
+    return (
+      <Link href={href} className="block w-full">
+        {content}
+      </Link>
+    );
+  }
+
+  return content;
 }

@@ -19,8 +19,8 @@ async function renewToken(authHeader: string) {
   return renewData?.newToken || null;
 }
 
-async function forwardStartProcess(authHeader: string, body: unknown) {
-  return fetch(`${BASE}/user/start-process`, {
+async function forwardVerifyPayment(authHeader: string, body: unknown) {
+  return fetch(`${BASE}/payments/verify`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -43,25 +43,19 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     // Validate required fields
-    if (!body.serviceCode) {
-      return NextResponse.json({ success: false, message: "Service code is required" }, { status: 400 });
-    }
-
-    if (body.clientDetails) {
-      const { fullName, email, phone } = body.clientDetails;
-      body.clientDetails.fullName = fullName || "Client";
-      body.clientDetails.email = email || "client@lawizer.com";
-      body.clientDetails.phone = phone || "0000000000";
-    } else {
-      body.clientDetails = {
-        fullName: "Client",
-        email: "client@lawizer.com",
-        phone: "0000000000"
-      };
+    const { razorpay_payment_id, razorpay_order_id, razorpay_signature, processCode } = body;
+    if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature || !processCode) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Payment verification parameters missing",
+        },
+        { status: 400 },
+      );
     }
 
     // Forward request to backend
-    let backendRes = await forwardStartProcess(authHeader, body);
+    let backendRes = await forwardVerifyPayment(authHeader, body);
 
     if (!backendRes.ok) {
       const error = await backendRes.json().catch(() => null);
@@ -70,7 +64,7 @@ export async function POST(req: Request) {
         const newToken = await renewToken(authHeader);
 
         if (newToken) {
-          backendRes = await forwardStartProcess(`Bearer ${newToken}`, body);
+          backendRes = await forwardVerifyPayment(`Bearer ${newToken}`, body);
         }
       }
     }
@@ -80,7 +74,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: error?.message || "Failed to start process",
+          message: error?.message || "Failed to verify payment",
         },
         { status: backendRes.status },
       );
@@ -93,7 +87,7 @@ export async function POST(req: Request) {
       ...data,
     });
   } catch (err) {
-    console.error("/api/user/start-process error:", err);
+    console.error("/api/payments/verify error:", err);
     return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
   }
 }

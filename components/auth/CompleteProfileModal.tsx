@@ -3,8 +3,16 @@
 import { useState, useEffect, FormEvent } from "react";
 import { Loader2, X } from "lucide-react";
 import { completeUserProfile } from "@/lib/apis/api";
+import { useAuth } from "@/context/authContext";
+import { supabaseUpdatePassword } from "@/lib/supabaseClient";
 
-export default function CompleteProfileModal({ onClose, onDone }: any) {
+interface CompleteProfileModalProps {
+  onClose: () => void;
+  onDone: () => void;
+}
+
+export default function CompleteProfileModal({ onClose, onDone }: CompleteProfileModalProps) {
+  const { refreshUser } = useAuth();
   const [profile, setProfile] = useState<any>(null);
 
   // Form fields
@@ -13,6 +21,10 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [photoURL, setPhotoURL] = useState("");
+
+  const [isSocialOnly, setIsSocialOnly] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -33,6 +45,9 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
     setCity(user.city || "");
     setState(user.state || "");
     setPhotoURL(user.photoURL || localStorage.getItem("avatar_url") || "");
+
+    const socialOnly = localStorage.getItem("is_social_only") === "true";
+    setIsSocialOnly(socialOnly);
   }, []);
 
   if (!profile) return null; // prevent UI flash
@@ -50,8 +65,31 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
 
       if (!authToken) {
         setError("You are not logged in. Please sign in again.");
-        setLoading(false);
         return;
+      }
+
+      // If they logged in via Google and are setting a password
+      if (isSocialOnly) {
+        if (!password) {
+          setError("Password is required.");
+          return;
+        }
+        if (password !== confirmPassword) {
+          setError("Passwords do not match.");
+          return;
+        }
+        if (password.length < 6) {
+          setError("Password must be at least 6 characters long.");
+          return;
+        }
+
+        const pwRes = await supabaseUpdatePassword(authToken, password);
+        if (!pwRes.success) {
+          setError(pwRes.message || "Failed to set account password.");
+          return;
+        }
+
+        localStorage.setItem("is_social_only", "false");
       }
 
       const res = await completeUserProfile(authToken, {
@@ -62,19 +100,22 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
         city,
         state,
         photoURL,
+        hasPassword: isSocialOnly,
       });
 
       if (res && res.success) {
         localStorage.setItem("userProfile", JSON.stringify(res.data));
+        refreshUser();
+        onDone();
+        onClose();
+      } else {
+        setError(res?.message || "Failed to update profile");
       }
-
-      onDone();
-      onClose();
     } catch (err: any) {
       setError(err.message || "Failed to update profile");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
@@ -114,6 +155,33 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
               />
             </div>
           ))}
+
+          {isSocialOnly && (
+            <>
+              <div>
+                <label className="block mb-1 text-sm font-medium text-gray-700">Set Account Password*</label>
+                <input
+                  type="password"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter a new password"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1 text-sm font-medium text-gray-700">Confirm Password*</label>
+                <input
+                  type="password"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Confirm your password"
+                  required
+                />
+              </div>
+            </>
+          )}
 
           {/* Submit */}
           <button

@@ -140,8 +140,6 @@ export default function ActiveServicesTab() {
           };
         });
         setServices(fetchedServices);
-        // Log the stored React state of service requests (services)
-        console.log("Service Requests State:", fetchedServices);
         setLoading(false);
       },
       (error) => {
@@ -367,8 +365,6 @@ export default function ActiveServicesTab() {
       {/* LIST */}
       {services.map((s) => {
         const displayStatus = processStatusMap[s.serviceId] || s.status;
-        // Log the status during UI rendering
-        console.log("Rendering Status:", displayStatus);
         return (
           <div key={s.serviceId} className="border rounded-xl p-5 bg-white flex justify-between items-center">
             <div>
