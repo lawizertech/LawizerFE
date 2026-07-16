@@ -38,7 +38,8 @@
 | Animations | Framer Motion |
 | Carousel | Embla Carousel |
 | Charts | Recharts |
-| Auth & DB | Firebase (Auth, Firestore, Realtime Database) |
+| Auth | Supabase Auth (REST — no SDK) |
+| Realtime | Supabase Realtime (WebSocket broadcast) |
 | HTTP Client | Axios |
 | Form Handling | React Hook Form + Zod |
 | Email | Nodemailer (SMTP) |
@@ -51,8 +52,8 @@
 
 - **Node.js** v18+ (v20 recommended)
 - **npm** v9+
-- Access to the Firebase project (`lawizerbe`)
-- Access to the backend API (Firebase Cloud Functions)
+- Access to the Supabase project
+- Access to the backend API
 
 ---
 
@@ -82,16 +83,11 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 Copy `.env.example` to `.env.local` and populate these keys:
 
-### Firebase (required for auth and database)
+### Supabase (required for auth and realtime)
 
 ```env
-NEXT_PUBLIC_FIREBASE_API_KEY=
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
-NEXT_PUBLIC_FIREBASE_SENDER_ID=
-NEXT_PUBLIC_FIREBASE_APP_ID=
-NEXT_PUBLIC_FIREBASE_DATABASE_URL=       # Realtime Database URL
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 ```
 
 All `NEXT_PUBLIC_` variables are exposed to the browser. Never put secrets in them.
@@ -99,11 +95,9 @@ All `NEXT_PUBLIC_` variables are exposed to the browser. Never put secrets in th
 ### Backend API
 
 ```env
-NEXT_PUBLIC_API_URL=http://127.0.0.1:5001/lawizerbe/us-central1   # local emulator
+NEXT_PUBLIC_API_URL=http://127.0.0.1:5001/lawizerbe/us-central1   # local
 # NEXT_PUBLIC_API_URL=https://us-central1-lawizerbe.cloudfunctions.net  # production
 ```
-
-Switch between local Firebase emulator and production by toggling this value.
 
 ### Email / SMTP (server-side only, safe to keep secret)
 
@@ -149,12 +143,17 @@ LawizerFE/
 │   │   ├── free-consultation/    # Free consultation form
 │   │   ├── legal-news/           # Fetch legal news articles
 │   │   └── user/                 # User profile, bookings, services, dashboard
-│   ├── auth/verified/            # Email verification landing page
+│   ├── auth/
+│   │   ├── verified/             # Email verification landing page
+│   │   └── reset-password/       # Password reset page (reads Supabase hash token)
 │   ├── blogs/                    # Blog listing + [slug] dynamic pages
 │   ├── expert/                   # Expert login + dashboard
 │   ├── guides/                   # Legal guides listing + [slug] pages
 │   ├── news/                     # Legal news page
 │   ├── user/                     # User dashboard
+│   │   └── dashboard/
+│   │       ├── chats/            # Chat list (loads from bookings API)
+│   │       └── connect/[serviceId]/ # Consultation connect page (chat + call)
 │   ├── about/                    # About Lawizer
 │   ├── careers/                  # Careers page
 │   ├── contact/                  # Contact page
@@ -175,7 +174,7 @@ LawizerFE/
 ├── components/
 │   ├── auth/                     # Authentication modals (sign in, sign up, forgot password, complete profile)
 │   ├── blogs/                    # Blog layout, table of contents, pagination
-│   ├── call/                     # Voice call modal (WebRTC)
+│   ├── call/                     # Voice call modal (WebRTC — signaling TODO: Supabase Realtime)
 │   ├── chat/                     # Chat modal UI
 │   ├── client/                   # Public-facing UI (header, footer, service pages, carousels)
 │   │   └── home/                 # All homepage sections as individual components
@@ -197,9 +196,9 @@ LawizerFE/
 │   │   ├── api.ts                # All API call functions (getUserProfile, bookings, etc.)
 │   │   └── axios.ts              # Two Axios instances: serverApi and backendApi
 │   ├── chat/
-│   │   ├── sendMessage.ts        # Firebase Realtime DB message sender
-│   │   ├── typing.ts             # Typing indicator logic
-│   │   └── useChatMessages.ts    # Hook to subscribe to chat messages
+│   │   ├── sendMessage.ts        # Send chat message (TODO: Supabase Realtime broadcast)
+│   │   ├── typing.ts             # Typing indicator (TODO: Supabase Realtime broadcast)
+│   │   └── useChatMessages.ts    # Hook to subscribe to chat messages (TODO: Supabase Realtime)
 │   ├── data/services/            # Service page content (one file per category)
 │   │   ├── banking.ts
 │   │   ├── documentation.ts
@@ -216,7 +215,7 @@ LawizerFE/
 │   ├── types/
 │   │   └── service.ts            # ServiceData, FAQItem, BenefitItem interfaces
 │   ├── extractHeadings.ts        # Extracts TOC headings from HTML/markdown content
-│   ├── firebaseClient.ts         # Firebase app initialization (Auth, Firestore, RTDB)
+│   ├── supabaseClient.ts         # Supabase auth helpers (sign up, sign in, OAuth, password reset)
 │   ├── guides.ts                 # Legal guide data
 │   ├── utils.ts                  # cn() utility (clsx + tailwind-merge)
 │   └── webrtc.ts                 # WebRTC helpers for voice/video calls
@@ -228,10 +227,6 @@ LawizerFE/
 │   └── favicon.png
 │
 ├── scripts/                      # One-off maintenance scripts (Python/JS)
-│   ├── consolidate_pages.py
-│   ├── convert_to_ts.py
-│   ├── generate_category_slugs.py
-│   └── ...
 │
 ├── styles/
 │   └── globals.css               # Legacy global styles (mostly superseded by app/globals.css)
@@ -260,7 +255,7 @@ The project uses Next.js App Router. Every folder inside `app/` with a `page.tsx
 
 **Dynamic routes** — e.g., `app/guides/[slug]/page.tsx` renders a specific guide. The `slug` is matched against the data in `lib/guides.ts`.
 
-**API routes** — `app/api/*/route.ts` files are server-side only. They handle form submissions, proxy requests to the Firebase backend, and send emails.
+**API routes** — `app/api/*/route.ts` files are server-side only. They handle form submissions, proxy requests to the backend, and send emails.
 
 The full route map at a glance:
 
@@ -272,7 +267,11 @@ The full route map at a glance:
 | `/guides` | `app/guides/page.tsx` |
 | `/guides/:slug` | `app/guides/[slug]/page.tsx` |
 | `/user/dashboard` | `app/user/dashboard/page.tsx` |
+| `/user/dashboard/chats` | `app/user/dashboard/chats/page.tsx` |
+| `/user/dashboard/connect/:serviceId` | `app/user/dashboard/connect/[serviceId]/page.tsx` |
 | `/expert/dashboard` | `app/expert/dashboard/page.tsx` |
+| `/expert/dashboard/connect/:bookingId` | `app/expert/dashboard/connect/[bookingId]/page.tsx` |
+| `/auth/reset-password` | `app/auth/reset-password/page.tsx` |
 | `/(services)/banking` | `app/(services)/banking/page.tsx` |
 | `/(services)/itr/:slug` | `app/(services)/itr/[slug]/page.tsx` |
 | `/api/contact` | `app/api/contact/route.ts` |
@@ -284,29 +283,31 @@ The full route map at a glance:
 
 Components are split into functional domains:
 
-- **`components/ui/`** — Primitive shadcn/ui components. These are generated by `npx shadcn add <component>` and should not be edited manually unless you know what you're doing. They wrap Radix UI primitives.
-- **`components/client/`** — All public-facing page components: the site header, footer, service page template, carousels, callback modal. The `home/` subfolder contains each homepage section as its own file.
-- **`components/auth/`** — Modal-based authentication UI. Controlled via `AuthContext`.
+- **`components/ui/`** — Primitive shadcn/ui components. Generated by `npx shadcn add <component>` and should not be edited manually. They wrap Radix UI primitives.
+- **`components/client/`** — All public-facing page components: site header, footer, service page template, carousels, callback modal.
+- **`components/auth/`** — Modal-based authentication UI. Controlled via `AuthContext`. Uses `lib/supabaseClient.ts` directly (no Firebase SDK).
 - **`components/user/`** — User dashboard tabs (Dashboard, My Consultations, Active Services, Chat).
 - **`components/expert/`** — Expert dashboard tabs (Dashboard, Bookings, Profile).
 - **`components/blogs/`** — Blog layout, table of contents (sticky sidebar), and pagination.
 - **`components/guides/`** — Legal guide UI: reading progress bar, helpfulness voting, print.
-- **`components/call/`** — Voice call modal using WebRTC.
-- **`components/chat/`** — Chat modal using Firebase Realtime Database.
+- **`components/call/`** — Voice call modal using WebRTC. Peer connection is wired up; signaling channel is a TODO (Supabase Realtime).
+- **`components/chat/`** — Chat modal. Message send/receive hooks are stubbed in `lib/chat/` — wire up to Supabase Realtime.
 
 ---
 
 ### Authentication Flow
 
-Authentication is custom-built using Firebase Auth but persisted manually via `localStorage`.
+Authentication uses **Supabase Auth** via plain REST calls (no SDK). Session state is persisted in `localStorage`.
 
 **How it works:**
 
-1. The user signs in via `components/auth/signinPopup.tsx` which calls Firebase Auth directly.
-2. On success, `uid`, `email`, and a `token` (from the backend API) are saved to `localStorage`.
-3. `context/authContext.tsx` exposes `user`, `isLoggedIn`, `logout`, and `refreshUser`.
-4. On page load, `refreshUser()` reads from `localStorage` to hydrate the auth state — there is **no Firebase `onAuthStateChanged` listener**. Keep this in mind.
-5. The `AuthProvider` also controls which auth modal is open (`isSignupModalOpen`, `isSignInModalOpen`, `isCompleteProfileModalOpen`).
+1. Sign in via `components/auth/signinPopup.tsx` → calls `supabaseSignIn()` from `lib/supabaseClient.ts`.
+2. On success, the Supabase `access_token` is sent to the backend (`/auth/login`) which issues a Lawizer JWT.
+3. `uid`, `email`, `token`, and `role` are saved to `localStorage`.
+4. `context/authContext.tsx` exposes `user`, `isLoggedIn`, `logout`, and `refreshUser`.
+5. On page load, `refreshUser()` reads from `localStorage` to hydrate auth state — there is **no listener**. Call `refreshUser()` after any auth state change.
+6. Google OAuth and magic links are handled in `authContext.tsx` via a `useEffect` that reads the `#access_token` hash on mount.
+7. Password reset flow: `supabaseResetPassword()` sends the recovery email; the link lands on `/auth/reset-password` which calls `supabaseUpdatePassword()`.
 
 **Accessing auth state in any component:**
 
@@ -324,7 +325,46 @@ setIsSignInModalOpen(true);
 ```
 
 **Token handling:**
-The JWT token is stored in `localStorage` under the key `"token"`. The Axios interceptors in `lib/apis/axios.ts` automatically attach it as a `Bearer` token to every request. Token renewal is handled in `lib/apis/api.ts` via the `renewToken()` function which calls `/auth/renew-token`.
+The JWT is stored in `localStorage["token"]`. Axios interceptors in `lib/apis/axios.ts` attach it as a `Bearer` token. Expired tokens are renewed via `renewToken()` in `lib/apis/api.ts`.
+
+**`lib/supabaseClient.ts` exports:**
+
+| Function | Purpose |
+|---|---|
+| `supabaseSignUp(email, password, metadata)` | Register a new user |
+| `supabaseSignIn(email, password)` | Sign in, returns session with `access_token` |
+| `supabaseResetPassword(email)` | Send password reset email |
+| `supabaseUpdatePassword(accessToken, newPassword)` | Set new password from recovery token |
+| `supabaseGoogleSignIn()` | Redirect to Google OAuth |
+
+---
+
+### Realtime (Chat & Call Signaling)
+
+The app uses **Supabase Realtime** (WebSocket broadcast) for real-time features. There is no Firebase SDK anywhere in the codebase.
+
+**Channel conventions:**
+
+| Channel | Events | Used by |
+|---|---|---|
+| `chat:<bookingId>` | `new_message` | Chat modal |
+| `chat:<bookingId>` | `typing` | Typing indicators |
+| `call:<bookingId>` | `ringing`, `accepted`, `rejected`, `ended`, `offer`, `answer`, `ice_candidate` | Voice/video call signaling |
+
+**Current status:**
+
+- `lib/chat/sendMessage.ts` — **stub** (TODO: broadcast `new_message`)
+- `lib/chat/useChatMessages.ts` — **stub** (TODO: subscribe to channel)
+- `lib/chat/typing.ts` — **stub** (TODO: broadcast `typing`)
+- `components/call/VoiceCallModal.tsx` — WebRTC peer logic intact; **signaling stubbed** (TODO: use `call:<bookingId>` channel)
+- `app/user/dashboard/connect/[serviceId]/page.tsx` — incoming call listener **stubbed**
+- `app/expert/dashboard/connect/[bookingId]/page.tsx` — outgoing call init **stubbed**
+
+To implement, open a WebSocket to:
+```
+wss://<SUPABASE_URL>/realtime/v1/websocket?apikey=<ANON_KEY>&vsn=1.0.0
+```
+Join with a `phx_join` frame and listen for `broadcast` frames. See Supabase Realtime docs for the full protocol.
 
 ---
 
@@ -335,14 +375,14 @@ There are two Axios instances in `lib/apis/axios.ts`:
 | Instance | Base URL | Use case |
 |---|---|---|
 | `serverApi` | `` (empty, same-origin) | Calls Next.js API routes at `/api/*` |
-| `backendApi` | `NEXT_PUBLIC_API_URL` | Calls the Firebase Cloud Functions backend |
+| `backendApi` | `NEXT_PUBLIC_API_URL` | Calls the backend (Cloud Functions) |
 
 Both instances auto-attach the auth token from `localStorage` via a request interceptor.
 
 All named API functions live in `lib/apis/api.ts`. When adding a new API call:
 1. Add it as an exported function in `api.ts`.
-2. Use either `serverApi` or `backendApi` depending on whether the request goes through a Next.js route or directly to the backend.
-3. Handle `TOKEN_EXPIRED` error codes with the `renewToken()` helper (pattern already established in the file).
+2. Use `serverApi` or `backendApi` depending on whether the request goes through a Next.js route.
+3. Handle `TOKEN_EXPIRED` error codes with the `renewToken()` helper already in the file.
 
 ---
 
@@ -350,14 +390,14 @@ All named API functions live in `lib/apis/api.ts`. When adding a new API call:
 
 Instead of hardcoding each legal service page, Lawizer uses a data-driven pattern:
 
-1. **Data files** — `lib/data/services/*.ts` export a `servicesData` object keyed by slug. Each value conforms to the `ServiceData` interface (`lib/types/service.ts`).
+1. **Data files** — `lib/data/services/*.ts` export a `servicesData` object keyed by slug. Each value conforms to `ServiceData` (`lib/types/service.ts`).
 2. **Template component** — `components/client/DynamicServicePageTemplate.tsx` renders any `ServiceData` object into a full page.
-3. **Route** — The dynamic route (e.g., `app/(services)/banking/[slug]/page.tsx`) reads the slug from params, looks up the matching entry in `servicesData`, and renders the template.
+3. **Route** — The dynamic route (e.g., `app/(services)/banking/[slug]/page.tsx`) reads the slug, looks up `servicesData`, and renders the template.
 
 **To add a new service:**
 1. Open the relevant data file (e.g., `lib/data/services/banking.ts`).
-2. Add a new entry to `servicesData` following the `ServiceData` type.
-3. The new route `/(services)/banking/your-new-slug` is automatically available — no new file needed.
+2. Add a new entry following the `ServiceData` type.
+3. The route `/(services)/banking/your-new-slug` is automatically live — no new file needed.
 
 **`ServiceData` key fields:**
 
@@ -384,7 +424,7 @@ Instead of hardcoding each legal service page, Lawizer uses a data-driven patter
 Emails are sent server-side from Next.js API routes using Nodemailer.
 
 - **Transporter setup** — `lib/email/mailer.ts` exports `sendEmail(options)`. It reads SMTP config from env vars and gracefully no-ops if they are missing.
-- **Templates** — `lib/email/templates.ts` exports individual HTML template functions (e.g., `consultationConfirmationTemplate(data)`). Each returns an HTML string.
+- **Templates** — `lib/email/templates.ts` exports individual HTML template functions.
 - **Usage in an API route:**
 
 ```ts
@@ -404,19 +444,19 @@ Refer to `lib/email/README.md` for a full guide and `lib/email/ARCHITECTURE.md` 
 
 ### Styling Conventions
 
-- **Utility-first** — Use Tailwind classes. Avoid inline styles and external CSS files unless absolutely necessary.
+- **Utility-first** — Use Tailwind classes. Avoid inline styles unless absolutely necessary.
 - **`cn()` helper** — Always use `cn()` from `lib/utils.ts` when composing conditional class names:
   ```tsx
   import { cn } from "@/lib/utils";
   <div className={cn("base-class", isActive && "active-class", className)} />
   ```
-- **shadcn/ui** — Components in `components/ui/` follow the "New York" shadcn style with Neutral base colors and CSS variables. Add new shadcn components via:
+- **shadcn/ui** — Components in `components/ui/` follow the "New York" shadcn style with Neutral base colors. Add new components via:
   ```bash
   npx shadcn add <component-name>
   ```
 - **Custom CSS** — `app/lawizer-custom.css` for project-specific overrides. `app/globals.css` for Tailwind directives and CSS variable definitions.
-- **Fonts** — The project uses the `Outfit` font loaded via `next/font/google` in `app/layout.tsx`. The CSS variable is `--` (set in the body class).
-- **Prettier** — Code is formatted with Prettier. Key rules: 120 char print width, double quotes, trailing commas, 2-space indent. Run `npx prettier --write .` to format.
+- **Fonts** — `Outfit` font loaded via `next/font/google` in `app/layout.tsx`.
+- **Prettier** — 120 char print width, double quotes, trailing commas, 2-space indent. Run `npx prettier --write .` to format.
 
 ---
 
@@ -427,13 +467,17 @@ Refer to `lib/email/README.md` for a full guide and `lib/email/ARCHITECTURE.md` 
 | `app/layout.tsx` | Root HTML shell — loads fonts, global CSS, wraps app in `RootLayoutClient` |
 | `components/client/RootLayoutClient.tsx` | Mounts `AuthProvider`, `CallbackProvider`, Header, Footer, Toaster |
 | `context/authContext.tsx` | Global auth state; `useAuth()` hook entry point |
-| `lib/firebaseClient.ts` | Firebase app init — exports `auth`, `db` (Firestore), `rtdb` (Realtime DB) |
+| `lib/supabaseClient.ts` | Supabase Auth REST helpers — sign up, sign in, OAuth, password reset/update |
 | `lib/apis/axios.ts` | Two Axios instances with auth token interceptors |
 | `lib/apis/api.ts` | All typed API call functions |
+| `lib/chat/sendMessage.ts` | Send chat message — **stub, wire up to Supabase Realtime** |
+| `lib/chat/useChatMessages.ts` | Subscribe to chat messages — **stub, wire up to Supabase Realtime** |
+| `lib/chat/typing.ts` | Typing indicator — **stub, wire up to Supabase Realtime** |
 | `lib/utils.ts` | `cn()` — Tailwind class merger |
 | `lib/types/service.ts` | `ServiceData` TypeScript interface |
+| `lib/webrtc.ts` | `createPeerConnection()` — WebRTC peer setup helper |
+| `components/call/VoiceCallModal.tsx` | Voice call UI + WebRTC peer logic — **signaling stubbed** |
 | `components/client/header.tsx` | Site-wide navigation header with auth controls |
-| `components/client/header-data.ts` | Navigation menu structure as data |
 | `components/client/DynamicServicePageTemplate.tsx` | Renders any `ServiceData` as a full page |
 | `components/client/ServicePageLayout.tsx` | Wrapper layout for service pages (sidebar, CTA) |
 | `lib/email/mailer.ts` | `sendEmail()` — main email sending utility |
@@ -451,7 +495,7 @@ Refer to `lib/email/README.md` for a full guide and `lib/email/ARCHITECTURE.md` 
 | Start production | `npm run start` | Runs the production build (requires `npm run build` first) |
 | Lint | `npm run lint` | Runs ESLint |
 
-> **Note:** `typescript.ignoreBuildErrors` and `eslint.ignoreDuringBuilds` are set to `true` in `next.config.mjs`. This means the build won't fail on TS or lint errors — but you should still fix them. Run `npm run lint` locally and check your TypeScript before opening a PR.
+> **Note:** `typescript.ignoreBuildErrors` and `eslint.ignoreDuringBuilds` are set to `true` in `next.config.mjs`. This means the build won't fail on TS or lint errors — but you should still fix them. Run `npx tsc --noEmit` locally before pushing.
 
 ---
 
@@ -479,8 +523,8 @@ Follow the Conventional Commits format:
 ```
 feat: add voice call reconnection logic
 fix: prevent header flickering on mobile
-chore: update firebase to v12
-refactor: extract ServiceCard into its own component
+refactor: migrate chat to Supabase Realtime
+chore: remove firebase dependency
 ```
 
 ### Pull Requests
@@ -493,24 +537,24 @@ refactor: extract ServiceCard into its own component
 ### Adding a New Page
 
 1. Create `app/your-route/page.tsx`.
-2. If the page needs a custom layout (e.g., no header), add `app/your-route/layout.tsx`.
-3. If it has client-side interactivity, add `"use client"` at the top. Keep the `page.tsx` itself a Server Component when possible and pass data down to a `*Client.tsx` component (see `app/contact/ContactClient.tsx` as an example).
+2. If the page needs a custom layout, add `app/your-route/layout.tsx`.
+3. Add `"use client"` only if the page requires client-side interactivity. Keep `page.tsx` a Server Component where possible and delegate interactivity to a `*Client.tsx` child (see `app/contact/ContactClient.tsx`).
 
 ### Adding a New API Route
 
 1. Create `app/api/your-route/route.ts`.
 2. Export named functions `GET`, `POST`, etc.
-3. Use `serverApi` from `lib/apis/axios.ts` to call it from the frontend, or call `backendApi` directly if the route is just a passthrough.
+3. Use `serverApi` from `lib/apis/axios.ts` to call it from the frontend, or `backendApi` for direct backend calls.
 
 ---
 
 ## Common Gotchas
 
-**Auth state is localStorage-based, not Firebase listener-based.**
-If you log in and the UI does not reflect it, call `refreshUser()` from `useAuth()`. There is no real-time sync via `onAuthStateChanged`.
+**Auth state is localStorage-based, not listener-based.**
+If you log in and the UI does not reflect it, call `refreshUser()` from `useAuth()`. There is no automatic sync.
 
-**The `NEXT_PUBLIC_FIREBASE_DATABASE_URL` env var is required for Realtime Database.**
-It is not in `.env.example`. You will get runtime errors in the chat/call features without it. Ask a team member for the value.
+**Chat and call signaling are stubbed.**
+`lib/chat/sendMessage.ts`, `lib/chat/useChatMessages.ts`, `lib/chat/typing.ts`, and the signaling sections of `VoiceCallModal.tsx` and the connect pages all contain `// TODO` comments. They need to be wired up to Supabase Realtime before those features work.
 
 **`npm run build` ignores TypeScript errors.**
 `next.config.mjs` has `ignoreBuildErrors: true`. Always check types manually with `npx tsc --noEmit` before pushing.
@@ -519,10 +563,10 @@ It is not in `.env.example`. You will get runtime errors in the chat/call featur
 The `lib/data/services/` files are static data. Changes require a new deployment.
 
 **Images are unoptimized in production.**
-`next.config.mjs` has `images: { unoptimized: true }`. This is intentional for deployment flexibility but means no automatic image optimization. Compress images in `public/` manually before adding them.
+`next.config.mjs` has `images: { unoptimized: true }`. Compress images in `public/` manually before adding them.
 
 **Two global CSS files.**
-`app/globals.css` is the primary Tailwind stylesheet. `app/lawizer-custom.css` has project-specific overrides. Both are imported in `app/layout.tsx`. If a Tailwind class is mysteriously not working, check if it is being overridden in `lawizer-custom.css`.
+`app/globals.css` is the primary Tailwind stylesheet. `app/lawizer-custom.css` has project-specific overrides. Both are imported in `app/layout.tsx`. If a Tailwind class is mysteriously not working, check `lawizer-custom.css` for overrides.
 
 **`scripts/` folder is for one-off maintenance.**
-The Python and JS scripts in `scripts/` were used for data migration and code transforms. They are not part of the application runtime. Do not import from them.
+The Python and JS scripts in `scripts/` were used for data migration. They are not part of the application runtime. Do not import from them.
