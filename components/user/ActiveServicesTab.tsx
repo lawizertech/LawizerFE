@@ -6,14 +6,14 @@ import { ArrowLeft, Upload, FileText } from "lucide-react";
 import { serverApi } from "@/lib/apis/axios";
 import ServiceChat from "./ServiceChat";
 import { useAuth } from "@/context/authContext";
-import { db } from "@/lib/firebaseClient";
-import {
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
+// import { db } from "@/lib/firebaseClient";         // removed — Firebase deleted
+// import {                                            // removed — Firebase deleted
+//   collection,
+//   onSnapshot,
+//   orderBy,
+//   query,
+//   where,
+// } from "firebase/firestore";
 
 /* -------------------------------------------------------------------------- */
 /* TYPES */
@@ -105,7 +105,7 @@ export default function ActiveServicesTab() {
    */
   const [processStatusMap, setProcessStatusMap] = useState<Record<string, string>>({});
 
-  /* ===================== LOAD SERVICES ===================== */
+  /* ===================== LOAD SERVICES (REST) ===================== */
 
   useEffect(() => {
     if (!user?.uid) {
@@ -113,24 +113,19 @@ export default function ActiveServicesTab() {
       return;
     }
 
-    const servicesQuery = query(
-      collection(db, "services"),
-      where("userId", "==", user.uid),
-      orderBy("createdAt", "desc"),
-    );
+    const load = async () => {
+      try {
+        const res = await serverApi.get("/api/user/services");
+        const raw: any[] = res.data.services || [];
 
-    const unsubscribe = onSnapshot(
-      servicesQuery,
-      (snapshot) => {
-        const fetchedServices: ActiveService[] = snapshot.docs.map((doc) => {
-          const data = doc.data();
+        const fetchedServices: ActiveService[] = raw.map((data) => {
           const docs: any[] = data.documentsRequired || [];
-
           return {
-            serviceId: doc.id,
+            serviceId: data.serviceId || data.id,
             serviceCode: data.serviceCode,
             title: data.title,
             status: data.status,
+            processStatus: data.processStatus,
             documentStats: {
               totalRequired: docs.length,
               uploaded: docs.filter((d: any) => d.status === "UPLOADED").length,
@@ -139,53 +134,48 @@ export default function ActiveServicesTab() {
             },
           };
         });
+
         setServices(fetchedServices);
-        setLoading(false);
-      },
-      (error) => {
-        console.error("Failed to load services", error);
-        setLoading(false);
-      },
-    );
 
-    return () => {
-      unsubscribe();
-    };
-  }, [user?.uid]);
-
-  /* ===================== LOAD PROCESS STATUSES ===================== */
-
-  useEffect(() => {
-    if (!user?.uid) return;
-
-    const processesQuery = query(
-      collection(db, "serviceProcesses"),
-      where("userId", "==", user.uid),
-    );
-
-    const unsubscribe = onSnapshot(
-      processesQuery,
-      (snapshot) => {
+        // Build process status map from the same payload if available
         const statusMap: Record<string, string> = {};
-        snapshot.docs.forEach((doc) => {
-          const data = doc.data();
-          if (data.status) {
-            // serviceProcesses doc ID === services doc ID (processId)
-            statusMap[doc.id] = data.status;
+        raw.forEach((data) => {
+          if (data.processStatus) {
+            statusMap[data.serviceId || data.id] = data.processStatus;
           }
         });
         setProcessStatusMap(statusMap);
-        console.log("Process Status Map:", statusMap);
-      },
-      (error) => {
-        console.error("Failed to load service process statuses", error);
-      },
-    );
-
-    return () => {
-      unsubscribe();
+      } catch (error) {
+        console.error("Failed to load services", error);
+      } finally {
+        setLoading(false);
+      }
     };
+
+    void load();
   }, [user?.uid]);
+
+  // TODO: re-enable real-time service list updates when Supabase Realtime is implemented.
+  //
+  // useEffect(() => {
+  //   if (!user?.uid) { setLoading(false); return; }
+  //   const servicesQuery = query(
+  //     collection(db, "services"),
+  //     where("userId", "==", user.uid),
+  //     orderBy("createdAt", "desc"),
+  //   );
+  //   const unsubscribe = onSnapshot(servicesQuery, (snapshot) => { ... }, (error) => { ... });
+  //   return () => unsubscribe();
+  // }, [user?.uid]);
+
+  // TODO: re-enable real-time process status updates when Supabase Realtime is implemented.
+  //
+  // useEffect(() => {
+  //   if (!user?.uid) return;
+  //   const processesQuery = query(collection(db, "serviceProcesses"), where("userId", "==", user.uid));
+  //   const unsubscribe = onSnapshot(processesQuery, (snapshot) => { ... });
+  //   return () => unsubscribe();
+  // }, [user?.uid]);
 
   /* ===================== LOAD DETAILS ===================== */
 
