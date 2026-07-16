@@ -4,16 +4,17 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { serverApi } from "@/lib/apis/axios";
 import ChatModal from "@/components/chat/ChatModal";
-import { ref, onValue, remove, update } from "firebase/database";
 import VoiceCallModal from "@/components/call/VoiceCallModal";
 
-import { rtdb } from "@/lib/firebaseClient";
+// TODO: replace Firebase RTDB call-signaling with Supabase Realtime channel `call:<bookingId>`
+//   - subscribe to "ringing" event from lawyer
+//   - broadcast "accepted" / "rejected" back
+//   - broadcast "ended" to tear down
 
 export default function UserConnectPage() {
   const { serviceId: bookingId } = useParams<{ serviceId: string }>();
-  const [incomingCall, setIncomingCall] = useState<{
-    type: "voice" | "video";
-  } | null>(null);
+
+  const [incomingCall, setIncomingCall] = useState<{ type: "voice" | "video" } | null>(null);
   const [showVoiceCall, setShowVoiceCall] = useState(false);
 
   const [booking, setBooking] = useState<any>(null);
@@ -22,25 +23,10 @@ export default function UserConnectPage() {
   useEffect(() => {
     if (!bookingId) return;
 
-    const callRef = ref(rtdb, `calls/${bookingId}`);
-
-    const unsubscribe = onValue(callRef, (snapshot) => {
-      if (!snapshot.exists()) return;
-
-      const call = snapshot.val();
-
-      if (call.status === "ringing" && call.caller === "lawyer") {
-        setIncomingCall({
-          type: call.type,
-        });
-      }
-
-      if (call.status === "ended") {
-        setIncomingCall(null);
-      }
-    });
-
-    return () => unsubscribe();
+    // TODO: subscribe to Supabase Realtime channel `call:${bookingId}`:
+    //   - on event "ringing" → setIncomingCall({ type: payload.type })
+    //   - on event "ended"   → setIncomingCall(null)
+    // Return cleanup that unsubscribes the channel.
   }, [bookingId]);
 
   useEffect(() => {
@@ -94,10 +80,9 @@ export default function UserConnectPage() {
             <p className="text-gray-600 mb-6">{booking.expertName} is calling you</p>
 
             <div className="flex gap-4">
-              {/* Reject */}
               <button
-                onClick={async () => {
-                  await remove(ref(rtdb, `calls/${bookingId}`));
+                onClick={() => {
+                  // TODO: broadcast "rejected" on Supabase Realtime channel `call:${bookingId}`
                   setIncomingCall(null);
                 }}
                 className="flex-1 py-2 rounded-lg bg-red-600 text-white"
@@ -105,15 +90,11 @@ export default function UserConnectPage() {
                 Reject
               </button>
 
-              {/* Accept */}
               <button
-                onClick={async () => {
-                  await update(ref(rtdb, `calls/${bookingId}`), {
-                    status: "active",
-                  });
-
+                onClick={() => {
+                  // TODO: broadcast "accepted" on Supabase Realtime channel `call:${bookingId}`
                   setIncomingCall(null);
-                  setShowVoiceCall(true); // 🔥 THIS IS THE KEY
+                  setShowVoiceCall(true);
                 }}
                 className="flex-1 py-2 rounded-lg bg-green-600 text-white"
               >

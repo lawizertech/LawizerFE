@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { collection, onSnapshot, orderBy, query, serverTimestamp, limit, addDoc } from "firebase/firestore";
 import { Send, Phone, Video } from "lucide-react";
-import { db } from "@/lib/firebaseClient";
+// TODO: replace Firestore with Supabase Realtime / REST for consultation chat messages
 import { Booking } from "@/types/booking";
 
 /* -------------------------------------------------------------------------- */
@@ -41,23 +40,7 @@ export default function ConsultationChat({
   /* ===================== REALTIME LISTENER ===================== */
   useEffect(() => {
     if (!currentUserId || !booking.bookingId) return;
-
-    const q = query(
-      collection(db, "consultationChats", booking.bookingId, "messages"),
-      orderBy("createdAt", "asc"),
-      limit(200),
-    );
-
-    const unsub = onSnapshot(q, (snap) => {
-      setMessages(
-        snap.docs.map((d) => ({
-          id: d.id,
-          ...(d.data() as any),
-        })),
-      );
-    });
-
-    return () => unsub();
+    // TODO: subscribe to Supabase Realtime channel `consultation-chat:${booking.bookingId}`
   }, [booking.bookingId, currentUserId]);
 
   /* ===================== AUTO SCROLL ===================== */
@@ -65,20 +48,10 @@ export default function ConsultationChat({
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  /* ===================== SEND MESSAGE (API READY) ===================== */
+  /* ===================== SEND MESSAGE ===================== */
   const sendMessage = async () => {
     if (!text.trim()) return;
-
-    await addDoc(collection(db, "consultationChats", booking.bookingId, "messages"), {
-      bookingId: booking.bookingId,
-      text,
-      senderId: currentUserId,
-      senderRole: currentUserRole,
-      createdAt: serverTimestamp(),
-      createdAtMs: Date.now(),
-      read: false,
-    });
-
+    // TODO: send via Supabase Realtime broadcast or REST insert
     setText("");
   };
 

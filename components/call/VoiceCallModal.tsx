@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ref, set, push, onValue, onChildAdded } from "firebase/database";
-import { rtdb } from "@/lib/firebaseClient";
 import { createPeerConnection } from "@/lib/webrtc";
+
+// TODO: replace all signaling (offer/answer/candidates/status) with Supabase Realtime
 
 export default function VoiceCallModal({
   bookingId,
@@ -21,96 +21,43 @@ export default function VoiceCallModal({
   const [callStatus, setCallStatus] = useState("Initializing...");
 
   useEffect(() => {
-    let unsubStatus: any, unsubOffer: any, unsubAnswer: any, unsubCandidates: any;
-
     const start = async () => {
       try {
-        const localStream = await navigator.mediaDevices.getUserMedia({
-          audio: true,
-        });
+        const localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
         localStreamRef.current = localStream;
 
         const pc = createPeerConnection(
           (remoteStream) => {
-            if (audioRef.current) {
-              // ✅ FIX: Prevent "Interrupted by new load request"
-              if (audioRef.current.srcObject !== remoteStream) {
-                audioRef.current.srcObject = remoteStream;
-                audioRef.current.play().catch((err) => {
-                  if (err.name !== "AbortError") console.error("Play error:", err);
-                });
-              }
+            if (audioRef.current && audioRef.current.srcObject !== remoteStream) {
+              audioRef.current.srcObject = remoteStream;
+              audioRef.current.play().catch((err) => {
+                if (err.name !== "AbortError") console.error("Play error:", err);
+              });
             }
           },
-          (candidate) => {
-            push(ref(rtdb, `calls/${bookingId}/${role}Candidates`), candidate.toJSON());
-          },
+          (_candidate) => {
+            // TODO: send ICE candidate via Supabase Realtime
+            // e.g. broadcast({ event: "ice_candidate", payload: candidate.toJSON() })
+          }
         );
 
         pcRef.current = pc;
         localStream.getTracks().forEach((track) => pc.addTrack(track, localStream));
 
-        // --- NEGOTIATION LOGIC ---
-        if (role === "lawyer") {
-          unsubStatus = onValue(ref(rtdb, `calls/${bookingId}/status`), async (snap) => {
-            if (snap.val() === "active" && pc.signalingState === "stable") {
-              const offer = await pc.createOffer();
-              await pc.setLocalDescription(offer);
-              await set(ref(rtdb, `calls/${bookingId}/offer`), {
-                type: offer.type,
-                sdp: offer.sdp,
-              });
-              setCallStatus("Calling...");
-            }
-          });
-
-          unsubAnswer = onValue(ref(rtdb, `calls/${bookingId}/answer`), async (snap) => {
-            if (snap.exists() && pc.signalingState === "have-local-offer") {
-              await pc.setRemoteDescription(new RTCSessionDescription(snap.val()));
-              setCallStatus("Connected");
-            }
-          });
-        } else {
-          unsubOffer = onValue(ref(rtdb, `calls/${bookingId}/offer`), async (snap) => {
-            if (snap.exists() && pc.signalingState === "stable") {
-              await pc.setRemoteDescription(new RTCSessionDescription(snap.val()));
-              const answer = await pc.createAnswer();
-              await pc.setLocalDescription(answer);
-              await set(ref(rtdb, `calls/${bookingId}/answer`), {
-                type: answer.type,
-                sdp: answer.sdp,
-              });
-              setCallStatus("Connected");
-            }
-          });
-        }
-
-        // --- ICE CANDIDATE BUFFERING ---
-        const remoteRole = role === "lawyer" ? "client" : "lawyer";
-        unsubCandidates = onChildAdded(ref(rtdb, `calls/${bookingId}/${remoteRole}Candidates`), async (snap) => {
-          const candidateData = snap.val();
-          const retryAdd = async () => {
-            if (pc.remoteDescription && pc.remoteDescription.type) {
-              try {
-                await pc.addIceCandidate(new RTCIceCandidate(candidateData));
-              } catch (e) {}
-            } else {
-              setTimeout(retryAdd, 500);
-            }
-          };
-          retryAdd();
-        });
-      } catch (err) {
+        // TODO: subscribe to Supabase Realtime channel `call:<bookingId>` and:
+        //   - lawyer: listen for "call_active" → create offer, setLocalDescription, broadcast offer
+        //   - lawyer: listen for "answer" → setRemoteDescription
+        //   - client: listen for "offer" → setRemoteDescription, create answer, setLocalDescription, broadcast answer
+        //   - both: listen for "ice_candidate" → addIceCandidate with retry
+        setCallStatus("Waiting for signaling...");
+      } catch {
         setCallStatus("Mic Access Denied");
       }
     };
 
     start();
+
     return () => {
-      unsubStatus?.();
-      unsubOffer?.();
-      unsubAnswer?.();
-      unsubCandidates?.();
       pcRef.current?.close();
       localStreamRef.current?.getTracks().forEach((t) => t.stop());
     };
@@ -139,7 +86,7 @@ export default function VoiceCallModal({
             onClick={() => audioRef.current?.play()}
             className="w-full py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700"
           >
-            I can't hear anything
+            I can&apos;t hear anything
           </button>
 
           <button

@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { collection, onSnapshot, orderBy, query, addDoc, serverTimestamp, limit } from "firebase/firestore";
 import { Send } from "lucide-react";
-import { db } from "@/lib/firebaseClient";
+// TODO: replace Firestore with Supabase Realtime / REST for service chat messages
 
 /* -------------------------------------------------------------------------- */
 /* TYPES */
@@ -38,14 +37,8 @@ export default function ServiceChat({
   /* ===================== REALTIME LISTENER ===================== */
   useEffect(() => {
     if (!currentUserId) return;
-
-    const q = query(collection(db, "serviceChats", serviceId, "messages"), orderBy("createdAt", "asc"), limit(200));
-
-    const unsub = onSnapshot(q, (snap) => {
-      setMessages(snap.docs.map((d) => ({ id: d.id, ...(d.data() as any) })));
-    });
-
-    return () => unsub();
+    // TODO: subscribe to Supabase Realtime channel `service-chat:${serviceId}`
+    //       or fetch messages from a Supabase table
   }, [serviceId, currentUserId]);
 
   /* ===================== AUTO SCROLL ===================== */
@@ -56,16 +49,7 @@ export default function ServiceChat({
   /* ===================== SEND MESSAGE ===================== */
   const sendMessage = async () => {
     if (!text.trim()) return;
-
-    await addDoc(collection(db, "serviceChats", serviceId, "messages"), {
-      senderId: currentUserId,
-      senderRole: currentUserRole,
-      text,
-      createdAt: serverTimestamp(),
-      createdAtMs: Date.now(),
-      read: false,
-    });
-
+    // TODO: send message via Supabase Realtime broadcast or REST insert
     setText("");
   };
 

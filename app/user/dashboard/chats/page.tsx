@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import { MessageCircle } from "lucide-react";
 import { getUserBookings } from "@/lib/apis/api";
-import { ref, get } from "firebase/database";
-import { rtdb } from "@/lib/firebaseClient";
 import ChatModal from "@/components/chat/ChatModal";
 
 interface Booking {
@@ -29,38 +27,19 @@ export default function ChatsPage() {
   useEffect(() => {
     const loadChats = async () => {
       try {
-        /* 1️⃣ Fetch user bookings */
         const res = await getUserBookings();
         const bookings: Booking[] = res.consultations || [];
 
-        if (bookings.length === 0) {
-          setChats([]);
-          return;
-        }
+        // TODO: replace RTDB snapshot with Supabase query for chat metadata
+        // For now surface every booking as a potential chat room
+        const chatList: Chat[] = bookings.map((b) => ({
+          bookingId: b.bookingId,
+          expertName: b.expertName,
+          lastMessage: "",
+          updatedAt: 0,
+        }));
 
-        /* 2️⃣ Check RTDB for each bookingId */
-        const chatPromises = bookings.map(async (booking) => {
-          const chatRef = ref(rtdb, `chatRooms/${booking.bookingId}`);
-          const snapshot = await get(chatRef);
-
-          if (!snapshot.exists()) return null;
-
-          const data = snapshot.val();
-
-          return {
-            bookingId: booking.bookingId,
-            expertName: booking.expertName,
-            lastMessage: data.lastMessage || "",
-            updatedAt: data.updatedAt || 0,
-          };
-        });
-
-        const chatResults = (await Promise.all(chatPromises)).filter(Boolean) as Chat[];
-
-        /* 3️⃣ Sort by latest activity */
-        chatResults.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
-
-        setChats(chatResults);
+        setChats(chatList);
       } catch (err) {
         console.error("Failed to load chats", err);
       } finally {
@@ -71,15 +50,11 @@ export default function ChatsPage() {
     loadChats();
   }, []);
 
-  /* ---------- UI STATES ---------- */
-
   if (loading) return <p>Loading chats...</p>;
 
   if (chats.length === 0) {
     return <div className="text-gray-500 mt-10">No chats yet.</div>;
   }
-
-  /* ---------- UI ---------- */
 
   return (
     <>
@@ -107,7 +82,6 @@ export default function ChatsPage() {
         ))}
       </div>
 
-      {/* CHAT MODAL */}
       {showChat && selectedBookingId && (
         <ChatModal
           bookingId={selectedBookingId}
