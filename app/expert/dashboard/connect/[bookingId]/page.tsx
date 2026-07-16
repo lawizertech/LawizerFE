@@ -5,8 +5,11 @@ import { useParams } from "next/navigation";
 import { serverApi } from "@/lib/apis/axios";
 import ChatModal from "@/components/chat/ChatModal";
 import VoiceCallModal from "@/components/call/VoiceCallModal";
-import { ref, set } from "firebase/database";
-import { rtdb } from "@/lib/firebaseClient";
+
+// TODO: replace Firebase RTDB call-signaling with Supabase Realtime channel `call:<bookingId>`
+//   - broadcast "ringing" event when lawyer initiates a voice call
+//   - listen for "accepted" / "rejected" from client
+//   - broadcast "ended" on hang-up
 
 export default function ConnectPage() {
   const { bookingId } = useParams<{ bookingId: string }>();
@@ -22,7 +25,6 @@ export default function ConnectPage() {
     const loadBooking = async () => {
       const res = await serverApi.get(`/api/expert/consultations/${bookingId}`);
       setBooking(res.data.booking);
-
       setLoading(false);
     };
 
@@ -51,16 +53,9 @@ export default function ConnectPage() {
         </button>
 
         <button
-          onClick={async () => {
-            await set(ref(rtdb, `calls/${booking.bookingId}`), {
-              status: "ringing",
-              type: "voice",
-              caller: "lawyer",
-              userId: booking.userId,
-              lawyerId: booking.expertUid,
-              createdAt: Date.now(),
-            });
-
+          onClick={() => {
+            // TODO: broadcast "ringing" event on Supabase Realtime channel `call:${booking.bookingId}`
+            // with payload: { type: "voice", caller: "lawyer", userId: booking.userId, lawyerId: booking.expertUid }
             setShowVoiceCall(true);
           }}
           className="w-full py-3 rounded-lg bg-green-600 text-white"
