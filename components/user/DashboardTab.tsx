@@ -1,18 +1,10 @@
 "use client";
 
 import { serverApi } from "@/lib/apis/axios";
-import { db } from "@/lib/firebaseClient";
 import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
 import { Calendar, Clock, Users, IndianRupee, CheckCircle, FileText, ArrowRight } from "lucide-react";
 import { ServiceWorkspaceRepository } from "@/lib/repositories/serviceWorkspaceRepository";
 import { ServiceWorkspaceService } from "@/lib/services/serviceWorkspaceService";
@@ -198,44 +190,37 @@ export default function UserDashboardTab() {
       return;
     }
 
-    const servicesQuery = query(
-      collection(db, "services"),
-      where("userId", "==", user.uid),
-      orderBy("createdAt", "desc"),
-    );
+    let active = true;
 
-    const unsubscribe = onSnapshot(
-      servicesQuery,
-      (snapshot) => {
-        const services = snapshot.docs.map((doc) => doc.data());
-
+    const loadServiceStats = async () => {
+      try {
+        const services = await ServiceWorkspaceRepository.getServices();
+        if (!active) return;
         setDashboard((current) => ({
           ...current,
           totalServices: services.length,
           activeServices: services.filter(
-            (service: any) => service.status === "ACTIVE",
+            (service: any) => service.status === "ACTIVE" || service.status === "In Progress" || service.status === "Docs Pending"
           ).length,
           completedServices: services.filter(
-            (service: any) => service.status === "COMPLETED",
+            (service: any) => service.status === "COMPLETED" || service.status === "Completed"
           ).length,
           pendingServiceDocuments: services.reduce(
             (sum: number, service: any) =>
               sum +
-              (service.documentsRequired || []).filter(
-                (document: any) =>
-                  document.status === "PENDING" ||
-                  document.status === "REJECTED",
-              ).length,
-            0,
+              (service.documentStats?.pending || 0),
+            0
           ),
         }));
-      },
-      (error) => {
-        console.error("Failed to subscribe to service updates", error);
-      },
-    );
+      } catch (error) {
+        console.error("Failed to load service updates", error);
+      }
+    };
 
-    return () => unsubscribe();
+    void loadServiceStats();
+    return () => {
+      active = false;
+    };
   }, [user?.uid]);
 
   if (loading) {

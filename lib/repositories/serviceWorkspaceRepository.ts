@@ -71,12 +71,11 @@ export class ServiceWorkspaceRepository {
   }
 
   /**
-   * Initialize a WebRTC/RTDB signaling session for voice/video calls
+   * Initialize a WebRTC signaling session for voice/video calls via Supabase Realtime
    */
   static async startCallSession(serviceId: string, userId: string, type: "voice" | "video"): Promise<void> {
-    const { rtdb } = await import("@/lib/firebaseClient");
-    const { ref, set } = await import("firebase/database");
-    await set(ref(rtdb, `calls/${serviceId}`), {
+    const { supabaseRealtime } = await import("@/lib/supabaseRealtime");
+    await supabaseRealtime.broadcast(`call:${serviceId}`, "ringing", {
       status: "ringing",
       type,
       caller: "client",

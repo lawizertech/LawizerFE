@@ -4,14 +4,6 @@ import { ServiceWorkspaceRepository } from "@/lib/repositories/serviceWorkspaceR
 import { ServiceWorkspaceService } from "@/lib/services/serviceWorkspaceService";
 import { chatService } from "@/lib/services/chatService";
 import {
-  collection,
-  onSnapshot,
-  query,
-  where,
-  orderBy,
-} from "firebase/firestore";
-import { db } from "@/lib/firebaseClient";
-import {
   ServiceWorkspaceItem,
   ServiceWorkspaceDetail,
   ChatMessage,
@@ -34,33 +26,17 @@ export function useServiceWorkspace() {
   const { user } = useAuth();
   const { toast } = useToast();
 
-  // Listen to live notifications for current user
+  // Poll notifications for current user via REST API (No Firebase)
   useEffect(() => {
     if (!user?.uid) return;
 
-    const notifQuery = query(
-      collection(db, "notifications"),
-      where("userId", "==", user.uid),
-      orderBy("createdAt", "desc")
-    );
-
-    const unsubscribe = onSnapshot(
-      notifQuery,
-      (snapshot) => {
-        const list = snapshot.docs.map((doc) => {
-          const data = doc.data();
-
+    const fetchNotifs = async () => {
+      try {
+        const list = await ServiceWorkspaceRepository.getNotifications();
+        const mapped = list.map((item: any) => {
           let dateStr = "Just now";
-          if (data.createdAt?.toDate) {
-            dateStr = data.createdAt.toDate().toLocaleDateString("en-IN", {
-              day: "2-digit",
-              month: "short",
-              year: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            });
-          } else if (data.createdAt) {
-            dateStr = new Date(data.createdAt).toLocaleDateString("en-IN", {
+          if (item.createdAt) {
+            dateStr = new Date(item.createdAt).toLocaleDateString("en-IN", {
               day: "2-digit",
               month: "short",
               year: "numeric",
@@ -68,27 +44,27 @@ export function useServiceWorkspace() {
               minute: "2-digit",
             });
           }
-
           return {
-            notificationId: doc.id,
-            userId: data.userId,
-            serviceId: data.serviceId || null,
-            type: data.type,
-            title: data.title,
-            message: data.message,
-            read: !!data.read,
+            notificationId: item.notificationId || item.id,
+            userId: item.userId,
+            serviceId: item.serviceId || null,
+            type: item.type,
+            title: item.title,
+            message: item.message,
+            read: !!item.read,
             createdAt: dateStr,
-            related: data.related || null,
+            related: item.related || null,
           } as NotificationItem;
         });
-        setNotifications(list);
-      },
-      (error) => {
-        console.error("Failed to subscribe to live notifications:", error);
+        setNotifications(mapped);
+      } catch (err) {
+        console.error("Failed to load notifications:", err);
       }
-    );
+    };
 
-    return () => unsubscribe();
+    void fetchNotifs();
+    const interval = setInterval(fetchNotifs, 10000);
+    return () => clearInterval(interval);
   }, [user?.uid]);
 
   const dismissNotification = async (notificationId: string) => {

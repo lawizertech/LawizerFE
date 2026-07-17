@@ -1,13 +1,4 @@
-import { db } from "@/lib/firebaseClient";
-import {
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-  addDoc,
-  serverTimestamp,
-  limit,
-} from "firebase/firestore";
+import { supabaseRealtime } from "@/lib/supabaseRealtime";
 import { ChatMessage } from "@/lib/types/serviceWorkspace";
 
 export interface ChatSubscription {
@@ -24,61 +15,82 @@ export interface ChatService {
   sendMessage(serviceId: string, userId: string, text: string): Promise<void>;
 }
 
-class FirebaseChatService implements ChatService {
+class SupabaseChatService implements ChatService {
+  private localMessages = new Map<string, ChatMessage[]>();
+
   subscribeToMessages(
     serviceId: string,
     onUpdate: (messages: ChatMessage[]) => void,
     onError: (error: any) => void
   ): ChatSubscription {
-    const q = query(
-      collection(db, "serviceChats", serviceId, "messages"),
-      orderBy("createdAt", "asc"),
-      limit(200)
-    );
+    const channel = `chat:${serviceId}`;
 
-    const unsubscribe = onSnapshot(
-      q,
-      (snap) => {
-        const msgs = snap.docs.map((doc) => {
-          const data = doc.data() as any;
-          const userMsg = data.senderRole === "USER";
+    if (!this.localMessages.has(serviceId)) {
+      this.localMessages.set(serviceId, []);
+    }
 
-          let timeStr = "Just now";
-          if (data.createdAtMs) {
-            timeStr = new Date(data.createdAtMs).toLocaleTimeString("en-IN", {
-              hour: "2-digit",
-              minute: "2-digit",
-            });
+    onUpdate(this.localMessages.get(serviceId)!);
+
+    let unsub: (() => void) | null = null;
+
+    const setup = async () => {
+      try {
+        const sub = await supabaseRealtime.subscribe(channel, (event, payload) => {
+          if (event === "new_message") {
+            const list = this.localMessages.get(serviceId) || [];
+            const msg: ChatMessage = {
+              sender: payload.senderId === "USER" || payload.senderRole === "USER" ? "user" : "expert",
+              text: payload.text || "",
+              time: new Date(payload.createdAtMs || Date.now()).toLocaleTimeString("en-IN", {
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
+            };
+            if (!list.some(m => m.text === msg.text && m.sender === msg.sender)) {
+              list.push(msg);
+              this.localMessages.set(serviceId, list);
+              onUpdate([...list]);
+            }
           }
-
-          return {
-            sender: userMsg ? ("user" as const) : ("expert" as const),
-            text: data.text || "",
-            time: timeStr,
-          };
         });
-        onUpdate(msgs);
-      },
-      (error) => {
-        console.error("Firebase chat subscription error:", error);
-        onError(error);
+        unsub = sub.unsubscribe;
+      } catch (err) {
+        onError(err);
       }
-    );
+    };
 
-    return { unsubscribe };
+    void setup();
+
+    return {
+      unsubscribe: () => {
+        unsub?.();
+      },
+    };
   }
 
   async sendMessage(serviceId: string, userId: string, text: string): Promise<void> {
-    await addDoc(collection(db, "serviceChats", serviceId, "messages"), {
-      senderId: userId,
+    const channel = `chat:${serviceId}`;
+    const payload = {
+      senderId: "USER",
       senderRole: "USER",
       text,
-      createdAt: serverTimestamp(),
       createdAtMs: Date.now(),
-      read: false,
-    });
+    };
+
+    const list = this.localMessages.get(serviceId) || [];
+    const localMsg: ChatMessage = {
+      sender: "user",
+      text,
+      time: new Date().toLocaleTimeString("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    };
+    list.push(localMsg);
+    this.localMessages.set(serviceId, list);
+
+    await supabaseRealtime.broadcast(channel, "new_message", payload);
   }
 }
 
-// Global instance that can be swapped later (e.g. export const chatService = new SupabaseChatService())
-export const chatService: ChatService = new FirebaseChatService();
+export const chatService: ChatService = new SupabaseChatService();

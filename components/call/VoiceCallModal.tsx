@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ref, set, push, onValue, onChildAdded, get } from "firebase/database";
-import { rtdb } from "@/lib/firebaseClient";
+import { serverApi } from "@/lib/apis/axios";
+import { supabaseRealtime } from "@/lib/supabaseRealtime";
 import { createPeerConnection } from "@/lib/webrtc";
 import {
   Mic,
@@ -58,38 +58,32 @@ export default function VoiceCallModal({
   };
 
   useEffect(() => {
-    let unsubStatus: any, unsubOffer: any, unsubAnswer: any, unsubCandidates: any;
+    let unsub: (() => void) | null = null;
+    let active = true;
 
     const start = async () => {
       try {
-        // Fetch call type (voice vs video) from the DB
-        const callSnap = await get(ref(rtdb, `calls/${bookingId}`));
-        const type = callSnap.val()?.type || "voice";
-        const isVideo = type === "video";
-        setIsVideoCall(isVideo);
-
-        // Fetch user metadata for displaying names
+        let isVideo = false;
         try {
-          const userRole = role === "lawyer" ? "client" : "lawyer";
-          if (userRole === "client") {
-            const bookingSnap = await get(ref(rtdb, `bookings/${bookingId}`));
-            if (bookingSnap.exists()) {
-              setPeerName(bookingSnap.val()?.userName || "Client");
-            }
-          } else {
-            const bookingSnap = await get(ref(rtdb, `bookings/${bookingId}`));
-            if (bookingSnap.exists()) {
-              setPeerName(bookingSnap.val()?.expertName || "Advocate Expert");
-            }
+          const res = await serverApi.get(`/api/user/consultations/${bookingId}`);
+          if (res.data?.success && res.data?.booking && active) {
+            const booking = res.data.booking;
+            isVideo = booking.callType === "video";
+            setIsVideoCall(isVideo);
+            setPeerName(role === "lawyer" ? (booking.userName || "Client") : (booking.expertName || "Advocate Expert"));
           }
         } catch (e) {
-          console.error("Metadata fetch error:", e);
+          console.error("Consultation metadata fetch error:", e);
         }
 
         const localStream = await navigator.mediaDevices.getUserMedia({
           audio: true,
           video: isVideo,
         });
+        if (!active) {
+          localStream.getTracks().forEach((t) => t.stop());
+          return;
+        }
         localStreamRef.current = localStream;
 
         if (localVideoRef.current && isVideo) {
@@ -110,64 +104,65 @@ export default function VoiceCallModal({
             }
           },
           (candidate) => {
-            push(ref(rtdb, `calls/${bookingId}/${role}Candidates`), candidate.toJSON());
+            void supabaseRealtime.broadcast(`call:${bookingId}`, "ice_candidate", {
+              role,
+              candidate: candidate.toJSON(),
+            });
           }
         );
 
         pcRef.current = pc;
         localStream.getTracks().forEach((track) => pc.addTrack(track, localStream));
 
-        // Negotiation Flow
-        if (role === "lawyer") {
-          unsubStatus = onValue(ref(rtdb, `calls/${bookingId}/status`), async (snap) => {
-            if (snap.val() === "active" && pc.signalingState === "stable") {
+        // Subscribe to Supabase Realtime channel for WebRTC signaling
+        const subscription = await supabaseRealtime.subscribe(`call:${bookingId}`, async (event, payload) => {
+          if (!active) return;
+          if (event === "ringing") {
+            if (role === "lawyer" && pc.signalingState === "stable") {
               const offer = await pc.createOffer();
               await pc.setLocalDescription(offer);
-              await set(ref(rtdb, `calls/${bookingId}/offer`), {
-                type: offer.type,
-                sdp: offer.sdp,
-              });
+              void supabaseRealtime.broadcast(`call:${bookingId}`, "offer", { offer });
               setCallStatus("Calling...");
             }
-          });
-
-          unsubAnswer = onValue(ref(rtdb, `calls/${bookingId}/answer`), async (snap) => {
-            if (snap.exists() && pc.signalingState === "have-local-offer") {
-              await pc.setRemoteDescription(new RTCSessionDescription(snap.val()));
-              setCallStatus("Connected");
-            }
-          });
-        } else {
-          setCallStatus("Connecting...");
-          unsubOffer = onValue(ref(rtdb, `calls/${bookingId}/offer`), async (snap) => {
-            if (snap.exists() && pc.signalingState === "stable") {
-              await pc.setRemoteDescription(new RTCSessionDescription(snap.val()));
+          } else if (event === "offer") {
+            if (role === "client" && pc.signalingState === "stable") {
+              await pc.setRemoteDescription(new RTCSessionDescription(payload.offer));
               const answer = await pc.createAnswer();
               await pc.setLocalDescription(answer);
-              await set(ref(rtdb, `calls/${bookingId}/answer`), {
-                type: answer.type,
-                sdp: answer.sdp,
-              });
+              void supabaseRealtime.broadcast(`call:${bookingId}`, "answer", { answer });
               setCallStatus("Connected");
             }
-          });
-        }
-
-        // ICE candidate sync
-        const remoteRole = role === "lawyer" ? "client" : "lawyer";
-        unsubCandidates = onChildAdded(ref(rtdb, `calls/${bookingId}/${remoteRole}Candidates`), async (snap) => {
-          const candidateData = snap.val();
-          const retryAdd = async () => {
-            if (pc.remoteDescription && pc.remoteDescription.type) {
-              try {
-                await pc.addIceCandidate(new RTCIceCandidate(candidateData));
-              } catch (e) { }
-            } else {
-              setTimeout(retryAdd, 500);
+          } else if (event === "answer") {
+            if (role === "lawyer" && pc.signalingState === "have-local-offer") {
+              await pc.setRemoteDescription(new RTCSessionDescription(payload.answer));
+              setCallStatus("Connected");
             }
-          };
-          retryAdd();
+          } else if (event === "ice_candidate") {
+            if (payload.role !== role) {
+              const retryAdd = async () => {
+                if (pc.remoteDescription && pc.remoteDescription.type) {
+                  try {
+                    await pc.addIceCandidate(new RTCIceCandidate(payload.candidate));
+                  } catch (e) { }
+                } else {
+                  setTimeout(retryAdd, 500);
+                }
+              };
+              retryAdd();
+            }
+          } else if (event === "ended") {
+            onClose();
+          }
         });
+
+        unsub = subscription.unsubscribe;
+
+        if (role === "lawyer") {
+          setCallStatus("Ringing...");
+          void supabaseRealtime.broadcast(`call:${bookingId}`, "ringing", { role });
+        } else {
+          setCallStatus("Connecting...");
+        }
 
       } catch (err) {
         console.error("Call setup error:", err);
@@ -177,14 +172,21 @@ export default function VoiceCallModal({
 
     void start();
     return () => {
-      unsubStatus?.();
-      unsubOffer?.();
-      unsubAnswer?.();
-      unsubCandidates?.();
+      active = false;
+      unsub?.();
       pcRef.current?.close();
       localStreamRef.current?.getTracks().forEach((t) => t.stop());
     };
   }, [bookingId, role]);
+
+  const handleEndCall = async () => {
+    try {
+      await supabaseRealtime.broadcast(`call:${bookingId}`, "ended", { role });
+    } catch (e) {
+      console.error("End call broadcast failed:", e);
+    }
+    onClose();
+  };
 
   const toggleMute = () => {
     if (localStreamRef.current) {
@@ -331,7 +333,7 @@ export default function VoiceCallModal({
 
           {/* End Call Button */}
           <button
-            onClick={onClose}
+            onClick={handleEndCall}
             className="w-14 h-14 rounded-full flex items-center justify-center bg-red-600 text-white border border-red-500 shadow-lg shadow-red-950/50 hover:bg-red-700 active:scale-95 transition-all duration-200 cursor-pointer"
             title="End Call"
           >
