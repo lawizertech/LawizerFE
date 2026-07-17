@@ -5,6 +5,7 @@ import { db } from "@/lib/firebaseClient";
 import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   collection,
   onSnapshot,
@@ -12,7 +13,9 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { Calendar, Clock, Users, IndianRupee, CheckCircle, FileText } from "lucide-react";
+import { Calendar, Clock, Users, IndianRupee, CheckCircle, FileText, ArrowRight } from "lucide-react";
+import { ServiceWorkspaceRepository } from "@/lib/repositories/serviceWorkspaceRepository";
+import { ServiceWorkspaceService } from "@/lib/services/serviceWorkspaceService";
 
 /* -------------------------------------------------------------------------- */
 /* TYPES */
@@ -107,8 +110,10 @@ const formatDateTime = (value: any) => {
 /* -------------------------------------------------------------------------- */
 
 export default function UserDashboardTab() {
+  const router = useRouter();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [dashboard, setDashboard] = useState<UserDashboard>(EMPTY_DASHBOARD);
+  const [activeServices, setActiveServices] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
@@ -117,13 +122,20 @@ export default function UserDashboardTab() {
 
     const load = async () => {
       try {
-        const [profileRes, dashRes] = await Promise.all([
+        const [profileRes, dashRes, rawServices] = await Promise.all([
           serverApi.get("/api/user/profile"),
           serverApi.get("/api/user/dashboard"),
+          ServiceWorkspaceRepository.getServices().catch(() => []),
         ]);
 
         if (cancelled) {
           return;
+        }
+
+        /* ACTIVE SERVICES */
+        if (Array.isArray(rawServices)) {
+          const mapped = ServiceWorkspaceService.mapServices(rawServices);
+          setActiveServices(mapped.filter((s) => s.status !== "Completed"));
         }
 
         /* PROFILE */
@@ -263,6 +275,54 @@ export default function UserDashboardTab() {
           <Stat label="Pending Documents" value={dashboard.pendingServiceDocuments} icon={Calendar} />
           <Stat label="Completed Services" value={dashboard.completedServices} icon={CheckCircle} />
         </div>
+      </div>
+
+      {/* ACTIVE SERVICES */}
+      <div className="space-y-4">
+        <h2 className="text-lg font-semibold">Active Services</h2>
+        {activeServices.length === 0 ? (
+          <EmptyCard text="No active services found" />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {activeServices.map((s) => (
+              <div
+                key={s.id}
+                className="bg-white rounded-xl shadow-sm border border-slate-100 p-5 flex flex-col justify-between"
+              >
+                <div className="flex justify-between items-start gap-4">
+                  <div>
+                    <h3 className="font-semibold text-sm text-gray-900">{s.name}</h3>
+                    <p className="text-[10px] text-gray-400 font-bold uppercase mt-0.5">{s.type}</p>
+                  </div>
+                  <span className="text-[10px] bg-green-50 text-green-700 px-2 py-0.5 rounded-full font-bold">
+                    {s.status}
+                  </span>
+                </div>
+
+                <div className="mt-4">
+                  <div className="w-full bg-gray-100 rounded-full h-[5px] overflow-hidden">
+                    <div
+                      className="h-full bg-[#C0392B] rounded-full"
+                      style={{ width: `${s.progress}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center mt-3 pt-1">
+                  <span className="text-[11px] text-gray-500 font-medium">{s.stageText}</span>
+                  <button
+                    onClick={() => {
+                      router.push(`/user/dashboard?tab=services&serviceId=${s.id}`);
+                    }}
+                    className="text-xs text-[#C0392B] hover:text-[#A03024] font-bold flex items-center gap-1 cursor-pointer"
+                  >
+                    View Details <ArrowRight size={12} />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* MAIN GRID */}
