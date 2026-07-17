@@ -4,6 +4,9 @@ import { useSearchParams } from "next/navigation";
 import UserDashboard from "./DashboardTab";
 import MyConsultationsTab from "./MyConsultationsTab";
 import ActiveServicesTab from "./ActiveServicesTab";
+import TransactionsTab from "./TransactionsTab";
+import FindExpertsTab from "./FindExpertsTab";
+import SettingsTab from "./SettingsTab";
 
 export default function UserDashboardRenderer() {
   const searchParams = useSearchParams();
@@ -14,6 +17,9 @@ export default function UserDashboardRenderer() {
       {tab === "dashboard" && <UserDashboard />}
       {tab === "consultations" && <MyConsultationsTab />}
       {tab === "services" && <ActiveServicesTab />}
+      {tab === "transactions" && <TransactionsTab />}
+      {tab === "experts" && <FindExpertsTab />}
+      {tab === "settings" && <SettingsTab />}
     </>
   );
 }

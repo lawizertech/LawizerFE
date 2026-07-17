@@ -1,11 +1,16 @@
 "use client";
 
 import { serverApi } from "@/lib/apis/axios";
+import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
-import { Calendar, Clock, Users, IndianRupee, CheckCircle, FileText } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Calendar, Clock, Users, IndianRupee, CheckCircle, FileText, ArrowRight } from "lucide-react";
+import { ServiceWorkspaceRepository } from "@/lib/repositories/serviceWorkspaceRepository";
+import { ServiceWorkspaceService } from "@/lib/services/serviceWorkspaceService";
 
 /* -------------------------------------------------------------------------- */
-/*                                   TYPES                                    */
+/* TYPES */
 /* -------------------------------------------------------------------------- */
 
 type UserProfile = {
@@ -50,7 +55,7 @@ type UserDashboard = {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                              SAFE DEFAULTS                                 */
+/* SAFE DEFAULTS */
 /* -------------------------------------------------------------------------- */
 
 const EMPTY_DASHBOARD: UserDashboard = {
@@ -69,7 +74,7 @@ const EMPTY_DASHBOARD: UserDashboard = {
 const PRIMARY = "#c92c41";
 
 /* -------------------------------------------------------------------------- */
-/*                                HELPERS                                     */
+/* HELPERS */
 /* -------------------------------------------------------------------------- */
 
 const formatDateTime = (value: any) => {
@@ -93,21 +98,37 @@ const formatDateTime = (value: any) => {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                               COMPONENT                                    */
+/* COMPONENT */
 /* -------------------------------------------------------------------------- */
 
 export default function UserDashboardTab() {
+  const router = useRouter();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [dashboard, setDashboard] = useState<UserDashboard>(EMPTY_DASHBOARD);
+  const [activeServices, setActiveServices] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
+    let cancelled = false;
+
     const load = async () => {
       try {
-        const [profileRes, dashRes] = await Promise.all([
+        const [profileRes, dashRes, rawServices] = await Promise.all([
           serverApi.get("/api/user/profile"),
           serverApi.get("/api/user/dashboard"),
+          ServiceWorkspaceRepository.getServices().catch(() => []),
         ]);
+
+        if (cancelled) {
+          return;
+        }
+
+        /* ACTIVE SERVICES */
+        if (Array.isArray(rawServices)) {
+          const mapped = ServiceWorkspaceService.mapServices(rawServices);
+          setActiveServices(mapped.filter((s) => s.status !== "Completed"));
+        }
 
         /* PROFILE */
         if (profileRes.data?.profile) {
@@ -146,20 +167,68 @@ export default function UserDashboardTab() {
             pendingServiceDocuments: raw.pendingServiceDocuments ?? 0,
           });
         }
+      } catch (error) {
+        if (!cancelled) {
+          console.error("Failed to load dashboard", error);
+        }
       } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
     };
 
-    load();
+    void load();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
+
+  useEffect(() => {
+    if (!user?.uid) {
+      return;
+    }
+
+    let active = true;
+
+    const loadServiceStats = async () => {
+      try {
+        const services = await ServiceWorkspaceRepository.getServices();
+        if (!active) return;
+        setDashboard((current) => ({
+          ...current,
+          totalServices: services.length,
+          activeServices: services.filter(
+            (service: any) => service.status === "ACTIVE" || service.status === "In Progress" || service.status === "Docs Pending"
+          ).length,
+          completedServices: services.filter(
+            (service: any) => service.status === "COMPLETED" || service.status === "Completed"
+          ).length,
+          pendingServiceDocuments: services.reduce(
+            (sum: number, service: any) =>
+              sum +
+              (service.documentStats?.pending || 0),
+            0
+          ),
+        }));
+      } catch (error) {
+        console.error("Failed to load service updates", error);
+      }
+    };
+
+    void loadServiceStats();
+    return () => {
+      active = false;
+    };
+  }, [user?.uid]);
 
   if (loading) {
     return <p className="mt-10 text-gray-500">Loading dashboard…</p>;
   }
 
   /* -------------------------------------------------------------------------- */
-  /*                                   UI                                       */
+  /* UI */
   /* -------------------------------------------------------------------------- */
 
   return (
@@ -168,36 +237,17 @@ export default function UserDashboardTab() {
       <div>
         <h1 className="text-2xl font-semibold">Dashboard</h1>
         <p className="text-gray-500 mt-1">
-          Welcome back,{" "}
-          <span className="font-medium">{profile?.name ?? "User"}</span>
+          Welcome back, <span className="font-medium">{profile?.name ?? "User"}</span>
         </p>
-        <p className="text-sm text-gray-400">
-          Here’s your legal consultation overview
-        </p>
+        <p className="text-sm text-gray-400">Here’s your legal consultation overview</p>
       </div>
 
       {/* STATS */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Stat
-          label="Upcoming Sessions"
-          value={dashboard.upcomingCount}
-          icon={Calendar}
-        />
-        <Stat
-          label="Completed Consultations"
-          value={dashboard.completedCount}
-          icon={Clock}
-        />
-        <Stat
-          label="Experts Consulted"
-          value={dashboard.expertsConsulted}
-          icon={Users}
-        />
-        <Stat
-          label="Total Spent"
-          value={`₹${dashboard.totalSpent}`}
-          icon={IndianRupee}
-        />
+        <Stat label="Upcoming Sessions" value={dashboard.upcomingCount} icon={Calendar} />
+        <Stat label="Completed Consultations" value={dashboard.completedCount} icon={Clock} />
+        <Stat label="Experts Consulted" value={dashboard.expertsConsulted} icon={Users} />
+        <Stat label="Total Spent" value={`₹${dashboard.totalSpent}`} icon={IndianRupee} />
       </div>
 
       {/* SERVICE STATS */}
@@ -205,27 +255,59 @@ export default function UserDashboardTab() {
         <h2 className="text-lg font-semibold mb-4">Your Services</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Stat
-            label="Total Services"
-            value={dashboard.totalServices}
-            icon={FileText}
-          />
-          <Stat
-            label="Active Services"
-            value={dashboard.activeServices}
-            icon={Clock}
-          />
-          <Stat
-            label="Pending Documents"
-            value={dashboard.pendingServiceDocuments}
-            icon={Calendar}
-          />
-          <Stat
-            label="Completed Services"
-            value={dashboard.completedServices}
-            icon={CheckCircle}
-          />
+          <Stat label="Total Services" value={dashboard.totalServices} icon={FileText} />
+          <Stat label="Active Services" value={dashboard.activeServices} icon={Clock} />
+          <Stat label="Pending Documents" value={dashboard.pendingServiceDocuments} icon={Calendar} />
+          <Stat label="Completed Services" value={dashboard.completedServices} icon={CheckCircle} />
         </div>
+      </div>
+
+      {/* ACTIVE SERVICES */}
+      <div className="space-y-4">
+        <h2 className="text-lg font-semibold">Active Services</h2>
+        {activeServices.length === 0 ? (
+          <EmptyCard text="No active services found" />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {activeServices.map((s) => (
+              <div
+                key={s.id}
+                className="bg-white rounded-xl shadow-sm border border-slate-100 p-5 flex flex-col justify-between"
+              >
+                <div className="flex justify-between items-start gap-4">
+                  <div>
+                    <h3 className="font-semibold text-sm text-gray-900">{s.name}</h3>
+                    <p className="text-[10px] text-gray-400 font-bold uppercase mt-0.5">{s.type}</p>
+                  </div>
+                  <span className="text-[10px] bg-green-50 text-green-700 px-2 py-0.5 rounded-full font-bold">
+                    {s.status}
+                  </span>
+                </div>
+
+                <div className="mt-4">
+                  <div className="w-full bg-gray-100 rounded-full h-[5px] overflow-hidden">
+                    <div
+                      className="h-full bg-[#C0392B] rounded-full"
+                      style={{ width: `${s.progress}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center mt-3 pt-1">
+                  <span className="text-[11px] text-gray-500 font-medium">{s.stageText}</span>
+                  <button
+                    onClick={() => {
+                      router.push(`/user/dashboard?tab=services&serviceId=${s.id}`);
+                    }}
+                    className="text-xs text-[#C0392B] hover:text-[#A03024] font-bold flex items-center gap-1 cursor-pointer"
+                  >
+                    View Details <ArrowRight size={12} />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* MAIN GRID */}
@@ -234,15 +316,15 @@ export default function UserDashboardTab() {
         <div className="lg:col-span-2 space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold">Upcoming Bookings</h2>
-            <button className="text-sm text-[#c92c41]">View All</button>
+            <Link href="/user/dashboard?tab=consultations" className="text-sm text-[#c92c41] font-medium hover:underline">
+              View All
+            </Link>
           </div>
 
           {dashboard.upcomingBookings.length === 0 ? (
             <EmptyCard text="No upcoming bookings" />
           ) : (
-            dashboard.upcomingBookings.map((b) => (
-              <BookingCard key={b.id} booking={b} />
-            ))
+            dashboard.upcomingBookings.map((b) => <BookingCard key={b.id} booking={b} />)
           )}
         </div>
 
@@ -250,15 +332,15 @@ export default function UserDashboardTab() {
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold">Top Experts</h2>
-            <button className="text-sm text-[#c92c41]">View All</button>
+            <Link href="/free-consultation" className="text-sm text-[#c92c41] font-medium hover:underline">
+              View All
+            </Link>
           </div>
 
           {dashboard.topExperts.length === 0 ? (
             <EmptyCard text="No experts yet" />
           ) : (
-            dashboard.topExperts.map((e) => (
-              <ExpertCard key={e.uid} expert={e} />
-            ))
+            dashboard.topExperts.map((e) => <ExpertCard key={e.uid} expert={e} />)
           )}
         </div>
       </div>
@@ -267,18 +349,10 @@ export default function UserDashboardTab() {
 }
 
 /* -------------------------------------------------------------------------- */
-/*                               UI PIECES                                    */
+/* UI PIECES */
 /* -------------------------------------------------------------------------- */
 
-function Stat({
-  label,
-  value,
-  icon: Icon,
-}: {
-  label: string;
-  value: number | string;
-  icon: React.ElementType;
-}) {
+function Stat({ label, value, icon: Icon }: { label: string; value: number | string; icon: React.ElementType }) {
   return (
     <div className="bg-white rounded-xl p-5 flex justify-between items-center">
       <div>
@@ -298,7 +372,7 @@ function BookingCard({ booking }: { booking: UpcomingBooking }) {
       <div className="flex justify-between">
         <h3 className="font-medium">{booking.serviceName}</h3>
         <span
-          className={`text-xs px-2 py-1 rounded-full ${
+          className={`text-xs px-2 py-1 rounded-full capitalize ${
             booking.status === "confirmed"
               ? "bg-green-100 text-green-700"
               : booking.status === "pending"
@@ -306,7 +380,7 @@ function BookingCard({ booking }: { booking: UpcomingBooking }) {
                 : "bg-red-100 text-red-700"
           }`}
         >
-          {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+          {booking.status}
         </span>
       </div>
 
@@ -317,9 +391,6 @@ function BookingCard({ booking }: { booking: UpcomingBooking }) {
 
       <div className="flex justify-between items-center pt-2">
         <span className="font-medium">₹{booking.fee}</span>
-        {booking.status === "pending" && (
-          <button className="text-sm text-red-500">Cancel</button>
-        )}
       </div>
     </div>
   );
@@ -328,24 +399,28 @@ function BookingCard({ booking }: { booking: UpcomingBooking }) {
 function ExpertCard({ expert }: { expert: TopExpert }) {
   return (
     <div className="bg-white rounded-xl p-4 flex gap-4">
-      <div className="h-12 w-12 rounded-full bg-gray-200" />
+      {expert.avatar ? (
+        <img
+          src={expert.avatar}
+          alt={expert.name}
+          className="h-12 w-12 rounded-full object-cover border"
+        />
+      ) : (
+        <div className="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-bold border">
+          {expert.name ? expert.name[0].toUpperCase() : "E"}
+        </div>
+      )}
       <div className="flex-1">
         <p className="font-medium">{expert.name}</p>
         <p className="text-xs text-gray-400">
           ⭐ {expert.rating ?? 0} · {expert.experience ?? 0} yrs
         </p>
-        <button className="mt-2 text-sm bg-[#c92c41] text-white px-3 py-1 rounded-lg">
-          Book Consultation
-        </button>
+        <button className="mt-2 text-sm bg-[#c92c41] text-white px-3 py-1 rounded-lg">Book Consultation</button>
       </div>
     </div>
   );
 }
 
 function EmptyCard({ text }: { text: string }) {
-  return (
-    <div className="bg-white rounded-xl p-10 text-center text-gray-500">
-      {text}
-    </div>
-  );
+  return <div className="bg-white rounded-xl p-10 text-center text-gray-500">{text}</div>;
 }

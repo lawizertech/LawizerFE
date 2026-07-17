@@ -7,10 +7,7 @@ import { useAuth } from "@/context/authContext";
 import { useCallback } from "@/context/callbackContext";
 import { usePathname } from "next/navigation";
 
-const Button = ({
-  children,
-  ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
+const Button = ({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
   <button {...props}>{children}</button>
 );
 
@@ -70,13 +67,11 @@ export default function Layout({ children }: LayoutProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="fixed bottom-2 left-1/2 -translate-x-1/2 z-10 w-full px-3"
+            className="fixed bottom-2 left-1/2 -translate-x-1/2 z-10 w-full px-3 "
           >
-            <div className="w-fit max-w-xl flex items-center gap-4 bg-white/90 backdrop-blur-md border border-gray-200 rounded-full shadow-lg px-4 py-2 mx-auto">
+            <div className="w-fit max-w-xl flex items-center gap-4 bg-white/90 backdrop-blur-md border border-gray-200 rounded-full shadow-lg pr-4 pl-8 py-3 mx-auto">
               <div className="flex-1 min-w-0 pr-4">
-                <h3 className="text-base md:text-lg font-semibold text-gray-800 truncate">
-                  Request a Callback
-                </h3>
+                <h3 className="text-base md:text-lg font-semibold text-gray-800 truncate">Request a Callback</h3>
                 <p className="text-xs md:text-sm text-gray-500 truncate">
                   Get expert advice from our verified professionals.
                 </p>
@@ -84,7 +79,7 @@ export default function Layout({ children }: LayoutProps) {
 
               <Button
                 onClick={handleRequestCallback}
-                className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-1 transition-all duration-300 bg-[#c92c41] hover:bg-[#a8233a] text-white`}
+                className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-1 transition-all duration-300 bg-brand-red hover:brightness-110 text-white`}
               >
                 <PhoneCall className="h-4 w-4" />
                 Request Callback

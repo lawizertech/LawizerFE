@@ -63,11 +63,7 @@ export function PracticeAreasSection() {
     },
     {
       category: "Additional Property",
-      services: [
-        "Relinquishment Deed",
-        "Commercial Lease Agreement",
-        "Rent Agreement",
-      ],
+      services: ["Relinquishment Deed", "Commercial Lease Agreement", "Rent Agreement"],
     },
     {
       category: "Start Your Business",
@@ -108,12 +104,7 @@ export function PracticeAreasSection() {
     },
     {
       category: "Company Operations",
-      services: [
-        "Increasing Capital of Company",
-        "Closure of Pvt Ltd",
-        "Closure of OPC",
-        "Closure of LLP",
-      ],
+      services: ["Increasing Capital of Company", "Closure of Pvt Ltd", "Closure of OPC", "Closure of LLP"],
     },
     {
       category: "Grow Your Business",
@@ -133,20 +124,17 @@ export function PracticeAreasSection() {
           </h2>
         </div>
 
-        <div className="pt-5 flex items-start gap-6 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-transparent h-98 ">
+        <div className="pt-5 flex items-start gap-6 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-transparent h-98">
           {serviceCategories.map((category, index) => (
             <motion.div
               key={index}
               whileHover={{ y: -5, scale: 1.03 }}
               transition={{ type: "spring", stiffness: 300 }}
-              className="min-w-[270px] max-w-sm flex-shrink-0"
-              style={{ overflow: "visible" }} // ensures inner shadow/glow isn't clipped
+              className="min-w-[270px] max-w-sm flex-shrink-0 overflow-visible"
             >
               <Card className="rounded-2xl shadow-md hover:shadow-2xl border border-blue-100 transition-all bg-white">
                 <CardHeader className="bg-primary p-4 rounded-t-2xl">
-                  <CardTitle className="text-lg font-semibold text-white">
-                    {category.category}
-                  </CardTitle>
+                  <CardTitle className="text-lg font-semibold text-white">{category.category}</CardTitle>
                 </CardHeader>
                 <div className="p-5">
                   <ul className="space-y-3">

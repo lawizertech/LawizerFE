@@ -50,11 +50,13 @@ export function WhyLawizerSection() {
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
         <div className="w-full lg:w-1/2">
           <h2 className="section-title text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-gray-900 mb-6 break-words">
-            Why <span style={{ color: "var(--brand)" }}>Lawizer</span>: Built for India's<br />
-            <span style={{ color: "var(--brand)" }}>New-Age</span> Founders
+            Why <span className="text-brand-red">Lawizer</span>: Built for India's
+            <br />
+            <span className="text-brand-red">New-Age</span> Founders
           </h2>
           <p className="section-sub text-base sm:text-lg text-gray-600 mb-8 max-w-xl">
-            We understand the startup grind. No legalese, no hidden fees, no chasing — just clear, fast, and professional compliance support.
+            We understand the startup grind. No legalese, no hidden fees, no chasing — just clear, fast, and
+            professional compliance support.
           </p>
 
           <ul className="why-points">
@@ -62,28 +64,36 @@ export function WhyLawizerSection() {
               <div className="why-check">✓</div>
               <div className="why-point-text">
                 <div className="t">100% Online — No Office Visits</div>
-                <div className="s">Submit all documents from your laptop or phone. We manage the rest with government portals.</div>
+                <div className="s">
+                  Submit all documents from your laptop or phone. We manage the rest with government portals.
+                </div>
               </div>
             </li>
             <li>
               <div className="why-check">✓</div>
               <div className="why-point-text">
                 <div className="t">Transparent, All-Inclusive Pricing</div>
-                <div className="s">The price you see includes government fees, professional fees, and all incidentals. Zero surprises.</div>
+                <div className="s">
+                  The price you see includes government fees, professional fees, and all incidentals. Zero surprises.
+                </div>
               </div>
             </li>
             <li>
               <div className="why-check">✓</div>
               <div className="why-point-text">
                 <div className="t">Dedicated Expert for Your Account</div>
-                <div className="s">One point of contact via WhatsApp, from document collection to certificate delivery.</div>
+                <div className="s">
+                  One point of contact via WhatsApp, from document collection to certificate delivery.
+                </div>
               </div>
             </li>
             <li>
               <div className="why-check">✓</div>
               <div className="why-point-text">
                 <div className="t">Specialists in West Bengal & Pan-India</div>
-                <div className="s">Deep local expertise in Kolkata and WB jurisdiction, with nationwide registration capabilities.</div>
+                <div className="s">
+                  Deep local expertise in Kolkata and WB jurisdiction, with nationwide registration capabilities.
+                </div>
               </div>
             </li>
           </ul>
@@ -92,16 +102,34 @@ export function WhyLawizerSection() {
         <div className="why-visual w-full lg:w-1/2 max-w-lg mx-auto">
           <div className="why-stat-grid grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
             <div className="why-stat p-3 sm:p-4 min-w-[80px]">
-              <div className="n text-xl sm:text-2xl md:text-3xl"><AnimatedNumber value="1000" suffix="K+" /></div>
-              <div className="l text-2xs sm:text-xs">Businesses<br />Registered</div>
+              <div className="n text-xl sm:text-2xl md:text-3xl">
+                <AnimatedNumber value="1000" suffix="K+" />
+              </div>
+              <div className="l text-2xs sm:text-xs">
+                Businesses
+                <br />
+                Registered
+              </div>
             </div>
             <div className="why-stat p-3 sm:p-4">
-              <div className="n text-xl sm:text-2xl md:text-3xl"><AnimatedNumber value="99" suffix="%" /></div>
-              <div className="l text-2xs sm:text-xs">Approval<br />Rate</div>
+              <div className="n text-xl sm:text-2xl md:text-3xl">
+                <AnimatedNumber value="99" suffix="%" />
+              </div>
+              <div className="l text-2xs sm:text-xs">
+                Approval
+                <br />
+                Rate
+              </div>
             </div>
             <div className="why-stat p-3 sm:p-4">
-              <div className="n text-xl sm:text-2xl md:text-3xl"><AnimatedNumber value="7" suffix=" Days" /></div>
-              <div className="l text-2xs sm:text-xs">Avg Completion<br />Time</div>
+              <div className="n text-xl sm:text-2xl md:text-3xl">
+                <AnimatedNumber value="7" suffix=" Days" />
+              </div>
+              <div className="l text-2xs sm:text-xs">
+                Avg Completion
+                <br />
+                Time
+              </div>
             </div>
           </div>
           <div className="why-bar flex items-center gap-4">

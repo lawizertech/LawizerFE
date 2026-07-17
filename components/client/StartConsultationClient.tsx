@@ -183,15 +183,7 @@ export default function StartConsultationPage() {
   }, [isLoggedIn]);
 
   const ROLE_KEYWORDS: Record<string, string[]> = {
-    civil_commercial: [
-      "civil",
-      "commercial",
-      "corporate",
-      "property",
-      "arbitration",
-      "ibc",
-      "litigation",
-    ],
+    civil_commercial: ["civil", "commercial", "corporate", "property", "arbitration", "ibc", "litigation"],
     criminal: ["criminal", "cyber", "ndps"],
   };
 
@@ -202,9 +194,7 @@ export default function StartConsultationPage() {
 
     if (!keywords) return ALL_ADVOCATES;
 
-    return ALL_ADVOCATES.filter((adv) =>
-      keywords.some((keyword) => adv.role.toLowerCase().includes(keyword)),
-    );
+    return ALL_ADVOCATES.filter((adv) => keywords.some((keyword) => adv.role.toLowerCase().includes(keyword)));
   }, [userQueryType]);
 
   const shouldShowCAs = userQueryType !== "civil_commercial";
@@ -226,10 +216,7 @@ export default function StartConsultationPage() {
             <div className="flex-1">
               <p className="text-sm font-medium text-red-800">{error}</p>
             </div>
-            <button
-              onClick={() => setError(null)}
-              className="text-red-400 hover:text-red-600"
-            >
+            <button onClick={() => setError(null)} className="text-red-400 hover:text-red-600">
               <X className="h-4 w-4" />
             </button>
           </div>
@@ -237,39 +224,24 @@ export default function StartConsultationPage() {
       )}
 
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-center space-y-4"
-      >
-        <h1 className="text-5xl font-bold text-gray-900">
-          Start Your Consultation
-        </h1>
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center space-y-4">
+        <h1 className="text-5xl font-bold text-gray-900">Start Your Consultation</h1>
         <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
-          Get expert legal and financial advice from verified professionals —
-          instantly and confidentially.
+          Get expert legal and financial advice from verified professionals — instantly and confidentially.
         </p>
       </motion.div>
 
       {/* Call Request Card */}
       <div className="w-full max-w-4xl flex justify-between items-center bg-white border border-gray-200 rounded-xl shadow-sm px-6 py-8">
         <div>
-          <h3 className="text-lg font-semibold text-gray-800">
-            Free Consultation
-          </h3>
-          <p className="text-sm text-gray-500">
-            Get expert advice from our verified professionals.
-          </p>
+          <h3 className="text-lg font-semibold text-gray-800">Free Consultation</h3>
+          <p className="text-sm text-gray-500">Get expert advice from our verified professionals.</p>
         </div>
         <Button
           onClick={handleClick}
           disabled={loading}
           className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-1 transition-all duration-300 disabled:cursor-not-allowed ${
-            success
-              ? "bg-[#21ae17]"
-              : loading
-                ? "bg-blue-400"
-                : "bg-blue-600 hover:bg-blue-700"
+            success ? "bg-[#21ae17]" : loading ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
           } text-white`}
         >
           {success ? (
@@ -305,9 +277,7 @@ export default function StartConsultationPage() {
 
       {/* Advocates Section */}
       <div className="w-full flex flex-col items-center space-y-10 overflow-hidden justify-center">
-        <h2 className="text-3xl font-semibold text-gray-800">
-          👩‍⚖️ Our Top Advocates
-        </h2>
+        <h2 className="text-3xl font-semibold text-gray-800">👩‍⚖️ Our Top Advocates</h2>
 
         <EmblaCarouselCards
           list={filteredAdvocates}
@@ -320,11 +290,9 @@ export default function StartConsultationPage() {
       {/* CA Carousel */}
       {shouldShowCAs && (
         <div className="w-full flex flex-col items-center space-y-10 overflow-hidden mt-12">
-          <h2 className="text-3xl font-semibold text-gray-800">
-            💼 Chartered Accountants
-          </h2>
+          <h2 className="text-3xl font-semibold text-gray-800">💼 Chartered Accountants</h2>
           <EmblaCarouselCards
-            list={ALL_CAS}
+            list={ALL_CAS.map((ca) => ({ ...ca, uid: ca.expertId }))}
             type="ca"
             onBook={(key) => setRequestedIndex(key)}
             bookedKeys={bookedExpertIds}

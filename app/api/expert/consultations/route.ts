@@ -47,9 +47,6 @@ export async function GET(req: Request) {
     return NextResponse.json({ success: true, ...data });
   } catch (error) {
     console.error("/api/expert/consultations error:", error);
-    return NextResponse.json(
-      { success: false, message: "Internal server error", errorCode: null },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, message: "Internal server error", errorCode: null }, { status: 500 });
   }
 }

@@ -31,8 +31,8 @@ export function StatsSection() {
     useEffect(() => {
       let start = 0;
       if (isInView) {
-        const duration = 1500; 
-        const increment = value / (duration / 16); 
+        const duration = 1500;
+        const increment = value / (duration / 16);
         const timer = setInterval(() => {
           start += increment;
           if (start >= value) {
@@ -51,11 +51,9 @@ export function StatsSection() {
   }
 
   return (
-        <section className="bg-primary py-6 sm:py-8 lg:py-10 px-4 md:px-12">
-          <div className="container mx-auto max-w-4xl">
-            <div className="flex flex-wrap gap-4 justify-center">
-
-
+    <section className="bg-primary py-6 sm:py-8 lg:py-10 px-4 md:px-12">
+      <div className="container mx-auto max-w-4xl">
+        <div className="flex flex-wrap gap-4 justify-center">
           {stats.map((stat, index) => (
             <motion.div
               key={index}
@@ -69,9 +67,7 @@ export function StatsSection() {
                 <AnimatedNumber value={stat.number} />
                 {stat.suffix}
               </div>
-              <div className="text-sm sm:text-base text-white/90">
-                {stat.label}
-              </div>
+              <div className="text-sm sm:text-base text-white/90">{stat.label}</div>
             </motion.div>
           ))}
         </div>

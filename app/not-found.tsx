@@ -11,16 +11,14 @@ export default function NotFoundPage() {
         {/* Icon and Main Code */}
         <div className="flex flex-col items-center justify-center space-y-4">
           <Frown className="w-16 h-16 text-red-500 animate-pulse" />
-          <h1 className="text-6xl font-extrabold tracking-tight text-gray-900">
-            404
-          </h1>
+          <h1 className="text-6xl font-extrabold tracking-tight text-gray-900">404</h1>
         </div>
 
         {/* Message */}
         <h2 className="text-2xl font-semibold text-gray-800">Page Not Found</h2>
         <p className="mt-2 text-base text-gray-600">
-          Oops! The page you are looking for might have been removed, had its
-          name changed, or is temporarily unavailable.
+          Oops! The page you are looking for might have been removed, had its name changed, or is temporarily
+          unavailable.
         </p>
 
         {/* Actions */}
