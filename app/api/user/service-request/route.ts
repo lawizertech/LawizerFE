@@ -6,10 +6,7 @@ export async function POST(req: Request) {
   try {
     const authHeader = req.headers.get("authorization");
     if (!authHeader) {
-      return NextResponse.json(
-        { success: false, message: "Authorization token missing" },
-        { status: 401 },
-      );
+      return NextResponse.json({ success: false, message: "Authorization token missing" }, { status: 401 });
     }
 
     const { serviceCode, notes } = await req.json();
@@ -28,18 +25,12 @@ export async function POST(req: Request) {
     const data = text ? JSON.parse(text) : null;
 
     if (!backendRes.ok) {
-      return NextResponse.json(
-        { success: false, message: data?.message || "Failed" },
-        { status: backendRes.status },
-      );
+      return NextResponse.json({ success: false, message: data?.message || "Failed" }, { status: backendRes.status });
     }
 
     return NextResponse.json({ success: true, data });
   } catch (err) {
     console.error("/api/user/service-request error:", err);
-    return NextResponse.json(
-      { success: false, message: "Internal server error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
   }
 }

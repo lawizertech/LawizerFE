@@ -21,7 +21,7 @@ const getTransporter = () => {
 
   if (!host || !port || !user || !pass) {
     throw new Error(
-      "Email configuration missing. Please set EMAIL_HOST, EMAIL_PORT, EMAIL_USER, and EMAIL_PASS environment variables."
+      "Email configuration missing. Please set EMAIL_HOST, EMAIL_PORT, EMAIL_USER, and EMAIL_PASS environment variables.",
     );
   }
 
@@ -46,8 +46,14 @@ export interface SendEmailOptions {
 }
 
 export const sendEmail = async (options: SendEmailOptions) => {
+  const from = options.from || process.env.EMAIL_FROM || process.env.EMAIL_USER;
+
+  if (!process.env.EMAIL_HOST || !process.env.EMAIL_PORT || !process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.warn("Email configuration missing; skipping outgoing email.");
+    return { success: false, skipped: true as const, message: "Email configuration missing." };
+  }
+
   const transporter = getTransporter();
-  const from = options.from || (process.env.EMAIL_FROM || process.env.EMAIL_USER);
 
   try {
     const info = await transporter.sendMail({
@@ -56,8 +62,6 @@ export const sendEmail = async (options: SendEmailOptions) => {
       subject: options.subject,
       html: options.html,
     });
-
-    console.log("Email sent:", info.messageId);
     return { success: true, messageId: info.messageId };
   } catch (error) {
     console.error("Error sending email:", error);

@@ -1,8 +1,6 @@
 import BlogLayout from "@/components/blogs/BlogLayout";
 
-const WP_GRAPHQL =
-  process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT ||
-  "https://olive-dog-534584.hostingersite.com/graphql";
+const WP_GRAPHQL = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || "https://olive-dog-534584.hostingersite.com/graphql";
 
 interface GQLPost {
   title: string;
@@ -16,29 +14,29 @@ interface GQLPost {
 
 async function getAllPosts(): Promise<GQLPost[]> {
   const query = `
-    query GetAllPosts {
-      posts(first: 100, where: { status: PUBLISH }) {
-        nodes {
-          title
-          slug
-          excerpt
-          uri
-          date
-          featuredImage {
-            node {
-              sourceUrl
-              altText
-            }
-          }
-          categories {
-            nodes {
-              name
-            }
-          }
-        }
-      }
-    }
-  `;
+ query GetAllPosts {
+ posts(first: 100, where: { status: PUBLISH }) {
+ nodes {
+ title
+ slug
+ excerpt
+ uri
+ date
+ featuredImage {
+ node {
+ sourceUrl
+ altText
+ }
+ }
+ categories {
+ nodes {
+ name
+ }
+ }
+ }
+ }
+ }
+ `;
 
   try {
     const res = await fetch(WP_GRAPHQL, {
@@ -61,7 +59,6 @@ async function getAllPosts(): Promise<GQLPost[]> {
     }
 
     const posts: GQLPost[] = json?.data?.posts?.nodes ?? [];
-    console.log(`Fetched ${posts.length} posts`);
     return posts;
   } catch (error) {
     console.error("Error fetching posts:", error);

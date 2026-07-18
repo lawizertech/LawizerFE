@@ -1,5 +1,5 @@
 /* =========================
-   CATEGORY → SERVICES
+ CATEGORY → SERVICES
 ========================= */
 
 export const SERVICES_BY_CATEGORY: Record<string, string[]> = {
@@ -10,31 +10,18 @@ export const SERVICES_BY_CATEGORY: Record<string, string[]> = {
     "Gift Deed Registration",
     "Power of Attorney Registration",
   ],
-  Drafting: [
-    "Sale Deed Drafting",
-    "Agreement to Sale Drafting",
-    "Will Drafting",
-    "Power of Attorney Drafting",
-  ],
+  Drafting: ["Sale Deed Drafting", "Agreement to Sale Drafting", "Will Drafting", "Power of Attorney Drafting"],
   Financial: ["Loan Agreement", "Cheque Dishonour Cases"],
 };
 
 export const SERVICE_DOCUMENT_TEMPLATES: Record<string, string[]> = {
   /* =========================
-     PROPERTY SERVICES
-  ========================= */
+ PROPERTY SERVICES
+ ========================= */
 
-  "Property Report": [
-    "Sale Deed Copy",
-    "Property Tax Receipt",
-    "Encumbrance Certificate",
-  ],
+  "Property Report": ["Sale Deed Copy", "Property Tax Receipt", "Encumbrance Certificate"],
 
-  "Property Paper Review": [
-    "Draft Sale Deed",
-    "Mother Deed",
-    "Previous Chain Documents",
-  ],
+  "Property Paper Review": ["Draft Sale Deed", "Mother Deed", "Previous Chain Documents"],
 
   "Property Registration": [
     "Final Sale Deed",
@@ -64,8 +51,8 @@ export const SERVICE_DOCUMENT_TEMPLATES: Record<string, string[]> = {
   ],
 
   /* =========================
-     DRAFTING SERVICES
-  ========================= */
+ DRAFTING SERVICES
+ ========================= */
 
   "Sale Deed Drafting": [
     "Property Details",
@@ -85,12 +72,7 @@ export const SERVICE_DOCUMENT_TEMPLATES: Record<string, string[]> = {
     "Payment Terms",
   ],
 
-  "Will Drafting": [
-    "Testator Aadhaar Card",
-    "Testator PAN Card",
-    "Property Details",
-    "Beneficiary Details",
-  ],
+  "Will Drafting": ["Testator Aadhaar Card", "Testator PAN Card", "Property Details", "Beneficiary Details"],
 
   "Power of Attorney Drafting": [
     "Principal Aadhaar Card",
@@ -101,8 +83,8 @@ export const SERVICE_DOCUMENT_TEMPLATES: Record<string, string[]> = {
   ],
 
   /* =========================
-     FINANCIAL / DISPUTE
-  ========================= */
+ FINANCIAL / DISPUTE
+ ========================= */
 
   "Loan Agreement": [
     "Borrower Aadhaar Card",

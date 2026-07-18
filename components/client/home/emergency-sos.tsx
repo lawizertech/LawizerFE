@@ -52,12 +52,9 @@ export default function EmergencySOS() {
               transition={{ duration: 0.3 }}
               className="bg-white rounded-2xl shadow-2xl px-10 py-8 text-center max-w-sm mx-auto"
             >
-              <h2 className="text-2xl font-semibold text-red-600 mb-3">
-                ⚠️ Confirm Emergency Alert
-              </h2>
+              <h2 className="text-2xl font-semibold text-red-600 mb-3">⚠️ Confirm Emergency Alert</h2>
               <p className="text-gray-700 mb-6">
-                Are you absolutely sure you want to send an SOS signal? This
-                will immediately notify emergency contacts.
+                Are you absolutely sure you want to send an SOS signal? This will immediately notify emergency contacts.
               </p>
               <div className="flex justify-center space-x-4">
                 <Button
@@ -93,12 +90,9 @@ export default function EmergencySOS() {
               transition={{ duration: 0.3 }}
               className="bg-white rounded-2xl shadow-2xl px-10 py-8 text-center max-w-sm mx-auto"
             >
-              <h2 className="text-2xl font-semibold text-blue-800 mb-3">
-                ✅ Emergency Alert Sent
-              </h2>
+              <h2 className="text-2xl font-semibold text-blue-800 mb-3">✅ Emergency Alert Sent</h2>
               <p className="text-gray-700 font-medium">
-                The alert has been sent. Just wait for{" "}
-                <span className="text-red-600 font-semibold">2 minutes</span> —
+                The alert has been sent. Just wait for <span className="text-red-600 font-semibold">2 minutes</span> —
                 your help is on the way.
               </p>
             </motion.div>

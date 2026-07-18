@@ -1,16 +1,12 @@
 "use client";
 
-export default function ExpertDashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ExpertDashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="h-screen overflow-scroll bg-[#fafafa]">
       {/* MAIN CONTENT */}
       <main
-        className="          
-          overflow-y-auto"
+        className=" 
+ overflow-y-auto"
       >
         <div className="overflow-hidden">{children}</div>
       </main>

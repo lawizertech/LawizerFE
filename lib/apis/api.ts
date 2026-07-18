@@ -8,6 +8,7 @@ interface ProfilePayload {
   city?: string;
   state?: string;
   photoURL?: string;
+  hasPassword?: boolean;
 }
 
 interface ScheduleCallPayload {
@@ -17,32 +18,7 @@ interface ScheduleCallPayload {
 }
 
 /* -------------------------------------------------------------------------- */
-/*                           🔄 TOKEN RENEW FUNCTION                           */
-/* -------------------------------------------------------------------------- */
-
-const renewToken = async (): Promise<string | null> => {
-  try {
-    const oldToken = localStorage.getItem("token");
-    if (!oldToken) return null;
-
-    const res = await backendApi.get("/auth/renew-token", {
-      headers: { Authorization: `Bearer ${oldToken}` },
-    });
-
-    if (res.data?.newToken) {
-      localStorage.setItem("token", res.data.newToken);
-      return res.data.newToken;
-    }
-
-    return null;
-  } catch (err) {
-    console.error("Renew token error:", err);
-    return null;
-  }
-};
-
-/* -------------------------------------------------------------------------- */
-/*                              🔹 getUserProfile                              */
+/* 🔹 getUserProfile */
 /* -------------------------------------------------------------------------- */
 
 export const getUserProfile = async (uid: string) => {
@@ -50,133 +26,68 @@ export const getUserProfile = async (uid: string) => {
     const res = await backendApi.get(`/auth/profile`, {
       params: { uid },
     });
-
     return res.data.data;
   } catch (err: any) {
-    const errorCode = err?.response?.data?.errorCode;
-
-    if (errorCode === "TOKEN_EXPIRED") {
-      const newToken = await renewToken();
-      if (!newToken) return err.response.data;
-
-      // retry with fresh token
-      const retryRes = await backendApi.get(`/auth/profile`, {
-        params: { uid },
-        headers: { Authorization: `Bearer ${newToken}` },
-      });
-
-      return retryRes.data.data;
-    }
-
     return {
       success: false,
       message: err?.response?.data?.message,
-      errorCode,
+      errorCode: err?.response?.data?.errorCode,
       errorData: err?.response?.data,
     };
   }
 };
 
 /* -------------------------------------------------------------------------- */
-/*                                  🔹 initUser                                */
+/* 🔹 signupUser */
 /* -------------------------------------------------------------------------- */
 
-export const signupUser = async (
-  idToken: string,
-  uid: string,
-  name: string,
-  email: string,
-  phoneNumber: string,
-) => {
+export const signupUser = async (idToken: string, uid: string, name: string, email: string, phoneNumber: string) => {
   try {
     const res = await backendApi.post(
-  `/auth/signup`,
-  {
-    uid,
-    name,
-    email,
-    phoneNumber,
-  },
-  {
-    headers: {
-      Authorization: `Bearer ${idToken}`,
-    },
-  }
-);
+      `/auth/signup`,
+      {
+        uid,
+        name,
+        email,
+        phoneNumber,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      },
+    );
     return res.data;
   } catch (err: any) {
-    const errorCode = err?.response?.data?.errorCode;
-
-    if (errorCode === "TOKEN_EXPIRED") {
-  const newToken = await renewToken();
-  if (!newToken) return err.response.data;
-
-  const retryRes = await backendApi.post(
-    `/auth/signup`,
-    {
-      uid,
-      name,
-      email,
-      phoneNumber,
-    },
-    {
-      headers: { Authorization: `Bearer ${newToken}` },
-    }
-  );
-
-  return retryRes.data;
-}
-
     return {
       success: false,
       message: err?.response?.data?.message,
-      errorCode,
+      errorCode: err?.response?.data?.errorCode,
     };
   }
 };
 
 /* -------------------------------------------------------------------------- */
-/*                           🔹 completeUserProfile                            */
+/* 🔹 completeUserProfile */
 /* -------------------------------------------------------------------------- */
 
-export const completeUserProfile = async (
-  authToken: string,
-  formData: ProfilePayload,
-) => {
+export const completeUserProfile = async (authToken: string, formData: ProfilePayload) => {
   try {
     const res = await backendApi.post(`/auth/complete-profile`, formData, {
       headers: { Authorization: `Bearer ${authToken}` },
     });
-
     return res.data;
   } catch (err: any) {
-    const errorCode = err?.response?.data?.errorCode;
-
-    if (errorCode === "TOKEN_EXPIRED") {
-      const newToken = await renewToken();
-      if (!newToken) return err.response.data;
-
-      const retryRes = await backendApi.post(
-        `/auth/complete-profile`,
-        formData,
-        {
-          headers: { Authorization: `Bearer ${newToken}` },
-        },
-      );
-
-      return retryRes.data;
-    }
-
     return {
       success: false,
       message: err?.response?.data?.message,
-      errorCode,
+      errorCode: err?.response?.data?.errorCode,
     };
   }
 };
 
 /* -------------------------------------------------------------------------- */
-/*                                  🔹 loginUser                               */
+/* 🔹 loginUser */
 /* -------------------------------------------------------------------------- */
 
 export const loginUser = async (idToken: string) => {
@@ -188,39 +99,21 @@ export const loginUser = async (idToken: string) => {
         headers: { Authorization: `Bearer ${idToken}` },
       },
     );
-
     return {
       success: true,
       ...res.data,
     };
   } catch (err: any) {
-    const errorCode = err?.response?.data?.errorCode;
-
-    if (errorCode === "TOKEN_EXPIRED") {
-      const newToken = await renewToken();
-      if (!newToken) return err.response.data;
-
-      const retryRes = await backendApi.post(
-        `/auth/login`,
-        { idToken },
-        {
-          headers: { Authorization: `Bearer ${newToken}` },
-        },
-      );
-
-      return { success: true, ...retryRes.data };
-    }
-
     return {
       success: false,
       message: err?.response?.data?.message,
-      errorCode,
+      errorCode: err?.response?.data?.errorCode,
     };
   }
 };
 
 /* -------------------------------------------------------------------------- */
-/*                           🔹 scheduleCall API                              */
+/* 🔹 scheduleCall API */
 /* -------------------------------------------------------------------------- */
 
 export const scheduleCall = async (payload: ScheduleCallPayload) => {
@@ -228,28 +121,16 @@ export const scheduleCall = async (payload: ScheduleCallPayload) => {
     const res = await backendApi.post("/user/consultations", payload);
     return res.data;
   } catch (err: any) {
-    const errorCode = err?.response?.data?.errorCode;
-
-    if (errorCode === "TOKEN_EXPIRED") {
-      const newToken = await renewToken();
-      if (!newToken) return err.response.data;
-
-      // retry SAME endpoint
-      const retryRes = await backendApi.post("/user/consultations", payload);
-
-      return retryRes.data;
-    }
-
     return {
       success: false,
       message: err?.response?.data?.message,
-      errorCode,
+      errorCode: err?.response?.data?.errorCode,
     };
   }
 };
 
 /* -------------------------------------------------------------------------- */
-/*                           🔹 getUserBookings API                            */
+/* 🔹 getUserBookings API */
 /* -------------------------------------------------------------------------- */
 
 export const getUserBookings = async () => {
@@ -257,64 +138,38 @@ export const getUserBookings = async () => {
     const res = await backendApi.get("/user/consultations");
     return res.data;
   } catch (err: any) {
-    const errorCode = err?.response?.data?.errorCode;
-
-    if (errorCode === "TOKEN_EXPIRED") {
-      const newToken = await renewToken();
-      if (!newToken) return err.response.data;
-
-      // retry SAME endpoint
-      const retryRes = await backendApi.get("/user/consultations", {
-        headers: { Authorization: `Bearer ${newToken}` },
-      });
-
-      return retryRes.data;
-    }
-
     return {
       success: false,
       message: err?.response?.data?.message,
-      errorCode,
+      errorCode: err?.response?.data?.errorCode,
     };
   }
 };
 
 /* -------------------------------------------------------------------------- */
-/*                           🔹 expertLogin API                                */
+/* 🔹 expertLogin API */
 /* -------------------------------------------------------------------------- */
+
 export const expertLogin = async (idToken: string) => {
   try {
     const res = await backendApi.post("/expert/login", { idToken });
-
     return {
       success: true,
       ...res.data,
     };
   } catch (err: any) {
-    const errorCode = err?.response?.data?.errorCode;
-
-    if (errorCode === "TOKEN_EXPIRED") {
-      const newToken = await renewToken();
-      if (!newToken) return err.response.data;
-
-      const retryRes = await backendApi.post("/expert/login", {
-        idToken: newToken,
-      });
-
-      return { success: true, ...retryRes.data };
-    }
-
     return {
       success: false,
       message: err?.response?.data?.message,
-      errorCode,
+      errorCode: err?.response?.data?.errorCode,
     };
   }
 };
 
 /* -------------------------------------------------------------------------- */
-/*                        🔹 expertCompleteProfile API                          */
+/* 🔹 expertCompleteProfile API */
 /* -------------------------------------------------------------------------- */
+
 export const expertCompleteProfile = async (payload: {
   expertId: string;
   name: string;
@@ -336,57 +191,10 @@ export const expertCompleteProfile = async (payload: {
     });
     return res.data;
   } catch (err: any) {
-    const errorCode = err?.response?.data?.errorCode;
-
-    if (errorCode === "TOKEN_EXPIRED") {
-      const newToken = await renewToken();
-      if (!newToken) return err.response.data;
-
-      const retryRes = await backendApi.post(
-        "/admin/experts/complete-profile",
-        {
-          uid: payload.expertId,
-          name: payload.name,
-          role: payload.role,
-          img: payload.img,
-          gender: payload.gender,
-          location: payload.location,
-          experience: payload.experience,
-        },
-        {
-          headers: { Authorization: `Bearer ${newToken}` },
-        },
-      );
-
-      return retryRes.data;
-    }
-
     return {
       success: false,
       message: err?.response?.data?.message,
-      errorCode,
+      errorCode: err?.response?.data?.errorCode,
     };
   }
 };
-
-/* -------------------------------------------------------------------------- */
-/*                         🔹 Fetch Advocate Dashboard Metrics               */
-/* -------------------------------------------------------------------------- */
-// export const userPasswordReset = async (email: string) => {
-//   try {
-//     const res = await backendApi.post("/auth/sendPasswordReset", {
-//       email: email,
-//     });
-
-//     return {
-//       success: true,
-//       ...res.data,
-//     };
-//   } catch (err: any) {
-//     return {
-//       success: false,
-//       message: err?.response?.data?.message || "Failed to reset link",
-//       errorCode: err?.response?.data?.errorCode || null,
-//     };
-//   }
-// };

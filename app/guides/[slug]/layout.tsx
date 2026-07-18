@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
 export default function GuideSlugLayout({ children }: { children: ReactNode }) {
   return (

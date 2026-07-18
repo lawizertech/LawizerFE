@@ -11,15 +11,11 @@ interface CallbackModalProps {
   serviceName: string;
 }
 
-export default function CallbackModal({
-  isOpen,
-  onClose,
-  serviceName,
-}: CallbackModalProps) {
+export default function CallbackModal({ isOpen, onClose, serviceName }: CallbackModalProps) {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState<"success" | "error">("");
+  const [messageType, setMessageType] = useState<"success" | "error" | "">("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -115,9 +111,7 @@ export default function CallbackModal({
 
             {/* Header */}
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                Request a Callback
-              </h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Request a Callback</h2>
               <p className="text-gray-600">
                 Service: <span className="font-semibold text-[#c92c41]">{serviceName}</span>
               </p>
@@ -200,9 +194,7 @@ export default function CallbackModal({
                 {loading ? "Submitting..." : "Request Callback"}
               </Button>
 
-              <p className="text-xs text-gray-500 text-center">
-                We'll contact you shortly at the provided number.
-              </p>
+              <p className="text-xs text-gray-500 text-center">We'll contact you shortly at the provided number.</p>
             </form>
           </motion.div>
         </motion.div>

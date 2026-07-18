@@ -32,10 +32,7 @@ export async function POST(req: Request) {
     const authHeader = req.headers.get("authorization");
 
     if (!authHeader) {
-      return NextResponse.json(
-        { success: false, message: "Authorization token missing" },
-        { status: 401 },
-      );
+      return NextResponse.json({ success: false, message: "Authorization token missing" }, { status: 401 });
     }
 
     // Forward request to backend (no body needed - user details auto-filled)
@@ -75,9 +72,7 @@ export async function POST(req: Request) {
           from: "admin@lawizer.com",
         });
 
-        console.log(
-          `Callback confirmation email sent to ${userProfile.email}`
-        );
+        console.log(`Callback confirmation email sent to ${userProfile.email}`);
       }
     } catch (emailErr) {
       // Log email error but don't fail the request
@@ -91,9 +86,6 @@ export async function POST(req: Request) {
     });
   } catch (err) {
     console.error("/api/user/request-call error:", err);
-    return NextResponse.json(
-      { success: false, message: "Internal server error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
   }
 }

@@ -2,12 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 const BASE = process.env.NEXT_PUBLIC_API_URL!;
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { bookingId: string } },
-) {
+export async function GET(req: NextRequest, context: { params: Promise<{ bookingId: string }> }) {
   try {
-    const { bookingId } = params;
+    const { bookingId } = await context.params;
 
     const authHeader = req.headers.get("authorization");
     if (!authHeader) {
@@ -21,14 +18,11 @@ export async function GET(
       );
     }
 
-    const backendRes = await fetch(
-      `${BASE}/expert/consultations/${bookingId}`,
-      {
-        method: "GET",
-        headers: { Authorization: authHeader },
-        cache: "no-store",
-      },
-    );
+    const backendRes = await fetch(`${BASE}/expert/consultations/${bookingId}`, {
+      method: "GET",
+      headers: { Authorization: authHeader },
+      cache: "no-store",
+    });
 
     if (!backendRes.ok) {
       const errorBody = await backendRes.json().catch(() => null);
@@ -47,9 +41,6 @@ export async function GET(
     return NextResponse.json({ success: true, ...data });
   } catch (error) {
     console.error("/api/expert/consultations/[bookingId] error:", error);
-    return NextResponse.json(
-      { success: false, message: "Internal server error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
   }
 }

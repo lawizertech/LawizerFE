@@ -25,10 +25,7 @@ export default function ExpertHeader() {
           {/* Search */}
           <div className="hidden md:flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
             <Search size={16} className="text-gray-500" />
-            <input
-              placeholder="Search…"
-              className="bg-transparent text-sm outline-none w-40"
-            />
+            <input placeholder="Search…" className="bg-transparent text-sm outline-none w-40" />
           </div>
 
           {/* Notifications */}

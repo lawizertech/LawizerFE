@@ -3,8 +3,16 @@
 import { useState, useEffect, FormEvent } from "react";
 import { Loader2, X } from "lucide-react";
 import { completeUserProfile } from "@/lib/apis/api";
+import { useAuth } from "@/context/authContext";
+import { supabaseUpdatePassword } from "@/lib/supabaseClient";
 
-export default function CompleteProfileModal({ onClose, onDone }: any) {
+interface CompleteProfileModalProps {
+  onClose: () => void;
+  onDone: () => void;
+}
+
+export default function CompleteProfileModal({ onClose, onDone }: CompleteProfileModalProps) {
+  const { refreshUser } = useAuth();
   const [profile, setProfile] = useState<any>(null);
 
   // Form fields
@@ -14,11 +22,15 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
   const [state, setState] = useState("");
   const [photoURL, setPhotoURL] = useState("");
 
+  const [isSocialOnly, setIsSocialOnly] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   /* -------------------------------------------------------------------------- */
-  /* 🚀 Load user profile from localStorage when modal opens                    */
+  /* 🚀 Load user profile from localStorage when modal opens */
   /* -------------------------------------------------------------------------- */
   useEffect(() => {
     const stored = localStorage.getItem("userProfile");
@@ -28,17 +40,20 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
     setProfile(user);
 
     // Populate state fields
-    setDisplayName(user.displayName || "");
-    setPhoneNumber(user.phoneNumber || "");
+    setDisplayName(user.displayName || user.name || "");
+    setPhoneNumber(user.phoneNumber || user.phone || "");
     setCity(user.city || "");
     setState(user.state || "");
-    setPhotoURL(user.photoURL || "");
+    setPhotoURL(user.photoURL || localStorage.getItem("avatar_url") || "");
+
+    const socialOnly = localStorage.getItem("is_social_only") === "true";
+    setIsSocialOnly(socialOnly);
   }, []);
 
   if (!profile) return null; // prevent UI flash
 
   /* -------------------------------------------------------------------------- */
-  /* ✨ Submit Handler                                                          */
+  /* ✨ Submit Handler */
   /* -------------------------------------------------------------------------- */
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -50,37 +65,64 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
 
       if (!authToken) {
         setError("You are not logged in. Please sign in again.");
-        setLoading(false);
         return;
       }
 
-      await completeUserProfile(authToken, {
+      // If they logged in via Google and are setting a password
+      if (isSocialOnly) {
+        if (!password) {
+          setError("Password is required.");
+          return;
+        }
+        if (password !== confirmPassword) {
+          setError("Passwords do not match.");
+          return;
+        }
+        if (password.length < 6) {
+          setError("Password must be at least 6 characters long.");
+          return;
+        }
+
+        const pwRes = await supabaseUpdatePassword(authToken, password);
+        if (!pwRes.success) {
+          setError(pwRes.message || "Failed to set account password.");
+          return;
+        }
+
+        localStorage.setItem("is_social_only", "false");
+      }
+
+      const res = await completeUserProfile(authToken, {
         uid: profile.uid,
+        email: profile.email || "",
         displayName,
         phoneNumber,
         city,
         state,
         photoURL,
+        hasPassword: isSocialOnly,
       });
 
-      onDone();
-      onClose();
+      if (res && res.success) {
+        localStorage.setItem("userProfile", JSON.stringify(res.data));
+        refreshUser();
+        onDone();
+        onClose();
+      } else {
+        setError(res?.message || "Failed to update profile");
+      }
     } catch (err: any) {
       setError(err.message || "Failed to update profile");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
       <div className="bg-white w-full max-w-md rounded-2xl p-6 relative shadow-xl animate-[fadeIn_0.25s_ease]">
-
         {/* Close */}
-        <button
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition"
-          onClick={onClose}
-        >
+        <button className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition" onClick={onClose}>
           <X className="w-5 h-5" />
         </button>
 
@@ -92,9 +134,7 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
 
         {/* Error */}
         {error && (
-          <div className="mb-4 text-red-700 bg-red-100 border border-red-200 p-3 rounded-lg text-sm">
-            {error}
-          </div>
+          <div className="mb-4 text-red-700 bg-red-100 border border-red-200 p-3 rounded-lg text-sm">{error}</div>
         )}
 
         {/* Form */}
@@ -107,9 +147,7 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
             { label: "Photo URL", value: photoURL, setter: setPhotoURL },
           ].map((item, i) => (
             <div key={i}>
-              <label className="block mb-1 text-sm font-medium text-gray-700">
-                {item.label}
-              </label>
+              <label className="block mb-1 text-sm font-medium text-gray-700">{item.label}</label>
               <input
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500"
                 value={item.value}
@@ -117,6 +155,33 @@ export default function CompleteProfileModal({ onClose, onDone }: any) {
               />
             </div>
           ))}
+
+          {isSocialOnly && (
+            <>
+              <div>
+                <label className="block mb-1 text-sm font-medium text-gray-700">Set Account Password*</label>
+                <input
+                  type="password"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter a new password"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1 text-sm font-medium text-gray-700">Confirm Password*</label>
+                <input
+                  type="password"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Confirm your password"
+                  required
+                />
+              </div>
+            </>
+          )}
 
           {/* Submit */}
           <button

@@ -29,8 +29,7 @@ import {
   Rocket,
 } from "lucide-react";
 import { useState } from "react";
-import { useAuth } from "@/context/authContext";
-import ProcessResultModal from "./ProcessResultModal";
+import CallbackModal from "./CallbackModal";
 
 /* ---------- ICON MAP ---------- */
 
@@ -68,7 +67,8 @@ export type IconName = keyof typeof ICON_MAP;
 
 export interface BenefitItem {
   icon: IconName;
-  text: string;
+  text?: string;
+  description?: string;
 }
 
 export interface FAQItem {
@@ -115,6 +115,7 @@ interface ServicePageLayoutProps {
   primaryHoverBg: string;
   serviceID: string;
   hideHero?: boolean; // ← NEW
+  price?: number; // ← NEW
 }
 
 /* ---------- ALERT ICON ---------- */
@@ -123,8 +124,7 @@ function AlertIcon({ type }: { type: AlertType }) {
   const cls = "w-5 h-5 mt-0.5 shrink-0";
   if (type === "info") return <FileText className={`${cls} text-blue-600`} />;
   if (type === "warning") return <Clock className={`${cls} text-yellow-600`} />;
-  if (type === "success")
-    return <CheckCircle2 className={`${cls} text-green-600`} />;
+  if (type === "success") return <CheckCircle2 className={`${cls} text-green-600`} />;
   return <FileWarning className={`${cls} text-red-600`} />;
 }
 
@@ -145,104 +145,15 @@ export default function ServicePageLayout({
   primaryColor,
   primaryBg,
   serviceID,
-  hideHero = false, // ← NEW
+  hideHero = false,
 }: ServicePageLayoutProps) {
   const [openFaq, setOpenFaq] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [showResultModal, setShowResultModal] = useState(false);
-  const [modalType, setModalType] = useState<"success" | "error">("success");
-  const [processCode, setProcessCode] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const HeroIcon = ICON_MAP[icon];
-  const { setIsSignInModalOpen } = useAuth();
-
-  const handleStartProcess = async () => {
-    const token = localStorage.getItem("token");
-    const uid = localStorage.getItem("uid");
-    const role = localStorage.getItem("role");
-
-    if (!token || !uid || !role) {
-      setIsSignInModalOpen(true);
-      return;
-    }
-
-    const userProfileStr = localStorage.getItem("userProfile");
-    let userData = null;
-
-    if (userProfileStr) {
-      try {
-        userData = JSON.parse(userProfileStr);
-      } catch (e) {
-        console.error("Error parsing user profile:", e);
-      }
-    }
-
-    const extractPhone = () => {
-      const possiblePhoneFields = [
-        userData?.phone,
-        userData?.phoneNumber,
-        userData?.mobile,
-        userData?.contactNumber,
-        userData?.mobileNumber,
-      ];
-      for (const phone of possiblePhoneFields) {
-        if (phone && phone.trim()) return phone.trim();
-      }
-      return "";
-    };
-
-    const email = localStorage.getItem("email") || userData?.email || "";
-    const name =
-      userData?.displayName || userData?.name || userData?.fullName || "";
-    const phone = extractPhone();
-
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch("/api/user/start-process", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          serviceCode: serviceID,
-          serviceTitle: title,
-          clientDetails: { fullName: name, email, phone },
-          urgency: "NORMAL",
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.success && response.ok) {
-        setModalType("success");
-        setProcessCode(data.process?.processCode || "");
-        setShowResultModal(true);
-      } else {
-        setModalType("error");
-        setErrorMessage(
-          data.message || "Unable to submit request. Please try again."
-        );
-        setShowResultModal(true);
-      }
-    } catch (error) {
-      console.error("Error starting process:", error);
-      setModalType("error");
-      setErrorMessage(
-        "Unable to connect to the server. Please check your internet connection."
-      );
-      setShowResultModal(true);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50/30 to-slate-100">
-
       {/* ================= HERO — hidden when hideHero=true ================= */}
       {!hideHero && (
         <section className="relative min-h-[60vh] flex items-center justify-center bg-slate-900 text-center overflow-hidden">
@@ -278,11 +189,7 @@ export default function ServicePageLayout({
               {contentTitle}
             </h2>
 
-            {contentDescription && (
-              <p className="text-slate-700 text-sm mb-8 max-w-2xl">
-                {contentDescription}
-              </p>
-            )}
+            {contentDescription && <p className="text-slate-700 text-sm mb-8 max-w-2xl">{contentDescription}</p>}
 
             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
               <Shield className={primaryColor} />
@@ -290,15 +197,18 @@ export default function ServicePageLayout({
             </h3>
 
             <div className="grid sm:grid-cols-2 gap-4 mb-12">
-              {benefits.map((b) => {
-                const Icon = ICON_MAP[b.icon];
+              {benefits.map((b, i) => {
+                const Icon = ICON_MAP[b.icon] || ICON_MAP["checkCircle"];
                 return (
                   <div
-                    key={b.text}
+                    key={i}
                     className="flex gap-4 p-4 bg-slate-50 rounded-xl border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-slate-200"
                   >
                     <Icon className={`${primaryColor} w-10 h-10`} />
-                    <p className="text-sm text-slate-800 leading-relaxed">{b.text}</p>
+                    <p className="text-sm text-slate-800 leading-relaxed">
+                      {/* @ts-ignore */}
+                      {b.description || b.text}
+                    </p>
                   </div>
                 );
               })}
@@ -327,9 +237,7 @@ export default function ServicePageLayout({
                     <AlertIcon type={alert.type} />
                     <div>
                       <p className="font-semibold text-sm">{alert.title}</p>
-                      {alert.description && (
-                        <p className="text-sm mt-1 opacity-90">{alert.description}</p>
-                      )}
+                      {alert.description && <p className="text-sm mt-1 opacity-90">{alert.description}</p>}
                     </div>
                   </motion.div>
                 );
@@ -348,9 +256,7 @@ export default function ServicePageLayout({
                 >
                   {section.title && (
                     <h3 className="text-xl font-bold mb-5 flex gap-3">
-                      {SectionIcon && (
-                        <SectionIcon className="w-5 h-5 text-green-600" />
-                      )}
+                      {SectionIcon && <SectionIcon className="w-5 h-5 text-green-600" />}
                       {section.title}
                     </h3>
                   )}
@@ -390,36 +296,30 @@ export default function ServicePageLayout({
           {/* SIDEBAR */}
           <aside className="lg:sticky lg:top-24 h-fit">
             <div className="bg-slate-900 text-white rounded-3xl p-8 shadow">
-              <h3 className="text-xl font-bold mb-3">Start Your Legal Process</h3>
+              <h3 className="text-xl font-bold mb-1">Start Your Legal Process</h3>
+              <p className="text-slate-400 text-xs mb-1">Service</p>
+              <p className="text-sm font-semibold text-orange-400 mb-6">{title}</p>
               <p className="text-slate-300 text-sm mb-6">
-                Expert legal guidance, end-to-end support.
+                Expert legal guidance, end-to-end support. Share your details and we&apos;ll get back to you within 24 hours.
               </p>
 
               <button
-                onClick={handleStartProcess}
-                disabled={isSubmitting}
-                className={`w-full ${primaryBg} py-4 rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 ${
-                  isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+                onClick={() => setIsModalOpen(true)}
+                className={`w-full ${primaryBg} py-4 rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2`}
               >
-                {isSubmitting ? (
-                  <>
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Processing...
-                  </>
-                ) : (
-                  <>
-                    Start Process <ArrowRight className="inline w-5 h-5" />
-                  </>
-                )}
+                Start Process <ArrowRight className="inline w-5 h-5" />
               </button>
 
-              <p className="text-xs text-slate-400 mt-4 text-center">
-                We&apos;ll get back to you within 24 hours
-              </p>
+              <p className="text-xs text-slate-400 mt-4 text-center">We&apos;ll get back to you within 24 hours</p>
             </div>
           </aside>
         </div>
+
+        <CallbackModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          serviceName={title}
+        />
 
         {/* FAQs */}
         <motion.section
@@ -447,12 +347,11 @@ export default function ServicePageLayout({
                   className="w-full flex items-center justify-between p-4 sm:p-5 text-left bg-gradient-to-r from-slate-50 to-transparent hover:from-red-50"
                 >
                   <span className="font-semibold text-sm sm:text-base text-slate-900 pr-4">
-                    {f.q}
+                    {/* @ts-ignore */}
+                    {f.question || f.q}
                   </span>
                   <ChevronDown
-                    className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${
-                      openFaq === i ? "rotate-180" : ""
-                    }`}
+                    className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${openFaq === i ? "rotate-180" : ""}`}
                   />
                 </button>
 
@@ -462,7 +361,8 @@ export default function ServicePageLayout({
                   }`}
                 >
                   <p className="px-4 pb-4 sm:px-5 sm:pb-5 text-sm text-slate-700">
-                    {f.a}
+                    {/* @ts-ignore */}
+                    {f.answer || f.a}
                   </p>
                 </div>
               </motion.div>
@@ -471,14 +371,6 @@ export default function ServicePageLayout({
         </motion.section>
       </div>
 
-      {/* ================= RESULT MODAL ================= */}
-      <ProcessResultModal
-        isOpen={showResultModal}
-        onClose={() => setShowResultModal(false)}
-        type={modalType}
-        processCode={processCode}
-        message={errorMessage}
-      />
     </div>
   );
 }

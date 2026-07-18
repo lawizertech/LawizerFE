@@ -3,16 +3,7 @@ import React, { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useCallback } from "@/context/callbackContext";
 import { motion, useScroll, useTransform } from "framer-motion";
-import {
-  FileText,
-  ArrowRight,
-  Phone,
-  Tag,
-  CheckCircle2,
-  Sparkles,
-  ChevronRight,
-  ScrollText,
-} from "lucide-react";
+import { FileText, ArrowRight, Phone, Tag, CheckCircle2, Sparkles, ChevronRight, ScrollText } from "lucide-react";
 
 export default function StartupDocumentsPage() {
   const router = useRouter();
@@ -46,21 +37,24 @@ export default function StartupDocumentsPage() {
           slug: "co-founder-agreement",
           price: "₹1,499",
           originalPrice: "₹3,999",
-          description: "Defines roles, equity, responsibilities, decision-making, and exit mechanisms among founders, preventing conflicts.",
+          description:
+            "Defines roles, equity, responsibilities, decision-making, and exit mechanisms among founders, preventing conflicts.",
         },
         {
           name: "Business Partnership Agreement",
           slug: "business-partnership-agreement",
           price: "₹1,499",
           originalPrice: "₹4,499",
-          description: "Legal contract defining investment, profit-sharing, responsibilities, and exit mechanisms among partners.",
+          description:
+            "Legal contract defining investment, profit-sharing, responsibilities, and exit mechanisms among partners.",
         },
         {
           name: "Employment Agreement",
           slug: "employment-agreement",
           price: "₹1,499",
           originalPrice: "₹3,499",
-          description: "Outlines terms, salary, benefits, and termination policies, ensuring compliance with labor laws.",
+          description:
+            "Outlines terms, salary, benefits, and termination policies, ensuring compliance with labor laws.",
         },
         {
           name: "Consultancy Agreement",
@@ -74,7 +68,8 @@ export default function StartupDocumentsPage() {
           slug: "non-disclosure-agreement",
           price: "₹1,499",
           originalPrice: "₹1,999",
-          description: "Protects sensitive business information and trade secrets, allowing safe collaboration or funding discussions.",
+          description:
+            "Protects sensitive business information and trade secrets, allowing safe collaboration or funding discussions.",
         },
         {
           name: "Privacy Policy & Terms of Use",
@@ -88,14 +83,16 @@ export default function StartupDocumentsPage() {
           slug: "saas-agreement",
           price: "₹1,499",
           originalPrice: "₹5,999",
-          description: "Governs subscription, licensing, support, and intellectual property rights for software services.",
+          description:
+            "Governs subscription, licensing, support, and intellectual property rights for software services.",
         },
         {
           name: "Franchise Agreement",
           slug: "franchise-agreement",
           price: "₹1,499",
           originalPrice: "₹6,999",
-          description: "Outlines rights, obligations, royalties, and operational standards between a franchisor and franchisee.",
+          description:
+            "Outlines rights, obligations, royalties, and operational standards between a franchisor and franchisee.",
         },
         {
           name: "Joint Venture Agreement",
@@ -109,35 +106,40 @@ export default function StartupDocumentsPage() {
           slug: "shareholder-subscription-agreement",
           price: "₹1,499",
           originalPrice: "₹8,999",
-          description: "Governs the issuance of shares to investors and defines their rights and obligations in the company.",
+          description:
+            "Governs the issuance of shares to investors and defines their rights and obligations in the company.",
         },
         {
           name: "Service Agreement & Term Sheet",
           slug: "service-agreement-term-sheet",
           price: "₹1,499",
           originalPrice: "₹4,499",
-          description: "Defines scope, fees, deliverables, and timelines for a business service, ensuring legal enforceability.",
+          description:
+            "Defines scope, fees, deliverables, and timelines for a business service, ensuring legal enforceability.",
         },
         {
           name: "Licensing Agreement",
           slug: "licensing-agreement",
           price: "₹1,499",
           originalPrice: "₹5,499",
-          description: "Governs licensing of intellectual property, technology, or products, protecting IP rights and revenue.",
+          description:
+            "Governs licensing of intellectual property, technology, or products, protecting IP rights and revenue.",
         },
         {
           name: "IP Assignment Agreement",
           slug: "ip-assignment-agreement",
           price: "₹1,499",
           originalPrice: "₹4,999",
-          description: "Transfers Intellectual Property (IP) ownership from one party to another, ensuring legal transfer of rights.",
+          description:
+            "Transfers Intellectual Property (IP) ownership from one party to another, ensuring legal transfer of rights.",
         },
         {
           name: "Letter of Intent (LOI)",
           slug: "letter-of-intent",
           price: "₹1,499",
           originalPrice: "₹2,999",
-          description: "Declares preliminary intention to enter a business transaction or agreement, establishing mutual understanding.",
+          description:
+            "Declares preliminary intention to enter a business transaction or agreement, establishing mutual understanding.",
         },
       ],
     },
@@ -174,15 +176,13 @@ export default function StartupDocumentsPage() {
   const accentDark = "#007bff";
 
   return (
-    <div className="min-h-screen" style={{ background: "#f8f7f4" }}>
-
+    <div className="min-h-screen bg-[#f8f7f4]">
       {/* ══════════════════════════════════════════════
-          HERO — Cinematic dark, matches Startup/Property pages
-      ══════════════════════════════════════════════ */}
+ HERO — Cinematic dark, matches Startup/Property pages
+ ══════════════════════════════════════════════ */}
       <section
         ref={heroRef}
-        className="relative flex flex-col items-center justify-center text-center"
-        style={{ minHeight: "100vh", background: "#06101e", overflow: "hidden" }}
+        className="relative flex flex-col items-center justify-center text-center min-h-screen bg-[#06101e] overflow-hidden"
       >
         {/* Parallax background */}
         <motion.div style={{ y: heroY }} className="absolute inset-0 scale-110" aria-hidden>
@@ -190,7 +190,7 @@ export default function StartupDocumentsPage() {
         </motion.div>
 
         {/* Layered atmospheric overlays */}
-        <div className="absolute inset-0" style={{ background: "rgba(6,16,30,0.80)" }} />
+        <div className="absolute inset-0 bg-[#06101e]/80" />
         <div
           className="absolute inset-0"
           style={{
@@ -199,10 +199,7 @@ export default function StartupDocumentsPage() {
           }}
         />
         {/* Bottom fade */}
-        <div
-          className="absolute bottom-0 left-0 right-0 h-48"
-          style={{ background: "linear-gradient(to top, rgba(6,16,30,0.88) 0%, transparent 100%)" }}
-        />
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#06101e]/90 to-transparent" />
         {/* Teal radial glow — matches page accent */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -212,10 +209,7 @@ export default function StartupDocumentsPage() {
           }}
         />
         {/* Left vignette */}
-        <div
-          className="absolute top-0 left-0 w-1/2 h-full pointer-events-none"
-          style={{ background: "linear-gradient(to right, rgba(6,16,30,0.5) 0%, transparent 100%)" }}
-        />
+        <div className="absolute top-0 left-0 w-1/2 h-full pointer-events-none bg-gradient-to-r from-[#06101e]/50 to-transparent" />
         {/* Scanline texture */}
         <div
           className="absolute inset-0 pointer-events-none opacity-[0.03]"
@@ -242,7 +236,11 @@ export default function StartupDocumentsPage() {
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           className="absolute pointer-events-none"
           style={{
-            top: "20%", left: "10%", width: "320px", height: "320px", borderRadius: "50%",
+            top: "20%",
+            left: "10%",
+            width: "320px",
+            height: "320px",
+            borderRadius: "50%",
             background: "radial-gradient(circle, rgba(0,191,165,0.22) 0%, transparent 68%)",
             filter: "blur(48px)",
           }}
@@ -252,7 +250,11 @@ export default function StartupDocumentsPage() {
           transition={{ duration: 13, repeat: Infinity, ease: "easeInOut", delay: 4 }}
           className="absolute pointer-events-none"
           style={{
-            bottom: "22%", right: "9%", width: "260px", height: "260px", borderRadius: "50%",
+            bottom: "22%",
+            right: "9%",
+            width: "260px",
+            height: "260px",
+            borderRadius: "50%",
             background: "radial-gradient(circle, rgba(0,123,255,0.22) 0%, transparent 68%)",
             filter: "blur(50px)",
           }}
@@ -262,17 +264,18 @@ export default function StartupDocumentsPage() {
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2 }}
           className="absolute pointer-events-none"
           style={{
-            top: "14%", right: "17%", width: "160px", height: "160px", borderRadius: "50%",
+            top: "14%",
+            right: "17%",
+            width: "160px",
+            height: "160px",
+            borderRadius: "50%",
             background: "radial-gradient(circle, rgba(80,220,200,0.28) 0%, transparent 70%)",
             filter: "blur(30px)",
           }}
         />
 
         {/* Content */}
-        <motion.div
-          style={{ opacity: heroOpacity }}
-          className="relative z-10 max-w-4xl px-4 sm:px-8 pt-28 pb-20"
-        >
+        <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-4xl px-4 sm:px-8 pt-28 pb-20">
           {/* Eyebrow */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -322,11 +325,9 @@ export default function StartupDocumentsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.2 }}
-            className="text-sm sm:text-base max-w-xl mx-auto mb-3"
-            style={{ color: "rgba(215,222,235,0.82)", lineHeight: 1.7 }}
+            className="text-sm sm:text-base max-w-xl mx-auto mb-3 text-[#d7deeb]/80 leading-relaxed"
           >
-            Legal documents essential for defining relationships, protecting IP,
-            and securing business transactions.
+            Legal documents essential for defining relationships, protecting IP, and securing business transactions.
           </motion.p>
 
           {/* ── Sale Banner ── */}
@@ -336,9 +337,8 @@ export default function StartupDocumentsPage() {
             transition={{ duration: 0.6, delay: 0.28 }}
             className="flex items-center justify-center gap-2 sm:gap-3 mb-9 flex-wrap"
           >
-            <span className="text-sm sm:text-base" style={{ color: "rgba(215,222,235,0.82)" }}>
-              Get all your Agreements done at just{" "}
-              <span className="font-bold text-white">₹1,499</span>
+            <span className="text-sm sm:text-base text-[#d7deeb]/80">
+              Get all your Agreements done at just <span className="font-bold text-white">₹1,499</span>
             </span>
             <span
               className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide"
@@ -384,8 +384,8 @@ export default function StartupDocumentsPage() {
           >
             {["Legally Vetted Templates", "Expert Lawyer Drafted", "Tailored to Your Business"].map((b) => (
               <div key={b} className="flex items-center gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "#4ade80" }} />
-                <span className="text-xs sm:text-sm" style={{ color: "rgba(195,208,228,0.78)" }}>{b}</span>
+                <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 text-green-400" />
+                <span className="text-xs sm:text-sm text-[#c3d0e4]/80">{b}</span>
               </div>
             ))}
           </motion.div>
@@ -403,8 +403,8 @@ export default function StartupDocumentsPage() {
       </section>
 
       {/* ══════════════════════════════════════════════
-          SERVICE SECTIONS
-      ══════════════════════════════════════════════ */}
+ SERVICE SECTIONS
+ ══════════════════════════════════════════════ */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24 pb-32 sm:pb-40 space-y-20 sm:space-y-28">
         {sections.map((section, sIdx) => {
           const Icon = section.icon;
@@ -418,19 +418,12 @@ export default function StartupDocumentsPage() {
               className="scroll-mt-24"
             >
               <div className="flex items-center gap-3 mb-3">
-                <div
-                  className="p-2.5 rounded-xl"
-                  style={{ background: "rgba(0,191,165,0.1)" }}
-                >
+                <div className="p-2.5 rounded-xl bg-[#00bfa5]/10">
                   <Icon className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: accent }} />
                 </div>
-                <h2 className="text-xl sm:text-2xl font-extrabold text-[#0e172b] tracking-tight">
-                  {section.title}
-                </h2>
+                <h2 className="text-xl sm:text-2xl font-extrabold text-[#0e172b] tracking-tight">{section.title}</h2>
               </div>
-              <p className="text-gray-400 text-sm sm:text-base mb-9 max-w-2xl">
-                {section.description}
-              </p>
+              <p className="text-gray-400 text-sm sm:text-base mb-9 max-w-2xl">{section.description}</p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
                 {section.services.map((service, cIdx) => (
@@ -469,10 +462,7 @@ export default function StartupDocumentsPage() {
                     />
 
                     <div className="relative z-10 p-5 sm:p-6 flex flex-col h-full">
-                      <h3
-                        className="text-base sm:text-[17px] font-bold text-[#0e172b] mb-2 transition-colors duration-300 leading-snug"
-                        style={{}}
-                      >
+                      <h3 className="text-base sm:text-[17px] font-bold text-[#0e172b] mb-2 transition-colors duration-300 leading-snug">
                         <span className="group-hover:text-[#00a896] transition-colors duration-300">
                           {service.name}
                         </span>
@@ -482,15 +472,14 @@ export default function StartupDocumentsPage() {
                       </p>
                       <div className="mb-4">
                         {service.originalPrice && (
-                          <p className="text-xs text-gray-300 line-through mb-0.5">
-                            {service.originalPrice}
-                          </p>
+                          <p className="text-xs text-gray-300 line-through mb-0.5">{service.originalPrice}</p>
                         )}
-                        <p className="text-xl font-extrabold text-[#c92c41]">
-                          {service.price}
-                        </p>
+                        <p className="text-xl font-extrabold text-[#c92c41]">{service.price}</p>
                       </div>
-                      <div className="flex items-center gap-1.5 text-sm font-semibold group-hover:gap-2.5 transition-all duration-300" style={{ color: accent }}>
+                      <div
+                        className="flex items-center gap-1.5 text-sm font-semibold group-hover:gap-2.5 transition-all duration-300"
+                        style={{ color: accent }}
+                      >
                         View Details
                         <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                       </div>

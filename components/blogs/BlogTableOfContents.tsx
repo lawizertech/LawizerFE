@@ -11,9 +11,7 @@ interface BlogTableOfContentsProps {
   headings: Heading[];
 }
 
-export default function BlogTableOfContents({
-  headings,
-}: BlogTableOfContentsProps) {
+export default function BlogTableOfContents({ headings }: BlogTableOfContentsProps) {
   const [activeId, setActiveId] = useState<string>(headings[0]?.id ?? "");
   const [isOpen, setIsOpen] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -63,8 +61,6 @@ export default function BlogTableOfContents({
     };
   }, [headings]);
 
-  if (headings.length === 0) return null;
-
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     const el = document.getElementById(id);
@@ -91,11 +87,7 @@ export default function BlogTableOfContents({
             stroke="currentColor"
             strokeWidth={2}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19 9l-7 7-7-7"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
           </svg>
         </button>
 
@@ -125,9 +117,7 @@ export default function BlogTableOfContents({
         <div className="sticky top-24 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
           {/* "IN THIS ARTICLE" header — small caps, grey */}
           <div className="px-5 py-3 border-b border-slate-100">
-            <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
-              In this article
-            </p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">In this article</p>
           </div>
 
           {/* TOC links */}
