@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import {
@@ -148,13 +149,27 @@ export default function ActiveServicesTab() {
   const unreadNotifications = notifications.filter((n) => !n.read);
   const activeServices = services.filter((s) => s.status !== "Completed" && s.status !== "COMPLETED");
 
-  const handlePrevCard = () => {
-    setCarouselIndex((prev) => (prev > 0 ? prev - 1 : activeServices.length - 1));
-  };
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: "center" });
 
-  const handleNextCard = () => {
-    setCarouselIndex((prev) => (prev < activeServices.length - 1 ? prev + 1 : 0));
-  };
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setCarouselIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
+  }, [emblaApi, onSelect]);
+
+  const handlePrevCard = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const handleNextCard = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
 
   /* -------------------------------------------------------------------------- */
   /* 🌟 FULL DEDICATED WORKSPACE PAGE VIEW (When a service is selected)          */
@@ -671,11 +686,9 @@ export default function ActiveServicesTab() {
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="relative overflow-hidden">
-                <AnimatePresence mode="wait">
+              <div className="overflow-hidden" ref={emblaRef}>
+                <div className="flex">
                   {activeServices.map((s, idx) => {
-                    if (idx !== carouselIndex) return null;
-
                     let pillClasses = "bg-amber-50 text-amber-700 border-amber-200/60";
                     if (s.status === "In Progress") {
                       pillClasses = "bg-rose-50 text-[#c92c41] border-rose-200/60";
@@ -686,58 +699,54 @@ export default function ActiveServicesTab() {
                     }
 
                     return (
-                      <motion.div
+                      <div
                         key={s.id}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{ duration: 0.2, ease: "easeInOut" }}
-                        className="bg-white rounded-2xl border border-gray-100 p-6 space-y-6 shadow-[0_2px_12px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-rose-100 transition-all"
+                        className="flex-[0_0_100%] min-w-0 pl-4 first:pl-0"
                       >
-                        {/* Top Header */}
-                        <div className="flex justify-between items-start gap-4">
-                          <div>
-                            <h3 className="font-bold text-lg text-gray-900 leading-snug">{s.name}</h3>
-                            <p className="text-xs text-gray-400 font-medium mt-0.5">
-                              ID: <span className="font-mono text-gray-600">#{s.id.slice(0, 8)}</span>
-                            </p>
-                          </div>
-                          <span className={`text-xs px-3 py-1 rounded-full font-bold border ${pillClasses} shrink-0`}>
-                            {s.status}
-                          </span>
-                        </div>
-
-                        {/* Stepper Progress */}
-                        <div className="pt-2">
-                          <ServiceProgressStepper progress={s.progress || 20} status={s.status} />
-                        </div>
-
-                        {/* Footer Actions & Expert Tag */}
-                        <div className="flex flex-wrap justify-between items-center pt-3 border-t border-gray-100 gap-4">
-                          <div className="flex items-center gap-2.5">
-                            <div className="w-8 h-8 rounded-full bg-rose-50 border border-rose-100 flex items-center justify-center text-[#c92c41] flex-shrink-0 font-bold text-xs">
-                              <ShieldCheck size={16} />
-                            </div>
+                        <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-6 shadow-[0_2px_12px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-rose-100 transition-all h-full">
+                          {/* Top Header */}
+                          <div className="flex justify-between items-start gap-4">
                             <div>
-                              <span className="text-xs font-bold text-gray-900 block leading-tight">CA / Legal Expert</span>
-                              <span className="text-[10px] text-emerald-600 font-semibold block leading-tight">Assigned & Active</span>
+                              <h3 className="font-bold text-lg text-gray-900 leading-snug">{s.name}</h3>
+                              <p className="text-xs text-gray-400 font-medium mt-0.5">
+                                ID: <span className="font-mono text-gray-600">#{s.id.slice(0, 8)}</span>
+                              </p>
                             </div>
+                            <span className={`text-xs px-3 py-1 rounded-full font-bold border ${pillClasses} shrink-0`}>
+                              {s.status}
+                            </span>
                           </div>
 
-                          <button
-                            onClick={() => {
-                              openDetail(s.id);
-                            }}
-                            className="bg-[#c92c41] hover:bg-[#a8233a] text-white text-xs px-4 py-2.5 rounded-xl font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-95"
-                          >
-                            <span>View Workspace</span>
-                            <ChevronRight size={14} />
-                          </button>
+                          {/* Stepper Progress */}
+                          <div className="pt-2">
+                            <ServiceProgressStepper progress={s.progress || 20} status={s.status} />
+                          </div>
+
+                          {/* Footer Actions & Expert Tag */}
+                          <div className="flex flex-wrap justify-between items-center pt-3 border-t border-gray-100 gap-4">
+                            <div className="flex items-center gap-2.5">
+                              <div className="w-8 h-8 rounded-full bg-rose-50 border border-rose-100 flex items-center justify-center text-[#c92c41] flex-shrink-0 font-bold text-xs">
+                                <ShieldCheck size={16} />
+                              </div>
+                              <div>
+                                <span className="text-xs font-bold text-gray-900 block leading-tight">CA / Legal Expert</span>
+                                <span className="text-[10px] text-emerald-600 font-semibold block leading-tight">Assigned & Active</span>
+                              </div>
+                            </div>
+
+                            <button
+                              onClick={() => openDetail(s.id)}
+                              className="bg-[#c92c41] hover:bg-[#a8233a] text-white text-xs px-4 py-2.5 rounded-xl font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-95"
+                            >
+                              <span>View Workspace</span>
+                              <ChevronRight size={14} />
+                            </button>
+                          </div>
                         </div>
-                      </motion.div>
+                      </div>
                     );
                   })}
-                </AnimatePresence>
+                </div>
               </div>
 
               {/* Bottom Dot Indicators */}
@@ -746,7 +755,7 @@ export default function ActiveServicesTab() {
                   {activeServices.map((_, idx) => (
                     <button
                       key={idx}
-                      onClick={() => setCarouselIndex(idx)}
+                      onClick={() => emblaApi?.scrollTo(idx)}
                       className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                         idx === carouselIndex
                           ? "w-7 bg-[#c92c41]"

@@ -276,6 +276,12 @@ export default function BookServiceTab() {
             contact: (user as any)?.phone || "",
           },
           theme: { color: "#c92c41" },
+          modal: {
+            ondismiss: function () {
+              setPaymentState("idle");
+              reject(new Error("Payment cancelled by user"));
+            }
+          },
           handler: async function (response: any) {
             try {
               setPaymentState("verifying");
@@ -327,8 +333,10 @@ export default function BookServiceTab() {
     } catch (err: any) {
       if (paymentState !== "idle") {
         setPaymentError(err.message || "Something went wrong");
-        setPaymentState("error");
-        toast.error(err.message || "Payment failed");
+        setPaymentState("idle");
+        if (err.message !== "Payment cancelled by user") {
+          toast.error(err.message || "Payment failed");
+        }
       }
     }
   };

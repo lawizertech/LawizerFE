@@ -234,6 +234,12 @@ export default function ServicePageLayout({
             contact: (user as any)?.phone || "",
           },
           theme: { color: "#c92c41" },
+          modal: {
+            ondismiss: function () {
+              setPaymentState("idle");
+              reject(new Error("Payment cancelled by user"));
+            }
+          },
           handler: async function (response: any) {
             try {
               setPaymentState("verifying");
@@ -288,7 +294,9 @@ export default function ServicePageLayout({
       const errorMsg = err.message || "Failed to process payment";
       setPaymentError(errorMsg);
       setPaymentState("idle");
-      toast.error(errorMsg);
+      if (errorMsg !== "Payment cancelled by user") {
+        toast.error(errorMsg);
+      }
     }
   };
 
