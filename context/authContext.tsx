@@ -317,6 +317,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // ── openSignInModal custom event listener ────────────────────────────────────
+  // ServicePageLayout and other non-context components can trigger the sign-in
+  // modal by dispatching: window.dispatchEvent(new CustomEvent("openSignInModal"))
+  useEffect(() => {
+    const handleOpenSignIn = () => setIsSignInModalOpen(true);
+    window.addEventListener("openSignInModal", handleOpenSignIn);
+    return () => window.removeEventListener("openSignInModal", handleOpenSignIn);
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
