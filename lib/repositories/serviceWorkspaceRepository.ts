@@ -101,10 +101,11 @@ export class ServiceWorkspaceRepository {
     });
 
     if (!res.ok) {
-      throw new Error("Failed to load notifications");
+      console.warn("Notifications API returned non-OK status:", res.status);
+      return [];
     }
 
-    const data = await res.json();
+    const data = await res.json().catch(() => ({}));
     return data.notifications || [];
   }
 

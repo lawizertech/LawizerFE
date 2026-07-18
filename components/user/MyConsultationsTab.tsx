@@ -37,6 +37,23 @@ export default function MyConsultationsTab() {
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">My Consultations</h1>
 
+      {consultations.length === 0 ? (
+        <div className="bg-white rounded-2xl p-12 text-center border border-dashed border-gray-200 shadow-xs mt-6">
+          <div className="w-12 h-12 rounded-full bg-rose-50 text-[#c92c41] flex items-center justify-center mx-auto mb-3">
+            <Calendar size={24} />
+          </div>
+          <p className="text-base font-bold text-gray-800">No consultations booked</p>
+          <p className="text-sm text-gray-500 mt-1 max-w-sm mx-auto mb-4">
+            You haven't scheduled any consultations with our experts yet.
+          </p>
+          <button
+            onClick={() => window.location.href = "/user/dashboard?tab=book"}
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#c92c41] text-white text-sm font-bold rounded-xl hover:bg-[#a8233a] transition cursor-pointer"
+          >
+            Book a Consultation
+          </button>
+        </div>
+      ) : (
       <div className="space-y-4">
         {consultations.map((c) => {
           const bookingDate = new Date(c.bookingDate._seconds * 1000);
@@ -75,6 +92,7 @@ export default function MyConsultationsTab() {
           );
         })}
       </div>
+      )}
     </div>
   );
 }

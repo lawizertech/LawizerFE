@@ -24,11 +24,17 @@ interface ScheduleCallPayload {
 
 export const getUserProfile = async (uid: string) => {
   try {
-    const res = await backendApi.get(`/auth/profile`, {
+    const res = await backendApi.get(`/api/user/profile`, {
+      baseURL: window.location.origin, // hit Next.js proxy on same origin
       params: { uid },
     });
-    return res.data.data;
+    console.log("getUserProfile success res.data:", res.data);
+    return {
+      success: true,
+      ...res.data?.profile,
+    };
   } catch (err: any) {
+    console.error("getUserProfile error:", err?.response?.data || err.message);
     return {
       success: false,
       message: err?.response?.data?.message,

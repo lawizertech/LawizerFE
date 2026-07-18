@@ -23,6 +23,13 @@ export async function GET(req: Request) {
     const data = await backendRes.json().catch(() => null);
 
     if (!backendRes.ok) {
+      if (backendRes.status === 404) {
+        return NextResponse.json({
+          success: true,
+          notifications: [],
+        });
+      }
+
       return NextResponse.json(
         {
           success: false,

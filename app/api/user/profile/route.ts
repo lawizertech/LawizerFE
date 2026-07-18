@@ -17,7 +17,7 @@ export async function GET(req: Request) {
       );
     }
 
-    const backendRes = await fetch(`${BASE}/user/profile`, {
+    const backendRes = await fetch(`${BASE}/auth/profile`, {
       method: "GET",
       headers: {
         Authorization: authHeader,
@@ -42,7 +42,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json({
       success: true,
-      profile: data.profile,
+      profile: data.data || data.profile || data,
     });
   } catch (error) {
     console.error("/api/user/profile error:", error);
