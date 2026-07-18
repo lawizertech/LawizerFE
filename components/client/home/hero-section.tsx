@@ -83,9 +83,6 @@ export function HeroSection() {
                 />
               </svg>
             </a>
-            <a href="https://wa.me/9062815535" target="_blank" className="btn-outline-hero">
-              💬 WhatsApp Us
-            </a>
             <motion.a
               href="https://wa.me/919062815535"
               target="_blank"

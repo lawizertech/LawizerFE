@@ -61,8 +61,6 @@ export default function BlogTableOfContents({ headings }: BlogTableOfContentsPro
     };
   }, [headings]);
 
-  if (headings.length === 0) return null;
-
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     const el = document.getElementById(id);
