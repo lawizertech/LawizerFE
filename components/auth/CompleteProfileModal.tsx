@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, FormEvent } from "react";
+import { useState, FormEvent } from "react";
 import { Loader2, X } from "lucide-react";
 import { completeUserProfile } from "@/lib/apis/api";
 import { useAuth } from "@/context/authContext";
+import { getAccessToken } from "@/lib/auth/tokenStore";
 import { supabaseUpdatePassword } from "@/lib/supabaseClient";
 
 interface CompleteProfileModalProps {
@@ -12,48 +13,28 @@ interface CompleteProfileModalProps {
 }
 
 export default function CompleteProfileModal({ onClose, onDone }: CompleteProfileModalProps) {
-  const { refreshUser } = useAuth();
-  const [profile, setProfile] = useState<any>(null);
+  const { user, refreshUser } = useAuth();
 
-  // Form fields
-  const [displayName, setDisplayName] = useState("");
+  // Form fields — pre-populated from context user object
+  const [displayName, setDisplayName] = useState(user?.name ?? "");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
-  const [photoURL, setPhotoURL] = useState("");
+  const [photoURL, setPhotoURL] = useState(user?.avatarUrl ?? "");
 
-  const [isSocialOnly, setIsSocialOnly] = useState(false);
+  // Social-only accounts need to set a password on first login
+  const isSocialOnly = user?.hasPassword === false;
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  /* -------------------------------------------------------------------------- */
-  /* 🚀 Load user profile from localStorage when modal opens */
-  /* -------------------------------------------------------------------------- */
-  useEffect(() => {
-    const stored = localStorage.getItem("userProfile");
-    if (!stored) return;
-
-    const user = JSON.parse(stored);
-    setProfile(user);
-
-    // Populate state fields
-    setDisplayName(user.displayName || user.name || "");
-    setPhoneNumber(user.phoneNumber || user.phone || "");
-    setCity(user.city || "");
-    setState(user.state || "");
-    setPhotoURL(user.photoURL || localStorage.getItem("avatar_url") || "");
-
-    const socialOnly = localStorage.getItem("is_social_only") === "true";
-    setIsSocialOnly(socialOnly);
-  }, []);
-
-  if (!profile) return null; // prevent UI flash
+  // Guard: don't render until we have a user
+  if (!user) return null;
 
   /* -------------------------------------------------------------------------- */
-  /* ✨ Submit Handler */
+  /* ✨ Submit Handler                                                           */
   /* -------------------------------------------------------------------------- */
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -61,14 +42,15 @@ export default function CompleteProfileModal({ onClose, onDone }: CompleteProfil
     setError("");
 
     try {
-      const authToken = localStorage.getItem("token");
+      // The access token lives in memory — never in localStorage.
+      const authToken = getAccessToken();
 
       if (!authToken) {
         setError("You are not logged in. Please sign in again.");
         return;
       }
 
-      // If they logged in via Google and are setting a password
+      // Social-only accounts must set a password before completing their profile.
       if (isSocialOnly) {
         if (!password) {
           setError("Password is required.");
@@ -85,16 +67,14 @@ export default function CompleteProfileModal({ onClose, onDone }: CompleteProfil
 
         const pwRes = await supabaseUpdatePassword(authToken, password);
         if (!pwRes.success) {
-          setError(pwRes.message || "Failed to set account password.");
+          setError(pwRes.message ?? "Failed to set account password.");
           return;
         }
-
-        localStorage.setItem("is_social_only", "false");
       }
 
       const res = await completeUserProfile(authToken, {
-        uid: profile.uid,
-        email: profile.email || "",
+        uid: user.uid,
+        email: user.email,
         displayName,
         phoneNumber,
         city,
@@ -103,16 +83,15 @@ export default function CompleteProfileModal({ onClose, onDone }: CompleteProfil
         hasPassword: isSocialOnly,
       });
 
-      if (res && res.success) {
-        localStorage.setItem("userProfile", JSON.stringify(res.data));
-        refreshUser();
+      if (res?.success) {
+        await refreshUser(); // Re-fetch the updated profile from the backend
         onDone();
         onClose();
       } else {
-        setError(res?.message || "Failed to update profile");
+        setError(res?.message ?? "Failed to update profile");
       }
     } catch (err: any) {
-      setError(err.message || "Failed to update profile");
+      setError(err.message ?? "Failed to update profile");
     } finally {
       setLoading(false);
     }

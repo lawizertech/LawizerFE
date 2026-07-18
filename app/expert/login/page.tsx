@@ -13,17 +13,14 @@ export default function LawyerLoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const { refreshUser } = useAuth();
+  const { login, user, loading: authLoading } = useAuth();
 
+  // If already logged in as an expert, redirect immediately.
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const uid = localStorage.getItem("uid");
-    const role = localStorage.getItem("role");
-
-    if (token && uid && role === "EXPERT") {
+    if (!authLoading && user?.role === "EXPERT") {
       router.push("/expert/dashboard");
     }
-  }, [router]);
+  }, [authLoading, user, router]);
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
@@ -31,32 +28,35 @@ export default function LawyerLoginPage() {
     setLoading(true);
 
     try {
-      // 1️⃣ Login with Supabase
+      // 1️⃣ Authenticate with Supabase to obtain a short-lived Supabase token
       const signInRes = await supabaseSignIn(email, password);
-
       if (!signInRes.success) {
-        throw new Error(signInRes.message || "Invalid email or password");
+        throw new Error(signInRes.message ?? "Invalid email or password");
       }
 
       const idToken = signInRes.session!.access_token;
+      const refreshToken = signInRes.session!.refresh_token;
 
-      // 2️⃣ Sync session with Backend expert route
-      const res = await expertLogin(idToken);
-
+      // 2️⃣ Exchange the Supabase token for a Lawizer JWT on the expert endpoint
+      const res = await expertLogin(idToken, refreshToken);
       if (!res.success) {
-        throw new Error(res.message || "Login failed");
+        throw new Error(res.message ?? "Login failed");
       }
 
-      localStorage.setItem("uid", res.expert.uid);
-      localStorage.setItem("email", res.expert.email);
-      localStorage.setItem("token", res.token);
-      localStorage.setItem("role", "EXPERT");
-      localStorage.setItem("userProfile", JSON.stringify(res.expert));
+      // 3️⃣ Store token in memory only via AuthContext — no localStorage writes
+      login(res.token, {
+        uid: res.expert.uid,
+        email: res.expert.email,
+        name: res.expert.displayName ?? res.expert.name,
+        role: "EXPERT",
+        avatarUrl: res.expert.photoURL ?? res.expert.avatarUrl,
+        isProfileComplete: res.expert.isProfileComplete,
+      });
 
-      refreshUser();
-      window.location.href = "/expert/dashboard";
+      // Navigate to the expert dashboard.
+      router.push("/expert/dashboard");
     } catch (err: any) {
-      setError(err.message || "Failed to sign in");
+      setError(err.message ?? "Failed to sign in");
     } finally {
       setLoading(false);
     }
@@ -97,8 +97,7 @@ export default function LawyerLoginPage() {
                 <input
                   type="email"
                   required
-                  className="w-full pl-10 pr-3 py-2 border rounded-md
- focus:ring-2 focus:ring-[#c92c41] focus:border-transparent"
+                  className="w-full pl-10 pr-3 py-2 border rounded-md focus:ring-2 focus:ring-[#c92c41] focus:border-transparent"
                   placeholder="example@law.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -114,8 +113,7 @@ export default function LawyerLoginPage() {
                 <input
                   type="password"
                   required
-                  className="w-full pl-10 pr-3 py-2 border rounded-md
- focus:ring-2 focus:ring-[#c92c41] focus:border-transparent"
+                  className="w-full pl-10 pr-3 py-2 border rounded-md focus:ring-2 focus:ring-[#c92c41] focus:border-transparent"
                   placeholder="Enter password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -127,9 +125,7 @@ export default function LawyerLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2 flex items-center justify-center
- bg-[#c92c41] text-white rounded-md
- hover:bg-[#b32538] transition disabled:opacity-70"
+              className="w-full py-2 flex items-center justify-center bg-[#c92c41] text-white rounded-md hover:bg-[#b32538] transition disabled:opacity-70"
             >
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <ArrowRight className="w-5 h-5 mr-2" />}
               Login
@@ -139,8 +135,8 @@ export default function LawyerLoginPage() {
           {/* Bottom Text */}
           <div className="text-center mt-6 text-sm">
             <p className="text-gray-600">
-              Not a lawyer?
-              <a href="/" className="text-[#c92c41] font-semibold ml-1 hover:underline">
+              Not a lawyer?{" "}
+              <a href="/" className="text-[#c92c41] font-semibold hover:underline">
                 Go back home
               </a>
             </p>
