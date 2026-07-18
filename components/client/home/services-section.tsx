@@ -627,8 +627,8 @@ function SvcRow({ svc, phase }: { svc: Svc; phase: Phase }) {
         {/* real price chip */}
         <span style={{
           display:"inline-flex", alignItems:"baseline", gap:1,
-          background: hov ? accent : `${accent}18`,
-          color: hov ? "#fff" : accent,
+          background: hov ? phase.accent : `${phase.accent}18`,
+          color: hov ? "#fff" : phase.accent,
           padding:"3px 9px", borderRadius:8,
           transition:"all 0.18s",
         }}>
