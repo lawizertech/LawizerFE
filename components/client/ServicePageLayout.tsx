@@ -29,8 +29,7 @@ import {
   Rocket,
 } from "lucide-react";
 import { useState } from "react";
-import { useAuth } from "@/context/authContext";
-import ProcessResultModal from "./ProcessResultModal";
+import CallbackModal from "./CallbackModal";
 
 /* ---------- ICON MAP ---------- */
 
@@ -146,189 +145,12 @@ export default function ServicePageLayout({
   primaryColor,
   primaryBg,
   serviceID,
-  hideHero = false, // ← NEW
-  price = 999, // ← NEW
+  hideHero = false,
 }: ServicePageLayoutProps) {
   const [openFaq, setOpenFaq] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [showResultModal, setShowResultModal] = useState(false);
-  const [modalType, setModalType] = useState<"success" | "error">("success");
-  const [processCode, setProcessCode] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const HeroIcon = ICON_MAP[icon];
-  const { setIsSignInModalOpen } = useAuth();
-
-  const loadRazorpayScript = () => {
-    return new Promise((resolve) => {
-      if (typeof window !== "undefined" && (window as any).Razorpay) {
-        resolve(true);
-        return;
-      }
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.async = true;
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    });
-  };
-
-  const handleStartProcess = async () => {
-    const token = localStorage.getItem("token");
-    const uid = localStorage.getItem("uid");
-    const role = localStorage.getItem("role");
-
-    if (!token || !uid || !role) {
-      setIsSignInModalOpen(true);
-      return;
-    }
-
-    const userProfileStr = localStorage.getItem("userProfile");
-    let userData = null;
-
-    if (userProfileStr) {
-      try {
-        userData = JSON.parse(userProfileStr);
-      } catch (e) {
-        console.error("Error parsing user profile:", e);
-      }
-    }
-
-    const extractPhone = () => {
-      const possiblePhoneFields = [
-        userData?.phone,
-        userData?.phoneNumber,
-        userData?.mobile,
-        userData?.contactNumber,
-        userData?.mobileNumber,
-      ];
-      for (const phone of possiblePhoneFields) {
-        if (phone && phone.trim()) return phone.trim();
-      }
-      return "";
-    };
-
-    const email = localStorage.getItem("email") || userData?.email || "";
-    const name = userData?.displayName || userData?.name || userData?.fullName || "";
-    const phone = extractPhone();
-
-    setIsSubmitting(true);
-
-    try {
-      // 1. Request backend to create case & order
-      const response = await fetch("/api/user/start-process", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          serviceCode: serviceID,
-          serviceTitle: title,
-          clientDetails: { 
-            fullName: name || "Client", 
-            email: email || "client@lawizer.com", 
-            phone: phone || "0000000000" 
-          },
-          urgency: "NORMAL",
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok || !data.success || !data.order) {
-        setModalType("error");
-        setErrorMessage(data.message || "Failed to initiate payment. Please try again.");
-        setShowResultModal(true);
-        setIsSubmitting(false);
-        return;
-      }
-
-      // 2. Load Razorpay script dynamically
-      const scriptLoaded = await loadRazorpayScript();
-      if (!scriptLoaded) {
-        setModalType("error");
-        setErrorMessage("Failed to load payment gateway. Check your internet connection.");
-        setShowResultModal(true);
-        setIsSubmitting(false);
-        return;
-      }
-
-      // 3. Launch Razorpay payment gateway
-      const options = {
-        key: data.keyId || "rzp_test_placeholder",
-        amount: data.order.amount,
-        currency: data.order.currency || "INR",
-        name: "Lawizer",
-        description: `Payment for ${title}`,
-        order_id: data.order.id,
-        handler: async function (response: any) {
-          try {
-            setIsSubmitting(true);
-
-            // 4. Verify payment on the server
-            const verifyRes = await fetch("/api/payments/verify", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_signature: response.razorpay_signature,
-                processCode: data.process.processCode,
-              }),
-            });
-
-            const verifyData = await verifyRes.json();
-
-            if (verifyRes.ok && verifyData.success) {
-              setModalType("success");
-              setProcessCode(data.process.processCode);
-              setShowResultModal(true);
-            } else {
-              setModalType("error");
-              setErrorMessage(verifyData.message || "Payment verification failed. Contact support.");
-              setShowResultModal(true);
-            }
-          } catch (verifyErr) {
-            console.error("Verification failed:", verifyErr);
-            setModalType("error");
-            setErrorMessage("Connection issue during payment verification.");
-            setShowResultModal(true);
-          } finally {
-            setIsSubmitting(false);
-          }
-        },
-        prefill: {
-          name: name,
-          email: email,
-          contact: phone,
-        },
-        theme: {
-          color: "#c92c41",
-        },
-        modal: {
-          ondismiss: function () {
-            setIsSubmitting(false);
-          },
-        },
-      };
-
-      const rzp = new (window as any).Razorpay(options);
-      rzp.open();
-
-    } catch (error) {
-      console.error("Error starting process:", error);
-      setModalType("error");
-      setErrorMessage("Unable to connect to the server. Please check your internet connection.");
-      setShowResultModal(true);
-      setIsSubmitting(false);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50/30 to-slate-100">
@@ -474,32 +296,30 @@ export default function ServicePageLayout({
           {/* SIDEBAR */}
           <aside className="lg:sticky lg:top-24 h-fit">
             <div className="bg-slate-900 text-white rounded-3xl p-8 shadow">
-              <h3 className="text-xl font-bold mb-3">Start Your Legal Process</h3>
-              <p className="text-slate-300 text-sm mb-6">Expert legal guidance, end-to-end support.</p>
+              <h3 className="text-xl font-bold mb-1">Start Your Legal Process</h3>
+              <p className="text-slate-400 text-xs mb-1">Service</p>
+              <p className="text-sm font-semibold text-orange-400 mb-6">{title}</p>
+              <p className="text-slate-300 text-sm mb-6">
+                Expert legal guidance, end-to-end support. Share your details and we&apos;ll get back to you within 24 hours.
+              </p>
 
               <button
-                onClick={handleStartProcess}
-                disabled={isSubmitting}
-                className={`w-full ${primaryBg} py-4 rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 ${
-                  isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+                onClick={() => setIsModalOpen(true)}
+                className={`w-full ${primaryBg} py-4 rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2`}
               >
-                {isSubmitting ? (
-                  <>
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Processing...
-                  </>
-                ) : (
-                  <>
-                    Start Process <ArrowRight className="inline w-5 h-5" />
-                  </>
-                )}
+                Start Process <ArrowRight className="inline w-5 h-5" />
               </button>
 
               <p className="text-xs text-slate-400 mt-4 text-center">We&apos;ll get back to you within 24 hours</p>
             </div>
           </aside>
         </div>
+
+        <CallbackModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          serviceName={title}
+        />
 
         {/* FAQs */}
         <motion.section
@@ -551,14 +371,6 @@ export default function ServicePageLayout({
         </motion.section>
       </div>
 
-      {/* ================= RESULT MODAL ================= */}
-      <ProcessResultModal
-        isOpen={showResultModal}
-        onClose={() => setShowResultModal(false)}
-        type={modalType}
-        processCode={processCode}
-        message={errorMessage}
-      />
     </div>
   );
 }

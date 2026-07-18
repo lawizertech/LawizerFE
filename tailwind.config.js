@@ -9,10 +9,11 @@ module.exports = {
         secondary: "var(--secondary)",
       },
       fontFamily: {
-        sans: ["var(--font-outfit)", "system-ui", "sans-serif"],
-        serif: ["var(--font-playfair)", "serif"],
-      },
-    },
+        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-playfair)', 'serif'],
+        montserrat: ['var(--font-montserrat)']
+      }
+    }
   },
   plugins: [],
 };

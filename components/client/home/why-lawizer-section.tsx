@@ -141,6 +141,35 @@ export function WhyLawizerSection() {
           </div>
         </div>
       </div>
+
+      {/* Founders Community WhatsApp CTA — outside the box, centred */}
+      <div className="flex justify-center mt-10">
+        <motion.a
+          href="https://chat.whatsapp.com/CsUOsG0IIVtJs1IvnypR6u?s=sh&p=i&ilr=1&amv=1"
+          target="_blank"
+          rel="noopener noreferrer"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          animate={{ y: [0, -6, 0] }}
+          transition={{
+            opacity: { duration: 0.4, ease: "easeOut" },
+            y: { duration: 1.8, repeat: Infinity, repeatType: "loop", ease: "easeInOut" },
+          }}
+          whileHover={{ scale: 1.05, y: 0, boxShadow: "0 10px 32px rgba(37,211,102,0.4)" }}
+          whileTap={{ scale: 0.97 }}
+          className="inline-flex items-center gap-3 bg-[#25D366] text-white font-semibold px-7 py-4 rounded-2xl shadow-lg"
+        >
+          <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+            <path d="M12.017 2.003C6.484 2.003 2 6.487 2 12.02c0 1.897.522 3.68 1.428 5.203L2.05 22l4.906-1.35a9.958 9.958 0 0 0 5.061 1.373c5.533 0 10.017-4.484 10.017-10.017 0-2.675-1.041-5.19-2.933-7.081A9.968 9.968 0 0 0 12.017 2.003zm0 18.033a8.005 8.005 0 0 1-4.079-1.117l-.293-.174-3.011.828.803-2.936-.19-.303a7.99 7.99 0 0 1-1.245-4.316c0-4.418 3.596-8.014 8.017-8.014 2.14 0 4.152.834 5.665 2.349a7.958 7.958 0 0 1 2.35 5.667c0 4.418-3.598 8.014-8.017 8.014z" />
+          </svg>
+          <div className="flex flex-col leading-tight">
+            <span className="text-sm font-bold tracking-wide">Join Our Founders Community</span>
+            <span className="text-xs font-normal opacity-80">Free WhatsApp Group · Exclusive for Founders</span>
+          </div>
+        </motion.a>
+      </div>
     </div>
   );
 }

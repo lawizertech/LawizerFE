@@ -98,7 +98,9 @@ export function Header() {
                 <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-7 h-7" />
               </div>
               <div className="flex items-baseline gap-1">
-                <span className="text-2xl font-['Montserrat'] text-brand-red">Lawizer</span>
+                <span className="text-2xl font-montserrat text-[#c92c41]">
+                  Lawizer
+                </span>
               </div>
             </Link>
 
@@ -311,7 +313,9 @@ export function Header() {
                     <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-6 h-6" />
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-['Montserrat'] font-bold text-brand-red">Lawizer</span>
+                    <span className="text-2xl font-montserrat font-bold text-[#c92c41]">
+                      Lawizer
+                    </span>
                   </div>
                 </Link>
 
