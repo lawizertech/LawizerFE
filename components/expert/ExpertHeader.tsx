@@ -2,10 +2,13 @@
 
 import { Bell, Search } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useAuth } from "@/context/authContext";
+import UserAvatar from "@/components/ui/UserAvatar";
 
 export default function ExpertHeader() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { user } = useAuth();
 
   let title = "Dashboard";
   const tab = searchParams.get("tab");
@@ -35,9 +38,7 @@ export default function ExpertHeader() {
           </button>
 
           {/* Avatar */}
-          <div className="h-9 w-9 rounded-full bg-[#c92c41] text-white flex items-center justify-center font-medium text-sm">
-            N
-          </div>
+          <UserAvatar user={user} size="md" />
         </div>
       </div>
     </header>

@@ -14,6 +14,7 @@ import CompleteProfileModal from "../auth/CompleteProfileModal";
 import { ForgotPasswordModal } from "../auth/forgotPasswordModal";
 import { services } from "./header-data";
 import { MobileServiceItem } from "./MobileServiceItem";
+import UserAvatar from "@/components/ui/UserAvatar";
 
 export function Header() {
   const pathname = usePathname();
@@ -604,35 +605,5 @@ export function Header() {
 export default Header;
 
 function HeaderUserAvatar({ user, size = "sm" }: { user: any; size?: "sm" | "md" }) {
-  const [error, setError] = useState(false);
-  const avatarUrl = user?.avatarUrl;
-  const isValid =
-    avatarUrl &&
-    typeof avatarUrl === "string" &&
-    avatarUrl.trim().length > 0 &&
-    avatarUrl !== "/user.jpg" &&
-    avatarUrl !== "null" &&
-    avatarUrl !== "undefined";
-
-  const initial = (user?.name || user?.email || "U").charAt(0).toUpperCase();
-  const dim = size === "sm" ? "w-8 h-8 text-xs" : "w-10 h-10 text-sm";
-
-  if (isValid && !error) {
-    return (
-      <img
-        src={avatarUrl}
-        alt="Profile"
-        onError={() => setError(true)}
-        className={`${dim} rounded-full border border-gray-200 object-cover`}
-      />
-    );
-  }
-
-  return (
-    <div
-      className={`${dim} rounded-full bg-[#c92c41] text-white font-bold flex items-center justify-center border border-rose-200 shadow-2xs select-none`}
-    >
-      {initial}
-    </div>
-  );
+  return <UserAvatar user={user} size={size} />;
 }

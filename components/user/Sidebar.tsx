@@ -3,6 +3,7 @@
 import { Plus, Calendar, ClipboardList, Receipt, Settings, LogOut, ArrowLeft, HelpCircle, ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/authContext";
+import UserAvatar from "@/components/ui/UserAvatar";
 
 interface SidebarProps {
   activeTab: string;
@@ -18,9 +19,8 @@ export default function Sidebar({ activeTab, handleLogout, menuOpen }: SidebarPr
     router.push(tab ? `/user/dashboard?tab=${tab}` : `/user/dashboard`);
   };
 
-  const userName = user?.name || "Nikhil Verma";
-  const userEmail = user?.email || "nikhil.verma@email.com";
-  const userInitial = userName.charAt(0).toUpperCase();
+  const userName = user?.name || (user?.email ? user.email.split("@")[0] : "User");
+  const userEmail = user?.email || "";
 
   return (
     <aside
@@ -112,12 +112,10 @@ export default function Sidebar({ activeTab, handleLogout, menuOpen }: SidebarPr
         {/* USER PROFILE FOOTER */}
         <div className="flex items-center justify-between p-2 rounded-xl bg-gray-50/80 border border-gray-200/60">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-full bg-[#c92c41] text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
-              {userInitial}
-            </div>
+            <UserAvatar user={user} size="sm" />
             <div className="min-w-0 flex-1">
               <p className="text-xs font-bold text-gray-900 truncate leading-tight">{userName}</p>
-              <p className="text-[10px] text-gray-500 truncate leading-tight">{userEmail}</p>
+              {userEmail && <p className="text-[10px] text-gray-500 truncate leading-tight">{userEmail}</p>}
             </div>
           </div>
           <ChevronDown size={14} className="text-gray-400 flex-shrink-0 ml-1" />
