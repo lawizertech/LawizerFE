@@ -68,6 +68,7 @@ export default async function GuideDetailPage(props: { params: Promise<{ slug: s
   const content = guide.content ?? "";
   const contentWithIds = injectHeadingIds(content);
   const headings = extractHeadings(content);
+  const hasTableOfContents = headings.length > 0;
 
   const readTime = guide.content ? computeReadingTime(guide.content) : null;
 
@@ -174,9 +175,11 @@ export default async function GuideDetailPage(props: { params: Promise<{ slug: s
 
         {/* ── CONTENT + TOC ───────────────────────────────────────── */}
         <section className="max-w-5xl mx-auto px-5">
-          <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-8 lg:items-start">
+          <div className={`lg:grid ${hasTableOfContents ? "lg:grid-cols-[260px_1fr]" : "lg:grid-cols-1"} lg:gap-8 lg:items-start`}>
             {/* TOC sidebar — reuses the existing blog component */}
-            <BlogTableOfContents headings={headings} />
+            {hasTableOfContents && (
+              <BlogTableOfContents headings={headings} />
+            )}
 
             {/* Main content */}
             <div>
