@@ -38,7 +38,7 @@ export default function UserHeader() {
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
-  let title = "Dashboard";
+  let title = "My Services";
   const tab = searchParams.get("tab");
 
   if (pathname.includes("/connect")) {
@@ -49,8 +49,6 @@ export default function UserHeader() {
     title = "My Consultations";
   } else if (tab === "services") {
     title = "My Services";
-  } else if (tab === "experts") {
-    title = "Find Experts";
   } else if (tab === "book") {
     title = "Book Service";
   } else if (tab === "settings") {

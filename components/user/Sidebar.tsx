@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutDashboard, Users, Plus, Calendar, ClipboardList, Receipt, Settings, LogOut } from "lucide-react";
+import { Plus, Calendar, ClipboardList, Receipt, Settings, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface SidebarProps {
@@ -32,9 +32,12 @@ export default function Sidebar({ activeTab, handleLogout, menuOpen }: SidebarPr
 
       {/* NAV */}
       <nav className="space-y-2">
-        <SidebarItem label="Dashboard" icon={LayoutDashboard} active={activeTab === "dashboard"} onClick={() => go()} />
-
-        <SidebarItem label="Find Experts" icon={Users} active={activeTab === "experts"} onClick={() => go("experts")} />
+        <SidebarItem
+          label="My Services"
+          icon={ClipboardList}
+          active={activeTab === "services" || !activeTab}
+          onClick={() => go("services")}
+        />
 
         <SidebarItem label="Book Service" icon={Plus} active={activeTab === "book"} onClick={() => go("book")} />
 
@@ -43,13 +46,6 @@ export default function Sidebar({ activeTab, handleLogout, menuOpen }: SidebarPr
           icon={Calendar}
           active={activeTab === "consultations"}
           onClick={() => go("consultations")}
-        />
-
-        <SidebarItem
-          label="My Services"
-          icon={ClipboardList}
-          active={activeTab === "services"}
-          onClick={() => go("services")}
         />
 
         <SidebarItem
