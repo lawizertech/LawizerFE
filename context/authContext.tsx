@@ -5,6 +5,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 interface UserData {
   uid: string;
   email: string;
+  name?: string;
   role?: string;
   avatarUrl?: string;
 }
@@ -50,6 +51,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const refreshUser = () => {
     const uid = localStorage.getItem("uid");
     const email = localStorage.getItem("email");
+    const name = localStorage.getItem("name");
     const role = localStorage.getItem("role");
     const avatarUrl = localStorage.getItem("avatar_url");
 
@@ -57,6 +59,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser({
         uid,
         email,
+        name: name || undefined,
         role: role || "USER",
         avatarUrl: avatarUrl || undefined,
       });
