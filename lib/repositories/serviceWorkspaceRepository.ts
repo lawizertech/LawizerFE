@@ -1,4 +1,5 @@
 import { serverApi } from "@/lib/apis/axios";
+import { getAccessToken } from "@/lib/auth/tokenStore";
 
 export interface RawServiceItem {
   serviceId: string;
@@ -46,11 +47,12 @@ export class ServiceWorkspaceRepository {
   }
 
   /**
-   * Upload a document for a service process
+   * Upload a document for a service process.
+   * Uses fetch with the in-memory access token for multipart/form-data support.
    */
   static async uploadDocument(serviceId: string, docKey: string, file: File): Promise<void> {
-    const token = localStorage.getItem("token");
-    if (!token) throw new Error("Authentication token not found");
+    const token = getAccessToken();
+    if (!token) throw new Error("Authentication token not found. Please sign in again.");
 
     const formData = new FormData();
     formData.append("documentKey", docKey);
@@ -88,8 +90,8 @@ export class ServiceWorkspaceRepository {
    * Fetch recent user notifications
    */
   static async getNotifications(): Promise<any[]> {
-    const token = localStorage.getItem("token");
-    if (!token) throw new Error("Authentication token not found");
+    const token = getAccessToken();
+    if (!token) throw new Error("Authentication token not found. Please sign in again.");
 
     const res = await fetch("/api/user/notifications", {
       method: "GET",
@@ -110,8 +112,8 @@ export class ServiceWorkspaceRepository {
    * Mark a target notification as read
    */
   static async markNotificationAsRead(notificationId: string): Promise<void> {
-    const token = localStorage.getItem("token");
-    if (!token) throw new Error("Authentication token not found");
+    const token = getAccessToken();
+    if (!token) throw new Error("Authentication token not found. Please sign in again.");
 
     const res = await fetch(`/api/user/notifications/${notificationId}/read`, {
       method: "POST",
@@ -129,8 +131,8 @@ export class ServiceWorkspaceRepository {
    * Mark all active notifications as read
    */
   static async markAllNotificationsAsRead(): Promise<void> {
-    const token = localStorage.getItem("token");
-    if (!token) throw new Error("Authentication token not found");
+    const token = getAccessToken();
+    if (!token) throw new Error("Authentication token not found. Please sign in again.");
 
     const res = await fetch("/api/user/notifications/read-all", {
       method: "POST",
