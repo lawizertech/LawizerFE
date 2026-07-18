@@ -8,7 +8,7 @@ export default function BackButton() {
   const pathname = usePathname();
   const router = useRouter();
 
-  if (pathname === "/") return null;
+  if (pathname === "/" || pathname.startsWith("/user") || pathname.startsWith("/expert")) return null;
 
   return (
     <motion.button

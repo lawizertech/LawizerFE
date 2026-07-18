@@ -6,6 +6,7 @@ import { loginUser } from "@/lib/apis/api";
 import { useAuth } from "@/context/authContext";
 import { supabaseSignIn, supabaseGoogleSignIn } from "@/lib/supabaseClient";
 
+
 interface SignInModalProps {
   onClose: () => void;
   onSignupRedirect?: () => void;
@@ -18,7 +19,7 @@ export function SignInModal({ onClose, onSignupRedirect, onLoginSuccess, onForgo
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { refreshUser } = useAuth();
+  const { login } = useAuth();
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
@@ -34,9 +35,10 @@ export function SignInModal({ onClose, onSignupRedirect, onLoginSuccess, onForgo
       }
 
       const idToken = signInRes.session!.access_token;
+      const refreshToken = signInRes.session!.refresh_token;
 
-      // 2️⃣ Send token to backend
-      const res = await loginUser(idToken);
+      // 2️⃣ Send token to backend (pass refresh token for HttpOnly cookie)
+      const res = await loginUser(idToken, refreshToken);
       if (!res.success) {
         if (res.errorCode === "EMAIL_NOT_VERIFIED") {
           throw new Error("Email not verified. Please check your inbox.");
@@ -44,14 +46,17 @@ export function SignInModal({ onClose, onSignupRedirect, onLoginSuccess, onForgo
         throw new Error(res.message || "Login failed on server");
       }
 
-      // 3️⃣ Save user data
-      localStorage.setItem("uid", res.data.uid || res.data.id);
-      localStorage.setItem("email", res.data.email);
-      localStorage.setItem("token", res.token);
-      localStorage.setItem("role", res.data.role);
-      localStorage.setItem("userProfile", JSON.stringify(res.data));
+      // 3️⃣ Store token in memory via AuthContext — never in localStorage
+      login(res.token, {
+        uid: res.data.uid ?? res.data.id,
+        email: res.data.email,
+        name: res.data.displayName ?? res.data.name,
+        role: (res.data.role ?? "CLIENT").toUpperCase(),
+        avatarUrl: res.data.photoURL ?? res.data.avatarUrl,
+        isProfileComplete: res.data.isProfileComplete,
+        hasPassword: res.data.hasPassword,
+      });
       onLoginSuccess && onLoginSuccess(res.data);
-      refreshUser();
       onClose();
     } catch (err: any) {
       setError(err.message || "Failed to sign in");

@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import MyConsultationsTab from "./MyConsultationsTab";
 import ActiveServicesTab from "./ActiveServicesTab";
+import BookServiceTab from "./BookServiceTab";
 import TransactionsTab from "./TransactionsTab";
 import SettingsTab from "./SettingsTab";
 
@@ -14,6 +15,7 @@ export default function UserDashboardRenderer() {
     <>
       {tab === "consultations" && <MyConsultationsTab />}
       {tab === "services" && <ActiveServicesTab />}
+      {tab === "book" && <BookServiceTab />}
       {tab === "transactions" && <TransactionsTab />}
       {tab === "settings" && <SettingsTab />}
     </>

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import EmblaCarouselCards from "@/components/client/EmblaCarouselCards";
 import { getUserBookings } from "@/lib/apis/api";
 import { useAuth } from "@/context/authContext";
+import { getAccessToken } from "@/lib/auth/tokenStore";
 import LoadingSkeletonCards from "./LoadingSkeleton";
 export interface Advocate {
   uid: string;
@@ -133,7 +134,7 @@ export default function StartConsultationPage() {
     setError(null);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = getAccessToken();
 
       if (!token) {
         setIsSignInModalOpen(true);

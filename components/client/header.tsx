@@ -228,17 +228,7 @@ export function Header() {
                 ) : (
                   <div className="flex items-center gap-4 cursor-pointer">
                     <Link href="/profile" className="flex items-center gap-2" title="My Profile">
-                      {user.avatarUrl ? (
-                        <img
-                          src={user.avatarUrl}
-                          alt="Profile Avatar"
-                          className="w-8 h-8 rounded-full border border-gray-200 object-cover"
-                        />
-                      ) : (
-                        <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm border border-indigo-200">
-                          {user.email ? user.email[0].toUpperCase() : "U"}
-                        </div>
-                      )}
+                      <HeaderUserAvatar user={user} size="sm" />
                     </Link>
                     <Link
                       className="text-sm font-medium text-gray-700 hover:text-brand-red transition-colors"
@@ -360,17 +350,7 @@ export function Header() {
                 ) : (
                   <div className="flex flex-col gap-4 mb-6 pb-6 border-b">
                     <div className="flex items-center gap-2">
-                      {user.avatarUrl ? (
-                        <img
-                          src={user.avatarUrl}
-                          alt="Avatar"
-                          className="w-10 h-10 rounded-full border border-gray-200 object-cover"
-                        />
-                      ) : (
-                        <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-brand-red font-bold">
-                          {user.email ? user.email[0].toUpperCase() : "U"}
-                        </div>
-                      )}
+                      <HeaderUserAvatar user={user} size="md" />
                       <div className="flex flex-col">
                         <span className="text-sm font-semibold text-gray-900 truncate max-w-[150px]">
                           {user.email}
@@ -381,7 +361,7 @@ export function Header() {
 
                     <div className="flex flex-col gap-3 mt-2">
                       {/* DASHBOARD LINK START */}
-                      {user.role === "USER" ? (
+                      {user.role === "CLIENT" ? (
                         <>
                            <Link
                              href="/user/dashboard"
@@ -622,3 +602,37 @@ export function Header() {
 }
 
 export default Header;
+
+function HeaderUserAvatar({ user, size = "sm" }: { user: any; size?: "sm" | "md" }) {
+  const [error, setError] = useState(false);
+  const avatarUrl = user?.avatarUrl;
+  const isValid =
+    avatarUrl &&
+    typeof avatarUrl === "string" &&
+    avatarUrl.trim().length > 0 &&
+    avatarUrl !== "/user.jpg" &&
+    avatarUrl !== "null" &&
+    avatarUrl !== "undefined";
+
+  const initial = (user?.name || user?.email || "U").charAt(0).toUpperCase();
+  const dim = size === "sm" ? "w-8 h-8 text-xs" : "w-10 h-10 text-sm";
+
+  if (isValid && !error) {
+    return (
+      <img
+        src={avatarUrl}
+        alt="Profile"
+        onError={() => setError(true)}
+        className={`${dim} rounded-full border border-gray-200 object-cover`}
+      />
+    );
+  }
+
+  return (
+    <div
+      className={`${dim} rounded-full bg-[#c92c41] text-white font-bold flex items-center justify-center border border-rose-200 shadow-2xs select-none`}
+    >
+      {initial}
+    </div>
+  );
+}
