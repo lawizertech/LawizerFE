@@ -181,47 +181,93 @@ export default function ActiveServicesTab() {
     return (
       <div className="space-y-6 font-sans pb-16">
         {/* TOP BAR / BACK NAVIGATION */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 sm:px-6 sm:py-4 rounded-2xl border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={closeDetail}
-              className="flex items-center gap-2 px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold rounded-xl transition cursor-pointer shadow-xs active:scale-95"
-            >
-              <ArrowLeft size={16} />
-              <span>Back to Dashboard</span>
-            </button>
+        <div className="bg-white p-4 sm:px-6 sm:py-4 rounded-2xl border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.02)] space-y-3 sm:space-y-0">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+            
+            {/* Left Header Group */}
+            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+              <button
+                onClick={closeDetail}
+                className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold rounded-xl transition cursor-pointer shadow-xs shrink-0 active:scale-95"
+              >
+                <ArrowLeft size={15} />
+                <span className="hidden xs:inline sm:inline">Back to Dashboard</span>
+                <span className="xs:hidden sm:hidden">Back</span>
+              </button>
 
-            <div className="h-5 w-[1px] bg-gray-200 hidden sm:block" />
+              <div className="h-5 w-[1px] bg-gray-200 hidden sm:block shrink-0" />
 
-            <div>
-              <h1 className="text-lg sm:text-xl font-black text-gray-900 leading-tight">
-                {selectedServiceDetail?.name || "Service Workspace"}
-              </h1>
-              <p className="text-xs text-gray-400 font-medium">
-                Service ID: <span className="font-mono text-gray-600">#{selectedServiceId.slice(0, 8)}</span>
-              </p>
+              <div className="min-w-0 flex-1">
+                <h1 className="text-base sm:text-xl font-black text-gray-900 leading-tight truncate">
+                  {selectedServiceDetail?.name || "Service Workspace"}
+                </h1>
+                <p className="text-[11px] sm:text-xs text-gray-400 font-medium truncate">
+                  Service ID: <span className="font-mono text-gray-600">#{selectedServiceId.slice(0, 8)}</span>
+                </p>
+              </div>
+            </div>
+
+            {/* Right Action Group */}
+            <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-gray-100">
+              <span className="text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-full bg-rose-50 text-[#c92c41] border border-rose-100 shrink-0">
+                {selectedServiceDetail?.status || "In Progress"}
+              </span>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => startCall("voice")}
+                  className="px-2.5 py-1.5 sm:px-3.5 sm:py-2 bg-[#c92c41] hover:bg-[#a8233a] text-white text-[11px] sm:text-xs font-bold rounded-xl transition flex items-center gap-1 cursor-pointer shadow-xs shrink-0"
+                >
+                  <Phone size={13} />
+                  <span>Voice Call</span>
+                </button>
+                <button
+                  onClick={() => startCall("video")}
+                  className="px-2.5 py-1.5 sm:px-3.5 sm:py-2 bg-gray-900 hover:bg-gray-800 text-white text-[11px] sm:text-xs font-bold rounded-xl transition flex items-center gap-1 cursor-pointer shrink-0"
+                >
+                  <Video size={13} />
+                  <span>Video Call</span>
+                </button>
+              </div>
             </div>
           </div>
+        </div>
 
-          <div className="flex items-center gap-3 shrink-0">
-            <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-rose-50 text-[#c92c41] border border-rose-100">
-              {selectedServiceDetail?.status || "In Progress"}
-            </span>
-            <button
-              onClick={() => startCall("voice")}
-              className="px-3.5 py-2 bg-[#c92c41] hover:bg-[#a8233a] text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 cursor-pointer shadow-xs"
-            >
-              <Phone size={14} />
-              <span>Voice Call</span>
-            </button>
-            <button
-              onClick={() => startCall("video")}
-              className="px-3.5 py-2 bg-gray-900 hover:bg-gray-800 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 cursor-pointer"
-            >
-              <Video size={14} />
-              <span>Video Call</span>
-            </button>
-          </div>
+        {/* SUB-TAB SWITCHER PILL (MOBILE & TABLET FRIENDLY) */}
+        <div className="flex items-center justify-between sm:justify-start gap-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 w-full shadow-xs">
+          <button
+            onClick={() => setActiveSubTab("stages")}
+            className={`flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
+              activeSubTab === "stages"
+                ? "bg-[#c92c41] text-white shadow-xs"
+                : "text-gray-600 hover:text-gray-900 hover:bg-slate-200/50"
+            }`}
+          >
+            <Layers size={14} />
+            <span>Progress & Stages</span>
+          </button>
+          <button
+            onClick={() => setActiveSubTab("chat")}
+            className={`flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
+              activeSubTab === "chat"
+                ? "bg-[#c92c41] text-white shadow-xs"
+                : "text-gray-600 hover:text-gray-900 hover:bg-slate-200/50"
+            }`}
+          >
+            <MessageSquare size={14} />
+            <span>Live Chat</span>
+          </button>
+          <button
+            onClick={() => setActiveSubTab("docs")}
+            className={`flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
+              activeSubTab === "docs"
+                ? "bg-[#c92c41] text-white shadow-xs"
+                : "text-gray-600 hover:text-gray-900 hover:bg-slate-200/50"
+            }`}
+          >
+            <FileCheck size={14} />
+            <span>Docs Vault ({selectedServiceDetail?.documents?.submitted?.length || 0})</span>
+          </button>
         </div>
 
         {detailLoading || !selectedServiceDetail ? (
@@ -234,7 +280,7 @@ export default function ActiveServicesTab() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             
             {/* SECTION 1: SERVICE SUMMARY & PROGRESS DETAILS (3 Cols on Desktop) */}
-            <div className="lg:col-span-3 space-y-6">
+            <div className={`lg:col-span-3 space-y-6 ${activeSubTab === "stages" ? "block" : "hidden lg:block"}`}>
               {/* Service Summary Card */}
               <div className="bg-white rounded-2xl border border-gray-100 p-5 space-y-4 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
                 <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
@@ -332,8 +378,14 @@ export default function ActiveServicesTab() {
             </div>
 
             {/* SECTION 2: DEDICATED LAWIZER REALTIME CHATTING INTERFACE (5 Cols on Desktop) */}
-            <div className="lg:col-span-5 space-y-4">
-              <div className="h-[680px]">
+            <div
+              className={`lg:col-span-5 space-y-4 ${
+                activeSubTab === "chat"
+                  ? "fixed inset-0 z-50 bg-white sm:relative sm:inset-auto sm:z-auto sm:bg-transparent block"
+                  : "hidden lg:block"
+              }`}
+            >
+              <div className="h-dvh sm:h-[680px]">
                 <ChatEngine
                   key={selectedServiceId}
                   caseId={selectedServiceId}
@@ -341,12 +393,13 @@ export default function ActiveServicesTab() {
                   senderRole="client"
                   professionalName={selectedServiceDetail.assignedExpert?.name || "Assigned CA / Expert"}
                   caseTitle={selectedServiceDetail.name}
+                  onClose={() => setActiveSubTab("stages")}
                 />
               </div>
             </div>
 
             {/* SECTION 3: ONE PLACE TO UPLOAD & MANAGE DOCUMENTS (4 Cols on Desktop) */}
-            <div className="lg:col-span-4 space-y-6">
+            <div className={`lg:col-span-4 space-y-6 ${activeSubTab === "docs" ? "block" : "hidden lg:block"}`}>
               
               {/* PENDING UPLOADS (DROPZONE & UPLOAD HUB) */}
               <div className="bg-white rounded-2xl border border-gray-100 p-5 space-y-4 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">

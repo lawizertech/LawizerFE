@@ -221,6 +221,25 @@ export function ChatEngine({
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   };
 
+  // Mobile virtual keyboard layout adjustment
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.visualViewport) return;
+
+    const handleViewportResize = () => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      }
+    };
+
+    window.visualViewport.addEventListener("resize", handleViewportResize);
+    window.visualViewport.addEventListener("scroll", handleViewportResize);
+
+    return () => {
+      window.visualViewport?.removeEventListener("resize", handleViewportResize);
+      window.visualViewport?.removeEventListener("scroll", handleViewportResize);
+    };
+  }, []);
+
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.currentTarget;
     if (target.scrollTop === 0 && hasMore && !loadingMoreRef.current && messages.length > 0) {
@@ -614,6 +633,7 @@ export function ChatEngine({
           value={inputText}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
+          onFocus={() => setTimeout(scrollToBottom, 200)}
           placeholder={`Message ${professionalName}...`}
           disabled={isLoading}
           rows={1}
