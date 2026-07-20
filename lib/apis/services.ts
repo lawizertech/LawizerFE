@@ -1,54 +1,85 @@
 import { ServiceData } from "@/lib/types/service";
 
+const API_URL = (
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api"
+).replace(/\/$/, "");
+
+function mapService(service: any): ServiceData {
+  return {
+    id: service.id,
+    slug: service.id,
+    serviceID: service.service_id,
+
+    title: service.title,
+    subtitle: service.subtitle,
+    badgeText: service.badge_text,
+
+    icon: service.icon,
+    category: service.category,
+
+    contentTitle: service.content_title,
+    contentDescription: service.content_description,
+    section1Title: service.section1_title,
+
+    price: service.price,
+    originalPrice: service.original_price,
+
+    theme: service.theme,
+
+    primaryColor: service.primary_color,
+    primaryBg: service.primary_bg,
+    primaryHoverBg: service.primary_hover_bg,
+
+    benefits: (service.benefits ?? []).map((b: any) => ({
+      icon: b.icon ?? "checkCircle",
+      description: b.description ?? b.text ?? "",
+    })),
+
+    faqs: (service.faqs ?? []).map((f: any) => ({
+      question: f.question ?? f.q ?? "",
+      answer: f.answer ?? f.a ?? "",
+    })),
+
+    sections: service.sections ?? [],
+    addons: service.addons ?? [],
+  };
+}
+
 /**
- * Fetches services from the remote Supabase API on the server,
- * and maps the returned database model keys (snake_case) to
- * the frontend's expected properties (camelCase).
- * 
- * Next.js automatically caches this fetch call on the server.
+ * Fetch all services
  */
-export async function getServiceBySlug(slug: string): Promise<ServiceData | null> {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_SERVICES_API_URL || "https://supabase-host-personal.onrender.com";
-    const res = await fetch(`${baseUrl}/api/services/${slug}`, {
-      next: { revalidate: 3600 }, // Cache the result on server for 1 hour (ISR)
-    });
+export async function getAllServices(): Promise<ServiceData[]> {
+  const res = await fetch(`${API_URL}/services`, {
+    cache: "no-store",
+  });
 
-    if (!res.ok) {
-      if (res.status === 404) return null;
-      throw new Error(`Failed to fetch service: ${res.statusText}`);
-    }
-
-    const dbService = await res.json();
-    if (!dbService) {
-      return null;
-    }
-
-    // Map snake_case database fields to camelCase expected by DynamicServicePageTemplate
-    const mappedService: ServiceData = {
-      title: dbService.title,
-      subtitle: dbService.subtitle,
-      badgeText: dbService.badge_text || dbService.badgeText || "",
-      icon: dbService.icon,
-      serviceID: dbService.service_id || dbService.serviceID || "",
-      contentTitle: dbService.content_title || dbService.contentTitle || "",
-      contentDescription: dbService.content_description || dbService.contentDescription || "",
-      section1Title: dbService.section1_title || dbService.section1Title || "",
-      price: dbService.price,
-      originalPrice: dbService.original_price ?? dbService.originalPrice ?? 0,
-      theme: dbService.theme,
-      primaryColor: dbService.primary_color || dbService.primaryColor || "",
-      primaryBg: dbService.primary_bg || dbService.primaryBg || "",
-      primaryHoverBg: dbService.primary_hover_bg || dbService.primaryHoverBg || "",
-      benefits: dbService.benefits || [],
-      faqs: dbService.faqs || [],
-      sections: dbService.sections || [],
-      addons: dbService.addons || [],
-    };
-
-    return mappedService;
-  } catch (error) {
-    console.error(`[getServiceBySlug] Error fetching service "${slug}":`, error);
-    return null;
+  if (!res.ok) {
+    throw new Error(`Failed to fetch services (${res.status})`);
   }
+
+  const data = await res.json();
+
+  const services = Array.isArray(data)
+    ? data
+    : data.services ?? [];
+
+  return services.map(mapService);
+}
+
+/**
+ * Fetch one service by slug/id
+ */
+export async function getServiceBySlug(
+  slug: string
+): Promise<ServiceData | null> {
+  const services = await getAllServices();
+
+  return (
+    services.find(
+      (service) =>
+        service.slug === slug ||
+        service.id === slug ||
+        service.serviceID === slug
+    ) ?? null
+  );
 }

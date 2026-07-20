@@ -26,6 +26,9 @@ export interface ServiceTheme {
 }
 
 export interface ServiceData {
+  id?: string;
+  slug?: string;
+  category?: string;
   title: string;
   subtitle: string;
   badgeText: string;

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { User, Phone, MapPin, CheckCircle, AlertCircle, Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { getAccessToken } from "@/lib/auth/tokenStore";
 
 export default function SettingsTab() {
   const [profile, setProfile] = useState({
@@ -20,7 +21,7 @@ export default function SettingsTab() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = getAccessToken();
         if (!token) return;
 
         const res = await fetch("/api/user/profile", {
@@ -66,7 +67,7 @@ export default function SettingsTab() {
 
     try {
       setSaving(true);
-      const token = localStorage.getItem("token");
+      const token = getAccessToken();
       if (!token) throw new Error("Auth token not found");
 
       const res = await fetch("/api/user/profile", {
