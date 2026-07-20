@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X, Briefcase } from "lucide-react";
 import { HoverDropdown } from "./headerdropdown";
 import { useEffect, useState } from "react";
 import { SignInModal } from "../auth/signinPopup";
@@ -12,6 +12,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { SignupModal } from "../auth/signupPopup";
 import CompleteProfileModal from "../auth/CompleteProfileModal";
 import { ForgotPasswordModal } from "../auth/forgotPasswordModal";
+import { ProfessionalModal } from "../auth/ProfessionalModal";
 import { services } from "./header-data";
 import { MobileServiceItem } from "./MobileServiceItem";
 import UserAvatar from "@/components/ui/UserAvatar";
@@ -21,6 +22,7 @@ export function Header() {
   const [showContactCard, setShowContactCard] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
+  const [isProfessionalModalOpen, setIsProfessionalModalOpen] = useState(false);
   const {
     user,
     refreshUser,
@@ -220,12 +222,21 @@ export function Header() {
                 </Link>
 
                 {!user ? (
-                  <Button
-                    onClick={() => setIsSignInModalOpen(true)}
-                    className="bg-blue-600 text-white rounded-full px-6 py-2 shadow-md"
-                  >
-                    Login
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      onClick={() => setIsSignInModalOpen(true)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-5 py-2 text-xs font-semibold shadow-xs"
+                    >
+                      Login
+                    </Button>
+                    <button
+                      onClick={() => setIsProfessionalModalOpen(true)}
+                      className="bg-slate-900 hover:bg-slate-800 text-white rounded-full px-4 py-2 text-xs font-semibold shadow-xs flex items-center gap-1.5 transition cursor-pointer"
+                    >
+                      <Briefcase size={13} />
+                      <span>Professional Login</span>
+                    </button>
+                  </div>
                 ) : (
                   <div className="flex items-center gap-4 cursor-pointer">
                     <Link href="/profile" className="flex items-center gap-2" title="My Profile">
@@ -233,7 +244,13 @@ export function Header() {
                     </Link>
                     <Link
                       className="text-sm font-medium text-gray-700 hover:text-brand-red transition-colors"
-                      href={user.role === "EXPERT" ? "/expert/dashboard" : "/user/dashboard"}
+                      href={
+                        user.role?.toUpperCase() === "EXPERT" ||
+                        user.role?.toUpperCase() === "PROFESSIONAL" ||
+                        user.role?.toUpperCase() === "LAWYER"
+                          ? "/expert/dashboard"
+                          : "/user/dashboard"
+                      }
                     >
                       Dashboard
                     </Link>
@@ -327,26 +344,38 @@ export function Header() {
               <div className="p-6">
                 {/* Auth Buttons */}
                 {!user ? (
-                  <div className="flex gap-3 mb-6">
-                    <Button
-                      className="flex-1 bg-blue-600 text-white"
+                  <div className="flex flex-col gap-2.5 mb-6">
+                    <div className="flex gap-3">
+                      <Button
+                        className="flex-1 bg-blue-600 text-white text-xs font-bold"
+                        onClick={() => {
+                          setIsSignupModalOpen(true);
+                          setMobileMenuOpen(false);
+                        }}
+                      >
+                        Sign Up
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="flex-1 rounded border-blue-600 text-blue-600 text-xs font-bold"
+                        onClick={() => {
+                          setIsSignInModalOpen(true);
+                          setMobileMenuOpen(false);
+                        }}
+                      >
+                        Login
+                      </Button>
+                    </div>
+                    <button
                       onClick={() => {
-                        setIsSignupModalOpen(true);
                         setMobileMenuOpen(false);
+                        setIsProfessionalModalOpen(true);
                       }}
+                      className="w-full bg-slate-900 hover:bg-slate-800 text-white rounded-xl py-2.5 text-xs font-bold text-center flex items-center justify-center gap-2 shadow-xs transition cursor-pointer"
                     >
-                      Sign Up
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="flex-1 rounded border-blue-600 text-blue-600"
-                      onClick={() => {
-                        setIsSignInModalOpen(true);
-                        setMobileMenuOpen(false);
-                      }}
-                    >
-                      Login
-                    </Button>
+                      <Briefcase size={14} />
+                      <span>Professional Login</span>
+                    </button>
                   </div>
                 ) : (
                   <div className="flex flex-col gap-4 mb-6 pb-6 border-b">
@@ -362,24 +391,9 @@ export function Header() {
 
                     <div className="flex flex-col gap-3 mt-2">
                       {/* DASHBOARD LINK START */}
-                      {user.role === "CLIENT" ? (
-                        <>
-                           <Link
-                             href="/user/dashboard"
-                             onClick={() => setMobileMenuOpen(false)}
-                             className="text-lg font-semibold text-gray-700 flex items-center gap-2"
-                           >
-                             Dashboard
-                           </Link>
-                           <Link
-                             href="/profile"
-                             onClick={() => setMobileMenuOpen(false)}
-                             className="text-lg font-semibold text-brand-red flex items-center gap-2"
-                           >
-                             My Profile
-                           </Link>
-                        </>
-                      ) : user.role === "EXPERT" ? (
+                      {user.role?.toUpperCase() === "EXPERT" ||
+                      user.role?.toUpperCase() === "PROFESSIONAL" ||
+                      user.role?.toUpperCase() === "LAWYER" ? (
                         <Link
                           href="/expert/dashboard"
                           onClick={() => setMobileMenuOpen(false)}
@@ -387,7 +401,24 @@ export function Header() {
                         >
                           Dashboard
                         </Link>
-                      ) : null}
+                      ) : (
+                        <>
+                          <Link
+                            href="/user/dashboard"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="text-lg font-semibold text-gray-700 flex items-center gap-2"
+                          >
+                            Dashboard
+                          </Link>
+                          <Link
+                            href="/profile"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="text-lg font-semibold text-brand-red flex items-center gap-2"
+                          >
+                            My Profile
+                          </Link>
+                        </>
+                      )}
                       {/* DASHBOARD LINK END */}
                     </div>
                   </div>
@@ -572,6 +603,10 @@ export function Header() {
             setIsSignInModalOpen(false);
             setIsSignupModalOpen(true);
           }}
+          onProfessionalRedirect={() => {
+            setIsSignInModalOpen(false);
+            setIsProfessionalModalOpen(true);
+          }}
           onForgotPassword={() => {
             setIsSignInModalOpen(false);
             setIsForgotPasswordOpen(true);
@@ -579,6 +614,16 @@ export function Header() {
           onLoginSuccess={(data) => {
             refreshUser();
             if (!data.isProfileComplete) setIsCompleteProfileModalOpen(true);
+          }}
+        />
+      )}
+
+      {isProfessionalModalOpen && (
+        <ProfessionalModal
+          onClose={() => setIsProfessionalModalOpen(false)}
+          onClientLoginRedirect={() => {
+            setIsProfessionalModalOpen(false);
+            setIsSignInModalOpen(true);
           }}
         />
       )}
@@ -595,7 +640,10 @@ export function Header() {
       {isCompleteProfileModalOpen && (
         <CompleteProfileModal
           onClose={() => setIsCompleteProfileModalOpen(false)}
-          onDone={() => setIsCompleteProfileModalOpen(false)}
+          onDone={() => {
+            setIsCompleteProfileModalOpen(false);
+            router.push("/user/dashboard");
+          }}
         />
       )}
     </>

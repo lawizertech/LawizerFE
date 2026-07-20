@@ -160,8 +160,13 @@ export async function supabaseResetPassword(email: string): Promise<{ success: b
   }
 }
 
-export function supabaseGoogleSignIn() {
+export function supabaseGoogleSignIn(isExpert: boolean = false) {
   if (typeof window !== "undefined") {
+    if (isExpert) {
+      localStorage.setItem("pending_expert_oauth", "true");
+    } else {
+      localStorage.removeItem("pending_expert_oauth");
+    }
     const redirectUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
     window.location.href = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${redirectUrl}`;
   }

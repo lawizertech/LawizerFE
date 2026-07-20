@@ -106,13 +106,14 @@ export const completeUserProfile = async (authToken: string, formData: ProfilePa
  */
 import axios from "axios";
 
-export const loginUser = async (idToken: string, refreshToken?: string) => {
+export const loginUser = async (idToken: string, refreshToken?: string, requestedRole?: string) => {
   try {
     const res = await axios.post(
       `/api/auth/login`,
       { 
         idToken,
         refreshToken, // Include refresh token for HttpOnly cookie
+        requestedRole,
       },
       {
         headers: { Authorization: `Bearer ${idToken}` },

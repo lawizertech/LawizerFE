@@ -6,8 +6,9 @@ import { getUserProfile } from "@/lib/apis/api";
 import { useRouter } from "next/navigation";
 import CompleteProfileModal from "@/components/auth/CompleteProfileModal";
 import { useAuth } from "@/context/authContext";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
-export default function ProfilePage() {
+function ProfileContent() {
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -15,8 +16,14 @@ export default function ProfilePage() {
   const { logout, isLoggedIn, user: contextUser } = useAuth();
   const router = useRouter();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } finally {
+      if (typeof window !== "undefined") {
+        window.location.href = "/";
+      }
+    }
   };
 
   const fetchProfile = async () => {
@@ -25,7 +32,6 @@ export default function ProfilePage() {
       return;
     }
 
-    // uid comes from context — never from localStorage
     const res = await getUserProfile(contextUser.uid);
 
     if (
@@ -58,7 +64,7 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center bg-gradient-to-r from-indigo-50 to-blue-50">
-        <Loader2 className="w-10 h-10 animate-spin text-indigo-600" />
+        <Loader2 className="w-10 h-10 animate-spin text-[#c92c41]" />
       </div>
     );
   }
@@ -66,12 +72,11 @@ export default function ProfilePage() {
   if (!profile) {
     return (
       <div className="flex h-screen items-center justify-center bg-gradient-to-r from-indigo-50 to-blue-50">
-        <p className="text-center text-xl text-gray-700">User not found or not logged in.</p>
+        <p className="text-center text-sm font-semibold text-gray-700">Redirecting…</p>
       </div>
     );
   }
 
-  // Avatar falls back to context avatarUrl, and validates valid image URL string
   const userAvatar = (profile.photoURL || contextUser?.avatarUrl || "").trim();
   const isValidAvatar =
     userAvatar &&
@@ -92,7 +97,7 @@ export default function ProfilePage() {
 
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 px-5 py-2 bg-red-500 text-white rounded-xl hover:bg-red-600 transition shadow-md"
+            className="flex items-center gap-2 px-5 py-2.5 bg-rose-600 text-white text-xs font-bold rounded-xl hover:bg-rose-700 transition shadow-md cursor-pointer active:scale-95"
           >
             <LogOut className="w-4 h-4" />
             Logout
@@ -121,7 +126,7 @@ export default function ProfilePage() {
               <h2 className="text-2xl font-semibold text-gray-800">{userName}</h2>
               <button
                 onClick={() => setShowModal(true)}
-                className="p-2 hover:bg-gray-100 rounded-lg transition"
+                className="p-2 hover:bg-gray-100 rounded-lg transition cursor-pointer"
                 title="Edit Profile"
               >
                 <Edit className="w-4 h-4 text-gray-600" />
@@ -155,6 +160,14 @@ export default function ProfilePage() {
         {showModal && <CompleteProfileModal onClose={() => setShowModal(false)} onDone={fetchProfile} />}
       </div>
     </div>
+  );
+}
+
+export default function ProfilePage() {
+  return (
+    <ProtectedRoute redirectPath="/">
+      <ProfileContent />
+    </ProtectedRoute>
   );
 }
 

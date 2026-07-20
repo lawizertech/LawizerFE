@@ -6,7 +6,7 @@
  * Wraps any page or layout that requires an authenticated session.
  */
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/authContext";
 
@@ -49,11 +49,19 @@ export default function ProtectedRoute({
   const { user, loading } = useAuth();
   const router = useRouter();
 
+  const [timedOut, setTimedOut] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setTimedOut(true), 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const isStillLoading = loading && !timedOut;
   const isRoleMatch = checkRoleMatch(user?.role, requiredRole);
   const roleMismatch = !isRoleMatch;
 
   useEffect(() => {
-    if (loading) return; // Wait for auth initialisation
+    if (isStillLoading) return; // Wait for auth initialisation
 
     if (!user) {
       router.replace(redirectPath);
@@ -63,17 +71,21 @@ export default function ProtectedRoute({
     if (roleMismatch) {
       router.replace(roleMismatchPath);
     }
-  }, [loading, user, roleMismatch, redirectPath, roleMismatchPath, router]);
+  }, [isStillLoading, user, roleMismatch, redirectPath, roleMismatchPath, router]);
 
-  if (loading || !user || roleMismatch) {
+  if (isStillLoading) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-white dark:bg-gray-950 z-50 font-sans">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-4 border-[#c92c41] border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-gray-500 font-medium">Loading…</p>
+          <p className="text-sm text-gray-500 font-medium">Loading session…</p>
         </div>
       </div>
     );
+  }
+
+  if (!user || roleMismatch) {
+    return null;
   }
 
   return <>{children}</>;

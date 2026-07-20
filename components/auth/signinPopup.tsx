@@ -10,11 +10,18 @@ import { supabaseSignIn, supabaseGoogleSignIn } from "@/lib/supabaseClient";
 interface SignInModalProps {
   onClose: () => void;
   onSignupRedirect?: () => void;
+  onProfessionalRedirect?: () => void;
   onLoginSuccess?: (user: any) => void;
   onForgotPassword?: () => void;
 }
 
-export function SignInModal({ onClose, onSignupRedirect, onLoginSuccess, onForgotPassword }: SignInModalProps) {
+export function SignInModal({
+  onClose,
+  onSignupRedirect,
+  onProfessionalRedirect,
+  onLoginSuccess,
+  onForgotPassword,
+}: SignInModalProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -192,9 +199,16 @@ export function SignInModal({ onClose, onSignupRedirect, onLoginSuccess, onForgo
 
         <div className="mt-1 text-center text-sm text-gray-700">
           Are you a Lawyer / CA ?{" "}
-          <a href="/expert/login" className="text-indigo-600 font-semibold hover:text-indigo-500">
+          <button
+            type="button"
+            onClick={() => {
+              onClose();
+              if (onProfessionalRedirect) onProfessionalRedirect();
+            }}
+            className="text-indigo-600 font-semibold hover:text-indigo-500 cursor-pointer"
+          >
             Login here
-          </a>
+          </button>
         </div>
       </div>
     </div>
