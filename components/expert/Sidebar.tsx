@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, User, Calendar, LogOut, LayoutDashboard, ClipboardList } from "lucide-react";
+import { Home, User, Calendar, LogOut, LayoutDashboard, ClipboardList, MessageSquare } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface SidebarProps {
@@ -41,6 +41,14 @@ export default function Sidebar({ activeTab, handleLogout, menuOpen }: SidebarPr
           icon={Calendar}
           active={activeTab === "bookings"}
           onClick={() => router.push("/expert/dashboard?tab=bookings")}
+        />
+
+        {/* Case Chats */}
+        <SidebarItem
+          label="Case Chats"
+          icon={MessageSquare}
+          active={activeTab === "chats"}
+          onClick={() => router.push("/expert/dashboard?tab=chats")}
         />
 
         {/* Profile */}

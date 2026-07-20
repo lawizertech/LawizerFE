@@ -35,8 +35,10 @@ import {
   ArrowLeft,
   Paperclip,
   FileCheck,
+  Trash2,
 } from "lucide-react";
 import { useServiceWorkspace } from "@/hooks/useServiceWorkspace";
+import { ChatEngine } from "@/components/chat/ChatEngine";
 import VoiceCallModal from "@/components/call/VoiceCallModal";
 import { useAuth } from "@/context/authContext";
 
@@ -140,6 +142,7 @@ export default function ActiveServicesTab() {
     closeDetail,
     handleSendMessage,
     handleUploadClick,
+    deleteDocument,
   } = useServiceWorkspace();
 
   const [activeSubTab, setActiveSubTab] = useState<"stages" | "docs" | "chat">("stages");
@@ -247,12 +250,20 @@ export default function ActiveServicesTab() {
                   <div>
                     <span className="text-[10px] text-gray-400 font-bold block uppercase">Assigned CA / Expert</span>
                     <div className="flex items-center gap-2 mt-1">
-                      <div className="w-7 h-7 rounded-full bg-rose-50 border border-rose-100 text-[#c92c41] flex items-center justify-center font-bold text-xs">
+                      <div className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs ${
+                        selectedServiceDetail.assignedExpert ? "bg-emerald-50 border border-emerald-100 text-emerald-600" : "bg-amber-50 border border-amber-100 text-amber-600"
+                      }`}>
                         <ShieldCheck size={14} />
                       </div>
                       <div>
-                        <span className="text-xs font-bold text-gray-900 block leading-tight">CA Expert Team</span>
-                        <span className="text-[9px] text-emerald-600 font-semibold block leading-tight">Assigned & Online</span>
+                        <span className="text-xs font-bold text-gray-900 block leading-tight">
+                          {selectedServiceDetail.assignedExpert?.name || "Not Assigned"}
+                        </span>
+                        <span className={`text-[9px] font-semibold block leading-tight ${
+                          selectedServiceDetail.assignedExpert ? "text-emerald-600" : "text-amber-600"
+                        }`}>
+                          {selectedServiceDetail.assignedExpert ? "Assigned & Active" : "Pending Assignment"}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -320,144 +331,17 @@ export default function ActiveServicesTab() {
               </div>
             </div>
 
-            {/* SECTION 2: DEDICATED LAWIZER CHATTING INTERFACE (5 Cols on Desktop) */}
+            {/* SECTION 2: DEDICATED LAWIZER REALTIME CHATTING INTERFACE (5 Cols on Desktop) */}
             <div className="lg:col-span-5 space-y-4">
-              <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.04)] flex flex-col h-[680px] relative">
-                
-                {/* Lawizer Brand Header */}
-                <div className="bg-gradient-to-r from-gray-900 via-slate-900 to-gray-800 text-white p-4 flex justify-between items-center shadow-md shrink-0 relative overflow-hidden">
-                  <div className="absolute right-0 top-0 w-32 h-32 bg-[#c92c41]/20 rounded-full blur-2xl pointer-events-none" />
-                  
-                  <div className="flex items-center gap-3 min-w-0 relative z-10">
-                    <div className="relative">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#c92c41] to-rose-700 text-white flex items-center justify-center font-bold text-sm shadow-md border border-white/10">
-                        <ShieldCheck size={20} />
-                      </div>
-                      <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 ring-2 ring-gray-900" />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-1.5">
-                        <h3 className="text-sm font-bold truncate leading-tight">Assigned Legal Expert</h3>
-                        <span className="text-[9px] font-extrabold text-[#c92c41] bg-rose-500/10 px-2 py-0.5 rounded-full border border-rose-500/20">
-                          Verified
-                        </span>
-                      </div>
-                      <p className="text-[10px] text-gray-300 font-medium truncate leading-tight mt-0.5">
-                        Lawizer Expert • Active & Online
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 shrink-0 text-white/90 relative z-10">
-                    <button
-                      onClick={() => startCall("voice")}
-                      className="p-2 hover:bg-white/10 rounded-xl transition cursor-pointer border border-white/10"
-                      title="Voice call"
-                    >
-                      <Phone size={16} />
-                    </button>
-                    <button
-                      onClick={() => startCall("video")}
-                      className="p-2 bg-[#c92c41] hover:bg-[#a8233a] rounded-xl transition cursor-pointer shadow-xs"
-                      title="Video call"
-                    >
-                      <Video size={16} />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Lawizer Message Stream Container */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gradient-to-b from-gray-50/80 via-slate-50/50 to-white relative">
-                  <div className="text-center my-1">
-                    <span className="bg-rose-50/80 text-[#c92c41] text-[10px] font-bold px-3 py-1 rounded-full border border-rose-100/80 shadow-2xs inline-flex items-center gap-1.5">
-                      <ShieldCheck size={12} />
-                      Lawizer Secure & Confidential Channel
-                    </span>
-                  </div>
-
-                  {chatMessages.length === 0 ? (
-                    <div className="p-8 text-center bg-white rounded-2xl max-w-xs mx-auto border border-gray-100 shadow-xs space-y-3 mt-12">
-                      <div className="w-12 h-12 rounded-full bg-rose-50 border border-rose-100 text-[#c92c41] flex items-center justify-center mx-auto shadow-2xs">
-                        <MessageSquare size={22} />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-gray-900">Start Lawizer Workspace Chat</p>
-                        <p className="text-[10px] text-gray-400 mt-1 leading-relaxed">
-                          Direct real-time consultation with your assigned CA / legal team for filings, documents & stage updates.
-                        </p>
-                      </div>
-                    </div>
-                  ) : (
-                    chatMessages.map((msg, idx) => {
-                      const isUser = msg.sender === "user";
-                      return (
-                        <div
-                          key={idx}
-                          className={`flex flex-col ${isUser ? "items-end" : "items-start"}`}
-                        >
-                          <div
-                            className={`max-w-[85%] p-3.5 rounded-2xl text-xs leading-relaxed relative ${
-                              isUser
-                                ? "bg-[#c92c41] text-white rounded-tr-none shadow-md shadow-rose-900/10"
-                                : "bg-white text-gray-900 rounded-tl-none border border-gray-100 shadow-2xs"
-                            }`}
-                          >
-                            {!isUser && (
-                              <span className="text-[9px] font-bold text-[#c92c41] block mb-1 uppercase tracking-wider">
-                                CA Expert
-                              </span>
-                            )}
-                            <p className="whitespace-pre-wrap font-sans">{msg.text}</p>
-                            <div
-                              className={`flex items-center justify-end gap-1 mt-1 text-[9px] ${
-                                isUser ? "text-rose-100 font-medium" : "text-gray-400"
-                              }`}
-                            >
-                              <span>{msg.time || "Just now"}</span>
-                              {isUser && <CheckCircle2 size={10} className="text-white shrink-0" />}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })
-                  )}
-                </div>
-
-                {/* Lawizer Input Bar */}
-                <form
-                  onSubmit={handleSendMessage}
-                  className="bg-white p-3 border-t border-gray-100 flex items-center gap-2.5 shrink-0 shadow-2xs"
-                >
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (selectedServiceDetail?.documents?.pending?.[0]) {
-                        handleUploadClick(selectedServiceDetail.documents.pending[0].key);
-                      }
-                    }}
-                    className="p-2.5 text-[#c92c41] bg-rose-50 hover:bg-rose-100 rounded-xl transition cursor-pointer shrink-0 border border-rose-100"
-                    title="Attach Document"
-                  >
-                    <Paperclip size={16} />
-                  </button>
-
-                  <input
-                    type="text"
-                    value={typedMessage}
-                    onChange={(e) => setTypedMessage(e.target.value)}
-                    placeholder="Type a message to your CA..."
-                    className="flex-1 bg-gray-50 border border-gray-200/80 rounded-xl px-4 py-2.5 text-xs text-gray-800 outline-none focus:ring-2 focus:ring-[#c92c41]/20 focus:border-[#c92c41] focus:bg-white transition"
-                  />
-
-                  <button
-                    type="submit"
-                    disabled={!typedMessage.trim()}
-                    className="w-10 h-10 rounded-xl bg-[#c92c41] hover:bg-[#a8233a] disabled:bg-gray-200 disabled:text-gray-400 text-white flex items-center justify-center transition cursor-pointer shrink-0 shadow-md hover:shadow-rose-900/20 active:scale-95"
-                    aria-label="Send Message"
-                  >
-                    <Send size={16} />
-                  </button>
-                </form>
+              <div className="h-[680px]">
+                <ChatEngine
+                  key={selectedServiceId}
+                  caseId={selectedServiceId}
+                  currentUserId={user?.uid || ""}
+                  senderRole="client"
+                  professionalName={selectedServiceDetail.assignedExpert?.name || "Assigned CA / Expert"}
+                  caseTitle={selectedServiceDetail.name}
+                />
               </div>
             </div>
 
@@ -469,7 +353,7 @@ export default function ActiveServicesTab() {
                 <div className="flex justify-between items-center">
                   <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
                     <Upload size={14} className="text-[#c92c41]" />
-                    Upload Pending Documents
+                    Upload Case Documents
                   </h3>
                   {selectedServiceDetail.documents.pending.length > 0 && (
                     <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
@@ -478,20 +362,36 @@ export default function ActiveServicesTab() {
                   )}
                 </div>
 
-                {selectedServiceDetail.documents.pending.length === 0 ? (
-                  <div className="flex items-center gap-3 p-4 bg-emerald-50 text-emerald-700 rounded-xl text-xs font-bold border border-emerald-100">
-                    <CheckCircle2 size={20} className="shrink-0 text-emerald-600" />
-                    <div>
-                      <span>All documents uploaded!</span>
-                      <p className="text-[10px] font-normal text-emerald-600 mt-0.5">Your files are undergoing verification.</p>
-                    </div>
+                {/* Always Visible Drag & Drop Upload Zone */}
+                <div
+                  onClick={() => handleUploadClick("additional_document")}
+                  className="p-5 rounded-2xl border-2 border-dashed border-rose-200 bg-rose-50/40 hover:bg-rose-50 hover:border-[#c92c41] transition-all cursor-pointer text-center space-y-2 group"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-white text-[#c92c41] border border-rose-100 flex items-center justify-center mx-auto shadow-2xs group-hover:scale-110 transition-transform">
+                    {uploadingDocName === "additional_document" ? (
+                      <Loader2 size={20} className="animate-spin" />
+                    ) : (
+                      <Upload size={20} />
+                    )}
                   </div>
-                ) : (
-                  <div className="space-y-3">
+                  <div>
+                    <p className="text-xs font-bold text-gray-900">
+                      {uploadingDocName === "additional_document" ? "Uploading Document..." : "Click to Upload Document"}
+                    </p>
+                    <p className="text-[10px] text-gray-500 mt-0.5">Supports PDF, DOCX, JPG, PNG (Max 10MB)</p>
+                  </div>
+                </div>
+
+                {/* Specific Pending Requirements (If Any) */}
+                {selectedServiceDetail.documents.pending.length > 0 && (
+                  <div className="space-y-2.5 pt-2 border-t border-gray-100">
+                    <span className="text-[10px] font-bold text-gray-400 block uppercase tracking-wider">
+                      Specific Required Items
+                    </span>
                     {selectedServiceDetail.documents.pending.map((doc, idx) => (
                       <div
                         key={idx}
-                        className="p-4 rounded-xl border border-dashed border-rose-200 bg-rose-50/30 flex justify-between items-center gap-3 hover:bg-rose-50/60 transition"
+                        className="p-3.5 rounded-xl border border-dashed border-rose-200 bg-rose-50/30 flex justify-between items-center gap-3 hover:bg-rose-50/60 transition"
                       >
                         <div>
                           <span className="text-xs font-bold text-gray-900 block">{doc.name}</span>
@@ -548,18 +448,30 @@ export default function ActiveServicesTab() {
                           </div>
                         </div>
 
-                        {doc.fileUrl && (
-                          <a
-                            href={doc.fileUrl}
-                            download
-                            target="_blank"
-                            rel="noreferrer"
-                            className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-lg transition shrink-0 flex items-center gap-1"
-                          >
-                            <Download size={12} />
-                            <span>Download</span>
-                          </a>
-                        )}
+                        <div className="flex items-center gap-2 shrink-0">
+                          {doc.fileUrl && (
+                            <a
+                              href={doc.fileUrl}
+                              download
+                              target="_blank"
+                              rel="noreferrer"
+                              className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-lg transition flex items-center gap-1"
+                            >
+                              <Download size={12} />
+                              <span>Download</span>
+                            </a>
+                          )}
+                          {doc.key && (
+                            <button
+                              onClick={() => deleteDocument(doc.key)}
+                              className="p-1.5 bg-rose-50 hover:bg-rose-100 text-[#c92c41] rounded-lg transition border border-rose-100 cursor-pointer"
+                              title="Delete document"
+                              aria-label="Delete document"
+                            >
+                              <Trash2 size={13} />
+                            </button>
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -725,12 +637,20 @@ export default function ActiveServicesTab() {
                           {/* Footer Actions & Expert Tag */}
                           <div className="flex flex-wrap justify-between items-center pt-3 border-t border-gray-100 gap-4">
                             <div className="flex items-center gap-2.5">
-                              <div className="w-8 h-8 rounded-full bg-rose-50 border border-rose-100 flex items-center justify-center text-[#c92c41] flex-shrink-0 font-bold text-xs">
+                              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-xs ${
+                                s.assignedExpert ? "bg-emerald-50 border border-emerald-100 text-emerald-600" : "bg-amber-50 border border-amber-100 text-amber-600"
+                              }`}>
                                 <ShieldCheck size={16} />
                               </div>
                               <div>
-                                <span className="text-xs font-bold text-gray-900 block leading-tight">CA / Legal Expert</span>
-                                <span className="text-[10px] text-emerald-600 font-semibold block leading-tight">Assigned & Active</span>
+                                <span className="text-xs font-bold text-gray-900 block leading-tight">
+                                  {s.assignedExpert?.name || "Not Assigned"}
+                                </span>
+                                <span className={`text-[10px] font-semibold block leading-tight ${
+                                  s.assignedExpert ? "text-emerald-600" : "text-amber-600"
+                                }`}>
+                                  {s.assignedExpert ? "Assigned & Active" : "Pending Assignment"}
+                                </span>
                               </div>
                             </div>
 

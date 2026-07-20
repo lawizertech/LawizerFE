@@ -1,24 +1,22 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Send } from "lucide-react";
-// TODO: replace Firestore with Supabase Realtime / REST for service chat messages
+import { useEffect, useState } from "react";
+import { Loader2, MessageCircle } from "lucide-react";
+import { getAccessToken } from "@/lib/auth/tokenStore";
+import { ChatEngine } from "@/components/chat/ChatEngine";
 
 /* -------------------------------------------------------------------------- */
-/* TYPES */
-/* -------------------------------------------------------------------------- */
-
-type Message = {
-  id: string;
-  senderId: string;
-  senderRole: "USER" | "LAWIZER_EXPERT";
-  text: string | null;
-  createdAt?: any;
-};
-
-/* -------------------------------------------------------------------------- */
-/* COMPONENT */
-/* -------------------------------------------------------------------------- */
+/* ServiceChat
+ *
+ * Floating chat widget for the Active Services workspace.
+ * `serviceId` here is actually a caseId for active service workspaces,
+ * OR it can be a bookingId — we try both strategies:
+ *
+ *   1. Use serviceId directly as a caseId (if the workspace was built on a case)
+ *   2. Fall back to /api/user/case-by-booking lookup
+ *
+ * Delegates all real-time messaging to <ChatEngine />.
+ * -------------------------------------------------------------------------- */
 
 export default function ServiceChat({
   serviceId,
@@ -29,29 +27,41 @@ export default function ServiceChat({
   currentUserRole: "LAWIZER_EXPERT" | "USER";
   currentUserId: string;
 }) {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [text, setText] = useState("");
   const [open, setOpen] = useState(true);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const [caseId, setCaseId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  /* ===================== REALTIME LISTENER ===================== */
+  const senderRole = currentUserRole === "USER" ? "client" : "professional";
+
+  // ── Resolve the caseId ────────────────────────────────────────────────────
   useEffect(() => {
-    if (!currentUserId) return;
-    // TODO: subscribe to Supabase Realtime channel `service-chat:${serviceId}`
-    //       or fetch messages from a Supabase table
-  }, [serviceId, currentUserId]);
+    if (!serviceId) {
+      setLoading(false);
+      return;
+    }
 
-  /* ===================== AUTO SCROLL ===================== */
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    // Strategy 1: try using serviceId directly as caseId (UUID check)
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (uuidRegex.test(serviceId)) {
+      // Could be a direct case ID — use it and let ChatEngine validate
+      setCaseId(serviceId);
+      setLoading(false);
+      return;
+    }
 
-  /* ===================== SEND MESSAGE ===================== */
-  const sendMessage = async () => {
-    if (!text.trim()) return;
-    // TODO: send message via Supabase Realtime broadcast or REST insert
-    setText("");
-  };
+    // Strategy 2: treat serviceId as a bookingId and resolve the case
+    const token = getAccessToken();
+    fetch(
+      `/api/user/case-by-booking?bookingId=${encodeURIComponent(serviceId)}`,
+      { headers: token ? { Authorization: `Bearer ${token}` } : {} }
+    )
+      .then((r) => r.json())
+      .then((data: { caseId?: string | null }) => {
+        if (data.caseId) setCaseId(data.caseId);
+      })
+      .catch((err) => console.error("ServiceChat: case lookup error:", err))
+      .finally(() => setLoading(false));
+  }, [serviceId]);
 
   /* -------------------------------------------------------------------------- */
   /* UI */
@@ -59,54 +69,46 @@ export default function ServiceChat({
 
   return (
     <div
-      className={`fixed bottom-6 right-6 z-50 transition-all bg-white border rounded-xl shadow-xl flex flex-col ${
-        open ? "w-[320px] h-[420px]" : "w-[220px] h-[48px]"
+      className={`fixed bottom-6 right-6 z-50 transition-all duration-200 bg-white border border-gray-200 rounded-2xl shadow-xl flex flex-col ${
+        open ? "w-[340px] h-[460px]" : "w-[220px] h-[48px]"
       }`}
     >
       {/* HEADER */}
       <div
         onClick={() => setOpen(!open)}
-        className="px-4 py-3 border-b font-medium cursor-pointer flex justify-between items-center"
+        className="px-4 py-3 border-b border-gray-100 font-semibold text-sm cursor-pointer flex justify-between items-center shrink-0 rounded-t-2xl"
       >
         <span>Service Chat</span>
         <span className="text-xs text-gray-500">{open ? "—" : "Chat"}</span>
       </div>
 
+      {/* BODY */}
       {open && (
-        <>
-          {/* MESSAGES */}
-          <div className="flex-1 overflow-y-auto p-3 text-xs flex flex-col gap-2">
-            {messages.map((m) => {
-              const isMe = m.senderId === currentUserId;
-              return (
-                <div key={m.id} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
-                  <div
-                    className={`inline-block max-w-[80%] px-3 py-2 rounded-2xl break-words whitespace-pre-wrap ${
-                      isMe ? "bg-[#c92c41] text-white" : "bg-gray-100 text-gray-800"
-                    }`}
-                  >
-                    {m.text}
-                  </div>
-                </div>
-              );
-            })}
-            <div ref={bottomRef} />
-          </div>
-
-          {/* INPUT */}
-          <div className="border-t p-2 flex gap-2">
-            <input
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="Message…"
-              className="flex-1 border rounded-md px-2 py-1 text-xs"
-              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+        <div className="flex-1 overflow-hidden rounded-b-2xl">
+          {loading ? (
+            <div className="flex items-center justify-center h-full text-gray-400">
+              <Loader2 className="animate-spin text-[#c92c41] mr-2" size={20} />
+              <span className="text-xs">Loading chat…</span>
+            </div>
+          ) : caseId && currentUserId ? (
+            <ChatEngine
+              key={caseId}
+              caseId={caseId}
+              currentUserId={currentUserId}
+              senderRole={senderRole as "client" | "professional"}
+              professionalName="Service Expert"
+              caseTitle="Service Workspace"
             />
-            <button onClick={sendMessage} className="bg-[#c92c41] text-white px-2 rounded-md">
-              <Send size={14} />
-            </button>
-          </div>
-        </>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full text-center p-6">
+              <MessageCircle size={24} className="text-gray-300 mb-2" />
+              <p className="text-xs font-semibold text-gray-500">No active chat channel</p>
+              <p className="text-[11px] text-gray-400 mt-1">
+                A professional must be assigned to this service workspace to enable chat.
+              </p>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

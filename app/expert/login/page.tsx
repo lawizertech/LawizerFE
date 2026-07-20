@@ -15,9 +15,10 @@ export default function LawyerLoginPage() {
   const router = useRouter();
   const { login, user, loading: authLoading } = useAuth();
 
-  // If already logged in as an expert, redirect immediately.
+  // If already logged in as an expert / professional, redirect immediately.
   useEffect(() => {
-    if (!authLoading && user?.role === "EXPERT") {
+    const role = user?.role?.toUpperCase();
+    if (!authLoading && (role === "EXPERT" || role === "PROFESSIONAL" || role === "LAWYER")) {
       router.push("/expert/dashboard");
     }
   }, [authLoading, user, router]);
@@ -43,14 +44,17 @@ export default function LawyerLoginPage() {
         throw new Error(res.message ?? "Login failed");
       }
 
+      const expData = res.expert || res.data || {};
+      const expRole = (expData.role || "EXPERT").toUpperCase();
+
       // 3️⃣ Store token in memory only via AuthContext — no localStorage writes
       login(res.token, {
-        uid: res.expert.uid,
-        email: res.expert.email,
-        name: res.expert.displayName ?? res.expert.name,
-        role: "EXPERT",
-        avatarUrl: res.expert.photoURL ?? res.expert.avatarUrl,
-        isProfileComplete: res.expert.isProfileComplete,
+        uid: expData.uid || expData.id || signInRes.user?.id,
+        email: expData.email || email,
+        name: expData.displayName ?? expData.name ?? "Lawyer / CA",
+        role: expRole,
+        avatarUrl: expData.photoURL ?? expData.avatarUrl,
+        isProfileComplete: expData.isProfileComplete ?? true,
       });
 
       // Navigate to the expert dashboard.

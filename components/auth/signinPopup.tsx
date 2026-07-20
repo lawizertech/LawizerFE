@@ -46,18 +46,24 @@ export function SignInModal({ onClose, onSignupRedirect, onLoginSuccess, onForgo
         throw new Error(res.message || "Login failed on server");
       }
 
-      // 3️⃣ Store token in memory via AuthContext — never in localStorage
+      const userRole = (res.data.role ?? "CLIENT").toUpperCase();
       login(res.token, {
         uid: res.data.uid ?? res.data.id,
         email: res.data.email,
         name: res.data.displayName ?? res.data.name,
-        role: (res.data.role ?? "CLIENT").toUpperCase(),
+        role: userRole,
         avatarUrl: res.data.photoURL ?? res.data.avatarUrl,
         isProfileComplete: res.data.isProfileComplete,
         hasPassword: res.data.hasPassword,
       });
       onLoginSuccess && onLoginSuccess(res.data);
       onClose();
+
+      if (userRole === "PROFESSIONAL" || userRole === "EXPERT" || userRole === "LAWYER") {
+        window.location.href = "/expert/dashboard";
+      } else {
+        window.location.href = "/user/dashboard";
+      }
     } catch (err: any) {
       setError(err.message || "Failed to sign in");
     } finally {

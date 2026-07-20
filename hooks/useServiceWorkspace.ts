@@ -157,7 +157,7 @@ export function useServiceWorkspace() {
   }, []);
 
   const searchParams = useSearchParams();
-  const urlServiceId = searchParams ? searchParams.get("serviceId") : null;
+  const urlServiceId = searchParams ? (searchParams.get("serviceId") || searchParams.get("caseId")) : null;
 
   useEffect(() => {
     if (urlServiceId && services.length > 0) {
@@ -223,15 +223,32 @@ export function useServiceWorkspace() {
         loadServiceDetails(selectedServiceId),
         loadServices(),
       ]);
-    } catch (error: any) {
-      console.error("Upload error:", error);
-      toast({
-        variant: "destructive",
-        title: "Upload Failed",
-        description: error.message || "Something went wrong during document upload",
-      });
     } finally {
       setUploadingDocName(null);
+    }
+  };
+
+  const deleteDocument = async (documentId: string) => {
+    if (!selectedServiceId) return;
+    try {
+      const res = await fetch(`/api/documents/${documentId}`, { method: "DELETE" });
+      const data = await res.json().catch(() => null);
+      if (res.ok && data?.success) {
+        toast({
+          title: "Document Deleted",
+          description: "File deleted from storage and database.",
+        });
+        await Promise.all([loadServiceDetails(selectedServiceId), loadServices()]);
+      } else {
+        throw new Error(data?.message || "Delete failed");
+      }
+    } catch (error: any) {
+      console.error("Delete document error:", error);
+      toast({
+        variant: "destructive",
+        title: "Delete Failed",
+        description: error.message || "Failed to delete document",
+      });
     }
   };
 
@@ -277,5 +294,6 @@ export function useServiceWorkspace() {
     handleSendMessage,
     handleUploadClick,
     handleRealUpload,
+    deleteDocument,
   };
 }

@@ -9,6 +9,7 @@ export interface RawServiceItem {
   updatedAt?: any;
   serviceCode: string;
   assignedExpertId?: string | null;
+  assignedExpert?: { id: string; name?: string; email?: string } | null;
   documentStats?: {
     totalRequired: number;
     uploaded: number;
