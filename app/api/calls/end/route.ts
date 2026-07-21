@@ -48,6 +48,9 @@ export async function POST(req: NextRequest) {
 
     const now = new Date();
 
+    const connectedAt = call.connected_at ? new Date(call.connected_at).getTime() : null;
+    const durationSeconds = connectedAt ? Math.max(0, Math.floor((now.getTime() - connectedAt) / 1000)) : 0;
+
     const { error: updateErr } = await admin
       .from("calls")
       .update({
@@ -66,12 +69,12 @@ export async function POST(req: NextRequest) {
       call_id: callId,
       event_type: "CALL_ENDED",
       actor_id: actorId,
-      metadata: { reason, duration },
+      metadata: { reason, duration: durationSeconds },
     }).then(({ error }) => {
       if (error) console.warn("call_events insert warning:", error);
     });
 
-    return NextResponse.json({ success: true, duration });
+    return NextResponse.json({ success: true, duration: durationSeconds });
   } catch (err: any) {
     console.error("POST /api/calls/end error:", err);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

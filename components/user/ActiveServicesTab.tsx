@@ -41,6 +41,7 @@ import { useServiceWorkspace } from "@/hooks/useServiceWorkspace";
 import { ChatEngine } from "@/components/chat/ChatEngine";
 import VoiceCallModal from "@/components/call/VoiceCallModal";
 import { useAuth } from "@/context/authContext";
+import { ServiceStageTracker } from "@/components/services/ServiceStageTracker";
 
 /* -------------------------------------------------------------------------- */
 /* ✨ Service Progress Stepper Component                                      */
@@ -334,47 +335,55 @@ export default function ActiveServicesTab() {
               </div>
 
               {/* Stage Timeline Card */}
-              <div className="bg-white rounded-2xl border border-gray-100 p-5 space-y-4 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
-                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <Clock size={14} className="text-[#c92c41]" />
-                  Stage Progress
-                </h3>
+              {selectedServiceDetail.customStages && selectedServiceDetail.customStages.length > 0 ? (
+                <ServiceStageTracker
+                  stages={selectedServiceDetail.customStages}
+                  currentStageId={selectedServiceDetail.currentStageId}
+                  serviceTitle={selectedServiceDetail.name}
+                />
+              ) : (
+                <div className="bg-white rounded-2xl border border-gray-100 p-5 space-y-4 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+                  <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <Clock size={14} className="text-[#c92c41]" />
+                    Stage Progress
+                  </h3>
 
-                <div className="space-y-3 relative">
-                  {selectedServiceDetail.stages.map((stage, idx) => {
-                    let iconBg = "bg-emerald-50 text-emerald-600 border-emerald-100";
-                    if (stage.status === "active") {
-                      iconBg = "bg-rose-50 text-[#c92c41] border-rose-200 ring-2 ring-rose-50";
-                    } else if (stage.status !== "completed") {
-                      iconBg = "bg-gray-50 text-gray-300 border-gray-100";
-                    }
+                  <div className="space-y-3 relative">
+                    {selectedServiceDetail.stages.map((stage, idx) => {
+                      let iconBg = "bg-emerald-50 text-emerald-600 border-emerald-100";
+                      if (stage.status === "active") {
+                        iconBg = "bg-rose-50 text-[#c92c41] border-rose-200 ring-2 ring-rose-50";
+                      } else if (stage.status !== "completed") {
+                        iconBg = "bg-gray-50 text-gray-300 border-gray-100";
+                      }
 
-                    return (
-                      <div key={idx} className="flex items-start gap-3 relative z-10">
-                        <div className={`w-7 h-7 rounded-full border flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 ${iconBg}`}>
-                          {stage.status === "completed" ? (
-                            <Check size={14} className="stroke-[3]" />
-                          ) : stage.status === "active" ? (
-                            <Loader2 size={14} className="animate-spin" />
-                          ) : (
-                            <span className="text-[10px]">{idx + 1}</span>
-                          )}
+                      return (
+                        <div key={idx} className="flex items-start gap-3 relative z-10">
+                          <div className={`w-7 h-7 rounded-full border flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 ${iconBg}`}>
+                            {stage.status === "completed" ? (
+                              <Check size={14} className="stroke-[3]" />
+                            ) : stage.status === "active" ? (
+                              <Loader2 size={14} className="animate-spin" />
+                            ) : (
+                              <span className="text-[10px]">{idx + 1}</span>
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-bold text-gray-900 leading-tight">{stage.name}</p>
+                            <p className="text-[10px] text-gray-400 font-medium mt-0.5">
+                              {stage.status === "completed"
+                                ? "Completed"
+                                : stage.status === "active"
+                                ? "In Progress • Est 2-3 Days"
+                                : "Pending Stage"}
+                            </p>
+                          </div>
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-bold text-gray-900 leading-tight">{stage.name}</p>
-                          <p className="text-[10px] text-gray-400 font-medium mt-0.5">
-                            {stage.status === "completed"
-                              ? "Completed"
-                              : stage.status === "active"
-                              ? "In Progress • Est 2-3 Days"
-                              : "Pending Stage"}
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* SECTION 2: DEDICATED LAWIZER REALTIME CHATTING INTERFACE (5 Cols on Desktop) */}
