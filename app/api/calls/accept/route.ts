@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
 
     const { data: call, error: callErr } = await admin
       .from("calls")
-      .select("callee_id, status")
+      .select("accepted_by, status")
       .eq("id", callId)
       .single();
 
@@ -46,15 +46,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Call not found" }, { status: 404 });
     }
 
-    if (call.callee_id !== user.id) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-
     const now = new Date().toISOString();
 
     const { error: updateErr } = await admin
       .from("calls")
-      .update({ status: "accepted", answered_at: now })
+      .update({ status: "accepted", accepted_by: user.id, connected_at: now })
       .eq("id", callId);
 
     if (updateErr) {

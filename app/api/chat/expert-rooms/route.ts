@@ -37,6 +37,7 @@ export async function GET(req: NextRequest) {
 
       return {
         caseId: c.id,
+        clientId: c.client_id,
         clientName,
         caseTitle: cTitle,
         lastMessage: "Direct encrypted litigation channel with client",

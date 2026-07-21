@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
 
     const { data: call, error: callErr } = await admin
       .from("calls")
-      .select("started_at, answered_at, status, caller_id, callee_id")
+      .select("started_at, connected_at, status, initiated_by, accepted_by")
       .eq("id", callId)
       .single();
 
@@ -46,22 +46,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Call not found" }, { status: 404 });
     }
 
-    // Verify requester is a participant (skip if auth not provided — best-effort)
-    if (actorId && call.caller_id !== actorId && call.callee_id !== actorId) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-
-    // Calculate duration in seconds from answered_at → now
     const now = new Date();
-    const answerTime = call.answered_at ? new Date(call.answered_at) : null;
-    const duration = answerTime ? Math.round((now.getTime() - answerTime.getTime()) / 1000) : 0;
 
     const { error: updateErr } = await admin
       .from("calls")
       .update({
         status: "ended",
         ended_at: now.toISOString(),
-        duration,
+        end_reason: reason,
       })
       .eq("id", callId);
 

@@ -122,7 +122,7 @@ function attach401Interceptor(instance: AxiosInstance) {
 // ─── Axios instances ──────────────────────────────────────────────────────────
 
 export const privateApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api",
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });

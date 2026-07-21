@@ -131,6 +131,7 @@ export default function UserConnectPage() {
             key={caseId}
             caseId={caseId}
             currentUserId={currentUserId}
+            peerId={booking.expertId ?? booking.professionalId ?? booking.expert?.id}
             senderRole="client"
             professionalName={expertName}
             caseTitle={caseTitle}

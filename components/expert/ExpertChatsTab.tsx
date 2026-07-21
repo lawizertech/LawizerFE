@@ -19,6 +19,7 @@ import { ChatEngine } from "@/components/chat/ChatEngine";
 
 interface CaseChatItem {
   caseId: string;
+  clientId?: string;
   clientName: string;
   caseTitle: string;
   lastMessage?: string;
@@ -295,6 +296,7 @@ export default function ExpertChatsTab() {
                 key={selectedChat.caseId}
                 caseId={selectedChat.caseId}
                 currentUserId={effectiveProfId}
+                peerId={selectedChat.clientId}
                 senderRole="professional"
                 professionalName={selectedChat.clientName}
                 caseTitle={selectedChat.caseTitle}

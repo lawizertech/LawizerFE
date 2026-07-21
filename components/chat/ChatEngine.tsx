@@ -22,6 +22,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { sortChatMessages, upsertChatMessages, type ChatMessage, type SenderRole } from "@/lib/chat";
 import { IncomingCallOverlay } from "./IncomingCallOverlay";
 import VideoCall from "@/components/call/VideoCall";
+import { StreamCallOverlay } from "@/components/calling/StreamCallOverlay";
 import { useCallNotifications } from "@/hooks/useCallNotifications";
 import { getAccessToken } from "@/lib/auth/tokenStore";
 import { CALL_INCOMING, chatChannel } from "@/lib/call/callEvents";
@@ -345,9 +346,33 @@ export function ChatEngine({
     }
   };
 
+  // ── Peer resolution (auto-detect if peerId prop omitted) ─────────────────
+  const [resolvedPeerId, setResolvedPeerId] = useState<string | undefined>(peerId);
+
+  useEffect(() => {
+    if (peerId) {
+      setResolvedPeerId(peerId);
+      return;
+    }
+    if (!caseId || !currentUserId) return;
+
+    supabase
+      .from("cases")
+      .select("client_id, professional_id")
+      .eq("id", caseId)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data) {
+          const otherId = data.client_id === currentUserId ? data.professional_id : data.client_id;
+          if (otherId) setResolvedPeerId(otherId);
+        }
+      });
+  }, [caseId, currentUserId, peerId]);
+
   // ── Initiate outbound call ─────────────────────────────────────────────────
   const initiateCall = async (mode: CallMode) => {
-    if (!peerId || peerId === currentUserId) return;
+    const targetPeerId = resolvedPeerId || peerId;
+    if (!targetPeerId || targetPeerId === currentUserId) return;
     if (activeCallRef.current) return; // already in a call
 
     try {
@@ -358,7 +383,7 @@ export function ChatEngine({
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({ caseId, mode, calleeId: peerId }),
+        body: JSON.stringify({ caseId, mode, calleeId: targetPeerId }),
       });
 
       if (!res.ok) {
@@ -411,20 +436,17 @@ export function ChatEngine({
     ([id, typing]) => typing && id !== currentUserId
   );
   const isOtherOnline = Object.keys(onlineUsers).some((id) => id !== currentUserId);
-  const canCall = !!peerId && peerId !== currentUserId;
+  const targetPeer = resolvedPeerId || peerId;
+  const canCall = !!targetPeer && targetPeer !== currentUserId;
 
-  // ── Active call: render VideoCall full-screen ──────────────────────────────
+  // ── Active call: render StreamCallOverlay ──────────────────────────────────
   if (activeCall) {
-    // If incomingCall was set before accepting, we are the callee
-    const callRole: "caller" | "callee" = incomingCall === null && activeCall ? "caller" : "callee";
     return (
-      <VideoCall
+      <StreamCallOverlay
         caseId={caseId}
-        callId={activeCall.callId}
         currentUserId={currentUserId}
-        role={callRole}
-        initialMode={activeCall.mode}
         peerName={professionalName}
+        mode={activeCall.mode}
         onClose={() => setActiveCallSafe(false)}
       />
     );

@@ -40,6 +40,7 @@ export async function GET(req: NextRequest) {
 
       return {
         caseId: c.id,
+        professionalId: c.professional_id,
         professionalName: profName,
         caseTitle: cTitle,
         lastMessage: "Live real-time encrypted litigation channel",

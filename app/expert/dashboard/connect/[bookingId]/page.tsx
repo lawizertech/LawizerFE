@@ -110,6 +110,7 @@ export default function ExpertConnectPage() {
             key={caseId}
             caseId={caseId}
             currentUserId={currentUserId}
+            peerId={client.id ?? client.uid ?? booking.userId ?? booking.clientId}
             senderRole="professional"
             professionalName={clientName}
             caseTitle={caseTitle}

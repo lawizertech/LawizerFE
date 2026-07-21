@@ -66,8 +66,7 @@ export async function POST(req: NextRequest) {
       .insert({
         id: callId,
         case_id: caseId,
-        caller_id: user.id,
-        callee_id: calleeId,
+        initiated_by: user.id,
         mode,
         status: "initiated",
         started_at: now,

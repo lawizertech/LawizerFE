@@ -9,6 +9,7 @@ import { getUserBookings } from "@/lib/apis/api";
 
 interface CaseChatItem {
   caseId: string;
+  professionalId?: string;
   professionalName: string;
   caseTitle: string;
   lastMessage?: string;
@@ -172,6 +173,7 @@ export default function ChatsPage() {
               key={selectedChat.caseId}
               caseId={selectedChat.caseId}
               currentUserId={effectiveUserId}
+              peerId={selectedChat.professionalId}
               senderRole="client"
               professionalName={selectedChat.professionalName}
               caseTitle={selectedChat.caseTitle}
