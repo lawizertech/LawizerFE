@@ -15,6 +15,23 @@ interface SupabaseAuthResponse {
   };
 }
 
+export function getBaseUrl(): string {
+  if (process.env.NEXT_PUBLIC_APP_URL) {
+    return process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, "");
+  }
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
+  }
+  if (process.env.NEXT_PUBLIC_VERCEL_URL) {
+    const v = process.env.NEXT_PUBLIC_VERCEL_URL;
+    return v.startsWith("http") ? v.replace(/\/$/, "") : `https://${v}`.replace(/\/$/, "");
+  }
+  if (typeof window !== "undefined" && window.location?.origin) {
+    return window.location.origin;
+  }
+  return "";
+}
+
 /**
  * Custom REST Client for Supabase Authentication
  * Avoids loading the full Supabase SDK, keeping client-side bundle size minimal.
@@ -30,7 +47,7 @@ export async function supabaseSignUp(
     payload.options = { data: metadata || {} };
 
     if (typeof window !== "undefined") {
-      payload.options.emailRedirectTo = window.location.origin;
+      payload.options.emailRedirectTo = getBaseUrl() || window.location.origin;
     }
 
     const res = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
@@ -110,11 +127,12 @@ export async function supabaseResetPassword(email: string): Promise<{ success: b
     const payload: Record<string, any> = { email };
 
     if (typeof window !== "undefined") {
+      const baseUrl = getBaseUrl() || window.location.origin;
       // Must point to the reset-password page, NOT the site root.
       // Supabase appends #access_token=...&type=recovery to this URL.
       // authContext checks type=recovery and redirects here instead of logging in.
       payload.options = {
-        redirectTo: `${window.location.origin}/auth/reset-password`,
+        redirectTo: `${baseUrl}/auth/reset-password`,
       };
     }
 
@@ -142,9 +160,14 @@ export async function supabaseResetPassword(email: string): Promise<{ success: b
   }
 }
 
-export function supabaseGoogleSignIn() {
+export function supabaseGoogleSignIn(isExpert: boolean = false) {
   if (typeof window !== "undefined") {
-    const redirectUrl = window.location.origin;
+    if (isExpert) {
+      localStorage.setItem("pending_expert_oauth", "true");
+    } else {
+      localStorage.removeItem("pending_expert_oauth");
+    }
+    const redirectUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
     window.location.href = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${redirectUrl}`;
   }
 }

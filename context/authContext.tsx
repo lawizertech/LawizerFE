@@ -92,9 +92,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // ── logout() — clears memory and HttpOnly cookie ────────────────────────────
   const logout = async () => {
     clearAccessToken();
-    setUser(null);
 
-    // Remove the display-only localStorage hints.
+    // Remove display-only localStorage hints.
     if (typeof window !== "undefined") {
       localStorage.removeItem("displayName");
       localStorage.removeItem("avatarUrl");
@@ -102,11 +101,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     // Tell the server to invalidate the refresh token and clear the cookie.
+    // MUST AWAIT so browser receives Set-Cookie: refreshToken=; MaxAge=0 before navigation!
     try {
-      await axios.post("/api/auth/logout", {}, { withCredentials: true });
+      await axios.post("/api/auth/logout", {}, { withCredentials: true, timeout: 3000 });
     } catch {
-      // Best-effort. Cookie was already cleared above by the response handler.
+      // Best-effort. Cookie clearance response handled above.
     }
+
+    setUser(null);
 
     if (typeof window !== "undefined") {
       window.location.href = "/";
@@ -144,7 +146,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // ── silentRefresh() — called on mount to restore session after page reload ──
   const silentRefresh = async (): Promise<boolean> => {
     try {
-      const res = await axios.post("/api/auth/refresh", {}, { withCredentials: true });
+      const res = await axios.post("/api/auth/refresh", {}, { withCredentials: true, timeout: 3000 });
       if (res.data?.accessToken) {
         setAccessToken(res.data.accessToken);
         return true;
@@ -168,6 +170,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const res = await axios.get("/api/auth/me", {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
+          timeout: 3000,
         });
         if (res.data?.success && res.data?.data) {
           const u = res.data.data;
@@ -241,9 +244,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         console.error("Failed to parse JWT payload:", jwtErr);
       }
 
+      const isExpertOAuth = typeof window !== "undefined" && localStorage.getItem("pending_expert_oauth") === "true";
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("pending_expert_oauth");
+      }
+
       // Dynamic import avoids circular dependency with api.ts.
       const { loginUser, signupUser } = await import("@/lib/apis/api");
-      let res = await loginUser(supabaseAccessToken, supabaseRefreshToken);
+      const requestedRole = isExpertOAuth ? "professional" : undefined;
+      let res = await loginUser(supabaseAccessToken, supabaseRefreshToken, requestedRole);
 
       // Auto-signup fallback for first-time Google OAuth users.
       if (!res.success && providers.includes("google") && parsedPayload) {
@@ -256,18 +265,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (uid) {
           const signupRes = await signupUser(supabaseAccessToken, uid, name, email, "");
           if (signupRes.success) {
-            res = await loginUser(supabaseAccessToken, supabaseRefreshToken);
+            res = await loginUser(supabaseAccessToken, supabaseRefreshToken, requestedRole);
           }
         }
       }
 
       if (res.success) {
-        // Store token in memory only.
+        const userRole = (res.data.role ?? "CLIENT").toUpperCase();
+
+        // Store token in memory with permanent immutable account role from database
         login(res.token, {
           uid: res.data.uid ?? res.data.id,
           email: res.data.email,
           name: res.data.name,
-          role: (res.data.role ?? "CLIENT").toUpperCase(),
+          role: userRole,
           avatarUrl: res.data.photo_url ?? res.data.avatarUrl,
           isProfileComplete: res.data.isProfileComplete,
           hasPassword: res.data.hasPassword,
@@ -280,6 +291,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
         if (!res.data.isProfileComplete || isSocialOnly) {
           setIsCompleteProfileModalOpen(true);
+        } else {
+          // Automatic dashboard navigation based on PERMANENT account role
+          if (typeof window !== "undefined") {
+            if (userRole === "EXPERT" || userRole === "PROFESSIONAL" || userRole === "LAWYER") {
+              window.location.replace("/expert/dashboard");
+            } else {
+              window.location.replace("/user/dashboard");
+            }
+          }
         }
 
         return true;
@@ -315,6 +335,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ── openSignInModal custom event listener ────────────────────────────────────
+  // ServicePageLayout and other non-context components can trigger the sign-in
+  // modal by dispatching: window.dispatchEvent(new CustomEvent("openSignInModal"))
+  useEffect(() => {
+    const handleOpenSignIn = () => setIsSignInModalOpen(true);
+    window.addEventListener("openSignInModal", handleOpenSignIn);
+    return () => window.removeEventListener("openSignInModal", handleOpenSignIn);
   }, []);
 
   return (

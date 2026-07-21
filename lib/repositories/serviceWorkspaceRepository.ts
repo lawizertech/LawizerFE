@@ -9,6 +9,7 @@ export interface RawServiceItem {
   updatedAt?: any;
   serviceCode: string;
   assignedExpertId?: string | null;
+  assignedExpert?: { id: string; name?: string; email?: string } | null;
   documentStats?: {
     totalRequired: number;
     uploaded: number;
@@ -101,10 +102,11 @@ export class ServiceWorkspaceRepository {
     });
 
     if (!res.ok) {
-      throw new Error("Failed to load notifications");
+      console.warn("Notifications API returned non-OK status:", res.status);
+      return [];
     }
 
-    const data = await res.json();
+    const data = await res.json().catch(() => ({}));
     return data.notifications || [];
   }
 

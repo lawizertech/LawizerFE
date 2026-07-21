@@ -78,7 +78,9 @@ export default function ChatModal({
             </div>
           ) : (
             messages.map((msg) => {
-              const isMine = msg.senderRole === role;
+              // Map component role ("expert") to DB role ("professional") for comparison
+              const dbRole = role === "expert" ? "professional" : "client";
+              const isMine = msg.sender_role === dbRole || msg.sender_role === role;
 
               return (
                 <div key={msg.id} className={`flex ${isMine ? "justify-end" : "justify-start"}`}>

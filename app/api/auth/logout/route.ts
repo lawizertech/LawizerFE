@@ -37,7 +37,15 @@ export async function POST(req: NextRequest) {
     // Build a response that clears the refresh cookie on the browser.
     const response = NextResponse.json({ success: true }, { status: 200 });
 
-    // Clear the cookie via Next.js response.cookies API
+    // Explicitly clear the refreshToken cookie via Set-Cookie header
+    response.cookies.set("refreshToken", "", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 0,
+      expires: new Date(0),
+    });
     response.cookies.delete("refreshToken");
 
     return response;

@@ -2,7 +2,9 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useRazorpay } from "@/hooks/useRazorpay";
+import { toast } from "sonner";
 import {
   Search,
   ShoppingBag,
@@ -122,13 +124,31 @@ export default function BookServiceTab() {
   const [services, setServices] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Buy Now Modal State
-  const [selectedService, setSelectedService] = useState<any | null>(null);
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
-  const [submittingOrder, setSubmittingOrder] = useState(false);
-  const [orderSuccess, setOrderSuccess] = useState(false);
-  const [notes, setNotes] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState<"card" | "upi" | "netbanking">("upi");
+  const searchParams = useSearchParams();
+  const { isLoaded: razorpayReady, initializePayment } = useRazorpay();
+
+  // Payment State
+  const [paymentState, setPaymentState] = useState<
+    "idle" | "creating" | "paying" | "verifying" | "success" | "error"
+  >("idle");
+  const [paymentError, setPaymentError] = useState<string | null>(null);
+
+  // Auto-initiate purchase if redirected from a Service Page with ?autoBuy=...
+  useEffect(() => {
+    if (services.length > 0 && typeof window !== "undefined") {
+      const autoBuy = searchParams?.get("autoBuy");
+      if (autoBuy) {
+        const service = services.find((s: any) => s.serviceCode === autoBuy);
+        if (service) {
+          handleConfirmPurchase(service);
+          
+          const newUrl = new URL(window.location.href);
+          newUrl.searchParams.delete("autoBuy");
+          window.history.replaceState({}, "", newUrl.toString());
+        }
+      }
+    }
+  }, [services, searchParams]);
 
   // Fetch Services dynamically from Backend API /api/services
   useEffect(() => {
@@ -200,53 +220,124 @@ export default function BookServiceTab() {
     return list;
   }, [services, selectedCategory, searchQuery, sortBy]);
 
-  const handleOpenBuyModal = (service: any) => {
-    setSelectedService(service);
-    setIsCheckoutOpen(true);
-    setOrderSuccess(false);
-  };
+  const handleConfirmPurchase = async (service: any) => {
+    if (!service || !razorpayReady) return;
 
-  const handleConfirmPurchase = async () => {
-    if (!selectedService) return;
-    setSubmittingOrder(true);
+    setPaymentState("creating");
+    setPaymentError(null);
 
     try {
       const { getAccessToken } = await import("@/lib/auth/tokenStore");
       const token = getAccessToken();
 
-      await fetch("/api/user/start-process", {
+      // ── Step 1: Create case + Razorpay order
+      const orderRes = await fetch("/api/user/start-process", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({
-          serviceCode: selectedService.serviceCode,
+          serviceCode: service.serviceCode,
           clientDetails: {
-            fullName: user?.name || "Valued Client",
-            email: user?.email || "client@lawizer.com",
+            fullName: user?.name || "Client",
+            email: user?.email || "",
             phone: (user as any)?.phone || "9999999999",
           },
-          notes: notes || `Direct booking for ${selectedService.title}`,
+          urgency: "NORMAL",
         }),
       });
 
-      setOrderSuccess(true);
-      setTimeout(() => {
-        setIsCheckoutOpen(false);
-        setSubmittingOrder(false);
-        setOrderSuccess(false);
-        router.push("/user/dashboard?tab=services");
-      }, 2000);
-    } catch (err) {
-      console.error("Booking submission error:", err);
-      setOrderSuccess(true);
-      setTimeout(() => {
-        setIsCheckoutOpen(false);
-        setSubmittingOrder(false);
-        setOrderSuccess(false);
-        router.push("/user/dashboard?tab=services");
-      }, 2000);
+      if (!orderRes.ok) {
+        const err = await orderRes.json().catch(() => ({}));
+        throw new Error(err.message || "Failed to create order");
+      }
+
+      const orderData = await orderRes.json();
+
+      if (!orderData.success) {
+        throw new Error(orderData.message || "Failed to create order");
+      }
+
+      // ── Step 2: Open Razorpay checkout modal
+      setPaymentState("paying");
+
+      await new Promise<void>((resolve, reject) => {
+        const options = {
+          key: orderData.keyId,
+          amount: orderData.order.amount,
+          currency: orderData.order.currency,
+          name: "Lawizer",
+          description: service.title,
+          order_id: orderData.order.id,
+          prefill: {
+            name: user?.name || "",
+            email: user?.email || "",
+            contact: (user as any)?.phone || "",
+          },
+          theme: { color: "#c92c41" },
+          modal: {
+            ondismiss: function () {
+              setPaymentState("idle");
+              reject(new Error("Payment cancelled by user"));
+            }
+          },
+          handler: async function (response: any) {
+            try {
+              setPaymentState("verifying");
+              const verifyRes = await fetch("/api/payments/verify", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                }),
+              });
+
+              const verifyData = await verifyRes.json();
+              if (!verifyData.success) {
+                throw new Error(verifyData.message || "Verification failed");
+              }
+
+              setPaymentState("success");
+              toast.success("Payment successful! Our team will contact you shortly.");
+              
+              window.dispatchEvent(
+                new CustomEvent("triggerConfetti", {
+                  detail: { amount: service.price },
+                })
+              );
+              
+              router.push("/user/dashboard?tab=services");
+              resolve();
+            } catch (verifyErr: any) {
+              setPaymentError(verifyErr.message || "Verification failed");
+              setPaymentState("error");
+              reject(verifyErr);
+            }
+          },
+        };
+
+        const rzp = new (window as any).Razorpay(options);
+        rzp.on("payment.failed", (response: any) => {
+          setPaymentError(response.error.description || "Payment failed");
+          setPaymentState("error");
+          reject(new Error(response.error.description));
+        });
+        rzp.open();
+      });
+    } catch (err: any) {
+      if (paymentState !== "idle") {
+        setPaymentError(err.message || "Something went wrong");
+        setPaymentState("idle");
+        if (err.message !== "Payment cancelled by user") {
+          toast.error(err.message || "Payment failed");
+        }
+      }
     }
   };
 
@@ -451,8 +542,9 @@ export default function BookServiceTab() {
                     </button>
 
                     <button
-                      onClick={() => handleOpenBuyModal(service)}
-                      className="w-full px-3 py-2.5 bg-[#c92c41] hover:bg-[#a8233a] text-white text-xs font-semibold rounded-xl transition-all shadow-xs flex items-center justify-center gap-1"
+                      onClick={() => handleConfirmPurchase(service)}
+                      disabled={!razorpayReady}
+                      className="w-full px-3 py-2.5 bg-[#c92c41] hover:bg-[#a8233a] disabled:bg-gray-400 disabled:cursor-not-allowed text-white text-xs font-semibold rounded-xl transition-all shadow-xs flex items-center justify-center gap-1"
                     >
                       Book Now →
                     </button>
@@ -509,167 +601,26 @@ export default function BookServiceTab() {
         </div>
       </div>
 
-      {/* CHECKOUT / BUY NOW MODAL */}
+      {/* Global Payment Overlay */}
       <AnimatePresence>
-        {isCheckoutOpen && selectedService && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 10 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 10 }}
-              transition={{ duration: 0.2 }}
-              className="bg-white rounded-2xl shadow-xl border border-gray-200 max-w-lg w-full overflow-hidden relative"
-            >
-              {/* MODAL HEADER */}
-              <div className="p-6 bg-gray-50/80 border-b border-gray-100 flex items-start justify-between">
-                <div>
-                  <div className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#c92c41] bg-red-50 px-2 py-0.5 rounded-full mb-1">
-                    <ShieldCheck className="w-3 h-3" /> Lawizer Guaranteed Service
-                  </div>
-                  <h2 className="text-xl font-bold text-gray-900">{selectedService.title}</h2>
-                  <p className="text-xs text-gray-500 mt-0.5">{selectedService.category}</p>
-                </div>
-                <button
-                  onClick={() => setIsCheckoutOpen(false)}
-                  className="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-200/60 transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* MODAL BODY */}
-              {orderSuccess ? (
-                <div className="p-10 text-center space-y-4">
-                  <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
-                    <CheckCircle2 className="w-8 h-8" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900">Service Booked Successfully!</h3>
-                  <p className="text-xs text-gray-500 max-w-xs mx-auto">
-                    Your request has been registered. You are being redirected to your active workspace to track progress...
-                  </p>
-                </div>
-              ) : (
-                <div className="p-6 space-y-5">
-                  {/* PRICING BREAKDOWN CARD */}
-                  <div className="bg-gray-50/70 border border-gray-200/80 rounded-xl p-4 space-y-2.5">
-                    <div className="flex justify-between text-xs text-gray-600">
-                      <span>Service Professional Fee</span>
-                      <span className="font-semibold text-gray-800">
-                        ₹{selectedService.price.toLocaleString("en-IN")}
-                      </span>
-                    </div>
-                    <div className="flex justify-between text-xs text-gray-600">
-                      <span>GST / Govt Tax (18% included)</span>
-                      <span className="text-emerald-700 font-medium">Included</span>
-                    </div>
-                    <div className="pt-2 border-t border-gray-200/60 flex justify-between items-baseline">
-                      <span className="text-sm font-bold text-gray-900">Total Payable</span>
-                      <span className="text-xl font-extrabold text-[#c92c41]">
-                        ₹{selectedService.price.toLocaleString("en-IN")}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* USER CONTACT DETAILS */}
-                  <div className="space-y-3">
-                    <label className="text-xs font-semibold text-gray-700 uppercase tracking-wider block">
-                      Client Contact Info
-                    </label>
-                    <div className="grid grid-cols-2 gap-3 text-xs">
-                      <div className="p-3 bg-gray-50 rounded-xl border border-gray-200">
-                        <span className="text-gray-400 block text-[10px]">FULL NAME</span>
-                        <span className="font-semibold text-gray-800 truncate block">
-                          {user?.name || "Client"}
-                        </span>
-                      </div>
-                      <div className="p-3 bg-gray-50 rounded-xl border border-gray-200">
-                        <span className="text-gray-400 block text-[10px]">EMAIL ADDRESS</span>
-                        <span className="font-semibold text-gray-800 truncate block">
-                          {user?.email || "client@lawizer.com"}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* PAYMENT METHOD SELECTOR */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-semibold text-gray-700 uppercase tracking-wider block">
-                      Select Payment Mode
-                    </label>
-                    <div className="grid grid-cols-3 gap-2.5">
-                      <button
-                        type="button"
-                        onClick={() => setPaymentMethod("upi")}
-                        className={`p-3 rounded-xl border text-xs font-medium flex flex-col items-center gap-1.5 transition-all ${
-                          paymentMethod === "upi"
-                            ? "border-[#c92c41] bg-red-50/50 text-[#c92c41]"
-                            : "border-gray-200 text-gray-600 hover:bg-gray-50"
-                        }`}
-                      >
-                        <QrCode className="w-4 h-4" /> UPI / GPay
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setPaymentMethod("card")}
-                        className={`p-3 rounded-xl border text-xs font-medium flex flex-col items-center gap-1.5 transition-all ${
-                          paymentMethod === "card"
-                            ? "border-[#c92c41] bg-red-50/50 text-[#c92c41]"
-                            : "border-gray-200 text-gray-600 hover:bg-gray-50"
-                        }`}
-                      >
-                        <CreditCard className="w-4 h-4" /> Credit / Debit
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setPaymentMethod("netbanking")}
-                        className={`p-3 rounded-xl border text-xs font-medium flex flex-col items-center gap-1.5 transition-all ${
-                          paymentMethod === "netbanking"
-                            ? "border-[#c92c41] bg-red-50/50 text-[#c92c41]"
-                            : "border-gray-200 text-gray-600 hover:bg-gray-50"
-                        }`}
-                      >
-                        <Landmark className="w-4 h-4" /> NetBanking
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* ADDITIONAL NOTES */}
-                  <div>
-                    <label className="text-xs font-semibold text-gray-700 uppercase tracking-wider block mb-1">
-                      Requirements / Special Notes (Optional)
-                    </label>
-                    <textarea
-                      rows={2}
-                      placeholder="Mention any specific requirements or business details..."
-                      value={notes}
-                      onChange={(e) => setNotes(e.target.value)}
-                      className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:outline-none focus:bg-white focus:border-[#c92c41]"
-                    />
-                  </div>
-
-                  {/* ACTION BUTTON */}
-                  <button
-                    onClick={handleConfirmPurchase}
-                    disabled={submittingOrder}
-                    className="w-full py-3.5 bg-[#c92c41] hover:bg-[#a8233a] disabled:bg-gray-300 text-white font-bold text-sm rounded-xl shadow-xs transition-all flex items-center justify-center gap-2"
-                  >
-                    {submittingOrder ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" /> Processing Payment...
-                      </>
-                    ) : (
-                      <>
-                        <Zap className="w-4 h-4 fill-white" /> Confirm & Pay ₹
-                        {selectedService.price.toLocaleString("en-IN")}
-                      </>
-                    )}
-                  </button>
-                </div>
-              )}
-            </motion.div>
-          </div>
+        {paymentState !== "idle" && paymentState !== "error" && paymentState !== "success" && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm"
+          >
+            <div className="bg-white p-6 rounded-2xl shadow-2xl flex flex-col items-center max-w-sm w-full mx-4">
+              <Loader2 className="w-10 h-10 animate-spin text-[#c92c41] mb-4" />
+              <h3 className="text-lg font-bold text-gray-900 mb-1">
+                {paymentState === "creating" ? "Initiating Process..." : 
+                 paymentState === "paying" ? "Awaiting Payment..." : "Verifying Payment..."}
+              </h3>
+              <p className="text-sm text-gray-500 text-center">
+                Please do not close or refresh this window.
+              </p>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>
