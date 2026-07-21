@@ -9,6 +9,7 @@ import {
   SpeakerLayout,
   CallControls,
   Call,
+  CallingState,
   useCallStateHooks,
 } from "@stream-io/video-react-sdk";
 import "@stream-io/video-react-sdk/dist/css/styles.css";
@@ -38,7 +39,7 @@ function CallActiveUI({ peerName, mode, onClose }: { peerName: string; mode: "vo
         <div className="flex items-center gap-3">
           <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
           <span className="text-xs font-bold uppercase tracking-wider text-slate-200">
-            {callingState === "JOINED" ? "Live Call" : "Connecting..."}
+            {callingState === CallingState.JOINED ? "Live Call" : "Connecting..."}
           </span>
         </div>
         <div className="text-xs font-semibold text-slate-300">

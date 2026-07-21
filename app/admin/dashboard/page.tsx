@@ -20,6 +20,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import Link from "next/link";
+import { AssignServiceModal } from "@/components/admin/AssignServiceModal";
 
 interface CaseItem {
   id: string;
@@ -65,6 +66,7 @@ export default function AdminDashboardPage() {
 
   // Assignment Modal / Form states
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
+  const [isStageServiceModalOpen, setIsStageServiceModalOpen] = useState(false);
   const [selectedCaseId, setSelectedCaseId] = useState("");
   const [selectedProfId, setSelectedProfId] = useState("");
   const [selectedClientId, setSelectedClientId] = useState("");
@@ -243,6 +245,14 @@ export default function AdminDashboardPage() {
             >
               <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
               Refresh
+            </button>
+
+            <button
+              onClick={() => setIsStageServiceModalOpen(true)}
+              className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-2 shadow-lg shadow-emerald-900/20 transition cursor-pointer"
+            >
+              <Sparkles size={15} />
+              Assign Service & Stages (JSON)
             </button>
 
             <button
@@ -749,6 +759,17 @@ export default function AdminDashboardPage() {
           </div>
         </div>
       )}
+
+      {/* DYNAMIC SERVICE STAGES ASSIGNMENT MODAL */}
+      <AssignServiceModal
+        isOpen={isStageServiceModalOpen}
+        onClose={() => setIsStageServiceModalOpen(false)}
+        onSuccess={() => {
+          setSuccessToast("Service & Process Stages assigned successfully!");
+          loadAllData();
+          setTimeout(() => setSuccessToast(null), 4000);
+        }}
+      />
     </div>
   );
 }

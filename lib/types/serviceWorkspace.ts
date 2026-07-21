@@ -41,6 +41,8 @@ export interface ServiceWorkspaceItem {
 
 export interface ServiceWorkspaceDetail extends ServiceWorkspaceItem {
   stages: StageItem[];
+  customStages?: any[];
+  currentStageId?: string;
   documents: {
     submitted: DocumentItem[];
     pending: DocumentItem[];
