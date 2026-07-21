@@ -24,11 +24,17 @@ interface ScheduleCallPayload {
 
 export const getUserProfile = async (uid: string) => {
   try {
-    const res = await backendApi.get(`/auth/profile`, {
+    const res = await backendApi.get(`/api/user/profile`, {
+      baseURL: window.location.origin, // hit Next.js proxy on same origin
       params: { uid },
     });
-    return res.data.data;
+    console.log("getUserProfile success res.data:", res.data);
+    return {
+      success: true,
+      ...res.data?.profile,
+    };
   } catch (err: any) {
+    console.error("getUserProfile error:", err?.response?.data || err.message);
     return {
       success: false,
       message: err?.response?.data?.message,
@@ -100,13 +106,14 @@ export const completeUserProfile = async (authToken: string, formData: ProfilePa
  */
 import axios from "axios";
 
-export const loginUser = async (idToken: string, refreshToken?: string) => {
+export const loginUser = async (idToken: string, refreshToken?: string, requestedRole?: string) => {
   try {
     const res = await axios.post(
       `/api/auth/login`,
       { 
         idToken,
         refreshToken, // Include refresh token for HttpOnly cookie
+        requestedRole,
       },
       {
         headers: { Authorization: `Bearer ${idToken}` },

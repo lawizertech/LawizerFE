@@ -1,25 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Send, Phone, Video } from "lucide-react";
-// TODO: replace Firestore with Supabase Realtime / REST for consultation chat messages
+import { useEffect, useState } from "react";
+import { Phone, Video, Loader2, MessageCircle } from "lucide-react";
+import { getAccessToken } from "@/lib/auth/tokenStore";
+import { ChatEngine } from "@/components/chat/ChatEngine";
 import { Booking } from "@/types/booking";
 
 /* -------------------------------------------------------------------------- */
-/* TYPES */
-/* -------------------------------------------------------------------------- */
-
-type Message = {
-  id: string;
-  senderId: string;
-  senderRole: "USER" | "EXPERT";
-  text: string;
-  createdAt?: any;
-};
-
-/* -------------------------------------------------------------------------- */
-/* COMPONENT */
-/* -------------------------------------------------------------------------- */
+/* ConsultationChat
+ *
+ * A collapsible floating chat widget rendered on the consultation detail page.
+ * It resolves the `caseId` from the `booking.bookingId` then delegates all
+ * real-time messaging to <ChatEngine />.
+ * -------------------------------------------------------------------------- */
 
 export default function ConsultationChat({
   booking,
@@ -30,30 +23,32 @@ export default function ConsultationChat({
   currentUserId: string;
   currentUserRole: "USER" | "EXPERT";
 }) {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [text, setText] = useState("");
   const [open, setOpen] = useState(true);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const [caseId, setCaseId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const bookingDate = new Date(booking.bookingDate._seconds * 1000);
+  const senderRole = currentUserRole === "USER" ? "client" : "professional";
 
-  /* ===================== REALTIME LISTENER ===================== */
+  // ── Resolve caseId from bookingId ─────────────────────────────────────────
   useEffect(() => {
-    if (!currentUserId || !booking.bookingId) return;
-    // TODO: subscribe to Supabase Realtime channel `consultation-chat:${booking.bookingId}`
-  }, [booking.bookingId, currentUserId]);
+    if (!booking.bookingId) {
+      setLoading(false);
+      return;
+    }
 
-  /* ===================== AUTO SCROLL ===================== */
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-  /* ===================== SEND MESSAGE ===================== */
-  const sendMessage = async () => {
-    if (!text.trim()) return;
-    // TODO: send via Supabase Realtime broadcast or REST insert
-    setText("");
-  };
+    const token = getAccessToken();
+    fetch(
+      `/api/user/case-by-booking?bookingId=${encodeURIComponent(booking.bookingId)}`,
+      { headers: token ? { Authorization: `Bearer ${token}` } : {} }
+    )
+      .then((r) => r.json())
+      .then((data: { caseId?: string | null }) => {
+        if (data.caseId) setCaseId(data.caseId);
+      })
+      .catch((err) => console.error("ConsultationChat: case lookup error:", err))
+      .finally(() => setLoading(false));
+  }, [booking.bookingId]);
 
   /* -------------------------------------------------------------------------- */
   /* UI */
@@ -61,74 +56,54 @@ export default function ConsultationChat({
 
   return (
     <div
-      className={`fixed bottom-6 right-6 z-50 bg-white border rounded-xl shadow-xl flex flex-col justify-center transition-all ${
-        open ? "w-[340px] h-[460px]" : "w-[240px] h-[52px]"
+      className={`fixed bottom-6 right-6 z-50 bg-white border border-gray-200 rounded-2xl shadow-xl flex flex-col transition-all duration-200 ${
+        open ? "w-[360px] h-[520px]" : "w-[260px] h-[52px]"
       }`}
     >
       {/* HEADER */}
       <div
         onClick={() => setOpen(!open)}
-        className="px-4 py-3 border-b cursor-pointer flex justify-between items-center"
+        className="px-4 py-3 border-b border-gray-100 cursor-pointer flex justify-between items-center shrink-0 rounded-t-2xl"
       >
         <div>
-          <p className="font-medium text-sm">{booking.expertName}</p>
+          <p className="font-semibold text-sm text-gray-800">{booking.expertName}</p>
           {open && (
-            <p className="text-xs text-gray-500 capitalize flex items-center gap-1">
+            <p className="text-xs text-gray-500 capitalize flex items-center gap-1 mt-0.5">
               {booking.callType === "video" ? <Video size={12} /> : <Phone size={12} />}
-              {booking.callType} consultation · {bookingDate.toLocaleDateString()}
+              {booking.callType} · {bookingDate.toLocaleDateString()}
             </p>
           )}
         </div>
-        <span className="text-xs text-gray-400">{open ? "—" : "Chat ▲"}</span>
+        <span className="text-xs text-gray-400 ml-2 shrink-0">{open ? "—" : "Chat ▲"}</span>
       </div>
 
+      {/* BODY */}
       {open && (
-        <>
-          {/* STATUS BAR */}
-          <div className="px-4 py-1 text-xs bg-gray-50 border-b flex justify-between">
-            <span className="capitalize">
-              Status: <b>{booking.status}</b>
-            </span>
-            <span>₹{booking.rate}</span>
-          </div>
-
-          {/* MESSAGES */}
-          <div className="flex-1 overflow-y-auto p-3 text-xs flex flex-col gap-2">
-            {messages.length === 0 && <p className="text-gray-400 text-center mt-4">Start your consultation chat…</p>}
-
-            {messages.map((m) => {
-              const isMe = m.senderId === currentUserId;
-              return (
-                <div key={m.id} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
-                  <div
-                    className={`max-w-[80%] px-3 py-2 rounded-2xl whitespace-pre-wrap break-words ${
-                      isMe ? "bg-[#c92c41] text-white" : "bg-gray-100 text-gray-800"
-                    }`}
-                  >
-                    {m.text}
-                  </div>
-                </div>
-              );
-            })}
-            <div ref={bottomRef} />
-          </div>
-
-          {/* INPUT */}
-          {booking.status === "confirmed" && (
-            <div className="border-t p-2 flex gap-2">
-              <input
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                placeholder="Type a message…"
-                className="flex-1 border rounded-md px-2 py-1 text-xs"
-                onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-              />
-              <button onClick={sendMessage} className="bg-[#c92c41] text-white px-2 rounded-md">
-                <Send size={14} />
-              </button>
+        <div className="flex-1 overflow-hidden rounded-b-2xl">
+          {loading ? (
+            <div className="flex items-center justify-center h-full text-gray-400">
+              <Loader2 className="animate-spin text-[#c92c41] mr-2" size={20} />
+              <span className="text-xs">Loading chat…</span>
+            </div>
+          ) : caseId && currentUserId ? (
+            <ChatEngine
+              key={caseId}
+              caseId={caseId}
+              currentUserId={currentUserId}
+              senderRole={senderRole as "client" | "professional"}
+              professionalName={booking.expertName}
+              caseTitle={`Consultation — ${booking.expertName}`}
+            />
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full text-center p-6">
+              <MessageCircle size={24} className="text-gray-300 mb-2" />
+              <p className="text-xs font-semibold text-gray-500">Chat channel not ready yet</p>
+              <p className="text-[11px] text-gray-400 mt-1">
+                A case must be assigned to this booking before the chat opens.
+              </p>
             </div>
           )}
-        </>
+        </div>
       )}
     </div>
   );

@@ -42,13 +42,14 @@ export async function POST(req: Request) {
     // Parse request body
     const body = await req.json();
 
-    // Validate required fields
-    const { razorpay_payment_id, razorpay_order_id, razorpay_signature, processCode } = body;
-    if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature || !processCode) {
+    // Validate required fields — processCode is optional; the backend can resolve
+    // it from the razorpay_order_id stored on the case document.
+    const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = body;
+    if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {
       return NextResponse.json(
         {
           success: false,
-          message: "Payment verification parameters missing",
+          message: "Payment verification parameters missing (razorpay_payment_id, razorpay_order_id, razorpay_signature are required)",
         },
         { status: 400 },
       );

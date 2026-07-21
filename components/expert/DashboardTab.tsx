@@ -94,19 +94,53 @@ export default function DashboardTab() {
           transition={{ delay: 0.2 }}
         >
           <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold">Pending Requests</h2>
-            <Link href="/expert/dashboard?tab=bookings" className="text-sm font-medium hover:underline" style={{ color: PRIMARY }}>
-              View All
+            <h2 className="text-xl font-semibold text-gray-900">Assigned Cases & Consultations</h2>
+            <Link href="/expert/dashboard?tab=chats" className="text-sm font-bold hover:underline text-[#c92c41]">
+              View All Chats →
             </Link>
           </div>
 
-          <div
-            className="rounded-2xl p-10 text-center bg-white text-lg
- border border-transparent hover:border-[#c92c4130]
- transition-colors duration-200 font-light text-[#373737]"
-          >
-            No pending requests
-          </div>
+          {!dashboard?.cases || dashboard.cases.length === 0 ? (
+            <div className="rounded-2xl p-10 text-center bg-white border border-gray-100 font-light text-gray-500 shadow-xs">
+              No cases assigned yet.
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {dashboard.cases.map((c: any) => (
+                <div
+                  key={c.caseId}
+                  className="bg-white rounded-2xl p-5 border border-gray-100 hover:border-rose-200 shadow-xs transition space-y-3"
+                >
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <span className="text-[10px] font-mono font-bold text-rose-600 bg-rose-50 border border-rose-100 px-2 py-0.5 rounded-md">
+                        #{c.caseId.substring(0, 8).toUpperCase()}
+                      </span>
+                      <h3 className="font-bold text-base text-gray-900 mt-1">{c.title}</h3>
+                    </div>
+                    <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100">
+                      {c.status}
+                    </span>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between pt-2 border-t border-gray-50 text-xs text-gray-600 gap-3">
+                    <div>
+                      <span className="text-[10px] text-gray-400 font-bold block uppercase">Client</span>
+                      <span className="font-bold text-gray-900">{c.client?.name || c.client?.email || "Assigned Client"}</span>
+                    </div>
+
+                    <Link
+                      href="/expert/dashboard?tab=chats"
+                      className="px-4 py-2 rounded-xl bg-[#c92c41] hover:bg-[#a8233a] text-white font-bold transition text-xs flex items-center gap-1.5 shadow-xs"
+                    >
+                      <span>Open Chat Channel</span>
+                      <span>→</span>
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </motion.div>
 
         {/* RIGHT */}

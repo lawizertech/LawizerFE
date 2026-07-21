@@ -1,8 +1,9 @@
 "use client";
 
-import { Plus, Calendar, ClipboardList, Receipt, Settings, LogOut, ArrowLeft, HelpCircle, ChevronDown } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Plus, Calendar, ClipboardList, Receipt, Settings, LogOut, ArrowLeft, HelpCircle, ChevronDown, MessageSquare } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/context/authContext";
+import UserAvatar from "@/components/ui/UserAvatar";
 
 interface SidebarProps {
   activeTab: string;
@@ -12,15 +13,17 @@ interface SidebarProps {
 
 export default function Sidebar({ activeTab, handleLogout, menuOpen }: SidebarProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const { user } = useAuth();
+
+  const isChatsRoute = pathname === "/user/dashboard/chats";
 
   const go = (tab?: string) => {
     router.push(tab ? `/user/dashboard?tab=${tab}` : `/user/dashboard`);
   };
 
-  const userName = user?.name || "Nikhil Verma";
-  const userEmail = user?.email || "nikhil.verma@email.com";
-  const userInitial = userName.charAt(0).toUpperCase();
+  const userName = user?.name || (user?.email ? user.email.split("@")[0] : "User");
+  const userEmail = user?.email || "";
 
   return (
     <aside
@@ -50,23 +53,30 @@ export default function Sidebar({ activeTab, handleLogout, menuOpen }: SidebarPr
           <SidebarItem
             label="My Services"
             icon={ClipboardList}
-            active={activeTab === "services" || !activeTab}
+            active={!isChatsRoute && (activeTab === "services" || !activeTab)}
             onClick={() => go("services")}
           />
 
-          <SidebarItem label="Book Service" icon={Plus} active={activeTab === "book"} onClick={() => go("book")} />
+          <SidebarItem label="Book Service" icon={Plus} active={!isChatsRoute && activeTab === "book"} onClick={() => go("book")} />
 
           <SidebarItem
             label="My Consultations"
             icon={Calendar}
-            active={activeTab === "consultations"}
+            active={!isChatsRoute && activeTab === "consultations"}
             onClick={() => go("consultations")}
+          />
+
+          <SidebarItem
+            label="Case Chats"
+            icon={MessageSquare}
+            active={isChatsRoute}
+            onClick={() => router.push("/user/dashboard/chats")}
           />
 
           <SidebarItem
             label="Transactions"
             icon={Receipt}
-            active={activeTab === "transactions"}
+            active={!isChatsRoute && activeTab === "transactions"}
             onClick={() => go("transactions")}
           />
 
@@ -112,12 +122,10 @@ export default function Sidebar({ activeTab, handleLogout, menuOpen }: SidebarPr
         {/* USER PROFILE FOOTER */}
         <div className="flex items-center justify-between p-2 rounded-xl bg-gray-50/80 border border-gray-200/60">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-full bg-[#c92c41] text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
-              {userInitial}
-            </div>
+            <UserAvatar user={user} size="sm" />
             <div className="min-w-0 flex-1">
               <p className="text-xs font-bold text-gray-900 truncate leading-tight">{userName}</p>
-              <p className="text-[10px] text-gray-500 truncate leading-tight">{userEmail}</p>
+              {userEmail && <p className="text-[10px] text-gray-500 truncate leading-tight">{userEmail}</p>}
             </div>
           </div>
           <ChevronDown size={14} className="text-gray-400 flex-shrink-0 ml-1" />

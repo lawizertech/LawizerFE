@@ -48,10 +48,10 @@ export function HeroSection() {
 
   return (
     <div className="hero-wrap" id="home">
-      <div className="flex flex-col lg:flex-row max-w-7xl mx-auto w-full px-4 md:px-12 gap-8 lg:gap-16 lg:items-stretch flex-1Home">
+      <div className="flex flex-col lg:flex-row max-w-7xl mx-auto w-full px-4 md:px-12 gap-8 lg:gap-16 lg:items-center flex-1">
 
         {/* LEFT: Hero Copy */}
-        <div className="hero-left w-full lg:w-3/5">
+        <div className="hero-left w-full lg:w-3/5 flex flex-col items-center text-center justify-center">
           <div className="hero-badge">
             <span className="dot"></span>
             Trusted by 10,000+ Businesses Across India
@@ -70,7 +70,7 @@ export function HeroSection() {
             your startup. Fast, affordable, fully online.
           </p>
 
-          <div className="hero-actions flex flex-col gap-3 w-full px-4 md:flex-row md:w-auto md:gap-3">
+          <div className="hero-actions flex flex-col justify-center items-center gap-3 w-full px-4 md:flex-row md:w-auto md:gap-3">
             <a href="#services" className="btn-hero">
               Register Now
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -101,8 +101,8 @@ export function HeroSection() {
           </div>
 
           {/* Google Rating + Trust Stats */}
-          <div className="trust-row flex flex-col gap-3 w-full px-4 md:flex-row md:w-auto md:gap-3">
-            <div className="google-rating flex items-center gap-3">
+          <div className="trust-row flex flex-col justify-center items-center gap-3 w-full px-4 mt-6 md:flex-row md:w-auto md:gap-8">
+            <div className="google-rating flex items-center justify-center gap-3">
               <div className="google-logo">
                 <svg className="google-g" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path
