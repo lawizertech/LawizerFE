@@ -242,9 +242,12 @@ export class ServiceWorkspaceService {
       }
     }
 
+    const meta = typeof s.metadata === "object" && s.metadata !== null ? s.metadata : {};
+    const customStages = Array.isArray(meta.stages) && meta.stages.length > 0 ? meta.stages : null;
+
     return {
       id: s.serviceId,
-      name: s.title,
+      name: meta.title || s.title,
       type: s.serviceCode.replace(/_/g, " "),
       status: statusLabel,
       progress,
@@ -258,6 +261,8 @@ export class ServiceWorkspaceService {
         ? { name: "Assigned Professional" }
         : null,
       stages,
+      customStages: customStages || undefined,
+      currentStageId: meta.currentStageId || undefined,
       documents: { submitted, pending },
       activities,
     };

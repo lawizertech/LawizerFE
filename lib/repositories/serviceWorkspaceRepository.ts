@@ -22,6 +22,7 @@ export interface RawServiceDetail extends RawServiceItem {
   documentsRequired: any[];
   expertUploadedFiles: any[];
   instructions?: string | null;
+  metadata?: any;
 }
 
 export class ServiceWorkspaceRepository {
