@@ -100,7 +100,10 @@ function attach401Interceptor(instance: AxiosInstance) {
           { withCredentials: true }
         );
 
-        const newToken: string = res.data.accessToken;
+        const newToken: string = res.data?.accessToken;
+        if (!newToken || !res.data?.success) {
+          throw new Error(res.data?.message || "Token refresh failed");
+        }
         setAccessToken(newToken);
         processQueue(null, newToken);
 

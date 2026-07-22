@@ -24,6 +24,15 @@ export async function POST(req: NextRequest) {
     // Get refresh token from cookie or header
     const cookieToken = req.cookies.get("refreshToken")?.value;
     const reqCookieHeader = req.headers.get("cookie");
+
+    // If no refresh token cookie exists at all, return gracefully without triggering 401 error in browser console
+    if (!cookieToken && (!reqCookieHeader || !reqCookieHeader.includes("refreshToken="))) {
+      return NextResponse.json(
+        { success: false, message: "No refresh token cookie present" },
+        { status: 200 }
+      );
+    }
+
     const cookieHeader =
       reqCookieHeader && reqCookieHeader.trim().length > 0
         ? reqCookieHeader
@@ -41,12 +50,12 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const body = await backendRes.json();
+    const body = await backendRes.json().catch(() => ({}));
 
     if (!backendRes.ok) {
       return NextResponse.json(
         { success: false, message: body.message ?? "Refresh failed" },
-        { status: backendRes.status }
+        { status: 200 }
       );
     }
 
