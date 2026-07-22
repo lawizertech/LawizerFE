@@ -208,7 +208,7 @@ export default function ITRPlans() {
         >
           {/* Pill label */}
           <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border mb-6 text-xs font-semibold tracking-widest uppercase text-brand-red border-brand-red/30 bg-brand-red/10">
-            <Sparkles className="w-3 h-3" /> ITR Filing Plans
+            <Sparkles className="w-3 h-3" /> 
           </div>
 
           <h2 className="text-4xl sm:text-5xl font-bold mb-5 leading-tight text-brand-navy">

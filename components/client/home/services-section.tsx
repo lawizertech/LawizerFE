@@ -99,73 +99,7 @@ const PHASES: Phase[] = [
             url: "/startup-businesslegal/startbusiness/Section8NGOCompanyPage",
           },
         ],
-      },
-      {
-        label: "ITR Filing Plans",
-        items: [
-          {
-            name: "Bronze — Salaried Filing",
-            price: "₹2,499",
-            was: "₹6,873",
-            badge: "Essential",
-            url: "/itr/itr-plans#bronze",
-          },
-          {
-            name: "Silver — With Video Call",
-            price: "₹4,499",
-            was: "₹12,498",
-            badge: "Most Popular",
-            url: "/itr/itr-plans#silver",
-          },
-          {
-            name: "Gold — + Next Year Planning",
-            price: "₹6,499",
-            was: "₹17,498",
-            badge: "Advanced",
-            url: "/itr/itr-plans#gold",
-          },
-          {
-            name: "Diamond — Year-round Advisory",
-            price: "₹34,999",
-            was: "₹99,998",
-            badge: "Elite",
-            url: "/itr/itr-plans#diamond",
-          },
-        ],
-      },
-      {
-        label: "IP, Trademarks & Certifications",
-        items: [
-          {
-            name: "Trademark Registration",
-            price: "₹999",
-            was: "₹3,499",
-            badge: "Save ₹2,300",
-            url: "/startup-businesslegal/protectbusiness/TrademarkRegistrationPage",
-          },
-          {
-            name: "Copyright Registration",
-            price: "₹1,500",
-            was: "₹3,999",
-            badge: "63% OFF",
-            url: "/startup-businesslegal/protectbusiness/CopyrightRegistrationPage",
-          },
-          {
-            name: "MSME / Udyam Registration",
-            price: "₹1,499",
-            was: "₹2,999",
-            badge: "50% OFF",
-            url: "/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage",
-          },
-          {
-            name: "ISO Certification",
-            price: "₹1,499",
-            was: "₹2,999",
-            badge: "50% OFF",
-            url: "/startup-businesslegal/growbusiness/ISOCertificationPage",
-          },
-        ],
-      },
+      }
     ],
   },
   {
@@ -193,7 +127,46 @@ const PHASES: Phase[] = [
     },
     categories: [
       {
-        label: "Founder & Investor Agreements",
+        label: "Brand & Intellectual Property Protection",
+        items: [
+          {
+            name: "Trademark Registration",
+            price: "₹1,199",
+            was: "₹3,499",
+            badge: "POPULAR",
+            url: "/startup-businesslegal/protectbusiness/TrademarkRegistrationPage",
+          },
+          {
+            name: "Copyright Registration",
+            price: "₹1,500",
+            was: "₹3,999",
+            badge: "65% OFF",
+            url: "/startup-businesslegal/protectbusiness/CopyrightRegistrationPage",
+          },
+          {
+            name: "Patent Search & Registration",
+            price: "₹4,999",
+            was: "₹9,999",
+            badge: "PATENT TAB",
+            url: "/startup-businesslegal/protectbusiness/PatentRegistrationPage",
+          },
+          {
+            name: "Reply to Trademark Objection",
+            price: "₹1,999–₹3,999",
+            was: "₹5,999–₹8,999",
+            url: "/startup-businesslegal/protectbusiness/ReplyToTrademarkObjectionPage",
+          },
+          {
+            name: "Trademark Renewal",
+            price: "₹999",
+            was: "₹2,499",
+            badge: "60% OFF",
+            url: "/startup-businesslegal/protectbusiness/RenewTrademarkPage",
+          },
+        ],
+      },
+      {
+        label: "Legal Agreements",
         items: [
           { name: "Co-Founder Agreement", price: "₹1,499", was: "₹3,999", url: "/documentation/co-founder-agreement" },
           {
@@ -202,18 +175,6 @@ const PHASES: Phase[] = [
             was: "₹8,999",
             url: "/documentation/shareholder-subscription-agreement",
           },
-          {
-            name: "Joint Venture Agreement",
-            price: "₹1,499",
-            was: "₹7,999",
-            url: "/documentation/joint-venture-agreement",
-          },
-          { name: "Letter of Intent (LOI)", price: "₹1,499", was: "₹2,999", url: "/documentation/letter-of-intent" },
-        ],
-      },
-      {
-        label: "Clients, Vendors & Team",
-        items: [
           {
             name: "Non-Disclosure Agreement (NDA)",
             price: "₹1,499",
@@ -233,18 +194,17 @@ const PHASES: Phase[] = [
             was: "₹4,499",
             url: "/documentation/service-agreement-term-sheet",
           },
-          { name: "Franchise Agreement", price: "₹1,499", was: "₹6,999", url: "/documentation/franchise-agreement" },
-          { name: "Licensing Agreement", price: "₹1,499", was: "₹5,499", url: "/documentation/licensing-agreement" },
-        ],
-      },
-      {
-        label: "IP, Digital & Specialized",
-        items: [
           {
             name: "IP Assignment Agreement",
             price: "₹1,499",
             was: "₹4,999",
             url: "/documentation/ip-assignment-agreement",
+          },
+          {
+            name: "Joint Venture Agreement",
+            price: "₹1,499",
+            was: "₹7,999",
+            url: "/documentation/joint-venture-agreement",
           },
           {
             name: "Privacy Policy & Terms of Use",
@@ -253,24 +213,14 @@ const PHASES: Phase[] = [
             url: "/documentation/privacy-terms-of-use",
           },
           { name: "SaaS Agreement", price: "₹1,499", was: "₹5,999", url: "/documentation/saas-agreement" },
+          { name: "Franchise Agreement", price: "₹1,499", was: "₹6,999", url: "/documentation/franchise-agreement" },
+          { name: "Licensing Agreement", price: "₹1,499", was: "₹5,499", url: "/documentation/licensing-agreement" },
+          { name: "Letter of Intent (LOI)", price: "₹1,499", was: "₹2,999", url: "/documentation/letter-of-intent" },
           {
             name: "Power of Attorney (Drafting)",
             price: "₹1,499",
             was: "₹2,499",
             url: "/documentation/power-of-attorney-drafting",
-          },
-          {
-            name: "Reply to Trademark Objection",
-            price: "₹1,999–₹3,999",
-            was: "₹5,999–₹8,999",
-            url: "/startup-businesslegal/protectbusiness/ReplyToTrademarkObjectionPage",
-          },
-          {
-            name: "Trademark Renewal",
-            price: "₹999",
-            was: "₹2,499",
-            badge: "60% OFF",
-            url: "/startup-businesslegal/protectbusiness/RenewTrademarkPage",
           },
         ],
       },
