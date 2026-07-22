@@ -357,7 +357,7 @@ export function Header() {
                       </Button>
                       <Button
                         variant="outline"
-                        className="flex-1 rounded border-blue-600 text-blue-600 text-xs font-bold"
+                        className="flex-1 rounded font-extrabold  text-blue-600 text-xs hover:text-white hover:bg-red-500"
                         onClick={() => {
                           setIsSignInModalOpen(true);
                           setMobileMenuOpen(false);
