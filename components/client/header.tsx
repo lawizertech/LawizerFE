@@ -358,7 +358,7 @@ export function Header() {
                       </Button>
                       <Button
                         variant="outline"
-                        className="flex-1 rounded-xl h-11 border-gray-200 text-gray-700 hover:bg-gray-50 font-semibold tracking-wide"
+                        className="flex-1 rounded-xl h-11 font-extrabold text-blue-600 text-xs hover:text-white hover:bg-red-500"
                         onClick={() => {
                           setIsSignInModalOpen(true);
                           setMobileMenuOpen(false);
@@ -610,7 +610,12 @@ export function Header() {
           onClose={() => setIsCompleteProfileModalOpen(false)}
           onDone={() => {
             setIsCompleteProfileModalOpen(false);
-            router.push("/user/dashboard");
+            const userRole = user?.role?.toUpperCase();
+            if (userRole === "EXPERT" || userRole === "PROFESSIONAL" || userRole === "LAWYER") {
+              router.push("/expert/dashboard");
+            } else {
+              router.push("/user/dashboard");
+            }
           }}
         />
       )}
