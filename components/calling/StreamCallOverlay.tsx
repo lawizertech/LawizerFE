@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import {
   StreamVideoClient,
   StreamVideo,
@@ -87,6 +87,10 @@ export function StreamCallOverlay({
   const [isInitializing, setIsInitializing] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+  // Refs to avoid stale closures in cleanup
+  const callRef = useRef<Call | null>(null);
+  const clientRef = useRef<StreamVideoClient | null>(null);
+
   // Initialize Stream Video Client and join call
   useEffect(() => {
     let isMounted = true;
@@ -118,6 +122,7 @@ export function StreamCallOverlay({
         });
 
         if (!isMounted) return;
+        clientRef.current = _client;
         setClient(_client);
 
         // Create or join call channel
@@ -140,11 +145,12 @@ export function StreamCallOverlay({
         }
 
         if (!isMounted) return;
+        callRef.current = _call;
         setCall(_call);
       } catch (err: any) {
         console.error("Stream Call Error:", err);
         if (isMounted) {
-          setErrorMsg(err?.response?.data?.message || err.message || "Could not connect to video call server");
+          setErrorMsg(err?.response?.data?.message || err?.response?.data?.error || err.message || "Could not connect to video call server");
         }
       } finally {
         if (isMounted) setIsInitializing(false);
@@ -155,18 +161,29 @@ export function StreamCallOverlay({
 
     return () => {
       isMounted = false;
-      if (call) {
-        call.leave().catch(() => {});
+      // Use refs (not state) to avoid stale closure
+      if (callRef.current) {
+        callRef.current.leave().catch(() => {});
+        callRef.current = null;
+      }
+      if (clientRef.current) {
+        clientRef.current.disconnectUser();
+        clientRef.current = null;
       }
     };
   }, [caseId, currentUserId, currentUserName, mode]);
 
   const handleClose = useCallback(async () => {
-    if (call) {
-      await call.leave().catch(() => {});
+    if (callRef.current) {
+      await callRef.current.leave().catch(() => {});
+      callRef.current = null;
+    }
+    if (clientRef.current) {
+      clientRef.current.disconnectUser();
+      clientRef.current = null;
     }
     onClose();
-  }, [call, onClose]);
+  }, [onClose]);
 
   if (isInitializing) {
     return (
@@ -207,3 +224,4 @@ export function StreamCallOverlay({
     </StreamVideo>
   );
 }
+

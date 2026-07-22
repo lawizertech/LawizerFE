@@ -87,10 +87,15 @@ export async function POST(req: Request) {
     }
 
     const data = await backendRes.json();
+    const razorpayOrder = data.razorpayOrder || data.order;
+    const keyId = data.keyId || razorpayOrder?.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
 
     return NextResponse.json({
       success: true,
       ...data,
+      keyId,
+      order: razorpayOrder,
+      razorpayOrder: razorpayOrder,
     });
   } catch (err) {
     console.error("/api/user/start-process error:", err);

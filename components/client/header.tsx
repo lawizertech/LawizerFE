@@ -61,47 +61,46 @@ export function Header() {
     <>
       <motion.header
         initial={{
-          width: isHome ? "80px" : "100%",
           opacity: 0,
-          y: isHome ? 0 : -20,
-          borderRadius: isHome ? "9999px" : "0px",
+          y: -20,
         }}
         animate={{
-          width: isHome ? "90%" : "100%",
           opacity: 1,
           y: 0,
-          borderRadius: isHome ? "2rem" : "0px",
         }}
         transition={{
           duration: 0.5,
           ease: "easeOut",
         }}
         className={`
- fixed z-50 bg-white/80 backdrop-blur-md shadow-md
- ${isHome ? "top-4 left-1/2 -translate-x-1/2" : "top-0 left-0"}
- ${isHome ? "border border-gray-200/50" : "border-none"}
- w-full
- `}
+          fixed z-50 transition-all duration-300
+          bg-white/95 backdrop-blur-md
+          shadow-[0_8px_30px_rgb(0,0,0,0.04)]
+          ${isHome
+            ? "top-0 left-0 w-full rounded-none border-b border-gray-100 lg:top-5 lg:left-1/2 lg:-translate-x-1/2 lg:w-[92%] lg:max-w-7xl lg:rounded-full lg:border lg:border-gray-200/60"
+            : "top-0 left-0 w-full rounded-none border-b border-gray-100"
+          }
+        `}
       >
         <div
           className={`
- mx-auto
- ${isHome ? "max-w-7xl px-4 py-4" : "w-full px-6 py-5"}
- `}
+            mx-auto
+            ${isHome ? "max-w-7xl px-4 py-3 lg:py-4" : "w-full px-4 lg:px-6 py-4 lg:py-5"}
+          `}
         >
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.6 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
             className="flex items-center justify-between"
           >
             {/* Logo */}
-            <Link className="flex items-center gap-2 cursor-pointer" href="/">
-              <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
-                <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-7 h-7" />
+            <Link className="flex items-center gap-2.5 cursor-pointer transition-transform hover:scale-105" href="/">
+              <div className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.08)] border border-gray-50">
+                <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" />
               </div>
               <div className="flex items-baseline gap-1">
-                <span className="text-2xl font-montserrat text-[#c92c41]">
+                <span className="text-xl sm:text-2xl font-montserrat font-extrabold text-[var(--brand)] tracking-tight">
                   Lawizer
                 </span>
               </div>
@@ -260,12 +259,21 @@ export function Header() {
             )}
 
             <div className="flex items-center lg:hidden">
-              <Link
-                href="/free-consultation"
-                className="bg-brand-red hover:brightness-110 text-white px-4 py-2 rounded-full font-medium shadow-md mr-3 text-sm flex items-center justify-center"
-              >
-                Help
-              </Link>
+              {!user ? (
+                <Button
+                  onClick={() => setIsSignInModalOpen(true)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-0 h-9 rounded-full font-semibold shadow-sm mr-2 text-[13px] flex items-center justify-center transition-all"
+                >
+                  Login
+                </Button>
+              ) : (
+                <Link
+                  href={user.role === "EXPERT" ? "/expert/dashboard" : "/user/dashboard"}
+                  className="bg-brand-red hover:brightness-110 text-white px-5 py-0 h-9 rounded-full font-semibold shadow-sm mr-2 text-[13px] flex items-center justify-center transition-all"
+                >
+                  Dashboard
+                </Link>
+              )}
               <Button
                 variant="ghost"
                 size="icon"
@@ -311,43 +319,36 @@ export function Header() {
               aria-modal="true"
               role="dialog"
             >
-              <div className="flex items-center justify-between px-6 py-4 border-b">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 bg-gray-50/50">
                 <Link
                   className="flex items-center gap-2 cursor-pointer"
                   href="/"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
-                    <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-6 h-6" />
+                  <div className="flex items-center justify-center w-9 h-9 bg-white rounded-lg shadow-sm border border-gray-100">
+                    <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-5 h-5 object-contain" />
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-montserrat font-bold text-[#c92c41]">
+                    <span className="text-xl font-montserrat font-extrabold text-[var(--brand)] tracking-tight">
                       Lawizer
                     </span>
                   </div>
                 </Link>
 
-                <div className="flex items-center gap-3">
-                  <Link
-                    href="/free-consultation"
-                    className="bg-brand-red hover:brightness-110 text-white px-4 py-2 rounded-full font-medium shadow-md text-sm flex items-center justify-center"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Help
-                  </Link>
-                  <button aria-label="Close menu" onClick={() => setMobileMenuOpen(false)} className="p-2">
-                    <X className="w-6 h-6" />
+                <div className="flex items-center gap-2">
+                  <button aria-label="Close menu" onClick={() => setMobileMenuOpen(false)} className="p-2 bg-gray-100 text-gray-500 hover:bg-gray-200 rounded-full transition-colors">
+                    <X className="w-5 h-5" />
                   </button>
                 </div>
               </div>
 
-              <div className="p-6">
+              <div className="p-5 pb-24">
                 {/* Auth Buttons */}
                 {!user ? (
-                  <div className="flex flex-col gap-2.5 mb-6">
+                  <div className="flex flex-col gap-3 mb-8">
                     <div className="flex gap-3">
                       <Button
-                        className="flex-1 bg-blue-600 text-white text-xs font-bold"
+                        className="flex-1 bg-blue-600 hover:bg-blue-700 text-white h-11 rounded-xl shadow-sm font-semibold tracking-wide"
                         onClick={() => {
                           setIsSignupModalOpen(true);
                           setMobileMenuOpen(false);
@@ -357,7 +358,7 @@ export function Header() {
                       </Button>
                       <Button
                         variant="outline"
-                        className="flex-1 rounded border-blue-600 text-blue-600 text-xs font-bold"
+                        className="flex-1 rounded-xl h-11 border-gray-200 text-gray-700 hover:bg-gray-50 font-semibold tracking-wide"
                         onClick={() => {
                           setIsSignInModalOpen(true);
                           setMobileMenuOpen(false);
@@ -371,25 +372,25 @@ export function Header() {
                         setMobileMenuOpen(false);
                         setIsProfessionalModalOpen(true);
                       }}
-                      className="w-full bg-slate-900 hover:bg-slate-800 text-white rounded-xl py-2.5 text-xs font-bold text-center flex items-center justify-center gap-2 shadow-xs transition cursor-pointer"
+                      className="w-full bg-slate-900 hover:bg-slate-800 text-white rounded-xl h-11 text-[13px] font-bold text-center flex items-center justify-center gap-2 shadow-sm transition cursor-pointer"
                     >
-                      <Briefcase size={14} />
+                      <Briefcase size={16} />
                       <span>Professional Login</span>
                     </button>
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-4 mb-6 pb-6 border-b">
-                    <div className="flex items-center gap-2">
+                  <div className="flex flex-col gap-4 mb-8 p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                    <div className="flex items-center gap-3">
                       <HeaderUserAvatar user={user} size="md" />
-                      <div className="flex flex-col">
-                        <span className="text-sm font-semibold text-gray-900 truncate max-w-[150px]">
+                      <div className="flex flex-col overflow-hidden">
+                        <span className="text-[15px] font-bold text-gray-900 truncate">
                           {user.email}
                         </span>
-                        <span className="text-xs text-gray-500 capitalize">{user.role?.toLowerCase()}</span>
+                        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{user.role}</span>
                       </div>
                     </div>
 
-                    <div className="flex flex-col gap-3 mt-2">
+                    <div className="flex flex-col gap-2 pt-2 border-t border-gray-200/60">
                       {/* DASHBOARD LINK START */}
                       {user.role?.toUpperCase() === "EXPERT" ||
                       user.role?.toUpperCase() === "PROFESSIONAL" ||
@@ -397,123 +398,90 @@ export function Header() {
                         <Link
                           href="/expert/dashboard"
                           onClick={() => setMobileMenuOpen(false)}
-                          className="text-lg font-semibold text-gray-700 flex items-center gap-2"
+                          className="text-[15px] font-semibold text-gray-700 flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg transition-colors"
                         >
                           Dashboard
                         </Link>
                       ) : (
                         <>
-                          <Link
-                            href="/user/dashboard"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="text-lg font-semibold text-gray-700 flex items-center gap-2"
-                          >
-                            Dashboard
-                          </Link>
-                          <Link
-                            href="/profile"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="text-lg font-semibold text-brand-red flex items-center gap-2"
-                          >
-                            My Profile
-                          </Link>
+                           <Link
+                             href="/user/dashboard"
+                             onClick={() => setMobileMenuOpen(false)}
+                             className="text-[15px] font-semibold text-gray-700 flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                           >
+                             Dashboard
+                           </Link>
+                           <Link
+                             href="/profile"
+                             onClick={() => setMobileMenuOpen(false)}
+                             className="text-[15px] font-semibold text-[var(--brand)] flex items-center gap-2 p-2 hover:bg-red-50 rounded-lg transition-colors"
+                           >
+                             My Profile
+                           </Link>
                         </>
                       )}
                       {/* DASHBOARD LINK END */}
                     </div>
                   </div>
                 )}
+                
                 {/* Main Links */}
-                <div className="flex flex-col gap-4">
-                  <Link
-                    onClick={handleLinkClick}
-                    href="#"
-                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
-                  >
-                    About
-                  </Link>
-                  <Link
-                    onClick={handleLinkClick}
-                    href="/contact"
-                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
-                  >
-                    Contact
-                  </Link>
-
-                  <h3 className="text-xl font-bold text-brand-red mt-6">Services</h3>
-
-                  {/* Expandable service list (simple toggles per service) */}
-                  {services.map((service, idx) => (
-                    <MobileServiceItem key={idx} service={service} onClose={() => setMobileMenuOpen(false)} />
-                  ))}
-
-                  <h3 className="text-xl font-bold text-brand-red mt-6">Resources</h3>
-                  <Link
-                    onClick={handleLinkClick}
-                    href="/blogs"
-                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
-                  >
-                    Blogs
-                  </Link>
-                  <Link
-                    onClick={handleLinkClick}
-                    href="/news"
-                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
-                  >
-                    News
-                  </Link>
-                  <Link
-                    onClick={handleLinkClick}
-                    href="/guides"
-                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
-                  >
-                    Guides
-                  </Link>
-                  <Link
-                    onClick={handleLinkClick}
-                    href="/faqs"
-                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
-                  >
-                    FAQs
-                  </Link>
-                  <Link
-                    onClick={handleLinkClick}
-                    href="/careers"
-                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
-                  >
-                    Careers
-                  </Link>
+                <div className="mb-8">
+                  <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3 px-1">Menu</div>
+                  <div className="flex flex-col bg-gray-50/50 rounded-2xl border border-gray-100 overflow-hidden">
+                    <Link
+                      onClick={handleLinkClick}
+                      href="/about"
+                      className="text-[15px] font-semibold text-gray-800 hover:bg-gray-100 px-4 py-3.5 border-b border-gray-100 transition-colors"
+                    >
+                      About Us
+                    </Link>
+                    <Link
+                      onClick={handleLinkClick}
+                      href="/contact"
+                      className="text-[15px] font-semibold text-gray-800 hover:bg-gray-100 px-4 py-3.5 transition-colors"
+                    >
+                      Contact Support
+                    </Link>
+                  </div>
                 </div>
 
-                <div>
-                  <h3 className="text-xl font-bold text-brand-red mt-6">Legal</h3>
-                  <Link
-                    onClick={handleLinkClick}
-                    href="/privacy-policy"
-                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
-                  >
-                    Privacy Policy
-                  </Link>
-                  <Link
-                    onClick={handleLinkClick}
-                    href="/terms"
-                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
-                  >
-                    Terms of Service
-                  </Link>
-                  <Link
-                    onClick={handleLinkClick}
-                    href="/attorney-terms"
-                    className="text-lg font-medium text-gray-700 hover:text-brand-red"
-                  >
-                    Attorney Terms & Conditions
-                  </Link>
+                <div className="mb-8">
+                  <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3 px-1">Services</div>
+                  <div className="flex flex-col bg-gray-50/50 rounded-2xl border border-gray-100 overflow-hidden divide-y divide-gray-100">
+                    {/* Expandable service list (simple toggles per service) */}
+                    {services.map((service, idx) => (
+                      <div key={idx} className="px-2 py-1">
+                        <MobileServiceItem service={service} onClose={() => setMobileMenuOpen(false)} />
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
-                <div className="mt-8">
+                <div className="mb-8">
+                  <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3 px-1">Resources</div>
+                  <div className="flex flex-col bg-gray-50/50 rounded-2xl border border-gray-100 overflow-hidden">
+                    <Link onClick={handleLinkClick} href="/blogs" className="text-[15px] font-semibold text-gray-800 hover:bg-gray-100 px-4 py-3.5 border-b border-gray-100 transition-colors">Blogs</Link>
+                    <Link onClick={handleLinkClick} href="/news" className="text-[15px] font-semibold text-gray-800 hover:bg-gray-100 px-4 py-3.5 border-b border-gray-100 transition-colors">News</Link>
+                    <Link onClick={handleLinkClick} href="/guides" className="text-[15px] font-semibold text-gray-800 hover:bg-gray-100 px-4 py-3.5 border-b border-gray-100 transition-colors">Guides</Link>
+                    <Link onClick={handleLinkClick} href="/faqs" className="text-[15px] font-semibold text-gray-800 hover:bg-gray-100 px-4 py-3.5 border-b border-gray-100 transition-colors">FAQs</Link>
+                    <Link onClick={handleLinkClick} href="/careers" className="text-[15px] font-semibold text-gray-800 hover:bg-gray-100 px-4 py-3.5 transition-colors">Careers</Link>
+                  </div>
+                </div>
+
+                <div className="mb-8">
+                  <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3 px-1">Legal</div>
+                  <div className="flex flex-col bg-gray-50/50 rounded-2xl border border-gray-100 overflow-hidden">
+                    <Link onClick={handleLinkClick} href="/privacy-policy" className="text-[14px] font-medium text-gray-600 hover:bg-gray-100 px-4 py-3 border-b border-gray-100 transition-colors">Privacy Policy</Link>
+                    <Link onClick={handleLinkClick} href="/terms" className="text-[14px] font-medium text-gray-600 hover:bg-gray-100 px-4 py-3 border-b border-gray-100 transition-colors">Terms of Service</Link>
+                    <Link onClick={handleLinkClick} href="/attorney-terms" className="text-[14px] font-medium text-gray-600 hover:bg-gray-100 px-4 py-3 transition-colors">Attorney Terms & Conditions</Link>
+                  </div>
+                </div>
+
+                <div className="mt-8 pt-4 pb-12">
                   <Link
                     href="/free-consultation"
-                    className="w-full bg-brand-red text-white py-3 rounded-lg font-semibold shadow-md flex items-center justify-center"
+                    className="w-full bg-[var(--brand)] hover:brightness-110 transition-all text-white py-4 rounded-xl font-bold shadow-lg shadow-red-500/20 flex items-center justify-center tracking-wide"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Get Legal Help

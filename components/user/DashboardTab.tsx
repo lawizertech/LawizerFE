@@ -1,0 +1,425 @@
+"use client";
+
+import { serverApi } from "@/lib/apis/axios";
+import { useAuth } from "@/context/authContext";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Calendar, Clock, Users, IndianRupee, CheckCircle, FileText, ArrowRight } from "lucide-react";
+import { ServiceWorkspaceRepository } from "@/lib/repositories/serviceWorkspaceRepository";
+import { ServiceWorkspaceService } from "@/lib/services/serviceWorkspaceService";
+
+/* -------------------------------------------------------------------------- */
+/* TYPES */
+/* -------------------------------------------------------------------------- */
+
+type UserProfile = {
+  uid: string;
+  name: string;
+  email: string;
+};
+
+type UpcomingBooking = {
+  id: string;
+  serviceName: string;
+  expertName: string;
+  date: string;
+  time: string;
+  duration: number;
+  fee: number;
+  status: "pending" | "confirmed" | "cancelled";
+};
+
+type TopExpert = {
+  uid: string;
+  name: string;
+  avatar?: string;
+  specialization?: string;
+  rating?: number;
+  experience?: number;
+};
+
+type UserDashboard = {
+  upcomingCount: number;
+  completedCount: number;
+  expertsConsulted: number;
+  totalSpent: number;
+  upcomingBookings: UpcomingBooking[];
+  topExperts: TopExpert[];
+
+  /* services */
+  totalServices: number;
+  activeServices: number;
+  completedServices: number;
+  pendingServiceDocuments: number;
+};
+
+/* -------------------------------------------------------------------------- */
+/* SAFE DEFAULTS */
+/* -------------------------------------------------------------------------- */
+
+const EMPTY_DASHBOARD: UserDashboard = {
+  upcomingCount: 0,
+  completedCount: 0,
+  expertsConsulted: 0,
+  totalSpent: 0,
+  upcomingBookings: [],
+  topExperts: [],
+  totalServices: 0,
+  activeServices: 0,
+  completedServices: 0,
+  pendingServiceDocuments: 0,
+};
+
+const PRIMARY = "#c92c41";
+
+/* -------------------------------------------------------------------------- */
+/* HELPERS */
+/* -------------------------------------------------------------------------- */
+
+const formatDateTime = (value: any) => {
+  if (!value?._seconds) {
+    return { date: "-", time: "-" };
+  }
+
+  const d = new Date(value._seconds * 1000);
+
+  return {
+    date: d.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }),
+    time: d.toLocaleTimeString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+    }),
+  };
+};
+
+/* -------------------------------------------------------------------------- */
+/* COMPONENT */
+/* -------------------------------------------------------------------------- */
+
+export default function UserDashboardTab() {
+  const router = useRouter();
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [dashboard, setDashboard] = useState<UserDashboard>(EMPTY_DASHBOARD);
+  const [activeServices, setActiveServices] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const load = async () => {
+      try {
+        const [profileRes, dashRes, rawServices] = await Promise.all([
+          serverApi.get("/api/user/profile"),
+          serverApi.get("/api/user/dashboard"),
+          ServiceWorkspaceRepository.getServices().catch(() => []),
+        ]);
+
+        if (cancelled) {
+          return;
+        }
+
+        /* ACTIVE SERVICES */
+        if (Array.isArray(rawServices)) {
+          const mapped = ServiceWorkspaceService.mapServices(rawServices);
+          setActiveServices(mapped.filter((s) => s.status !== "Completed"));
+        }
+
+        /* PROFILE */
+        if (profileRes.data?.profile) {
+          setProfile(profileRes.data.profile);
+        }
+
+        /* DASHBOARD */
+        if (dashRes.data?.dashboard) {
+          const raw = dashRes.data.dashboard;
+
+          setDashboard({
+            upcomingCount: raw.upcomingCount ?? 0,
+            completedCount: raw.completedCount ?? 0,
+            expertsConsulted: raw.expertsConsulted ?? 0,
+            totalSpent: raw.totalSpent ?? 0,
+
+            upcomingBookings: (raw.upcomingBookings || []).map((b: any) => {
+              const { date, time } = formatDateTime(b.bookingDate);
+
+              return {
+                id: b.bookingId,
+                serviceName: b.serviceName || "Consultation",
+                expertName: b.expertName,
+                date,
+                time,
+                duration: b.callType === "video" ? 60 : 30,
+                fee: b.rate ?? 0,
+                status: b.status,
+              };
+            }),
+            topExperts: raw.topExperts || [],
+
+            totalServices: raw.totalServices ?? 0,
+            activeServices: raw.activeServices ?? 0,
+            completedServices: raw.completedServices ?? 0,
+            pendingServiceDocuments: raw.pendingServiceDocuments ?? 0,
+          });
+        }
+      } catch (error) {
+        if (!cancelled) {
+          console.error("Failed to load dashboard", error);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    void load();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!user?.uid) {
+      return;
+    }
+
+    let active = true;
+
+    const loadServiceStats = async () => {
+      try {
+        const services = await ServiceWorkspaceRepository.getServices();
+        if (!active) return;
+        setDashboard((current) => ({
+          ...current,
+          totalServices: services.length,
+          activeServices: services.filter(
+            (service: any) => service.status === "ACTIVE" || service.status === "In Progress" || service.status === "Docs Pending"
+          ).length,
+          completedServices: services.filter(
+            (service: any) => service.status === "COMPLETED" || service.status === "Completed"
+          ).length,
+          pendingServiceDocuments: services.reduce(
+            (sum: number, service: any) =>
+              sum +
+              (service.documentStats?.pending || 0),
+            0
+          ),
+        }));
+      } catch (error) {
+        console.error("Failed to load service updates", error);
+      }
+    };
+
+    void loadServiceStats();
+    return () => {
+      active = false;
+    };
+  }, [user?.uid]);
+
+  if (loading) {
+    return <p className="mt-10 text-gray-500">Loading dashboard…</p>;
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /* UI */
+  /* -------------------------------------------------------------------------- */
+
+  return (
+    <div className="space-y-10">
+      {/* HEADER */}
+      <div>
+        <h1 className="text-2xl font-semibold">Dashboard</h1>
+        <p className="text-gray-500 mt-1">
+          Welcome back, <span className="font-medium">{profile?.name ?? "User"}</span>
+        </p>
+        <p className="text-sm text-gray-400">Here’s your legal consultation overview</p>
+      </div>
+
+      {/* STATS */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Stat label="Upcoming Sessions" value={dashboard.upcomingCount} icon={Calendar} />
+        <Stat label="Completed Consultations" value={dashboard.completedCount} icon={Clock} />
+        <Stat label="Experts Consulted" value={dashboard.expertsConsulted} icon={Users} />
+        <Stat label="Total Spent" value={`₹${dashboard.totalSpent}`} icon={IndianRupee} />
+      </div>
+
+      {/* SERVICE STATS */}
+      <div>
+        <h2 className="text-lg font-semibold mb-4">Your Services</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Stat label="Total Services" value={dashboard.totalServices} icon={FileText} />
+          <Stat label="Active Services" value={dashboard.activeServices} icon={Clock} />
+          <Stat label="Pending Documents" value={dashboard.pendingServiceDocuments} icon={Calendar} />
+          <Stat label="Completed Services" value={dashboard.completedServices} icon={CheckCircle} />
+        </div>
+      </div>
+
+      {/* ACTIVE SERVICES */}
+      <div className="space-y-4">
+        <h2 className="text-lg font-semibold">Active Services</h2>
+        {activeServices.length === 0 ? (
+          <EmptyCard text="No active services found" />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {activeServices.map((s) => (
+              <div
+                key={s.id}
+                className="bg-white rounded-xl shadow-sm border border-slate-100 p-5 flex flex-col justify-between"
+              >
+                <div className="flex justify-between items-start gap-4">
+                  <div>
+                    <h3 className="font-semibold text-sm text-gray-900">{s.name}</h3>
+                    <p className="text-[10px] text-gray-400 font-bold uppercase mt-0.5">{s.type}</p>
+                  </div>
+                  <span className="text-[10px] bg-green-50 text-green-700 px-2 py-0.5 rounded-full font-bold">
+                    {s.status}
+                  </span>
+                </div>
+
+                <div className="mt-4">
+                  <div className="w-full bg-gray-100 rounded-full h-[5px] overflow-hidden">
+                    <div
+                      className="h-full bg-[#C0392B] rounded-full"
+                      style={{ width: `${s.progress}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center mt-3 pt-1">
+                  <span className="text-[11px] text-gray-500 font-medium">{s.stageText}</span>
+                  <button
+                    onClick={() => {
+                      router.push(`/user/dashboard?tab=services&serviceId=${s.id}`);
+                    }}
+                    className="text-xs text-[#C0392B] hover:text-[#A03024] font-bold flex items-center gap-1 cursor-pointer"
+                  >
+                    View Details <ArrowRight size={12} />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* MAIN GRID */}
+      <div className="grid lg:grid-cols-3 gap-8">
+        {/* UPCOMING BOOKINGS */}
+        <div className="lg:col-span-2 space-y-4">
+          <div className="flex justify-between items-center">
+            <h2 className="text-lg font-semibold">Upcoming Bookings</h2>
+            <Link href="/user/dashboard?tab=consultations" className="text-sm text-[#c92c41] font-medium hover:underline">
+              View All
+            </Link>
+          </div>
+
+          {dashboard.upcomingBookings.length === 0 ? (
+            <EmptyCard text="No upcoming bookings" />
+          ) : (
+            dashboard.upcomingBookings.map((b) => <BookingCard key={b.id} booking={b} />)
+          )}
+        </div>
+
+        {/* TOP EXPERTS */}
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <h2 className="text-lg font-semibold">Top Experts</h2>
+            <Link href="/free-consultation" className="text-sm text-[#c92c41] font-medium hover:underline">
+              View All
+            </Link>
+          </div>
+
+          {dashboard.topExperts.length === 0 ? (
+            <EmptyCard text="No experts yet" />
+          ) : (
+            dashboard.topExperts.map((e) => <ExpertCard key={e.uid} expert={e} />)
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* UI PIECES */
+/* -------------------------------------------------------------------------- */
+
+function Stat({ label, value, icon: Icon }: { label: string; value: number | string; icon: React.ElementType }) {
+  return (
+    <div className="bg-white rounded-xl p-5 flex justify-between items-center">
+      <div>
+        <p className="text-sm text-gray-500">{label}</p>
+        <p className="text-3xl font-semibold mt-1">{value}</p>
+      </div>
+      <div className="h-12 w-12 rounded-xl bg-[#c92c4112] flex items-center justify-center">
+        <Icon size={22} color={PRIMARY} />
+      </div>
+    </div>
+  );
+}
+
+function BookingCard({ booking }: { booking: UpcomingBooking }) {
+  return (
+    <div className="bg-white rounded-xl p-5 space-y-2">
+      <div className="flex justify-between">
+        <h3 className="font-medium">{booking.serviceName}</h3>
+        <span
+          className={`text-xs px-2 py-1 rounded-full capitalize ${booking.status === "confirmed"
+              ? "bg-green-100 text-green-700"
+              : booking.status === "pending"
+                ? "bg-yellow-100 text-yellow-700"
+                : "bg-red-100 text-red-700"
+            }`}
+        >
+          {booking.status}
+        </span>
+      </div>
+
+      <p className="text-sm text-gray-500">{booking.expertName}</p>
+      <p className="text-xs text-gray-400">
+        {booking.date} · {booking.time} ({booking.duration} min)
+      </p>
+
+      <div className="flex justify-between items-center pt-2">
+        <span className="font-medium">₹{booking.fee}</span>
+      </div>
+    </div>
+  );
+}
+
+function ExpertCard({ expert }: { expert: TopExpert }) {
+  return (
+    <div className="bg-white rounded-xl p-4 flex gap-4">
+      {expert.avatar ? (
+        <img
+          src={expert.avatar}
+          alt={expert.name}
+          className="h-12 w-12 rounded-full object-cover border"
+        />
+      ) : (
+        <div className="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-bold border">
+          {expert.name ? expert.name[0].toUpperCase() : "E"}
+        </div>
+      )}
+      <div className="flex-1">
+        <p className="font-medium">{expert.name}</p>
+        <p className="text-xs text-gray-400">
+          ⭐ {expert.rating ?? 0} · {expert.experience ?? 0} yrs
+        </p>
+        <button className="mt-2 text-sm bg-[#c92c41] text-white px-3 py-1 rounded-lg">Book Consultation</button>
+      </div>
+    </div>
+  );
+}
+
+function EmptyCard({ text }: { text: string }) {
+  return <div className="bg-white rounded-xl p-10 text-center text-gray-500">{text}</div>;
+}

@@ -8,7 +8,7 @@ export function WhyLawizerSection() {
     const numericValue = parseInt(value.replace(/[^0-9]/g, ""));
     const [count, setCount] = useState(0);
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: false, amount: 0.5 });
+    const isInView = useInView(ref, { once: true, amount: 0.1 });
 
     useEffect(() => {
       let start = 0;
@@ -99,44 +99,52 @@ export function WhyLawizerSection() {
           </ul>
         </div>
 
-        <div className="why-visual w-full lg:w-1/2 max-w-lg mx-auto">
-          <div className="why-stat-grid grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
-            <div className="why-stat p-3 sm:p-4 min-w-[80px]">
-              <div className="n text-xl sm:text-2xl md:text-3xl">
-                <AnimatedNumber value="1000" suffix="K+" />
+        <div className="w-full lg:w-1/2 max-w-lg mx-auto relative mt-8 lg:mt-0">
+          {/* Subtle background glow */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--brand)] to-red-500 rounded-[32px] blur-3xl opacity-[0.08]" />
+          
+          <div className="relative bg-white rounded-[32px] p-6 sm:p-8 border border-gray-100 shadow-[0_20px_60px_rgba(0,0,0,0.06)] overflow-hidden">
+            {/* Top decorative gradient spot */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-red-50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+            
+            <div className="relative grid grid-cols-2 gap-4 mb-6">
+              {/* Stat 1 - Full width */}
+              <div className="col-span-2 bg-[#F8FAFC] rounded-2xl p-5 sm:p-6 border border-gray-100 flex items-center justify-between">
+                <div>
+                  <div className="text-[11px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest mb-1.5">Businesses Registered</div>
+                  <div className="font-[family-name:var(--)] text-3xl sm:text-[42px] font-black text-[var(--brand)] leading-none tracking-tight">
+                    <AnimatedNumber value="1000" suffix="K+" />
+                  </div>
+                </div>
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-red-50 text-[var(--brand)] flex items-center justify-center border border-red-100">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
+                </div>
               </div>
-              <div className="l text-2xs sm:text-xs">
-                Businesses
-                <br />
-                Registered
+              
+              {/* Stat 2 */}
+              <div className="col-span-1 bg-[#F8FAFC] rounded-2xl p-5 border border-gray-100 flex flex-col justify-center">
+                <div className="text-[10px] sm:text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Approval<br/>Rate</div>
+                <div className="font-[family-name:var(--)] text-2xl sm:text-3xl font-black text-gray-900 leading-none tracking-tight">
+                  <AnimatedNumber value="99" suffix="%" />
+                </div>
+              </div>
+
+              {/* Stat 3 */}
+              <div className="col-span-1 bg-[#F8FAFC] rounded-2xl p-5 border border-gray-100 flex flex-col justify-center">
+                <div className="text-[10px] sm:text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Avg Completion<br/>Time</div>
+                <div className="font-[family-name:var(--)] text-2xl sm:text-3xl font-black text-gray-900 leading-none tracking-tight">
+                  <AnimatedNumber value="7" suffix=" Days" />
+                </div>
               </div>
             </div>
-            <div className="why-stat p-3 sm:p-4">
-              <div className="n text-xl sm:text-2xl md:text-3xl">
-                <AnimatedNumber value="99" suffix="%" />
+            
+            {/* Banner */}
+            <div className="relative bg-gradient-to-r from-red-50 to-white rounded-2xl p-5 border border-red-100 flex items-center gap-4">
+              <div className="text-3xl filter drop-shadow-sm">🚀</div>
+              <div className="flex flex-col">
+                <span className="text-[13px] sm:text-[14px] font-bold text-gray-900 leading-snug mb-0.5">Promoting Startup Culture in West Bengal</span>
+                <span className="text-[12px] font-medium text-gray-500 leading-relaxed pr-2">Supporting founders from Kolkata to every corner of the state</span>
               </div>
-              <div className="l text-2xs sm:text-xs">
-                Approval
-                <br />
-                Rate
-              </div>
-            </div>
-            <div className="why-stat p-3 sm:p-4">
-              <div className="n text-xl sm:text-2xl md:text-3xl">
-                <AnimatedNumber value="7" suffix=" Days" />
-              </div>
-              <div className="l text-2xs sm:text-xs">
-                Avg Completion
-                <br />
-                Time
-              </div>
-            </div>
-          </div>
-          <div className="why-bar flex items-center gap-4">
-            <div className="why-bar-icon">🚀</div>
-            <div className="why-bar-text">
-              <div className="t">Promoting Startup Culture in West Bengal</div>
-              <div className="s">Supporting founders from Kolkata to every corner of the state</div>
             </div>
           </div>
         </div>
@@ -158,7 +166,7 @@ export function WhyLawizerSection() {
           }}
           whileHover={{ scale: 1.05, y: 0, boxShadow: "0 10px 32px rgba(37,211,102,0.4)" }}
           whileTap={{ scale: 0.97 }}
-          className="inline-flex items-center gap-3 bg-[#25D366] text-white font-semibold px-7 py-4 rounded-2xl shadow-lg"
+          className="inline-flex items-center gap-3 bg-[#25D366] text-white font-semibold px-7 py-4 rounded-2xl shadow-lg whatsapp-highlight"
         >
           <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
