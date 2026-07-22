@@ -217,17 +217,24 @@ export default function ServicePageLayout({
         throw new Error(orderData.message || "Failed to create order");
       }
 
+      const orderObj = orderData.razorpayOrder || orderData.order;
+      const razorpayKey = orderData.keyId || orderObj?.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+
+      if (!orderObj || !orderObj.amount || !orderObj.id) {
+        throw new Error("Invalid order data received from payment server");
+      }
+
       // 2. Open Razorpay checkout
       setPaymentState("paying");
       
       await new Promise<void>((resolve, reject) => {
         const options = {
-          key: orderData.keyId,
-          amount: orderData.order.amount,
-          currency: orderData.order.currency,
+          key: razorpayKey,
+          amount: orderObj.amount,
+          currency: orderObj.currency || "INR",
           name: "Lawizer",
           description: title,
-          order_id: orderData.order.id,
+          order_id: orderObj.id,
           prefill: {
             name: user.name || "",
             email: user.email || "",
