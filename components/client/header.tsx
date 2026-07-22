@@ -642,7 +642,12 @@ export function Header() {
           onClose={() => setIsCompleteProfileModalOpen(false)}
           onDone={() => {
             setIsCompleteProfileModalOpen(false);
-            router.push("/user/dashboard");
+            const userRole = user?.role?.toUpperCase();
+            if (userRole === "EXPERT" || userRole === "PROFESSIONAL" || userRole === "LAWYER") {
+              router.push("/expert/dashboard");
+            } else {
+              router.push("/user/dashboard");
+            }
           }}
         />
       )}
