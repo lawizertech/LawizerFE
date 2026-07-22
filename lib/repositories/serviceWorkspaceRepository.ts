@@ -1,4 +1,5 @@
 import { serverApi } from "@/lib/apis/axios";
+import { getAccessToken } from "@/lib/auth/tokenStore";
 
 export interface RawServiceItem {
   serviceId: string;
@@ -8,6 +9,7 @@ export interface RawServiceItem {
   updatedAt?: any;
   serviceCode: string;
   assignedExpertId?: string | null;
+  assignedExpert?: { id: string; name?: string; email?: string } | null;
   documentStats?: {
     totalRequired: number;
     uploaded: number;
@@ -20,6 +22,7 @@ export interface RawServiceDetail extends RawServiceItem {
   documentsRequired: any[];
   expertUploadedFiles: any[];
   instructions?: string | null;
+  metadata?: any;
 }
 
 export class ServiceWorkspaceRepository {
@@ -46,11 +49,12 @@ export class ServiceWorkspaceRepository {
   }
 
   /**
-   * Upload a document for a service process
+   * Upload a document for a service process.
+   * Uses fetch with the in-memory access token for multipart/form-data support.
    */
   static async uploadDocument(serviceId: string, docKey: string, file: File): Promise<void> {
-    const token = localStorage.getItem("token");
-    if (!token) throw new Error("Authentication token not found");
+    const token = getAccessToken();
+    if (!token) throw new Error("Authentication token not found. Please sign in again.");
 
     const formData = new FormData();
     formData.append("documentKey", docKey);
@@ -88,8 +92,8 @@ export class ServiceWorkspaceRepository {
    * Fetch recent user notifications
    */
   static async getNotifications(): Promise<any[]> {
-    const token = localStorage.getItem("token");
-    if (!token) throw new Error("Authentication token not found");
+    const token = getAccessToken();
+    if (!token) throw new Error("Authentication token not found. Please sign in again.");
 
     const res = await fetch("/api/user/notifications", {
       method: "GET",
@@ -99,10 +103,11 @@ export class ServiceWorkspaceRepository {
     });
 
     if (!res.ok) {
-      throw new Error("Failed to load notifications");
+      console.warn("Notifications API returned non-OK status:", res.status);
+      return [];
     }
 
-    const data = await res.json();
+    const data = await res.json().catch(() => ({}));
     return data.notifications || [];
   }
 
@@ -110,8 +115,8 @@ export class ServiceWorkspaceRepository {
    * Mark a target notification as read
    */
   static async markNotificationAsRead(notificationId: string): Promise<void> {
-    const token = localStorage.getItem("token");
-    if (!token) throw new Error("Authentication token not found");
+    const token = getAccessToken();
+    if (!token) throw new Error("Authentication token not found. Please sign in again.");
 
     const res = await fetch(`/api/user/notifications/${notificationId}/read`, {
       method: "POST",
@@ -129,8 +134,8 @@ export class ServiceWorkspaceRepository {
    * Mark all active notifications as read
    */
   static async markAllNotificationsAsRead(): Promise<void> {
-    const token = localStorage.getItem("token");
-    if (!token) throw new Error("Authentication token not found");
+    const token = getAccessToken();
+    if (!token) throw new Error("Authentication token not found. Please sign in again.");
 
     const res = await fetch("/api/user/notifications/read-all", {
       method: "POST",

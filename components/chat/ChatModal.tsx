@@ -5,6 +5,8 @@ import { useChatMessages } from "@/lib/chat/useChatMessages";
 import { sendMessage } from "@/lib/chat/sendMessage";
 import { setTyping, useTypingStatus } from "@/lib/chat/typing";
 import { Send, X } from "lucide-react";
+import { useAuth } from "@/context/authContext";
+
 
 export default function ChatModal({
   bookingId,
@@ -22,13 +24,8 @@ export default function ChatModal({
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const typingTimeout = useRef<NodeJS.Timeout | null>(null);
 
-  const [uid, setUid] = useState<string | null>(null);
-
-  // Load UID once
-  useEffect(() => {
-    const storedUid = localStorage.getItem("uid");
-    if (storedUid) setUid(storedUid);
-  }, []);
+  const { user } = useAuth();
+  const uid = user?.uid ?? null;
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -81,7 +78,9 @@ export default function ChatModal({
             </div>
           ) : (
             messages.map((msg) => {
-              const isMine = msg.senderRole === role;
+              // Map component role ("expert") to DB role ("professional") for comparison
+              const dbRole = role === "expert" ? "professional" : "client";
+              const isMine = msg.sender_role === dbRole || msg.sender_role === role;
 
               return (
                 <div key={msg.id} className={`flex ${isMine ? "justify-end" : "justify-start"}`}>

@@ -1,4 +1,5 @@
 import { backendApi } from "./axios";
+import { publicApi } from "@/lib/auth/publicApi";
 
 interface ProfilePayload {
   uid: string;
@@ -23,11 +24,17 @@ interface ScheduleCallPayload {
 
 export const getUserProfile = async (uid: string) => {
   try {
-    const res = await backendApi.get(`/auth/profile`, {
+    const res = await backendApi.get(`/api/user/profile`, {
+      baseURL: window.location.origin, // hit Next.js proxy on same origin
       params: { uid },
     });
-    return res.data.data;
+    console.log("getUserProfile success res.data:", res.data);
+    return {
+      success: true,
+      ...res.data?.profile,
+    };
   } catch (err: any) {
+    console.error("getUserProfile error:", err?.response?.data || err.message);
     return {
       success: false,
       message: err?.response?.data?.message,
@@ -43,7 +50,7 @@ export const getUserProfile = async (uid: string) => {
 
 export const signupUser = async (idToken: string, uid: string, name: string, email: string, phoneNumber: string) => {
   try {
-    const res = await backendApi.post(
+    const res = await publicApi.post(
       `/auth/signup`,
       {
         uid,
@@ -90,13 +97,27 @@ export const completeUserProfile = async (authToken: string, formData: ProfilePa
 /* 🔹 loginUser */
 /* -------------------------------------------------------------------------- */
 
-export const loginUser = async (idToken: string) => {
+/**
+ * Login endpoint - sends Supabase JWT and refresh token to backend
+ * Backend will:
+ * 1. Validate JWT with Supabase
+ * 2. Set HttpOnly cookie with refresh token
+ * 3. Return user profile
+ */
+import axios from "axios";
+
+export const loginUser = async (idToken: string, refreshToken?: string, requestedRole?: string) => {
   try {
-    const res = await backendApi.post(
-      `/auth/login`,
-      { idToken },
+    const res = await axios.post(
+      `/api/auth/login`,
+      { 
+        idToken,
+        refreshToken, // Include refresh token for HttpOnly cookie
+        requestedRole,
+      },
       {
         headers: { Authorization: `Bearer ${idToken}` },
+        withCredentials: true,
       },
     );
     return {
@@ -150,9 +171,9 @@ export const getUserBookings = async () => {
 /* 🔹 expertLogin API */
 /* -------------------------------------------------------------------------- */
 
-export const expertLogin = async (idToken: string) => {
+export const expertLogin = async (idToken: string, refreshToken?: string) => {
   try {
-    const res = await backendApi.post("/expert/login", { idToken });
+    const res = await publicApi.post("/expert/login", { idToken, refreshToken });
     return {
       success: true,
       ...res.data,

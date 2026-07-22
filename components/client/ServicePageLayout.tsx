@@ -28,8 +28,13 @@ import {
   Briefcase,
   Rocket,
 } from "lucide-react";
-import { useState } from "react";
-import CallbackModal from "./CallbackModal";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/authContext";
+import { useRazorpay } from "@/hooks/useRazorpay";
+import { getAccessToken } from "@/lib/auth/tokenStore";
+import { toast } from "sonner";
+import { Loader2, Zap } from "lucide-react";
 
 /* ---------- ICON MAP ---------- */
 
@@ -146,9 +151,154 @@ export default function ServicePageLayout({
   primaryBg,
   serviceID,
   hideHero = false,
+  price,
 }: ServicePageLayoutProps) {
   const [openFaq, setOpenFaq] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const router = useRouter();
+  const { user } = useAuth();
+  const { isLoaded: razorpayReady, initializePayment } = useRazorpay();
+
+  const [paymentState, setPaymentState] = useState<"idle" | "creating" | "paying" | "verifying" | "success">("idle");
+  const [paymentError, setPaymentError] = useState<string | null>(null);
+
+  // Auto-initiate payment after login if pendingAutoBuy matches
+  useEffect(() => {
+    if (user && typeof window !== "undefined") {
+      const pending = sessionStorage.getItem("pendingAutoBuy");
+      if (pending === serviceID) {
+        sessionStorage.removeItem("pendingAutoBuy");
+        handleStartProcess();
+      }
+    }
+  }, [user, serviceID]);
+
+  const handleStartProcess = async () => {
+    if (!user) {
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("pendingAutoBuy", serviceID);
+        // Dispatch an event to open the sign in modal (since it's in the layout header usually)
+        window.dispatchEvent(new CustomEvent("openSignInModal"));
+      }
+      return;
+    }
+
+    try {
+      setPaymentState("creating");
+      setPaymentError(null);
+
+      const token = getAccessToken();
+
+      // 1. Initiate process and get Razorpay order
+      const orderRes = await fetch("/api/user/start-process", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          serviceCode: serviceID,
+          clientDetails: {
+            fullName: user.name || "Client",
+            email: user.email || "client@lawizer.com",
+            phone: (user as any)?.phone || "9999999999",
+          },
+          urgency: "NORMAL",
+        }),
+      });
+
+      if (!orderRes.ok) {
+        const errData = await orderRes.json().catch(() => ({}));
+        throw new Error(errData.message || "Failed to create order");
+      }
+
+      const orderData = await orderRes.json();
+      if (!orderData.success) {
+        throw new Error(orderData.message || "Failed to create order");
+      }
+
+      // 2. Open Razorpay checkout
+      setPaymentState("paying");
+      
+      await new Promise<void>((resolve, reject) => {
+        const options = {
+          key: orderData.keyId,
+          amount: orderData.order.amount,
+          currency: orderData.order.currency,
+          name: "Lawizer",
+          description: title,
+          order_id: orderData.order.id,
+          prefill: {
+            name: user.name || "",
+            email: user.email || "",
+            contact: (user as any)?.phone || "",
+          },
+          theme: { color: "#c92c41" },
+          modal: {
+            ondismiss: function () {
+              setPaymentState("idle");
+              reject(new Error("Payment cancelled by user"));
+            }
+          },
+          handler: async function (response: any) {
+            try {
+              setPaymentState("verifying");
+              const verifyRes = await fetch("/api/payments/verify", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                }),
+              });
+
+              const verifyData = await verifyRes.json();
+              if (!verifyData.success) {
+                throw new Error(verifyData.message || "Payment verification failed");
+              }
+
+              setPaymentState("success");
+              toast.success("Payment successful! Our team will contact you shortly.");
+              
+              window.dispatchEvent(
+                new CustomEvent("triggerConfetti", {
+                  detail: { amount: price || 0 },
+                })
+              );
+              
+              router.push("/user/dashboard?tab=services");
+              resolve();
+            } catch (verifyErr: any) {
+              setPaymentError(verifyErr.message || "Verification failed");
+              setPaymentState("idle");
+              reject(verifyErr);
+            }
+          },
+        };
+
+        const rzp = new (window as any).Razorpay(options);
+        rzp.on("payment.failed", (response: any) => {
+          setPaymentError(response.error.description || "Payment failed");
+          setPaymentState("idle");
+          reject(new Error(response.error.description));
+        });
+        rzp.open();
+      });
+
+    } catch (err: any) {
+      console.error("[ServicePageLayout] Payment error:", err);
+      const errorMsg = err.message || "Failed to process payment";
+      setPaymentError(errorMsg);
+      setPaymentState("idle");
+      if (errorMsg !== "Payment cancelled by user") {
+        toast.error(errorMsg);
+      }
+    }
+  };
 
   const HeroIcon = ICON_MAP[icon];
 
@@ -304,22 +454,23 @@ export default function ServicePageLayout({
               </p>
 
               <button
-                onClick={() => setIsModalOpen(true)}
-                className={`w-full ${primaryBg} py-4 rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2`}
+                onClick={handleStartProcess}
+                disabled={paymentState !== "idle" || !razorpayReady}
+                className={`w-full ${primaryBg} py-4 rounded-xl font-semibold hover:opacity-90 disabled:opacity-70 transition-opacity flex items-center justify-center gap-2`}
               >
-                Start Process <ArrowRight className="inline w-5 h-5" />
+                {paymentState === "creating" && <><Loader2 className="w-5 h-5 animate-spin" /> Preparing...</>}
+                {paymentState === "paying" && <><Loader2 className="w-5 h-5 animate-spin" /> Awaiting Payment...</>}
+                {paymentState === "verifying" && <><Loader2 className="w-5 h-5 animate-spin" /> Verifying...</>}
+                {paymentState === "success" && <><CheckCircle2 className="w-5 h-5" /> Success!</>}
+                {paymentState === "idle" && (
+                  <>Start Process <ArrowRight className="inline w-5 h-5" /></>
+                )}
               </button>
 
               <p className="text-xs text-slate-400 mt-4 text-center">We&apos;ll get back to you within 24 hours</p>
             </div>
           </aside>
         </div>
-
-        <CallbackModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          serviceName={title}
-        />
 
         {/* FAQs */}
         <motion.section

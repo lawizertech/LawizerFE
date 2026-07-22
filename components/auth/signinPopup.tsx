@@ -6,19 +6,27 @@ import { loginUser } from "@/lib/apis/api";
 import { useAuth } from "@/context/authContext";
 import { supabaseSignIn, supabaseGoogleSignIn } from "@/lib/supabaseClient";
 
+
 interface SignInModalProps {
   onClose: () => void;
   onSignupRedirect?: () => void;
+  onProfessionalRedirect?: () => void;
   onLoginSuccess?: (user: any) => void;
   onForgotPassword?: () => void;
 }
 
-export function SignInModal({ onClose, onSignupRedirect, onLoginSuccess, onForgotPassword }: SignInModalProps) {
+export function SignInModal({
+  onClose,
+  onSignupRedirect,
+  onProfessionalRedirect,
+  onLoginSuccess,
+  onForgotPassword,
+}: SignInModalProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { refreshUser } = useAuth();
+  const { login } = useAuth();
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
@@ -34,9 +42,10 @@ export function SignInModal({ onClose, onSignupRedirect, onLoginSuccess, onForgo
       }
 
       const idToken = signInRes.session!.access_token;
+      const refreshToken = signInRes.session!.refresh_token;
 
-      // 2️⃣ Send token to backend
-      const res = await loginUser(idToken);
+      // 2️⃣ Send token to backend (pass refresh token for HttpOnly cookie)
+      const res = await loginUser(idToken, refreshToken);
       if (!res.success) {
         if (res.errorCode === "EMAIL_NOT_VERIFIED") {
           throw new Error("Email not verified. Please check your inbox.");
@@ -44,15 +53,24 @@ export function SignInModal({ onClose, onSignupRedirect, onLoginSuccess, onForgo
         throw new Error(res.message || "Login failed on server");
       }
 
-      // 3️⃣ Save user data
-      localStorage.setItem("uid", res.data.uid || res.data.id);
-      localStorage.setItem("email", res.data.email);
-      localStorage.setItem("token", res.token);
-      localStorage.setItem("role", res.data.role);
-      localStorage.setItem("userProfile", JSON.stringify(res.data));
+      const userRole = (res.data.role ?? "CLIENT").toUpperCase();
+      login(res.token, {
+        uid: res.data.uid ?? res.data.id,
+        email: res.data.email,
+        name: res.data.displayName ?? res.data.name,
+        role: userRole,
+        avatarUrl: res.data.photoURL ?? res.data.avatarUrl,
+        isProfileComplete: res.data.isProfileComplete,
+        hasPassword: res.data.hasPassword,
+      });
       onLoginSuccess && onLoginSuccess(res.data);
-      refreshUser();
       onClose();
+
+      if (userRole === "PROFESSIONAL" || userRole === "EXPERT" || userRole === "LAWYER") {
+        window.location.href = "/expert/dashboard";
+      } else {
+        window.location.href = "/user/dashboard";
+      }
     } catch (err: any) {
       setError(err.message || "Failed to sign in");
     } finally {
@@ -181,9 +199,16 @@ export function SignInModal({ onClose, onSignupRedirect, onLoginSuccess, onForgo
 
         <div className="mt-1 text-center text-sm text-gray-700">
           Are you a Lawyer / CA ?{" "}
-          <a href="/expert/login" className="text-indigo-600 font-semibold hover:text-indigo-500">
+          <button
+            type="button"
+            onClick={() => {
+              onClose();
+              if (onProfessionalRedirect) onProfessionalRedirect();
+            }}
+            className="text-indigo-600 font-semibold hover:text-indigo-500 cursor-pointer"
+          >
             Login here
-          </a>
+          </button>
         </div>
       </div>
     </div>

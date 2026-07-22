@@ -113,6 +113,11 @@ export class ServiceWorkspaceService {
         progress,
         stageText: s.status === "COMPLETED" ? "All stages complete" : `Documents submitted: ${uploaded}/${total}`,
         lastUpdated: this.formatDate(s.updatedAt || s.createdAt),
+        assignedExpert: s.assignedExpert?.name
+          ? { name: s.assignedExpert.name, email: s.assignedExpert.email }
+          : s.assignedExpertId
+          ? { name: "Assigned Professional" }
+          : null,
       };
     });
   }
@@ -152,15 +157,24 @@ export class ServiceWorkspaceService {
     });
 
     // Map documents
-    const submitted: DocumentItem[] = docs
-      .filter((d: any) => d.status === "UPLOADED" || d.status === "APPROVED")
-      .map((d: any) => ({
-        name: d.label,
-        key: d.key,
-        status: (d.status === "APPROVED" ? "Verified ✓" : "Uploaded") as any,
-        fileUrl: d.fileUrl || null,
-        uploadedAt: this.formatDate(d.uploadedAt),
-      }));
+    const rawSubmitted = [
+      ...docs.filter((d: any) => d.status === "UPLOADED" || d.status === "APPROVED"),
+      ...(s.expertUploadedFiles || []).map((d: any) => ({
+        label: d.title || d.name,
+        key: d.key || d.documentId,
+        status: "APPROVED",
+        fileUrl: d.fileUrl,
+        uploadedAt: d.createdAt,
+      })),
+    ];
+
+    const submitted: DocumentItem[] = rawSubmitted.map((d: any) => ({
+      name: d.label || d.name || d.title || "Case Document",
+      key: d.key || d.documentId,
+      status: "Verified ✓" as any,
+      fileUrl: d.fileUrl || null,
+      uploadedAt: this.formatDate(d.uploadedAt || d.createdAt),
+    }));
 
     const pending: DocumentItem[] = docs
       .filter((d: any) => d.status === "PENDING" || d.status === "REJECTED")
@@ -228,9 +242,12 @@ export class ServiceWorkspaceService {
       }
     }
 
+    const meta = typeof s.metadata === "object" && s.metadata !== null ? s.metadata : {};
+    const customStages = Array.isArray(meta.stages) && meta.stages.length > 0 ? meta.stages : null;
+
     return {
       id: s.serviceId,
-      name: s.title,
+      name: meta.title || s.title,
       type: s.serviceCode.replace(/_/g, " "),
       status: statusLabel,
       progress,
@@ -238,8 +255,14 @@ export class ServiceWorkspaceService {
       purchaseDate: this.formatDate(s.createdAt),
       estimatedCompletion,
       lastUpdated: this.formatDate(s.updatedAt || s.createdAt),
-      assignedExpert: s.assignedExpertId ? { name: "Assigned Professional" } : null,
+      assignedExpert: s.assignedExpert?.name
+        ? { name: s.assignedExpert.name, email: s.assignedExpert.email }
+        : s.assignedExpertId
+        ? { name: "Assigned Professional" }
+        : null,
       stages,
+      customStages: customStages || undefined,
+      currentStageId: meta.currentStageId || undefined,
       documents: { submitted, pending },
       activities,
     };

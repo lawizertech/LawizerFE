@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap");
 
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -172,12 +173,14 @@ body {
   ================================ */
 
   /* H2 – Main Sections */
-  .prose h2.wp-block-heading {
+  .prose h2.wp-block-heading,
+  .prose h2 {
     @apply text-2xl font-bold mt-12 mb-4 text-foreground;
   }
 
   /* H3 – Sub Sections */
-  .prose h3.wp-block-heading {
+  .prose h3.wp-block-heading,
+  .prose h3 {
     @apply text-lg font-semibold mt-8 mb-3 text-foreground;
   }
 
@@ -187,15 +190,25 @@ body {
   }
 
   /* Lists */
-  .prose .wp-block-list {
+  .prose .wp-block-list,
+  .prose ul,
+  .prose ol {
     @apply pl-6 my-4;
   }
 
-  .prose .wp-block-list li {
-    @apply list-disc my-1;
+  .prose .wp-block-list li,
+  .prose ul li,
+  .prose ol li {
+    @apply my-1;
   }
 
-  .prose ol.wp-block-list li {
+  .prose .wp-block-list li,
+  .prose ul li {
+    @apply list-disc;
+  }
+
+  .prose ol.wp-block-list li,
+  .prose ol li {
     @apply list-decimal;
   }
 

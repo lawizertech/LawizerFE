@@ -12,11 +12,15 @@ import {
   Check,
 } from "lucide-react";
 import { useServiceWorkspace } from "@/hooks/useServiceWorkspace";
+import { useAuth } from "@/context/authContext";
+import UserAvatar from "@/components/ui/UserAvatar";
 
 export default function UserHeader() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  const { user } = useAuth();
 
   const {
     notifications,
@@ -38,7 +42,7 @@ export default function UserHeader() {
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
-  let title = "Dashboard";
+  let title = "My Services";
   const tab = searchParams.get("tab");
 
   if (pathname.includes("/connect")) {
@@ -49,8 +53,6 @@ export default function UserHeader() {
     title = "My Consultations";
   } else if (tab === "services") {
     title = "My Services";
-  } else if (tab === "experts") {
-    title = "Find Experts";
   } else if (tab === "book") {
     title = "Book Service";
   } else if (tab === "settings") {
@@ -157,9 +159,7 @@ export default function UserHeader() {
           </div>
 
           {/* Avatar */}
-          <div className="h-9 w-9 rounded-full bg-[#c92c41] text-white flex items-center justify-center font-medium text-sm">
-            N
-          </div>
+          <UserAvatar user={user} size="md" />
         </div>
       </div>
     </header>

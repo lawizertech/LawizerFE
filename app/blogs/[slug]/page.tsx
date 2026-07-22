@@ -58,6 +58,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
 
   const contentWithIds = post.content ? injectHeadingIds(post.content) : "";
   const headings = post.content ? extractHeadings(post.content) : [];
+  const hasTableOfContents = headings.length > 0;
 
   const categoryName = post.categories?.nodes?.[0]?.name ?? null;
   const categorySlug = post.categories?.nodes?.[0]?.slug ?? null;
@@ -115,9 +116,11 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
 
       {/* ── CONTENT + TOC ───────────────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-5">
-        <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-8 lg:items-start">
+        <div className={`lg:grid ${hasTableOfContents ? "lg:grid-cols-[260px_1fr]" : "lg:grid-cols-1"} lg:gap-8 lg:items-start`}>
           {/* TOC Sidebar */}
-          <BlogTableOfContents headings={headings} />
+          {hasTableOfContents && (
+            <BlogTableOfContents headings={headings} />
+          )}
 
           {/* Main content card */}
           <div className="bg-white rounded-2xl border border-slate-100 shadow-sm px-8">
