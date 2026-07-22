@@ -29,28 +29,29 @@ export function MobileServiceItem({ service, onClose }: { service: any; onClose:
             transition={{ duration: 0.18 }}
             className="pl-3 pr-2 overflow-hidden"
           >
-            {"section" in (service.items?.[0] || {}) ? (
-              service.items.map((sec: any, sIdx: number) => (
-                <div key={sIdx} className="mb-3">
-                  <p className="text-sm font-semibold text-gray-600 mb-2">{sec.section}</p>
-                  <div className="flex flex-col gap-2">
-                    {sec.items.map((it: any, iIdx: number) => (
-                      <Link key={iIdx} href={it.url} onClick={onClose} className="text-base text-gray-700">
-                        {it.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="flex flex-col gap-2">
-                {service.items?.map((it: any, iIdx: number) => (
-                  <Link key={iIdx} href={it.url} onClick={onClose} className="text-base text-gray-700">
-                    {it.name}
+            <div className="flex flex-col gap-2">
+              {service.items?.map((item: any, idx: number) => {
+                if ("section" in item) {
+                  return (
+                    <div key={idx} className="mb-3 mt-2">
+                      <p className="text-sm font-semibold text-gray-600 mb-2">{item.section}</p>
+                      <div className="flex flex-col gap-2 pl-2">
+                        {item.items?.map((it: any, iIdx: number) => (
+                          <Link key={iIdx} href={it.url} onClick={onClose} className="text-base text-gray-700">
+                            {it.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                }
+                return (
+                  <Link key={idx} href={item.url} onClick={onClose} className="text-base text-gray-700 py-1">
+                    {item.name}
                   </Link>
-                ))}
-              </div>
-            )}
+                );
+              })}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

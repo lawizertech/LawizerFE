@@ -163,23 +163,32 @@ export function FAQSection() {
   ];
 
   return (
-    <section className="py-12 md:py-20 bg-slate-900 text-white overflow-hidden px-4 md:px-12">
-      <div className="container mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+    <section className="py-16 md:py-24 bg-[#0A0F1A] text-white overflow-hidden px-5 md:px-12 relative">
+      {/* Decorative background glow */}
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[var(--brand)] opacity-20 blur-[150px] rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-500 opacity-10 blur-[150px] rounded-full translate-x-1/4 translate-y-1/4 pointer-events-none" />
+      
+      <div className="container mx-auto max-w-7xl relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          
           {/* ── Left column ── */}
-          <div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-tight font-[family-name:var(--)] font-extrabold">
-              <span className="title-word text-brand-red">Questions?</span>
+          <div className="lg:col-span-5 lg:sticky lg:top-32">
+            <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 text-white px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand)] inline-block" />
+              Help & Support
+            </div>
+            
+            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold mb-5 leading-[1.1] font-[family-name:var(--)] tracking-tight">
+              Questions?
               <br />
-              <span className="title-word">We're</span> <span className="title-word">here</span>{" "}
-              <span className="title-word">to&nbsp;help</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand)] to-red-400">We're here to help</span>
             </h2>
 
-            <p className="text-gray-300 text-base sm:text-lg mb-8 leading-relaxed">
+            <p className="text-gray-400 text-[15px] sm:text-[17px] mb-10 leading-relaxed font-medium max-w-sm">
               Check out our FAQs or talk to a live customer care specialist by phone, chat, or email.
             </p>
 
-            <div className="flex flex-col gap-5">
+            <div className="hidden lg:flex flex-col gap-5">
               {contacts.map((c, i) => {
                 const Icon = c.icon;
                 const isActive = activeContact === i;
@@ -239,22 +248,60 @@ export function FAQSection() {
           </div>
 
           {/* ── Right column – FAQs ── */}
-          <div className="space-y-1 px-2">
+          <div className="lg:col-span-7 space-y-3">
             {faqs.map((faq, index) => (
-              <div key={index} className={`faq-row ${openIndex === index ? "faq-active" : ""}`}>
-                <button className="faq-btn" onClick={() => setOpenIndex(openIndex === index ? null : index)}>
-                  <span className="font-semibold text-base sm:text-lg pr-4 leading-snug">{faq.question}</span>
-                  <ChevronDown className={`faq-chevron w-5 h-5 sm:w-6 sm:h-6 ${openIndex === index ? "open" : ""}`} />
+              <div 
+                key={index} 
+                className={`rounded-2xl transition-all duration-300 overflow-hidden border ${openIndex === index ? "bg-white/5 border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.3)]" : "bg-transparent border-white/5 hover:border-white/10"}`}
+              >
+                <button 
+                  className="w-full text-left px-5 sm:px-6 py-5 flex items-center justify-between gap-4 group" 
+                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                >
+                  <span className={`font-bold text-[15px] sm:text-base leading-snug transition-colors ${openIndex === index ? "text-white" : "text-gray-300 group-hover:text-white"}`}>
+                    {faq.question}
+                  </span>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ${openIndex === index ? "bg-[var(--brand)] text-white rotate-180 shadow-md" : "bg-white/5 text-gray-400 group-hover:bg-white/10"}`}>
+                    <ChevronDown className="w-4 h-4" />
+                  </div>
                 </button>
 
                 {openIndex === index && (
-                  <div className="faq-answer pb-5 text-gray-300 text-sm sm:text-base leading-relaxed">
-                    <div>{faq.answer}</div>
+                  <div className="px-5 sm:px-6 pb-6 text-gray-400 text-[14px] sm:text-[15px] leading-relaxed font-medium">
+                    <div className="pt-4 border-t border-white/5">{faq.answer}</div>
                   </div>
                 )}
               </div>
             ))}
+
+            <div className="mt-8 pt-8 border-t border-white/10 lg:hidden">
+              <p className="text-[13px] text-gray-400 font-medium mb-4 uppercase tracking-wider">Still have questions? Reach out directly</p>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                {contacts.map((c, i) => {
+                  const Icon = c.icon;
+                  return (
+                    <a
+                      key={i}
+                      href={c.href}
+                      onClick={c.onClick}
+                      className="group flex items-center gap-3 p-3.5 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-all duration-300 flex-1"
+                    >
+                      <div 
+                        className="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 border border-white/10 transition-transform duration-300 group-hover:scale-110 shrink-0" 
+                        style={{ color: c.color }}
+                      >
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-bold text-white tracking-wide text-[13px]">{c.label}</span>
+                      </div>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
           </div>
+          
         </div>
       </div>
     </section>
