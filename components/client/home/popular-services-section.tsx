@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { FileText, Briefcase, FileSignature, Factory, ArrowRight } from "lucide-react";
+import useEmblaCarousel from "embla-carousel-react";
+import AutoScroll from "embla-carousel-auto-scroll";
 
 const popularServices = [
   {
@@ -70,9 +72,11 @@ const popularServices = [
 const PopularServiceCard = memo(function PopularServiceCard({
   service,
   index,
+  className,
 }: {
   service: (typeof popularServices)[number];
   index: number;
+  className?: string;
 }) {
   const Icon = service.icon;
 
@@ -82,37 +86,45 @@ const PopularServiceCard = memo(function PopularServiceCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.45, delay: index * 0.08, ease: [0.23, 1, 0.32, 1] }}
-      className="flex-shrink-0 w-[280px] sm:w-auto"
+      className={`flex-shrink-0 w-full sm:w-auto h-full ${className || ""}`}
     >
       <Link href={service.url || "/"} className="group block h-full no-underline">
-        <div className="pop-card bg-white/75 backdrop-blur-md border-[1.5px] border-[#e4e8f0]/70 rounded-[var(--radius-lg)] p-6 shadow-[var(--shadow-sm)] transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] h-full flex flex-col gap-4">
+        <div className="pop-card bg-white/90 backdrop-blur-xl border border-white/40 rounded-[24px] p-7 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(202,45,66,0.08)] transition-all duration-400 ease-[cubic-bezier(0.23,1,0.32,1)] h-full flex flex-col gap-5 relative overflow-hidden">
+          
+          {/* Subtle gradient glow in background */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[rgba(202,45,66,0.03)] to-transparent rounded-bl-full pointer-events-none" />
+
           {/* Icon row + badge */}
-          <div className="flex items-start justify-between">
+          <div className="flex items-start justify-between relative z-10">
             <div
-              className={`service-icon ${service.iconClass} w-11 h-11 rounded-xl text-xl flex items-center justify-center`}
+              className={`service-icon ${service.iconClass} w-12 h-12 rounded-[16px] text-xl flex items-center justify-center bg-gradient-to-br shadow-inner border border-white/50`}
             >
-              <Icon size={20} strokeWidth={1.8} />
+              <Icon size={22} strokeWidth={1.5} />
             </div>
             {service.badge && (
-              <span className="text-[10px] font-semibold tracking-wider uppercase bg-[var(--brand-light)] text-[var(--brand)] border border-[rgba(202,45,66,0.15)] rounded-full px-2.5 py-[3px]">
+              <span className="text-[10px] font-bold tracking-[0.1em] uppercase bg-gradient-to-r from-[rgba(202,45,66,0.08)] to-[rgba(202,45,66,0.03)] text-[var(--brand)] border border-[rgba(202,45,66,0.12)] rounded-full px-3 py-1 backdrop-blur-sm shadow-sm">
                 {service.badge}
               </span>
             )}
           </div>
 
           {/* Title + tagline */}
-          <div>
-            <div className="font-[family-name:var(--)] text-[15px] font-bold text-[var(--text-primary)] mb-1">
+          <div className="relative z-10 mt-1">
+            <div className="font-[family-name:var(--font-display,'Syne',sans-serif)] text-[18px] font-extrabold text-[#0D0F14] mb-1.5 leading-[1.2] tracking-[-0.01em]">
               {service.title}
             </div>
-            <div className="text-xs text-[var(--text-muted)] font-medium leading-relaxed">{service.tagline}</div>
+            <div className="text-[13px] text-[#6B7280] font-medium leading-[1.5]">{service.tagline}</div>
           </div>
 
           {/* Feature list */}
-          <ul className="list-none m-0 p-0 flex-1 flex flex-col gap-2">
+          <ul className="list-none m-0 p-0 flex-1 flex flex-col gap-3 mt-2 relative z-10">
             {service.items.map((item, i) => (
-              <li key={i} className="flex items-start gap-2 text-[13px] text-[var(--text-secondary)]">
-                <span className="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--brand)] shrink-0 opacity-70" />
+              <li key={i} className="flex items-start gap-2.5 text-[13.5px] text-[#374151] font-medium leading-[1.4]">
+                <div className="mt-[2px] w-4 h-4 rounded-full bg-[rgba(5,150,105,0.1)] flex items-center justify-center shrink-0">
+                  <svg width="8" height="8" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.5 5L4 7.5L8.5 2.5" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
                 {item}
               </li>
             ))}
@@ -130,8 +142,14 @@ const PopularServiceCard = memo(function PopularServiceCard({
 });
 
 export default function PopularServicesSection() {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center", dragFree: true }, [
+    AutoScroll({ playOnInit: true, speed: 1.2, stopOnInteraction: false, stopOnMouseEnter: true }),
+  ]);
+
+  // Standard continuous scroll without the zoom effect.
+
   return (
-    <section id="popular-services" className="py-20 px-[5%] bg-[var(--bg-soft)] relative overflow-hidden">
+    <section id="popular-services" className="py-20 bg-[var(--bg-soft)] relative overflow-hidden">
       {/* Subtle brand radial behind heading */}
       <div className="absolute -top-[120px] -right-[120px] w-[480px] h-[480px] rounded-full bg-[radial-gradient(circle,rgba(202,45,66,0.06)_0%,transparent_70%)] pointer-events-none" />
 
@@ -142,7 +160,7 @@ export default function PopularServicesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
-          className="mb-12"
+          className="mb-12 px-6 lg:px-8"
         >
           <div className="inline-flex items-center gap-2 bg-[var(--brand-light)] border-[1.5px] border-[rgba(202,45,66,0.2)] text-[var(--brand)] px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand)] inline-block animate-[pulse-premium_3s_cubic-bezier(0.4,0,0.6,1)_infinite]" />
@@ -159,11 +177,36 @@ export default function PopularServicesSection() {
           </div>
         </motion.div>
 
-        {/* Cards: horizontal scroll on mobile → 4-col grid on desktop */}
-        <div className="pop-cards-row">
-          {popularServices.map((service, i) => (
-            <PopularServiceCard key={i} service={service} index={i} />
-          ))}
+        {/* Desktop View (Cards) */}
+        <div className="hidden lg:block">
+          <div className="pop-cards-row">
+            {popularServices.map((service, i) => (
+              <PopularServiceCard key={i} service={service} index={i} className="!w-[280px]" />
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile/iPad View (Continuous Carousel) */}
+        <div className="block lg:hidden -mx-6 lg:-mx-8 relative">
+          
+          {/* Vignette effect on edges */}
+          <div className="absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-[var(--bg-soft)] to-transparent z-20 pointer-events-none" />
+          <div className="absolute top-0 bottom-0 right-0 w-16 bg-gradient-to-l from-[var(--bg-soft)] to-transparent z-20 pointer-events-none" />
+
+          <div className="overflow-hidden py-6" ref={emblaRef}>
+            <div className="flex">
+              {popularServices.map((service, i) => {
+                return (
+                  <div key={i} className="flex-[0_0_82%] sm:flex-[0_0_320px] min-w-0 px-2.5">
+                    {/* The inner wrapper that gets scaled dynamically by the scroll listener */}
+                    <div className="h-full origin-center transform-gpu will-change-transform">
+                      <PopularServiceCard service={service} index={i} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
         {/* Bottom CTA */}

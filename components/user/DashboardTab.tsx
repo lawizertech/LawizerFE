@@ -372,13 +372,12 @@ function BookingCard({ booking }: { booking: UpcomingBooking }) {
       <div className="flex justify-between">
         <h3 className="font-medium">{booking.serviceName}</h3>
         <span
-          className={`text-xs px-2 py-1 rounded-full capitalize ${
-            booking.status === "confirmed"
+          className={`text-xs px-2 py-1 rounded-full capitalize ${booking.status === "confirmed"
               ? "bg-green-100 text-green-700"
               : booking.status === "pending"
                 ? "bg-yellow-100 text-yellow-700"
                 : "bg-red-100 text-red-700"
-          }`}
+            }`}
         >
           {booking.status}
         </span>

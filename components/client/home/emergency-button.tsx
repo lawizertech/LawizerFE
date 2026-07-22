@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/authContext";
@@ -12,7 +12,16 @@ export function EmergencyButton() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const { isLoggedIn, setIsSignInModalOpen } = useAuth();
+
+  // Handle responsive sizing — expand only on desktop (true mouse)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const handleOpen = () => {
     isLoggedIn ? setShowConfirm(true) : setIsSignInModalOpen(true);
@@ -27,54 +36,57 @@ export function EmergencyButton() {
     setTimeout(() => setShowPopup(false), 5000);
   };
 
+  // On mobile/iPad: never expand, always show compact circle
+  const expandedWidth = isMobile ? "40px" : hovered ? "115px" : "48px";
+
   return (
     <div>
-      {/* Floating button — pill grows leftward from icon */}
+      {/* Floating button — pill grows leftward from icon (desktop only) */}
       <motion.div
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
+        onMouseEnter={() => !isMobile && setHovered(true)}
+        onMouseLeave={() => !isMobile && setHovered(false)}
         onClick={handleOpen}
-        animate={{
-          width: hovered ? "115px" : "48px",
-        }}
+        animate={{ width: expandedWidth }}
         transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
-        className={`fixed bottom-20 right-4 z-50 cursor-pointer h-12 flex items-center justify-end overflow-hidden bg-red-600 rounded-3xl ${hovered ? "shadow-[0_4px_20px_rgba(220,38,38,0.5),0_2px_8px_rgba(0,0,0,0.2)]" : "shadow-none"}`}
+        className={`fixed bottom-[64px] md:bottom-20 right-4 z-50 cursor-pointer h-10 md:h-12 flex items-center justify-end overflow-hidden bg-red-600 rounded-3xl ${!isMobile && hovered ? "shadow-[0_4px_20px_rgba(220,38,38,0.5),0_2px_8px_rgba(0,0,0,0.2)]" : "shadow-none"}`}
       >
         {/* Content wrapper */}
         <div className="flex items-center justify-center w-full h-full">
-          {/* Letters — fade in after pill expands */}
-          <div className="flex items-center pl-4 pr-1 flex-shrink-0">
-            {LETTERS.map((letter, i) => {
-              const total = LETTERS.length;
-              const enterDelay = 0.15 + (total - 1 - i) * 0.055;
-              const exitDelay = i * 0.04;
+          {/* Letters — fade in after pill expands (desktop only) */}
+          {!isMobile && (
+            <div className="flex items-center pl-4 pr-1 flex-shrink-0">
+              {LETTERS.map((letter, i) => {
+                const total = LETTERS.length;
+                const enterDelay = 0.15 + (total - 1 - i) * 0.055;
+                const exitDelay = i * 0.04;
 
-              return (
-                <AnimatePresence key={i}>
-                  {hovered && (
-                    <motion.span
-                      key={`letter-${i}`}
-                      initial={{ opacity: 0, x: 10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{
-                        opacity: 0,
-                        x: 10,
-                        transition: { delay: exitDelay, duration: 0.12 },
-                      }}
-                      transition={{
-                        delay: enterDelay,
-                        duration: 0.2,
-                        ease: "easeOut",
-                      }}
-                      className="font-['Inter',sans-serif] text-[15px] font-bold tracking-[0.12em] text-white inline-block leading-none ml-[1px]"
-                    >
-                      {letter}
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              );
-            })}
-          </div>
+                return (
+                  <AnimatePresence key={i}>
+                    {hovered && (
+                      <motion.span
+                        key={`letter-${i}`}
+                        initial={{ opacity: 0, x: 10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{
+                          opacity: 0,
+                          x: 10,
+                          transition: { delay: exitDelay, duration: 0.12 },
+                        }}
+                        transition={{
+                          delay: enterDelay,
+                          duration: 0.2,
+                          ease: "easeOut",
+                        }}
+                        className="font-['Inter',sans-serif] text-[15px] font-bold tracking-[0.12em] text-white inline-block leading-none ml-[1px]"
+                      >
+                        {letter}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                );
+              })}
+            </div>
+          )}
 
           {/* SOS Text — visible when not hovered */}
           <AnimatePresence>

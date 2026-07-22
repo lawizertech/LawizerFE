@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import "./lawizer-custom.css";
@@ -10,10 +10,17 @@ const outfit = Outfit({
   variable: "--",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export const metadata: Metadata = {
   title: "Lawizer",
   description:
-    "Real-life legal issues need real lawyers. Whether it’s personal, property, or business — our advocates are here to guide you every step of the way. You’ve been through enough; let us take it from here. Lawizer connects you to the best lawyers to make your legal journey easier.",
+    "Real-life legal issues need real lawyers. Whether it's personal, property, or business — our advocates are here to guide you every step of the way. You've been through enough; let us take it from here. Lawizer connects you to the best lawyers to make your legal journey easier.",
   icons: {
     icon: "/favicon.png",
     shortcut: "/favicon.png",
@@ -28,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={` ${outfit.variable} overflow-x-hidden`}>
+      <body className={`${outfit.variable} overflow-x-hidden w-full max-w-full`}>
         <RootLayoutClient>{children}</RootLayoutClient>
       </body>
     </html>
