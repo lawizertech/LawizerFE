@@ -18,7 +18,6 @@ export async function GET(req: NextRequest) {
         id,
         case_type,
         status,
-        metadata,
         created_at,
         client_id,
         client:profiles!client_id(id, name, email)
@@ -33,7 +32,7 @@ export async function GET(req: NextRequest) {
 
     const rooms = (casesData || []).map((c: any) => {
       const clientName = c.client?.name || c.client?.email || "Assigned Client";
-      const cTitle = (c.metadata as any)?.title || c.case_type || `Case #${c.id.substring(0, 8).toUpperCase()}`;
+      const cTitle = c.case_type || `Case #${c.id.substring(0, 8).toUpperCase()}`;
 
       return {
         caseId: c.id,
