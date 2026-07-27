@@ -129,21 +129,58 @@ export default function ExpertChatsTab() {
 
       try {
         setUploading(true);
-        const formData = new FormData();
-        formData.append("documentKey", "expert_document");
-        formData.append("file", file);
 
-        const res = await fetch(`/api/user/services/${selectedChat.caseId}/upload`, {
+        // 1. Get Cloudinary Signature
+        const sigRes = await fetch("/api/documents/cloudinary-signature", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ caseId: selectedChat.caseId }),
+        });
+        if (!sigRes.ok) {
+          const err = await sigRes.json().catch(() => null);
+          throw new Error(err?.message || "Failed to fetch upload signature");
+        }
+        const sigData = await sigRes.json();
+
+        // 2. Upload file directly to Cloudinary
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("api_key", sigData.apiKey);
+        formData.append("timestamp", sigData.timestamp.toString());
+        formData.append("signature", sigData.signature);
+        if (sigData.folder) formData.append("folder", sigData.folder);
+
+        const cloudinaryRes = await fetch(sigData.uploadUrl, {
           method: "POST",
           body: formData,
         });
 
-        const data = await res.json();
-        if (data.success) {
-          await loadCaseDocs(selectedChat.caseId);
-        } else {
-          alert(data.message || "Failed to upload document");
+        if (!cloudinaryRes.ok) {
+          const cErr = await cloudinaryRes.json().catch(() => null);
+          throw new Error(cErr?.error?.message || "Failed to upload to Cloudinary");
         }
+        const uploadResult = await cloudinaryRes.json();
+
+        // 3. Save the document record
+        const saveRes = await fetch("/api/documents/upload", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            caseId: selectedChat.caseId,
+            filename: "expert_document",
+            fileType: file.type || "application/octet-stream",
+            storagePath: uploadResult.secure_url,
+            sizeBytes: file.size,
+          }),
+        });
+
+        if (!saveRes.ok) {
+          const err = await saveRes.json().catch(() => null);
+          throw new Error(err?.message || "Failed to save document record");
+        }
+
+        await loadCaseDocs(selectedChat.caseId);
+
       } catch (err: any) {
         console.error("Expert upload error:", err);
         alert(err.message || "Upload failed");

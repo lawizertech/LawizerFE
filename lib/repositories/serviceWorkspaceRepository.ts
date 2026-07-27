@@ -49,28 +49,68 @@ export class ServiceWorkspaceRepository {
   }
 
   /**
-   * Upload a document for a service process.
-   * Uses fetch with the in-memory access token for multipart/form-data support.
+   * Upload a document directly to Cloudinary and save the record to the backend.
+   * This bypasses Next.js serverless function limits for large files.
    */
   static async uploadDocument(serviceId: string, docKey: string, file: File): Promise<void> {
     const token = getAccessToken();
     if (!token) throw new Error("Authentication token not found. Please sign in again.");
 
-    const formData = new FormData();
-    formData.append("documentKey", docKey);
-    formData.append("file", file);
-
-    const res = await fetch(`/api/user/services/${serviceId}/upload`, {
+    // 1. Get Cloudinary Signature
+    const sigRes = await fetch("/api/documents/cloudinary-signature", {
       method: "POST",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+    });
+    
+    if (!sigRes.ok) {
+      const err = await sigRes.json().catch(() => null);
+      throw new Error(err?.message || "Failed to fetch upload signature");
+    }
+    const sigData = await sigRes.json();
+
+    // 2. Upload file directly to Cloudinary
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("api_key", sigData.apiKey);
+    formData.append("timestamp", sigData.timestamp.toString());
+    formData.append("signature", sigData.signature);
+    if (sigData.folder) {
+      formData.append("folder", sigData.folder);
+    }
+
+    const cloudinaryRes = await fetch(sigData.uploadUrl, {
+      method: "POST",
       body: formData,
     });
 
-    if (!res.ok) {
-      const errData = await res.json().catch(() => null);
-      throw new Error(errData?.message || "Failed to upload document");
+    if (!cloudinaryRes.ok) {
+      const cErr = await cloudinaryRes.json().catch(() => null);
+      throw new Error(cErr?.error?.message || "Failed to upload to Cloudinary");
+    }
+    const uploadResult = await cloudinaryRes.json();
+
+    // 3. Save the document record in our database
+    const saveRes = await fetch("/api/documents/upload", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        caseId: serviceId,
+        filename: docKey, // The key or actual filename. We'll use docKey for type mapping, maybe file.name too?
+        fileType: file.type || "application/octet-stream",
+        storagePath: uploadResult.secure_url,
+        sizeBytes: file.size,
+      }),
+    });
+
+    if (!saveRes.ok) {
+      const err = await saveRes.json().catch(() => null);
+      throw new Error(err?.message || "Failed to save document record");
     }
   }
 
