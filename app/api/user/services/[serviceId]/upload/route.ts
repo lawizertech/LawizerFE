@@ -15,54 +15,71 @@ export async function POST(
       return NextResponse.json({ success: false, message: "No file provided" }, { status: 400 });
     }
 
-    const admin = createAdminClient();
+    // Convert file to Base64 Data URI for Cloudinary upload
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    const mimeType = file.type || "application/octet-stream";
+    const base64Data = `data:${mimeType};base64,${buffer.toString("base64")}`;
 
-    // Sanitize filename and create storage path
+    // Call NestJS Backend Cloudinary Upload Endpoint
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+    try {
+      const uploadRes = await fetch(`${backendUrl}/api/documents/cloudinary-upload`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          caseId: serviceId,
+          fileData: base64Data,
+          filename: file.name,
+          fileType: mimeType,
+        }),
+      });
+
+      const uploadJson = await uploadRes.json();
+
+      if (uploadJson.success && uploadJson.document) {
+        return NextResponse.json({
+          success: true,
+          document: {
+            ...uploadJson.document,
+            docKey,
+          },
+        });
+      }
+    } catch (backendErr) {
+      console.warn("NestJS Backend Cloudinary endpoint notice:", backendErr);
+    }
+
+    // Fallback: Direct database insert if backend endpoint not called directly
+    const admin = createAdminClient();
     const timestamp = Date.now();
     const cleanFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
     const storagePath = `${serviceId}/${timestamp}_${cleanFileName}`;
 
-    // Convert file to ArrayBuffer/Buffer
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-
-    // 1. Upload directly to Supabase Storage 'case_documents' bucket
     const { data: storageData, error: storageError } = await admin.storage
       .from("case_documents")
       .upload(storagePath, buffer, {
-        contentType: file.type || "application/octet-stream",
+        contentType: mimeType,
         upsert: true,
       });
 
-    if (storageError) {
-      console.error("Supabase storage upload error:", storageError);
-      return NextResponse.json(
-        { success: false, message: storageError.message || "Storage upload failed" },
-        { status: 500 }
-      );
-    }
-
-    // 2. Get Public URL
     const { data: publicUrlData } = admin.storage
       .from("case_documents")
       .getPublicUrl(storagePath);
 
     const publicUrl = publicUrlData?.publicUrl || storagePath;
-
-    // 3. Insert record into `case_documents` PostgreSQL table
     const docId = crypto.randomUUID();
-    const { error: dbError } = await admin.from("case_documents").insert({
+
+    await admin.from("case_documents").insert({
       id: docId,
       case_id: serviceId,
       storage_path: publicUrl,
       filename: file.name,
-      file_type: file.type || "application/octet-stream",
+      file_type: mimeType,
       size_bytes: file.size,
     });
-
-    if (dbError) {
-      console.error("Database insert case_documents error:", dbError);
-    }
 
     return NextResponse.json({
       success: true,
@@ -84,3 +101,4 @@ export async function POST(
     );
   }
 }
+

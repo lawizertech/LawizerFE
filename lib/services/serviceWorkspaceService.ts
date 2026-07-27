@@ -139,22 +139,33 @@ export class ServiceWorkspaceService {
       : (docs.some((d: any) => d.status === "PENDING" || d.status === "REJECTED") ? "Docs Pending" : "In Progress");
 
     // Dynamic stage mapping
-    const stagesList = SERVICE_STAGES[s.serviceCode] || DEFAULT_STAGES;
-    const N = stagesList.length;
-    const activeIdx = s.status === "COMPLETED" ? N : Math.min(N - 1, Math.floor((progress / 100) * N));
+    let stages: StageItem[];
+    const backendStages = (s as any).stages || (s as any).metadata?.stages;
 
-    const stages: StageItem[] = stagesList.map((name, idx) => {
-      let status: "completed" | "active" | "pending" = "pending";
-      let details = "Pending";
-      if (s.status === "COMPLETED" || idx < activeIdx) {
-        status = "completed";
-        details = "Completed";
-      } else if (idx === activeIdx) {
-        status = "active";
-        details = s.status === "ACTIVE" ? "In progress" : "Review in progress";
-      }
-      return { name, status, details };
-    });
+    if (Array.isArray(backendStages) && backendStages.length > 0) {
+      stages = backendStages.map((st: any) => ({
+        name: st.title || st.name || st.id,
+        status: st.status === "completed" ? "completed" : st.status === "in_progress" || st.status === "active" ? "active" : "pending",
+        details: st.description || (st.status === "completed" ? "Completed" : st.status === "in_progress" ? "In progress" : "Pending"),
+      }));
+    } else {
+      const stagesList = SERVICE_STAGES[s.serviceCode] || DEFAULT_STAGES;
+      const N = stagesList.length;
+      const activeIdx = s.status === "COMPLETED" ? N : Math.min(N - 1, Math.floor((progress / 100) * N));
+
+      stages = stagesList.map((name, idx) => {
+        let status: "completed" | "active" | "pending" = "pending";
+        let details = "Pending";
+        if (s.status === "COMPLETED" || idx < activeIdx) {
+          status = "completed";
+          details = "Completed";
+        } else if (idx === activeIdx) {
+          status = "active";
+          details = s.status === "ACTIVE" ? "In progress" : "Review in progress";
+        }
+        return { name, status, details };
+      });
+    }
 
     // Map documents
     const rawSubmitted = [
