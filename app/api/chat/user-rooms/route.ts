@@ -30,7 +30,10 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    const rooms = (casesData || []).map((c: any) => {
+    // Filter to cases that have an assigned professional or active status
+    const assignedCases = (casesData || []).filter((c: any) => c.professional_id || c.professional);
+
+    const rooms = assignedCases.map((c: any) => {
       const profName = c.professional?.name || c.professional?.email || "Lawizer Legal Desk";
       const cTitle = c.case_type || `Case #${c.id.substring(0, 8).toUpperCase()}`;
 
