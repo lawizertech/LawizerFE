@@ -16,6 +16,7 @@ import {
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/context/authContext";
 import { ChatEngine } from "@/components/chat/ChatEngine";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 interface CaseChatItem {
   caseId: string;
@@ -129,21 +130,58 @@ export default function ExpertChatsTab() {
 
       try {
         setUploading(true);
-        const formData = new FormData();
-        formData.append("documentKey", "expert_document");
-        formData.append("file", file);
 
-        const res = await fetch(`/api/user/services/${selectedChat.caseId}/upload`, {
+        // 1. Get Cloudinary Signature
+        const sigRes = await fetch("/api/documents/cloudinary-signature", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ caseId: selectedChat.caseId }),
+        });
+        if (!sigRes.ok) {
+          const err = await sigRes.json().catch(() => null);
+          throw new Error(err?.message || "Failed to fetch upload signature");
+        }
+        const sigData = await sigRes.json();
+
+        // 2. Upload file directly to Cloudinary
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("api_key", sigData.apiKey);
+        formData.append("timestamp", sigData.timestamp.toString());
+        formData.append("signature", sigData.signature);
+        if (sigData.folder) formData.append("folder", sigData.folder);
+
+        const cloudinaryRes = await fetch(sigData.uploadUrl, {
           method: "POST",
           body: formData,
         });
 
-        const data = await res.json();
-        if (data.success) {
-          await loadCaseDocs(selectedChat.caseId);
-        } else {
-          alert(data.message || "Failed to upload document");
+        if (!cloudinaryRes.ok) {
+          const cErr = await cloudinaryRes.json().catch(() => null);
+          throw new Error(cErr?.error?.message || "Failed to upload to Cloudinary");
         }
+        const uploadResult = await cloudinaryRes.json();
+
+        // 3. Save the document record
+        const saveRes = await fetch("/api/documents/upload", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            caseId: selectedChat.caseId,
+            filename: "expert_document",
+            fileType: file.type || "application/octet-stream",
+            storagePath: uploadResult.secure_url,
+            sizeBytes: file.size,
+          }),
+        });
+
+        if (!saveRes.ok) {
+          const err = await saveRes.json().catch(() => null);
+          throw new Error(err?.message || "Failed to save document record");
+        }
+
+        await loadCaseDocs(selectedChat.caseId);
+
       } catch (err: any) {
         console.error("Expert upload error:", err);
         alert(err.message || "Upload failed");
@@ -292,16 +330,18 @@ export default function ExpertChatsTab() {
         <div className={`lg:col-span-8 h-[calc(100dvh-130px)] sm:h-[650px] md:h-[700px] ${selectedChat ? "block" : "hidden lg:block"}`}>
           {selectedChat ? (
             activeTab === "chat" ? (
-              <ChatEngine
-                key={selectedChat.caseId}
-                caseId={selectedChat.caseId}
-                currentUserId={effectiveProfId}
-                peerId={selectedChat.clientId}
-                senderRole="professional"
-                professionalName={selectedChat.clientName}
-                caseTitle={selectedChat.caseTitle}
-                onClose={() => setSelectedChat(null)}
-              />
+              <ErrorBoundary>
+                <ChatEngine
+                  key={selectedChat.caseId}
+                  caseId={selectedChat.caseId}
+                  currentUserId={effectiveProfId}
+                  peerId={selectedChat.clientId}
+                  senderRole="professional"
+                  professionalName={selectedChat.clientName}
+                  caseTitle={selectedChat.caseTitle}
+                  onClose={() => setSelectedChat(null)}
+                />
+              </ErrorBoundary>
             ) : (
               /* Case Documents Management View for Experts */
               <div className="bg-white rounded-2xl border border-gray-200/80 h-full flex flex-col p-6 space-y-6 overflow-y-auto shadow-xl">

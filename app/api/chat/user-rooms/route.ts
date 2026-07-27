@@ -18,7 +18,6 @@ export async function GET(req: NextRequest) {
         id,
         case_type,
         status,
-        metadata,
         created_at,
         professional_id,
         professional:profiles!professional_id(id, name, email)
@@ -35,12 +34,12 @@ export async function GET(req: NextRequest) {
     const assignedCases = (casesData || []).filter((c: any) => c.professional_id || c.professional);
 
     const rooms = assignedCases.map((c: any) => {
-      const profName = c.professional?.name || c.professional?.email || "Assigned Professional";
-      const cTitle = (c.metadata as any)?.title || c.case_type || `Case #${c.id.substring(0, 8).toUpperCase()}`;
+      const profName = c.professional?.name || c.professional?.email || "Lawizer Legal Desk";
+      const cTitle = c.case_type || `Case #${c.id.substring(0, 8).toUpperCase()}`;
 
       return {
         caseId: c.id,
-        professionalId: c.professional_id,
+        professionalId: c.professional_id || "unassigned",
         professionalName: profName,
         caseTitle: cTitle,
         lastMessage: "Live real-time encrypted litigation channel",
@@ -54,3 +53,4 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: err.message || "Internal server error" }, { status: 500 });
   }
 }
+

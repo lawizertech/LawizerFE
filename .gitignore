@@ -13,3 +13,5 @@ node_modules
 
 # Markdown files
 *.md
+
+.ai-docs/
