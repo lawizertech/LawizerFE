@@ -105,6 +105,8 @@ export function ChatEngine({
 
   // ── Real-time setup ────────────────────────────────────────────────────────
   useEffect(() => {
+    if (!currentUserId || !caseId) return;
+
     fetchMessages();
 
     const channel = supabase

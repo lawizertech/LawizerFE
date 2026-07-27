@@ -16,6 +16,7 @@ import {
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/context/authContext";
 import { ChatEngine } from "@/components/chat/ChatEngine";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 interface CaseChatItem {
   caseId: string;
@@ -292,16 +293,18 @@ export default function ExpertChatsTab() {
         <div className={`lg:col-span-8 h-[calc(100dvh-130px)] sm:h-[650px] md:h-[700px] ${selectedChat ? "block" : "hidden lg:block"}`}>
           {selectedChat ? (
             activeTab === "chat" ? (
-              <ChatEngine
-                key={selectedChat.caseId}
-                caseId={selectedChat.caseId}
-                currentUserId={effectiveProfId}
-                peerId={selectedChat.clientId}
-                senderRole="professional"
-                professionalName={selectedChat.clientName}
-                caseTitle={selectedChat.caseTitle}
-                onClose={() => setSelectedChat(null)}
-              />
+              <ErrorBoundary>
+                <ChatEngine
+                  key={selectedChat.caseId}
+                  caseId={selectedChat.caseId}
+                  currentUserId={effectiveProfId}
+                  peerId={selectedChat.clientId}
+                  senderRole="professional"
+                  professionalName={selectedChat.clientName}
+                  caseTitle={selectedChat.caseTitle}
+                  onClose={() => setSelectedChat(null)}
+                />
+              </ErrorBoundary>
             ) : (
               /* Case Documents Management View for Experts */
               <div className="bg-white rounded-2xl border border-gray-200/80 h-full flex flex-col p-6 space-y-6 overflow-y-auto shadow-xl">
