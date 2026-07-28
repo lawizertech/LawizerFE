@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, User, Calendar, LogOut, LayoutDashboard, ClipboardList, MessageSquare } from "lucide-react";
+import { Home, User, Calendar, LogOut, LayoutDashboard, ClipboardList, MessageSquare, Bell } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface SidebarProps {
@@ -57,6 +57,14 @@ export default function Sidebar({ activeTab, handleLogout, menuOpen }: SidebarPr
           icon={User}
           active={activeTab === "profile"}
           onClick={() => router.push("/expert/dashboard?tab=profile")}
+        />
+
+        {/* Notifications */}
+        <SidebarItem
+          label="Notifications"
+          icon={Bell}
+          active={activeTab === "notifications"}
+          onClick={() => router.push("/expert/dashboard?tab=notifications")}
         />
 
         {/* Logout */}

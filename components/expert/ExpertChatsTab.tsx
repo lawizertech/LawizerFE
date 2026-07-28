@@ -43,9 +43,12 @@ export default function ExpertChatsTab() {
   const [loading, setLoading] = useState(true);
   const [selectedChat, setSelectedChat] = useState<CaseChatItem | null>(null);
 
-  // Active view tab inside selected chat window: "chat" | "docs"
-  const [activeTab, setActiveTab] = useState<"chat" | "docs">("chat");
+  // Active view tab inside selected chat window: "chat" | "docs" | "notifications"
+  const [activeTab, setActiveTab] = useState<"chat" | "docs" | "notifications">("chat");
   const [caseDocs, setCaseDocs] = useState<CaseDoc[]>([]);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [notifInput, setNotifInput] = useState("");
+  const [notifLoading, setNotifLoading] = useState(false);
   const [docsLoading, setDocsLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
 
@@ -98,15 +101,31 @@ export default function ExpertChatsTab() {
 
   // 2. Load Documents for selected case
   const loadCaseDocs = async (caseId: string) => {
+    setDocsLoading(true);
     try {
-      setDocsLoading(true);
-      const res = await fetch(`/api/documents?caseId=${caseId}`);
-      const data = await res.json();
-      if (data.success && Array.isArray(data.documents)) {
-        setCaseDocs(data.documents);
+      if (activeTab === "docs") {
+        try {
+          const res = await fetch(`/api/documents?caseId=${caseId}`);
+          const data = await res.json();
+          if (data.success && Array.isArray(data.documents)) {
+            setCaseDocs(data.documents);
+          }
+        } catch (err) {
+          console.error("Fetch docs error:", err);
+        }
+      } else if (activeTab === "notifications") {
+        try {
+          const res = await fetch(`/api/cases/${caseId}/notifications/user`);
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            setNotifications(data);
+          } else {
+            setNotifications([]);
+          }
+        } catch (err) {
+          console.error("Fetch notifications error:", err);
+        }
       }
-    } catch (err) {
-      console.error("Failed to load case documents:", err);
     } finally {
       setDocsLoading(false);
     }
@@ -116,7 +135,7 @@ export default function ExpertChatsTab() {
     if (selectedChat?.caseId) {
       void loadCaseDocs(selectedChat.caseId);
     }
-  }, [selectedChat?.caseId]);
+  }, [selectedChat?.caseId, activeTab]);
 
   // 3. Handle Expert Upload Document
   const handleExpertUpload = () => {
@@ -211,6 +230,35 @@ export default function ExpertChatsTab() {
     }
   };
 
+  const handleSendNotification = async () => {
+    if (!notifInput.trim() || !selectedChat) return;
+    setNotifLoading(true);
+    try {
+      const res = await fetch(`/api/cases/${selectedChat.caseId}/notifications/expert/send-to-admin`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ payload: { message: notifInput.trim() } })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setNotifInput("");
+        setNotifications([{
+          id: Math.random().toString(),
+          type: "expert_message",
+          payload: { message: notifInput.trim() },
+          created_at: new Date().toISOString()
+        }, ...notifications]);
+      } else {
+        alert(data.message || "Failed to send notification");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to send notification");
+    } finally {
+      setNotifLoading(false);
+    }
+  };
+
   if (!effectiveProfId) {
     return (
       <div className="flex flex-col items-center justify-center h-64 text-gray-500 font-sans">
@@ -264,6 +312,16 @@ export default function ExpertChatsTab() {
               }`}
             >
               📁 Documents ({caseDocs.length})
+            </button>
+            <button
+              onClick={() => setActiveTab("notifications")}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
+                activeTab === "notifications"
+                  ? "bg-[#c92c41] text-white shadow-xs"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
+            >
+              🔔 Notifications
             </button>
           </div>
         )}

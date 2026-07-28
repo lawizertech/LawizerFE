@@ -21,6 +21,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { AssignServiceModal } from "@/components/admin/AssignServiceModal";
+import { NotificationsTab } from "@/components/admin/NotificationsTab";
+import { Bell } from "lucide-react";
 
 interface CaseItem {
   id: string;
@@ -54,7 +56,7 @@ interface TransactionItem {
 }
 
 export default function AdminDashboardPage() {
-  const [activeTab, setActiveTab] = useState<"cases" | "clients" | "experts" | "transactions" | "api">("cases");
+  const [activeTab, setActiveTab] = useState<"cases" | "clients" | "experts" | "transactions" | "api" | "notifications">("cases");
 
   // Data states
   const [cases, setCases] = useState<CaseItem[]>([]);
@@ -347,6 +349,7 @@ export default function AdminDashboardPage() {
             { id: "clients", label: `Clients (${clients.length})`, icon: Users },
             { id: "experts", label: `Experts (${experts.length})`, icon: UserCheck },
             { id: "transactions", label: `Transactions (${transactions.length})`, icon: CreditCard },
+            { id: "notifications", label: "Notifications", icon: Bell },
             { id: "api", label: "API Playground", icon: Code2 },
           ].map((tab) => {
             const Icon = tab.icon;
@@ -770,6 +773,13 @@ export default function AdminDashboardPage() {
           setTimeout(() => setSuccessToast(null), 4000);
         }}
       />
+
+      {/* NOTIFICATIONS TAB */}
+      {activeTab === "notifications" && (
+        <div className="mt-6">
+          <NotificationsTab />
+        </div>
+      )}
     </div>
   );
 }

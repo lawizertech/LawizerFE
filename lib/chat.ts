@@ -1,7 +1,7 @@
 export type MessageStatus = 'sending' | 'error' | 'sent';
 
 export type SenderRole = 'client' | 'professional' | 'admin' | 'system';
-export type MessageType = 'text' | 'system' | 'attachment' | 'call_event';
+export type MessageType = 'text' | 'system' | 'attachment' | 'call_event' | 'meeting_link';
 
 export interface ChatMessage {
   id: string;
