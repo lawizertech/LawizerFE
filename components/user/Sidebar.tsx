@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus, Calendar, ClipboardList, Receipt, Settings, LogOut, ArrowLeft, HelpCircle, ChevronDown, MessageSquare } from "lucide-react";
+import { Plus, Calendar, ClipboardList, Receipt, Settings, LogOut, ArrowLeft, HelpCircle, ChevronDown, MessageSquare, Bell } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/context/authContext";
 import UserAvatar from "@/components/ui/UserAvatar";
@@ -78,6 +78,13 @@ export default function Sidebar({ activeTab, handleLogout, menuOpen }: SidebarPr
             icon={Receipt}
             active={!isChatsRoute && activeTab === "transactions"}
             onClick={() => go("transactions")}
+          />
+
+          <SidebarItem
+            label="Notifications"
+            icon={Bell}
+            active={activeTab === "notifications"}
+            onClick={() => go("notifications")}
           />
 
           <SidebarItem

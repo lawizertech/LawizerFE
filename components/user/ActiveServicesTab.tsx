@@ -146,7 +146,9 @@ export default function ActiveServicesTab() {
     deleteDocument,
   } = useServiceWorkspace();
 
-  const [activeSubTab, setActiveSubTab] = useState<"stages" | "docs" | "chat">("stages");
+  const [activeSubTab, setActiveSubTab] = useState<"stages" | "docs" | "chat" | "notifications">("stages");
+  const [caseNotifications, setCaseNotifications] = useState<any[]>([]);
+  const [fetchingNotifs, setFetchingNotifs] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
 
   const userName = user?.name ? user.name.trim() : "User";
@@ -166,6 +168,23 @@ export default function ActiveServicesTab() {
     emblaApi.on("select", onSelect);
     emblaApi.on("reInit", onSelect);
   }, [emblaApi, onSelect]);
+
+  useEffect(() => {
+    if (activeSubTab === "notifications" && selectedServiceId) {
+      setFetchingNotifs(true);
+      fetch(`/api/cases/${selectedServiceId}/notifications/user`)
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data)) {
+            setCaseNotifications(data);
+          } else {
+            setCaseNotifications([]);
+          }
+        })
+        .catch(err => console.error("Error fetching case notifications:", err))
+        .finally(() => setFetchingNotifs(false));
+    }
+  }, [activeSubTab, selectedServiceId]);
 
   const handlePrevCard = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -268,6 +287,17 @@ export default function ActiveServicesTab() {
           >
             <FileCheck size={14} />
             <span>Docs Vault ({selectedServiceDetail?.documents?.submitted?.length || 0})</span>
+          </button>
+          <button
+            onClick={() => setActiveSubTab("notifications")}
+            className={`flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
+              activeSubTab === "notifications"
+                ? "bg-[#c92c41] text-white shadow-xs"
+                : "text-gray-600 hover:text-gray-900 hover:bg-slate-200/50"
+            }`}
+          >
+            <Bell size={14} />
+            <span>Notifications</span>
           </button>
         </div>
 
@@ -388,13 +418,9 @@ export default function ActiveServicesTab() {
 
             {/* SECTION 2: DEDICATED LAWIZER REALTIME CHATTING INTERFACE (5 Cols on Desktop) */}
             <div
-              className={`lg:col-span-5 space-y-4 ${
-                activeSubTab === "chat"
-                  ? "fixed inset-0 z-50 bg-white sm:relative sm:inset-auto sm:z-auto sm:bg-transparent block"
-                  : "hidden lg:block"
-              }`}
+              className={`lg:col-span-9 h-[600px] flex flex-col ${activeSubTab === "chat" ? "block" : "hidden"}`}
             >
-              <div className="h-dvh sm:h-[680px]">
+              {activeSubTab === "chat" ? (
                 <ChatEngine
                   key={selectedServiceId}
                   caseId={selectedServiceId}
@@ -404,11 +430,11 @@ export default function ActiveServicesTab() {
                   caseTitle={selectedServiceDetail.name}
                   onClose={() => setActiveSubTab("stages")}
                 />
-              </div>
+              ) : null}
             </div>
 
             {/* SECTION 3: ONE PLACE TO UPLOAD & MANAGE DOCUMENTS (4 Cols on Desktop) */}
-            <div className={`lg:col-span-4 space-y-6 ${activeSubTab === "docs" ? "block" : "hidden lg:block"}`}>
+            <div className={`lg:col-span-9 space-y-6 ${activeSubTab === "docs" ? "block" : "hidden"}`}>
               
               {/* PENDING UPLOADS (DROPZONE & UPLOAD HUB) */}
               <div className="bg-white rounded-2xl border border-gray-100 p-5 space-y-4 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
@@ -540,6 +566,47 @@ export default function ActiveServicesTab() {
                 )}
               </div>
 
+            </div>
+
+            {/* SECTION 4: NOTIFICATIONS VAULT */}
+            <div className={`lg:col-span-9 space-y-6 ${activeSubTab === "notifications" ? "block" : "hidden"}`}>
+              <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-[0_2px_12px_rgba(0,0,0,0.02)] h-[600px] flex flex-col">
+                <div className="mb-6 flex justify-between items-center">
+                  <div>
+                    <h3 className="text-base font-black text-gray-900">Case Notifications</h3>
+                    <p className="text-xs text-gray-500 font-medium mt-1">Updates and alerts regarding your service</p>
+                  </div>
+                </div>
+
+                <div className="flex-1 overflow-y-auto pr-2 space-y-3">
+                  {fetchingNotifs ? (
+                    <div className="flex justify-center items-center h-full">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#c92c41]"></div>
+                    </div>
+                  ) : caseNotifications.length === 0 ? (
+                    <div className="bg-slate-50 border border-slate-100 rounded-2xl p-10 flex flex-col items-center justify-center text-center">
+                      <Bell size={32} className="text-gray-300 mb-3" />
+                      <h4 className="text-sm font-bold text-gray-900">No notifications yet</h4>
+                      <p className="text-xs text-gray-500 max-w-[200px] mx-auto mt-1">We'll notify you here when there are updates.</p>
+                    </div>
+                  ) : (
+                    caseNotifications.map((n) => (
+                      <div key={n.id} className="bg-slate-50 p-4 rounded-xl border border-slate-100 flex items-start gap-3">
+                        <div className="bg-white p-2 rounded-lg border border-slate-100 shadow-xs">
+                          <Bell size={16} className="text-[#c92c41]" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex justify-between items-start mb-1">
+                            <span className="text-xs font-bold text-gray-900 capitalize">{n.type?.replace(/_/g, ' ')}</span>
+                            <span className="text-[10px] text-gray-400 font-medium">{new Date(n.created_at).toLocaleString()}</span>
+                          </div>
+                          <p className="text-sm text-gray-700">{n.payload?.message || n.payload?.text || JSON.stringify(n.payload)}</p>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
             </div>
 
           </div>

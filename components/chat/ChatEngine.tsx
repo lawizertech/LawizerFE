@@ -17,6 +17,7 @@ import {
   Phone,
   Video,
   ArrowLeft,
+  Calendar,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { sortChatMessages, upsertChatMessages, type ChatMessage, type SenderRole } from "@/lib/chat";
@@ -120,7 +121,7 @@ export function ChatEngine({
         (payload) => {
           if (payload.eventType === "INSERT") {
             const newMsg = payload.new as ChatMessage;
-            if (newMsg.sender_id === currentUserId) return;
+            if (newMsg.sender_id === currentUserId && newMsg.message_type !== "meeting_link") return;
             setMessages((prev) => upsertChatMessages(prev, { ...newMsg, status: "sent" }));
             setTimeout(scrollToBottom, 50);
             void markAsReadClient();
@@ -412,6 +413,27 @@ export function ChatEngine({
     }
   };
 
+  // ── Initiate meeting session ─────────────────────────────────────────────────
+  const handleCreateSession = async () => {
+    try {
+      const token = getAccessToken();
+      const res = await fetch("/api/meetings/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ caseId, title: "Video Consultation" }),
+      });
+
+      if (!res.ok) {
+        console.error("Failed to create session:", await res.text());
+      }
+    } catch (err) {
+      console.error("handleCreateSession error:", err);
+    }
+  };
+
   // ── Accept / Reject incoming call ──────────────────────────────────────────
   const handleAcceptCall = () => {
     if (!incomingCall) return;
@@ -511,6 +533,15 @@ export function ChatEngine({
               >
                 <Video size={16} />
               </button>
+              <button
+                onClick={handleCreateSession}
+                className="p-1.5 hover:bg-white/10 rounded-lg text-gray-300 hover:text-emerald-400 transition cursor-pointer flex items-center gap-1 ml-1"
+                aria-label="Create Session"
+                title="Create a video meeting session and share link"
+              >
+                <Calendar size={16} />
+                <span className="text-xs font-semibold hidden md:inline">Session</span>
+              </button>
             </>
           )}
 
@@ -595,7 +626,29 @@ export function ChatEngine({
                       {professionalName}
                     </span>
                   )}
-                  <p className="whitespace-pre-wrap break-words">{msg.text}</p>
+                  {msg.message_type === "meeting_link" ? (
+                    <div className="flex flex-col gap-2 mt-1 min-w-[150px]">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                          <Video size={14} />
+                        </div>
+                        <div>
+                          <p className="font-bold text-xs">Video Session</p>
+                          <p className="text-[10px] opacity-80">Click to join</p>
+                        </div>
+                      </div>
+                      <a
+                        href={`/meet/${msg.text}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-1 block text-center w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-1.5 rounded-lg text-xs transition-colors"
+                      >
+                        Join Meeting
+                      </a>
+                    </div>
+                  ) : (
+                    <p className="whitespace-pre-wrap break-words">{msg.text}</p>
+                  )}
 
                   <div
                     className={`flex items-center justify-end gap-1 mt-1 text-[9.5px] ${
