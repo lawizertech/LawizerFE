@@ -121,7 +121,7 @@ export function ChatEngine({
         (payload) => {
           if (payload.eventType === "INSERT") {
             const newMsg = payload.new as ChatMessage;
-            if (newMsg.sender_id === currentUserId) return;
+            if (newMsg.sender_id === currentUserId && newMsg.message_type !== "meeting_link") return;
             setMessages((prev) => upsertChatMessages(prev, { ...newMsg, status: "sent" }));
             setTimeout(scrollToBottom, 50);
             void markAsReadClient();

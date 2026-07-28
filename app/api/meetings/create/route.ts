@@ -17,12 +17,11 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(res.data, { status: 201 });
+    return NextResponse.json(res.data, { status: 200 });
   } catch (error: any) {
     console.error("POST /api/meetings/create error:", error?.response?.data || error.message);
-
     return NextResponse.json(
-      { error: error?.response?.data?.message || "Failed to create meeting" },
+      { error: error?.response?.data?.message || "Failed to create meeting session" },
       { status: error?.response?.status || 500 }
     );
   }
