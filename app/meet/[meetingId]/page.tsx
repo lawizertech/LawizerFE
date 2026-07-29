@@ -53,8 +53,15 @@ function MeetingActiveUI({ onClose }: { onClose: () => void }) {
       </header>
 
       {/* Main Video View */}
-      <main className="flex-1 relative overflow-hidden bg-black p-4">
-        <SpeakerLayout />
+      <main className="flex-1 relative overflow-hidden bg-black flex items-center justify-center p-4">
+        {callingState !== CallingState.JOINED ? (
+          <div className="flex flex-col items-center justify-center text-slate-400">
+            <Loader2 className="w-10 h-10 text-emerald-500 animate-spin mb-4" />
+            <p className="font-semibold text-sm">Connecting to secure session...</p>
+          </div>
+        ) : (
+          <SpeakerLayout />
+        )}
       </main>
 
       {/* Control Bar */}
@@ -116,6 +123,13 @@ export default function MeetingPage({ params }: { params: { meetingId: string } 
         // Define call
         const streamCallId = `meet_${meetingId}`;
         const _call = _client.call("default", streamCallId);
+
+        // Turn off camera by default (voice-first)
+        try {
+          await _call.camera.disable();
+        } catch (e) {
+          console.warn("Could not disable camera:", e);
+        }
 
         await _call.join({ create: true });
         
