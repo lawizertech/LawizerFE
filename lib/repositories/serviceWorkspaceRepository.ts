@@ -63,6 +63,7 @@ export class ServiceWorkspaceRepository {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify({ caseId: serviceId }),
     });
     
     if (!sigRes.ok) {

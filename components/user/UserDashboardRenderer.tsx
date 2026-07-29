@@ -6,6 +6,7 @@ import ActiveServicesTab from "./ActiveServicesTab";
 import BookServiceTab from "./BookServiceTab";
 import TransactionsTab from "./TransactionsTab";
 import SettingsTab from "./SettingsTab";
+import { UserNotificationsTab } from "./UserNotificationsTab";
 
 export default function UserDashboardRenderer() {
   const searchParams = useSearchParams();
@@ -18,6 +19,7 @@ export default function UserDashboardRenderer() {
       {tab === "book" && <BookServiceTab />}
       {tab === "transactions" && <TransactionsTab />}
       {tab === "settings" && <SettingsTab />}
+      {tab === "notifications" && <UserNotificationsTab />}
     </>
   );
 }
