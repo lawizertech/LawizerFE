@@ -418,7 +418,7 @@ export default function ActiveServicesTab() {
 
             {/* SECTION 2: DEDICATED LAWIZER REALTIME CHATTING INTERFACE (5 Cols on Desktop) */}
             <div
-              className={`lg:col-span-9 h-[600px] flex flex-col ${activeSubTab === "chat" ? "block" : "hidden"}`}
+              className={`lg:col-span-9 h-[75vh] sm:h-[600px] flex flex-col ${activeSubTab === "chat" ? "block" : "hidden"}`}
             >
               {activeSubTab === "chat" ? (
                 <ChatEngine
