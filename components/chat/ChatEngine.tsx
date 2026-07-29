@@ -73,6 +73,9 @@ export function ChatEngine({
   // activeCall: false = no call, or { mode, callId } when a call is live
   const [activeCall, setActiveCall] = useState<{ mode: CallMode; callId: string } | false>(false);
 
+  // Rate limit for session creation
+  const [isSessionCoolingDown, setIsSessionCoolingDown] = useState(false);
+
   // Fix 5: ref kept in sync synchronously so broadcast handlers never read stale state
   const activeCallRef = useRef<typeof activeCall>(false);
   const setActiveCallSafe = useCallback((next: typeof activeCall) => {
@@ -211,10 +214,10 @@ export function ChatEngine({
           setMessages(formatted);
           setTimeout(scrollToBottom, 100);
         }
-        if (data.length < 30) setHasMore(false);
+      if (data.length < 30) setHasMore(false);
       }
-    } catch (err) {
-      console.error("Failed to fetch messages:", err);
+    } catch (err: any) {
+      console.error("Failed to fetch messages:", err?.message || JSON.stringify(err, Object.getOwnPropertyNames(err)));
     } finally {
       setIsLoading(false);
       loadingMoreRef.current = false;
@@ -415,7 +418,13 @@ export function ChatEngine({
 
   // ── Initiate meeting session ─────────────────────────────────────────────────
   const handleCreateSession = async () => {
+    if (isSessionCoolingDown) return;
+
     try {
+      setIsSessionCoolingDown(true);
+      // Reset cooldown after 15 seconds
+      setTimeout(() => setIsSessionCoolingDown(false), 15000);
+
       const token = getAccessToken();
       const res = await fetch("/api/meetings/create", {
         method: "POST",
@@ -535,12 +544,19 @@ export function ChatEngine({
               </button>
               <button
                 onClick={handleCreateSession}
-                className="p-1.5 hover:bg-white/10 rounded-lg text-gray-300 hover:text-emerald-400 transition cursor-pointer flex items-center gap-1 ml-1"
+                disabled={isSessionCoolingDown}
+                className={`p-1.5 rounded-lg flex items-center gap-1 ml-1 transition cursor-pointer ${
+                  isSessionCoolingDown 
+                    ? "text-gray-500 bg-white/5 cursor-not-allowed" 
+                    : "text-gray-300 hover:bg-white/10 hover:text-emerald-400"
+                }`}
                 aria-label="Create Session"
-                title="Create a video meeting session and share link"
+                title={isSessionCoolingDown ? "Please wait 15s..." : "Create a video meeting session and share link"}
               >
                 <Calendar size={16} />
-                <span className="text-xs font-semibold hidden md:inline">Session</span>
+                <span className="text-xs font-semibold hidden md:inline">
+                  {isSessionCoolingDown ? "Wait..." : "Session"}
+                </span>
               </button>
             </>
           )}
