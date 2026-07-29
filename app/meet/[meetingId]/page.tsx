@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, use } from "react";
 import { useRouter } from "next/navigation";
 import {
   StreamVideoClient,
@@ -72,10 +72,10 @@ function MeetingActiveUI({ onClose }: { onClose: () => void }) {
   );
 }
 
-export default function MeetingPage({ params }: { params: { meetingId: string } }) {
+export default function MeetingPage({ params }: { params: Promise<{ meetingId: string }> }) {
   const router = useRouter();
   const { user } = useAuth();
-  const { meetingId } = params;
+  const { meetingId } = use(params);
 
   const [client, setClient] = useState<StreamVideoClient | null>(null);
   const [call, setCall] = useState<Call | null>(null);
