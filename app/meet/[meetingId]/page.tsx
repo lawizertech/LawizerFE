@@ -24,10 +24,10 @@ function MeetingActiveUI({ onClose }: { onClose: () => void }) {
   const callingState = useCallCallingState();
 
   return (
-    <div className="flex flex-col h-screen bg-slate-950 font-sans text-white">
+    <div className="flex flex-col h-[100dvh] bg-slate-950 font-sans text-white">
       {/* Header */}
-      <header className="flex items-center justify-between px-6 py-4 bg-slate-900 border-b border-white/10 shrink-0">
-        <div className="flex items-center gap-4">
+      <header className="flex items-center justify-between px-3 sm:px-6 py-3 sm:py-4 bg-slate-900 border-b border-white/10 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-4">
           <button
             onClick={onClose}
             className="p-2 -ml-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-xl transition cursor-pointer"
@@ -37,11 +37,11 @@ function MeetingActiveUI({ onClose }: { onClose: () => void }) {
           </button>
           <div className="flex items-center gap-3">
             <div
-              className={`w-3 h-3 rounded-full ${
+              className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${
                 callingState === CallingState.JOINED ? "bg-emerald-500 animate-pulse" : "bg-amber-500"
               }`}
             />
-            <h1 className="text-lg font-bold">
+            <h1 className="text-base sm:text-lg font-bold">
               {callingState === CallingState.JOINED ? "Live Meeting Session" : "Connecting..."}
             </h1>
           </div>
@@ -58,7 +58,7 @@ function MeetingActiveUI({ onClose }: { onClose: () => void }) {
       </main>
 
       {/* Control Bar */}
-      <footer className="py-4 bg-slate-900 border-t border-white/10 flex items-center justify-center shrink-0">
+      <footer className="py-2 sm:py-4 bg-slate-900 border-t border-white/10 flex items-center justify-center shrink-0 pb-safe">
         <CallControls onLeave={onClose} />
       </footer>
     </div>
@@ -118,6 +118,12 @@ export default function MeetingPage({ params }: { params: { meetingId: string } 
         const _call = _client.call("default", streamCallId);
 
         await _call.join({ create: true });
+        
+        try {
+          await _call.startRecording();
+        } catch (e) {
+          console.warn("Recording may already be started or unavailable:", e);
+        }
 
         if (!isMounted) return;
         callRef.current = _call;
