@@ -18,11 +18,13 @@ import {
   Video,
   ArrowLeft,
   Calendar,
+  PlayCircle,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { sortChatMessages, upsertChatMessages, type ChatMessage, type SenderRole } from "@/lib/chat";
 import { IncomingCallOverlay } from "./IncomingCallOverlay";
 import VideoCall from "@/components/call/VideoCall";
+import { RecordingsModal } from "./RecordingsModal";
 import { StreamCallOverlay } from "@/components/calling/StreamCallOverlay";
 import { useCallNotifications } from "@/hooks/useCallNotifications";
 import { getAccessToken } from "@/lib/auth/tokenStore";
@@ -60,6 +62,8 @@ export function ChatEngine({
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
+
+  const [showRecordings, setShowRecordings] = useState(false);
   const [onlineUsers, setOnlineUsers] = useState<Record<string, boolean>>({});
   const [isTyping, setIsTyping] = useState<Record<string, boolean>>({});
 
@@ -417,7 +421,7 @@ export function ChatEngine({
   };
 
   // ── Initiate meeting session ─────────────────────────────────────────────────
-  const handleCreateSession = async () => {
+  const handleCreateSession = async (type: 'video' | 'voice') => {
     if (isSessionCoolingDown) return;
 
     try {
@@ -426,13 +430,14 @@ export function ChatEngine({
       setTimeout(() => setIsSessionCoolingDown(false), 15000);
 
       const token = getAccessToken();
+      const title = type === 'video' ? "Video Consultation" : "Voice Consultation";
       const res = await fetch("/api/meetings/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({ caseId, title: "Video Consultation" }),
+        body: JSON.stringify({ caseId, title, type }),
       });
 
       if (!res.ok) {
@@ -543,23 +548,50 @@ export function ChatEngine({
                 <Video size={16} />
               </button>
               <button
-                onClick={handleCreateSession}
+                onClick={() => handleCreateSession('video')}
                 disabled={isSessionCoolingDown}
                 className={`p-1.5 rounded-lg flex items-center gap-1 ml-1 transition cursor-pointer ${
                   isSessionCoolingDown 
                     ? "text-gray-500 bg-white/5 cursor-not-allowed" 
                     : "text-gray-300 hover:bg-white/10 hover:text-emerald-400"
                 }`}
-                aria-label="Create Session"
-                title={isSessionCoolingDown ? "Please wait 15s..." : "Create a video meeting session and share link"}
+                aria-label="Create Video Session"
+                title={isSessionCoolingDown ? "Please wait 15s..." : "Create a video session link"}
               >
-                <Calendar size={16} />
+                <Video size={16} />
                 <span className="text-xs font-semibold hidden md:inline">
-                  {isSessionCoolingDown ? "Wait..." : "Session"}
+                  {isSessionCoolingDown ? "Wait..." : "Video Session"}
                 </span>
+              </button>
+              <button
+                onClick={() => handleCreateSession('voice')}
+                disabled={isSessionCoolingDown}
+                className={`p-1.5 rounded-lg flex items-center gap-1 ml-1 transition cursor-pointer ${
+                  isSessionCoolingDown 
+                    ? "text-gray-500 bg-white/5 cursor-not-allowed" 
+                    : "text-gray-300 hover:bg-white/10 hover:text-emerald-400"
+                }`}
+                aria-label="Create Voice Session"
+                title={isSessionCoolingDown ? "Please wait 15s..." : "Create an audio-only session link"}
+              >
+                <Phone size={16} />
+                <span className="text-xs font-semibold hidden md:inline">
+                  {isSessionCoolingDown ? "Wait..." : "Voice Session"}
+                </span>
+              </button>
+              <button
+                onClick={() => setShowRecordings(true)}
+                className="p-1.5 rounded-lg flex items-center gap-1 ml-1 transition cursor-pointer text-gray-300 hover:bg-white/10 hover:text-emerald-400"
+                aria-label="View Recordings"
+                title="View previous session recordings"
+              >
+                <PlayCircle size={16} />
+                <span className="text-xs font-semibold hidden md:inline">Recordings</span>
               </button>
             </>
           )}
+
+          {showRecordings && <RecordingsModal caseId={caseId} onClose={() => setShowRecordings(false)} />}
 
           {onClose && (
             <button

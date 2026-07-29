@@ -19,7 +19,7 @@ import { getAccessToken } from "@/lib/auth/tokenStore";
 import { useAuth } from "@/context/authContext";
 import { ArrowLeft, Loader2, ShieldCheck } from "lucide-react";
 
-function MeetingActiveUI({ onClose }: { onClose: () => void }) {
+function MeetingActiveUI({ onClose, meetingType }: { onClose: () => void; meetingType: string }) {
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
 
@@ -42,7 +42,7 @@ function MeetingActiveUI({ onClose }: { onClose: () => void }) {
               }`}
             />
             <h1 className="text-base sm:text-lg font-bold">
-              {callingState === CallingState.JOINED ? "Live Meeting Session" : "Connecting..."}
+              {callingState === CallingState.JOINED ? (meetingType === "voice" ? "Live Voice Session" : "Live Video Session") : "Connecting..."}
             </h1>
           </div>
         </div>
@@ -60,13 +60,26 @@ function MeetingActiveUI({ onClose }: { onClose: () => void }) {
             <p className="font-semibold text-sm">Connecting to secure session...</p>
           </div>
         ) : (
-          <SpeakerLayout />
+          <SpeakerLayout participantsBarPosition="bottom" />
         )}
       </main>
 
       {/* Control Bar */}
       <footer className="py-2 sm:py-4 bg-slate-900 border-t border-white/10 flex items-center justify-center shrink-0 pb-safe">
-        <CallControls onLeave={onClose} />
+        {meetingType === "voice" ? (
+           <div className="voice-only-controls">
+             <style>{`
+               .str-video__call-controls button[title="Turn off camera"],
+               .str-video__call-controls button[title="Turn on camera"],
+               .str-video__toggle-video-button {
+                 display: none !important;
+               }
+             `}</style>
+             <CallControls onLeave={onClose} />
+           </div>
+        ) : (
+           <CallControls onLeave={onClose} />
+        )}
       </footer>
     </div>
   );
@@ -81,6 +94,7 @@ export default function MeetingPage({ params }: { params: Promise<{ meetingId: s
   const [call, setCall] = useState<Call | null>(null);
   const [isInitializing, setIsInitializing] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [meetingType, setMeetingType] = useState<string>("video");
 
   const callRef = useRef<Call | null>(null);
   const clientRef = useRef<StreamVideoClient | null>(null);
@@ -95,16 +109,23 @@ export default function MeetingPage({ params }: { params: Promise<{ meetingId: s
         setIsInitializing(true);
         setErrorMsg(null);
 
-        // Fetch Stream token
-        const tokenRes = await axios.get("/api/stream/token", {
-          headers: { Authorization: `Bearer ${getAccessToken()}` },
-        });
+        const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+        
+        // Fetch Stream token and meeting info in parallel
+        const [tokenRes, meetingRes] = await Promise.all([
+          axios.get("/api/stream/token", {
+            headers: { Authorization: `Bearer ${getAccessToken()}` },
+          }),
+          axios.get(`${backendUrl}/meetings/id/${meetingId}`)
+        ]);
 
         if (!tokenRes.data?.token || !tokenRes.data?.apiKey) {
           throw new Error("Failed to retrieve Stream token");
         }
 
         const { token, apiKey } = tokenRes.data;
+        const currentMeetingType = meetingRes.data?.meeting?.type || 'video';
+        setMeetingType(currentMeetingType);
 
         // Initialize Client
         const _client = new StreamVideoClient({
@@ -124,17 +145,26 @@ export default function MeetingPage({ params }: { params: Promise<{ meetingId: s
         const streamCallId = `meet_${meetingId}`;
         const _call = _client.call("default", streamCallId);
 
-        // Turn off camera by default (voice-first)
+        // Configure camera based on meeting type
         try {
-          await _call.camera.disable();
+          if (currentMeetingType === "voice") {
+            await _call.camera.disable();
+          }
         } catch (e) {
-          console.warn("Could not disable camera:", e);
+          console.warn("Could not configure camera:", e);
         }
 
         await _call.join({ create: true });
         
         try {
-          await _call.startRecording();
+          if (currentMeetingType === "voice") {
+             // pass object to startRecording (often { recording_audio_only: true } or { recording_type: "audio_only" })
+             // In Stream SDK, audio_only can be passed as a string or in the request body.
+             // We'll pass it as { recording_type: 'audio_only' } as it matches StartRecordingRequest
+             await _call.startRecording({ recording_type: "audio_only" });
+          } else {
+             await _call.startRecording();
+          }
         } catch (e) {
           console.warn("Recording may already be started or unavailable:", e);
         }
@@ -218,7 +248,7 @@ export default function MeetingPage({ params }: { params: Promise<{ meetingId: s
     <StreamVideo client={client}>
       <StreamTheme>
         <StreamCall call={call}>
-          <MeetingActiveUI onClose={handleClose} />
+          <MeetingActiveUI onClose={handleClose} meetingType={meetingType} />
         </StreamCall>
       </StreamTheme>
     </StreamVideo>
