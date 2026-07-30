@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
+import { X, ShieldAlert } from "lucide-react";
 
 interface CallbackModalProps {
   isOpen: boolean;
@@ -90,112 +90,130 @@ export default function CallbackModal({ isOpen, onClose, serviceName }: Callback
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 bg-[#050d1a]/70 backdrop-blur-md flex items-end sm:items-center justify-center z-50 p-4 sm:p-6"
           onClick={onClose}
         >
           <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: -20 }}
+            initial={{ scale: 0.95, opacity: 0, y: 40 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="bg-white rounded-2xl shadow-2xl p-8 w-[90%] max-w-[500px] relative"
+            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="w-full max-w-[420px] bg-white rounded-3xl shadow-[0_24px_56px_rgba(5,13,26,0.3)] relative overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
-            <button
-              onClick={onClose}
-              className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 text-2xl transition-colors"
-            >
-              <X size={24} />
-            </button>
+            {/* Top decorative gradient */}
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#c92c41] to-[#e99b2b]" />
 
-            {/* Header */}
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Request a Callback</h2>
-              <p className="text-gray-600">
-                Service: <span className="font-semibold text-[#c92c41]">{serviceName}</span>
-              </p>
-            </div>
-
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Name Input */}
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Enter your name"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c92c41] transition-colors"
-                  disabled={loading}
-                />
-              </div>
-
-              {/* Email Input */}
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Enter your email"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c92c41] transition-colors"
-                  disabled={loading}
-                />
-              </div>
-
-              {/* Phone Input */}
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="Enter your phone number"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c92c41] transition-colors"
-                  disabled={loading}
-                />
-              </div>
-
-              {/* Message */}
-              {message && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`p-4 rounded-lg text-sm font-medium ${
-                    messageType === "success"
-                      ? "bg-green-100 text-green-800 border border-green-200"
-                      : "bg-red-100 text-red-800 border border-red-200"
-                  }`}
-                >
-                  {message}
-                </motion.div>
-              )}
-
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-[#c92c41] hover:bg-[#a8233a] text-white font-semibold py-3 rounded-lg transition-colors"
+            <div className="p-6 sm:p-8">
+              {/* Close Button */}
+              <button
+                onClick={onClose}
+                className="absolute right-5 top-5 p-2 text-gray-400 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-colors"
               >
-                {loading ? "Submitting..." : "Request Callback"}
-              </Button>
+                <X size={20} />
+              </button>
 
-              <p className="text-xs text-gray-500 text-center">We'll contact you shortly at the provided number.</p>
-            </form>
+              {/* Header */}
+              <div className="mb-7">
+                <h2 className="text-xl sm:text-2xl font-extrabold text-[#0e172b] tracking-tight mb-2">Request a Callback</h2>
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Leave your details and our expert for <span className="font-semibold text-[#c92c41]">{serviceName}</span> will reach out shortly.
+                </p>
+              </div>
+
+              {/* Form */}
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Name Input */}
+                <div>
+                  <label htmlFor="name" className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="E.g. Jane Doe"
+                    className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-[#0e172b] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#c92c41]/30 focus:border-[#c92c41] focus:bg-white transition-all"
+                    disabled={loading}
+                    required
+                  />
+                </div>
+
+                {/* Email Input */}
+                <div>
+                  <label htmlFor="email" className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="you@company.com"
+                    className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-[#0e172b] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#c92c41]/30 focus:border-[#c92c41] focus:bg-white transition-all"
+                    disabled={loading}
+                    required
+                  />
+                </div>
+
+                {/* Phone Input */}
+                <div>
+                  <label htmlFor="phone" className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="+91 98765 43210"
+                    className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-[#0e172b] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#c92c41]/30 focus:border-[#c92c41] focus:bg-white transition-all"
+                    disabled={loading}
+                    required
+                  />
+                </div>
+
+                {/* Message */}
+                <AnimatePresence>
+                  {message && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className={`overflow-hidden rounded-xl text-xs sm:text-sm font-medium ${
+                        messageType === "success"
+                          ? "bg-green-50 text-green-700 border border-green-200 p-3"
+                          : "bg-red-50 text-red-700 border border-red-200 p-3"
+                      }`}
+                    >
+                      {message}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Submit Button */}
+                <div className="pt-2">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    type="submit"
+                    disabled={loading}
+                    className="w-full relative overflow-hidden bg-[#c92c41] text-white font-bold py-3.5 sm:py-4 rounded-xl shadow-[0_8px_20px_rgba(201,44,65,0.24)] transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+                  >
+                    <span className="relative z-10">{loading ? "Submitting..." : "Request Call"}</span>
+                  </motion.button>
+                </div>
+
+                <p className="text-[11px] text-gray-400 text-center mt-2 flex items-center justify-center gap-1.5">
+                  <ShieldAlert className="w-3 h-3" /> Your information is secure
+                </p>
+              </form>
+            </div>
           </motion.div>
         </motion.div>
       )}

@@ -55,6 +55,7 @@ export function Footer() {
               <li><Link href="/startup-businesslegal/startbusiness/PrivateLimitedCompanyPage" className="text-[14px] text-gray-500 hover:text-[var(--brand)] font-medium transition-colors">Pvt Ltd Incorporation</Link></li>
               <li><Link href="/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage" className="text-[14px] text-gray-500 hover:text-[var(--brand)] font-medium transition-colors">MSME Registration</Link></li>
               <li><Link href="/startup-businesslegal/protectbusiness/TrademarkRegistrationPage" className="text-[14px] text-gray-500 hover:text-[var(--brand)] font-medium transition-colors">Trademark Registration</Link></li>
+              <li><Link href="/compliance/annual" className="text-[14px] text-gray-500 hover:text-[var(--brand)] font-medium transition-colors">Annual Compliance</Link></li>
             </ul>
           </div>
 
