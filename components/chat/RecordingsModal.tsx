@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { X, Loader2, PlayCircle, Calendar } from "lucide-react";
 import axios from "axios";
 
@@ -28,13 +29,14 @@ export function RecordingsModal({
   const [loading, setLoading] = useState(true);
   const [recordingGroups, setRecordingGroups] = useState<MeetingRecordingGroup[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const fetchRecordings = async () => {
       try {
         setLoading(true);
         const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
-        // The endpoint is public as per request
         const res = await axios.get(`${backendUrl}/meetings/${caseId}/recordings`);
         if (res.data?.recordings) {
           setRecordingGroups(res.data.recordings);
@@ -50,8 +52,10 @@ export function RecordingsModal({
     fetchRecordings();
   }, [caseId]);
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+  if (!mounted) return null;
+
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
       <div className="bg-slate-900 border border-white/10 rounded-2xl w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-white/10 bg-slate-900/50">
@@ -126,6 +130,7 @@ export function RecordingsModal({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

@@ -232,23 +232,6 @@ export default function ActiveServicesTab() {
               <span className="text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-full bg-rose-50 text-[#c92c41] border border-rose-100 shrink-0">
                 {selectedServiceDetail?.status || "In Progress"}
               </span>
-
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => startCall("voice")}
-                  className="px-2.5 py-1.5 sm:px-3.5 sm:py-2 bg-[#c92c41] hover:bg-[#a8233a] text-white text-[11px] sm:text-xs font-bold rounded-xl transition flex items-center gap-1 cursor-pointer shadow-xs shrink-0"
-                >
-                  <Phone size={13} />
-                  <span>Voice Call</span>
-                </button>
-                <button
-                  onClick={() => startCall("video")}
-                  className="px-2.5 py-1.5 sm:px-3.5 sm:py-2 bg-gray-900 hover:bg-gray-800 text-white text-[11px] sm:text-xs font-bold rounded-xl transition flex items-center gap-1 cursor-pointer shrink-0"
-                >
-                  <Video size={13} />
-                  <span>Video Call</span>
-                </button>
-              </div>
             </div>
           </div>
         </div>
@@ -310,8 +293,14 @@ export default function ActiveServicesTab() {
           /* DEDICATED WORKSPACE PAGE LAYOUT */
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             
-            {/* SECTION 1: SERVICE SUMMARY & PROGRESS DETAILS (3 Cols on Desktop) */}
-            <div className={`lg:col-span-3 space-y-6 ${activeSubTab === "stages" ? "block" : "hidden lg:block"}`}>
+            {/* SECTION 1: SERVICE SUMMARY & PROGRESS DETAILS */}
+            <div
+              className={`${
+                activeSubTab === "stages"
+                  ? "lg:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-6"
+                  : "lg:col-span-3 space-y-6 hidden lg:block"
+              }`}
+            >
               {/* Service Summary Card */}
               <div className="bg-white rounded-2xl border border-gray-100 p-5 space-y-4 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
                 <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
