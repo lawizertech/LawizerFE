@@ -1,9 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCallback } from "@/context/callbackContext";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Copy, Phone, X, ArrowRight, Shield, Lock, Sparkles } from "lucide-react";
+import { Check, Copy, Phone, X, ArrowRight, Shield, Lock, Sparkles, Loader2 } from "lucide-react";
+import { useAuth } from "@/context/authContext";
+import { useRazorpay } from "@/hooks/useRazorpay";
+import { getAccessToken } from "@/lib/auth/tokenStore";
+import { toast } from "sonner";
 
 /* ─────────────────────────────────────────────────────────
  THEME CONSTANTS
@@ -187,6 +191,142 @@ function CopyCode({ code, accentClass }: { code: string; accentClass: string }) 
 export default function ITRPlans() {
   const { openCallback } = useCallback();
   const router = useRouter();
+  
+  const { user } = useAuth();
+  const { isLoaded: razorpayReady, initializePayment } = useRazorpay();
+  const [activePlanId, setActivePlanId] = useState<string | null>(null);
+  const [paymentState, setPaymentState] = useState<"idle" | "creating" | "paying" | "verifying" | "success">("idle");
+
+  useEffect(() => {
+    if (user && typeof window !== "undefined") {
+      const pending = sessionStorage.getItem("pendingAutoBuy");
+      if (pending) {
+        const plan = plans.find(p => p.id === pending);
+        if (plan) {
+          sessionStorage.removeItem("pendingAutoBuy");
+          handleStartProcess(plan);
+        }
+      }
+    }
+  }, [user]);
+
+  const handleStartProcess = async (plan: typeof plans[0]) => {
+    if (!user) {
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("pendingAutoBuy", plan.id);
+        window.dispatchEvent(new CustomEvent("openSignInModal"));
+      }
+      return;
+    }
+
+    try {
+      setActivePlanId(plan.id);
+      setPaymentState("creating");
+      const token = getAccessToken();
+
+      const orderRes = await fetch("/api/user/start-process", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          serviceCode: plan.id,
+          clientDetails: {
+            fullName: user.name || "Client",
+            email: user.email || "client@lawizer.com",
+            phone: (user as any)?.phone || "9999999999",
+          },
+          urgency: "NORMAL",
+        }),
+      });
+
+      if (!orderRes.ok) {
+        const errData = await orderRes.json().catch(() => ({}));
+        throw new Error(errData.message || "Failed to create order");
+      }
+
+      const orderData = await orderRes.json();
+      if (!orderData.success) {
+        throw new Error(orderData.message || "Failed to create order");
+      }
+
+      const orderObj = orderData.razorpayOrder || orderData.order;
+      const razorpayKey = orderData.keyId || orderObj?.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+
+      if (!orderObj || !orderObj.amount || !orderObj.id) {
+        throw new Error("Invalid order data received from payment server");
+      }
+
+      setPaymentState("paying");
+      await new Promise<void>((resolve, reject) => {
+        const options = {
+          key: razorpayKey,
+          amount: orderObj.amount,
+          currency: orderObj.currency || "INR",
+          name: "Lawizer",
+          description: plan.name + " Plan",
+          order_id: orderObj.id,
+          prefill: {
+            name: user.name || "",
+            email: user.email || "",
+            contact: (user as any)?.phone || "",
+          },
+          theme: { color: "#c92c41" },
+          modal: {
+            ondismiss: function () {
+              setPaymentState("idle");
+              setActivePlanId(null);
+              reject(new Error("Payment cancelled by user"));
+            }
+          },
+          handler: async function (response: any) {
+            try {
+              setPaymentState("verifying");
+              const verifyRes = await fetch("/api/payments/verify", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                }),
+              });
+
+              const verifyData = await verifyRes.json();
+              if (!verifyData.success) throw new Error(verifyData.message || "Payment verification failed");
+
+              setPaymentState("success");
+              toast.success("Payment successful! Our team will contact you shortly.");
+              window.dispatchEvent(new CustomEvent("triggerConfetti", { detail: { amount: plan.price } }));
+              router.push("/user/dashboard?tab=services");
+              resolve();
+            } catch (verifyErr: any) {
+              setPaymentState("idle");
+              setActivePlanId(null);
+              reject(verifyErr);
+            }
+          },
+        };
+        const rzp = new (window as any).Razorpay(options);
+        rzp.on("payment.failed", (response: any) => {
+          setPaymentState("idle");
+          setActivePlanId(null);
+          reject(new Error(response.error.description));
+        });
+        rzp.open();
+      });
+    } catch (err: any) {
+      console.error("[ITRPlans] Payment error:", err);
+      const errorMsg = err.message || "Failed to process payment";
+      setPaymentState("idle");
+      setActivePlanId(null);
+      if (errorMsg !== "Payment cancelled by user") toast.error(errorMsg);
+    }
+  };
 
   return (
     <section className="relative py-16 overflow-hidden bg-brand-light-bg">
@@ -349,13 +489,22 @@ export default function ITRPlans() {
 
                 {/* ── CTAs ─────────────────────────────────────── */}
                 <div className="flex flex-col gap-2 mt-auto">
-                  {/* Buy Now → /payment?plan={id} */}
+                  {/* Buy Now -> Razorpay */}
                   <button
-                    onClick={() => router.push("/payment?plan=" + plan.id)}
-                    className={`group relative overflow-hidden w-full py-3 rounded-2xl text-sm font-bold text-white transition-all duration-300 hover:brightness-110 ${tierStyles[plan.id].gradientButton} ${tierStyles[plan.id].boxShadowHover}`}
+                    onClick={() => handleStartProcess(plan)}
+                    disabled={activePlanId === plan.id && paymentState !== "idle" || !razorpayReady}
+                    className={`group relative overflow-hidden w-full py-3 rounded-2xl text-sm font-bold text-white transition-all duration-300 hover:brightness-110 disabled:opacity-70 flex items-center justify-center gap-2 ${tierStyles[plan.id].gradientButton} ${tierStyles[plan.id].boxShadowHover}`}
                   >
-                    <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-500 ease-in-out group-hover:translate-x-full" />
-                    Buy Now
+                    {activePlanId === plan.id && paymentState === "creating" && <Loader2 className="w-4 h-4 animate-spin" />}
+                    {activePlanId === plan.id && paymentState === "paying" && <Loader2 className="w-4 h-4 animate-spin" />}
+                    {activePlanId === plan.id && paymentState === "verifying" && <Loader2 className="w-4 h-4 animate-spin" />}
+                    {activePlanId === plan.id && paymentState === "success" && <Check className="w-4 h-4" />}
+                    {(activePlanId !== plan.id || paymentState === "idle") && (
+                      <>
+                        <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-500 ease-in-out group-hover:translate-x-full" />
+                        Buy Now
+                      </>
+                    )}
                   </button>
 
                   {/* Know more → /itr/itr-plans/{id}
