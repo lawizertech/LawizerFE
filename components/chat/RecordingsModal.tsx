@@ -92,7 +92,7 @@ export function RecordingsModal({
                     <h3 className="font-semibold text-sm">{group.meetingTitle || 'Meeting Session'}</h3>
                     <div className="flex items-center gap-1.5 text-xs text-slate-400">
                       <Calendar size={14} />
-                      {new Date(group.meetingDate).toLocaleString()}
+                      {new Date(group.meetingDate).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}
                     </div>
                   </div>
                   <div className="p-4 space-y-3">
@@ -105,7 +105,7 @@ export function RecordingsModal({
                           <div>
                             <p className="text-sm font-medium">Recording Segment</p>
                             <p className="text-xs text-slate-500">
-                              {new Date(rec.start_time).toLocaleTimeString()} - {new Date(rec.end_time).toLocaleTimeString()}
+                              {new Date(rec.start_time).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })} - {new Date(rec.end_time).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })}
                             </p>
                           </div>
                         </div>

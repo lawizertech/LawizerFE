@@ -44,6 +44,7 @@ class SupabaseChatService implements ChatService {
               time: new Date(payload.createdAtMs || Date.now()).toLocaleTimeString("en-IN", {
                 hour: "2-digit",
                 minute: "2-digit",
+                timeZone: "Asia/Kolkata",
               }),
             };
             if (!list.some(m => m.text === msg.text && m.sender === msg.sender)) {
@@ -84,6 +85,7 @@ class SupabaseChatService implements ChatService {
       time: new Date().toLocaleTimeString("en-IN", {
         hour: "2-digit",
         minute: "2-digit",
+        timeZone: "Asia/Kolkata",
       }),
     };
     list.push(localMsg);
