@@ -17,6 +17,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/context/authContext";
 import { ChatEngine } from "@/components/chat/ChatEngine";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { getAccessToken } from "@/lib/auth/tokenStore";
 
 interface CaseChatItem {
   caseId: string;
@@ -149,11 +150,14 @@ export default function ExpertChatsTab() {
 
       try {
         setUploading(true);
+        const token = getAccessToken();
+        const headers: Record<string, string> = { "Content-Type": "application/json" };
+        if (token) headers["Authorization"] = `Bearer ${token}`;
 
         // 1. Get Cloudinary Signature
         const sigRes = await fetch("/api/documents/cloudinary-signature", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers,
           body: JSON.stringify({ caseId: selectedChat.caseId }),
         });
         if (!sigRes.ok) {
@@ -184,10 +188,10 @@ export default function ExpertChatsTab() {
         // 3. Save the document record
         const saveRes = await fetch("/api/documents/upload", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers,
           body: JSON.stringify({
             caseId: selectedChat.caseId,
-            filename: "expert_document",
+            filename: file.name,
             fileType: file.type || "application/octet-stream",
             storagePath: uploadResult.secure_url,
             sizeBytes: file.size,
