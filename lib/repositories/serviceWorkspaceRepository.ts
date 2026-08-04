@@ -72,17 +72,23 @@ export class ServiceWorkspaceRepository {
     }
     const sigData = await sigRes.json();
 
+    const cloudName = sigData.cloudName || "q1n6i5c4";
+    const apiKey = sigData.apiKey || "969715443973461";
+    const uploadUrl = sigData.uploadUrl && !sigData.uploadUrl.includes("/undefined/")
+      ? sigData.uploadUrl
+      : `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`;
+
     // 2. Upload file directly to Cloudinary
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("api_key", sigData.apiKey);
+    formData.append("api_key", apiKey);
     formData.append("timestamp", sigData.timestamp.toString());
     formData.append("signature", sigData.signature);
     if (sigData.folder) {
       formData.append("folder", sigData.folder);
     }
 
-    const cloudinaryRes = await fetch(sigData.uploadUrl, {
+    const cloudinaryRes = await fetch(uploadUrl, {
       method: "POST",
       body: formData,
     });
