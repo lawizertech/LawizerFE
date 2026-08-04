@@ -2,6 +2,10 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useCallback } from "@/context/callbackContext";
+import { useAuth } from "@/context/authContext";
+import { useRazorpay } from "@/hooks/useRazorpay";
+import { getAccessToken } from "@/lib/auth/tokenStore";
+import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Check,
@@ -20,6 +24,7 @@ import {
   Zap,
   FileText,
   CalendarCheck,
+  Loader2,
 } from "lucide-react";
 import { OFFER_CODE, tierStyles, SectionHeading, FAQItem, OfferChipGlass, SidebarCard } from "./PlanHelpers";
 
@@ -60,6 +65,138 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
   const { openCallback } = useCallback();
   const [buyBarShow, setBuyBarShow] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
+  
+  const { user } = useAuth();
+  const { isLoaded: razorpayReady, initializePayment } = useRazorpay();
+  const [paymentState, setPaymentState] = useState<"idle" | "creating" | "paying" | "verifying" | "success">("idle");
+  const [paymentError, setPaymentError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (user && typeof window !== "undefined") {
+      const pending = sessionStorage.getItem("pendingAutoBuy");
+      if (pending === plan.id) {
+        sessionStorage.removeItem("pendingAutoBuy");
+        handleStartProcess();
+      }
+    }
+  }, [user, plan.id]);
+
+  const handleStartProcess = async () => {
+    if (!user) {
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("pendingAutoBuy", plan.id);
+        window.dispatchEvent(new CustomEvent("openSignInModal"));
+      }
+      return;
+    }
+
+    try {
+      setPaymentState("creating");
+      setPaymentError(null);
+      const token = getAccessToken();
+
+      const orderRes = await fetch("/api/user/start-process", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          serviceCode: plan.id,
+          clientDetails: {
+            fullName: user.name || "Client",
+            email: user.email || "client@lawizer.com",
+            phone: (user as any)?.phone || "9999999999",
+          },
+          urgency: "NORMAL",
+        }),
+      });
+
+      if (!orderRes.ok) {
+        const errData = await orderRes.json().catch(() => ({}));
+        throw new Error(errData.message || "Failed to create order");
+      }
+
+      const orderData = await orderRes.json();
+      if (!orderData.success) {
+        throw new Error(orderData.message || "Failed to create order");
+      }
+
+      const orderObj = orderData.razorpayOrder || orderData.order;
+      const razorpayKey = orderData.keyId || orderObj?.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+
+      if (!orderObj || !orderObj.amount || !orderObj.id) {
+        throw new Error("Invalid order data received from payment server");
+      }
+
+      setPaymentState("paying");
+      await new Promise<void>((resolve, reject) => {
+        const options = {
+          key: razorpayKey,
+          amount: orderObj.amount,
+          currency: orderObj.currency || "INR",
+          name: "Lawizer",
+          description: plan.name + " Plan",
+          order_id: orderObj.id,
+          prefill: {
+            name: user.name || "",
+            email: user.email || "",
+            contact: (user as any)?.phone || "",
+          },
+          theme: { color: plan.accentColor },
+          modal: {
+            ondismiss: function () {
+              setPaymentState("idle");
+              reject(new Error("Payment cancelled by user"));
+            }
+          },
+          handler: async function (response: any) {
+            try {
+              setPaymentState("verifying");
+              const verifyRes = await fetch("/api/payments/verify", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                }),
+              });
+
+              const verifyData = await verifyRes.json();
+              if (!verifyData.success) throw new Error(verifyData.message || "Payment verification failed");
+
+              setPaymentState("success");
+              toast.success("Payment successful! Our team will contact you shortly.");
+              window.dispatchEvent(new CustomEvent("triggerConfetti", { detail: { amount: plan.price } }));
+              router.push("/user/dashboard?tab=services");
+              resolve();
+            } catch (verifyErr: any) {
+              setPaymentError(verifyErr.message || "Verification failed");
+              setPaymentState("idle");
+              reject(verifyErr);
+            }
+          },
+        };
+        const rzp = new (window as any).Razorpay(options);
+        rzp.on("payment.failed", (response: any) => {
+          setPaymentError(response.error.description || "Payment failed");
+          setPaymentState("idle");
+          reject(new Error(response.error.description));
+        });
+        rzp.open();
+      });
+    } catch (err: any) {
+      console.error("[PlanPage] Payment error:", err);
+      const errorMsg = err.message || "Failed to process payment";
+      setPaymentError(errorMsg);
+      setPaymentState("idle");
+      if (errorMsg !== "Payment cancelled by user") toast.error(errorMsg);
+    }
+  };
 
   /* Watch hero — show slim buy-bar only when hero is off-screen */
   useEffect(() => {
@@ -134,14 +271,19 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
                   <Phone className="w-3.5 h-3.5" /> Callback
                 </button>
                 <button
-                  onClick={() => router.push(`/payment?plan=${plan.id}`)}
-                  className="shimmer text-sm font-bold text-white px-6 py-2.5 rounded-xl transition-all hover:brightness-110"
+                  onClick={handleStartProcess}
+                  disabled={paymentState !== "idle" || !razorpayReady}
+                  className="shimmer flex items-center gap-2 justify-center text-sm font-bold text-white px-6 py-2.5 rounded-xl transition-all hover:brightness-110 disabled:opacity-70"
                   style={{
                     background: `linear-gradient(135deg, ${plan.accentColor}, ${plan.accentColor}cc)`,
                     boxShadow: `0 4px 16px rgba(${plan.glowRGB},0.28)`,
                   }}
                 >
-                  Buy Now
+                  {paymentState === "creating" && <Loader2 className="w-4 h-4 animate-spin" />}
+                  {paymentState === "paying" && <Loader2 className="w-4 h-4 animate-spin" />}
+                  {paymentState === "verifying" && <Loader2 className="w-4 h-4 animate-spin" />}
+                  {paymentState === "success" && <Check className="w-4 h-4" />}
+                  {paymentState === "idle" && "Buy Now"}
                 </button>
               </div>
             </div>
@@ -155,7 +297,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
  a glassmorphism panel — not repeated at the top.
  A wave SVG melts it into the white body below.
  ══════════════════════════════════════════════════ */}
-      <header ref={heroRef} className={`relative overflow-hidden ${tierStyles[plan.id].gradientButton}`}>
+      <header ref={heroRef} className="relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${plan.accentColor}, ${plan.accentColor}dd)` }}>
         {/* Decorative overlays */}
         <div className="absolute inset-0 pointer-events-none">
           {/* Top-right glow */}
@@ -174,14 +316,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
         </div>
 
         <div className="relative max-w-6xl mx-auto px-6 pt-28 pb-0">
-          {/* Back to Plans */}
-          <button
-            onClick={() => router.push("/itr")}
-            className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-sm mb-10 group"
-          >
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-            Back to Plans
-          </button>
+          {/* Back to Plans removed */}
 
           <div className="grid lg:grid-cols-[1fr_auto] gap-10 items-end pb-12">
             {/* Left — identity */}
@@ -218,10 +353,15 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
                   <div className="text-3xl font-extrabold text-white">₹{plan.price.toLocaleString("en-IN")}</div>
                 </div>
                 <button
-                  onClick={() => router.push(`/payment?plan=${plan.id}`)}
-                  className={`shimmer bg-white text-sm font-bold px-7 py-3.5 rounded-2xl transition-all hover:shadow-xl hover:scale-105 ${tierStyles[plan.id].text}`}
+                  onClick={handleStartProcess}
+                  disabled={paymentState !== "idle" || !razorpayReady}
+                  className={`shimmer bg-white flex items-center gap-2 justify-center text-sm font-bold px-7 py-3.5 rounded-2xl transition-all hover:shadow-xl hover:scale-105 disabled:opacity-70 ${tierStyles[plan.id].text}`}
                 >
-                  Buy Now
+                  {paymentState === "creating" && <Loader2 className="w-4 h-4 animate-spin" />}
+                  {paymentState === "paying" && <Loader2 className="w-4 h-4 animate-spin" />}
+                  {paymentState === "verifying" && <Loader2 className="w-4 h-4 animate-spin" />}
+                  {paymentState === "success" && <Check className="w-4 h-4" />}
+                  {paymentState === "idle" && "Buy Now"}
                 </button>
                 <button
                   onClick={() => openCallback("Income Tax & GST")}
@@ -263,10 +403,15 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
 
                   {/* Buy Now — white button on coloured bg */}
                   <button
-                    onClick={() => router.push(`/payment?plan=${plan.id}`)}
-                    className={`shimmer w-full py-4 rounded-2xl text-sm font-bold mb-3 transition-all hover:shadow-xl hover:scale-[1.02] bg-white ${tierStyles[plan.id].text}`}
+                    onClick={handleStartProcess}
+                    disabled={paymentState !== "idle" || !razorpayReady}
+                    className={`shimmer w-full py-4 rounded-2xl text-sm font-bold mb-3 transition-all hover:shadow-xl hover:scale-[1.02] bg-white flex items-center justify-center gap-2 disabled:opacity-70 ${tierStyles[plan.id].text}`}
                   >
-                    Buy Now
+                    {paymentState === "creating" && <Loader2 className="w-4 h-4 animate-spin" />}
+                    {paymentState === "paying" && <Loader2 className="w-4 h-4 animate-spin" />}
+                    {paymentState === "verifying" && <Loader2 className="w-4 h-4 animate-spin" />}
+                    {paymentState === "success" && <Check className="w-4 h-4" />}
+                    {paymentState === "idle" && "Buy Now"}
                   </button>
 
                   <button
@@ -467,7 +612,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
           {/* ── Sticky sidebar (desktop only) ── */}
           <div className="hidden lg:block">
             <div className="sticky top-36">
-              <SidebarCard plan={plan} onCallback={() => openCallback("Income Tax & GST")} />
+              <SidebarCard plan={plan} onCallback={() => openCallback("Income Tax & GST")} onBuyNow={handleStartProcess} paymentState={paymentState} razorpayReady={razorpayReady} />
             </div>
           </div>
         </div>
@@ -550,14 +695,19 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
             <Phone className="w-4 h-4" />
           </button>
           <button
-            onClick={() => router.push(`/payment?plan=${plan.id}`)}
-            className="shimmer flex-1 py-3.5 rounded-2xl text-sm font-bold text-white transition-all hover:brightness-110"
+            onClick={handleStartProcess}
+            disabled={paymentState !== "idle" || !razorpayReady}
+            className="shimmer flex-1 py-3.5 rounded-2xl text-sm font-bold text-white transition-all hover:brightness-110 disabled:opacity-70 flex items-center justify-center gap-2"
             style={{
               background: `linear-gradient(135deg, ${plan.accentColor}, ${plan.accentColor}cc)`,
               boxShadow: `0 4px 16px rgba(${plan.glowRGB},0.35)`,
             }}
           >
-            Buy Now
+            {paymentState === "creating" && <Loader2 className="w-4 h-4 animate-spin" />}
+            {paymentState === "paying" && <Loader2 className="w-4 h-4 animate-spin" />}
+            {paymentState === "verifying" && <Loader2 className="w-4 h-4 animate-spin" />}
+            {paymentState === "success" && <Check className="w-4 h-4" />}
+            {paymentState === "idle" && "Buy Now"}
           </button>
         </div>
       </div>

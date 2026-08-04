@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus, Calendar, ClipboardList, Receipt, Settings, LogOut, ArrowLeft, HelpCircle, ChevronDown, MessageSquare, Bell } from "lucide-react";
+import { Calendar, ClipboardList, Receipt, Settings, LogOut, ArrowLeft, HelpCircle, ChevronDown, MessageSquare, Bell } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/context/authContext";
 import UserAvatar from "@/components/ui/UserAvatar";
@@ -56,8 +56,6 @@ export default function Sidebar({ activeTab, handleLogout, menuOpen }: SidebarPr
             active={!isChatsRoute && (activeTab === "services" || !activeTab)}
             onClick={() => go("services")}
           />
-
-          <SidebarItem label="Book Service" icon={Plus} active={!isChatsRoute && activeTab === "book"} onClick={() => go("book")} />
 
           <SidebarItem
             label="My Consultations"

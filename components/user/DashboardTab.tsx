@@ -93,6 +93,7 @@ const formatDateTime = (value: any) => {
     time: d.toLocaleTimeString("en-IN", {
       hour: "2-digit",
       minute: "2-digit",
+      timeZone: "Asia/Kolkata",
     }),
   };
 };

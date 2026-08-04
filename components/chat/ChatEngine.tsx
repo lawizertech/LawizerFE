@@ -32,6 +32,21 @@ import { CALL_INCOMING, chatChannel } from "@/lib/call/callEvents";
 import type { CallMode, IncomingCallPayload } from "@/lib/call/callTypes";
 
 // ── Props ──────────────────────────────────────────────────────────────────────
+const parseUtcDate = (dateVal: string | Date | null | undefined): Date => {
+  if (!dateVal) return new Date();
+  if (dateVal instanceof Date) return dateVal;
+  
+  let s = dateVal.trim();
+  // If naive timestamp, treat it as UTC by replacing space with T and appending Z
+  if (!s.endsWith("Z") && !/[+-]\d{2}(:\d{2})?$/.test(s)) {
+    s = s.replace(" ", "T");
+    if (!s.includes("T")) {
+      return new Date(s);
+    }
+    s = s + "Z";
+  }
+  return new Date(s);
+};
 
 interface ChatEngineProps {
   caseId: string;
@@ -532,22 +547,6 @@ export function ChatEngine({
           {canCall && (
             <>
               <button
-                onClick={() => initiateCall("voice")}
-                className="p-1.5 hover:bg-white/10 rounded-lg text-gray-300 hover:text-emerald-400 transition cursor-pointer"
-                aria-label="Voice Call"
-                title="Start Voice Call"
-              >
-                <Phone size={16} />
-              </button>
-              <button
-                onClick={() => initiateCall("video")}
-                className="p-1.5 hover:bg-white/10 rounded-lg text-gray-300 hover:text-emerald-400 transition cursor-pointer"
-                aria-label="Video Call"
-                title="Start Video Call"
-              >
-                <Video size={16} />
-              </button>
-              <button
                 onClick={() => handleCreateSession('video')}
                 disabled={isSessionCoolingDown}
                 className={`p-1.5 rounded-lg flex items-center gap-1 ml-1 transition cursor-pointer ${
@@ -648,9 +647,10 @@ export function ChatEngine({
           messages.map((msg) => {
             const isMine = msg.sender_id === currentUserId;
             const formattedTime = msg.created_at
-              ? new Date(msg.created_at).toLocaleTimeString("en-IN", {
+              ? parseUtcDate(msg.created_at).toLocaleTimeString("en-IN", {
                   hour: "2-digit",
                   minute: "2-digit",
+                  timeZone: "Asia/Kolkata",
                 })
               : "";
 

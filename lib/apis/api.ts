@@ -173,7 +173,14 @@ export const getUserBookings = async () => {
 
 export const expertLogin = async (idToken: string, refreshToken?: string) => {
   try {
-    const res = await publicApi.post("/expert/login", { idToken, refreshToken });
+    const res = await axios.post(
+      `/api/expert/login`,
+      { idToken, refreshToken },
+      {
+        headers: { Authorization: `Bearer ${idToken}` },
+        withCredentials: true,
+      }
+    );
     return {
       success: true,
       ...res.data,
