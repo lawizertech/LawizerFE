@@ -232,23 +232,6 @@ export default function ActiveServicesTab() {
               <span className="text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-full bg-rose-50 text-[#c92c41] border border-rose-100 shrink-0">
                 {selectedServiceDetail?.status || "In Progress"}
               </span>
-
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => startCall("voice")}
-                  className="px-2.5 py-1.5 sm:px-3.5 sm:py-2 bg-[#c92c41] hover:bg-[#a8233a] text-white text-[11px] sm:text-xs font-bold rounded-xl transition flex items-center gap-1 cursor-pointer shadow-xs shrink-0"
-                >
-                  <Phone size={13} />
-                  <span>Voice Call</span>
-                </button>
-                <button
-                  onClick={() => startCall("video")}
-                  className="px-2.5 py-1.5 sm:px-3.5 sm:py-2 bg-gray-900 hover:bg-gray-800 text-white text-[11px] sm:text-xs font-bold rounded-xl transition flex items-center gap-1 cursor-pointer shrink-0"
-                >
-                  <Video size={13} />
-                  <span>Video Call</span>
-                </button>
-              </div>
             </div>
           </div>
         </div>
@@ -310,8 +293,14 @@ export default function ActiveServicesTab() {
           /* DEDICATED WORKSPACE PAGE LAYOUT */
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             
-            {/* SECTION 1: SERVICE SUMMARY & PROGRESS DETAILS (3 Cols on Desktop) */}
-            <div className={`lg:col-span-3 space-y-6 ${activeSubTab === "stages" ? "block" : "hidden lg:block"}`}>
+            {/* SECTION 1: SERVICE SUMMARY & PROGRESS DETAILS */}
+            <div
+              className={`${
+                activeSubTab === "stages"
+                  ? "lg:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-6"
+                  : "lg:col-span-3 space-y-6 hidden lg:block"
+              }`}
+            >
               {/* Service Summary Card */}
               <div className="bg-white rounded-2xl border border-gray-100 p-5 space-y-4 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
                 <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
@@ -648,14 +637,7 @@ export default function ActiveServicesTab() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3 relative z-10 shrink-0">
-          <button
-            onClick={() => router.push("/user/dashboard?tab=book")}
-            className="px-5 py-3 bg-[#c92c41] hover:bg-[#a8233a] text-white text-xs font-bold rounded-xl transition-all shadow-md hover:shadow-rose-900/30 flex items-center gap-2 cursor-pointer active:scale-95"
-          >
-            <span>Book New Service</span>
-          </button>
-        </div>
+        
       </div>
 
       {/* DASHBOARD CONTENT GRID */}
@@ -715,15 +697,9 @@ export default function ActiveServicesTab() {
               <div>
                 <p className="text-sm font-bold text-gray-800">No active services found</p>
                 <p className="text-xs text-gray-400 mt-1 max-w-sm mx-auto">
-                  You don't have any ongoing legal processes. Book a new service to track progress here in real-time.
+                  You don't have any ongoing legal processes. Contact our team to get started.
                 </p>
               </div>
-              <button
-                onClick={() => router.push("/user/dashboard?tab=book")}
-                className="mt-2 inline-flex items-center gap-2 px-4 py-2 bg-[#c92c41] text-white text-xs font-bold rounded-xl hover:bg-[#a8233a] transition cursor-pointer"
-              >
-                Explore Services →
-              </button>
             </div>
           ) : (
             <div className="space-y-4">
@@ -955,19 +931,6 @@ export default function ActiveServicesTab() {
 
           <div className="bg-white rounded-2xl border border-gray-100 p-4 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
             <div className="grid grid-cols-2 gap-3">
-              <button
-                onClick={() => router.push("/user/dashboard?tab=book")}
-                className="flex items-center gap-3 p-3.5 bg-rose-50/60 hover:bg-rose-100/60 border border-rose-100/80 rounded-xl transition text-left cursor-pointer group"
-              >
-                <div className="p-2 bg-white rounded-lg text-[#c92c41] shadow-2xs group-hover:scale-105 transition">
-                  <Calendar size={18} />
-                </div>
-                <div>
-                  <span className="font-bold text-xs text-gray-900 block">Book Service</span>
-                  <span className="text-[10px] text-gray-500 font-medium block">Explore offerings</span>
-                </div>
-              </button>
-
               <button
                 onClick={() => router.push("/user/dashboard?tab=consultations")}
                 className="flex items-center gap-3 p-3.5 bg-blue-50/60 hover:bg-blue-100/60 border border-blue-100/80 rounded-xl transition text-left cursor-pointer group"

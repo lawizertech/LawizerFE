@@ -148,7 +148,7 @@ export function OfferChipLight({ plan }: { plan: PlanConfig }) {
   );
 }
 
-export function SidebarCard({ plan, onCallback }: { plan: PlanConfig; onCallback: () => void }) {
+export function SidebarCard({ plan, onCallback, onBuyNow, paymentState, razorpayReady }: { plan: PlanConfig; onCallback: () => void; onBuyNow: () => void; paymentState: string; razorpayReady: boolean }) {
   const router = useRouter();
   const discount = Math.round((1 - plan.price / plan.originalPrice) * 100);
 
@@ -182,15 +182,24 @@ export function SidebarCard({ plan, onCallback }: { plan: PlanConfig; onCallback
 
       <div className="px-6 py-5 space-y-3">
         <button
-          onClick={() => router.push(`/payment?plan=${plan.id}`)}
-          className="relative w-full py-4 rounded-2xl text-sm font-bold text-white overflow-hidden group transition-all hover:brightness-110"
+          onClick={onBuyNow}
+          disabled={paymentState !== "idle" || !razorpayReady}
+          className="relative w-full py-4 rounded-2xl text-sm font-bold text-white overflow-hidden group transition-all hover:brightness-110 disabled:opacity-70 flex items-center justify-center gap-2"
           style={{
             background: `linear-gradient(135deg, ${plan.accentColor}, ${plan.accentColor}bb)`,
             boxShadow: `0 6px 24px rgba(${plan.glowRGB},0.35)`,
           }}
         >
-          <span className="relative z-10">Buy Now</span>
-          <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          {paymentState === "creating" && <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Preparing...</>}
+          {paymentState === "paying" && <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Awaiting Payment...</>}
+          {paymentState === "verifying" && <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Verifying...</>}
+          {paymentState === "success" && <><Check className="w-4 h-4" /> Success!</>}
+          {paymentState === "idle" && (
+            <>
+              <span className="relative z-10">Buy Now</span>
+              <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            </>
+          )}
         </button>
 
         <button

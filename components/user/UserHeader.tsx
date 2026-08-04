@@ -53,8 +53,6 @@ export default function UserHeader() {
     title = "My Consultations";
   } else if (tab === "services") {
     title = "My Services";
-  } else if (tab === "book") {
-    title = "Book Service";
   } else if (tab === "settings") {
     title = "Settings";
   }
