@@ -58,14 +58,8 @@ export default function MyConsultationsTab() {
           </div>
           <p className="text-base font-bold text-gray-800">No consultations booked</p>
           <p className="text-sm text-gray-500 mt-1 max-w-sm mx-auto mb-4">
-            You haven&apos;t scheduled any consultations with our experts yet.
+            You haven&apos;t scheduled any consultations with our experts yet. Contact us to book a session.
           </p>
-          <button
-            onClick={() => (window.location.href = "/user/dashboard?tab=book")}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#c92c41] text-white text-sm font-bold rounded-xl hover:bg-[#a8233a] transition cursor-pointer"
-          >
-            Book a Consultation
-          </button>
         </div>
       ) : (
         <div className="space-y-4">

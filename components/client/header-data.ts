@@ -110,20 +110,29 @@ export const services = [
     color: "from-teal-500/10 to-teal-500/30 text-teal-600",
     url: "/itr",
     items: [
+      // {
+      //   section: "Individuals",
+      //   items: [
+      //     { name: "ITR-1 (Salaried up to ₹50L)", url: "/itr/itr-1" },
+      //     { name: "ITR-2 (Capital Gains/Foreign Assets)", url: "/itr/itr-2" },
+      //     { name: "ITR-3 (Business/Professional Income)", url: "/itr/itr-3" },
+      //     { name: "ITR-4 (Presumptive Scheme)", url: "/itr/itr-4" },
+      //   ],
+      // },
+      // {
+      //   section: "Entities",
+      //   items: [
+      //     { name: "ITR-5 (LLP, Firms, AOPs)", url: "/itr/itr-5" },
+      //     { name: "ITR-6 (Companies)", url: "/itr/itr-6" },
+      //   ],
+      // },
       {
-        section: "Individuals",
+        section: "ITR Plans",
         items: [
-          { name: "ITR-1 (Salaried up to ₹50L)", url: "/itr/itr-1" },
-          { name: "ITR-2 (Capital Gains/Foreign Assets)", url: "/itr/itr-2" },
-          { name: "ITR-3 (Business/Professional Income)", url: "/itr/itr-3" },
-          { name: "ITR-4 (Presumptive Scheme)", url: "/itr/itr-4" },
-        ],
-      },
-      {
-        section: "Entities",
-        items: [
-          { name: "ITR-5 (LLP, Firms, AOPs)", url: "/itr/itr-5" },
-          { name: "ITR-6 (Companies)", url: "/itr/itr-6" },
+          { name: "Bronze Plan", url: "/itr/itr-plans/bronze" },
+          { name: "Silver Plan", url: "/itr/itr-plans/silver" },
+          { name: "Gold Plan", url: "/itr/itr-plans/gold" },
+          { name: "Diamond Plan", url: "/itr/itr-plans/diamond" },
         ],
       },
       { name: "Tax Saving Consultations", url: "/itr" },

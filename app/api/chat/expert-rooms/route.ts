@@ -37,6 +37,7 @@ export async function GET(req: NextRequest) {
         client:profiles!client_id(id, name, email)
       `)
       .in("professional_id", targetProfIds)
+      .neq("status", "pending_payment")
       .order("created_at", { ascending: false });
 
     // 3. Fallback: If no cases are explicitly assigned to this exact profId, assign active cases to this expert
@@ -52,6 +53,7 @@ export async function GET(req: NextRequest) {
           professional_id,
           client:profiles!client_id(id, name, email)
         `)
+        .neq("status", "pending_payment")
         .order("created_at", { ascending: false })
         .limit(10);
 

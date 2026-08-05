@@ -23,6 +23,7 @@ export async function GET(req: NextRequest) {
         professional:profiles!professional_id(id, name, email)
       `)
       .eq("client_id", clientId)
+      .neq("status", "pending_payment")
       .order("created_at", { ascending: false });
 
     if (error) {
