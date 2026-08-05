@@ -215,20 +215,55 @@ export default function StartupAndBusinessLegalPage() {
       description: "Enhance your business credibility and access new opportunities with essential certifications.",
       services: [
         {
-          name: "ISO Certification",
-          slug: "ISOCertificationPage",
-          price: "₹1,499",
-          originalPrice: "₹2,999",
-          discount: "50% OFF",
-          description: "Show your commitment to quality standards with recognized ISO certification.",
-        },
-        {
           name: "MSME / Udyam Registration",
           slug: "MSMEUdhyamRegistrationPage",
           price: "₹1,499",
           originalPrice: "₹2,999",
           discount: "50% OFF",
           description: "Get government recognition as an MSME and unlock financial incentives and subsidies.",
+        },
+      ],
+    },
+    {
+      id: "manage",
+      title: "Manage Your Business",
+      icon: Settings,
+      basePath: "/compliance/",
+      description:
+        "Stay compliant year-round. Annual filings, ROC returns, and director KYC — handled by a qualified CA so you never miss a deadline.",
+      services: [
+        {
+          name: "Annual Compliance Calendar",
+          slug: "annual",
+          price: "From ₹499/mo",
+          originalPrice: "₹7,999/yr",
+          discount: "Save up to 25%",
+          description:
+            "Full-year filing calendar for Pvt Ltd, OPC and LLP. Pricing plans from Essential to Complete — choose what fits your stage.",
+        },
+        {
+          name: "ROC Return Filing — Pvt Ltd",
+          slug: "annual",
+          price: "₹999",
+          originalPrice: "₹4,999",
+          discount: "80% OFF",
+          description: "AOC-4 and MGT-7A filed on time. Includes auditor appointment (ADT-1) and director KYC.",
+        },
+        {
+          name: "ROC Return Filing — OPC",
+          slug: "annual",
+          price: "₹999",
+          originalPrice: "₹3,999",
+          discount: "75% OFF",
+          description: "OPC-specific filing timeline with the 27 December deadline for AOC-4 built in.",
+        },
+        {
+          name: "ROC Return Filing — LLP",
+          slug: "annual",
+          price: "₹999",
+          originalPrice: "₹3,499",
+          discount: "71% OFF",
+          description: "Form 11 and Form 8 filed before the uncapped penalty clock starts ticking.",
         },
       ],
     },
@@ -522,10 +557,19 @@ export default function StartupAndBusinessLegalPage() {
             </div>
             <h2 className="text-xl sm:text-2xl font-extrabold text-[#0e172b] tracking-tight">Manage Your Business</h2>
           </div>
-          <p className="text-gray-400 text-sm sm:text-base mb-14 max-w-2xl">
+          <p className="text-gray-400 text-sm sm:text-base mb-6 max-w-2xl">
             Stay compliant effortlessly. Our all-in-one bundles cover incorporation, annual filings, and ROC returns —
             so you can focus on what matters.
           </p>
+          <div className="mb-10">
+            <a
+              href="/compliance/annual"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[#c92c41] hover:underline transition-colors"
+            >
+              See full annual compliance calendar
+              <ChevronRight className="w-4 h-4" />
+            </a>
+          </div>
 
           {/* Bundle cards — OPC (cheapest) → LLP (popular) → Pvt Ltd (premium) */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-7 items-end">

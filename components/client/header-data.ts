@@ -187,10 +187,6 @@ export const services = [
             name: "MSME Udyam Registration",
             url: "/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage",
           },
-          {
-            name: "ISO Certification",
-            url: "/startup-businesslegal/growbusiness/ISOCertificationPage",
-          },
         ],
       },
 
@@ -266,6 +262,10 @@ export const services = [
           {
             name: "ROC Return Filing for LLP",
             url: "/startup-businesslegal/managebusiness/ROCReturnFilingForLLPPage",
+          },
+          {
+            name: "Annual Compliance Calendar",
+            url: "/compliance/annual",
           },
         ],
       },

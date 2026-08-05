@@ -148,13 +148,12 @@ export function HeroSection() {
 
           <div className="flex flex-col gap-3 lg:flex-1 lg:overflow-y-auto lg:pr-1 lg:min-h-0 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
             {[
-              { href: "/startup-businesslegal/startbusiness/PrivateLimitedCompanyPage", icon: "🏢", cls: "icon-blue",    name: "Company Registration",   desc: "Most preferred structure for startups",      price: "₹999"   },
-              { href: "/startup-businesslegal/protectbusiness/TrademarkRegistrationPage", icon: "™️", cls: "icon-purple", name: "Trademark",              desc: "Protect your brand name & logo",             price: "₹999"   },
-              { href: "/startup-businesslegal/startbusiness/GSTRegistrationPage",         icon: "📋", cls: "icon-green",  name: "GST Registration",       desc: "GSTIN in 7–10 working days",                 price: "₹999"   },
-              { href: "/itr",                                                              icon: "🧾", cls: "icon-teal",   name: "Tax & Accounting",       desc: "ITR filing & year-round tax advisory",       price: "₹2,499" },
-              { href: "/startup-businesslegal/managebusiness/RocReturnFilingPvtLtdPage",  icon: "📑", cls: "icon-orange", name: "Business Compliance",    desc: "ROC filings & annual compliance",            price: "₹999"   },
-              { href: "/startup-businesslegal/growbusiness/ISOCertificationPage",         icon: "🌐", cls: "icon-blue",   name: "ISO Certification",      desc: "Globally recognised quality standard",       price: "₹1,499" },
-              { href: "/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage",   icon: "🪪", cls: "icon-green",  name: "Licenses",               desc: "MSME, Udyam & business licences",            price: "₹1,499" },
+              { href: "/startup-businesslegal/startbusiness/PrivateLimitedCompanyPage", icon: "🏢", cls: "icon-blue",    name: "Company Registration",   desc: "Most preferred structure for startups",             price: "₹999"   },
+              { href: "/startup-businesslegal/protectbusiness/TrademarkRegistrationPage", icon: "™️", cls: "icon-purple", name: "Trademark",              desc: "Protect your brand name & logo",                    price: "₹999"   },
+              { href: "/startup-businesslegal/startbusiness/GSTRegistrationPage",         icon: "📋", cls: "icon-green",  name: "GST Registration",       desc: "GSTIN in 7–10 working days",                        price: "₹999"   },
+              { href: "/itr",                                                              icon: "🧾", cls: "icon-teal",   name: "ITR Filing",             desc: "ITR filing & year-round tax advisory",              price: "₹2,499" },
+              { href: "/compliance/annual",                                                icon: "📑", cls: "icon-orange", name: "Business Compliance",    desc: "Annual filing calendar for Pvt Ltd, OPC & LLP",     price: "₹999"   },
+              { href: "/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage",   icon: "🪪", cls: "icon-green",  name: "MSME Registration",      desc: "MSME, trade registration & business licences",      price: "₹1,499" },
             ].map(s => (
               <Link key={s.href} href={s.href} className="service-card">
                 <div className={`service-icon ${s.cls}`}>{s.icon}</div>
@@ -190,7 +189,7 @@ export function HeroSection() {
                 { href: "/startup-businesslegal/protectbusiness/TrademarkRegistrationPage", icon: "™️", name: "Trademark",   price: "₹999"   },
                 { href: "/startup-businesslegal/startbusiness/GSTRegistrationPage",         icon: "📋", name: "GST",         price: "₹999"   },
                 { href: "/itr",                                                              icon: "🧾", name: "ITR Filing",  price: "₹2,499" },
-                { href: "/startup-businesslegal/managebusiness/RocReturnFilingPvtLtdPage",  icon: "📑", name: "Compliance",  price: "₹999"   },
+                { href: "/compliance/annual",                                                icon: "📑", name: "Compliance",  price: "₹999"   },
                 { href: "/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage",   icon: "🪪", name: "MSME",        price: "₹1,499" },
               ].map(s => (
                 <Link key={s.href} href={s.href} className="mobile-svc-chip w-[92px]">
