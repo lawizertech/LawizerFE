@@ -67,22 +67,22 @@ export default function Layout({ children }: LayoutProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className="fixed bottom-2 left-1/2 -translate-x-1/2 z-10 w-full px-3 "
+            className="fixed bottom-4 left-0 right-0 z-40 px-4 sm:px-6 pointer-events-none flex justify-center"
           >
-            <div className="w-fit max-w-xl flex items-center gap-4 bg-white/90 backdrop-blur-md border border-gray-200 rounded-full shadow-lg pr-4 pl-8 py-3 mx-auto">
-              <div className="flex-1 min-w-0 pr-4">
-                <h3 className="text-base md:text-lg font-semibold text-gray-800 truncate">Request a Callback</h3>
-                <p className="text-xs md:text-sm text-gray-500 truncate">
+            <div className="w-full max-w-xl flex items-center justify-between gap-3 bg-white/90 backdrop-blur-md border border-gray-200 rounded-full shadow-[0_12px_40px_rgba(0,0,0,0.12)] p-2 pl-5 sm:pr-4 sm:pl-8 sm:py-3 pointer-events-auto">
+              <div className="flex-1 min-w-0">
+                <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-900 truncate leading-tight">Request a Callback</h3>
+                <p className="hidden sm:block text-xs md:text-sm text-gray-500 truncate mt-0.5">
                   Get expert advice from our verified professionals.
                 </p>
               </div>
 
               <Button
                 onClick={handleRequestCallback}
-                className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-1 transition-all duration-300 bg-brand-red hover:brightness-110 text-white`}
+                className="shrink-0 px-5 py-2 sm:px-5 sm:py-2.5 rounded-full text-[13px] sm:text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300 bg-brand-red hover:brightness-110 text-white"
               >
-                <PhoneCall className="h-4 w-4" />
-                Request Callback
+                <PhoneCall className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+                <span className="shrink-0">Request</span>
               </Button>
             </div>
           </motion.div>

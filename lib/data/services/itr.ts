@@ -368,8 +368,7 @@ export const servicesData: Record<string, ServiceData> = {
           "Books of Accounts (Balance Sheet & Profit & Loss Account)",
           "Audit Report (if applicable)",
           "Bank Statements",
-          "Details of Partner",
-          "s Capital Accounts",
+          "Details of Partners' Capital Accounts",
         ],
       },
       {

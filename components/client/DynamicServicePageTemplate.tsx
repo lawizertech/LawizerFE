@@ -90,7 +90,7 @@ function DynamicHeroWithAddons({ data }: { data: any }) {
           {/* PRICE */}
           <div className="flex items-center justify-center gap-3 mb-1">
             <p className="text-3xl sm:text-4xl font-extrabold text-white">
-              @ Rs. {price?.toLocaleString("en-IN")} <sup className="text-lg font-semibold">*</sup>
+              ₹{price?.toLocaleString("en-IN")} <sup className="text-lg font-semibold">*</sup>
             </p>
             {originalPrice > 0 && (
               <p className="text-lg sm:text-xl font-semibold text-slate-400 line-through">
@@ -111,9 +111,9 @@ function DynamicHeroWithAddons({ data }: { data: any }) {
               </div>
 
               <div className="py-8 px-4 sm:px-8">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 items-start justify-items-center">
+                <div className="flex flex-wrap justify-center gap-6 items-start">
                   {addons.map((label: string, i: number) => (
-                    <div key={i} className="flex flex-col items-center gap-3 w-full">
+                    <div key={i} className="flex flex-col items-center gap-3 w-24 sm:w-28">
                       <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/90 text-slate-800 flex items-center justify-center shadow-md transition-all duration-300 hover:scale-110 hover:shadow-xl">
                         <AddonIconMapper index={i} />
                       </div>
@@ -127,9 +127,7 @@ function DynamicHeroWithAddons({ data }: { data: any }) {
             </div>
           )}
 
-          <p className="mt-4 text-slate-500 text-xs italic">
-            *Final pricing depends on transaction complexity and property value.
-          </p>
+
         </motion.div>
       </div>
     </section>

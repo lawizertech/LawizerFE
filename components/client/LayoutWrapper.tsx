@@ -6,7 +6,6 @@ import { Footer } from "@/components/client/footer";
 import Header2 from "../expert/header2";
 import CallbackModal from "./CallbackModal";
 import { useCallback } from "@/context/callbackContext";
-import BackButton from "@/components/client/BackButton";
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -21,8 +20,6 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
           <Header />
         </div>
       )}
-
-      <BackButton />
 
       {children}
 

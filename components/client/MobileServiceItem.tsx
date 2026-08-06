@@ -10,14 +10,14 @@ export function MobileServiceItem({ service, onClose }: { service: any; onClose:
     <div className="border-b pb-3">
       <button
         onClick={() => setOpen((s) => !s)}
-        className="w-full flex items-center justify-between text-left py-3"
+        className="w-full flex items-center justify-between text-left py-3 group"
         aria-expanded={open}
       >
-        <div className="flex flex-col">
-          <span className="text-lg font-semibold">{service.title}</span>
-          {service.tagline && <span className="text-sm text-gray-500">{service.tagline}</span>}
+        <div className="flex flex-col flex-1 pr-4">
+          <span className="text-lg font-semibold text-gray-900 group-hover:text-brand-red transition-colors">{service.title}</span>
+          {service.tagline && <span className="text-xs text-gray-500 mt-0.5">{service.tagline}</span>}
         </div>
-        <ChevronDown className={`w-5 h-5 transition-transform ${open ? "rotate-180" : ""}`} />
+        <ChevronDown className={`w-5 h-5 text-gray-600 transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
 
       <AnimatePresence>
@@ -30,6 +30,11 @@ export function MobileServiceItem({ service, onClose }: { service: any; onClose:
             className="pl-3 pr-2 overflow-hidden"
           >
             <div className="flex flex-col gap-2">
+              {service.url && (
+                <Link href={service.url} onClick={onClose} className="text-base font-semibold text-brand-red py-1 border-b border-gray-100 mb-1">
+                  Explore {service.title} Overview
+                </Link>
+              )}
               {service.items?.map((item: any, idx: number) => {
                 if ("section" in item) {
                   return (

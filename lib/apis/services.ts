@@ -49,21 +49,27 @@ function mapService(service: any): ServiceData {
  * Fetch all services
  */
 export async function getAllServices(): Promise<ServiceData[]> {
-  const res = await fetch(`${API_URL}/services`, {
-    cache: "no-store",
-  });
+  try {
+    const res = await fetch(`${API_URL}/services`, {
+      cache: "no-store",
+    });
 
-  if (!res.ok) {
-    throw new Error(`Failed to fetch services (${res.status})`);
+    if (!res.ok) {
+      console.warn(`Failed to fetch services (${res.status})`);
+      return [];
+    }
+
+    const data = await res.json();
+
+    const services = Array.isArray(data)
+      ? data
+      : data.services ?? [];
+
+    return services.map(mapService);
+  } catch (error) {
+    console.error("Error fetching services:", error);
+    return [];
   }
-
-  const data = await res.json();
-
-  const services = Array.isArray(data)
-    ? data
-    : data.services ?? [];
-
-  return services.map(mapService);
 }
 
 /**

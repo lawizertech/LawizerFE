@@ -45,8 +45,8 @@ export default function FreeConsultationPage() {
   return (
     <>
       {/* Full-page layout with navbar offset */}
-      <div className="min-h-[100dvh] pt-[80px] bg-[var(--bg-soft)] flex items-center justify-center px-4 pb-12 font-[family-name:var(--)]">
-        <div className="w-full max-w-[520px]">
+      <div className="min-h-[100dvh] pt-28 sm:pt-32 pb-12 bg-[var(--bg-soft)] flex justify-center px-4 sm:px-6 font-[family-name:var(--)]">
+        <div className="w-full max-w-[520px] my-auto">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -73,7 +73,7 @@ export default function FreeConsultationPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
-            className="bg-white/85 backdrop-blur-md border-[1.5px] border-[#e4e8f0]/70 rounded-[var(--radius-xl)] py-9 px-8 shadow-[var(--shadow-lg)]"
+            className="bg-white/85 backdrop-blur-md border-[1.5px] border-[#e4e8f0]/70 rounded-[var(--radius-xl)] p-6 sm:px-8 sm:py-9 shadow-[var(--shadow-lg)] w-full"
           >
             <form onSubmit={handleSubmit}>
               {/* Name */}
@@ -140,13 +140,15 @@ export default function FreeConsultationPage() {
               {error && <p className="text-[var(--brand)] text-[13px] mb-4 font-medium">⚠ {error}</p>}
 
               {/* Submit */}
-              <button
-                type="submit"
-                disabled={loading}
-                className={`btn-hero w-full justify-center text-base py-4 border-none ${loading ? "opacity-70 cursor-not-allowed" : "cursor-pointer"}`}
-              >
-                {loading ? "Submitting..." : "Book Consultation"}
-              </button>
+              <div className="flex justify-center mt-2">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className={`btn-hero px-10 min-w-[220px] justify-center text-base py-3.5 border-none ${loading ? "opacity-70 cursor-not-allowed" : "cursor-pointer"}`}
+                >
+                  {loading ? "Submitting..." : "Book Consultation"}
+                </button>
+              </div>
             </form>
           </motion.div>
 

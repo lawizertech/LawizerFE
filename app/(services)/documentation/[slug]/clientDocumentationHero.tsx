@@ -116,7 +116,7 @@ export default function HeroWithAddons({ service }: HeroProps) {
               </p>
             </div>
             <div className="bg-white/5 py-8 px-4 sm:px-8">
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 items-start justify-items-center">
+              <div className="flex flex-wrap justify-center gap-6 items-start">
                 {service.hero.addons.map((addon, i) => {
                   const Icon =
                     addonIcons[addon.icon as keyof typeof addonIcons];
@@ -124,7 +124,7 @@ export default function HeroWithAddons({ service }: HeroProps) {
                   return (
                     <div
                       key={i}
-                      className="relative flex flex-col items-center gap-3 w-full"
+                      className="relative flex flex-col items-center gap-3 w-24 sm:w-28"
                     >
                       <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/90 text-slate-800 flex items-center justify-center shadow-md">
                         {Icon ? (
