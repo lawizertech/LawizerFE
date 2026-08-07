@@ -233,7 +233,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
             transition={{ type: "spring", stiffness: 300, damping: 28 }}
             className={`fixed top-16 left-0 right-0 z-40 bg-white border-t-2 shadow-[0_6px_20px_rgba(0,0,0,0.08)] ${tierStyles[plan.id].borderLight}`}
           >
-            <div className="max-w-6xl mx-auto px-8 h-18 flex items-center justify-between gap-6">
+            <div className="max-w-6xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between gap-4 sm:gap-6">
               {/* Left: back link + divider + plan name only (no subtitle) */}
               <div className="flex items-center gap-4 min-w-0 flex-1">
                 <button
@@ -315,10 +315,10 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
           </svg>
         </div>
 
-        <div className="relative max-w-6xl mx-auto px-6 pt-28 pb-0">
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 lg:pt-28 pb-0">
           {/* Back to Plans removed */}
 
-          <div className="grid lg:grid-cols-[1fr_auto] gap-10 items-end pb-12">
+          <div className="grid lg:grid-cols-[1fr_auto] gap-6 lg:gap-10 items-end pb-10 sm:pb-12">
             {/* Left — identity */}
             <div>
               {/* Tier pill */}
@@ -472,15 +472,15 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
       {/* ══════════════════════════════════════════════════
  4. BODY — content left, sticky sidebar right
  ══════════════════════════════════════════════════ */}
-      <main className="max-w-6xl mx-auto px-6 py-16">
-        <div className="grid lg:grid-cols-[1fr_300px] gap-16">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14 lg:py-16">
+        <div className="grid lg:grid-cols-[1fr_300px] gap-10 lg:gap-16">
           {/* ── Content sections ── */}
           <div className="space-y-16 min-w-0">
             {/* About */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0 }}
               transition={{ duration: 0.5 }}
             >
               <SectionHeading title="About this Plan" accent={plan.accentColor} />
@@ -491,7 +491,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0 }}
               transition={{ duration: 0.5 }}
             >
               <SectionHeading title="Services Included" accent={plan.accentColor} />
@@ -516,7 +516,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0 }}
               transition={{ duration: 0.5 }}
             >
               <SectionHeading title="Who Should Buy" accent={plan.accentColor} />
@@ -539,7 +539,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0 }}
               transition={{ duration: 0.5 }}
             >
               <SectionHeading title="How It's Done" accent={plan.accentColor} />
@@ -572,7 +572,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0 }}
               transition={{ duration: 0.5 }}
             >
               <SectionHeading title="Documents Required" accent={plan.accentColor} />
@@ -597,7 +597,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0 }}
               transition={{ duration: 0.5 }}
             >
               <SectionHeading title="Frequently Asked Questions" accent={plan.accentColor} />
@@ -625,9 +625,9 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
         <motion.section
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0 }}
           transition={{ duration: 0.5 }}
-          className="relative overflow-hidden mx-6 lg:mx-auto lg:max-w-6xl rounded-3xl"
+          className="relative overflow-hidden mx-4 sm:mx-6 lg:mx-auto lg:max-w-6xl rounded-3xl"
           style={{
             background: `linear-gradient(135deg, ${plan.accentColor}0e 0%, ${plan.accentColor}06 100%)`,
             border: `1.5px solid ${plan.accentColor}20`,
@@ -639,7 +639,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
           <div
             className={`absolute -bottom-12 -left-12 w-40 h-40 rounded-full blur-2xl pointer-events-none opacity-10 ${tierStyles[plan.id].text.replace("text-", "bg-")} text-white`}
           />
-          <div className="relative px-8 py-12 sm:px-14 sm:py-14 flex flex-col sm:flex-row items-center justify-between gap-8">
+          <div className="relative px-5 py-10 sm:px-10 sm:py-12 lg:px-14 lg:py-14 flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-8">
             <div className="text-center sm:text-left">
               <div className="flex items-center justify-center sm:justify-start gap-3 mb-3">
                 <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${tierStyles[plan.id].bgSoft}`}>
@@ -680,7 +680,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
  6. MOBILE STICKY BOTTOM BAR
  Visible only on &lt; lg. Shows price + two actions.
  ══════════════════════════════════════════════════ */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/96 backdrop-blur border-t border-gray-100 shadow-2xl px-5 py-4">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm border-t border-gray-100 shadow-2xl px-4 py-3 sm:px-5 sm:py-4">
         <div className="flex items-center gap-3">
           <div className="flex-1 min-w-0">
             <div className="text-xs text-gray-400 line-through">₹{plan.originalPrice.toLocaleString("en-IN")}</div>

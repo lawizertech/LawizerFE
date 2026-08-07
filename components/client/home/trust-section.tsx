@@ -7,7 +7,7 @@ export function TrustSection() {
   const companies = [
     { name: "PhonePe", logo: "/logos/PhonePe.png" },
     { name: "Razorpay", logo: "/logos/Razorpay.svg" },
-    { name: "Switch", logo: "/logos/Snitch.png" },
+    { name: "Snitch", logo: "/logos/Snitch.png" },
     { name: "Man Matters", logo: "/logos/ManMatters.png" },
     { name: "Tata Steel", logo: "/logos/TataSteel.png" },
     { name: "TCS", logo: "/logos/TCS.png" },

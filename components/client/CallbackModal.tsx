@@ -91,28 +91,29 @@ export default function CallbackModal({ isOpen, onClose, serviceName }: Callback
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 bg-[#050d1a]/70 backdrop-blur-md flex items-end sm:items-center justify-center z-50 p-4 sm:p-6"
+          className="fixed inset-0 bg-[#050d1a]/70 backdrop-blur-md z-50 overflow-y-auto"
           onClick={onClose}
         >
-          <motion.div
-            initial={{ scale: 0.95, opacity: 0, y: 40 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.95, opacity: 0, y: 20 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="w-full max-w-[420px] bg-white rounded-3xl shadow-[0_24px_56px_rgba(5,13,26,0.3)] relative overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Top decorative gradient */}
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#c92c41] to-[#e99b2b]" />
+          <div className="min-h-full flex items-center justify-center p-4 sm:p-6">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 40 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="w-full max-w-[420px] bg-white rounded-[24px] sm:rounded-3xl shadow-[0_24px_56px_rgba(5,13,26,0.3)] relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Top decorative gradient */}
+              <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#c92c41] to-[#e99b2b] rounded-t-full" />
 
-            <div className="p-6 sm:p-8">
-              {/* Close Button */}
-              <button
-                onClick={onClose}
-                className="absolute right-5 top-5 p-2 text-gray-400 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-colors"
-              >
-                <X size={20} />
-              </button>
+              <div className="p-5 sm:p-8">
+                {/* Close Button */}
+                <button
+                  onClick={onClose}
+                  className="absolute right-4 top-4 sm:right-5 sm:top-5 p-2 text-gray-400 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-colors"
+                >
+                  <X size={20} />
+                </button>
 
               {/* Header */}
               <div className="mb-7">
@@ -136,7 +137,7 @@ export default function CallbackModal({ isOpen, onClose, serviceName }: Callback
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="E.g. Jane Doe"
-                    className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-[#0e172b] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#c92c41]/30 focus:border-[#c92c41] focus:bg-white transition-all"
+                    className="w-full px-4 py-2.5 sm:py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-[#0e172b] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#c92c41]/30 focus:border-[#c92c41] focus:bg-white transition-all"
                     disabled={loading}
                     required
                   />
@@ -154,7 +155,7 @@ export default function CallbackModal({ isOpen, onClose, serviceName }: Callback
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="you@company.com"
-                    className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-[#0e172b] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#c92c41]/30 focus:border-[#c92c41] focus:bg-white transition-all"
+                    className="w-full px-4 py-2.5 sm:py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-[#0e172b] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#c92c41]/30 focus:border-[#c92c41] focus:bg-white transition-all"
                     disabled={loading}
                     required
                   />
@@ -172,7 +173,7 @@ export default function CallbackModal({ isOpen, onClose, serviceName }: Callback
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="+91 98765 43210"
-                    className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-[#0e172b] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#c92c41]/30 focus:border-[#c92c41] focus:bg-white transition-all"
+                    className="w-full px-4 py-2.5 sm:py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-[#0e172b] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#c92c41]/30 focus:border-[#c92c41] focus:bg-white transition-all"
                     disabled={loading}
                     required
                   />
@@ -215,6 +216,7 @@ export default function CallbackModal({ isOpen, onClose, serviceName }: Callback
               </form>
             </div>
           </motion.div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

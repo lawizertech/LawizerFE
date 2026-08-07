@@ -18,7 +18,7 @@ export default function BackButton() {
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.35, ease: "easeOut", delay: 0.1 }}
       whileHover="hovered"
-      className="absolute top-[88px] lg:top-[104px] left-5 lg:left-8 z-[40] flex items-center gap-1.5 text-gray-400 hover:text-[var(--brand)] transition-colors duration-200 group"
+      className="flex items-center gap-1.5 text-gray-400 hover:text-[var(--brand)] transition-colors duration-200 group bg-gray-50 hover:bg-red-50 px-2 py-1.5 rounded-full border border-gray-100"
     >
       <motion.span
         variants={{ hovered: { x: -4 } }}

@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useInView, motion } from "framer-motion";
 import Link from "next/link";
+import { Building2, ShieldCheck, ClipboardList, FileText, Briefcase, BadgeCheck, PhoneCall } from "lucide-react";
 
 export function HeroSection() {
   function AnimatedNumber({ value, suffix = "" }: { value: string; suffix?: string }) {
@@ -148,12 +149,12 @@ export function HeroSection() {
 
           <div className="flex flex-col gap-3 lg:flex-1 lg:overflow-y-auto lg:pr-1 lg:min-h-0 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
             {[
-              { href: "/startup-businesslegal/startbusiness/PrivateLimitedCompanyPage", icon: "🏢", cls: "icon-blue",    name: "Company Registration",   desc: "Most preferred structure for startups",             price: "₹999"   },
-              { href: "/startup-businesslegal/protectbusiness/TrademarkRegistrationPage", icon: "™️", cls: "icon-purple", name: "Trademark",              desc: "Protect your brand name & logo",                    price: "₹999"   },
-              { href: "/startup-businesslegal/startbusiness/GSTRegistrationPage",         icon: "📋", cls: "icon-green",  name: "GST Registration",       desc: "GSTIN in 7–10 working days",                        price: "₹999"   },
-              { href: "/itr",                                                              icon: "🧾", cls: "icon-teal",   name: "ITR Filing",             desc: "ITR filing & year-round tax advisory",              price: "₹2,499" },
-              { href: "/compliance/annual",                                                icon: "📑", cls: "icon-orange", name: "Business Compliance",    desc: "Annual filing calendar for Pvt Ltd, OPC & LLP",     price: "₹999"   },
-              { href: "/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage",   icon: "🪪", cls: "icon-green",  name: "MSME Registration",      desc: "MSME, trade registration & business licences",      price: "₹1,499" },
+              { href: "/startup-businesslegal/startbusiness/PrivateLimitedCompanyPage", icon: <Building2 strokeWidth={1.5} />, cls: "icon-blue",    name: "Company Registration",   desc: "Most preferred structure for startups",             price: "₹999"   },
+              { href: "/startup-businesslegal/protectbusiness/TrademarkRegistrationPage", icon: <ShieldCheck strokeWidth={1.5} />, cls: "icon-purple", name: "Trademark",              desc: "Protect your brand name & logo",                    price: "₹999"   },
+              { href: "/startup-businesslegal/startbusiness/GSTRegistrationPage",         icon: <ClipboardList strokeWidth={1.5} />, cls: "icon-green",  name: "GST Registration",       desc: "GSTIN in 7–10 working days",                        price: "₹999"   },
+              { href: "/itr",                                                              icon: <FileText strokeWidth={1.5} />, cls: "icon-teal",   name: "ITR Filing",             desc: "ITR filing & year-round tax advisory",              price: "₹2,499" },
+              { href: "/compliance/annual",                                                icon: <Briefcase strokeWidth={1.5} />, cls: "icon-orange", name: "Business Compliance",    desc: "Annual filing calendar for Pvt Ltd, OPC & LLP",     price: "₹999"   },
+              { href: "/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage",   icon: <BadgeCheck strokeWidth={1.5} />, cls: "icon-green",  name: "MSME Registration",      desc: "MSME, trade registration & business licences",      price: "₹1,499" },
             ].map(s => (
               <Link key={s.href} href={s.href} className="service-card">
                 <div className={`service-icon ${s.cls}`}>{s.icon}</div>
@@ -167,8 +168,8 @@ export function HeroSection() {
           </div>
 
           <div className="flex mt-3">
-            <Link href="/free-consultation" className="panel-cta flex-1 text-center">
-              📞 Talk to an Expert — Free Consultation
+            <Link href="/free-consultation" className="panel-cta flex-1 text-center flex items-center justify-center gap-2">
+              <PhoneCall size={18} /> Talk to an Expert — Free Consultation
             </Link>
           </div>
         </div>
@@ -185,12 +186,12 @@ export function HeroSection() {
           {[...Array(2)].map((_, i) => (
             <div key={i} className="flex gap-[10px]">
               {[
-                { href: "/startup-businesslegal/startbusiness/PrivateLimitedCompanyPage", icon: "🏢", name: "Company Reg.", price: "₹999"   },
-                { href: "/startup-businesslegal/protectbusiness/TrademarkRegistrationPage", icon: "™️", name: "Trademark",   price: "₹999"   },
-                { href: "/startup-businesslegal/startbusiness/GSTRegistrationPage",         icon: "📋", name: "GST",         price: "₹999"   },
-                { href: "/itr",                                                              icon: "🧾", name: "ITR Filing",  price: "₹2,499" },
-                { href: "/compliance/annual",                                                icon: "📑", name: "Compliance",  price: "₹999"   },
-                { href: "/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage",   icon: "🪪", name: "MSME",        price: "₹1,499" },
+                { href: "/startup-businesslegal/startbusiness/PrivateLimitedCompanyPage", icon: <Building2 size={24} strokeWidth={1.5} />, name: "Company Reg.", price: "₹999"   },
+                { href: "/startup-businesslegal/protectbusiness/TrademarkRegistrationPage", icon: <ShieldCheck size={24} strokeWidth={1.5} />, name: "Trademark",   price: "₹999"   },
+                { href: "/startup-businesslegal/startbusiness/GSTRegistrationPage",         icon: <ClipboardList size={24} strokeWidth={1.5} />, name: "GST",         price: "₹999"   },
+                { href: "/itr",                                                              icon: <FileText size={24} strokeWidth={1.5} />, name: "ITR Filing",  price: "₹2,499" },
+                { href: "/compliance/annual",                                                icon: <Briefcase size={24} strokeWidth={1.5} />, name: "Compliance",  price: "₹999"   },
+                { href: "/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage",   icon: <BadgeCheck size={24} strokeWidth={1.5} />, name: "MSME",        price: "₹1,499" },
               ].map(s => (
                 <Link key={s.href} href={s.href} className="mobile-svc-chip w-[92px]">
                   <span className="mobile-svc-icon">{s.icon}</span>
@@ -203,8 +204,8 @@ export function HeroSection() {
         </motion.div>
         
         <div className="flex justify-center mt-2 w-full">
-          <Link href="/free-consultation" className="mobile-expert-cta w-1/2 !min-h-[48px] !text-[13px] !py-[12px] !px-[8px] text-center justify-center flex">
-            📞 Free Consultation
+          <Link href="/free-consultation" className="mobile-expert-cta w-1/2 !min-h-[48px] !text-[13px] !py-[12px] !px-[8px] text-center justify-center flex items-center gap-1.5">
+            <PhoneCall size={16} /> Free Consultation
           </Link>
         </div>
       </div>

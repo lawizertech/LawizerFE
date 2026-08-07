@@ -110,7 +110,7 @@ export const servicesData: Record<string, ServiceData> = {
         ],
       },
       {
-        title: "What You",
+        title: "What You'll Receive",
         icon: "building",
         type: "grid",
         data: [
@@ -135,7 +135,7 @@ export const servicesData: Record<string, ServiceData> = {
   },
   GSTRegistrationPage: {
     title: "GST Registration",
-    subtitle: "Enroll your business under India",
+    subtitle: "Enroll your business under India's GST framework — mandatory for businesses exceeding the prescribed turnover threshold.",
     badgeText: "GSTIN \u2022 ITC Benefits \u2022 Nationwide Compliance",
     icon: "fileText",
     serviceID: "GST_REGISTRATION",
@@ -213,13 +213,13 @@ export const servicesData: Record<string, ServiceData> = {
           "PAN card of the business/applicant",
           "Proof of business address (rent agreement, utility bill, etc.)",
           "Identity and address proof of proprietors/partners/directors (Aadhaar, Voter ID, etc.)",
-          "Bank account details and cancellation cheque",
+          "Bank account details and cancelled cheque",
           "Authorization letter or board resolution (if applicable)",
           "Digital photograph of the authorized signatory",
         ],
       },
       {
-        title: "What You",
+        title: "What You'll Receive",
         icon: "building2",
         type: "grid",
         data: [
@@ -335,7 +335,7 @@ export const servicesData: Record<string, ServiceData> = {
         ],
       },
       {
-        title: "What You",
+        title: "What You'll Receive",
         icon: "building",
         type: "grid",
         data: [
@@ -454,7 +454,7 @@ export const servicesData: Record<string, ServiceData> = {
         ],
       },
       {
-        title: "What You",
+        title: "What You'll Receive",
         icon: "building",
         type: "grid",
         data: [
@@ -583,7 +583,7 @@ export const servicesData: Record<string, ServiceData> = {
         ],
       },
       {
-        title: "What You",
+        title: "What You'll Receive",
         icon: "building2",
         type: "grid",
         data: [
@@ -607,7 +607,7 @@ export const servicesData: Record<string, ServiceData> = {
     icon: "rocket",
     serviceID: "STARTUP_INDIA_REGISTRATION",
     contentTitle: "Overview",
-    contentDescription: "Startup India Registration grants official DPIIT recognition under the Government of India",
+    contentDescription: "Startup India Registration grants official DPIIT recognition under the Government of India's Startup India initiative. It unlocks tax exemptions, funding access, patent/trademark fee rebates, and compliance relaxations for eligible startups.",
     section1Title: "Key Benefits of Startup India Registration",
     price: 999,
     originalPrice: 10000,
@@ -678,8 +678,8 @@ export const servicesData: Record<string, ServiceData> = {
         answer: "Yes. There are no government fees for obtaining DPIIT Startup India recognition.",
       },
       {
-        question: "Is Startupwala connected to the Government?",
-        answer: "No. Startupwala (or similar platforms) are private consultants and not government representatives.",
+        question: "Is Lawizer connected to the Government?",
+        answer: "No. Lawizer (and similar platforms) are private legal-tech consultants and not government representatives. We facilitate the application process on your behalf.",
       },
     ],
     sections: [
@@ -701,7 +701,7 @@ export const servicesData: Record<string, ServiceData> = {
         ],
       },
       {
-        title: "What You",
+        title: "What You'll Receive",
         icon: "building2",
         type: "grid",
         data: [
@@ -825,7 +825,7 @@ export const servicesData: Record<string, ServiceData> = {
         ],
       },
       {
-        title: "What You",
+        title: "What You'll Receive",
         icon: "building2",
         type: "grid",
         data: [

@@ -98,7 +98,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "Trademark registration is a legal process for securing exclusive rights over a distinctive brand name, logo, slogan, or symbol that identifies your goods or services. Registered trademarks protect your intellectual property, prevent unauthorized use, and build brand credibility. A registered trademark is valid for 10 years and can be renewed indefinitely.",
     section1Title: "Key Benefits of Trademark Registration",
-    price: 1199,
+    price: 999,
     originalPrice: 3499,
     theme: {
       orb1: "bg-[#c92c41]/20",
@@ -172,7 +172,7 @@ export const servicesData: Record<string, ServiceData> = {
         ],
       },
       {
-        title: "What You",
+        title: "What You'll Receive",
         icon: "building2",
         type: "grid",
         data: ["Acknowledgment Receipt with TM Application Number", "Registered Trademark Certificate (upon approval)"],
@@ -344,7 +344,7 @@ export const servicesData: Record<string, ServiceData> = {
           "Complete copyright application form (Form XIV)",
           "Copies of the work to be registered (2 copies for unpublished, 3 for published works)",
           "Full details of applicant (name, address, nationality, contact)",
-          "Author",
+          "Author details / declaration",
           "Proof of identity and address (PAN/Aadhaar/Passport/Voter ID)",
           "Statement of applicant",
           "Power of Attorney, if applying through agent/advocate",
@@ -353,7 +353,7 @@ export const servicesData: Record<string, ServiceData> = {
         ],
       },
       {
-        title: "What You",
+        title: "What You'll Receive",
         icon: "building2",
         type: "grid",
         data: ["Copyright Registration Certificate", "Diary Number for application tracking"],

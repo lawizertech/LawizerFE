@@ -476,10 +476,6 @@ export default function ServicesSection() {
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
             className="text-center mb-10 lg:mb-14"
           >
-            <span className="inline-flex items-center gap-2 bg-brand-red/10 border-[1.5px] border-brand-red/20 text-brand-red px-[18px] py-[5px] rounded-full text-[11px] font-bold tracking-[1.8px] uppercase mb-[22px]">
-              <span className="w-[5px] h-[5px] rounded-full bg-brand-red inline-block" />
-              Legal Services
-            </span>
 
             <h2 className="font-[family-name:var(--)] text-[clamp(26px,3.8vw,50px)] font-extrabold text-[#0D0F14] leading-[1.1] tracking-[-0.025em] m-0 mb-4">
               Every legal need.
@@ -547,11 +543,11 @@ export default function ServicesSection() {
                     </div>
                     <div>
                       <div className="font-[family-name:var(--,'Syne',sans-serif)] text-lg font-extrabold text-[#0D0F14]">Phase {phase.id} — {phase.label}</div>
-                      <div className="text-[13px] text-gray-500 mt-[3px]">{phase.categories.reduce((n, c) => n + c.items.length, 0)} services across {phase.categories.length} categories</div>
+                      <div className="text-[13px] text-gray-500 mt-[3px]">{phase.categories.reduce((n, c) => n + c.items.length, 0)} services across {phase.categories.length} {phase.categories.length === 1 ? "category" : "categories"}</div>
                     </div>
                   </div>
                   <Link href={phase.cta.href} className={`inline-flex items-center gap-[9px] px-6 py-3 text-white rounded-xl no-underline text-[13.5px] font-bold transition-all duration-200 shrink-0 whitespace-nowrap relative overflow-hidden bg-gradient-to-br ${phase.tw.gradient} ${phase.tw.shadow}`}>
-                    <span className="relative z-10">{phase.cta.btn}</span>
+                    <span className="relative z-10">View All Services</span>
                     <span className="relative z-10 text-base">→</span>
                   </Link>
                 </div>
@@ -571,10 +567,12 @@ export default function ServicesSection() {
                 </div>
                 <div className={`mx-6 mb-6 p-5 rounded-2xl border-[1.5px] flex items-center flex-wrap gap-4 justify-between ${phase.tw.bgSoft} ${phase.tw.border}/20`}>
                   <p className="m-0 text-sm text-gray-900 leading-relaxed">
-                    <strong className="font-bold">{phase.cta.bold}</strong>{" "}
-                    <span className="text-gray-600">{phase.cta.rest}</span>
+                    <strong className="font-bold">Still unsure?</strong>{" "}
+                    <span className="text-gray-600">Get personalized advice for your business.</span>
                   </p>
-                  <CtaButton href={phase.cta.href} phase={phase}>{phase.cta.btn}</CtaButton>
+                  <Link href="/free-consultation" className={`inline-flex items-center gap-[9px] px-6 py-3 text-white rounded-xl no-underline text-[13.5px] font-bold transition-all duration-200 shrink-0 whitespace-nowrap relative overflow-hidden bg-gradient-to-br ${phase.tw.gradient} ${phase.tw.shadow}`}>
+                    <span className="relative z-10">Talk to Expert</span>
+                  </Link>
                 </div>
               </motion.div>
             </AnimatePresence>
