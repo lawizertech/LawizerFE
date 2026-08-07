@@ -329,7 +329,7 @@ export default function ITRPlans() {
   };
 
   return (
-    <section className="relative py-16 overflow-hidden bg-brand-light-bg">
+    <section className="relative pt-20 sm:pt-24 pb-12 sm:pb-16 overflow-hidden bg-brand-light-bg">
       {/* ── Subtle top red hairline ──────────────────────── */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-red/60 to-transparent" />
 
@@ -338,42 +338,51 @@ export default function ITRPlans() {
         <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-64 opacity-[0.06] blur-3xl rounded-full bg-brand-red" />
       </div>
 
-      <div className=" max-w-[1440px] mx-10 px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* ── Section header ───────────────────────────────── */}
+        {/* Section header — animate on mount, no scroll trigger so it's always visible */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="text-center mb-12 sm:mb-16 lg:mb-20"
         >
           {/* Pill label */}
           <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border mb-6 text-xs font-semibold tracking-widest uppercase text-brand-red border-brand-red/30 bg-brand-red/10">
-            <Sparkles className="w-3 h-3" /> 
+            <Sparkles className="w-3 h-3" />
+            Expert-Assisted ITR Filing
           </div>
 
-          <h2 className="text-4xl sm:text-5xl font-bold mb-5 leading-tight text-brand-navy">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-5 leading-tight text-brand-navy">
             Transparent Pricing.
             <br />
             <span className="text-brand-red">Expert-Assisted</span> ITR Filing.
           </h2>
-          <p className="text-gray-400 max-w-md mx-auto text-base leading-relaxed">
+          <p className="text-gray-400 max-w-md mx-auto text-sm sm:text-base leading-relaxed">
             Every plan includes a dedicated Chartered Accountant. Choose based on your income complexity.
           </p>
         </motion.div>
 
         {/* ── Plan cards grid ──────────────────────────────── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        {/* 
+          Mobile (< sm):  1 column — full width cards 
+          Tablet (sm–lg): 2 columns — comfortable side by side
+          Desktop (xl+):  4 columns — all plans in one row
+        */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 sm:gap-4">
           {plans.map((plan, idx) => (
             <motion.div
               key={plan.id}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: idx * 0.09 }}
+              viewport={{ once: true, amount: 0 }}
+              transition={{ duration: 0.45, delay: idx * 0.06 }}
+              /* overflow-visible lets the "Most Popular" pill float above the card top */
               className={`relative flex flex-col rounded-[28px] overflow-visible bg-white transition-all duration-300 ease-out hover:-translate-y-3 hover:scale-[1.01] ${tierStyles[plan.id].boxShadowCard}`}
             >
               {/* ── "Most Popular" floating pill — Silver only ── */}
               {plan.popular && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
                   <div
                     className={`px-4 py-1.5 rounded-full text-[11px] font-bold text-white whitespace-nowrap ${tierStyles[plan.id].pillBg} ${tierStyles[plan.id].pillShadow}`}
                   >
@@ -384,7 +393,7 @@ export default function ITRPlans() {
 
               {/* ── Card header: tinted bg, tier label, name, price ── */}
               <div
-                className={`relative px-4 pt-5 pb-4 rounded-t-[28px] overflow-hidden ${tierStyles[plan.id].gradientHeader}`}
+                className={`relative px-4 pt-6 pb-4 rounded-t-[28px] overflow-hidden ${tierStyles[plan.id].gradientHeader}`}
               >
                 {/* Decorative corner glow circle */}
                 <div
@@ -393,19 +402,19 @@ export default function ITRPlans() {
 
                 {/* Tier label + plan name + subtitle + emoji badge */}
                 <div className="flex items-start justify-between mb-3">
-                  <div>
+                  <div className="flex-1 min-w-0 pr-3">
                     <span
                       className={`text-[10px] font-bold tracking-[0.18em] uppercase block mb-1 ${tierStyles[plan.id].text}`}
                     >
                       {plan.tier}
                     </span>
                     <h3 className="text-2xl font-bold text-brand-navy">{plan.name}</h3>
-                    <p className="text-gray-400 text-xs mt-1 leading-relaxed max-w-[150px]">{plan.subtitle}</p>
+                    <p className="text-gray-400 text-xs mt-1 leading-relaxed">{plan.subtitle}</p>
                   </div>
 
                   {/* Emoji on a white raised tile with tier-colored glow */}
                   <div
-                    className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-sm flex-shrink-0 bg-white border-1.5 ${tierStyles[plan.id].border} ${tierStyles[plan.id].glow}`}
+                    className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-sm flex-shrink-0 bg-white border ${tierStyles[plan.id].border} ${tierStyles[plan.id].glow}`}
                   >
                     {plan.emoji}
                   </div>
@@ -413,7 +422,7 @@ export default function ITRPlans() {
 
                 {/* Original price (strikethrough) + current price + 60% OFF badge */}
                 <div className="mb-1">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <span className="text-gray-400 text-xs">Just at</span>
                     <span className="text-gray-400 text-xs line-through">
                       ₹{plan.originalPrice.toLocaleString("en-IN")}
@@ -528,24 +537,27 @@ export default function ITRPlans() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.5 }}
-          className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-8"
+          className="mt-12 sm:mt-16 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8"
         >
           <div className="flex items-center gap-2 text-gray-400 text-sm">
-            <Shield className="w-4 h-4 text-brand-red" />
+            <Shield className="w-4 h-4 text-brand-red flex-shrink-0" />
             Secure payments
           </div>
           <div className="hidden sm:block w-px h-4 bg-gray-200" />
           <div className="flex items-center gap-2 text-gray-400 text-sm">
-            <Lock className="w-4 h-4 text-brand-red" />
+            <Lock className="w-4 h-4 text-brand-red flex-shrink-0" />
             100% confidential
           </div>
           <div className="hidden sm:block w-px h-4 bg-gray-200" />
 
           {/* Opens RequestCallPopup modal */}
-          <button onClick={() => openCallback("Income Tax & GST")} className="text-brand-navy">
-            <Phone className="w-4 h-4 text-brand-red" />
+          <button
+            onClick={() => openCallback("Income Tax & GST")}
+            className="flex items-center gap-2 text-brand-navy text-sm font-medium hover:opacity-80 transition-opacity"
+          >
+            <Phone className="w-4 h-4 text-brand-red flex-shrink-0" />
             Not sure? Talk to a tax expert — free
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-brand-red" />
+            <ArrowRight className="w-4 h-4 text-brand-red" />
           </button>
         </motion.div>
       </div>

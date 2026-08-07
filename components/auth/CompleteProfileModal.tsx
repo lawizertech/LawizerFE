@@ -123,7 +123,6 @@ export default function CompleteProfileModal({ onClose, onDone }: CompleteProfil
             { label: "Phone Number", value: phoneNumber, setter: setPhoneNumber },
             { label: "City", value: city, setter: setCity },
             { label: "State", value: state, setter: setState },
-            { label: "Photo URL", value: photoURL, setter: setPhotoURL },
           ].map((item, i) => (
             <div key={i}>
               <label className="block mb-1 text-sm font-medium text-gray-700">{item.label}</label>

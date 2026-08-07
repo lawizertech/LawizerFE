@@ -42,15 +42,15 @@ export const servicesData: Record<string, ServiceData> = {
       {
         question: "What is ISO 9001:2015?",
         answer:
-          "ISO means International Standard Organization. ISO prescribes a set of requirements, if maintained business organization, ISO certificate is issued to such organization. ISO 9001:2015 is the International Standard for Quality Management Systems (QMS). It provides a set of requirements that helps management of business to achieve customer satisfaction.",
+          "ISO stands for the International Organization for Standardization. ISO prescribes a set of requirements; if a business organisation maintains them, an ISO certificate is issued to it. ISO 9001:2015 is the International Standard for Quality Management Systems (QMS). It provides a set of requirements that helps management of business to achieve customer satisfaction.",
       },
       {
-        question: "What is benefit of ISO Certification in India?",
+        question: "What is the benefit of ISO Certification in India?",
         answer:
           "ISO certification gives the confidence that your business has the capability to provide HIGH QUALITY goods and services to its customers. Improves public image, Inspires confidence of the market and helps in growth of business, Helps in getting Govt. Tenders, Provides eligibility to enter global markets, Good marketing tool.",
       },
       {
-        question: "How many days it takes to complete ISO 9001 process in India?",
+        question: "How many days does it take to complete the ISO 9001 process in India?",
         answer:
           "It depends upon the size of the business and current level of management practices. Typically it may take from 5 to 90 working days.",
       },
@@ -73,7 +73,7 @@ export const servicesData: Record<string, ServiceData> = {
         data: ["PAN Card of the organisation", "Address Proof of the organisation", "PAN card of Authorised signatory"],
       },
       {
-        title: "What You",
+        title: "What You'll Receive",
         icon: "building",
         type: "grid",
         data: ["ISO CERTIFICATE"],
@@ -87,7 +87,7 @@ export const servicesData: Record<string, ServiceData> = {
     ],
   },
   MSMEUdhyamRegistrationPage: {
-    title: "MSME / Udhyam Registration",
+    title: "MSME / Udyam Registration",
     subtitle:
       "Register your business online for free to unlock government benefits, priority lending, and protections.",
     badgeText: "Govt-recognized \u2022 Free \u2022 Fast",
@@ -95,7 +95,7 @@ export const servicesData: Record<string, ServiceData> = {
     serviceID: "MSME_UDHYAM_REGISTRATION",
     contentTitle: "Overview",
     contentDescription:
-      "MSME/Udhyam Registration is the simplified online process by which micro, small, and medium enterprises register their business with the government to access various benefits.",
+      "MSME/Udyam Registration is the simplified online process by which micro, small, and medium enterprises register their business with the government to access various benefits.",
     section1Title: "Key Benefits",
     price: 1499,
     originalPrice: 1,
@@ -146,7 +146,7 @@ export const servicesData: Record<string, ServiceData> = {
     faqs: [
       {
         question: "What is MSME?",
-        answer: "MSME meaning Micro Small and Medium Enterprises as defined under MSME development Act 2006.",
+        answer: "MSME means Micro, Small and Medium Enterprises, as defined under the MSME Development Act, 2006.",
       },
       {
         question: "What is MSME Registration?",
@@ -154,8 +154,8 @@ export const servicesData: Record<string, ServiceData> = {
           "MSME registration is the procedure to get your firm registered under MSME development Act for SME benefits.",
       },
       {
-        question: "What is difference between MSME, SSI and Udyog Aadhaar?",
-        answer: "There is no difference between MSME, SSI & Udyog Aadhaar. There are all one and the same.",
+        question: "What is the difference between MSME, SSI and Udyog Aadhaar?",
+        answer: "There is no difference between MSME, SSI & Udyog Aadhaar. They are all one and the same.",
       },
     ],
     sections: [
@@ -171,14 +171,14 @@ export const servicesData: Record<string, ServiceData> = {
         ],
       },
       {
-        title: "What You",
+        title: "What You'll Receive",
         icon: "building",
         type: "grid",
-        data: ["MSME/UDHYAM CERTIFICATE"],
+        data: ["MSME/Udyam Certificate"],
       },
     ],
     addons: [
-      "MSME / Udhyam\\nCertificate",
+      "MSME / Udyam\\nCertificate",
       "Govt. Tender\\nPreference",
       "Collateral-Free\\nLoan Upto \u20b91Cr",
       "50% Discount on\\nTrademark Fees",

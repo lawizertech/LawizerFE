@@ -115,9 +115,9 @@ function HeroWithAddons() {
               <p className="text-white font-semibold text-sm sm:text-base">Also Get Absolutely Free</p>
             </div>
             <div className="bg-white/5 py-8 px-4 sm:px-8">
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 items-start justify-items-center">
+              <div className="flex flex-wrap justify-center gap-6 items-start">
                 {addons.map((addon, i) => (
-                  <div key={i} className="relative flex flex-col items-center gap-3 w-full">
+                  <div key={i} className="relative flex flex-col items-center gap-3 w-24 sm:w-28">
                     <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/90 text-slate-800 flex items-center justify-center shadow-md">{addon.icon}</div>
                     <p className="text-white text-xs sm:text-sm whitespace-pre-line leading-snug text-center">{addon.label}</p>
                     {i < addons.length - 1 && <span className="hidden sm:block absolute -right-3 top-4 text-white/40 text-xl font-light">+</span>}

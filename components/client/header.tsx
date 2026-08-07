@@ -16,6 +16,7 @@ import { ProfessionalModal } from "../auth/ProfessionalModal";
 import { services } from "./header-data";
 import { MobileServiceItem } from "./MobileServiceItem";
 import UserAvatar from "@/components/ui/UserAvatar";
+import BackButton from "./BackButton";
 
 export function Header() {
   const pathname = usePathname();
@@ -94,17 +95,20 @@ export function Header() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="flex items-center justify-between"
           >
-            {/* Logo */}
-            <Link className="flex items-center gap-2.5 cursor-pointer transition-transform hover:scale-105" href="/">
-              <div className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.08)] border border-gray-50">
-                <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" />
-              </div>
-              <div className="flex items-baseline gap-1">
-                <span className="text-xl sm:text-2xl font-montserrat font-extrabold text-[var(--brand)] tracking-tight">
-                  Lawizer
-                </span>
-              </div>
-            </Link>
+            {/* Logo and Back Button */}
+            <div className="flex items-center gap-3 sm:gap-5">
+              <BackButton />
+              <Link className="flex items-center gap-2.5 cursor-pointer transition-transform hover:scale-105" href="/">
+                <div className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.08)] border border-gray-50">
+                  <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" />
+                </div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-xl sm:text-2xl font-montserrat font-extrabold text-black tracking-tight">
+                    Lawizer
+                  </span>
+                </div>
+              </Link>
+            </div>
 
             {/* Navigation */}
             {!hideNavbarSections && (
