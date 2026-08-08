@@ -1,10 +1,15 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Calendar, ShieldAlert, BarChart3, ChevronRight, CheckCircle2, X, Phone } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ArrowRight, Calendar, ShieldAlert, BarChart3, ChevronRight, CheckCircle2, X, Phone, Loader2 } from "lucide-react";
 import { useCallback } from "@/context/callbackContext";
+import { useAuth } from "@/context/authContext";
+import { useRazorpay } from "@/hooks/useRazorpay";
+import { getAccessToken } from "@/lib/auth/tokenStore";
+import { toast } from "sonner";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -34,6 +39,7 @@ type Plan = {
   included: string[];
   excluded: string[];
   featured?: boolean;
+  serviceID: string;
 };
 
 type FilingRow = {
@@ -116,6 +122,7 @@ const DATA: Record<EntityKey, EntityData> = {
         monthlyPrice:"₹749/mo", annualPrice:"₹8,999/yr", annualWas:"₹11,999",
         included:["AOC-4 + MGT-7A annual filing","ADT-1 auditor appointment","DIR-3 KYC for 2 directors","Board meeting minutes & statutory registers","Share certificate book (free)"],
         excluded:["Monthly bookkeeping","GST returns","Income tax return"],
+        serviceID: "annual_compliance_pvt_essential",
       },
       {
         name:"Growth", tagline:"Operating companies with invoices, a bank account and a GST number to keep filed.",
@@ -123,12 +130,14 @@ const DATA: Record<EntityKey, EntityData> = {
         included:["Everything in Essential","Bookkeeping up to 150 txns/month","GSTR-1 and GSTR-3B, monthly","GSTR-9 annual return","ITR-6 corporate return","Dedicated CA on WhatsApp"],
         excluded:["TDS returns","Payroll & ESI/PF"],
         featured:true,
+        serviceID: "annual_compliance_pvt_growth",
       },
       {
         name:"Complete", tagline:"Funded or scaling companies with payroll, TDS and investor reporting obligations.",
         monthlyPrice:"₹2,249/mo", annualPrice:"₹26,999/yr", annualWas:"₹33,999",
         included:["Everything in Growth","Quarterly TDS returns (24Q/26Q)","Payroll, PF and ESI filings","Unlimited transaction bookkeeping","MIS pack every quarter","Priority filing, same-day turnaround"],
         excluded:[],
+        serviceID: "annual_compliance_pvt_complete",
       },
     ],
     filings: [
@@ -177,6 +186,7 @@ const DATA: Record<EntityKey, EntityData> = {
         monthlyPrice:"₹549/mo", annualPrice:"₹6,599/yr", annualWas:"₹8,999",
         included:["AOC-4 + MGT-7A annual filing","ADT-1 auditor appointment","DIR-3 KYC for 1 director","Statutory registers maintained","Share certificate book (free)"],
         excluded:["Monthly bookkeeping","GST returns","Income tax return"],
+        serviceID: "annual_compliance_opc_essential",
       },
       {
         name:"Growth", tagline:"Consultants and single-owner businesses that are billing clients and filing GST.",
@@ -184,12 +194,14 @@ const DATA: Record<EntityKey, EntityData> = {
         included:["Everything in Essential","Bookkeeping up to 100 txns/month","GSTR-1 and GSTR-3B, monthly","GSTR-9 annual return","ITR-6 corporate return","Dedicated CA on WhatsApp"],
         excluded:["TDS returns","Payroll & ESI/PF"],
         featured:true,
+        serviceID: "annual_compliance_opc_growth",
       },
       {
         name:"Complete", tagline:"OPCs approaching the ₹2 crore conversion threshold, with staff on the books.",
         monthlyPrice:"₹1,749/mo", annualPrice:"₹20,999/yr", annualWas:"₹26,999",
         included:["Everything in Growth","Quarterly TDS returns","Payroll, PF and ESI filings","Unlimited transaction bookkeeping","Pvt Ltd conversion advisory","Priority filing, same-day turnaround"],
         excluded:[],
+        serviceID: "annual_compliance_opc_complete",
       },
     ],
     filings: [
@@ -238,6 +250,7 @@ const DATA: Record<EntityKey, EntityData> = {
         monthlyPrice:"₹499/mo", annualPrice:"₹5,999/yr", annualWas:"₹7,999",
         included:["Form 11 annual return","Form 8 statement of account & solvency","DIR-3 KYC for 2 partners","LLP agreement kept on record","Filing reminders by SMS and email"],
         excluded:["Monthly bookkeeping","GST returns","Income tax return"],
+        serviceID: "annual_compliance_llp_essential",
       },
       {
         name:"Growth", tagline:"Trading and services LLPs with regular invoices and a GST registration.",
@@ -245,12 +258,14 @@ const DATA: Record<EntityKey, EntityData> = {
         included:["Everything in Essential","Bookkeeping up to 150 txns/month","GSTR-1 and GSTR-3B, monthly","GSTR-9 annual return","ITR-5 income tax return","Dedicated CA on WhatsApp"],
         excluded:["Statutory audit","Payroll & TDS"],
         featured:true,
+        serviceID: "annual_compliance_llp_growth",
       },
       {
         name:"Complete", tagline:"LLPs past ₹40 lakh turnover, where audit and TDS both kick in.",
         monthlyPrice:"₹1,583/mo", annualPrice:"₹18,999/yr", annualWas:"₹24,999",
         included:["Everything in Growth","Statutory audit coordination","Quarterly TDS returns","Payroll, PF and ESI filings","Partner capital account reconciliation","Priority filing, same-day turnaround"],
         excluded:[],
+        serviceID: "annual_compliance_llp_complete",
       },
     ],
     filings: [
@@ -340,6 +355,142 @@ export default function AnnualCompliancePage() {
   const heroY = useTransform(scrollY, [0, 500], [0, 100]);
   const heroOpacity = useTransform(scrollY, [0, 380], [1, 0]);
   const { openCallback } = useCallback();
+
+  const router = useRouter();
+  const { user } = useAuth();
+  const { isLoaded: razorpayReady, initializePayment } = useRazorpay();
+  const [paymentState, setPaymentState] = useState<"idle" | "creating" | "paying" | "verifying" | "success">("idle");
+  const [paymentError, setPaymentError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (user && typeof window !== "undefined") {
+      const pending = sessionStorage.getItem("pendingAutoBuy");
+      if (pending && pending.startsWith("annual_compliance_")) {
+        sessionStorage.removeItem("pendingAutoBuy");
+        handleStartProcess(pending);
+      }
+    }
+  }, [user]);
+
+  const handleStartProcess = async (serviceCode: string) => {
+    if (!user) {
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("pendingAutoBuy", serviceCode);
+        window.dispatchEvent(new CustomEvent("openSignInModal"));
+      }
+      return;
+    }
+
+    try {
+      setPaymentState("creating");
+      setPaymentError(null);
+
+      const token = getAccessToken();
+
+      // 1. Initiate process and get Razorpay order
+      const orderRes = await fetch("/api/user/start-process", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          serviceCode,
+          clientDetails: {
+            fullName: user.name || "Client",
+            email: user.email || "client@lawizer.com",
+            phone: (user as any)?.phone || "9999999999",
+          },
+          urgency: "NORMAL",
+        }),
+      });
+
+      if (!orderRes.ok) {
+        const errData = await orderRes.json().catch(() => ({}));
+        throw new Error(errData.message || "Failed to create order");
+      }
+
+      const orderData = await orderRes.json();
+      if (!orderData.success) {
+        throw new Error(orderData.message || "Failed to create order");
+      }
+
+      const orderObj = orderData.razorpayOrder || orderData.order;
+      const razorpayKey = orderData.keyId || orderObj?.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+
+      if (!orderObj || !orderObj.amount || !orderObj.id) {
+        throw new Error("Invalid order data received from payment server");
+      }
+
+      // 2. Open Razorpay checkout
+      setPaymentState("paying");
+
+      const options = {
+        key: razorpayKey,
+        amount: orderObj.amount,
+        currency: orderObj.currency || "INR",
+        name: "Lawizer",
+        description: `Annual Compliance - ${serviceCode.split('_').pop()?.toUpperCase()}`,
+        order_id: orderObj.id,
+        prefill: {
+          name: user.name || "",
+          email: user.email || "",
+          contact: (user as any)?.phone || "",
+        },
+        theme: { color: "#c92c41" },
+        modal: {
+          ondismiss: function () {
+            setPaymentState("idle");
+            toast.error("Payment cancelled by user");
+          }
+        },
+        handler: async function (response: any) {
+          try {
+            setPaymentState("verifying");
+            const verifyRes = await fetch("/api/payments/verify", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                ...(token ? { Authorization: `Bearer ${token}` } : {}),
+              },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              }),
+            });
+
+            const verifyData = await verifyRes.json();
+            if (!verifyData.success) {
+              throw new Error(verifyData.message || "Payment verification failed");
+            }
+
+            setPaymentState("success");
+            toast.success("Payment successful! Our team will contact you shortly.");
+
+            window.dispatchEvent(
+              new CustomEvent("triggerConfetti", {
+                detail: { amount: orderObj.amount / 100 },
+              })
+            );
+
+            router.push("/user/dashboard?tab=services");
+          } catch (verifyErr: any) {
+            setPaymentError(verifyErr.message || "Verification failed");
+            setPaymentState("idle");
+            toast.error(verifyErr.message || "Verification failed");
+          }
+        },
+      };
+
+      const rzp = new (window as any).Razorpay(options);
+      rzp.open();
+    } catch (err: any) {
+      setPaymentError(err.message || "Payment failed");
+      setPaymentState("idle");
+      toast.error(err.message || "Payment failed");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#f8f7f4]">
@@ -777,10 +928,11 @@ export default function AnnualCompliancePage() {
                         {/* CTAs */}
                         <div className="mt-auto pt-4 flex flex-col gap-2">
                           <motion.button
-                            whileHover={{ scale:1.02 }}
-                            whileTap={{ scale:0.97 }}
-                            onClick={() => openCallback("Annual Compliance")}
-                            className="relative w-full py-3.5 rounded-2xl font-bold text-sm tracking-wide cursor-pointer overflow-hidden"
+                            whileHover={paymentState === "idle" ? { scale:1.02 } : undefined}
+                            whileTap={paymentState === "idle" ? { scale:0.97 } : undefined}
+                            onClick={() => handleStartProcess(plan.serviceID)}
+                            disabled={paymentState !== "idle"}
+                            className="relative w-full py-3.5 rounded-2xl font-bold text-sm tracking-wide cursor-pointer overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
                             style={
                               isFeatured
                                 ? { color:"#0e172b", boxShadow:"0 6px 24px rgba(233,155,43,0.36),inset 0 1px 0 rgba(255,255,255,0.3)" }
@@ -791,7 +943,16 @@ export default function AnnualCompliancePage() {
                               <span className="absolute inset-0 rounded-2xl"
                                 style={{ background:"linear-gradient(90deg,#e99b2b,#f5c76a,#e99b2b)", backgroundSize:"200% 100%", animation:"shimmer-slide 2.4s linear infinite" }} />
                             )}
-                            <span className="relative">Start with {plan.name}</span>
+                            <span className="relative flex items-center justify-center gap-2">
+                              {paymentState !== "idle" && (
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                              )}
+                              {paymentState === "creating" && "Preparing Order..."}
+                              {paymentState === "paying" && "Processing Payment..."}
+                              {paymentState === "verifying" && "Verifying Payment..."}
+                              {paymentState === "success" && "Success!"}
+                              {paymentState === "idle" && `Start with ${plan.name}`}
+                            </span>
                           </motion.button>
                           <button
                             onClick={() => openCallback("Annual Compliance — CA consultation")}
