@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Bell, Send } from "lucide-react";
+import { getAccessToken } from "@/lib/auth/tokenStore";
 
 export function ExpertNotificationsTab() {
   const [notifications, setNotifications] = useState<any[]>([]);
@@ -16,7 +17,12 @@ export function ExpertNotificationsTab() {
     if (!caseId) return;
     try {
       setLoading(true);
-      const res = await fetch(`/api/cases/${caseId}/notifications/user`);
+      const token = getAccessToken();
+      const headers: Record<string, string> = {};
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+      const res = await fetch(`/api/cases/${caseId}/notifications/user`, { headers });
       const data = await res.json();
       if (Array.isArray(data)) {
         setNotifications(data);
@@ -45,9 +51,16 @@ export function ExpertNotificationsTab() {
 
     try {
       setSending(true);
+      const token = getAccessToken();
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
       const res = await fetch(`/api/cases/${caseId}/notifications/expert/send-to-admin`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({
           payload: { title, message }
         }),

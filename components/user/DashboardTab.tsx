@@ -66,9 +66,9 @@ const EMPTY_DASHBOARD: UserDashboard = {
   upcomingBookings: [],
   topExperts: [],
   totalServices: 0,
-  activeServices: 0,
   completedServices: 0,
   pendingServiceDocuments: 0,
+  recentNotifications: [],
 };
 
 const PRIMARY = "#c92c41";
@@ -115,10 +115,11 @@ export default function UserDashboardTab() {
 
     const load = async () => {
       try {
-        const [profileRes, dashRes, rawServices] = await Promise.all([
+        const [profileRes, dashRes, rawServices, notifRes] = await Promise.all([
           serverApi.get("/api/user/profile"),
           serverApi.get("/api/user/dashboard"),
           ServiceWorkspaceRepository.getServices().catch(() => []),
+          serverApi.get("/api/user/notifications").catch(() => ({ data: { notifications: [] } })),
         ]);
 
         if (cancelled) {
@@ -166,6 +167,7 @@ export default function UserDashboardTab() {
             activeServices: raw.activeServices ?? 0,
             completedServices: raw.completedServices ?? 0,
             pendingServiceDocuments: raw.pendingServiceDocuments ?? 0,
+            recentNotifications: notifRes?.data?.notifications || [],
           });
         }
       } catch (error) {
@@ -342,6 +344,35 @@ export default function UserDashboardTab() {
             <EmptyCard text="No experts yet" />
           ) : (
             dashboard.topExperts.map((e) => <ExpertCard key={e.uid} expert={e} />)
+          )}
+        </div>
+
+        {/* RECENT NOTIFICATIONS */}
+        <div className="lg:col-span-3 space-y-4">
+          <div className="flex justify-between items-center">
+            <h2 className="text-lg font-semibold">Recent Notifications</h2>
+            <Link href="/user/dashboard?tab=notifications" className="text-sm text-[#c92c41] font-medium hover:underline">
+              View All
+            </Link>
+          </div>
+
+          {dashboard.recentNotifications?.length === 0 ? (
+            <EmptyCard text="No recent notifications" />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {dashboard.recentNotifications?.slice(0, 3).map((n: any) => (
+                <div key={n.id} className="bg-white rounded-xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between">
+                  <div>
+                    <h3 className="font-semibold text-gray-900">{n.payload?.title || "Notification"}</h3>
+                    <p className="text-sm text-gray-600 mt-2 line-clamp-2">{n.payload?.message}</p>
+                  </div>
+                  <div className="mt-4 flex justify-between items-center text-xs text-gray-400">
+                    <span className="font-medium capitalize px-2 py-0.5 bg-gray-100 rounded-md text-gray-600">{n.type?.replace('_', ' ')}</span>
+                    <span>{new Date(n.created_at).toLocaleDateString()}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </div>

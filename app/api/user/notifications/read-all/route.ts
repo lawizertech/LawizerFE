@@ -21,7 +21,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const backendRes = await fetch(`${BASE}/user/notifications/read-all`, {
+    const backendRes = await fetch(`${BASE}/notifications/read-all`, {
       method: "POST",
       headers: {
         Authorization: authHeader,
