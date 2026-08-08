@@ -116,7 +116,12 @@ export default function ExpertChatsTab() {
         }
       } else if (activeTab === "notifications") {
         try {
-          const res = await fetch(`/api/cases/${caseId}/notifications/user`);
+          const token = getAccessToken();
+          const headers: Record<string, string> = {};
+          if (token) {
+            headers["Authorization"] = `Bearer ${token}`;
+          }
+          const res = await fetch(`/api/cases/${caseId}/notifications/user`, { headers });
           const data = await res.json();
           if (Array.isArray(data)) {
             setNotifications(data);

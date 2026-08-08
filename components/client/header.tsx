@@ -100,8 +100,8 @@ export function Header() {
                 <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" />
               </div>
               <div className="flex items-baseline gap-1">
-                <span className="text-xl sm:text-2xl font-montserrat font-extrabold text-[var(--brand)] tracking-tight">
-                  Lawizer
+                <span className="text-xl sm:text-2xl font-montserrat font-bold text-black tracking-tight">
+                  LAWIZER
                 </span>
               </div>
             </Link>
