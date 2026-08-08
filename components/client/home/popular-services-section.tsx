@@ -149,7 +149,7 @@ export default function PopularServicesSection() {
   // Standard continuous scroll without the zoom effect.
 
   return (
-    <section id="popular-services" className="py-20 bg-[var(--bg-soft)] relative overflow-hidden">
+    <section id="popular-services" className="py-12 md:py-16 bg-[var(--bg-soft)] relative overflow-hidden">
       {/* Subtle brand radial behind heading */}
       <div className="absolute -top-[120px] -right-[120px] w-[480px] h-[480px] rounded-full bg-[radial-gradient(circle,rgba(202,45,66,0.06)_0%,transparent_70%)] pointer-events-none" />
 

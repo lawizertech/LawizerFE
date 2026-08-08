@@ -174,7 +174,7 @@ export function TestimonialsSection() {
   const doubled = [...testimonials, ...testimonials];
 
   return (
-    <section id="testimonials" className="testimonials-section py-20 overflow-hidden">
+    <section id="testimonials" className="testimonials-section py-12 md:py-16 overflow-hidden">
       <div className="max-w-7xl mx-auto px-[5%]">
         {/* Heading */}
         <motion.div

@@ -42,6 +42,7 @@ import { ChatEngine } from "@/components/chat/ChatEngine";
 import VoiceCallModal from "@/components/call/VoiceCallModal";
 import { useAuth } from "@/context/authContext";
 import { ServiceStageTracker } from "@/components/services/ServiceStageTracker";
+import { getAccessToken } from "@/lib/auth/tokenStore";
 
 /* -------------------------------------------------------------------------- */
 /* ✨ Service Progress Stepper Component                                      */
@@ -172,7 +173,12 @@ export default function ActiveServicesTab() {
   useEffect(() => {
     if (activeSubTab === "notifications" && selectedServiceId) {
       setFetchingNotifs(true);
-      fetch(`/api/cases/${selectedServiceId}/notifications/user`)
+      const token = getAccessToken();
+      const headers: Record<string, string> = {};
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+      fetch(`/api/cases/${selectedServiceId}/notifications/user`, { headers })
         .then(res => res.json())
         .then(data => {
           if (Array.isArray(data)) {

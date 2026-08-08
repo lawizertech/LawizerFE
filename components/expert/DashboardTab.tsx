@@ -16,13 +16,19 @@ export default function DashboardTab() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [profileRes, dashboardRes] = await Promise.all([
+        const [profileRes, dashboardRes, notifRes] = await Promise.all([
           serverApi.get("/api/expert/profile"),
           serverApi.get("/api/expert/dashboard"),
+          serverApi.get("/api/expert/notifications").catch(() => ({ data: { notifications: [] } })),
         ]);
 
         if (profileRes.data.success) setProfile(profileRes.data.profile);
-        if (dashboardRes.data.success) setDashboard(dashboardRes.data.dashboard);
+        if (dashboardRes.data.success) {
+          setDashboard({
+            ...dashboardRes.data.dashboard,
+            recentNotifications: notifRes?.data?.notifications || [],
+          });
+        }
       } catch (err) {
         console.error("Failed to load dashboard", err);
       } finally {
@@ -160,6 +166,42 @@ export default function DashboardTab() {
           </div>
         </motion.div>
       </div>
+
+      {/* RECENT NOTIFICATIONS */}
+      <motion.div
+        className="space-y-5 pt-6"
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.3 }}
+      >
+        <div className="flex justify-between items-center">
+          <h2 className="text-xl font-semibold text-gray-900">Recent Notifications</h2>
+          <Link href="/expert/dashboard?tab=notifications" className="text-sm font-bold hover:underline text-[#c92c41]">
+            View All →
+          </Link>
+        </div>
+
+        {!dashboard?.recentNotifications || dashboard.recentNotifications.length === 0 ? (
+          <div className="rounded-2xl p-10 text-center bg-white border border-gray-100 font-light text-gray-500 shadow-xs">
+            No recent notifications.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {dashboard.recentNotifications.slice(0, 3).map((n: any) => (
+              <div key={n.id} className="bg-white rounded-xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between hover:border-rose-200 transition-colors">
+                <div>
+                  <h3 className="font-semibold text-gray-900">{n.payload?.title || "Notification"}</h3>
+                  <p className="text-sm text-gray-600 mt-2 line-clamp-2">{n.payload?.message}</p>
+                </div>
+                <div className="mt-4 flex justify-between items-center text-xs text-gray-400">
+                  <span className="font-medium capitalize px-2 py-0.5 bg-gray-100 rounded-md text-gray-600">{n.type?.replace('_', ' ')}</span>
+                  <span>{new Date(n.created_at).toLocaleDateString()}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </motion.div>
     </motion.div>
   );
 }

@@ -11,18 +11,26 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ case
     const url = new URL(req.url);
     const queryString = url.search;
 
-    const supabase = await createClient();
-    const { data: { session } } = await supabase.auth.getSession();
+    let authHeader = req.headers.get("authorization");
     
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
     };
     
-    if (session?.access_token) {
-      headers["Authorization"] = `Bearer ${session.access_token}`;
+    if (authHeader) {
+      headers["Authorization"] = authHeader;
+    } else {
+      const supabase = await createClient();
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.access_token) {
+        headers["Authorization"] = `Bearer ${session.access_token}`;
+      }
     }
 
     const targetUrl = `${BACKEND_URL}/notifications/case/${caseId}/${pathStr}${queryString}`;
+    console.log(`[PROXY GET] Fetching targetUrl: ${targetUrl}`);
+    console.log(`[PROXY GET] Headers sent:`, JSON.stringify(headers));
+    
     const res = await fetch(targetUrl, {
       method: "GET",
       headers,
@@ -30,6 +38,9 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ case
     });
 
     const data = await res.json();
+    console.log(`[PROXY GET] Backend response code: ${res.status}`);
+    console.log(`[PROXY GET] Backend response data:`, JSON.stringify(data));
+    
     return NextResponse.json(data, { status: res.status });
   } catch (error: any) {
     console.error("[/api/cases/:caseId/notifications proxy GET] Error:", error);
@@ -44,15 +55,20 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ cas
     const pathStr = path.join("/");
     const body = await req.json();
 
-    const supabase = await createClient();
-    const { data: { session } } = await supabase.auth.getSession();
+    let authHeader = req.headers.get("authorization");
     
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
     };
     
-    if (session?.access_token) {
-      headers["Authorization"] = `Bearer ${session.access_token}`;
+    if (authHeader) {
+      headers["Authorization"] = authHeader;
+    } else {
+      const supabase = await createClient();
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.access_token) {
+        headers["Authorization"] = `Bearer ${session.access_token}`;
+      }
     }
 
     const targetUrl = `${BACKEND_URL}/notifications/case/${caseId}/${pathStr}`;
