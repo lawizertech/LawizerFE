@@ -46,7 +46,7 @@ export function WhyLawizerSection() {
   }
 
   return (
-    <div className="why-section w-full px-4 md:px-12 py-12 md:py-20 lg:py-24 max-w-7xl mx-auto" id="why">
+    <div className="why-section w-full px-4 md:px-12 py-12 md:py-16 max-w-7xl mx-auto" id="why">
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
         <div className="w-full lg:w-1/2">
           <h2 className="section-title text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-gray-900 mb-6 break-words">

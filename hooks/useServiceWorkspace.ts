@@ -35,8 +35,9 @@ export function useServiceWorkspace() {
         const list = await ServiceWorkspaceRepository.getNotifications();
         const mapped = list.map((item: any) => {
           let dateStr = "Just now";
-          if (item.createdAt) {
-            dateStr = new Date(item.createdAt).toLocaleDateString("en-IN", {
+          const timestamp = item.created_at || item.createdAt;
+          if (timestamp) {
+            dateStr = new Date(timestamp).toLocaleDateString("en-IN", {
               day: "2-digit",
               month: "short",
               year: "numeric",
@@ -45,13 +46,13 @@ export function useServiceWorkspace() {
             });
           }
           return {
-            notificationId: item.notificationId || item.id,
-            userId: item.userId,
-            serviceId: item.serviceId || null,
+            notificationId: item.id || item.notificationId,
+            userId: item.recipient_id || item.userId,
+            serviceId: item.payload?.caseId || item.serviceId || null,
             type: item.type,
-            title: item.title,
-            message: item.message,
-            read: !!item.read,
+            title: item.payload?.title || item.title || "Notification",
+            message: item.payload?.message || item.message || "",
+            read: item.read_at ? true : !!item.read,
             createdAt: dateStr,
             related: item.related || null,
           } as NotificationItem;

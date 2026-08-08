@@ -463,7 +463,7 @@ export default function ServicesSection() {
 
   return (
     <>
-      <section id="services" className="bg-white pt-16 pb-20 relative overflow-hidden">
+      <section id="services" className="bg-white py-12 md:py-16 relative overflow-hidden">
         {/* Decorative circle */}
         <div className="absolute -top-[160px] -right-[120px] w-[520px] h-[520px] rounded-full pointer-events-none bg-[radial-gradient(circle,rgba(202,45,66,0.06)_0%,transparent_65%)]" />
 
