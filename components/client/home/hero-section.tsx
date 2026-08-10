@@ -10,8 +10,8 @@ export function HeroSection() {
     { href: "/startup-businesslegal/protectbusiness/TrademarkRegistrationPage", icon: "🛡️", title: "Trademark Registration" },
     { href: "/itr", icon: "🧾", title: "ITR Filing" },
     { href: "/startup-businesslegal/startbusiness/GSTRegistrationPage", icon: "📋", title: "GST Registration" },
-    { href: "/digital-signature", icon: "✒️", title: "Digital Signature (DSC)" },
-    { href: "/current-account", icon: "🏦", title: "Current Account Opening" },
+    { href: "/startup-businesslegal/startbusiness/StartupIndiaRegistrationPage", icon: "🚀", title: "Startup India" },
+    { href: "/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage", icon: "💼", title: "MSME Registration" },
     { href: "/compliance/annual", icon: "📑", title: "Annual Compliance" },
   ];
 
