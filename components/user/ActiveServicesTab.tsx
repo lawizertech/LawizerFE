@@ -243,50 +243,54 @@ export default function ActiveServicesTab() {
         </div>
 
         {/* SUB-TAB SWITCHER PILL (MOBILE & TABLET FRIENDLY) */}
-        <div className="flex items-center justify-between sm:justify-start gap-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 w-full shadow-xs">
+        <div className="flex items-center justify-start overflow-x-auto gap-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 w-full shadow-xs scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           <button
             onClick={() => setActiveSubTab("stages")}
-            className={`flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
+            className={`flex-shrink-0 sm:flex-initial px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer whitespace-nowrap ${
               activeSubTab === "stages"
                 ? "bg-[#c92c41] text-white shadow-xs"
                 : "text-gray-600 hover:text-gray-900 hover:bg-slate-200/50"
             }`}
           >
             <Layers size={14} />
-            <span>Progress & Stages</span>
+            <span className="hidden sm:inline">Progress & Stages</span>
+            <span className="sm:hidden">Progress</span>
           </button>
           <button
             onClick={() => setActiveSubTab("chat")}
-            className={`flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
+            className={`flex-shrink-0 sm:flex-initial px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer whitespace-nowrap ${
               activeSubTab === "chat"
                 ? "bg-[#c92c41] text-white shadow-xs"
                 : "text-gray-600 hover:text-gray-900 hover:bg-slate-200/50"
             }`}
           >
             <MessageSquare size={14} />
-            <span>Live Chat</span>
+            <span className="hidden sm:inline">Live Chat</span>
+            <span className="sm:hidden">Chat</span>
           </button>
           <button
             onClick={() => setActiveSubTab("docs")}
-            className={`flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
+            className={`flex-shrink-0 sm:flex-initial px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer whitespace-nowrap ${
               activeSubTab === "docs"
                 ? "bg-[#c92c41] text-white shadow-xs"
                 : "text-gray-600 hover:text-gray-900 hover:bg-slate-200/50"
             }`}
           >
             <FileCheck size={14} />
-            <span>Docs Vault ({selectedServiceDetail?.documents?.submitted?.length || 0})</span>
+            <span className="hidden sm:inline">Docs Vault ({selectedServiceDetail?.documents?.submitted?.length || 0})</span>
+            <span className="sm:hidden">Docs ({selectedServiceDetail?.documents?.submitted?.length || 0})</span>
           </button>
           <button
             onClick={() => setActiveSubTab("notifications")}
-            className={`flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
+            className={`flex-shrink-0 sm:flex-initial px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer whitespace-nowrap ${
               activeSubTab === "notifications"
                 ? "bg-[#c92c41] text-white shadow-xs"
                 : "text-gray-600 hover:text-gray-900 hover:bg-slate-200/50"
             }`}
           >
             <Bell size={14} />
-            <span>Notifications</span>
+            <span className="hidden sm:inline">Notifications</span>
+            <span className="sm:hidden">Alerts</span>
           </button>
         </div>
 
