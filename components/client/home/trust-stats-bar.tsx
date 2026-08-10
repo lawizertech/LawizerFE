@@ -42,10 +42,10 @@ export function TrustStatsBar() {
   return (
     <section className="bg-white py-3 md:py-4">
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 md:px-12">
-        <div className="border border-gray-100 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] py-2 px-6 lg:px-8 flex flex-col xl:flex-row items-center justify-between gap-4 xl:gap-0">
+        <div className="border border-gray-100 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] py-4 sm:py-5 px-6 lg:px-8 flex flex-col xl:flex-row items-center justify-between gap-4 xl:gap-0">
           
           {/* Associated With */}
-          <div className="flex items-center gap-4 lg:gap-6 flex-wrap justify-center xl:border-r border-gray-200 xl:pr-8 xl:mr-8 xl:w-auto w-full">
+          <div className="flex items-center gap-4 lg:gap-6 flex-wrap justify-center xl:pr-8 xl:mr-8 xl:w-auto w-full">
             <span className="text-[13px] font-bold text-gray-700 uppercase tracking-wide">Associated With</span>
             <div className="flex items-center gap-4">
                {/* Fallback to text if logos aren't there, since the user's image shows specific logos */}
