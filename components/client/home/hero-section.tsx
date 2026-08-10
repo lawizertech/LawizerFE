@@ -12,7 +12,7 @@ export function HeroSection() {
     { href: "/startup-businesslegal/startbusiness/GSTRegistrationPage", icon: "📋", title: "GST Registration" },
     { href: "/digital-signature", icon: "✒️", title: "Digital Signature (DSC)" },
     { href: "/current-account", icon: "🏦", title: "Current Account Opening" },
-    { href: "/startup-businesslegal/managebusiness/RocReturnFilingPvtLtdPage", icon: "📑", title: "Annual Compliance" },
+    { href: "/compliance/annual", icon: "📑", title: "Annual Compliance" },
   ];
 
   return (
