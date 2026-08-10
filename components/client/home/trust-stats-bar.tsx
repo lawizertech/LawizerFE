@@ -42,10 +42,10 @@ export function TrustStatsBar() {
   return (
     <section className="bg-white py-3 md:py-4">
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 md:px-12">
-        <div className="border border-gray-100 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] py-2 px-6 lg:px-8 flex flex-col xl:flex-row items-center justify-between gap-4 xl:gap-0">
+        <div className="border border-gray-100 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] py-4 sm:py-5 px-6 lg:px-8 flex flex-col xl:flex-row items-center justify-between gap-4 xl:gap-0">
           
           {/* Associated With */}
-          <div className="flex items-center gap-4 lg:gap-6 flex-wrap justify-center xl:border-r border-gray-200 xl:pr-8 xl:mr-8 xl:w-auto w-full">
+          <div className="flex items-center gap-4 lg:gap-6 flex-wrap justify-center xl:pr-8 xl:mr-8 xl:w-auto w-full">
             <span className="text-[13px] font-bold text-gray-700 uppercase tracking-wide">Associated With</span>
             <div className="flex items-center gap-4">
                {/* Fallback to text if logos aren't there, since the user's image shows specific logos */}
@@ -66,9 +66,9 @@ export function TrustStatsBar() {
           </div>
 
           {/* Stats */}
-          <div className="flex flex-col md:flex-row items-center gap-6 lg:gap-10 divide-y md:divide-y-0 md:divide-x divide-gray-200 flex-1 justify-between xl:justify-end w-full xl:w-auto">
+          <div className="flex flex-col md:flex-row items-center gap-6 lg:gap-10 flex-1 justify-between xl:justify-end w-full xl:w-auto">
             {/* Stat 1 */}
-            <div className="flex items-center gap-3 w-full md:w-auto justify-center md:pl-0 pt-4 md:pt-0">
+            <div className="flex items-center gap-3 w-full md:w-auto justify-center pt-4 md:pt-0">
               <span className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-xl shrink-0">🏢</span>
               <div className="flex flex-col justify-center">
                 <span className="text-xl font-bold text-gray-900 leading-tight">
@@ -79,7 +79,7 @@ export function TrustStatsBar() {
             </div>
 
             {/* Stat 2 */}
-            <div className="flex items-center gap-3 w-full md:w-auto justify-center md:pl-6 lg:pl-10 pt-4 md:pt-0">
+            <div className="flex items-center gap-3 w-full md:w-auto justify-center pt-4 md:pt-0">
               <span className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-xl shrink-0">⭐</span>
               <div className="flex flex-col justify-center">
                 <span className="text-xl font-bold text-gray-900 leading-tight">
@@ -90,7 +90,7 @@ export function TrustStatsBar() {
             </div>
 
             {/* Stat 3 */}
-            <div className="flex items-center gap-3 w-full md:w-auto justify-center md:pl-6 lg:pl-10 pt-4 md:pt-0">
+            <div className="flex items-center gap-3 w-full md:w-auto justify-center pt-4 md:pt-0">
               <div className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center p-2 shrink-0">
                 <svg className="w-full h-full" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
