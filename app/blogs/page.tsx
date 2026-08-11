@@ -15,7 +15,7 @@ interface GQLPost {
 async function getAllPosts(): Promise<GQLPost[]> {
   const query = `
  query GetAllPosts {
- posts(first: 100, where: { status: PUBLISH }) {
+ posts(first: 500, where: { status: PUBLISH }) {
  nodes {
  title
  slug
