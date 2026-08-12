@@ -12,6 +12,8 @@ import {
   Loader2,
   FileText,
   MessageSquare,
+  Bell,
+  Send,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/context/authContext";
@@ -197,7 +199,7 @@ export default function ExpertChatsTab() {
         const uploadResult = await cloudinaryRes.json();
 
         // 3. Save the document record
-        const saveRes = await fetch("/api/documents/upload", {
+        const saveRes = await fetch("/api/expert/upload-document", {
           method: "POST",
           headers,
           body: JSON.stringify({
@@ -232,7 +234,15 @@ export default function ExpertChatsTab() {
     if (!confirm("Are you sure you want to delete this document?")) return;
 
     try {
-      const res = await fetch(`/api/documents/${docId}`, { method: "DELETE" });
+      const token = getAccessToken();
+      const headers: Record<string, string> = {};
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+      const res = await fetch(`/api/documents/${docId}`, {
+        method: "DELETE",
+        headers,
+      });
       const data = await res.json();
       if (data.success) {
         setCaseDocs((prev) => prev.filter((d) => d.id !== docId));
@@ -249,9 +259,16 @@ export default function ExpertChatsTab() {
     if (!notifInput.trim() || !selectedChat) return;
     setNotifLoading(true);
     try {
+      const token = getAccessToken();
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
       const res = await fetch(`/api/cases/${selectedChat.caseId}/notifications/expert/send-to-admin`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({ payload: { message: notifInput.trim() } })
       });
       const data = await res.json();
@@ -415,7 +432,7 @@ export default function ExpertChatsTab() {
                   onClose={() => setSelectedChat(null)}
                 />
               </ErrorBoundary>
-            ) : (
+            ) : activeTab === "docs" ? (
               /* Case Documents Management View for Experts */
               <div className="bg-white rounded-2xl border border-gray-200/80 h-full flex flex-col p-6 space-y-6 overflow-y-auto shadow-xl">
                 <div className="flex items-center justify-between border-b border-gray-100 pb-4">
@@ -501,6 +518,75 @@ export default function ExpertChatsTab() {
                       </div>
                     ))
                   )}
+                </div>
+              </div>
+            ) : (
+              /* Case Notifications View for Experts */
+              <div className="bg-white rounded-2xl border border-gray-200/80 h-full flex flex-col p-6 space-y-6 overflow-y-auto shadow-xl">
+                <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+                  <div>
+                    <h2 className="text-base font-bold text-gray-900 flex items-center gap-2">
+                      <Bell size={20} className="text-[#c92c41]" />
+                      Case Notifications
+                    </h2>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      Client: <span className="font-bold text-gray-800">{selectedChat.clientName}</span> — Case #{selectedChat.caseId.slice(0, 8)}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Notifications List */}
+                <div className="flex-1 space-y-3 overflow-y-auto">
+                  {docsLoading ? (
+                    <div className="flex flex-col items-center justify-center h-48 text-gray-400">
+                      <Loader2 size={24} className="animate-spin text-[#c92c41] mb-2" />
+                      <span className="text-xs font-semibold">Loading notifications...</span>
+                    </div>
+                  ) : notifications.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-48 text-center p-6 bg-slate-50/50 rounded-2xl border border-dashed border-gray-200">
+                      <Bell size={32} className="text-gray-300 mb-2" />
+                      <p className="text-xs font-bold text-gray-700">No notifications found for this case</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {notifications.map((notif: any) => (
+                        <div key={notif.id} className="bg-gray-50 border border-gray-200 rounded-xl p-4">
+                          <h3 className="text-gray-900 font-bold text-sm">{notif.payload?.title || "No Title"}</h3>
+                          <p className="text-gray-700 text-sm mt-1">{notif.payload?.message}</p>
+                          <div className="text-gray-500 text-xs mt-3 flex justify-between">
+                            <span>Type: {notif.type}</span>
+                            <span>{new Date(notif.created_at).toLocaleString()}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Send Notification to Admin Form */}
+                <div className="border-t border-gray-100 pt-4">
+                  <h3 className="text-sm font-bold text-gray-900 mb-2 flex items-center gap-1.5">
+                    <Send size={15} className="text-blue-600" />
+                    Send Message to Admin
+                  </h3>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={notifInput}
+                      onChange={(e) => setNotifInput(e.target.value)}
+                      placeholder="Type a notification message to admin..."
+                      className="flex-1 bg-gray-50 border border-gray-300 rounded-xl px-4 py-2 text-xs text-gray-900 outline-none focus:border-[#c92c41]"
+                      disabled={notifLoading}
+                    />
+                    <button
+                      onClick={handleSendNotification}
+                      disabled={notifLoading || !notifInput.trim()}
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-xs font-bold rounded-xl transition shadow-xs flex items-center gap-1 cursor-pointer"
+                    >
+                      {notifLoading ? <Loader2 size={13} className="animate-spin" /> : <Send size={13} />}
+                      <span>Send</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             )

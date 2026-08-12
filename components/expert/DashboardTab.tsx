@@ -84,8 +84,6 @@ export default function DashboardTab() {
         <StatCard
           title="Total Earnings"
           value={`₹${dashboard?.totalEarnings ?? 0}`}
-          sub="+15% this month"
-          positive
           icon={IndianRupee}
         />
       </motion.div>

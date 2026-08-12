@@ -52,6 +52,7 @@ type UserDashboard = {
   activeServices: number;
   completedServices: number;
   pendingServiceDocuments: number;
+  recentNotifications?: any[];
 };
 
 /* -------------------------------------------------------------------------- */
@@ -66,6 +67,7 @@ const EMPTY_DASHBOARD: UserDashboard = {
   upcomingBookings: [],
   topExperts: [],
   totalServices: 0,
+  activeServices: 0,
   completedServices: 0,
   pendingServiceDocuments: 0,
   recentNotifications: [],
