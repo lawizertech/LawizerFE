@@ -8,9 +8,9 @@ export async function POST(req: Request) {
     const timestamp = Math.round(new Date().getTime() / 1000);
     const targetFolder = `lawizer/case_documents/${caseId}`;
 
-    const apiSecret = "TxlNdzzcfL0s8QzhUI2LaEhy38o";
-    const apiKey = "969715443973461";
-    const cloudName = "q1n6i5c4";
+    const apiSecret = process.env.CLOUDINARY_API_SECRET || "";
+    const apiKey = process.env.CLOUDINARY_API_KEY || "";
+    const cloudName = process.env.CLOUDINARY_CLOUD_NAME || "";
 
     const stringToSign = `folder=${targetFolder}&timestamp=${timestamp}`;
     const signature = crypto

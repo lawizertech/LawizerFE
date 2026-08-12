@@ -3,17 +3,22 @@
 import { useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { serverApi } from "@/lib/apis/axios";
-import { Calendar, Clock, User, ArrowLeft, MessageCircle, Phone, Video } from "lucide-react";
+import { Calendar, Clock, User, ArrowLeft, MessageCircle, Phone, Video, Loader2 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { useAuth } from "@/context/authContext";
+import { getAccessToken } from "@/lib/auth/tokenStore";
 import ConsultationChat from "../user/ConsulationChat";
 
 type Tab = "pending" | "confirmed" | "completed";
 
 export default function BookingsTab() {
+  const { user: authUser } = useAuth();
   const [consultations, setConsultations] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState<Tab>("pending");
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<any | null>(null);
   const [showChat, setShowChat] = useState(false);
+  const [joiningCall, setJoiningCall] = useState(false);
 
   useEffect(() => {
     const loadConsultations = async () => {
@@ -31,6 +36,73 @@ export default function BookingsTab() {
 
     loadConsultations();
   }, []);
+
+  const handleJoinCall = async () => {
+    if (!selected?.caseId) return;
+    try {
+      setJoiningCall(true);
+      const supabase = createClient();
+      
+      const { data, error } = await supabase
+        .from("chat_messages")
+        .select("text, created_at")
+        .eq("case_id", selected.caseId)
+        .eq("message_type", "meeting_link")
+        .is("deleted_at", null)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Failed to query existing meeting link:", error);
+      }
+
+      let meetingId = "";
+      if (data?.text) {
+        const createdTime = new Date(data.created_at);
+        const now = new Date();
+        const diffInHours = (now.getTime() - createdTime.getTime()) / (1000 * 60 * 60);
+        if (diffInHours < 2) {
+          meetingId = data.text;
+        }
+      }
+
+      if (!meetingId) {
+        const token = getAccessToken();
+        const res = await fetch("/api/meetings/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({
+            caseId: selected.caseId,
+            title: "Consultation Call",
+            type: "video",
+          }),
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => null);
+          throw new Error(errData?.error || "Failed to create meeting");
+        }
+
+        const resData = await res.json();
+        meetingId = resData.meetingId;
+      }
+
+      if (meetingId) {
+        window.open(`/meet/${meetingId}`, "_blank");
+      } else {
+        alert("Failed to join meeting: No meeting ID resolved");
+      }
+    } catch (err: any) {
+      console.error("Error joining call:", err);
+      alert(err.message || "Failed to join call");
+    } finally {
+      setJoiningCall(false);
+    }
+  };
 
   /* ========================= NORMALIZE ========================= */
   const normalized = useMemo(
@@ -108,14 +180,20 @@ export default function BookingsTab() {
           {/* ACTIONS */}
           {selected.status === "confirmed" && (
             <div className="flex gap-3">
-              {selected.callType !== "chat" && (
-                <button className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2">
-                  {selected.callType === "video" ? <Video size={16} /> : <Phone size={16} />}
-                  Join {selected.callType} Call
-                </button>
-              )}
+              <button
+                onClick={handleJoinCall}
+                disabled={joiningCall}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {joiningCall ? (
+                  <Loader2 className="animate-spin" size={16} />
+                ) : (
+                  <Video size={16} />
+                )}
+                Join Video Call
+              </button>
 
-              <button onClick={() => setShowChat(true)} className="border px-4 py-2 rounded-lg flex items-center gap-2">
+              <button onClick={() => setShowChat(true)} className="border px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-50 transition">
                 <MessageCircle size={16} />
                 Chat with Client
               </button>
@@ -125,7 +203,7 @@ export default function BookingsTab() {
 
         {/* CHAT */}
         {showChat && (
-          <ConsultationChat booking={selected} currentUserId={selected.expertUid} currentUserRole="EXPERT" />
+          <ConsultationChat booking={selected} currentUserId={authUser?.uid || ""} currentUserRole="EXPERT" />
         )}
       </div>
     );
