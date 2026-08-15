@@ -80,7 +80,7 @@ function FloatingCard({
 export function HeroSection() {
   return (
     <div className="hero-wrap bg-gray-50/30" id="home">
-      <div className="flex flex-col lg:flex-row max-w-7xl mx-auto w-full px-4 sm:px-6 md:px-12 gap-8 lg:gap-12 lg:items-start pt-8 pb-10">
+      <div className="flex flex-col lg:flex-row max-w-7xl mx-auto w-full px-4 sm:px-6 md:px-12 gap-8 lg:gap-12 lg:items-start pt-4 pb-2">
 
         {/* ── LEFT: Hero Copy + Service Category List ── */}
         <div className="w-full lg:w-[52%] lg:-ml-6 flex flex-col justify-center">
@@ -183,25 +183,37 @@ export function HeroSection() {
             className="relative z-10 flex items-center justify-center w-[220px] h-[220px]"
           >
             {/* Glowing accent background */}
-            <div className="absolute w-48 h-48 rounded-full bg-[radial-gradient(circle,rgba(201,44,65,0.12)_0%,transparent_70%)] blur-lg animate-pulse" />
+            <div className="absolute w-48 h-48 rounded-full bg-[radial-gradient(circle,rgba(220,38,38,0.22)_0%,transparent_70%)] blur-lg animate-pulse" />
 
 
             {/* Orbiting Ring Decoration */}
             <div className="absolute w-[240px] h-[240px] rounded-full border border-slate-200/30 pointer-events-none animate-[spin_50s_linear_infinite]" />
             <div className="absolute w-[280px] h-[280px] rounded-full border border-dashed border-slate-200/20 pointer-events-none animate-[spin_80s_linear_infinite_reverse]" />
 
-            {/* Central Branded 3D Logo Badge */}
+            {/* Central Branded 3D Logo Badge with pulsing red glow */}
+            <style>{`
+              @keyframes hero-logo-crazy-glow {
+                0%, 100% {
+                  box-shadow: 0 0 16px rgba(220, 38, 38, 0.4), 0 12px 36px rgba(0, 0, 0, 0.05);
+                  border-color: rgba(220, 38, 38, 0.3);
+                }
+                50% {
+                  box-shadow: 0 0 36px rgba(220, 38, 38, 0.95), 0 12px 36px rgba(220, 38, 38, 0.25);
+                  border-color: rgba(220, 38, 38, 0.85);
+                }
+              }
+            `}</style>
             <motion.div
-              className="absolute w-24 h-24 bg-white rounded-2xl shadow-[0_12px_36px_rgba(0,0,0,0.06)] border border-slate-100/80 flex items-center justify-center p-4 cursor-pointer z-20"
+              className="absolute w-24 h-24 bg-white rounded-2xl border flex items-center justify-center p-4 cursor-pointer z-20"
               whileHover={{ 
                 scale: 1.1,
                 rotateY: 15,
-                rotateX: -15,
-                boxShadow: "0 25px 50px rgba(0, 0, 0, 0.08)"
+                rotateX: -15
               }}
               style={{
                 transformStyle: "preserve-3d",
-                perspective: 1000
+                perspective: 1000,
+                animation: "hero-logo-crazy-glow 3s infinite ease-in-out"
               }}
               transition={{ type: "spring", stiffness: 350, damping: 18 }}
             >
@@ -281,37 +293,22 @@ export function HeroSection() {
       </div>
 
       {/* ── FULL-WIDTH TRUST PILLARS ── */}
-      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 md:px-12 pb-4">
-        <div className="bg-white rounded-xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] py-5 px-6 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-0 md:divide-x divide-gray-100">
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="bg-white rounded-xl py-1 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] px-1 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-1 md:divide-x divide-gray-100">
            {/* Item 1 */}
-           <div className="flex items-center gap-4 px-6 flex-1 justify-center md:justify-start w-full">
-             <div className="w-12 h-12 rounded-xl bg-blue-50/80 flex items-center justify-center text-blue-600 shrink-0 shadow-[0_4px_12px_rgba(59,130,246,0.1)]">
-               <Headphones size={22} strokeWidth={2.2} />
-             </div>
-             <div>
-               <h4 className="font-extrabold text-slate-800 text-[14px] leading-tight">24/7 Support</h4>
-               <p className="text-slate-400 text-[11px] mt-0.5 font-semibold">100% Online & Secure</p>
-             </div>
+           <div className="flex flex-col px-8  py-4 justify-center items-center text-center group cursor-default transition-all duration-300 hover:bg-cyan-100/30 rounded-xl">
+             <h4 className="font-extrabold text-slate-800 text-[14px] leading-tight transition-colors group-hover:text-black">24/7 Support</h4>
+             <p className="text-slate-400 text-[11px] mt-1 font-semibold transition-colors group-hover:text-slate-500">100% Online & Secure</p>
            </div>
            {/* Item 2 */}
-           <div className="flex items-center gap-4 px-6 flex-1 justify-center md:justify-start w-full">
-             <div className="w-12 h-12 rounded-xl bg-emerald-50/80 flex items-center justify-center text-emerald-600 shrink-0 shadow-[0_4px_12px_rgba(16,185,129,0.1)]">
-               <ShieldCheck size={22} strokeWidth={2.2} />
-             </div>
-             <div>
-               <h4 className="font-extrabold text-slate-800 text-[14px] leading-tight">Transparent Process</h4>
-               <p className="text-slate-400 text-[11px] mt-0.5 font-semibold">100% Online & Secure</p>
-             </div>
+           <div className="flex flex-col px-8 py-4  justify-center items-center text-center group cursor-default transition-all duration-300 hover:bg-emerald-100/30 rounded-xl">
+             <h4 className="font-extrabold text-slate-800 text-[14px] leading-tight transition-colors group-hover:text-black">Transparent Process</h4>
+             <p className="text-slate-400 text-[11px] mt-1 font-semibold transition-colors group-hover:text-slate-500">100% Online & Secure</p>
            </div>
            {/* Item 3 */}
-           <div className="flex items-center gap-4 px-6 flex-1 justify-center md:justify-start w-full">
-             <div className="w-12 h-12 rounded-xl bg-purple-50/80 flex items-center justify-center text-purple-600 shrink-0 shadow-[0_4px_12px_rgba(139,92,246,0.1)]">
-               <Clock size={22} strokeWidth={2.2} />
-             </div>
-             <div>
-               <h4 className="font-extrabold text-slate-800 text-[14px] leading-tight">Timely Compliance</h4>
-               <p className="text-slate-400 text-[11px] mt-0.5 font-semibold">On-time Filing & Support</p>
-             </div>
+           <div className="flex flex-col px-8 py-4  justify-center items-center text-center group cursor-default transition-all duration-300 hover:bg-purple-100/30 rounded-xl">
+             <h4 className="font-extrabold text-slate-800 text-[14px] leading-tight transition-colors group-hover:text-black">Timely Compliance</h4>
+             <p className="text-slate-400 text-[11px] mt-1 font-semibold transition-colors group-hover:text-slate-500">On-time Filing & Support</p>
            </div>
         </div>
       </div>

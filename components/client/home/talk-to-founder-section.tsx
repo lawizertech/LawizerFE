@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export function TalkToFounderSection() {
   return (
-    <section className="py-12 sm:py-16 bg-gradient-to-b from-gray-50 to-white overflow-hidden relative">
+    <section className="py-6 sm:py-8 bg-gradient-to-b from-gray-50 to-white overflow-hidden relative">
       <div className="container mx-auto px-4 max-w-5xl relative z-10">
         <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12 bg-white rounded-3xl p-8 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100">
           

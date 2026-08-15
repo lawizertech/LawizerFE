@@ -39,7 +39,7 @@ export function TrustSection() {
   const logos = [...companies, ...companies, ...companies]; // Tripled for extra smooth continuous loop
 
   return (
-    <section className="bg-white py-8 sm:py-10 lg:py-12 overflow-hidden">
+    <section className="bg-white py-4 sm:py-6 lg:py-8 overflow-hidden">
       <div className="max-w-[1180px] mx-auto px-4 sm:px-6">
         
         {/* Header Label */}

@@ -75,7 +75,7 @@ const comments = [
 
 export function CommentsSection() {
   return (
-    <section className="bg-gray-50/80 py-6 md:py-8 overflow-hidden border-b border-gray-100">
+    <section className="bg-gray-50/80 py-3 md:py-4 overflow-hidden border-b border-gray-100">
       <div className="w-full">
         <motion.div
           initial={{ opacity: 0 }}

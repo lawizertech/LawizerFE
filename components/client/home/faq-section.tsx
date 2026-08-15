@@ -163,7 +163,7 @@ export function FAQSection() {
   ];
 
   return (
-    <section className="py-12 md:py-16 bg-[#0A0F1A] text-white overflow-hidden px-5 md:px-12 relative">
+    <section className="py-6 md:py-8 bg-[#0A0F1A] text-white overflow-hidden px-5 md:px-12 relative">
       {/* Decorative background glow */}
       <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[var(--brand)] opacity-20 blur-[150px] rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-500 opacity-10 blur-[150px] rounded-full translate-x-1/4 translate-y-1/4 pointer-events-none" />

@@ -13,7 +13,7 @@ import { LandingBackground } from "@/components/client/home/landing-background";
 
 export default function Home() {
   return (
-    <main className="min-h-screen h-auto pt-2 pb-8 lg:pb-24 bg-slate-50 relative overflow-hidden">
+    <main className="min-h-screen h-auto pt-2 pb-8 lg:pb-12 bg-slate-50 relative overflow-hidden">
       <LandingBackground />
 
       <div className="relative z-10">

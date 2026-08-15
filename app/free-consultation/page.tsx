@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle, ShieldCheck, Phone, MessageSquare, User, X, CreditCard } from "lucide-react";
 import { useRazorpay } from "@/hooks/useRazorpay";
+import { useAuth } from "@/context/authContext";
 
 export default function FreeConsultationPage() {
   const [name, setName] = useState("");
@@ -13,7 +14,15 @@ export default function FreeConsultationPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
+  const { isLoggedIn, setIsSignInModalOpen, user, loading: authLoading } = useAuth();
   const { isLoaded: razorpayReady, initializePayment } = useRazorpay();
+
+  React.useEffect(() => {
+    if (isLoggedIn && user) {
+      if (user.name && !name) setName(user.name);
+      if (user.phone && !phone) setPhone(user.phone);
+    }
+  }, [isLoggedIn, user, name, phone]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -131,81 +140,104 @@ export default function FreeConsultationPage() {
             transition={{ duration: 0.5, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
             className="bg-white/85 backdrop-blur-md border-[1.5px] border-[#e4e8f0]/70 rounded-[var(--radius-xl)] p-6 sm:px-8 sm:py-9 shadow-[var(--shadow-lg)] w-full"
           >
-            <form onSubmit={handleSubmit}>
-              {/* Name */}
-              <div className="mb-5">
-                <label
-                  htmlFor="fc-name"
-                  className="flex items-center gap-1.5 text-[13px] font-semibold text-[var(--text-primary)] mb-2"
-                >
-                  <User size={13} />
-                  Full Name
-                </label>
-                <input
-                  id="fc-name"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Enter your name"
-                  required
-                  className="w-full px-4 py-3 border-[1.5px] border-[var(--border)] rounded-[var(--radius-md)] text-sm font-[family-name:var(--)] text-[var(--text-primary)] bg-[var(--bg-soft)] outline-none transition-colors duration-200 focus:border-[var(--brand)]"
-                />
+            {authLoading ? (
+              <div className="flex flex-col items-center justify-center py-12 gap-3">
+                <div className="w-8 h-8 rounded-full border-2 border-slate-200 border-t-[var(--brand)] animate-spin" />
+                <span className="text-xs text-[var(--text-secondary)] font-medium">Checking session...</span>
               </div>
-
-              {/* Phone */}
-              <div className="mb-5">
-                <label
-                  htmlFor="fc-phone"
-                  className="flex items-center gap-1.5 text-[13px] font-semibold text-[var(--text-primary)] mb-2"
-                >
-                  <Phone size={13} />
-                  Phone Number
-                </label>
-                <input
-                  id="fc-phone"
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="Enter your phone number"
-                  required
-                  className="w-full px-4 py-3 border-[1.5px] border-[var(--border)] rounded-[var(--radius-md)] text-sm font-[family-name:var(--)] text-[var(--text-primary)] bg-[var(--bg-soft)] outline-none transition-colors duration-200 focus:border-[var(--brand)]"
-                />
-              </div>
-
-              {/* Reason */}
-              <div className="mb-7">
-                <label
-                  htmlFor="fc-reason"
-                  className="flex items-center gap-1.5 text-[13px] font-semibold text-[var(--text-primary)] mb-2"
-                >
-                  <MessageSquare size={13} />
-                  Reason for Consultation
-                </label>
-                <textarea
-                  id="fc-reason"
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                  placeholder="Briefly describe your legal concern or startup details..."
-                  required
-                  rows={4}
-                  className="w-full px-4 py-3 border-[1.5px] border-[var(--border)] rounded-[var(--radius-md)] text-sm font-[family-name:var(--)] text-[var(--text-primary)] bg-[var(--bg-soft)] outline-none resize-y min-h-[110px] transition-colors duration-200 leading-relaxed focus:border-[var(--brand)]"
-                />
-              </div>
-
-              {/* Error */}
-              {error && <p className="text-[var(--brand)] text-[13px] mb-4 font-medium">⚠ {error}</p>}
-
-              {/* Submit */}
-              <div className="flex justify-center mt-2">
+            ) : !isLoggedIn ? (
+              <div className="text-center py-6">
+                <div className="w-16 h-16 rounded-full bg-[var(--brand-light)] border border-[rgba(202,45,66,0.15)] flex items-center justify-center mx-auto mb-5 shadow-sm text-[var(--brand)]">
+                  <ShieldCheck size={28} />
+                </div>
+                <h3 className="text-base font-bold text-[var(--text-primary)] mb-2">Sign In Required</h3>
+                <p className="text-xs text-[var(--text-secondary)] mb-6 max-w-[280px] mx-auto leading-relaxed font-medium">
+                  Please log in or register to book your premium founder consultation.
+                </p>
                 <button
-                  type="submit"
-                  disabled={loading || !razorpayReady}
-                  className={`btn-hero px-10 min-w-[220px] justify-center text-base py-3.5 border-none ${loading || !razorpayReady ? "opacity-70 cursor-not-allowed" : "cursor-pointer"}`}
+                  onClick={() => setIsSignInModalOpen(true)}
+                  className="px-6 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-xs font-bold rounded-lg shadow-sm hover:shadow transition-all duration-200"
                 >
-                  {loading ? "Processing..." : "Pay & Book Consultation (₹4,999)"}
+                  Sign In / Register
                 </button>
               </div>
-            </form>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                {/* Name */}
+                <div className="mb-5">
+                  <label
+                    htmlFor="fc-name"
+                    className="flex items-center gap-1.5 text-[13px] font-semibold text-[var(--text-primary)] mb-2"
+                  >
+                    <User size={13} />
+                    Full Name
+                  </label>
+                  <input
+                    id="fc-name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Enter your name"
+                    required
+                    className="w-full px-4 py-3 border-[1.5px] border-[var(--border)] rounded-[var(--radius-md)] text-sm font-[family-name:var(--)] text-[var(--text-primary)] bg-[var(--bg-soft)] outline-none transition-colors duration-200 focus:border-[var(--brand)]"
+                  />
+                </div>
+
+                {/* Phone */}
+                <div className="mb-5">
+                  <label
+                    htmlFor="fc-phone"
+                    className="flex items-center gap-1.5 text-[13px] font-semibold text-[var(--text-primary)] mb-2"
+                  >
+                    <Phone size={13} />
+                    Phone Number
+                  </label>
+                  <input
+                    id="fc-phone"
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Enter your phone number"
+                    required
+                    className="w-full px-4 py-3 border-[1.5px] border-[var(--border)] rounded-[var(--radius-md)] text-sm font-[family-name:var(--)] text-[var(--text-primary)] bg-[var(--bg-soft)] outline-none transition-colors duration-200 focus:border-[var(--brand)]"
+                  />
+                </div>
+
+                {/* Reason */}
+                <div className="mb-7">
+                  <label
+                    htmlFor="fc-reason"
+                    className="flex items-center gap-1.5 text-[13px] font-semibold text-[var(--text-primary)] mb-2"
+                  >
+                    <MessageSquare size={13} />
+                    Reason for Consultation
+                  </label>
+                  <textarea
+                    id="fc-reason"
+                    value={reason}
+                    onChange={(e) => setReason(e.target.value)}
+                    placeholder="Briefly describe your legal concern or startup details..."
+                    required
+                    rows={4}
+                    className="w-full px-4 py-3 border-[1.5px] border-[var(--border)] rounded-[var(--radius-md)] text-sm font-[family-name:var(--)] text-[var(--text-primary)] bg-[var(--bg-soft)] outline-none resize-y min-h-[110px] transition-colors duration-200 leading-relaxed focus:border-[var(--brand)]"
+                  />
+                </div>
+
+                {/* Error */}
+                {error && <p className="text-[var(--brand)] text-[13px] mb-4 font-medium">⚠ {error}</p>}
+
+                {/* Submit */}
+                <div className="flex justify-center mt-2">
+                  <button
+                    type="submit"
+                    disabled={loading || !razorpayReady}
+                    className={`btn-hero px-10 min-w-[220px] justify-center text-base py-3.5 border-none ${loading || !razorpayReady ? "opacity-70 cursor-not-allowed" : "cursor-pointer"}`}
+                  >
+                    {loading ? "Processing..." : "Pay & Book Consultation (₹4,999)"}
+                  </button>
+                </div>
+              </form>
+            )}
           </motion.div>
 
           {/* Trust row */}

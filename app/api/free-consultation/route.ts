@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { sendEmail } from "@/lib/email/mailer";
+import { createAdminClient } from "@/lib/supabase/server";
 import crypto from "crypto";
 
 export async function POST(req: Request) {
@@ -80,6 +81,82 @@ export async function POST(req: Request) {
 
       if (expectedSignature !== razorpay_signature) {
         return NextResponse.json({ success: false, message: "Payment verification failed. Invalid signature." }, { status: 400 });
+      }
+
+      // Store in Supabase database using service role (bypass RLS)
+      try {
+        const admin = createAdminClient();
+
+        // 1. Check if profile with phone already exists, or create a guest profile
+        let clientId: string;
+        const { data: existingProfile } = await admin
+          .from("profiles")
+          .select("id")
+          .eq("phone", phone)
+          .maybeSingle();
+
+        if (existingProfile) {
+          clientId = existingProfile.id;
+        } else {
+          clientId = crypto.randomUUID();
+          const { error: profileError } = await admin.from("profiles").insert({
+            id: clientId,
+            role: "client",
+            name: name,
+            phone: phone,
+            email: `${phone}@guest.lawizer.com`,
+            has_password: false,
+          });
+          if (profileError) {
+            console.error("Failed to create guest profile:", profileError);
+          }
+        }
+
+        // 2. Create the case for the founder consultation
+        const { data: newCase, error: caseError } = await admin
+          .from("cases")
+          .insert({
+            client_id: clientId,
+            case_type: "FOUNDER_CONSULTATION",
+            status: "created",
+            stages: [
+              {
+                id: "stage-1",
+                key: "paid_money",
+                title: "Payment Completed",
+                description: "Fee of ₹4,999 paid successfully",
+                status: "completed",
+              },
+              {
+                id: "stage-2",
+                key: "lawyer_assigned",
+                title: "Founder Consultation",
+                description: "Consultation call with the founder",
+                status: "pending",
+              }
+            ]
+          })
+          .select("id")
+          .single();
+
+        if (caseError || !newCase) {
+          console.error("Failed to insert case into DB:", caseError);
+        } else {
+          // 3. Create the payment record linked to the case
+          const { error: paymentError } = await admin.from("payments").insert({
+            case_id: newCase.id,
+            razorpay_order_id: razorpay_order_id,
+            razorpay_payment_id: razorpay_payment_id,
+            status: "captured",
+            amount: 4999.00,
+            verified_at: new Date().toISOString(),
+          });
+          if (paymentError) {
+            console.error("Failed to insert payment into DB:", paymentError);
+          }
+        }
+      } catch (dbErr) {
+        console.error("Database storage error during consultation booking:", dbErr);
       }
 
       // Send email notification upon verified payment
