@@ -353,7 +353,7 @@ export default function ITRPlans() {
             Expert-Assisted ITR Filing
           </div> */}
 
-          <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-1 sm:mb-3 leading-tight text-brand-navy">
+          <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-1 sm:mb-3 leading-tight text-brand-navy mt-10">
             Transparent Pricing.
             <br />
             <span className="text-brand-red">Expert-Assisted</span> ITR Filing.
