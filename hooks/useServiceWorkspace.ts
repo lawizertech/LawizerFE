@@ -11,6 +11,7 @@ import {
 } from "@/lib/types/serviceWorkspace";
 import { useAuth } from "@/context/authContext";
 import { useToast } from "@/hooks/use-toast";
+import { getAccessToken } from "@/lib/auth/tokenStore";
 
 export function useServiceWorkspace() {
   const [services, setServices] = useState<ServiceWorkspaceItem[]>([]);
@@ -232,7 +233,15 @@ export function useServiceWorkspace() {
   const deleteDocument = async (documentId: string) => {
     if (!selectedServiceId) return;
     try {
-      const res = await fetch(`/api/documents/${documentId}`, { method: "DELETE" });
+      const token = getAccessToken();
+      const headers: Record<string, string> = {};
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+      const res = await fetch(`/api/documents/${documentId}`, {
+        method: "DELETE",
+        headers,
+      });
       const data = await res.json().catch(() => null);
       if (res.ok && data?.success) {
         toast({

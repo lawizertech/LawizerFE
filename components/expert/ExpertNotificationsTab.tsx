@@ -8,10 +8,38 @@ export function ExpertNotificationsTab() {
   const [notifications, setNotifications] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [cases, setCases] = useState<any[]>([]);
+  const [casesLoading, setCasesLoading] = useState(true);
   const [caseId, setCaseId] = useState("");
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
+
+  useEffect(() => {
+    const fetchCases = async () => {
+      try {
+        setCasesLoading(true);
+        const token = getAccessToken();
+        const headers: Record<string, string> = {};
+        if (token) {
+          headers["Authorization"] = `Bearer ${token}`;
+        }
+        const res = await fetch("/api/expert/dashboard", { headers });
+        const data = await res.json();
+        if (data.success && data.dashboard?.cases) {
+          setCases(data.dashboard.cases);
+        } else {
+          setCases([]);
+        }
+      } catch (err) {
+        console.error("Failed to fetch cases for notifications:", err);
+      } finally {
+        setCasesLoading(false);
+      }
+    };
+
+    fetchCases();
+  }, []);
 
   const fetchNotifications = async () => {
     if (!caseId) return;
@@ -84,14 +112,29 @@ export function ExpertNotificationsTab() {
   return (
     <div className="p-6 space-y-8">
       <div className="bg-white rounded-2xl shadow-sm border border-[#ebebeb] p-6 mb-6">
-        <label className="block text-sm font-bold text-gray-900 mb-2">Select Case ID to view and send notifications</label>
-        <input
-          type="text"
-          value={caseId}
-          onChange={(e) => setCaseId(e.target.value)}
-          className="w-full max-w-md bg-gray-50 border border-gray-300 rounded-xl px-4 py-2 text-gray-900 outline-none focus:border-[#c92c41]"
-          placeholder="Enter Case ID..."
-        />
+        <label className="block text-sm font-bold text-gray-900 mb-2">Select Case to view and send notifications</label>
+        {casesLoading ? (
+          <div className="text-gray-500 text-sm">Loading assigned cases...</div>
+        ) : cases.length === 0 ? (
+          <div className="text-gray-500 text-sm italic">No assigned cases found.</div>
+        ) : (
+          <select
+            value={caseId}
+            onChange={(e) => setCaseId(e.target.value)}
+            className="w-full max-w-md bg-gray-50 border border-gray-300 rounded-xl px-4 py-2.5 text-gray-900 outline-none focus:border-[#c92c41] transition-colors"
+          >
+            <option value="">Select a case</option>
+            {cases.map((c) => {
+              const cid = c.caseId || c.id;
+              const formattedId = cid ? cid.substring(0, 8).toUpperCase() : "";
+              return (
+                <option key={cid} value={cid}>
+                  {c.caseType || c.title || "Consultation"} — #{formattedId}
+                </option>
+              );
+            })}
+          </select>
+        )}
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border border-[#ebebeb] p-6">
@@ -101,7 +144,7 @@ export function ExpertNotificationsTab() {
         </h2>
         
         {!caseId ? (
-          <div className="text-gray-500 text-sm italic">Please enter a Case ID to view notifications.</div>
+          <div className="text-gray-500 text-sm italic">Please select a case to view notifications.</div>
         ) : loading ? (
           <div className="text-gray-500 text-sm">Loading notifications...</div>
         ) : notifications.length === 0 ? (
@@ -154,7 +197,7 @@ export function ExpertNotificationsTab() {
           
           <button
             type="submit"
-            disabled={sending}
+            disabled={sending || !caseId}
             className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold disabled:opacity-50 transition"
           >
             {sending ? "Sending..." : "Send to Admin"}

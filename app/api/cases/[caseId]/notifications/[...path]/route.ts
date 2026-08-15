@@ -29,7 +29,13 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ case
 
     const targetUrl = `${BACKEND_URL}/notifications/case/${caseId}/${pathStr}${queryString}`;
     console.log(`[PROXY GET] Fetching targetUrl: ${targetUrl}`);
-    console.log(`[PROXY GET] Headers sent:`, JSON.stringify(headers));
+    
+    // Redact Authorization header for safe logging
+    const safeHeaders = { ...headers };
+    if (safeHeaders["Authorization"]) {
+      safeHeaders["Authorization"] = "[REDACTED]";
+    }
+    console.log(`[PROXY GET] Headers sent:`, JSON.stringify(safeHeaders));
     
     const res = await fetch(targetUrl, {
       method: "GET",

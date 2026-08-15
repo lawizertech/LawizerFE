@@ -161,7 +161,7 @@ export default function MeetingPage({ params }: { params: Promise<{ meetingId: s
              // pass object to startRecording (often { recording_audio_only: true } or { recording_type: "audio_only" })
              // In Stream SDK, audio_only can be passed as a string or in the request body.
              // We'll pass it as { recording_type: 'audio_only' } as it matches StartRecordingRequest
-             await _call.startRecording({ recording_type: "audio_only" });
+             await (_call as any).startRecording({ recording_type: "audio_only" });
           } else {
              await _call.startRecording();
           }

@@ -6,10 +6,8 @@ import { useEffect, useState } from "react";
 interface AdvocateProfile {
   name: string;
   role: string;
-  location: string;
   email?: string;
-  experience?: string;
-  gender?: string;
+  phone?: string;
 }
 
 export default function ProfileTab() {
@@ -52,26 +50,16 @@ export default function ProfileTab() {
           <h2 className="text-sm font-semibold text-gray-400">Profession</h2>
           <p className="text-gray-700">{profile.role}</p>
         </div>
-        <div>
-          <h2 className="text-sm font-semibold text-gray-400">Location</h2>
-          <p className="text-gray-700">{profile.location}</p>
-        </div>
         {profile.email && (
           <div>
             <h2 className="text-sm font-semibold text-gray-400">Email</h2>
             <p className="text-gray-700">{profile.email}</p>
           </div>
         )}
-        {profile.experience && (
+        {profile.phone && (
           <div>
-            <h2 className="text-sm font-semibold text-gray-400">Experience</h2>
-            <p className="text-gray-700">{profile.experience}</p>
-          </div>
-        )}
-        {profile.gender && (
-          <div>
-            <h2 className="text-sm font-semibold text-gray-400">Gender</h2>
-            <p className="text-gray-700">{profile.gender.charAt(0).toUpperCase() + profile.gender.slice(1)}</p>
+            <h2 className="text-sm font-semibold text-gray-400">Phone</h2>
+            <p className="text-gray-700">{profile.phone}</p>
           </div>
         )}
       </div>
