@@ -112,7 +112,7 @@ function HeroWithAddons() {
 
           <div className="w-full border border-white/20 rounded-2xl overflow-hidden backdrop-blur-sm">
             <div className="bg-white/10 py-2.5 px-4 border-b border-white/20">
-              <p className="text-white font-semibold text-sm sm:text-base">Also Get Absolutely Free</p>
+              <p className="text-white font-semibold text-sm sm:text-base">What You Will Get</p>
             </div>
             <div className="bg-white/5 py-8 px-4 sm:px-8">
               <div className="flex flex-wrap justify-center gap-6 items-start">

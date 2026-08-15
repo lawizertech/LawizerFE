@@ -1,6 +1,5 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const GOOGLE_ICON = (
@@ -144,32 +143,6 @@ function TestiCard({ t, colorClass }: { t: (typeof testimonials)[0]; colorClass:
 }
 
 export function TestimonialsSection() {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
-  const posRef = useRef(0);
-  const rafRef = useRef<number>(0);
-
-  // Infinite marquee animation
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    const speed = 0.5; // px per frame
-
-    const animate = () => {
-      if (!isPaused && track) {
-        posRef.current += speed;
-        const half = track.scrollWidth / 2;
-        if (posRef.current >= half) posRef.current = 0;
-        track.style.transform = `translateX(-${posRef.current}px)`;
-      }
-      rafRef.current = requestAnimationFrame(animate);
-    };
-
-    rafRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [isPaused]);
-
   // Duplicate cards for seamless loop
   const doubled = [...testimonials, ...testimonials];
 
@@ -214,7 +187,7 @@ export function TestimonialsSection() {
                 ))}
               </div>
               <div className="flex items-baseline gap-1.5">
-                <span className="font-[family-name:var(--)] text-[20px] font-black text-gray-900 leading-none">4.5</span>
+                <span className="font-[family-name:var(--)] text-[20px] font-black text-gray-900 leading-none">4.7</span>
                 <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest">/ 5</span>
               </div>
             </div>
@@ -223,18 +196,12 @@ export function TestimonialsSection() {
       </div>
 
       {/* Marquee strip — full bleed */}
-      <div
-        className="relative overflow-hidden cursor-grab"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-        onTouchStart={() => setIsPaused(true)}
-        onTouchEnd={() => setIsPaused(false)}
-      >
+      <div className="relative overflow-hidden">
         {/* Fade edges */}
-        <div className="absolute left-0 top-0 bottom-0 w-[80px] bg-gradient-to-r from-[var(--bg)] to-transparent z-[2] pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-[80px] bg-gradient-to-l from-[var(--bg)] to-transparent z-[2] pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-[120px] bg-gradient-to-r from-[var(--bg)] to-transparent z-[2] pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-[120px] bg-gradient-to-l from-[var(--bg)] to-transparent z-[2] pointer-events-none" />
 
-        <div ref={trackRef} className="flex gap-4 px-6 will-change-transform">
+        <div className="animate-marquee-slow flex gap-4 px-6 will-change-transform">
           {doubled.map((t, i) => (
             <TestiCard key={i} t={t} colorClass={AVATAR_COLORS[i % AVATAR_COLORS.length]} />
           ))}

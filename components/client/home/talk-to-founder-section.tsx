@@ -15,7 +15,7 @@ export function TalkToFounderSection() {
             <div className="absolute inset-0 bg-brand-red blur-2xl opacity-20 rounded-full"></div>
             <div className="w-32 h-32 sm:w-40 sm:h-40 relative rounded-full overflow-hidden border-4 border-white shadow-xl">
               <img 
-                src="https://ui-avatars.com/api/?name=Founder&background=c92c41&color=fff&size=200" 
+                src="/founder.jpeg" 
                 alt="Founder" 
                 className="w-full h-full object-cover"
               />
@@ -59,7 +59,7 @@ export function TalkToFounderSection() {
                 className="flex items-center gap-2 bg-brand-red hover:bg-red-700 text-white px-6 py-3 rounded-xl font-bold transition-all shadow-md hover:shadow-lg w-full sm:w-auto justify-center"
               >
                 <Calendar size={18} />
-                Book Free Consultation
+                Book Consultation (₹4,999)
               </Link>
             </motion.div>
           </div>

@@ -936,3 +936,25 @@ body {
     width: var(--progress, 0%);
   }
 }
+
+/* Seamless infinite marquee animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-slow {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.animate-marquee-slow:hover {
+  animation-play-state: paused;
+}

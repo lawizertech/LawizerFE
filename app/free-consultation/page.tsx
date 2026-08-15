@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle, ShieldCheck, Phone, MessageSquare, User, X } from "lucide-react";
+import { CheckCircle, ShieldCheck, Phone, MessageSquare, User, X, CreditCard } from "lucide-react";
+import { useRazorpay } from "@/hooks/useRazorpay";
 
 export default function FreeConsultationPage() {
   const [name, setName] = useState("");
@@ -12,34 +13,89 @@ export default function FreeConsultationPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
+  const { isLoaded: razorpayReady, initializePayment } = useRazorpay();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
+      // 1. Create order securely on Next.js backend (cannot be spoofed from frontend)
       const res = await fetch("/api/free-consultation", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, phone, reason }),
+        body: JSON.stringify({ action: "create-order", name, phone, reason }),
       });
-      const data = await res.json();
-      if (data.success) {
-        setSuccess(true);
-      } else {
-        setError(data.message || "Something went wrong. Please try again.");
+      const orderData = await res.json();
+      
+      if (!orderData.success) {
+        throw new Error(orderData.message || "Failed to initialize booking order.");
       }
-    } catch {
-      setError("Network error. Please try again.");
-    } finally {
+
+      // 2. Open Razorpay Checkout modal
+      const options = {
+        key: orderData.keyId,
+        amount: orderData.amount,
+        currency: "INR",
+        name: "Lawizer",
+        description: "Founder Consultation Booking",
+        order_id: orderData.orderId,
+        prefill: {
+          name: name,
+          contact: phone,
+        },
+        theme: {
+          color: "#ca2d42",
+        },
+        handler: async (response: any) => {
+          setLoading(true);
+          try {
+            // 3. Verify payment signature on the secure Next.js backend (cannot be hacked from frontend)
+            const verifyRes = await fetch("/api/free-consultation", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                action: "verify-payment",
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+                name,
+                phone,
+                reason,
+              }),
+            });
+            const verifyData = await verifyRes.json();
+            if (verifyData.success) {
+              setSuccess(true);
+            } else {
+              setError(verifyData.message || "Payment verification failed. Contact support.");
+            }
+          } catch {
+            setError("Connection error during verification. Please do not refresh.");
+          } finally {
+            setLoading(false);
+          }
+        },
+        modal: {
+          ondismiss: () => {
+            setLoading(false);
+          }
+        }
+      };
+
+      const rzp = new (window as any).Razorpay(options);
+      rzp.open();
+    } catch (err: any) {
+      setError(err.message || "Network error. Please try again.");
       setLoading(false);
     }
   };
 
   const trustPoints = [
     { icon: ShieldCheck, label: "100% Confidential" },
-    { icon: Phone, label: "We Call You Back" },
-    { icon: MessageSquare, label: "No Commitment" },
+    { icon: Phone, label: "Verified Callback" },
+    { icon: CreditCard, label: "Secure Payment" },
   ];
 
   return (
@@ -57,14 +113,14 @@ export default function FreeConsultationPage() {
             {/* Brand badge */}
             <div className="inline-flex items-center gap-2 bg-[var(--brand-light)] border-[1.5px] border-[rgba(202,45,66,0.2)] text-[var(--brand)] px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase mb-5">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand)] inline-block animate-[pulse-premium_3s_cubic-bezier(0.4,0,0.6,1)_infinite]" />
-              Free · No Commitment
+              ₹4,999 · Direct to Founder
             </div>
 
             <h1 className="font-[family-name:var(--)] text-[clamp(28px,5vw,40px)] font-extrabold text-[var(--text-primary)] leading-tight tracking-tight mb-3">
-              Book a Free <span className="text-[var(--brand)]">Consultation</span>
+              Book a <span className="text-[var-[--brand]]">Consultation</span>
             </h1>
             <p className="text-[15px] text-[var(--text-secondary)] leading-relaxed max-w-[380px] mx-auto font-medium">
-              Tell us your concern and our legal experts will get back to you promptly.
+              Discuss your startup vision and clear legal queries directly with the founder.
             </p>
           </motion.div>
 
@@ -129,7 +185,7 @@ export default function FreeConsultationPage() {
                   id="fc-reason"
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
-                  placeholder="Briefly describe your legal concern (e.g. company registration, property dispute, GST issue...)"
+                  placeholder="Briefly describe your legal concern or startup details..."
                   required
                   rows={4}
                   className="w-full px-4 py-3 border-[1.5px] border-[var(--border)] rounded-[var(--radius-md)] text-sm font-[family-name:var(--)] text-[var(--text-primary)] bg-[var(--bg-soft)] outline-none resize-y min-h-[110px] transition-colors duration-200 leading-relaxed focus:border-[var(--brand)]"
@@ -143,10 +199,10 @@ export default function FreeConsultationPage() {
               <div className="flex justify-center mt-2">
                 <button
                   type="submit"
-                  disabled={loading}
-                  className={`btn-hero px-10 min-w-[220px] justify-center text-base py-3.5 border-none ${loading ? "opacity-70 cursor-not-allowed" : "cursor-pointer"}`}
+                  disabled={loading || !razorpayReady}
+                  className={`btn-hero px-10 min-w-[220px] justify-center text-base py-3.5 border-none ${loading || !razorpayReady ? "opacity-70 cursor-not-allowed" : "cursor-pointer"}`}
                 >
-                  {loading ? "Submitting..." : "Book Consultation"}
+                  {loading ? "Processing..." : "Pay & Book Consultation (₹4,999)"}
                 </button>
               </div>
             </form>
@@ -212,10 +268,10 @@ export default function FreeConsultationPage() {
               </motion.div>
 
               <h2 className="font-[family-name:var(--)] text-[22px] font-extrabold text-[var(--text-primary)] mb-3 leading-tight">
-                Request Received! 🎉
+                Booking Confirmed! 🎉
               </h2>
               <p className="text-[15px] text-[var(--text-secondary)] leading-relaxed mb-7 font-medium">
-                Your request has been received. Our team will get back to you soon.
+                Your request and payment of ₹4,999 have been verified successfully. Our team will get back to you soon.
               </p>
 
               <button

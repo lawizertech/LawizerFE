@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { Building2, ShieldCheck, TrendingUp, ArrowRight, HelpCircle, Rocket } from "lucide-react";
 
 // ─── types ───────────────────────────────────────────────────────────────────
 type Svc = { name: string; price: string; was: string; badge?: string; url: string };
@@ -99,128 +100,77 @@ const PHASES: Phase[] = [
             url: "/startup-businesslegal/startbusiness/Section8NGOCompanyPage",
           },
         ],
-      }
+      },
     ],
   },
   {
     id: 2,
-    key: "protect",
-    label: "Protect",
-    tagline: "Legally bind every relationship before disputes or breaches arise.",
-    accent: "#1d4ed8",
-    glow: "rgba(29,78,216,0.22)",
-    soft: "#eff6ff",
+    key: "secure",
+    label: "Secure",
+    accent: "#0284c7",
+    glow: "rgba(2,132,199,0.22)",
+    soft: "#f0f9ff",
     tw: {
-      border: "border-blue-700",
-      bgSoft: "bg-[#eff6ff]",
-      text: "text-blue-700",
-      bg: "bg-blue-700",
-      shadow: "shadow-[0_8px_36px_rgba(29,78,216,0.22)]",
-      borderHover: "border-blue-700/50",
-      gradient: "from-blue-700 to-blue-700/80",
+      border: "border-sky-600",
+      bgSoft: "bg-[#f0f9ff]",
+      text: "text-sky-600",
+      bg: "bg-sky-600",
+      shadow: "shadow-[0_8px_36px_rgba(2,132,199,0.22)]",
+      borderHover: "border-sky-600/50",
+      gradient: "from-sky-600 to-sky-550",
     },
+    tagline: "Legally bind every relationship before disputes or issues arise.",
     cta: {
-      bold: "Operating without agreements?",
-      rest: "Don't wait for a dispute — get covered today.",
-      btn: "Talk to a Lawyer",
-      href: "/contact",
+      bold: "Ready to secure your business?",
+      rest: "Draft agreements, protect your brand, and manage liabilities early.",
+      btn: "View Security Services",
+      href: "/startup-businesslegal",
     },
     categories: [
       {
-        label: "Brand & Intellectual Property Protection",
+        label: "IPR & Protection",
         items: [
           {
             name: "Trademark Registration",
-            price: "₹1,199",
-            was: "₹3,499",
-            badge: "POPULAR",
+            price: "₹999",
+            was: "₹2,999",
+            badge: "Most Popular",
             url: "/startup-businesslegal/protectbusiness/TrademarkRegistrationPage",
           },
           {
-            name: "Copyright Registration",
-            price: "₹1,500",
+            name: "Trademark Objection Reply",
+            price: "₹1,499",
             was: "₹3,999",
-            badge: "65% OFF",
+            url: "/startup-businesslegal/protectbusiness/TrademarkObjectionReplyPage",
+          },
+          {
+            name: "Copyright Registration",
+            price: "₹2,499",
+            was: "₹5,999",
             url: "/startup-businesslegal/protectbusiness/CopyrightRegistrationPage",
-          },
-          {
-            name: "Patent Search & Registration",
-            price: "₹4,999",
-            was: "₹9,999",
-            badge: "PATENT TAB",
-            url: "/startup-businesslegal/protectbusiness/PatentRegistrationPage",
-          },
-          {
-            name: "Reply to Trademark Objection",
-            price: "₹1,999–₹3,999",
-            was: "₹5,999–₹8,999",
-            url: "/startup-businesslegal/protectbusiness/ReplyToTrademarkObjectionPage",
-          },
-          {
-            name: "Trademark Renewal",
-            price: "₹999",
-            was: "₹2,499",
-            badge: "60% OFF",
-            url: "/startup-businesslegal/protectbusiness/RenewTrademarkPage",
           },
         ],
       },
       {
-        label: "Legal Agreements",
+        label: "Legal Drafting",
         items: [
-          { name: "Co-Founder Agreement", price: "₹1,499", was: "₹3,999", url: "/documentation/co-founder-agreement" },
           {
-            name: "Shareholders' Agreement",
+            name: "Co-Founder Agreement",
             price: "₹1,499",
-            was: "₹8,999",
-            url: "/documentation/shareholder-subscription-agreement",
+            was: "₹3,999",
+            url: "/documentation/co-founder-agreement",
+          },
+          {
+            name: "Partnership Deed",
+            price: "₹1,499",
+            was: "₹3,999",
+            url: "/startup-businesslegal/startbusiness/PartnershipFirmPage",
           },
           {
             name: "Non-Disclosure Agreement (NDA)",
-            price: "₹1,499",
-            was: "₹1,999",
-            url: "/documentation/non-disclosure-agreement",
-          },
-          { name: "Employment Agreement", price: "₹1,499", was: "₹3,499", url: "/documentation/employment-agreement" },
-          {
-            name: "Consultancy Agreement",
-            price: "₹1,499",
-            was: "₹3,199",
-            url: "/documentation/consultancy-agreement",
-          },
-          {
-            name: "Service Agreement & Term Sheet",
-            price: "₹1,499",
-            was: "₹4,499",
-            url: "/documentation/service-agreement-term-sheet",
-          },
-          {
-            name: "IP Assignment Agreement",
-            price: "₹1,499",
-            was: "₹4,999",
-            url: "/documentation/ip-assignment-agreement",
-          },
-          {
-            name: "Joint Venture Agreement",
-            price: "₹1,499",
-            was: "₹7,999",
-            url: "/documentation/joint-venture-agreement",
-          },
-          {
-            name: "Privacy Policy & Terms of Use",
-            price: "₹1,499",
-            was: "₹2,999",
-            url: "/documentation/privacy-terms-of-use",
-          },
-          { name: "SaaS Agreement", price: "₹1,499", was: "₹5,999", url: "/documentation/saas-agreement" },
-          { name: "Franchise Agreement", price: "₹1,499", was: "₹6,999", url: "/documentation/franchise-agreement" },
-          { name: "Licensing Agreement", price: "₹1,499", was: "₹5,499", url: "/documentation/licensing-agreement" },
-          { name: "Letter of Intent (LOI)", price: "₹1,499", was: "₹2,999", url: "/documentation/letter-of-intent" },
-          {
-            name: "Power of Attorney (Drafting)",
-            price: "₹1,499",
+            price: "₹999",
             was: "₹2,499",
-            url: "/documentation/power-of-attorney-drafting",
+            url: "/startup-businesslegal/protectbusiness/NDADraftingPage",
           },
         ],
       },
@@ -228,114 +178,73 @@ const PHASES: Phase[] = [
   },
   {
     id: 3,
-    key: "sustain",
-    label: "Sustain",
-    tagline: "Stay compliant — ROC filings, renewals & changes handled for you.",
-    accent: "#15803d",
-    glow: "rgba(21,128,61,0.22)",
-    soft: "#f0fdf4",
+    key: "scale",
+    label: "Scale",
+    accent: "#7c3aed",
+    glow: "rgba(124,58,237,0.22)",
+    soft: "#f5f3ff",
     tw: {
-      border: "border-green-700",
-      bgSoft: "bg-[#f0fdf4]",
-      text: "text-green-700",
-      bg: "bg-green-700",
-      shadow: "shadow-[0_8px_36px_rgba(21,128,61,0.22)]",
-      borderHover: "border-green-700/50",
-      gradient: "from-green-700 to-green-700/80",
+      border: "border-violet-600",
+      bgSoft: "bg-[#f5f3ff]",
+      text: "text-violet-600",
+      bg: "bg-violet-600",
+      shadow: "shadow-[0_8px_36px_rgba(124,58,237,0.22)]",
+      borderHover: "border-violet-600/50",
+      gradient: "from-violet-600 to-violet-550",
     },
+    tagline: "Stay compliant, file returns, and focus on expanding operations.",
     cta: {
-      bold: "Missed a compliance deadline?",
-      rest: "We handle late filings and penalty mitigation too.",
-      btn: "Fix It Now",
-      href: "/contact",
+      bold: "Ready to scale your business?",
+      rest: "Handle ROC filings, GST returns, and certifications seamlessly.",
+      btn: "View Scaling Services",
+      href: "/startup-businesslegal",
     },
     categories: [
       {
-        label: "ROC Filings",
+        label: "Growth & Compliance",
         items: [
           {
-            name: "ROC Return Filing — Pvt Ltd",
+            name: "FSSAI Registration",
             price: "₹999",
-            was: "₹4,999",
+            was: "₹1,999",
+            url: "/startup-businesslegal/growbusiness/FSSAIRegistrationPage",
+          },
+          {
+            name: "ISO Certification",
+            price: "₹1,499",
+            was: "₹2,999",
+            badge: "International",
+            url: "/startup-businesslegal/growbusiness/ISOCertificationPage",
+          },
+          {
+            name: "MSME Udhyam Registration",
+            price: "₹499",
+            was: "₹1,499",
+            url: "/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage",
+          },
+        ],
+      },
+      {
+        label: "Filing & Returns",
+        items: [
+          {
+            name: "GST Return Filing",
+            price: "₹499",
+            was: "₹1,499",
+            badge: "Per Month",
+            url: "/startup-businesslegal/managebusiness/GstReturnFilingPage",
+          },
+          {
+            name: "ROC Return Filing (Pvt Ltd)",
+            price: "₹4,999",
+            was: "₹9,999",
             url: "/startup-businesslegal/managebusiness/RocReturnFilingPvtLtdPage",
           },
           {
-            name: "ROC Return Filing — OPC",
-            price: "₹999",
-            was: "₹3,999",
-            url: "/startup-businesslegal/managebusiness/ROCReturnFilingForOPCPage",
-          },
-          {
-            name: "ROC Return Filing — LLP",
-            price: "₹999",
-            was: "₹3,499",
-            url: "/startup-businesslegal/managebusiness/ROCReturnFilingForLLPPage",
-          },
-        ],
-      },
-      {
-        label: "Company Changes & Management",
-        items: [
-          {
-            name: "Appointment of Director",
-            price: "₹999",
-            was: "₹4,999",
-            url: "/startup-businesslegal/managebusiness/AppointmentOfDirectorPage",
-          },
-          {
-            name: "Resignation of Director",
-            price: "₹999",
-            was: "₹3,999",
-            url: "/startup-businesslegal/managebusiness/ResignationOfDirectorPage",
-          },
-          {
-            name: "Change of Registered Office",
-            price: "₹999",
-            was: "₹3,499",
-            url: "/startup-businesslegal/managebusiness/ChangeInOfficeAddressPage",
-          },
-          {
-            name: "Increase Authorised Capital",
-            price: "₹999",
-            was: "₹5,999",
-            url: "/startup-businesslegal/managebusiness/IncreasingCapitalOfCompanyPage",
-          },
-        ],
-      },
-      {
-        label: "Closure & IP Maintenance",
-        items: [
-          {
-            name: "Closure of Pvt Ltd Company",
-            price: "₹999",
-            was: "₹9,999",
-            url: "/startup-businesslegal/managebusiness/ClosureOfPvtLtdPage",
-          },
-          {
-            name: "Closure of OPC",
-            price: "₹999",
-            was: "₹7,999",
-            url: "/startup-businesslegal/managebusiness/ClosureOfOPCPage",
-          },
-          {
-            name: "Closure of LLP",
-            price: "₹999",
-            was: "₹6,999",
-            url: "/startup-businesslegal/managebusiness/ClosureOfLLPPage",
-          },
-          {
-            name: "Sell Your Trademark",
-            price: "₹999",
-            was: "₹2,499",
-            badge: "60% OFF",
-            url: "/startup-businesslegal/protectbusiness/SellYourTrademarkPage",
-          },
-          {
-            name: "Reply to Copyright Objection",
-            price: "₹999",
-            was: "₹2,499",
-            badge: "60% OFF",
-            url: "/startup-businesslegal/protectbusiness/ReplyToCopyrightObjectionPage",
+            name: "Income Tax Return (ITR)",
+            price: "₹499",
+            was: "₹1,999+",
+            url: "/itr",
           },
         ],
       },
@@ -350,12 +259,20 @@ function MobilePhaseAccordion({ phase, isOpen, onToggle }: { phase: Phase; isOpe
     <div className={`mob-accordion-item ${isOpen ? "mob-accordion-open" : ""}`} style={{ borderColor: isOpen ? phase.accent : undefined }}>
       {/* Header — tap to toggle */}
       <button className="mob-accordion-header" onClick={onToggle} aria-expanded={isOpen}>
-        <div className="mob-accordion-left">
-          <span className="mob-accordion-emoji">{phase.id === 1 ? "🏗️" : phase.id === 2 ? "🛡️" : "♻️"}</span>
+        <div className="mob-accordion-left flex items-center gap-3">
+          <div className={`w-9 h-9 rounded-lg flex items-center justify-center text-white shrink-0 ${phase.tw.bg}`}>
+            {phase.id === 1 ? (
+              <Rocket className="w-5 h-5" />
+            ) : phase.id === 2 ? (
+              <ShieldCheck className="w-5 h-5" />
+            ) : (
+              <TrendingUp className="w-5 h-5" />
+            )}
+          </div>
           <div>
-            <span className="mob-accordion-phase" style={{ color: phase.accent }}>Phase {phase.id}</span>
-            <span className="mob-accordion-label">{phase.label}</span>
-            <span className="mob-accordion-count">{total} services</span>
+            <span className="mob-accordion-phase block" style={{ color: phase.accent }}>Phase {phase.id}</span>
+            <span className="mob-accordion-label block text-sm font-bold text-slate-800">{phase.label}</span>
+            <span className="mob-accordion-count text-[11px] text-slate-400 font-semibold">{total} services</span>
           </div>
         </div>
         <motion.span
@@ -476,7 +393,6 @@ export default function ServicesSection() {
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
             className="text-center mb-10 lg:mb-14"
           >
-
             <h2 className="font-[family-name:var(--)] text-[clamp(26px,3.8vw,50px)] font-extrabold text-[#0D0F14] leading-[1.1] tracking-[-0.025em] m-0 mb-4">
               Every legal need.
               <br />
@@ -534,44 +450,84 @@ export default function ServicesSection() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                className="bg-white border-[1.5px] border-[#E4E8F0] rounded-[22px] shadow-[0_4px_40px_rgba(0,0,0,0.07)] overflow-hidden"
+                className="bg-white border border-slate-100 rounded-3xl shadow-[0_4px_30px_rgba(0,0,0,0.03)] overflow-hidden"
               >
-                <div className={`flex items-center justify-between flex-wrap gap-3.5 px-8 py-[22px] border-b-[1.5px] border-[#EEF1F6] ${phase.tw.bgSoft}`}>
-                  <div className="flex items-center gap-3.5">
-                    <div className={`w-12 h-12 rounded-[14px] flex items-center justify-center text-[22px] shrink-0 ${phase.tw.bg}`}>
-                      {phase.id === 1 ? "🏗️" : phase.id === 2 ? "🛡️" : "♻️"}
+                {/* Phase Header Banner */}
+                <div className={`flex items-center justify-between flex-wrap gap-4 px-8 py-5 border-b border-slate-100 ${phase.tw.bgSoft}`}>
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-white shrink-0 shadow-sm ${phase.tw.bg}`}>
+                      {phase.id === 1 ? (
+                        <Rocket className="w-5.5 h-5.5" />
+                      ) : phase.id === 2 ? (
+                        <ShieldCheck className="w-5.5 h-5.5" />
+                      ) : (
+                        <TrendingUp className="w-5.5 h-5.5" />
+                      )}
                     </div>
                     <div>
-                      <div className="font-[family-name:var(--,'Syne',sans-serif)] text-lg font-extrabold text-[#0D0F14]">Phase {phase.id} — {phase.label}</div>
-                      <div className="text-[13px] text-gray-500 mt-[3px]">{phase.categories.reduce((n, c) => n + c.items.length, 0)} services across {phase.categories.length} {phase.categories.length === 1 ? "category" : "categories"}</div>
+                      <div className="font-[family-name:var(--,'Syne',sans-serif)] text-[17px] font-black text-slate-900 leading-snug">
+                        Phase {phase.id} — {phase.label}
+                      </div>
+                      <div className="text-[12px] text-slate-400 font-semibold mt-0.5">
+                        {phase.categories.reduce((n, c) => n + c.items.length, 0)} services across {phase.categories.length} {phase.categories.length === 1 ? "category" : "categories"}
+                      </div>
                     </div>
                   </div>
-                  <Link href={phase.cta.href} className={`inline-flex items-center gap-[9px] px-6 py-3 text-white rounded-xl no-underline text-[13.5px] font-bold transition-all duration-200 shrink-0 whitespace-nowrap relative overflow-hidden bg-gradient-to-br ${phase.tw.gradient} ${phase.tw.shadow}`}>
-                    <span className="relative z-10">View All Services</span>
-                    <span className="relative z-10 text-base">→</span>
+                  
+                  {/* View All button */}
+                  <Link 
+                    href={phase.cta.href} 
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white rounded-xl no-underline text-xs font-bold transition-all duration-200 hover:bg-black shadow-sm shrink-0"
+                  >
+                    <span>View All Services</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
+
+                {/* Categories Grid Container */}
                 <div className="p-8">
                   {phase.categories.map((cat, ci) => (
-                    <motion.div key={cat.label} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: ci * 0.07 }} className={ci < phase.categories.length - 1 ? "mb-8" : "mb-0"}>
-                      <div className="flex items-center gap-3 mb-3.5">
-                        <span className={`text-[10.5px] font-extrabold uppercase tracking-[1.8px] px-3.5 py-1.5 rounded-full shrink-0 ${phase.tw.text} ${phase.tw.bgSoft}`}>{cat.label}</span>
-                        <div className="flex-1 h-px bg-gray-100" />
-                        <span className="text-[11px] text-gray-400 font-semibold shrink-0">{cat.items.length} services</span>
+                    <motion.div 
+                      key={cat.label} 
+                      initial={{ opacity: 0, y: 14 }} 
+                      animate={{ opacity: 1, y: 0 }} 
+                      transition={{ duration: 0.3, delay: ci * 0.07 }} 
+                      className={ci < phase.categories.length - 1 ? "mb-8" : "mb-0"}
+                    >
+                      {/* Sub-header divider */}
+                      <div className="flex items-center gap-3 mb-4">
+                        <span className={`text-[10px] font-black uppercase tracking-[2px] px-3.5 py-1.5 rounded-full shrink-0 ${phase.tw.text} ${phase.tw.bgSoft}`}>
+                          {cat.label}
+                        </span>
+                        <div className="flex-1 h-px bg-slate-100/80" />
+                        <span className="text-[10.5px] text-slate-400 font-bold shrink-0">{cat.items.length} services</span>
                       </div>
+
+                      {/* Services list grid */}
                       <div className="ls-grid">
                         {cat.items.map((svc) => <SvcRow key={svc.url} svc={svc} phase={phase} />)}
                       </div>
                     </motion.div>
                   ))}
                 </div>
-                <div className={`mx-6 mb-6 p-5 rounded-2xl border-[1.5px] flex items-center flex-wrap gap-4 justify-between ${phase.tw.bgSoft} ${phase.tw.border}/20`}>
-                  <p className="m-0 text-sm text-gray-900 leading-relaxed">
-                    <strong className="font-bold">Still unsure?</strong>{" "}
-                    <span className="text-gray-600">Get personalized advice for your business.</span>
-                  </p>
-                  <Link href="/free-consultation" className={`inline-flex items-center gap-[9px] px-6 py-3 text-white rounded-xl no-underline text-[13.5px] font-bold transition-all duration-200 shrink-0 whitespace-nowrap relative overflow-hidden bg-gradient-to-br ${phase.tw.gradient} ${phase.tw.shadow}`}>
-                    <span className="relative z-10">Talk to Expert</span>
+
+                {/* Help Banner at the bottom */}
+                <div className="mx-8 mb-8 p-5 bg-slate-50/50 border border-slate-100 rounded-2xl flex flex-col sm:flex-row items-center gap-5 justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-white border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.015)] flex items-center justify-center text-slate-400 shrink-0">
+                      <HelpCircle className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-extrabold text-slate-800 m-0">Still unsure?</h4>
+                      <p className="text-[11.5px] text-slate-400 font-semibold m-0 mt-0.5">Get personalized advice for your business from our expert team.</p>
+                    </div>
+                  </div>
+                  <Link 
+                    href="/free-consultation" 
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 text-slate-700 hover:text-black hover:border-slate-300 rounded-xl no-underline text-xs font-bold transition-all duration-200 shadow-sm shrink-0"
+                  >
+                    <span>Talk to Expert</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-black" />
                   </Link>
                 </div>
               </motion.div>
@@ -598,6 +554,7 @@ export default function ServicesSection() {
     </>
   );
 }
+
 // ─── service row ──────────────────────────────────────────────────────────────
 function SvcRow({ svc, phase }: { svc: Svc; phase: Phase }) {
   const [hov, setHov] = useState(false);
@@ -606,82 +563,54 @@ function SvcRow({ svc, phase }: { svc: Svc; phase: Phase }) {
       href={svc.url}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
-      className={`flex items-center gap-3 px-4 py-3 rounded-xl border-[1.5px] no-underline transition-all duration-150 ease-[cubic-bezier(0.22,1,0.36,1)] relative overflow-hidden ${hov ? phase.tw.borderHover : "border-[#EAEDF2]"} ${hov ? phase.tw.bgSoft : "bg-[#FAFBFC]"} ${hov ? "-translate-y-[2px]" : "translate-y-0"} ${hov ? phase.tw.shadow : "shadow-none"}`}
+      className="flex items-center gap-3 px-5 py-4 bg-slate-50/40 hover:bg-white border border-slate-100 rounded-2xl no-underline hover:shadow-[0_8px_24px_rgba(0,0,0,0.03)] hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden group"
     >
-      {/* left edge bar */}
+      {/* Dynamic left edge bar */}
       <span
-        className={`absolute left-0 top-0 bottom-0 transition-all duration-150 rounded-l-xl ${phase.tw.bg}`}
-        style={{ width: hov ? 3 : 0 }}
+        className="absolute left-0 top-0 bottom-0 w-1 transition-all duration-300 origin-left scale-y-0 opacity-0 group-hover:scale-y-100 group-hover:opacity-100 rounded-l-2xl"
+        style={{ backgroundColor: phase.accent }}
       />
 
-      {/* name */}
+      {/* Name */}
       <span
-        className={`flex-1 text-[13.5px] font-semibold leading-[1.35] transition-colors duration-150 ${hov ? "text-[#0D0F14]" : "text-[#2C3140]"}`}
+        className="flex-1 text-[13.5px] font-bold text-slate-700 leading-snug transition-colors duration-200 group-hover:text-slate-900 pr-1.5"
       >
         {svc.name}
       </span>
 
-      {/* badge */}
+      {/* Badge / Discount */}
       {svc.badge && (
-        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-600/10 text-green-700 border border-green-600/20 whitespace-nowrap shrink-0">
+        <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-600 border border-emerald-100/50 uppercase tracking-wide shrink-0 whitespace-nowrap">
           {svc.badge}
         </span>
       )}
 
-      {/* price block */}
-      <span style={{
-        display:"flex", flexDirection:"column", alignItems:"flex-end",
-        flexShrink:0, marginLeft:6, gap:3,
-      }}>
-        {/* was price — subtle strikethrough */}
-        <span style={{
-          fontSize:10, color:"#C0C5D0",
-          textDecoration:"line-through", lineHeight:1,
-          fontWeight:500, letterSpacing:"0.01em",
-        }}>
-          {svc.was}
-        </span>
-        {/* real price chip */}
-        <span style={{
-          display:"inline-flex", alignItems:"baseline", gap:1,
-          background: hov ? phase.accent : `${phase.accent}18`,
-          color: hov ? "#fff" : phase.accent,
-          padding:"3px 9px", borderRadius:8,
-          transition:"all 0.18s",
-        }}>
-          <span style={{ fontSize:13, fontWeight:800, lineHeight:1.2 }}>
-            {svc.price}
+      {/* Price block */}
+      <span className="flex flex-col items-end shrink-0 ml-1.5 gap-0.5">
+        {/* was price */}
+        {svc.was && (
+          <span className="text-[10px] text-slate-350 line-through font-semibold leading-none tracking-wide">
+            {svc.was}
           </span>
-          <span style={{ fontSize:11, fontWeight:900, lineHeight:1, marginLeft:1 }}>*</span>
+        )}
+        {/* real price chip */}
+        <span 
+          className="inline-flex items-baseline gap-0.5 px-2.5 py-1 rounded-lg transition-all duration-200"
+          style={{ 
+            backgroundColor: hov ? phase.accent : `${phase.accent}12`, 
+            color: hov ? "#fff" : phase.accent 
+          }}
+        >
+          <span className="text-[13px] font-black leading-none">{svc.price}</span>
+          <span className="text-[9px] font-black leading-none ml-0.5">*</span>
         </span>
       </span>
 
-      {/* arrow */}
-      <span
-        className={`text-base shrink-0 transition-all duration-150 ${phase.tw.text} ${hov ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-1.5"}`}
-      >
-        →
-      </span>
-    </Link>
-  );
-}
-
-// ─── premium cta button ───────────────────────────────────────────────────────
-function CtaButton({ href, phase, children }: { href: string; phase: Phase; children: React.ReactNode }) {
-  const [hov, setHov] = useState(false);
-  return (
-    <Link
-      href={href}
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      className={`inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl no-underline text-sm font-bold shrink-0 whitespace-nowrap transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] tracking-[0.01em] bg-gradient-to-br ${hov ? phase.tw.gradient : phase.tw.bg} ${hov ? phase.tw.shadow : "shadow-sm"} ${hov ? "-translate-y-0.5" : "translate-y-0"}`}
-    >
-      {children}
-      <span
-        className={`text-base inline-block transition-transform duration-200 ${hov ? "translate-x-[3px]" : "translate-x-0"}`}
-      >
-        →
-      </span>
+      {/* Arrow right sliding in on hover */}
+      <ArrowRight
+        className={`w-3.5 h-3.5 shrink-0 transition-all duration-200 opacity-0 -translate-x-1.5 group-hover:opacity-100 group-hover:translate-x-0`}
+        style={{ color: phase.accent }}
+      />
     </Link>
   );
 }

@@ -34,8 +34,8 @@ export default function Sidebar({ activeTab, handleLogout, menuOpen }: SidebarPr
       <div>
         {/* LOGO */}
         <div className="flex items-center gap-2 cursor-pointer pb-4" onClick={() => router.push("/")}>
-          <div className="w-9 h-9 rounded-lg shadow-xs overflow-hidden flex justify-center items-center bg-white border border-gray-100">
-            <img src="/logoLawizer.jpg" alt="Lawizer" width={26} height={26} />
+          <div className="w-9 h-9 rounded-full shadow-xs overflow-hidden flex justify-center items-center bg-white border border-gray-100">
+            <img src="/Lawizer_final.png" alt="Lawizer" className="w-8 h-8 object-contain rounded-xl" />
           </div>
           <span className="text-2xl font-black text-[#c92c41] tracking-tight">Lawizer</span>
         </div>
