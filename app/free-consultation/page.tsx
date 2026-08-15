@@ -20,7 +20,7 @@ export default function FreeConsultationPage() {
   React.useEffect(() => {
     if (isLoggedIn && user) {
       if (user.name && !name) setName(user.name);
-      if (user.phone && !phone) setPhone(user.phone);
+      if ((user as any).phone && !phone) setPhone((user as any).phone);
     }
   }, [isLoggedIn, user, name, phone]);
 
