@@ -19,8 +19,8 @@ export default function Sidebar({ activeTab, handleLogout, menuOpen }: SidebarPr
  ${menuOpen ? "translate-x-0" : "-translate-x-64"} lg:translate-x-0`}
     >
       <div className="flex items-center gap-2 cursor-pointer justify-start pb-5" onClick={() => router.push("/")}>
-        <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm">
-          <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-7 h-7" />
+        <div className="flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-sm border border-slate-100">
+          <img src="/Lawizer_final.png" alt="Lawizer Logo" className="w-9 h-9 object-contain rounded-xl" />
         </div>
         <div className="flex items-baseline gap-1">
           <span className="text-2xl font-bold text-[#c92c41]">Lawizer</span>

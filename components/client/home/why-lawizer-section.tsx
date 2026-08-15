@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { Rocket } from "lucide-react";
 
 export function WhyLawizerSection() {
   function AnimatedNumber({ value, suffix = "" }: { value: string; suffix?: string }) {
@@ -46,7 +47,7 @@ export function WhyLawizerSection() {
   }
 
   return (
-    <div className="why-section w-full px-4 md:px-12 py-12 md:py-16 max-w-7xl mx-auto" id="why">
+    <div className="why-section w-full px-4 md:px-12 py-6 md:py-8 max-w-7xl mx-auto" id="why">
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
         <div className="w-full lg:w-1/2">
           <h2 className="section-title text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-gray-900 mb-6 break-words">
@@ -140,7 +141,9 @@ export function WhyLawizerSection() {
             
             {/* Banner */}
             <div className="relative bg-gradient-to-r from-red-50 to-white rounded-2xl p-5 border border-red-100 flex items-center gap-4">
-              <div className="text-3xl filter drop-shadow-sm">🚀</div>
+              <div className="w-10 h-10 rounded-xl bg-red-100/50 flex items-center justify-center text-brand-red shrink-0 shadow-xs">
+                <Rocket className="w-5 h-5" />
+              </div>
               <div className="flex flex-col">
                 <span className="text-[13px] sm:text-[14px] font-bold text-gray-900 leading-snug mb-0.5">Promoting Startup Culture in West Bengal</span>
                 <span className="text-[12px] font-medium text-gray-500 leading-relaxed pr-2">Supporting founders from Kolkata to every corner of the state</span>

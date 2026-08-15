@@ -13,7 +13,7 @@ export function Footer() {
           <div className="sm:col-span-2 lg:col-span-4 flex flex-col items-center sm:items-start text-center sm:text-left">
             <Link className="flex items-center gap-2 mb-4 cursor-pointer" href="/">
               <div className="flex items-center justify-center w-10 h-10 bg-white rounded-xl shadow-sm border border-gray-100">
-                <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-6 h-6 object-contain" />
+                <img src="/Lawizer_final.png" alt="Lawizer Logo" className="w-8.5 h-8.5 object-contain rounded-xl" />
               </div>
               <span className="text-2xl font-montserrat font-extrabold text-[var(--brand)] tracking-tight">Lawizer</span>
             </Link>

@@ -16,7 +16,7 @@ export function StatsSection() {
       label: "Happy Reviews",
     },
     {
-      number: 4.5,
+      number: 4.7,
       suffix: "/5",
       label: "Google Rating",
     },
