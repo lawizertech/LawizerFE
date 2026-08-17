@@ -325,7 +325,7 @@ export default function StartupAndBusinessLegalPage() {
         />
 
         {/* Hero content */}
-        <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-4xl px-4 sm:px-8 pt-28 pb-20">
+        <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-4xl px-4 sm:px-8 pt-20 sm:pt-28 pb-16 sm:pb-20">
           {/* Eyebrow pill */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -581,7 +581,7 @@ export default function StartupAndBusinessLegalPage() {
           </div>
 
           {/* Bundle cards — OPC (cheapest) → LLP (popular) → Pvt Ltd (premium) */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-7 items-end">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-7 items-end">
             {complianceBundles.map((bundle, bIdx) => (
               <motion.div
                 key={bundle.id}

@@ -84,7 +84,7 @@ export function HeroSection() {
 
 
         {/* ── LEFT: Hero Copy + Social Proof ── */}
-        <div className="w-full lg:w-[52%] lg:-ml-6 flex flex-col justify-center">
+        <div className="w-full lg:w-[45%] lg:-ml-6 flex flex-col justify-center">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -114,11 +114,11 @@ Compliance & Taxation
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="flex flex-wrap items-center gap-4 mb-8"
+            className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 mb-8"
           >
             <a
               href="tel:+919062815535"
-              className="bg-brand-red text-white w-[170px] py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-red-700 transition shadow-md hover:shadow-lg"
+              className="bg-brand-red text-white w-full sm:w-[170px] py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-red-700 transition shadow-md hover:shadow-lg"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
@@ -129,7 +129,7 @@ Compliance & Taxation
               href="https://wa.me/919062815535"
               target="_blank"
               rel="noopener noreferrer"
-              className="border-2 border-green-500 text-green-500 w-[170px] py-[10px] rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-green-500 transition-all hover:text-white ease-in-out bg-white duration-500"
+              className="border-2 border-green-500 text-green-500 w-full sm:w-[170px] py-[10px] rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-green-500 transition-all hover:text-white ease-in-out bg-white duration-500"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -146,7 +146,7 @@ Compliance & Taxation
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="grid grid-cols-2 gap-3 mt-4 max-w-[500px]"
+            className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-3 mt-4 max-w-[500px]"
           >
             {/* Metric 1 */}
             <div className="bg-gradient-to-br from-white via-red-50/30 to-rose-50/20 border border-slate-200 rounded-md p-4 flex flex-col gap-1 shadow-sm relative overflow-hidden group hover:border-slate-300 transition-colors">
@@ -187,7 +187,7 @@ Compliance & Taxation
         </div>
 
         {/* ── RIGHT: Featured Services Focus ── */}
-        <div className="w-full lg:w-[55%] mt-12 lg:mt-0 lg:pl-10 relative flex flex-col justify-center">
+        <div className="hidden lg:flex w-full lg:w-[55%] mt-12 lg:mt-0 lg:pl-10 relative flex-col justify-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -229,19 +229,19 @@ Compliance & Taxation
 
       {/* ── FULL-WIDTH TRUST PILLARS ── */}
       <div className="max-w-7xl mx-auto w-full">
-        <div className="bg-gradient-to-r from-white via-red-50/30 to-rose-50/20 rounded-xl py-1 border border-red-50 shadow-[0_4px_20px_rgba(0,0,0,0.03)] px-1 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-1 md:divide-x divide-red-50/50">
+        <div className="bg-gradient-to-r from-white via-red-50/30 to-rose-50/20 rounded-xl py-1 border border-red-50 shadow-[0_4px_20px_rgba(0,0,0,0.03)] px-1 grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-1 md:divide-x divide-red-50/50">
            {/* Item 1 */}
-           <div className="flex flex-col px-8  py-4 justify-center items-center text-center group cursor-default transition-all duration-300 hover:bg-cyan-100/80 rounded-xl">
+           <div className="flex flex-col px-4 sm:px-8 py-3 sm:py-4 justify-center items-center text-center group cursor-default transition-all duration-300 hover:bg-cyan-100/80 rounded-xl">
              <h4 className="font-extrabold text-slate-800 text-[14px] leading-tight transition-colors group-hover:text-black">24/7 Support</h4>
              <p className="text-slate-400 text-[11px] mt-1 font-semibold transition-colors group-hover:text-slate-500">100% Online & Secure</p>
            </div>
            {/* Item 2 */}
-           <div className="flex flex-col px-8 py-4  justify-center items-center text-center group cursor-default transition-all duration-300 hover:bg-emerald-100/80 rounded-xl">
+           <div className="flex flex-col px-4 sm:px-8 py-3 sm:py-4 justify-center items-center text-center group cursor-default transition-all duration-300 hover:bg-emerald-100/80 rounded-xl">
              <h4 className="font-extrabold text-slate-800 text-[14px] leading-tight transition-colors group-hover:text-black">Transparent Process</h4>
              <p className="text-slate-400 text-[11px] mt-1 font-semibold transition-colors group-hover:text-slate-500">100% Online & Secure</p>
            </div>
            {/* Item 3 */}
-           <div className="flex flex-col px-8 py-4  justify-center items-center text-center group cursor-default transition-all duration-300 hover:bg-purple-100/80 rounded-xl">
+           <div className="flex flex-col px-4 sm:px-8 py-3 sm:py-4 justify-center items-center text-center group cursor-default transition-all duration-300 hover:bg-purple-100/80 rounded-xl">
              <h4 className="font-extrabold text-slate-800 text-[14px] leading-tight transition-colors group-hover:text-black">Timely Compliance</h4>
              <p className="text-slate-400 text-[11px] mt-1 font-semibold transition-colors group-hover:text-slate-500">On-time Filing & Support</p>
            </div>

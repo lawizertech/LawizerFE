@@ -2,7 +2,7 @@ import React from "react";
 
 export default function AboutLawizer() {
   return (
-    <main className="min-h-screen bg-white text-gray-900 py-20 px-6 lg:px-24 pt-30">
+    <main className="min-h-screen bg-white text-gray-900 py-16 sm:py-20 pt-28 sm:pt-32 px-4 sm:px-6 lg:px-24">
       <section className="max-w-6xl mx-auto space-y-14">
         {/* Header */}
         <div className="text-center space-y-4">
@@ -13,7 +13,7 @@ export default function AboutLawizer() {
         </div>
 
         {/* Main Intro */}
-        <div className="bg-gray-50 p-8 rounded-2xl shadow-sm border border-gray-200 space-y-6">
+        <div className="bg-gray-50 p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-200 space-y-6">
           <p className="text-lg leading-relaxed text-gray-700">
             Lawizer is a next-generation digital legal platform designed to redefine how India accesses legal help.
             We’re on a mission to make legal help simple, affordable, and accessible for everyone — individuals,

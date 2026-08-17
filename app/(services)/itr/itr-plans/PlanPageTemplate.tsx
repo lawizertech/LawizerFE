@@ -358,22 +358,28 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
               </div>
 
               {/* Mobile-only price + CTA */}
-              <div className="flex flex-wrap items-center gap-3 mt-5 lg:hidden">
-                <div>
-                  <div className="text-white/50 text-sm line-through">₹{plan.originalPrice.toLocaleString("en-IN")}</div>
-                  <div className="text-3xl font-extrabold text-white">₹{plan.price.toLocaleString("en-IN")}</div>
+              {/* Mobile-only price + CTA */}
+              <div className="flex flex-col mt-6 lg:hidden bg-white/10 p-5 rounded-2xl border border-white/10 backdrop-blur-sm shadow-sm gap-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex flex-col">
+                    <div className="text-white/50 text-xs line-through mb-0.5">₹{plan.originalPrice.toLocaleString("en-IN")}</div>
+                    <div className="text-3xl font-extrabold text-white leading-none">₹{plan.price.toLocaleString("en-IN")}</div>
+                  </div>
+                  <div className="text-white/60 text-[10px] uppercase tracking-wider font-semibold text-right">All Inclusive</div>
                 </div>
-                <button
-                  onClick={handleStartProcess}
-                  disabled={paymentState !== "idle" || !razorpayReady}
-                  className={`shimmer bg-white flex items-center gap-2 justify-center text-sm font-bold px-7 py-3 rounded-2xl transition-all hover:shadow-xl disabled:opacity-70 ${tierStyles[plan.id].text}`}
-                >
-                  {paymentState !== "idle" ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-                  {paymentState === "idle" ? "Buy Now" : null}
-                </button>
-                <button onClick={() => openCallback("Income Tax & GST")} className="flex items-center gap-1.5 text-white/80 hover:text-white text-sm font-medium border border-white/25 rounded-2xl px-4 py-3 transition-all">
-                  <Phone className="w-4 h-4" /> Callback
-                </button>
+                <div className="flex gap-2 w-full">
+                  <button onClick={() => openCallback("Income Tax & GST")} className="flex-1 flex items-center justify-center gap-1.5 text-white bg-white/5 hover:bg-white/10 border border-white/20 text-sm font-semibold rounded-xl py-3.5 transition-all">
+                    <Phone className="w-4 h-4" /> Callback
+                  </button>
+                  <button
+                    onClick={handleStartProcess}
+                    disabled={paymentState !== "idle" || !razorpayReady}
+                    className={`flex-[1.5] shimmer bg-white flex items-center justify-center gap-2 text-sm font-bold rounded-xl py-3.5 transition-all hover:shadow-lg disabled:opacity-70 ${tierStyles[plan.id].text}`}
+                  >
+                    {paymentState !== "idle" ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                    {paymentState === "idle" ? "Buy Now" : null}
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -779,40 +785,49 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
 
       {/* ══════════════════════════════════════════════════
  6. MOBILE STICKY BOTTOM BAR
- Visible only on &lt; lg. Shows price + two actions.
+ Visible only on < lg, and only when hero is off-screen. Shows price + two actions.
  ══════════════════════════════════════════════════ */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm border-t border-gray-100 shadow-2xl px-4 py-3 sm:px-5 sm:py-4">
-        <div className="flex items-center gap-3">
-          <div className="flex-1 min-w-0">
-            <div className="text-xs text-gray-400 line-through">₹{plan.originalPrice.toLocaleString("en-IN")}</div>
-            <div className="text-xl font-extrabold leading-tight text-brand-navy">
-              ₹{plan.price.toLocaleString("en-IN")}
+      <AnimatePresence>
+        {buyBarShow && (
+          <motion.div
+            initial={{ y: 100 }}
+            animate={{ y: 0 }}
+            exit={{ y: 100 }}
+            className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm border-t border-gray-100 shadow-2xl px-4 py-3 sm:px-5 sm:py-4"
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex-1 min-w-0">
+                <div className="text-xs text-gray-400 line-through">₹{plan.originalPrice.toLocaleString("en-IN")}</div>
+                <div className="text-xl font-extrabold leading-tight text-brand-navy">
+                  ₹{plan.price.toLocaleString("en-IN")}
+                </div>
+              </div>
+              <button
+                onClick={() => openCallback("Income Tax & GST")}
+                className={`w-12 h-12 rounded-2xl border flex items-center justify-center flex-shrink-0 transition-all hover:shadow-sm ${tierStyles[plan.id].borderLight} ${tierStyles[plan.id].bgSoft} ${tierStyles[plan.id].text}`}
+              >
+                <Phone className="w-4 h-4" />
+              </button>
+              <button
+                onClick={handleStartProcess}
+                disabled={paymentState !== "idle" || !razorpayReady}
+                className="shimmer flex-[1.5] py-3.5 rounded-2xl text-sm font-bold text-white transition-all hover:brightness-110 disabled:opacity-70 flex items-center justify-center gap-2"
+                style={{
+                  background: `linear-gradient(135deg, ${plan.accentColor}, ${plan.accentColor}cc)`,
+                  boxShadow: `0 4px 16px rgba(${plan.glowRGB},0.35)`,
+                }}
+              >
+                {paymentState === "creating" && <Loader2 className="w-4 h-4 animate-spin" />}
+                {paymentState === "paying" && <Loader2 className="w-4 h-4 animate-spin" />}
+                {paymentState === "verifying" && <Loader2 className="w-4 h-4 animate-spin" />}
+                {paymentState === "success" && <Check className="w-4 h-4" />}
+                {paymentState === "idle" && "Buy Now"}
+              </button>
             </div>
-          </div>
-          <button
-            onClick={() => openCallback("Income Tax & GST")}
-            className={`w-12 h-12 rounded-2xl border flex items-center justify-center flex-shrink-0 transition-all hover:shadow-sm ${tierStyles[plan.id].borderLight} ${tierStyles[plan.id].bgSoft} ${tierStyles[plan.id].text}`}
-          >
-            <Phone className="w-4 h-4" />
-          </button>
-          <button
-            onClick={handleStartProcess}
-            disabled={paymentState !== "idle" || !razorpayReady}
-            className="shimmer flex-1 py-3.5 rounded-2xl text-sm font-bold text-white transition-all hover:brightness-110 disabled:opacity-70 flex items-center justify-center gap-2"
-            style={{
-              background: `linear-gradient(135deg, ${plan.accentColor}, ${plan.accentColor}cc)`,
-              boxShadow: `0 4px 16px rgba(${plan.glowRGB},0.35)`,
-            }}
-          >
-            {paymentState === "creating" && <Loader2 className="w-4 h-4 animate-spin" />}
-            {paymentState === "paying" && <Loader2 className="w-4 h-4 animate-spin" />}
-            {paymentState === "verifying" && <Loader2 className="w-4 h-4 animate-spin" />}
-            {paymentState === "success" && <Check className="w-4 h-4" />}
-            {paymentState === "idle" && "Buy Now"}
-          </button>
-        </div>
-      </div>
-      <div className="lg:hidden h-20" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div className="lg:hidden h-28" />
     </div>
   );
 }

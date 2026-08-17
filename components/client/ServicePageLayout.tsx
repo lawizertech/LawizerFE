@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
   CheckCircle2,
@@ -161,6 +161,21 @@ export default function ServicePageLayout({
 
   const [paymentState, setPaymentState] = useState<"idle" | "creating" | "paying" | "verifying" | "success">("idle");
   const [paymentError, setPaymentError] = useState<string | null>(null);
+  
+  const [showStickyCta, setShowStickyCta] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show sticky CTA only after scrolling past the hero (approx 300px)
+      setShowStickyCta(window.scrollY > 300);
+    };
+    
+    // Initial check
+    handleScroll();
+    
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Auto-initiate payment after login if pendingAutoBuy matches
   useEffect(() => {
@@ -313,7 +328,7 @@ export default function ServicePageLayout({
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50/30 to-slate-100">
       {/* ================= HERO — hidden when hideHero=true ================= */}
       {!hideHero && (
-        <section className="relative min-h-[60vh] flex items-center justify-center bg-slate-900 text-center overflow-hidden">
+        <section className="relative min-h-[40vh] sm:min-h-[50vh] lg:min-h-[60vh] flex items-center justify-center bg-slate-900 text-center overflow-hidden">
           <div className="absolute inset-0 bg-[url('/propertylegal.png')] bg-cover bg-center opacity-10" />
           <div className={`absolute top-1/4 left-1/4 w-72 h-72 ${theme.orb1} blur-3xl rounded-full`} />
           <div className={`absolute bottom-1/4 right-1/4 w-72 h-72 ${theme.orb2} blur-3xl rounded-full`} />
@@ -322,25 +337,51 @@ export default function ServicePageLayout({
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative z-10 max-w-4xl px-4 py-10 sm:px-6 sm:py-12"
+            className="relative z-10 max-w-4xl px-4 py-8 sm:px-6 sm:py-12"
           >
             <div className="flex justify-center mb-6">
               <div className={`p-4 rounded-xl bg-gradient-to-br ${theme.iconBg}`}>
                 <HeroIcon className="w-14 h-14 text-white" />
               </div>
             </div>
-            <h1 className="text-4xl font-bold text-white mb-3">{title}</h1>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3">{title}</h1>
             <p className="text-slate-300 mb-3">{subtitle}</p>
             <p className={`text-sm ${theme.badgeText}`}>{badgeText}</p>
           </motion.div>
         </section>
       )}
 
+      {/* MOBILE STICKY CTA */}
+      <AnimatePresence>
+        {showStickyCta && (
+          <motion.div
+            initial={{ y: 100 }}
+            animate={{ y: 0 }}
+            exit={{ y: 100 }}
+            className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-slate-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] z-50 lg:hidden"
+          >
+            <button
+              onClick={handleStartProcess}
+              disabled={paymentState !== "idle" || !razorpayReady}
+              className={`w-full ${primaryBg} py-3.5 rounded-xl font-bold text-white shadow-lg hover:opacity-90 disabled:opacity-70 transition-all flex items-center justify-center gap-2`}
+            >
+              {paymentState === "creating" && <><Loader2 className="w-5 h-5 animate-spin" /> Preparing...</>}
+              {paymentState === "paying" && <><Loader2 className="w-5 h-5 animate-spin" /> Awaiting Payment...</>}
+              {paymentState === "verifying" && <><Loader2 className="w-5 h-5 animate-spin" /> Verifying...</>}
+              {paymentState === "success" && <><CheckCircle2 className="w-5 h-5" /> Success!</>}
+              {paymentState === "idle" && (
+                <>Start Process <ArrowRight className="inline w-5 h-5" /></>
+              )}
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* ================= MAIN ================= */}
-      <div className="max-w-6xl mx-auto px-4 py-16">
+      <div className="max-w-6xl mx-auto px-4 py-8 sm:py-12 lg:py-16 pb-28 lg:pb-16">
         <div className="grid lg:grid-cols-3 gap-8 mb-16">
           {/* CONTENT */}
-          <div className="lg:col-span-2 bg-white rounded-3xl p-8 shadow border">
+          <div className="lg:col-span-2 bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow border">
             <h2 className="text-2xl font-bold mb-6 flex gap-3">
               <span className="w-1 bg-gradient-to-b from-red-500 to-orange-500 rounded-full" />
               {contentTitle}
