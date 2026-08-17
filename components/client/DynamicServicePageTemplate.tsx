@@ -38,7 +38,7 @@ function DynamicHeroWithAddons({ data }: { data: any }) {
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
   const { openCallback } = useCallback();
-  const { isReady: razorpayReady } = useRazorpay();
+  const { isLoaded: razorpayReady } = useRazorpay();
   const [paymentState, setPaymentState] = useState<"idle" | "creating" | "paying" | "verifying" | "success">("idle");
   const [paymentError, setPaymentError] = useState("");
 
@@ -49,90 +49,22 @@ function DynamicHeroWithAddons({ data }: { data: any }) {
 
   const discount = originalPrice ? Math.round((1 - price / originalPrice) * 100) : 0;
 
-  const handleStartProcess = async () => {
-    if (authLoading) return;
-    if (!user) {
-      toast.error("Please login to continue");
-      router.push(`/login?redirect=${window.location.pathname}`);
-      return;
+  useEffect(() => {
+    if (user && typeof window !== "undefined") {
+      const pending = sessionStorage.getItem("pendingAutoBuy");
+      if (pending === serviceID) {
+        sessionStorage.removeItem("pendingAutoBuy");
+        handleStartProcess();
+      }
     }
-    try {
-      setPaymentState("creating");
-      setPaymentError("");
-      const token = await getAccessToken();
-      const orderRes = await fetch("/api/user/start-process", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        body: JSON.stringify({
-          serviceCode: serviceID,
-          clientDetails: {
-            fullName: user.name || "Client",
-            email: user.email || "client@lawizer.com",
-            phone: (user as any)?.phone || "9999999999",
-          },
-          urgency: "NORMAL",
-        }),
-      });
+  }, [user, serviceID]);
 
-      if (!orderRes.ok) throw new Error("Failed to create order");
-      const orderData = await orderRes.json();
-      if (!orderData.success) throw new Error("Failed to create order");
-      const orderObj = orderData.razorpayOrder || orderData.order;
-      const razorpayKey = orderData.keyId || orderObj?.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
-
-      setPaymentState("paying");
-      await new Promise<void>((resolve, reject) => {
-        const options = {
-          key: razorpayKey,
-          amount: orderObj.amount,
-          currency: orderObj.currency || "INR",
-          name: "Lawizer",
-          description: title,
-          order_id: orderObj.id,
-          prefill: {
-            name: user.name || "",
-            email: user.email || "",
-            contact: (user as any)?.phone || "",
-          },
-          theme: { color: "#c92c41" },
-          modal: { ondismiss: function () { setPaymentState("idle"); reject(new Error("Payment cancelled")); } },
-          handler: async function (response: any) {
-            try {
-              setPaymentState("verifying");
-              const verifyRes = await fetch("/api/payments/verify", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                },
-                body: JSON.stringify({
-                  razorpay_order_id: response.razorpay_order_id,
-                  razorpay_payment_id: response.razorpay_payment_id,
-                  razorpay_signature: response.razorpay_signature,
-                }),
-              });
-              const verifyData = await verifyRes.json();
-              if (!verifyData.success) throw new Error("Payment verification failed");
-              setPaymentState("success");
-              toast.success("Payment successful!");
-              router.push("/user/dashboard?tab=services");
-              resolve();
-            } catch (err: any) {
-              setPaymentState("idle");
-              reject(err);
-            }
-          },
-        };
-        const rzp = new (window as any).Razorpay(options);
-        rzp.on("payment.failed", (response: any) => { setPaymentState("idle"); reject(new Error("Payment failed")); });
-        rzp.open();
-      });
-    } catch (err: any) {
-      setPaymentState("idle");
-      if (err.message !== "Payment cancelled") toast.error(err.message);
+  const handleStartProcess = () => {
+    const btn = document.getElementById("start-process-btn");
+    if (btn) {
+      btn.click();
+    } else {
+      toast.error("Process handler not found on page.");
     }
   };
 
@@ -234,7 +166,6 @@ function DynamicHeroWithAddons({ data }: { data: any }) {
                       {[1, 2, 3, 4, 5].map((i) => <Star key={i} className="w-3 h-3 fill-yellow-300 text-yellow-300" />)}
                     </div>
                     <span className="text-white/75 text-[11px] font-semibold">4.9</span>
-                    <span className="text-white/40 text-[11px]">· 31,545 reviews</span>
                   </div>
 
                   <button

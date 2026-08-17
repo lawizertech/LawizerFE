@@ -147,6 +147,15 @@ export default function StartupAndBusinessLegalPage() {
           description:
             "Non-profit structure for charitable or social initiatives. Eligible for tax exemptions and grants.",
         },
+        {
+          name: "Founder Registration",
+          slug: "FounderRegistrationPage",
+          price: "₹2,499",
+          originalPrice: "₹4,999",
+          discount: "50% OFF",
+          description:
+            "Legally formalizes the relationships, equity distribution, roles, and responsibilities among co-founders.",
+        },
       ],
     },
     {

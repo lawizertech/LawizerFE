@@ -847,4 +847,85 @@ export const servicesData: Record<string, ServiceData> = {
       "MOA & AOA\\nDrafted",
     ],
   },
+  FounderRegistrationPage: {
+    title: "Founder Registration",
+    subtitle: "Formalize your founder roles, equity, and responsibilities.",
+    badgeText: "Founder Rights \u2022 Equity \u2022 Role Clarity",
+    icon: "users",
+    serviceID: "FOUNDER_REGISTRATION",
+    contentTitle: "Overview",
+    contentDescription:
+      "Founder Registration legally formalizes the relationships, equity distribution, roles, and responsibilities among the co-founders of a startup. This protects all parties in case of disputes, exits, or when raising capital from investors who require clear founder agreements.",
+    section1Title: "Key Benefits of Founder Registration",
+    price: 2499,
+    originalPrice: 4999,
+    theme: {
+      orb1: "bg-blue-500/20",
+      orb2: "bg-indigo-500/20",
+      iconBg: "from-blue-500 to-indigo-500",
+      badgeText: "text-indigo-300",
+      heroBg: "bg-gradient-to-br from-[#1e1b4b] via-[#3730a3] to-[#312e81]",
+    },
+    primaryColor: "text-indigo-500",
+    primaryBg: "bg-gradient-to-r from-blue-500 to-indigo-500",
+    primaryHoverBg: "bg-gradient-to-r from-blue-600 to-indigo-600",
+    benefits: [
+      {
+        icon: "shield",
+        description: "Clear definition of roles and responsibilities",
+      },
+      {
+        icon: "trendingUp",
+        description: "Prevents future disputes over equity and control",
+      },
+      {
+        icon: "users",
+        description: "Establishes a solid foundation for investor funding",
+      },
+      {
+        icon: "fileText",
+        description: "Protects intellectual property brought in by founders",
+      },
+    ],
+    faqs: [
+      {
+        question: "Why do we need to register founders?",
+        answer:
+          "It legally binds the founders to their agreed equity split, vesting schedules, and roles, which is critical for long-term stability and investor confidence.",
+      },
+      {
+        question: "When should we do this?",
+        answer: "As early as possible, ideally before incorporating the company or building significant intellectual property.",
+      },
+      {
+        question: "Does it cover founder exits?",
+        answer: "Yes, it typically includes clauses for what happens to equity if a founder leaves the company.",
+      },
+    ],
+    sections: [
+      {
+        title: "Prerequisites",
+        icon: "fileText",
+        type: "list",
+        data: [
+          "Names and details of all founders",
+          "Agreed upon equity distribution",
+          "Defined roles for each founder",
+          "Details of initial capital or IP contribution",
+        ],
+      },
+      {
+        title: "What You'll Receive",
+        icon: "fileText",
+        type: "grid",
+        data: [
+          "Drafted Co-Founders Agreement",
+          "Equity & Vesting Schedule",
+          "IP Assignment Clauses",
+          "Legal Consultation & Review",
+        ],
+      },
+    ],
+    addons: ["Drafted\\nAgreement", "Equity\\nSchedule", "IP\\nAssignment"],
+  },
 };

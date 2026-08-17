@@ -340,7 +340,6 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
                   ))}
                 </div>
                 <span className="text-white font-bold text-sm">4.9</span>
-                <span className="text-white/50 text-sm">· 31,545 reviews</span>
               </div>
 
               {/* Stats Grid */}
@@ -413,7 +412,6 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
                       {[1,2,3,4,5].map((i) => <Star key={i} className="w-3 h-3 fill-yellow-300 text-yellow-300" />)}
                     </div>
                     <span className="text-white/75 text-[11px] font-semibold">4.9</span>
-                    <span className="text-white/40 text-[11px]">· 31,545 reviews</span>
                   </div>
 
                   {/* Buy Now */}

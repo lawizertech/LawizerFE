@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     const { action } = body;
 
     if (action === "create-order") {
-      const { name, phone, reason } = body;
+      const { name, phone, reason, userId } = body;
 
       if (!name || !phone || !reason) {
         return NextResponse.json({ success: false, message: "All fields are required" }, { status: 400 });
@@ -53,6 +53,72 @@ export async function POST(req: Request) {
       }
 
       const orderData = await orderRes.json();
+
+      // Create database entries immediately so the "pending" status reflects on the user's dashboard
+      try {
+        const admin = createAdminClient();
+        let clientId: string = userId;
+
+        if (!clientId) {
+          const { data: existingProfile } = await admin
+            .from("profiles")
+            .select("id")
+            .eq("phone", phone)
+            .maybeSingle();
+
+          if (existingProfile) {
+            clientId = existingProfile.id;
+          } else {
+            clientId = crypto.randomUUID();
+            await admin.from("profiles").insert({
+              id: clientId,
+              role: "client",
+              name: name,
+              phone: phone,
+              email: `${phone}@guest.lawizer.com`,
+              has_password: false,
+            });
+          }
+        }
+
+        const { data: newCase } = await admin
+          .from("cases")
+          .insert({
+            client_id: clientId,
+            case_type: "FOUNDER_CONSULTATION",
+            status: "pending_payment",
+            stages: [
+              {
+                id: "stage-1",
+                key: "paid_money",
+                title: "Payment Completed",
+                description: "Fee of ₹4,999 paid successfully",
+                status: "pending",
+              },
+              {
+                id: "stage-2",
+                key: "lawyer_assigned",
+                title: "Founder Consultation",
+                description: "Consultation call with the founder",
+                status: "pending",
+              }
+            ]
+          })
+          .select("id")
+          .single();
+
+        if (newCase) {
+          await admin.from("payments").insert({
+            case_id: newCase.id,
+            razorpay_order_id: orderData.id,
+            status: "created",
+            amount: 4999.00,
+          });
+        }
+      } catch (dbErr) {
+        console.error("Failed to create pending order in DB:", dbErr);
+      }
+
       return NextResponse.json({
         success: true,
         orderId: orderData.id,
@@ -62,7 +128,7 @@ export async function POST(req: Request) {
     }
 
     if (action === "verify-payment") {
-      const { razorpay_payment_id, razorpay_order_id, razorpay_signature, name, phone, reason } = body;
+      const { razorpay_payment_id, razorpay_order_id, razorpay_signature, name, phone, reason, userId } = body;
 
       if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature || !name || !phone || !reason) {
         return NextResponse.json({ success: false, message: "Missing verification parameters" }, { status: 400 });
@@ -87,37 +153,22 @@ export async function POST(req: Request) {
       try {
         const admin = createAdminClient();
 
-        // 1. Check if profile with phone already exists, or create a guest profile
-        let clientId: string;
-        const { data: existingProfile } = await admin
-          .from("profiles")
-          .select("id")
-          .eq("phone", phone)
+        const { data: existingPayment } = await admin
+          .from("payments")
+          .select("id, case_id")
+          .eq("razorpay_order_id", razorpay_order_id)
           .maybeSingle();
 
-        if (existingProfile) {
-          clientId = existingProfile.id;
-        } else {
-          clientId = crypto.randomUUID();
-          const { error: profileError } = await admin.from("profiles").insert({
-            id: clientId,
-            role: "client",
-            name: name,
-            phone: phone,
-            email: `${phone}@guest.lawizer.com`,
-            has_password: false,
-          });
-          if (profileError) {
-            console.error("Failed to create guest profile:", profileError);
-          }
-        }
+        if (existingPayment) {
+          // Update payment status
+          await admin.from("payments").update({
+            razorpay_payment_id: razorpay_payment_id,
+            status: "captured",
+            verified_at: new Date().toISOString(),
+          }).eq("id", existingPayment.id);
 
-        // 2. Create the case for the founder consultation
-        const { data: newCase, error: caseError } = await admin
-          .from("cases")
-          .insert({
-            client_id: clientId,
-            case_type: "FOUNDER_CONSULTATION",
+          // Update case status
+          await admin.from("cases").update({
             status: "created",
             stages: [
               {
@@ -135,24 +186,68 @@ export async function POST(req: Request) {
                 status: "pending",
               }
             ]
-          })
-          .select("id")
-          .single();
-
-        if (caseError || !newCase) {
-          console.error("Failed to insert case into DB:", caseError);
+          }).eq("id", existingPayment.case_id);
         } else {
-          // 3. Create the payment record linked to the case
-          const { error: paymentError } = await admin.from("payments").insert({
-            case_id: newCase.id,
-            razorpay_order_id: razorpay_order_id,
-            razorpay_payment_id: razorpay_payment_id,
-            status: "captured",
-            amount: 4999.00,
-            verified_at: new Date().toISOString(),
-          });
-          if (paymentError) {
-            console.error("Failed to insert payment into DB:", paymentError);
+          // Fallback if not found (legacy or error in create-order)
+          let clientId: string = userId;
+
+          if (!clientId) {
+            const { data: existingProfile } = await admin
+              .from("profiles")
+              .select("id")
+              .eq("phone", phone)
+              .maybeSingle();
+
+            if (existingProfile) {
+              clientId = existingProfile.id;
+            } else {
+              clientId = crypto.randomUUID();
+              await admin.from("profiles").insert({
+                id: clientId,
+                role: "client",
+                name: name,
+                phone: phone,
+                email: `${phone}@guest.lawizer.com`,
+                has_password: false,
+              });
+            }
+          }
+
+          const { data: newCase } = await admin
+            .from("cases")
+            .insert({
+              client_id: clientId,
+              case_type: "FOUNDER_CONSULTATION",
+              status: "created",
+              stages: [
+                {
+                  id: "stage-1",
+                  key: "paid_money",
+                  title: "Payment Completed",
+                  description: "Fee of ₹4,999 paid successfully",
+                  status: "completed",
+                },
+                {
+                  id: "stage-2",
+                  key: "lawyer_assigned",
+                  title: "Founder Consultation",
+                  description: "Consultation call with the founder",
+                  status: "pending",
+                }
+              ]
+            })
+            .select("id")
+            .single();
+
+          if (newCase) {
+            await admin.from("payments").insert({
+              case_id: newCase.id,
+              razorpay_order_id: razorpay_order_id,
+              razorpay_payment_id: razorpay_payment_id,
+              status: "captured",
+              amount: 4999.00,
+              verified_at: new Date().toISOString(),
+            });
           }
         }
       } catch (dbErr) {

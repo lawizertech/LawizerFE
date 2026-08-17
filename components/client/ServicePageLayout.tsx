@@ -461,6 +461,7 @@ export default function ServicePageLayout({
               </p>
 
               <button
+                id="start-process-btn"
                 onClick={handleStartProcess}
                 disabled={paymentState !== "idle" || !razorpayReady}
                 className={`w-full ${primaryBg} py-4 rounded-xl font-semibold hover:opacity-90 disabled:opacity-70 transition-opacity flex items-center justify-center gap-2`}

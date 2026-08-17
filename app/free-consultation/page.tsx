@@ -34,7 +34,7 @@ export default function FreeConsultationPage() {
       const res = await fetch("/api/free-consultation", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "create-order", name, phone, reason }),
+        body: JSON.stringify({ action: "create-order", name, phone, reason, userId: user?.uid }),
       });
       const orderData = await res.json();
       
@@ -72,6 +72,7 @@ export default function FreeConsultationPage() {
                 name,
                 phone,
                 reason,
+                userId: user?.uid,
               }),
             });
             const verifyData = await verifyRes.json();
