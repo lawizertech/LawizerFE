@@ -155,7 +155,7 @@ export const services = [
           },
           {
             name: "One Person Company Registration",
-            url: "/startup-businesslegal/startbusiness/OnePersonCompanyPage",
+            url: "/startup-businesslegal",
           },
           {
             name: "Limited Liability Partnership (LLP) Registration",
