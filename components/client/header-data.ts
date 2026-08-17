@@ -142,7 +142,7 @@ export const services = [
 
   {
     title: "Startup & Business Legal",
-    tagline: "From Idea to Empire — Built on Solid Legal Ground",
+    tagline: "From Idea to Empire - Built on Solid Legal Ground",
     color: "from-purple-500/10 via-indigo-500/20 to-teal-500/30 text-purple-700",
     url: "/startup-businesslegal",
     items: [

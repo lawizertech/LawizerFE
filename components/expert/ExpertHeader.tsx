@@ -21,7 +21,7 @@ export default function ExpertHeader() {
     <header className="fixed top-0 right-0 left-0 lg:left-64 h-16 bg-white border-b border-[#ebebeb] z-30">
       <div className="h-full flex items-center justify-between px-6">
         {/* LEFT */}
-        <h1 className="text-xl font-semibold text-gray-900">{title}</h1>
+        <h1 className="text-xl font-semibold text-gray-900 pl-10 lg:pl-0">{title}</h1>
 
         {/* RIGHT */}
         <div className="flex items-center gap-4">

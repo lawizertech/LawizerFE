@@ -400,7 +400,7 @@ export default function ServicesSection() {
             </h2>
 
             <p className="text-[15px] lg:text-[17px] text-gray-600 leading-7 max-w-[520px] mx-auto">
-              Pick a phase and explore all your services — with real prices, real pages, one click away.
+              Pick a phase and explore all your services, with real prices, real pages, one click away.
             </p>
           </motion.div>
 
@@ -466,7 +466,7 @@ export default function ServicesSection() {
                     </div>
                     <div>
                       <div className="font-[family-name:var(--,'Syne',sans-serif)] text-[17px] font-black text-slate-900 leading-snug">
-                        Phase {phase.id} — {phase.label}
+                        Phase {phase.id}: {phase.label}
                       </div>
                       <div className="text-[12px] text-slate-400 font-semibold mt-0.5">
                         {phase.categories.reduce((n, c) => n + c.items.length, 0)} services across {phase.categories.length} {phase.categories.length === 1 ? "category" : "categories"}

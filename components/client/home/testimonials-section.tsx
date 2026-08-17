@@ -40,13 +40,13 @@ const AVATAR_COLORS = [
 
 const testimonials = [
   {
-    text: "Lawizer made incorporating our company incredibly smooth. From DSC to COI in under 10 days. The WhatsApp support was excellent — always available.",
+    text: "Lawizer made incorporating our company incredibly smooth. From DSC to COI in under 10 days. The WhatsApp support was excellent, always available.",
     name: "Rohan Agarwal",
     role: "Founder, TechNova Solutions, Kolkata",
     initials: "RA",
   },
   {
-    text: "Got our GST and MSME done simultaneously. Price was exactly what was quoted — no hidden charges. Very professional team. Highly recommended for new founders!",
+    text: "Got our GST and MSME done simultaneously. Price was exactly what was quoted, with no hidden charges. Very professional team. Highly recommended for new founders!",
     name: "Priya Dey",
     role: "Co-founder, GreenRoot Organics, WB",
     initials: "PD",

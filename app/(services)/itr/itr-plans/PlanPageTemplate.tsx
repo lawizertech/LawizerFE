@@ -211,7 +211,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
 
   const stats = [
     { icon: Star, label: "Avg Rating", value: "4.9 / 5" },
-    { icon: Users, label: "Clients Served", value: "50,000+" },
+    { icon: Users, label: "Clients Served", value: "500+" },
     { icon: Clock, label: "Turnaround", value: `${plan.estimateDays} Days` },
     { icon: ShieldCheck, label: "Data Security", value: "Bank-Level" },
   ];

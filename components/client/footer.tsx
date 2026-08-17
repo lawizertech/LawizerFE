@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="bg-white border-t border-gray-100 pt-16 pb-8">
+    <footer className="bg-white border-t border-gray-100 pt-10 pb-6 md:pt-16 md:pb-8">
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 mb-12">
           
@@ -18,7 +18,7 @@ export function Footer() {
               <span className="text-2xl font-montserrat font-extrabold text-[var(--brand)] tracking-tight">Lawizer</span>
             </Link>
             <p className="text-gray-500 text-[14px] leading-relaxed mb-6 max-w-sm">
-              Redefining how India accesses legal support — simple, fast, affordable, and accessible for all.
+              Redefining how India accesses legal support: simple, fast, affordable, and accessible for all.
             </p>
             <div className="flex gap-3">
               <a href="https://www.facebook.com/people/Lawizer" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500 hover:bg-red-50 hover:text-[var(--brand)] hover:border-red-100 transition-all">

@@ -56,7 +56,7 @@ export function WhyLawizerSection() {
             <span className="text-brand-red">New-Age</span> Founders
           </h2>
           <p className="section-sub text-base sm:text-lg text-gray-600 mb-8 max-w-xl">
-            We understand the startup grind. No legalese, no hidden fees, no chasing — just clear, fast, and
+            We understand the startup grind. No legalese, no hidden fees, no chasing, just clear, fast, and
             professional compliance support.
           </p>
 
@@ -64,7 +64,7 @@ export function WhyLawizerSection() {
             <li>
               <div className="why-check">✓</div>
               <div className="why-point-text">
-                <div className="t">100% Online — No Office Visits</div>
+                <div className="t">100% Online: No Office Visits</div>
                 <div className="s">
                   Submit all documents from your laptop or phone. We manage the rest with government portals.
                 </div>
@@ -114,7 +114,7 @@ export function WhyLawizerSection() {
                 <div>
                   <div className="text-[11px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest mb-1.5">Businesses Registered</div>
                   <div className="font-[family-name:var(--)] text-3xl sm:text-[42px] font-black text-[var(--brand)] leading-none tracking-tight">
-                    <AnimatedNumber value="1000" suffix="K+" />
+                    <AnimatedNumber value="500" suffix="+" />
                   </div>
                 </div>
                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-red-50 text-[var(--brand)] flex items-center justify-center border border-red-100">

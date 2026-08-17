@@ -83,7 +83,7 @@ export function RealLifeQuestionsSection() {
             Real-life legal issues need real lawyers. Whether it’s{" "}
             <span className="font-semibold text-gray-800">personal</span>,{" "}
             <span className="font-semibold text-gray-800">property</span>, or{" "}
-            <span className="font-semibold text-gray-800">business</span> — our advocates are here to guide you every
+            <span className="font-semibold text-gray-800">business</span>, our advocates are here to guide you every
             step of the way.
           </p>
         </div>

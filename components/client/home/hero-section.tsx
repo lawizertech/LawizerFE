@@ -18,17 +18,7 @@ const serviceCategories = [
   { href: "/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage", initials: "MS", title: "MSME" },
 ];
 
-/* ── Mobile chips (same as before for marquee) ── */
-const mobileServices = [
-  { href: "/startup-businesslegal/startbusiness/PrivateLimitedCompanyPage", icon: "🏢", title: "Private Limited Company" },
-  { href: "/startup-businesslegal/startbusiness/LLPRegistrationPage", icon: "📝", title: "LLP Registration" },
-  { href: "/startup-businesslegal/protectbusiness/TrademarkRegistrationPage", icon: "🛡️", title: "Trademark Registration" },
-  { href: "/itr", icon: "🧾", title: "ITR Filing" },
-  { href: "/startup-businesslegal/startbusiness/GSTRegistrationPage", icon: "📋", title: "GST Registration" },
-  { href: "/startup-businesslegal/startbusiness/StartupIndiaRegistrationPage", icon: "🚀", title: "Startup India" },
-  { href: "/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage", icon: "💼", title: "MSME Registration" },
-  { href: "/compliance/annual", icon: "📑", title: "Annual Compliance" },
-];
+
 
 /* ── Floating Card ── */
 function FloatingCard({
@@ -248,25 +238,7 @@ Compliance & Taxation
         </div>
       </div>
 
-      {/* ── Mobile-only: horizontal swipeable service chips ── */}
-      <div className="lg:hidden overflow-hidden w-full max-w-full pb-6">
-        <motion.div
-          className="flex gap-[10px] w-max px-4"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ ease: "linear", duration: 25, repeat: Infinity }}
-        >
-          {[...Array(2)].map((_, i) => (
-            <div key={i} className="flex gap-[10px]">
-              {mobileServices.map(s => (
-                <Link key={s.href} href={s.href} className="bg-white rounded-lg shadow-sm border border-gray-100 p-3 flex flex-col items-center justify-center text-center min-w-[120px] w-[120px] h-[100px] gap-2">
-                  <span className="text-2xl">{s.icon}</span>
-                  <span className="text-[11px] font-bold text-gray-800 leading-tight">{s.title}</span>
-                </Link>
-              ))}
-            </div>
-          ))}
-        </motion.div>
-      </div>
+
     </div>
   );
 }
