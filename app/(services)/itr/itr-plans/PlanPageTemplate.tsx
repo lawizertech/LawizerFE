@@ -580,8 +580,9 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
  4. BODY — content left, sticky sidebar right
  ══════════════════════════════════════════════════ */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        <div className="grid lg:grid-cols-[1fr_300px] gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 gap-8">
           {/* ── Content sections ── */}
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow border border-gray-100">
           <div className="space-y-10 min-w-0">
             {/* About */}
             <motion.section
@@ -716,11 +717,6 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
             </motion.section>
           </div>
 
-          {/* ── Sticky sidebar (desktop only) ── */}
-          <div className="hidden lg:block">
-            <div className="sticky top-36">
-              <SidebarCard plan={plan} onCallback={() => openCallback("Income Tax & GST")} onBuyNow={handleStartProcess} paymentState={paymentState} razorpayReady={razorpayReady} />
-            </div>
           </div>
         </div>
       </main>

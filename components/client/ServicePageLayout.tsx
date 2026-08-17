@@ -34,7 +34,7 @@ import { useAuth } from "@/context/authContext";
 import { useRazorpay } from "@/hooks/useRazorpay";
 import { getAccessToken } from "@/lib/auth/tokenStore";
 import { toast } from "sonner";
-import { Loader2, Zap } from "lucide-react";
+import { Loader2, Zap, Phone } from "lucide-react";
 
 /* ---------- ICON MAP ---------- */
 
@@ -361,17 +361,10 @@ export default function ServicePageLayout({
             className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-slate-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] z-50 lg:hidden"
           >
             <button
-              onClick={handleStartProcess}
-              disabled={paymentState !== "idle" || !razorpayReady}
-              className={`w-full ${primaryBg} py-3.5 rounded-xl font-bold text-white shadow-lg hover:opacity-90 disabled:opacity-70 transition-all flex items-center justify-center gap-2`}
+              onClick={() => openCallback(title)}
+              className={`w-full ${primaryBg} py-3.5 rounded-xl font-bold text-white shadow-lg hover:opacity-90 transition-all flex items-center justify-center gap-2`}
             >
-              {paymentState === "creating" && <><Loader2 className="w-5 h-5 animate-spin" /> Preparing...</>}
-              {paymentState === "paying" && <><Loader2 className="w-5 h-5 animate-spin" /> Awaiting Payment...</>}
-              {paymentState === "verifying" && <><Loader2 className="w-5 h-5 animate-spin" /> Verifying...</>}
-              {paymentState === "success" && <><CheckCircle2 className="w-5 h-5" /> Success!</>}
-              {paymentState === "idle" && (
-                <>Start Process <ArrowRight className="inline w-5 h-5" /></>
-              )}
+              <Phone className="w-5 h-5" /> Request Callback
             </button>
           </motion.div>
         )}
@@ -379,15 +372,15 @@ export default function ServicePageLayout({
 
       {/* ================= MAIN ================= */}
       <div className="max-w-6xl mx-auto px-4 py-8 sm:py-12 lg:py-16 pb-28 lg:pb-16">
-        <div className="grid lg:grid-cols-3 gap-8 mb-16">
-          {/* CONTENT */}
-          <div className="lg:col-span-2 bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow border">
+        <div className="grid grid-cols-1 gap-8 mb-16">
+          {/* CONTENT - full width */}
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow border">
             <h2 className="text-2xl font-bold mb-6 flex gap-3">
               <span className="w-1 bg-gradient-to-b from-red-500 to-orange-500 rounded-full" />
               {contentTitle}
             </h2>
 
-            {contentDescription && <p className="text-slate-700 text-sm mb-8 max-w-2xl">{contentDescription}</p>}
+            {contentDescription && <p className="text-slate-700 text-sm mb-8 max-w-3xl">{contentDescription}</p>}
 
             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
               <Shield className={primaryColor} />
@@ -460,7 +453,7 @@ export default function ServicePageLayout({
                   )}
 
                   {section.type === "list" && (
-                    <div className="space-y-3">
+                    <div className="grid sm:grid-cols-2 gap-3">
                       {(section.data as string[]).map((item) => (
                         <div
                           key={item}
@@ -491,34 +484,14 @@ export default function ServicePageLayout({
             })}
           </div>
 
-          {/* SIDEBAR */}
-          <aside className="lg:sticky lg:top-24 h-fit">
-            <div className="bg-slate-900 text-white rounded-3xl p-8 shadow">
-              <h3 className="text-xl font-bold mb-1">Start Your Legal Process</h3>
-              <p className="text-slate-400 text-xs mb-1">Service</p>
-              <p className="text-sm font-semibold text-orange-400 mb-6">{title}</p>
-              <p className="text-slate-300 text-sm mb-6">
-                Expert legal guidance, end-to-end support. Share your details and we&apos;ll get back to you within 24 hours.
-              </p>
-
-              <button
-                id="start-process-btn"
-                onClick={handleStartProcess}
-                disabled={paymentState !== "idle" || !razorpayReady}
-                className={`w-full ${primaryBg} py-4 rounded-xl font-semibold hover:opacity-90 disabled:opacity-70 transition-opacity flex items-center justify-center gap-2`}
-              >
-                {paymentState === "creating" && <><Loader2 className="w-5 h-5 animate-spin" /> Preparing...</>}
-                {paymentState === "paying" && <><Loader2 className="w-5 h-5 animate-spin" /> Awaiting Payment...</>}
-                {paymentState === "verifying" && <><Loader2 className="w-5 h-5 animate-spin" /> Verifying...</>}
-                {paymentState === "success" && <><CheckCircle2 className="w-5 h-5" /> Success!</>}
-                {paymentState === "idle" && (
-                  <>Start Process <ArrowRight className="inline w-5 h-5" /></>
-                )}
-              </button>
-
-              <p className="text-xs text-slate-400 mt-4 text-center">We&apos;ll get back to you within 24 hours</p>
-            </div>
-          </aside>
+          {/* Hidden start-process button (keeps payment flow working for DynamicHeroWithAddons) */}
+          <button
+            id="start-process-btn"
+            onClick={handleStartProcess}
+            disabled={paymentState !== "idle" || !razorpayReady}
+            className="hidden"
+            aria-hidden="true"
+          />
         </div>
 
         {/* FAQs */}
