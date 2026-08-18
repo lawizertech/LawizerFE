@@ -35,16 +35,24 @@ export default function DashboardLayout({
   };
 
   return (
-    <div className="flex bg-[#fafafa] overflow-hidden">
+    <div className="flex bg-[#fafafa] overflow-hidden min-h-screen">
       {sidebar({ activeTab, handleLogout, menuOpen })}
 
       {mobileMenuButton({ menuOpen, setMenuOpen })}
+
+      {/* Backdrop for mobile sidebar */}
+      {menuOpen && (
+        <div
+          className="lg:hidden fixed inset-0 z-30 bg-black/40 backdrop-blur-xs transition-opacity"
+          onClick={() => setMenuOpen(false)}
+        />
+      )}
 
       {/* HEADER */}
       {header}
 
       {/* CONTENT */}
-      <main className="flex-1 ml-0 lg:ml-64 pt-20 px-6 lg:px-10">{children}</main>
+      <main className="flex-1 min-w-0 ml-0 lg:ml-64 pt-20 px-6 lg:px-10">{children}</main>
     </div>
   );
 }

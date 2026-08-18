@@ -147,6 +147,15 @@ export default function StartupAndBusinessLegalPage() {
           description:
             "Non-profit structure for charitable or social initiatives. Eligible for tax exemptions and grants.",
         },
+        {
+          name: "Founder Registration",
+          slug: "FounderRegistrationPage",
+          price: "₹2,499",
+          originalPrice: "₹4,999",
+          discount: "50% OFF",
+          description:
+            "Legally formalizes the relationships, equity distribution, roles, and responsibilities among co-founders.",
+        },
       ],
     },
     {
@@ -316,7 +325,7 @@ export default function StartupAndBusinessLegalPage() {
         />
 
         {/* Hero content */}
-        <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-4xl px-4 sm:px-8 pt-28 pb-20">
+        <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-4xl px-4 sm:px-8 pt-20 sm:pt-28 pb-16 sm:pb-20">
           {/* Eyebrow pill */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -402,7 +411,7 @@ export default function StartupAndBusinessLegalPage() {
             transition={{ delay: 0.85 }}
             className="flex flex-wrap items-center justify-center gap-6 mt-14"
           >
-            {["10,000+ Businesses Registered", "Expert Verified Lawyers", "Secure & Confidential"].map((badge) => (
+            {["500+ Businesses Registered", "Expert Verified Lawyers", "Secure & Confidential"].map((badge) => (
               <div key={badge} className="flex items-center gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 text-green-400" />
                 <span className="text-xs sm:text-sm text-[#c3d0e4]/80">{badge}</span>
@@ -450,7 +459,7 @@ export default function StartupAndBusinessLegalPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
                 {section.services.map((service, cIdx) => (
                   <motion.div
-                    key={service.slug}
+                    key={`${service.slug}-${cIdx}`}
                     initial={{ opacity: 0, y: 28 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -572,7 +581,7 @@ export default function StartupAndBusinessLegalPage() {
           </div>
 
           {/* Bundle cards — OPC (cheapest) → LLP (popular) → Pvt Ltd (premium) */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-7 items-end">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-7 items-end">
             {complianceBundles.map((bundle, bIdx) => (
               <motion.div
                 key={bundle.id}

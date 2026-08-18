@@ -282,7 +282,7 @@ export function Header() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="h-10 w-10 text-brand-red hover:bg-gray-100"
+                className="h-11 w-11 text-brand-red hover:bg-gray-100 flex items-center justify-center rounded-xl"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               >
                 {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -340,7 +340,7 @@ export function Header() {
                 </Link>
 
                 <div className="flex items-center gap-2">
-                  <button aria-label="Close menu" onClick={() => setMobileMenuOpen(false)} className="p-2 bg-gray-100 text-gray-500 hover:bg-gray-200 rounded-full transition-colors">
+                  <button aria-label="Close menu" onClick={() => setMobileMenuOpen(false)} className="p-3 bg-gray-100 text-gray-500 hover:bg-gray-200 rounded-full transition-colors flex items-center justify-center">
                     <X className="w-5 h-5" />
                   </button>
                 </div>

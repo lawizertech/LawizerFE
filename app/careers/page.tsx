@@ -60,7 +60,7 @@ interface PublicJobCard {
 const stats: Stat[] = [
   { number: "25+", label: "Team Members" },
   { number: "8", label: "Practice Verticals" },
-  { number: "3,000+", label: "Clients Served" },
+  { number: "500+", label: "Clients Served" },
   { number: "12", label: "Cities Covered" },
   { number: "4.9★", label: "Platform Rating" },
 ];
@@ -69,7 +69,7 @@ const perks: Perk[] = [
   {
     emoji: "🏠",
     title: "Flexible / Remote-First",
-    description: "We trust you to deliver — from wherever you work best.",
+    description: "We trust you to deliver - from wherever you work best.",
   },
   {
     emoji: "📚",
@@ -77,7 +77,7 @@ const perks: Perk[] = [
     description: "₹10,000/year per team member for courses, books, and certifications.",
   },
   {
-    emoji: "⚡",
+    emoji: "📈",
     title: "Fast Growth",
     description: "Flat hierarchy. Your ideas reach the founding team in days, not quarters.",
   },

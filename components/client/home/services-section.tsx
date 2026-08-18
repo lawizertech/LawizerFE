@@ -400,7 +400,7 @@ export default function ServicesSection() {
             </h2>
 
             <p className="text-[15px] lg:text-[17px] text-gray-600 leading-7 max-w-[520px] mx-auto">
-              Pick a phase and explore all your services — with real prices, real pages, one click away.
+              Pick a phase and explore all your services, with real prices, real pages, one click away.
             </p>
           </motion.div>
 
@@ -453,7 +453,7 @@ export default function ServicesSection() {
                 className="bg-white border border-slate-100 rounded-3xl shadow-[0_4px_30px_rgba(0,0,0,0.03)] overflow-hidden"
               >
                 {/* Phase Header Banner */}
-                <div className={`flex items-center justify-between flex-wrap gap-4 px-8 py-5 border-b border-slate-100 ${phase.tw.bgSoft}`}>
+                <div className={`flex items-center justify-between flex-wrap gap-4 px-4 sm:px-8 py-4 sm:py-5 border-b border-slate-100 ${phase.tw.bgSoft}`}>
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-white shrink-0 shadow-sm ${phase.tw.bg}`}>
                       {phase.id === 1 ? (
@@ -466,7 +466,7 @@ export default function ServicesSection() {
                     </div>
                     <div>
                       <div className="font-[family-name:var(--,'Syne',sans-serif)] text-[17px] font-black text-slate-900 leading-snug">
-                        Phase {phase.id} — {phase.label}
+                        Phase {phase.id}: {phase.label}
                       </div>
                       <div className="text-[12px] text-slate-400 font-semibold mt-0.5">
                         {phase.categories.reduce((n, c) => n + c.items.length, 0)} services across {phase.categories.length} {phase.categories.length === 1 ? "category" : "categories"}
@@ -485,7 +485,7 @@ export default function ServicesSection() {
                 </div>
 
                 {/* Categories Grid Container */}
-                <div className="p-8">
+                <div className="p-4 sm:p-8">
                   {phase.categories.map((cat, ci) => (
                     <motion.div 
                       key={cat.label} 
@@ -512,7 +512,7 @@ export default function ServicesSection() {
                 </div>
 
                 {/* Help Banner at the bottom */}
-                <div className="mx-8 mb-8 p-5 bg-slate-50/50 border border-slate-100 rounded-2xl flex flex-col sm:flex-row items-center gap-5 justify-between">
+                <div className="mx-4 sm:mx-8 mb-6 sm:mb-8 p-4 sm:p-5 bg-slate-50/50 border border-slate-100 rounded-2xl flex flex-col sm:flex-row items-center gap-4 sm:gap-5 justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-white border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.015)] flex items-center justify-center text-slate-400 shrink-0">
                       <HelpCircle className="w-5 h-5" />

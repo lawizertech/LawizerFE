@@ -172,7 +172,7 @@ export default function PopularServicesSection() {
               Popular <span className="text-[var(--brand)]">Services</span>
             </h2>
             <p className="text-sm text-[var(--text-muted)] max-w-[300px] leading-relaxed font-medium m-0">
-              Trusted by clients across India — fast, reliable, handled by experts.
+              Trusted by clients across India, fast, reliable, handled by experts.
             </p>
           </div>
         </motion.div>
