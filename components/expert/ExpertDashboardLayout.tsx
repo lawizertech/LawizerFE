@@ -9,8 +9,8 @@ export default function DashboardLayoutClient({ children }: { children: React.Re
   return (
     <DashboardLayout
       header={<ExpertHeader />}
-      sidebar={({ activeTab, handleLogout, menuOpen }) => (
-        <Sidebar activeTab={activeTab} handleLogout={handleLogout} menuOpen={menuOpen} />
+      sidebar={({ activeTab, handleLogout, menuOpen, setMenuOpen }) => (
+        <Sidebar activeTab={activeTab} handleLogout={handleLogout} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       )}
       mobileMenuButton={({ menuOpen, setMenuOpen }) => (
         <MobileMenuButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
