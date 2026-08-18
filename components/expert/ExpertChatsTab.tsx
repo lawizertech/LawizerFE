@@ -199,7 +199,7 @@ export default function ExpertChatsTab() {
         const uploadResult = await cloudinaryRes.json();
 
         // 3. Save the document record
-        const saveRes = await fetch("/api/expert/upload-document", {
+        const saveRes = await fetch("/api/documents/upload", {
           method: "POST",
           headers,
           body: JSON.stringify({
