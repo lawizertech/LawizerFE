@@ -147,15 +147,7 @@ export default function StartupAndBusinessLegalPage() {
           description:
             "Non-profit structure for charitable or social initiatives. Eligible for tax exemptions and grants.",
         },
-        {
-          name: "Founder Registration",
-          slug: "FounderRegistrationPage",
-          price: "₹2,499",
-          originalPrice: "₹4,999",
-          discount: "50% OFF",
-          description:
-            "Legally formalizes the relationships, equity distribution, roles, and responsibilities among co-founders.",
-        },
+
       ],
     },
     {
@@ -177,7 +169,7 @@ export default function StartupAndBusinessLegalPage() {
         {
           name: "Reply to Trademark Objection",
           slug: "ReplyToTrademarkObjectionPage",
-          price: "₹1,999 – ₹3,999",
+          price: "₹999",
           originalPrice: "₹5,999 – ₹8,999",
           discount: null,
           description: "Respond professionally to trademark office objections and ensure smooth registration.",
@@ -201,7 +193,7 @@ export default function StartupAndBusinessLegalPage() {
         {
           name: "Copyright Registration",
           slug: "CopyrightRegistrationPage",
-          price: "₹1,500",
+          price: "₹999",
           originalPrice: "₹3,999",
           discount: "63% OFF",
           description: "Protect original creative works such as software, music, or written content.",
@@ -226,7 +218,7 @@ export default function StartupAndBusinessLegalPage() {
         {
           name: "MSME / Udyam Registration",
           slug: "MSMEUdhyamRegistrationPage",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹2,999",
           discount: "50% OFF",
           description: "Get government recognition as an MSME and unlock financial incentives and subsidies.",
@@ -244,7 +236,7 @@ export default function StartupAndBusinessLegalPage() {
         {
           name: "Annual Compliance Calendar",
           slug: "annual",
-          price: "From ₹499/mo",
+          price: "₹999",
           originalPrice: "₹7,999/yr",
           discount: "Save up to 25%",
           description:
@@ -550,180 +542,7 @@ export default function StartupAndBusinessLegalPage() {
           );
         })}
 
-        {/* ══════════════════════════════════════════════════════
- MANAGE — Bundle Packages (ascending: OPC → LLP → Pvt Ltd)
- ══════════════════════════════════════════════════════ */}
-        <motion.section
-          initial={{ opacity: 0, y: 56 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.65 }}
-          className="mb-20 relative z-10 isolate"
-        >
-          <div className="flex items-center gap-3 mb-3">
-            <div className="p-2.5 rounded-xl bg-brand-red/10">
-              <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-[#c92c41]" />
-            </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-[#0e172b] tracking-tight">Manage Your Business</h2>
-          </div>
-          <p className="text-gray-400 text-sm sm:text-base mb-6 max-w-2xl">
-            Stay compliant effortlessly. Our all-in-one bundles cover incorporation, annual filings, and ROC returns —
-            so you can focus on what matters.
-          </p>
-          <div className="mb-10">
-            <a
-              href="/compliance/annual"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[#c92c41] hover:underline transition-colors"
-            >
-              See full annual compliance calendar
-              <ChevronRight className="w-4 h-4" />
-            </a>
-          </div>
 
-          {/* Bundle cards — OPC (cheapest) → LLP (popular) → Pvt Ltd (premium) */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-7 items-end">
-            {complianceBundles.map((bundle, bIdx) => (
-              <motion.div
-                key={bundle.id}
-                initial={{ opacity: 0, y: 36 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: bIdx * 0.1 }}
-                whileHover={bundle.popular ? {} : { y: -6, boxShadow: "0 24px 56px rgba(14,23,43,0.13)" }}
-                className="relative rounded-2xl flex flex-col overflow-visible"
-                style={
-                  bundle.popular
-                    ? {
-                        background: "linear-gradient(155deg, #0e172b 0%, #1b2e55 100%)",
-                        boxShadow: "0 28px 64px rgba(14,23,43,0.38), 0 0 0 1.5px rgba(233,155,43,0.45)",
-                        transform: "translateY(-14px)",
-                        zIndex: 10,
-                      }
-                    : {
-                        background: "white",
-                        border: "1px solid rgba(14,23,43,0.07)",
-                        boxShadow: "0 4px 18px rgba(14,23,43,0.06)",
-                      }
-                }
-              >
-                {/* Most Popular badge */}
-                {bundle.popular && (
-                  <div className="absolute -top-5 left-0 right-0 flex justify-center">
-                    <span
-                      className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-extrabold tracking-wide shadow-lg"
-                      style={{
-                        background: "linear-gradient(90deg, #e99b2b, #f5c76a)",
-                        color: "#0e172b",
-                      }}
-                    >
-                      <Star className="w-3 h-3 fill-current" />
-                      Most Popular
-                    </span>
-                  </div>
-                )}
-
-                <div className={`p-6 sm:p-8 flex flex-col flex-grow ${bundle.popular ? "pt-11" : ""}`}>
-                  <h3
-                    className={`text-base sm:text-lg font-extrabold mb-1 text-center ${bundle.popular ? "text-white" : "text-[#0e172b]"}`}
-                  >
-                    {bundle.name}
-                  </h3>
-                  <p
-                    className="text-xs text-center mb-7"
-                    style={{
-                      color: bundle.popular ? "rgba(195,215,245,0.65)" : "#9ca3af",
-                    }}
-                  >
-                    {bundle.tagline}
-                  </p>
-
-                  {/* Price */}
-                  <div className="text-center mb-6">
-                    <p
-                      className="font-black"
-                      style={{
-                        fontSize: "clamp(1.7rem, 3.5vw, 2.2rem)",
-                        color: bundle.popular ? "#e99b2b" : "#c92c41",
-                      }}
-                    >
-                      {bundle.price}
-                    </p>
-                    <div className="flex items-center justify-center gap-2 mt-1.5">
-                      <p
-                        className="text-sm line-through"
-                        style={{
-                          color: bundle.popular ? "rgba(190,210,245,0.4)" : "#d1d5db",
-                        }}
-                      >
-                        {bundle.originalPrice}
-                      </p>
-                      <span
-                        className="text-[11px] font-bold px-2.5 py-0.5 rounded-full"
-                        style={{
-                          background: bundle.popular ? "rgba(233,155,43,0.18)" : "rgba(34,197,94,0.09)",
-                          color: bundle.popular ? "#e99b2b" : "#16a34a",
-                          border: bundle.popular ? "1px solid rgba(233,155,43,0.32)" : "1px solid rgba(34,197,94,0.18)",
-                        }}
-                      >
-                        {bundle.discount}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Divider */}
-                  <div
-                    className="w-full h-px mb-6"
-                    style={{
-                      background: bundle.popular ? "rgba(255,255,255,0.09)" : "rgba(14,23,43,0.06)",
-                    }}
-                  />
-
-                  {/* Feature list */}
-                  <ul className="space-y-3 mb-8 flex-grow">
-                    {bundle.includes.map((item) => (
-                      <li key={item} className="flex items-center gap-2.5">
-                        <CheckCircle2
-                          className={`w-4 h-4 flex-shrink-0 ${bundle.popular ? "text-green-400" : "text-green-500"}`}
-                        />
-                        <span
-                          className="text-sm font-medium"
-                          style={{
-                            color: bundle.popular ? "rgba(218,228,245,0.9)" : "#374151",
-                          }}
-                        >
-                          {item}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* CTA */}
-                  <motion.button
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => router.push(`/startup-businesslegal/managebusiness/${bundle.id}`)}
-                    className="w-full py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all"
-                    style={
-                      bundle.popular
-                        ? {
-                            background: "linear-gradient(90deg, #e99b2b, #f5c76a)",
-                            color: "#0e172b",
-                            boxShadow: "0 6px 24px rgba(233,155,43,0.42)",
-                          }
-                        : {
-                            background: "#c92c41",
-                            color: "white",
-                            boxShadow: "0 4px 18px rgba(201,44,65,0.26)",
-                          }
-                    }
-                  >
-                    Get Started
-                  </motion.button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
       </div>
     </div>
   );

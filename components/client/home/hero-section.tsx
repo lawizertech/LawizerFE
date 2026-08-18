@@ -18,7 +18,17 @@ const serviceCategories = [
   { href: "/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage", initials: "MS", title: "MSME" },
 ];
 
-
+/* ── Mobile chips (same as before for marquee) ── */
+const mobileServices = [
+  { href: "/startup-businesslegal/startbusiness/PrivateLimitedCompanyPage", icon: "🏢", title: "Private Limited Company" },
+  { href: "/startup-businesslegal/startbusiness/LLPRegistrationPage", icon: "📝", title: "LLP Registration" },
+  { href: "/startup-businesslegal/protectbusiness/TrademarkRegistrationPage", icon: "🛡️", title: "Trademark Registration" },
+  { href: "/itr", icon: "🧾", title: "ITR Filing" },
+  { href: "/startup-businesslegal/startbusiness/GSTRegistrationPage", icon: "📋", title: "GST Registration" },
+  { href: "/startup-businesslegal/startbusiness/StartupIndiaRegistrationPage", icon: "🚀", title: "Startup India" },
+  { href: "/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage", icon: "💼", title: "MSME Registration" },
+  { href: "/compliance/annual", icon: "📑", title: "Annual Compliance" },
+];
 
 /* ── Floating Card ── */
 function FloatingCard({
