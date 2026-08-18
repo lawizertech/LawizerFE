@@ -7,7 +7,12 @@ import { useAuth } from "@/context/authContext";
 interface DashboardLayoutProps {
   children: React.ReactNode;
   header: React.ReactNode;
-  sidebar: (props: { activeTab: string; handleLogout: () => void; menuOpen: boolean }) => React.ReactNode;
+  sidebar: (props: {
+    activeTab: string;
+    handleLogout: () => void;
+    menuOpen: boolean;
+    setMenuOpen?: (open: boolean) => void;
+  }) => React.ReactNode;
   mobileMenuButton: (props: { menuOpen: boolean; setMenuOpen: (open: boolean) => void }) => React.ReactNode;
 }
 
@@ -36,9 +41,17 @@ export default function DashboardLayout({
 
   return (
     <div className="flex bg-[#fafafa] overflow-hidden">
-      {sidebar({ activeTab, handleLogout, menuOpen })}
+      {sidebar({ activeTab, handleLogout, menuOpen, setMenuOpen })}
 
       {mobileMenuButton({ menuOpen, setMenuOpen })}
+
+      {/* Backdrop overlay on mobile */}
+      {menuOpen && (
+        <div
+          className="lg:hidden fixed inset-0 z-30 bg-black/40 backdrop-blur-xs transition-opacity duration-300 cursor-pointer"
+          onClick={() => setMenuOpen(false)}
+        />
+      )}
 
       {/* HEADER */}
       {header}

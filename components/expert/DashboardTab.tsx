@@ -3,10 +3,8 @@
 import { serverApi } from "@/lib/apis/axios";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Calendar, Clock, IndianRupee, TrendingUp } from "lucide-react";
+import { Briefcase, TrendingUp, IndianRupee, Clock, ArrowRight, User, Bell, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
-
-const PRIMARY = "#c92c41";
 
 export default function DashboardTab() {
   const [profile, setProfile] = useState<any>(null);
@@ -30,7 +28,7 @@ export default function DashboardTab() {
           });
         }
       } catch (err) {
-        console.error("Failed to load dashboard", err);
+        console.error("Failed to load dashboard data", err);
       } finally {
         setLoading(false);
       }
@@ -40,235 +38,319 @@ export default function DashboardTab() {
   }, []);
 
   if (loading) {
-    return <p className="mt-12 text-gray-500 text-lg">Loading dashboard…</p>;
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 border-4 border-[#d62038] border-t-transparent rounded-full animate-spin" />
+          <p className="text-gray-500 text-sm font-medium">Loading dashboard...</p>
+        </div>
+      </div>
+    );
   }
+
+  // Map case statuses to user-friendly badge styles
+  const getStatusBadge = (status: string) => {
+    const cleanStatus = (status || "").toLowerCase();
+    switch (cleanStatus) {
+      case "active":
+        return (
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-100">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            In Progress
+          </span>
+        );
+      case "completed":
+        return (
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+            Completed
+          </span>
+        );
+      case "pending_payment":
+        return (
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-100">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+            Pending Payment
+          </span>
+        );
+      default:
+        return (
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-50 text-gray-700 border border-gray-200">
+            <span className="w-1.5 h-1.5 rounded-full bg-gray-400" />
+            {status || "Unknown"}
+          </span>
+        );
+    }
+  };
 
   return (
     <motion.div
-      className="pt-4 space-y-14 bg-[#fafafa]"
+      className="py-6 space-y-8 bg-[#fafafa]"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
     >
-      {/* HEADER */}
-      <motion.div
-        initial={{ y: 14, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.1, type: "spring", stiffness: 120 }}
-        className="space-y-2"
-      >
-        {/* Greeting */}
-        <p className="text-lg font-light text-[#373737]">
-          Good day, <span className="font-semibold text-[#737373">{profile?.name || "Expert"}</span>
+      {/* GREETING HEADER */}
+      <div className="flex flex-col gap-1">
+        <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
+          Good day, {profile?.name || "Advocate"}
+        </h2>
+        <p className="text-sm text-gray-500">
+          Welcome to your Case Command Center. Review active client matters and pending items below.
         </p>
+      </div>
 
-        {/* Subtitle */}
-        <p className="text-base font-light text-gray-500 max-w-xl">
-          Here’s a quick overview of your legal practice and upcoming work.
-        </p>
-      </motion.div>
-
-      {/* STATS */}
+      {/* METRICS GRID */}
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
         initial="hidden"
         animate="show"
         variants={{
           hidden: {},
-          show: { transition: { staggerChildren: 0.08 } },
+          show: { transition: { staggerChildren: 0.05 } },
         }}
       >
-        <StatCard title="Pending Requests" value={dashboard?.pendingRequests ?? 0} icon={Clock} />
-        <StatCard title="Today's Sessions" value={dashboard?.todayBookings ?? 0} icon={Calendar} />
-        <StatCard title="Active Services" value={dashboard?.activeServices ?? 0} icon={TrendingUp} />
+        <StatCard
+          title="Assigned Cases"
+          value={dashboard?.cases?.length ?? 0}
+          icon={Briefcase}
+          description="Total active client matters"
+        />
+        <StatCard
+          title="Active Services"
+          value={dashboard?.activeServices ?? 0}
+          icon={TrendingUp}
+          description="Services currently in process"
+        />
+        <StatCard
+          title="Today's Sessions"
+          value={dashboard?.todayBookings ?? 0}
+          icon={Clock}
+          description="Scheduled consultations"
+        />
         <StatCard
           title="Total Earnings"
-          value={`₹${dashboard?.totalEarnings ?? 0}`}
+          value={`₹${(dashboard?.totalEarnings ?? 0).toLocaleString("en-IN")}`}
           icon={IndianRupee}
+          description="All-time processed payouts"
         />
       </motion.div>
 
-      {/* MAIN GRID */}
-      <div className="grid lg:grid-cols-3 gap-10">
-        {/* LEFT */}
-        <motion.div
-          className="lg:col-span-2 space-y-5"
-          initial={{ x: -20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-        >
+      {/* MAIN TWO-COLUMN SECTION */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        {/* LEFT COLUMN: ASSIGNED CASES */}
+        <div className="lg:col-span-2 space-y-4">
           <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold text-gray-900">Assigned Cases & Consultations</h2>
-            <Link href="/expert/dashboard?tab=chats" className="text-sm font-bold hover:underline text-[#c92c41]">
-              View All Chats →
+            <div>
+              <h3 className="text-lg font-bold text-gray-900">Recent Assigned Cases</h3>
+              <p className="text-xs text-gray-500">Active client matters requiring monitoring</p>
+            </div>
+            <Link
+              href="/expert/dashboard?tab=chats"
+              className="text-xs font-bold text-[#d62038] hover:text-[#a8233a] flex items-center gap-1 transition"
+            >
+              Go to My Cases <ArrowRight size={14} />
             </Link>
           </div>
 
           {!dashboard?.cases || dashboard.cases.length === 0 ? (
-            <div className="rounded-2xl p-10 text-center bg-white border border-gray-100 font-light text-gray-500 shadow-xs">
-              No cases assigned yet.
+            <div className="rounded-xl border border-[#ebebeb] bg-white p-8 text-center text-sm font-medium text-gray-500 shadow-xs">
+              No cases currently assigned.
             </div>
           ) : (
-            <div className="space-y-4">
-              {dashboard.cases.map((c: any) => (
+            <div className="space-y-3">
+              {dashboard.cases.slice(0, 5).map((c: any) => (
                 <div
                   key={c.caseId}
-                  className="bg-white rounded-2xl p-5 border border-gray-100 hover:border-rose-200 shadow-xs transition space-y-3"
+                  className="bg-white rounded-xl p-5 border border-[#ebebeb] hover:border-rose-200 hover:shadow-xs transition-all duration-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
                 >
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <span className="text-[10px] font-mono font-bold text-rose-600 bg-rose-50 border border-rose-100 px-2 py-0.5 rounded-md">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono font-bold text-rose-600 bg-rose-50 border border-rose-100 px-2 py-0.5 rounded">
                         #{c.caseId.substring(0, 8).toUpperCase()}
                       </span>
-                      <h3 className="font-bold text-base text-gray-900 mt-1">{c.title}</h3>
+                      {getStatusBadge(c.status)}
                     </div>
-                    <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100">
-                      {c.status}
-                    </span>
+                    <h4 className="font-bold text-gray-900 text-sm sm:text-base mt-1">
+                      {c.title}
+                    </h4>
+                    <p className="text-xs text-gray-500">
+                      Client: <span className="font-semibold text-gray-700">{c.client?.name || c.client?.email || "Assigned Client"}</span>
+                    </p>
                   </div>
 
-                  <div className="flex flex-wrap items-center justify-between pt-2 border-t border-gray-50 text-xs text-gray-600 gap-3">
-                    <div>
-                      <span className="text-[10px] text-gray-400 font-bold block uppercase">Client</span>
-                      <span className="font-bold text-gray-900">{c.client?.name || c.client?.email || "Assigned Client"}</span>
-                    </div>
-
+                  <div className="flex items-center self-end sm:self-center">
                     <Link
-                      href="/expert/dashboard?tab=chats"
-                      className="px-4 py-2 rounded-xl bg-[#c92c41] hover:bg-[#a8233a] text-white font-bold transition text-xs flex items-center gap-1.5 shadow-xs"
+                      href={`/expert/dashboard?tab=chats&caseId=${c.caseId}`}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#d62038] hover:bg-[#b0162a] text-white text-xs font-bold transition shadow-sm"
                     >
-                      <span>Open Chat Channel</span>
-                      <span>→</span>
+                      <span>Open Workspace</span>
+                      <ArrowRight size={14} />
                     </Link>
                   </div>
                 </div>
               ))}
             </div>
           )}
-        </motion.div>
+        </div>
 
-        {/* RIGHT */}
-        <motion.div
-          className="space-y-10"
-          initial={{ x: 20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.25 }}
-        >
-          {/* QUICK ACTIONS */}
-          <div>
-            <h3 className="text-xl font-semibold mb-5">Quick Actions</h3>
-            <div className="space-y-4">
-              <ActionButton label="Update Schedule" icon={Calendar} href="/expert/dashboard?tab=profile" />
-              <ActionButton label="View All Bookings" icon={Clock} href="/expert/dashboard?tab=bookings" />
+        {/* RIGHT COLUMN: QUICK ACTIONS */}
+        <div className="space-y-6">
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-lg font-bold text-gray-900">Quick Actions</h3>
+              <p className="text-xs text-gray-500">Direct links to dashboard tabs</p>
+            </div>
+            
+            <div className="grid grid-cols-1 gap-3">
+              <QuickActionButton
+                label="Go to My Cases"
+                description="Manage chats & documents"
+                icon={Briefcase}
+                href="/expert/dashboard?tab=chats"
+              />
+              <QuickActionButton
+                label="View Notifications"
+                description="Check recent system alerts"
+                icon={Bell}
+                href="/expert/dashboard?tab=notifications"
+              />
+              <QuickActionButton
+                label="Advocate Profile"
+                description="Review professional credentials"
+                icon={User}
+                href="/expert/dashboard?tab=profile"
+              />
             </div>
           </div>
-        </motion.div>
+        </div>
+
       </div>
 
-      {/* RECENT NOTIFICATIONS */}
-      <motion.div
-        className="space-y-5 pt-6"
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.3 }}
-      >
+      {/* RECENT NOTIFICATIONS SECTION */}
+      <div className="space-y-4 pt-4 border-t border-[#ebebeb]">
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-semibold text-gray-900">Recent Notifications</h2>
-          <Link href="/expert/dashboard?tab=notifications" className="text-sm font-bold hover:underline text-[#c92c41]">
-            View All →
+          <div>
+            <h3 className="text-lg font-bold text-gray-900">Recent Notifications</h3>
+            <p className="text-xs text-gray-500">General alerts and system logs</p>
+          </div>
+          <Link
+            href="/expert/dashboard?tab=notifications"
+            className="text-xs font-bold text-[#d62038] hover:text-[#a8233a] flex items-center gap-1 transition"
+          >
+            View All Notifications <ArrowRight size={14} />
           </Link>
         </div>
 
         {!dashboard?.recentNotifications || dashboard.recentNotifications.length === 0 ? (
-          <div className="rounded-2xl p-10 text-center bg-white border border-gray-100 font-light text-gray-500 shadow-xs">
-            No recent notifications.
+          <div className="rounded-xl border border-[#ebebeb] bg-white p-8 text-center text-sm font-medium text-gray-500 shadow-xs">
+            No recent alerts or logs.
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {dashboard.recentNotifications.slice(0, 3).map((n: any) => (
-              <div key={n.id} className="bg-white rounded-xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between hover:border-rose-200 transition-colors">
-                <div>
-                  <h3 className="font-semibold text-gray-900">{n.payload?.title || "Notification"}</h3>
-                  <p className="text-sm text-gray-600 mt-2 line-clamp-2">{n.payload?.message}</p>
+              <div
+                key={n.id}
+                className="bg-white rounded-xl p-5 border border-[#ebebeb] flex flex-col justify-between hover:border-rose-100 transition-all duration-200 shadow-xs"
+              >
+                <div className="space-y-2">
+                  <span className="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 bg-gray-100 rounded text-gray-600">
+                    {n.type?.replace("_", " ") || "Alert"}
+                  </span>
+                  <h5 className="font-bold text-sm text-gray-900">
+                    {n.payload?.title || "Notification"}
+                  </h5>
+                  <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed">
+                    {n.payload?.message}
+                  </p>
                 </div>
-                <div className="mt-4 flex justify-between items-center text-xs text-gray-400">
-                  <span className="font-medium capitalize px-2 py-0.5 bg-gray-100 rounded-md text-gray-600">{n.type?.replace('_', ' ')}</span>
-                  <span>{new Date(n.created_at).toLocaleDateString()}</span>
+                <div className="mt-4 pt-3 border-t border-gray-50 text-[10px] text-gray-400 font-medium">
+                  {new Date(n.created_at).toLocaleDateString("en-IN", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  })}
                 </div>
               </div>
             ))}
           </div>
         )}
-      </motion.div>
+      </div>
     </motion.div>
   );
 }
+
+/* =========================
+   SUB-COMPONENTS
+   ========================= */
 
 function StatCard({
   title,
   value,
   icon: Icon,
-  sub,
-  positive,
+  description,
 }: {
   title: string;
   value: any;
   icon: any;
-  sub?: string;
-  positive?: boolean;
+  description: string;
 }) {
   return (
     <motion.div
-      className="bg-white rounded-2xl p-5 border border-transparent flex justify-between items-center"
+      className="bg-white rounded-xl p-5 border border-[#ebebeb] flex justify-between items-center shadow-xs"
       variants={{
-        hidden: { opacity: 0 },
-        show: { opacity: 1 },
+        hidden: { opacity: 0, y: 10 },
+        show: { opacity: 1, y: 0 },
       }}
       whileHover={{
-        boxShadow: "0 10px 24px rgba(0, 0, 0, 0.08)",
+        y: -2,
+        boxShadow: "0 6px 16px rgba(0, 0, 0, 0.04)",
       }}
-      transition={{ type: "spring", stiffness: 260, damping: 22 }}
+      transition={{ duration: 0.15 }}
     >
-      <div>
-        <p className="text-sm text-gray-500 tracking-wide">{title}</p>
-        <p className="text-3xl font-semibold mt-2 tabular-nums">{value}</p>
-        {sub && <p className={`text-sm ${positive ? "text-green-600" : "text-gray-500"}`}>{sub}</p>}
+      <div className="space-y-1">
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">{title}</p>
+        <p className="text-2xl font-bold text-gray-950 tabular-nums">{value}</p>
+        <p className="text-[10px] text-gray-400 font-medium">{description}</p>
       </div>
 
-      <div className="h-14 w-14 rounded-2xl flex items-center justify-center bg-[#c92c4112]">
-        <Icon size={26} color={PRIMARY} />
+      <div className="h-12 w-12 rounded-xl flex items-center justify-center bg-[#d62038]/5">
+        <Icon size={24} className="text-[#d62038]" />
       </div>
     </motion.div>
   );
 }
 
-function ActionButton({ label, icon: Icon, href }: { label: string; icon: any; href?: string }) {
-  const content = (
-    <motion.button
-      className="w-full flex items-center gap-4 px-5 py-3
- rounded-2xl bg-white text-base font-medium
- border border-transparent text-left"
-      whileHover={{
-        boxShadow: "0 8px 20px rgba(0, 0, 0, 0.08)",
-        borderColor: "#c92c4130",
-      }}
-      whileTap={{
-        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.12)",
-      }}
-      transition={{ type: "spring", stiffness: 220, damping: 20 }}
-    >
-      <Icon size={20} color={PRIMARY} />
-      <span className=" text-[#373737] font-medium">{label}</span>
-    </motion.button>
+function QuickActionButton({
+  label,
+  description,
+  icon: Icon,
+  href,
+}: {
+  label: string;
+  description: string;
+  icon: any;
+  href: string;
+}) {
+  return (
+    <Link href={href} className="group block w-full">
+      <div className="w-full flex items-center justify-between p-4 rounded-xl bg-white border border-[#ebebeb] group-hover:border-rose-200 group-hover:shadow-xs transition-all duration-200 text-left">
+        <div className="flex items-center gap-3">
+          <div className="h-9 w-9 rounded-lg flex items-center justify-center bg-[#d62038]/5 group-hover:bg-[#d62038]/10 transition-colors">
+            <Icon size={18} className="text-[#d62038]" />
+          </div>
+          <div>
+            <div className="text-sm font-bold text-gray-900 group-hover:text-[#d62038] transition-colors">
+              {label}
+            </div>
+            <div className="text-xs text-gray-400 font-medium">
+              {description}
+            </div>
+          </div>
+        </div>
+        <ChevronRight size={16} className="text-gray-400 group-hover:text-gray-600 transition-colors" />
+      </div>
+    </Link>
   );
-
-  if (href) {
-    return (
-      <Link href={href} className="block w-full">
-        {content}
-      </Link>
-    );
-  }
-
-  return content;
 }
