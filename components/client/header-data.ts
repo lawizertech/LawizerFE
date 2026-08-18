@@ -252,6 +252,10 @@ export const services = [
             url: "/startup-businesslegal/managebusiness/ClosureOfLLPPage",
           },
           {
+            name: "Annual Compliance - LLP Complete",
+            url: "/startup-businesslegal/managebusiness/annual-compliance-llp-complete",
+          },
+          {
             name: "Annual Compliance Calendar",
             url: "/compliance/annual",
           },

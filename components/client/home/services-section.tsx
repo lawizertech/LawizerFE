@@ -1,9 +1,24 @@
 "use client";
-
-import { useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Building2, ShieldCheck, TrendingUp, ArrowRight, HelpCircle, Rocket } from "lucide-react";
+import { useLivePrices } from "@/hooks/useLivePrices";
+import {
+  Rocket,
+  ShieldCheck,
+  TrendingUp,
+  FileSignature,
+  Building2,
+  ArrowRight,
+  Sparkles,
+  ChevronRight,
+  Building,
+  Scale,
+  Receipt,
+  FileCheck,
+  Building as BuildingIcon,
+  HelpCircle,
+} from "lucide-react";
 
 // ─── types ───────────────────────────────────────────────────────────────────
 type Svc = { name: string; price: string; was: string; badge?: string; url: string };
@@ -237,7 +252,8 @@ const PHASES: Phase[] = [
           {
             name: "Annual Compliance Calendar",
             price: "₹999",
-            was: "₹1,999",
+            was: "₹7,999/yr",
+            badge: "Save up to 25%",
             url: "/compliance/annual",
           },
           {
@@ -253,7 +269,7 @@ const PHASES: Phase[] = [
 ];
 
 // ─── Mobile accordion item ────────────────────────────────────────────────────
-function MobilePhaseAccordion({ phase, isOpen, onToggle }: { phase: Phase; isOpen: boolean; onToggle: () => void }) {
+function MobilePhaseAccordion({ phase, isOpen, onToggle, prices, loading }: { phase: Phase; isOpen: boolean; onToggle: () => void; prices: any; loading: boolean; }) {
   const total = phase.categories.reduce((n, c) => n + c.items.length, 0);
   return (
     <div className={`mob-accordion-item ${isOpen ? "mob-accordion-open" : ""}`} style={{ borderColor: isOpen ? phase.accent : undefined }}>
@@ -308,7 +324,7 @@ function MobilePhaseAccordion({ phase, isOpen, onToggle }: { phase: Phase; isOpe
                   {/* service rows */}
                   <div className="flex flex-col gap-2">
                     {cat.items.map((svc) => (
-                      <MobileSvcRow key={svc.url} svc={svc} phase={phase} />
+                      <MobileSvcRow key={svc.url} svc={svc} phase={phase} prices={prices} loading={loading} />
                     ))}
                   </div>
                 </div>
@@ -330,7 +346,10 @@ function MobilePhaseAccordion({ phase, isOpen, onToggle }: { phase: Phase; isOpe
 }
 
 // ─── Mobile service row (touch-optimised, no hover) ───────────────────────────
-function MobileSvcRow({ svc, phase }: { svc: Svc; phase: Phase }) {
+function MobileSvcRow({ svc, phase, prices, loading }: { svc: Svc; phase: Phase; prices: any; loading: boolean; }) {
+  const slug = svc.url.split("/").pop();
+  const price = slug && prices[slug]?.price ? prices[slug].price : svc.price;
+  const was = slug && prices[slug]?.originalPrice ? prices[slug].originalPrice : svc.was;
   return (
     <Link href={svc.url} className="mob-svc-row group block">
       <div className="flex flex-col gap-1 w-full">
@@ -355,12 +374,12 @@ function MobileSvcRow({ svc, phase }: { svc: Svc; phase: Phase }) {
             Explore
           </div>
           <div className="mob-svc-prices flex items-center gap-2">
-            <span className="mob-svc-was text-[12px] text-[#A0AABF] line-through font-semibold">{svc.was}</span>
+            <span className="mob-svc-was text-[12px] text-[#A0AABF] line-through font-semibold">{loading ? "..." : was}</span>
             <span 
               className="mob-svc-price text-[15px] font-extrabold tracking-tight px-3 py-1 rounded-[10px]" 
               style={{ background: `${phase.accent}12`, color: phase.accent }}
             >
-              {svc.price}*
+              {loading ? "₹..." : price}*
             </span>
           </div>
         </div>
@@ -375,6 +394,7 @@ export default function ServicesSection() {
   // Mobile accordion: which phase is open (-1 = none)
   const [mobileOpen, setMobileOpen] = useState<number>(0);
   const phase = PHASES[active];
+  const { prices, loading } = useLivePrices();
 
   const toggleMobile = (i: number) => setMobileOpen(prev => prev === i ? -1 : i);
 
@@ -505,7 +525,7 @@ export default function ServicesSection() {
 
                       {/* Services list grid */}
                       <div className="ls-grid">
-                        {cat.items.map((svc) => <SvcRow key={svc.url} svc={svc} phase={phase} />)}
+                        {cat.items.map((svc) => <SvcRow key={svc.url} svc={svc} phase={phase} prices={prices} loading={loading} />)}
                       </div>
                     </motion.div>
                   ))}
@@ -544,6 +564,8 @@ export default function ServicesSection() {
                   phase={p}
                   isOpen={mobileOpen === i}
                   onToggle={() => toggleMobile(i)}
+                  prices={prices}
+                  loading={loading}
                 />
               ))}
             </div>
@@ -556,8 +578,11 @@ export default function ServicesSection() {
 }
 
 // ─── service row ──────────────────────────────────────────────────────────────
-function SvcRow({ svc, phase }: { svc: Svc; phase: Phase }) {
+function SvcRow({ svc, phase, prices, loading }: { svc: Svc; phase: Phase; prices: any; loading: boolean; }) {
   const [hov, setHov] = useState(false);
+  const slug = svc.url.split("/").pop();
+  const price = slug && prices[slug]?.price ? prices[slug].price : svc.price;
+  const was = slug && prices[slug]?.originalPrice ? prices[slug].originalPrice : svc.was;
   return (
     <Link
       href={svc.url}
@@ -588,9 +613,9 @@ function SvcRow({ svc, phase }: { svc: Svc; phase: Phase }) {
       {/* Price block */}
       <span className="flex flex-col items-end shrink-0 ml-1.5 gap-0.5">
         {/* was price */}
-        {svc.was && (
+        {was && (
           <span className="text-[10px] text-slate-350 line-through font-semibold leading-none tracking-wide">
-            {svc.was}
+            {loading ? "..." : was}
           </span>
         )}
         {/* real price chip */}
@@ -601,7 +626,7 @@ function SvcRow({ svc, phase }: { svc: Svc; phase: Phase }) {
             color: hov ? "#fff" : phase.accent 
           }}
         >
-          <span className="text-[13px] font-black leading-none">{svc.price}</span>
+          <span className="text-[13px] font-black leading-none">{loading ? "₹..." : price}</span>
           <span className="text-[9px] font-black leading-none ml-0.5">*</span>
         </span>
       </span>

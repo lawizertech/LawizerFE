@@ -7,7 +7,7 @@ import { Headphones, ShieldCheck, Clock } from "lucide-react";
 /* ── Service category list (2-column, like OnlineLegalIndia) ── */
 const serviceCategories = [
   { href: "/startup-businesslegal/startbusiness/PrivateLimitedCompanyPage", initials: "CR", title: "Company Registration" },
-  { href: "/startup-businesslegal/managebusiness/RocReturnFilingPvtLtdPage", initials: "BC", title: "Business Compliance" },
+  { href: "/startup-businesslegal/managebusiness/annual-compliance-llp-complete", initials: "BC", title: "Business Compliance" },
   { href: "/startup-businesslegal/protectbusiness/TrademarkRegistrationPage", initials: "TM", title: "Trademark" },
   { href: "/contact", initials: "CD", title: "Consumer Disputes" },
   { href: "/startup-businesslegal/growbusiness/ISOCertificationPage", initials: "IC", title: "ISO Certification" },
