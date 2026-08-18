@@ -11,7 +11,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentTitle: "The Importance of Formal Compliance",
     contentDescription: "A Director's resignation must be formally executed under the Companies Act, 2013. Failure to file DIR-11 (by the resigning director) and DIR-12 (by the company) within 30 days exposes both parties to penalties and future liabilities.",
     section1Title: "Key Benefits of a Compliant Resignation",
-    price: 1999,
+    price: 999,
     originalPrice: 0,
     theme: {
       orb1: "bg-blue-600/20",
@@ -115,7 +115,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "Even if your LLP has ceased business, it remains a legal entity with mandatory annual filing obligations (Form 8 and 11). Legal closure via striking off (Form 24) is critical to eliminate statutory compliance requirements, remove the tag of defaulter, and prevent the accrual of heavy penalties.",
     section1Title: "Key Benefits of Formal LLP Closure",
-    price: 4999,
+    price: 999,
     originalPrice: 0,
     theme: {
       orb1: "bg-red-600/20",
@@ -232,7 +232,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "Appointing a director is a statutory requirement that involves specific forms (DIR-2 and DIR-12), board approvals, and filing with the Registrar of Companies (ROC). A compliant appointment is essential for legal validity and governance.",
     section1Title: "Key Benefits of a Compliant Appointment",
-    price: 1999,
+    price: 999,
     originalPrice: 300,
     theme: {
       orb1: "bg-blue-500/20",
@@ -333,110 +333,6 @@ export const servicesData: Record<string, ServiceData> = {
       "MCA Payment\\nChallan",
     ],
   },
-  ROCReturnFilingForOPCPage: {
-    title: "ROC Annual Return Filing for OPC",
-    subtitle:
-      "Mandatory annual compliance for One Person Companies to avoid penalties, DIN disqualification, and strike-off.",
-    badgeText: "AOC-4 \u2022 MGT-7 \u2022 ADT-1 \u2022 Companies Act, 2013",
-    icon: "user",
-    serviceID: "ROC_ANNUAL_RETURN_FILING_FOR_OPC",
-    contentTitle: "Why Timely ROC Filing for OPC Is Critical",
-    contentDescription:
-      "ROC annual filing is mandatory for OPCs even if no business activity has occurred. Failure to file AOC-4 and MGT-7 results in uncapped penalties of \u20b9100 per day per form and risks DIN disqualification. Timely compliance ensures the company remains active and legally protected.",
-    section1Title: "Key Benefits of OPC ROC Compliance",
-    price: 2999,
-    originalPrice: 100,
-    theme: {
-      orb1: "bg-blue-500/20",
-      orb2: "bg-purple-500/20",
-      iconBg: "from-blue-500 to-purple-500",
-      badgeText: "text-blue-300",
-      heroBg: "bg-gradient-to-br from-[#1e1b4b] via-[#6d28d9] to-[#2e1065]",
-    },
-    primaryColor: "text-blue-500",
-    primaryBg: "bg-gradient-to-r from-blue-600 to-purple-600",
-    primaryHoverBg: "bg-gradient-to-r from-blue-700 to-purple-700",
-    benefits: [
-      {
-        icon: "calendar",
-        description: "Helps in maintaining 'Active' status on the MCA Portal",
-      },
-      {
-        icon: "shield",
-        description: "Protection from steep penalties and legal actions",
-      },
-      {
-        icon: "scale",
-        description: "Boosts confidence and trust among stakeholders",
-      },
-      {
-        icon: "clock",
-        description: "Avoids mandatory strike-off due to non-filing",
-      },
-    ],
-    faqs: [
-      {
-        question: "Is ROC filing mandatory even if OPC has not done any business?",
-        answer:
-          "Yes. ROC return filing is mandatory even if the OPC has not carried out any business activity. Nil returns must also be filed every year.",
-      },
-      {
-        question: "Which forms are required for OPC ROC Annual Filing?",
-        answer:
-          "The mandatory forms are AOC-4 (Financial Statements), MGT-7 (Annual Return), and ADT-1 (Appointment of Auditor).",
-      },
-      {
-        question: "What is the due date for OPC annual filing?",
-        answer:
-          "The first annual filing is due on 30th December of the year following incorporation. Subsequent filings are due on 30th September every year.",
-      },
-      {
-        question: "Who is responsible for filing ROC returns for OPC?",
-        answer: "The sole Director of the OPC is responsible for ROC compliance and filing of annual returns.",
-      },
-      {
-        question: "What is the penalty for late filing of OPC ROC returns?",
-        answer:
-          "A late fee of \u20b9100 per day applies on both AOC-4 and MGT-7 without any maximum cap. ADT-1 also attracts penalties depending on delay.",
-      },
-      {
-        question: "Is AGM required for OPC?",
-        answer:
-          "No. OPCs are exempt from holding an Annual General Meeting (AGM). Resolutions are signed and recorded by the sole member/director.",
-      },
-    ],
-    sections: [
-      {
-        title: "Pre-Requisites for OPC ROC Filing",
-        icon: "fileText",
-        type: "list",
-        data: [
-          "Auditor Report, Audited Balance Sheet & Profit and Loss Account",
-          "Signature of the Director on financials and forms",
-          "DIN of Director and Nominee should be in APPROVED status",
-          "One valid Digital Signature (DSC) of the Director",
-          "Appointment of Statutory Auditor via Form ADT-1 (mandatory)",
-        ],
-      },
-      {
-        title: "Lawizer Deliverables",
-        icon: "calendar",
-        type: "grid",
-        data: [
-          "Filed e-forms with MCA (AOC-4, MGT-7, ADT-1)",
-          "MCA payment challan for filing fees",
-          "Auditor's Report",
-          "Certificate of filing compliance",
-        ],
-      },
-    ],
-    addons: [
-      "AOC-4\\n(Financials)",
-      "MGT-7\\n(Annual Return)",
-      "ADT-1\\n(Auditor Appt.)",
-      "Filing Compliance\\nCertificate",
-    ],
-  },
   ChangeInOfficeAddressPage: {
     title: "Change in Registered Office Address",
     subtitle: "Update your company's registered office address with the ROC — a mandatory compliance step under the Companies Act, 2013.",
@@ -447,7 +343,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "Changing your registered office address is a mandatory, multi-step compliance process. It requires passing a Board Resolution and filing Form INC-22 with the Registrar of Companies (ROC) within 30 days of the resolution. Timely compliance prevents penalties and maintains your company's good standing.",
     section1Title: "Key Benefits of Proper Address Filing",
-    price: 1499,
+    price: 999,
     originalPrice: 0,
     theme: {
       orb1: "bg-yellow-500/20",
@@ -552,8 +448,8 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "The Fast Track Exit (FTE) route via Form STK-2 is the simplified way to close a non-operational Private Limited Company. Failure to formally close means mandatory annual filings continue, heavy penalties accrue, and directors remain liable. Legal striking off removes all future compliance burdens and protects directors.",
     section1Title: "Key Benefits of Formal Company Closure",
-    price: 6999,
-    originalPrice: 10000,
+    price: 999,
+    originalPrice: 1999,
     theme: {
       orb1: "bg-red-600/20",
       orb2: "bg-yellow-600/20",
@@ -669,7 +565,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "Increasing Authorized Capital raises the ceiling for issuing shares, enabling fundraising and expansion without repeated MOA amendments. The process requires a Special Resolution and timely filing of Form SH-7 to avoid penalties.",
     section1Title: "Key Benefits of Increasing Share Capital",
-    price: 2499,
+    price: 999,
     originalPrice: 0,
     theme: {
       orb1: "bg-green-500/20",
@@ -777,213 +673,6 @@ export const servicesData: Record<string, ServiceData> = {
       "Share Certificate\\nGuidance",
     ],
   },
-  ROCReturnFilingForLLPPage: {
-    title: "ROC Annual Return Filing for LLP",
-    subtitle:
-      "Mandatory annual compliance for Limited Liability Partnerships (LLP), involving timely filing of Form 8 (Financials) and Form 11 (Annual Return) to avoid heavy penalties.",
-    badgeText: "LLP Act, 2008 \u2022 Form 8 \u2022 Form 11",
-    icon: "fileText",
-    serviceID: "ROC_ANNUAL_RETURN_FILING_FOR_LLP",
-    contentTitle: "The Importance of Timely Annual Filing",
-    contentDescription:
-      "ROC Annual Filing is non-negotiable for an LLP. Failing to file Form 8 and Form 11 by their respective deadlines (October 30th and May 30th) results in an uncapped, cumulative late fee of \u20b9100 per day per form. This compliance step is crucial for maintaining the company's 'Active' status.",
-    section1Title: "Key Benefits of Compliant LLP Filing",
-    price: 2499,
-    originalPrice: 100,
-    theme: {
-      orb1: "bg-blue-600/20",
-      orb2: "bg-purple-600/20",
-      iconBg: "from-blue-500 to-purple-500",
-      badgeText: "text-blue-300",
-      heroBg: "bg-gradient-to-br from-[#1e1b4b] via-[#6d28d9] to-[#2e1065]",
-    },
-    primaryColor: "text-blue-500",
-    primaryBg: "bg-gradient-to-r from-blue-600 to-purple-600",
-    primaryHoverBg: "bg-gradient-to-r from-blue-700 to-purple-700",
-    benefits: [
-      {
-        icon: "calendar",
-        description: "Helps in maintaining 'Active' status in the MCA Portal",
-      },
-      {
-        icon: "shield",
-        description: "Protection from steep penalty and legal actions",
-      },
-      {
-        icon: "scale",
-        description: "Boosts Confidence and Trust among partners and stakeholders",
-      },
-      {
-        icon: "clock",
-        description: "Avoiding mandatory 'Strike Off' action by the ROC for non-filing",
-      },
-    ],
-    faqs: [
-      {
-        question: "What Forms are to be filed for ROC Return (for LLP)?",
-        answer:
-          "LLP needs to file two eForms every year: Form 11 for the Annual Return (Compliance) and Form 8 for the Statement of Accounts (Financials).",
-      },
-      {
-        question: "What is the LLP Annual Filing due date?",
-        answer:
-          "Due date for filing Form 11 is 30th May of each year. Due date for filing Form 8 is 30th October of every year.",
-      },
-      {
-        question: "What is the Penalty for late filing of LLP return?",
-        answer:
-          "Late fees of \u20b9100 per day is charged on each Form (Form 11 and Form 8) from the day after the due date until the filing is completed. The penalty is uncapped.",
-      },
-      {
-        question: "How to calculate Penalty for late filing of LLP Annual filing?",
-        answer:
-          "Penalty calculation is: \u20b9100 x Number of days delay for Form 11 + \u20b9100 x Number of days delay for Form 8.",
-      },
-      {
-        question: "Is there any chance of waiver of penalty for non-filing of Form 11 & Form 8?",
-        answer:
-          "No, there is typically no provision for waiver of penalty. The MCA has not recently announced any general waiver or amnesty scheme, making timely filing essential.",
-      },
-      {
-        question: "What happens if an LLP does not file annual returns?",
-        answer:
-          "A) LLP & its Partners become liable for steep, uncapped late fees. B) ROC may issue notice to close the LLP. C) ROC can disqualify and block the DIN of Designated Partners, preventing them from joining other entities.",
-      },
-    ],
-    sections: [
-      {
-        title: "Pre-Requisites for Filing (Form 8 & Form 11)",
-        icon: "fileText",
-        type: "list",
-        data: [
-          "For Form 11 Filing (Annual Return): DIN of all Designated Partners should be in APPROVED Status, Minimum 2 Valid Digital Signatures (DSC) of Designated Partners",
-          "For Form 8 Filing (Statement of Accounts): Turnover less than 40 Lac: Signed Balance Sheet & P&L. Turnover more than 40 Lac: Audited Balance Sheet (Mandatory), DIN of all Designated Partners should be in APPROVED Status, Minimum 2 Valid Digital Signatures (DSC) of Designated Partners",
-        ],
-      },
-      {
-        title: "Lawizer Deliverables",
-        icon: "calendar",
-        type: "grid",
-        data: [
-          "All filed e-forms with MCA (Form 8 and Form 11)",
-          "MCA payment challan for filing fees",
-          "Financial statements preparation (if required)",
-          "Certificate of filing compliance",
-        ],
-      },
-    ],
-    addons: [
-      "Form 11\\n(Annual Return)",
-      "Form 8\\n(Financials)",
-      "MCA Payment\\nChallan",
-      "Filing Compliance\\nCertificate",
-    ],
-  },
-  RocReturnFilingPvtLtdPage: {
-    title: "ROC Annual Return Filing for Pvt Ltd",
-    subtitle:
-      "Mandatory annual compliance for Private Limited Companies, involving timely filing of AOC-4 (Financials) and MGT-7 (Annual Return) to avoid heavy penalties.",
-    badgeText: "Companies Act, 2013 \u2022 AOC-4 \u2022 MGT-7",
-    icon: "users",
-    serviceID: "ROC_ANNUAL_RETURN_FILING_PVT_LTD",
-    contentTitle: "The Importance of Timely Annual Filing",
-    contentDescription:
-      "ROC Annual Filing is non-negotiable. Failure to file Form AOC-4 (Financials) and Form MGT-7 (Annual Return) by the deadline (September 30th) results in an uncapped, cumulative late fee of \u20b9100 per day per form. This compliance step is crucial for maintaining the company's 'Active' status.",
-    section1Title: "Key Benefits of Compliant Pvt Ltd Filing",
-    price: 3499,
-    originalPrice: 100,
-    theme: {
-      orb1: "bg-blue-600/20",
-      orb2: "bg-purple-600/20",
-      iconBg: "from-blue-500 to-purple-500",
-      badgeText: "text-blue-300",
-      heroBg: "bg-gradient-to-br from-[#1e1b4b] via-[#6d28d9] to-[#2e1065]",
-    },
-    primaryColor: "text-blue-500",
-    primaryBg: "bg-gradient-to-r from-blue-600 to-purple-600",
-    primaryHoverBg: "bg-gradient-to-r from-blue-700 to-purple-700",
-    benefits: [
-      {
-        icon: "calendar",
-        description: "Helps in maintaining 'Active' status in the MCA Portal",
-      },
-      {
-        icon: "shield",
-        description: "Protection from steep penalty and legal actions",
-      },
-      {
-        icon: "scale",
-        description: "Boosts Confidence and Trust among stakeholders",
-      },
-      {
-        icon: "clock",
-        description: "Avoiding mandatory 'Strike Off' of the Company for non-filing",
-      },
-    ],
-    faqs: [
-      {
-        question: "Since Incorporation, the Company has not done any business, do we need to file an ROC Return?",
-        answer:
-          "Yes. ROC return gives details of changes that have taken place in the company during the year and must be filed even if the company has not done any business during the year. Nil returns are mandatory.",
-      },
-      {
-        question: "What Forms are to be filed for ROC Return?",
-        answer:
-          "The mandatory annual forms are: MGT-7 (Annual Return/Compliance), AOC-4 (Financial Statements/Balance Sheet), and ADT-1 (For Appointment/Reappointment of Auditors).",
-      },
-      {
-        question: "What is the Annual Filing due date?",
-        answer:
-          "A) The first annual filing is due on the 30th of December of the next year from incorporation. B) Subsequent filings are due on the 30th of September every year (based on the AGM date of September 30th).",
-      },
-      {
-        question: "What is the Penalty for late filing of a Company ROC return?",
-        answer:
-          "Late fees of \u20b9100 per day apply on Form MGT-7 and AOC-4 until rectified. For Form ADT-1, penalties are steep, increasing from 2x up to 12x the normal fee depending on the delay duration.",
-      },
-      {
-        question: "Who is responsible for filing the Company ROC Return?",
-        answer:
-          "It is the duty of the Company and its Directors to file the ROC Return, as both the Company and the Directors are liable for non-filing and associated penalties.",
-      },
-      {
-        question: "What are the ROC Return Filing fees and charges?",
-        answer:
-          "A company having an Authorized Capital up to \u20b91 lakh is charged \u20b9300 for each Form AOC-4 and MGT-7. For companies with \u20b95 lakh or more Authorized Capital, the charge is \u20b9400 per form.",
-      },
-    ],
-    sections: [
-      {
-        title: "Pre-Requisites for Filing (AOC-4 & MGT-7)",
-        icon: "fileText",
-        type: "list",
-        data: [
-          "Auditor Report, Audited Balance Sheet & Profit and Loss Account",
-          "Attendance of a minimum of 1 director for the AGM (or signing of minutes)",
-          "Signature of a minimum of 1 director on the financials (Director's signature)",
-          "DIN of all Directors should be in APPROVED Status",
-          "One valid Digital Signature (DSC) of a Director (for e-filing)",
-        ],
-      },
-      {
-        title: "Lawizer Deliverables",
-        icon: "calendar",
-        type: "grid",
-        data: [
-          "All filed e-forms with MCA (AOC-4, MGT-7, ADT-1)",
-          "MCA payment challan for filing fees",
-          "Auditor's Report",
-          "Certificate of filing compliance",
-        ],
-      },
-    ],
-    addons: [
-      "AOC-4\\n(Financials)",
-      "MGT-7\\n(Annual Return)",
-      "ADT-1\\n(Auditor Appt.)",
-      "Filing Compliance\\nCertificate",
-    ],
-  },
   ClosureOfOPCPage: {
     title: "Closure of OPC (Striking Off)",
     subtitle:
@@ -995,7 +684,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "The Fast Track Exit (FTE) route via Form STK-2 is the simplified way to close a non-operational OPC. Failure to formally close the OPC means mandatory annual filings continue, leading to heavy fines and non-compliance issues for the Director. Legal striking off removes all future compliance burdens.",
     section1Title: "Key Benefits of Formal OPC Closure",
-    price: 5999,
+    price: 999,
     originalPrice: 10000,
     theme: {
       orb1: "bg-red-600/20",

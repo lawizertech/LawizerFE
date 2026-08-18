@@ -11,7 +11,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "When the Trademark Registry raises an objection, a legally sound reply must be filed within 30 days. A strong response protects your brand from abandonment, strengthens your ownership claim, and moves your application closer to registration.",
     section1Title: "Key Benefits of Filing a Proper Reply",
-    price: 1999,
+    price: 999,
     originalPrice: 0,
     theme: {
       orb1: "bg-yellow-400/20",
@@ -279,7 +279,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "Copyright registration is the process of legally establishing the ownership of original creative works such as literary content, art, music, films, software, and more. While copyright exists automatically upon creation, registration provides official proof and makes enforcement easier in case of infringement. The process is done before the Copyright Office, and a certificate is issued upon approval.",
     section1Title: "Key Benefits",
-    price: 1500,
+    price: 999,
     originalPrice: 3999,
     theme: {
       orb1: "bg-[#c92c41]/20",

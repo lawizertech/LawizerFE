@@ -36,6 +36,8 @@ import { getAccessToken } from "@/lib/auth/tokenStore";
 import { toast } from "sonner";
 import { Loader2, Zap, Phone } from "lucide-react";
 
+import { useCallback as useCallbackModal } from "@/context/callbackContext";
+
 /* ---------- ICON MAP ---------- */
 
 const ICON_MAP = {
@@ -158,6 +160,7 @@ export default function ServicePageLayout({
   const router = useRouter();
   const { user } = useAuth();
   const { isLoaded: razorpayReady, initializePayment } = useRazorpay();
+  const { openCallback } = useCallbackModal();
 
   const [paymentState, setPaymentState] = useState<"idle" | "creating" | "paying" | "verifying" | "success">("idle");
   const [paymentError, setPaymentError] = useState<string | null>(null);

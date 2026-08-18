@@ -252,18 +252,6 @@ export const services = [
             url: "/startup-businesslegal/managebusiness/ClosureOfLLPPage",
           },
           {
-            name: "ROC Return Filing for Private Limited Company",
-            url: "/startup-businesslegal/managebusiness/RocReturnFilingPvtLtdPage",
-          },
-          {
-            name: "ROC Return Filing for OPC",
-            url: "/startup-businesslegal/managebusiness/ROCReturnFilingForOPCPage",
-          },
-          {
-            name: "ROC Return Filing for LLP",
-            url: "/startup-businesslegal/managebusiness/ROCReturnFilingForLLPPage",
-          },
-          {
             name: "Annual Compliance Calendar",
             url: "/compliance/annual",
           },

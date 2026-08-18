@@ -35,7 +35,7 @@ export default function StartupDocumentsPage() {
         {
           name: "Co-founder Agreement",
           slug: "co-founder-agreement",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹3,999",
           description:
             "Defines roles, equity, responsibilities, decision-making, and exit mechanisms among founders, preventing conflicts.",
@@ -43,7 +43,7 @@ export default function StartupDocumentsPage() {
         {
           name: "Business Partnership Agreement",
           slug: "business-partnership-agreement",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹4,499",
           description:
             "Legal contract defining investment, profit-sharing, responsibilities, and exit mechanisms among partners.",
@@ -51,7 +51,7 @@ export default function StartupDocumentsPage() {
         {
           name: "Employment Agreement",
           slug: "employment-agreement",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹3,499",
           description:
             "Outlines terms, salary, benefits, and termination policies, ensuring compliance with labor laws.",
@@ -59,14 +59,14 @@ export default function StartupDocumentsPage() {
         {
           name: "Consultancy Agreement",
           slug: "consultancy-agreement",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹3,199",
           description: "Defines the scope, deliverables, fees, and confidentiality between a consultant and company.",
         },
         {
           name: "Non-Disclosure Agreement (NDA)",
           slug: "non-disclosure-agreement",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹1,999",
           description:
             "Protects sensitive business information and trade secrets, allowing safe collaboration or funding discussions.",
@@ -74,14 +74,14 @@ export default function StartupDocumentsPage() {
         {
           name: "Privacy Policy & Terms of Use",
           slug: "privacy-terms-of-use",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹2,999",
           description: "Defines user data handling and website/app rules, ensuring compliance under IT Act and GDPR.",
         },
         {
           name: "Software as a Service (SaaS) Agreement",
           slug: "saas-agreement",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹5,999",
           description:
             "Governs subscription, licensing, support, and intellectual property rights for software services.",
@@ -89,7 +89,7 @@ export default function StartupDocumentsPage() {
         {
           name: "Franchise Agreement",
           slug: "franchise-agreement",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹6,999",
           description:
             "Outlines rights, obligations, royalties, and operational standards between a franchisor and franchisee.",
@@ -97,14 +97,14 @@ export default function StartupDocumentsPage() {
         {
           name: "Joint Venture Agreement",
           slug: "joint-venture-agreement",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹7,999",
           description: "Defines partnership, investment, profit-sharing, and management of a Joint Venture.",
         },
         {
           name: "Shareholder Subscription Agreement",
           slug: "shareholder-subscription-agreement",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹8,999",
           description:
             "Governs the issuance of shares to investors and defines their rights and obligations in the company.",
@@ -112,7 +112,7 @@ export default function StartupDocumentsPage() {
         {
           name: "Service Agreement & Term Sheet",
           slug: "service-agreement-term-sheet",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹4,499",
           description:
             "Defines scope, fees, deliverables, and timelines for a business service, ensuring legal enforceability.",
@@ -120,7 +120,7 @@ export default function StartupDocumentsPage() {
         {
           name: "Licensing Agreement",
           slug: "licensing-agreement",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹5,499",
           description:
             "Governs licensing of intellectual property, technology, or products, protecting IP rights and revenue.",
@@ -128,7 +128,7 @@ export default function StartupDocumentsPage() {
         {
           name: "IP Assignment Agreement",
           slug: "ip-assignment-agreement",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹4,999",
           description:
             "Transfers Intellectual Property (IP) ownership from one party to another, ensuring legal transfer of rights.",
@@ -136,7 +136,7 @@ export default function StartupDocumentsPage() {
         {
           name: "Letter of Intent (LOI)",
           slug: "letter-of-intent",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹2,999",
           description:
             "Declares preliminary intention to enter a business transaction or agreement, establishing mutual understanding.",
@@ -154,7 +154,7 @@ export default function StartupDocumentsPage() {
         {
           name: "Power of Attorney (POA) Drafting",
           slug: "power-of-attorney-drafting",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹2,499",
           description:
             "Drafting a legal document to authorize a trusted person to act on your behalf in financial, property, or legal matters.",
@@ -162,7 +162,7 @@ export default function StartupDocumentsPage() {
         {
           name: "Registration of Power of Attorney",
           slug: "power-of-attorney-registration",
-          price: "₹1,499",
+          price: "₹999",
           originalPrice: "₹4,999",
           description:
             "Guidance and support to register your Power of Attorney to make it legally enforceable and accepted by government and financial institutions.",
@@ -338,7 +338,7 @@ export default function StartupDocumentsPage() {
             className="flex items-center justify-center gap-2 sm:gap-3 mb-9 flex-wrap"
           >
             <span className="text-sm sm:text-base text-[#d7deeb]/80">
-              Get all your Agreements done at just <span className="font-bold text-white">₹1,499</span>
+              Get all your Agreements done at just <span className="font-bold text-white">₹999</span>
             </span>
             <span
               className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide"

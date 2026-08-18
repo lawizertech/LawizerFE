@@ -11,7 +11,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "A well-drafted Joint Venture Agreement protects the interests of all parties by clearly defining management roles, profit sharing, governance, and exit mechanisms from the outset.",
     section1Title: "Key Protections & Benefits",
-    price: 1499,
+    price: 999,
     originalPrice: 7999,
     theme: {
       orb1: "bg-yellow-500/20",
@@ -98,7 +98,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "Privacy Policies and Terms of Use are legally mandatory for digital platforms. They ensure regulatory compliance, mitigate legal risk, and build long-term trust with users.",
     section1Title: "Key Protections & Benefits",
-    price: 1499,
+    price: 999,
     originalPrice: 2999,
     theme: {
       orb1: "bg-blue-500/20",
@@ -186,7 +186,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "An NDA safeguards proprietary information while allowing businesses to collaborate, negotiate, and explore opportunities without risking misuse or disclosure of sensitive data.",
     section1Title: "Key Protections & Benefits",
-    price: 1499,
+    price: 999,
     originalPrice: 1999,
     theme: {
       orb1: "bg-red-500/20",
@@ -274,7 +274,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "A Shareholder Subscription Agreement formalizes capital investment into a company, clearly defining shareholder rights, obligations, and governance structures. It ensures legal compliance and reduces the risk of future disputes between founders and investors.",
     section1Title: "Key Protections & Benefits",
-    price: 1499,
+    price: 999,
     originalPrice: 8999,
     theme: {
       orb1: "bg-purple-500/20",
@@ -363,7 +363,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "A Co-Founder Agreement establishes clarity among founders, safeguards intellectual property, and creates a strong legal foundation required for scaling and raising investment.",
     section1Title: "Key Protections & Benefits",
-    price: 1499,
+    price: 999,
     originalPrice: 3999,
     theme: {
       orb1: "bg-indigo-500/20",
@@ -461,7 +461,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "A properly drafted Service Agreement or Term Sheet ensures clarity on service expectations, payments, and timelines. It legally binds both parties and prevents disputes arising from unclear obligations or deliverables.",
     section1Title: "Key Protections & Benefits",
-    price: 1499,
+    price: 999,
     originalPrice: 4499,
     theme: {
       orb1: "bg-teal-500/20",
@@ -550,7 +550,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "A Consultancy Agreement sets clear expectations, protects confidential information, and provides a legally enforceable framework for professional engagements.",
     section1Title: "Key Protections & Benefits",
-    price: 1499,
+    price: 999,
     originalPrice: 3199,
     theme: {
       orb1: "bg-cyan-500/20",
@@ -644,7 +644,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "A Licensing Agreement enables you to monetize intellectual property while retaining ownership. It clearly defines how, where, and for how long your IP can be used, protecting both revenue and legal rights.",
     section1Title: "Key Protections & Benefits",
-    price: 1499,
+    price: 999,
     originalPrice: 5499,
     theme: {
       orb1: "bg-red-500/20",
@@ -728,7 +728,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "An IP Assignment Agreement ensures that ownership of intellectual property is legally transferred, eliminating ambiguity and protecting the assignee from future claims.",
     section1Title: "Key Protections & Benefits",
-    price: 1499,
+    price: 999,
     originalPrice: 4999,
     theme: {
       orb1: "bg-purple-500/20",
@@ -816,7 +816,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "A well-drafted partnership agreement is the foundation of a stable business relationship. It clearly documents expectations, prevents misunderstandings, and safeguards the interests of all partners from day one.",
     section1Title: "Key Protections & Benefits",
-    price: 1499,
+    price: 999,
     originalPrice: 4499,
     theme: {
       orb1: "bg-orange-500/20",
@@ -914,7 +914,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "Standard contracts are insufficient for SaaS businesses. A customized SaaS Agreement clearly defines licensing boundaries, service levels, data responsibilities, and revenue protection for subscription-based software platforms.",
     section1Title: "Key Protections & Benefits",
-    price: 1499,
+    price: 999,
     originalPrice: 5999,
     theme: {
       orb1: "bg-indigo-500/20",
@@ -1003,7 +1003,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "A strong employment agreement creates a clear framework for the working relationship, reduces legal risk, and ensures compliance with labour and employment laws.",
     section1Title: "Key Protections & Benefits",
-    price: 1499,
+    price: 999,
     originalPrice: 3499,
     theme: {
       orb1: "bg-green-500/20",
@@ -1090,7 +1090,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "A strong Franchise Agreement safeguards brand integrity and creates a clear, enforceable framework for a successful franchisor\u2013franchisee relationship.",
     section1Title: "Key Protections & Benefits",
-    price: 1499,
+    price: 999,
     originalPrice: 6999,
     theme: {
       orb1: "bg-yellow-500/20",
@@ -1177,7 +1177,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "A Letter of Intent helps parties align on essential commercial terms before entering complex legal agreements, reducing misunderstandings and strengthening negotiations.",
     section1Title: "Key Protections & Benefits",
-    price: 1499,
+    price: 999,
     originalPrice: 2999,
     theme: {
       orb1: "bg-cyan-500/20",
@@ -1259,7 +1259,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "Registration converts the POA into a public record, ensuring authenticity and preventing legal challenges.",
     section1Title: "Key Benefits of Lawizer",
-    price: 1499,
+    price: 999,
     originalPrice: 4999,
     theme: {
       orb1: "bg-indigo-500/20",
@@ -1332,7 +1332,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "A professionally drafted POA defines authority clearly, prevents misuse, and ensures enforceability.",
     section1Title: "Key Protections and Benefits",
-    price: 1499,
+    price: 999,
     originalPrice: 2499,
     theme: {
       orb1: "bg-yellow-500/20",

@@ -235,10 +235,10 @@ const PHASES: Phase[] = [
             url: "/startup-businesslegal/managebusiness/GstReturnFilingPage",
           },
           {
-            name: "ROC Return Filing (Pvt Ltd)",
-            price: "₹4,999",
-            was: "₹9,999",
-            url: "/startup-businesslegal/managebusiness/RocReturnFilingPvtLtdPage",
+            name: "Annual Compliance Calendar",
+            price: "₹999",
+            was: "₹1,999",
+            url: "/compliance/annual",
           },
           {
             name: "Income Tax Return (ITR)",
