@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 export function StatsSection() {
   const stats = [
     {
-      number: 1000,
+      number: 500,
       suffix: "+",
       label: "Businesses Registered",
     },
@@ -16,7 +16,7 @@ export function StatsSection() {
       label: "Happy Reviews",
     },
     {
-      number: 4.5,
+      number: 4.7,
       suffix: "/5",
       label: "Google Rating",
     },

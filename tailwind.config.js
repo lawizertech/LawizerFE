@@ -12,7 +12,16 @@ module.exports = {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
         serif: ['var(--font-playfair)', 'serif'],
         montserrat: ['var(--font-montserrat)']
-      }
+      },
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+      },
+      animation: {
+        marquee: "marquee 30s linear infinite",
+      },
     }
   },
   plugins: [],

@@ -12,7 +12,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "ISO Certification signifies that a company adheres to established International Organization for Standardization (ISO) standards, indicating a commitment to quality and efficient management systems.",
     section1Title: "Key Benefits",
-    price: 1499,
+    price: 999,
     originalPrice: 2999,
     theme: {
       orb1: "bg-[#c92c41]/20",
@@ -97,7 +97,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "MSME/Udyam Registration is the simplified online process by which micro, small, and medium enterprises register their business with the government to access various benefits.",
     section1Title: "Key Benefits",
-    price: 1499,
+    price: 999,
     originalPrice: 1,
     theme: {
       orb1: "bg-[#c92c41]/20",

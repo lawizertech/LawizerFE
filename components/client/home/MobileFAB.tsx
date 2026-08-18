@@ -112,7 +112,7 @@ export function MobileFAB() {
             flexShrink: 0,
           }}
         >
-          {open ? "✕" : "⚡"}
+          {open ? "✕" : "?"}
         </motion.button>
       </div>
 

@@ -11,7 +11,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "A Section 8 Company under the Companies Act, 2013 is an ideal legal structure for NGOs and non-profit organizations. It offers high credibility, tax exemptions, and limited liability while ensuring that all profits are used strictly for charitable objectives.",
     section1Title: "Key Benefits of Section 8 Registration",
-    price: 8999,
+    price: 999,
     originalPrice: 0,
     theme: {
       orb1: "bg-red-500/20",
@@ -144,7 +144,7 @@ export const servicesData: Record<string, ServiceData> = {
       "Goods and Services Tax (GST) is a comprehensive, destination-based indirect tax that has replaced multiple indirect taxes in India. GST Registration is mandatory for businesses whose aggregate turnover exceeds the prescribed limit and for certain other categories of suppliers. Registration allows businesses to legally collect GST from customers and claim Input Tax Credit (ITC), ensuring a seamless flow of tax credit.",
     section1Title: "Key Benefits of GST Registration",
     price: 999,
-    originalPrice: 20,
+    originalPrice: 2000,
     theme: {
       orb1: "bg-[#c92c41]/20",
       orb2: "bg-[#4c3df7]/20",
@@ -367,7 +367,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "A Limited Liability Partnership (LLP) under the LLP Act, 2008 offers the operational flexibility of a partnership with the legal protection of limited liability. It is ideal for startups, professionals, and small businesses seeking structure with minimal compliance.",
     section1Title: "Key Benefits of LLP Registration",
-    price: 1499,
+    price: 999,
     originalPrice: 3999,
     theme: {
       orb1: "bg-red-500/20",
@@ -728,7 +728,7 @@ export const servicesData: Record<string, ServiceData> = {
     contentDescription:
       "A Public Limited Company (PLC) is a corporate entity governed by the Companies Act, 2013. It requires a minimum of seven shareholders and three directors and can raise capital by offering shares to the public. PLCs enjoy limited liability, higher credibility, and are ideal for businesses planning large-scale expansion and public investment.",
     section1Title: "Key Benefits of Public Limited Company",
-    price: 19999,
+    price: 999,
     originalPrice: 0,
     theme: {
       orb1: "bg-red-500/20",
@@ -847,4 +847,5 @@ export const servicesData: Record<string, ServiceData> = {
       "MOA & AOA\\nDrafted",
     ],
   },
+
 };

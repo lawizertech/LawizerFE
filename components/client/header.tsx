@@ -99,8 +99,8 @@ export function Header() {
             <div className="flex items-center gap-3 sm:gap-5">
               <BackButton />
               <Link className="flex items-center gap-2.5 cursor-pointer transition-transform hover:scale-105" href="/">
-                <div className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.08)] border border-gray-50">
-                  <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" />
+                <div className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.08)] border border-gray-50">
+                  <img src="/Lawizer_final.png" alt="Lawizer Logo" className="w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 object-contain rounded-xl" />
                 </div>
                 <div className="flex items-baseline gap-1">
                   <span className="text-xl sm:text-2xl font-montserrat font-bold text-black tracking-tight">
@@ -282,7 +282,7 @@ export function Header() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="h-10 w-10 text-brand-red hover:bg-gray-100"
+                className="h-11 w-11 text-brand-red hover:bg-gray-100 flex items-center justify-center rounded-xl"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               >
                 {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -329,8 +329,8 @@ export function Header() {
                   href="/"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <div className="flex items-center justify-center w-9 h-9 bg-white rounded-lg shadow-sm border border-gray-100">
-                    <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-5 h-5 object-contain" />
+                  <div className="flex items-center justify-center w-9 h-9 bg-white rounded-full shadow-sm border border-gray-100">
+                    <img src="/Lawizer_final.png" alt="Lawizer Logo" className="w-7.5 h-7.5 object-contain rounded-xl" />
                   </div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-xl font-montserrat font-extrabold text-[var(--brand)] tracking-tight">
@@ -340,7 +340,7 @@ export function Header() {
                 </Link>
 
                 <div className="flex items-center gap-2">
-                  <button aria-label="Close menu" onClick={() => setMobileMenuOpen(false)} className="p-2 bg-gray-100 text-gray-500 hover:bg-gray-200 rounded-full transition-colors">
+                  <button aria-label="Close menu" onClick={() => setMobileMenuOpen(false)} className="p-3 bg-gray-100 text-gray-500 hover:bg-gray-200 rounded-full transition-colors flex items-center justify-center">
                     <X className="w-5 h-5" />
                   </button>
                 </div>

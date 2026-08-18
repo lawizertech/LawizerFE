@@ -9,7 +9,7 @@ const legalQuestions = [
   {
     icon: Building2,
     question: "Want to start your own business but unsure about registration?",
-    color: "from-blue-500 to-indigo-500",
+    color: "from-blue-500 to-sky-500",
     image: "/needHelp/businessregistration.png",
     route: "/startup-businesslegal",
   },
@@ -74,16 +74,16 @@ export function RealLifeQuestionsSection() {
         <div className="text-left mb-10 sm:mb-14 max-w-3xl">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
             Need{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-600">
               Legal Help?
             </span>
           </h2>
-          <div className="h-1 w-20 sm:w-24 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full mb-4 sm:mb-6" />
+          <div className="h-1 w-20 sm:w-24 bg-gradient-to-r from-blue-600 to-sky-600 rounded-full mb-4 sm:mb-6" />
           <p className="text-base sm:text-lg lg:text-xl text-gray-600 leading-relaxed">
             Real-life legal issues need real lawyers. Whether it’s{" "}
             <span className="font-semibold text-gray-800">personal</span>,{" "}
             <span className="font-semibold text-gray-800">property</span>, or{" "}
-            <span className="font-semibold text-gray-800">business</span> — our advocates are here to guide you every
+            <span className="font-semibold text-gray-800">business</span>, our advocates are here to guide you every
             step of the way.
           </p>
         </div>
@@ -95,7 +95,7 @@ export function RealLifeQuestionsSection() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-sm sm:text-base lg:text-lg font-medium rounded-full shadow-lg hover:shadow-xl transition-all text-white"
+            className="px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-sky-600 text-sm sm:text-base lg:text-lg font-medium rounded-full shadow-lg hover:shadow-xl transition-all text-white"
             onClick={() => router.push("/free-consultation")}
           >
             Talk to a Lawyer Now

@@ -142,8 +142,8 @@ export const services = [
 
   {
     title: "Startup & Business Legal",
-    tagline: "From Idea to Empire — Built on Solid Legal Ground",
-    color: "from-purple-500/10 via-indigo-500/20 to-teal-500/30 text-purple-700",
+    tagline: "From Idea to Empire - Built on Solid Legal Ground",
+    color: "from-blue-500/10 via-teal-500/10 to-emerald-500/10 text-blue-700",
     url: "/startup-businesslegal",
     items: [
       {
@@ -250,18 +250,6 @@ export const services = [
           {
             name: "Closure of LLP",
             url: "/startup-businesslegal/managebusiness/ClosureOfLLPPage",
-          },
-          {
-            name: "ROC Return Filing for Private Limited Company",
-            url: "/startup-businesslegal/managebusiness/RocReturnFilingPvtLtdPage",
-          },
-          {
-            name: "ROC Return Filing for OPC",
-            url: "/startup-businesslegal/managebusiness/ROCReturnFilingForOPCPage",
-          },
-          {
-            name: "ROC Return Filing for LLP",
-            url: "/startup-businesslegal/managebusiness/ROCReturnFilingForLLPPage",
           },
           {
             name: "Annual Compliance Calendar",
