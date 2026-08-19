@@ -2,9 +2,9 @@
 
 import { backendApi, serverApi } from "@/lib/apis/axios";
 import { useEffect, useState } from "react";
-import { User, Mail, Phone, ShieldCheck, Briefcase, Scale, Loader2 } from "lucide-react";
+import { User, Mail, Phone, ShieldCheck, Briefcase, Loader2 } from "lucide-react";
 
-interface AdvocateProfile {
+interface ProfessionalProfile {
   name: string;
   role: string;
   email?: string;
@@ -12,7 +12,7 @@ interface AdvocateProfile {
 }
 
 export default function ProfileTab() {
-  const [profile, setProfile] = useState<AdvocateProfile | null>(null);
+  const [profile, setProfile] = useState<ProfessionalProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -47,10 +47,10 @@ export default function ProfileTab() {
   if (!profile) {
     return (
       <div className="flex flex-col items-center justify-center h-64 text-gray-500 font-sans bg-white border border-gray-200/80 rounded-2xl p-8 text-center shadow-xs">
-        <Scale className="text-gray-300 mb-2" size={32} />
+        <Briefcase className="text-gray-300 mb-2" size={32} />
         <p className="text-xs font-bold text-gray-700">No Profile Found</p>
         <p className="text-[11px] text-gray-400 max-w-xs mt-1">
-          Unable to retrieve advocate credentials from the server. Please try signing in again.
+          Unable to retrieve Chartered Accountant credentials from the server. Please try signing in again.
         </p>
       </div>
     );
@@ -67,6 +67,9 @@ export default function ProfileTab() {
       .toUpperCase();
   };
 
+  // Map profession/role value to Chartered Accountant
+  const displayRole = profile.role === "Professional" || profile.role === "Advocate" || !profile.role ? "Chartered Accountant" : profile.role;
+
   return (
     <div className="space-y-6 font-sans pb-10">
       {/* Header Bar */}
@@ -74,7 +77,7 @@ export default function ProfileTab() {
         <div>
           <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
             <User size={22} className="text-[#c92c41]" />
-            Advocate Profile
+            Chartered Accountant Profile
           </h1>
           <p className="text-xs text-gray-500 mt-0.5">
             Your registered professional identity and credential records.
@@ -94,7 +97,7 @@ export default function ProfileTab() {
             {profile.name}
           </h2>
           <p className="text-[11px] font-bold text-[#d62038] bg-rose-50 border border-rose-100/60 px-3 py-1 rounded-full mt-2 inline-block capitalize">
-            {profile.role || "Advocate"}
+            {displayRole}
           </p>
 
           <div className="w-full border-t border-gray-100 my-6" />
@@ -106,7 +109,7 @@ export default function ProfileTab() {
           </div>
 
           <p className="text-[10px] text-gray-400 mt-3 max-w-[200px] leading-relaxed font-semibold">
-            All details verified against Bar Council records. Edit requests require admin approval.
+            All details verified against ICAI records. Edit requests require admin approval.
           </p>
         </div>
 
@@ -114,7 +117,7 @@ export default function ProfileTab() {
         <div className="lg:col-span-8 bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6 space-y-6">
           <div>
             <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 px-1">
-              Advocate Account Details
+              CA Account Details
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -143,7 +146,7 @@ export default function ProfileTab() {
                     Profession
                   </p>
                   <p className="text-xs font-bold text-gray-800 mt-1 truncate capitalize">
-                    {profile.role || "Advocate"}
+                    {displayRole}
                   </p>
                 </div>
               </div>
@@ -185,23 +188,38 @@ export default function ProfileTab() {
               Professional Credentials
             </h3>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {/* Credential 1: Bar Council Reg */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {/* Credential 1: ICAI Membership */}
               <div className="p-4 rounded-xl border border-gray-100 bg-gray-50/50 flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg bg-rose-50 border border-rose-100 text-[#d62038] flex items-center justify-center shrink-0">
-                  <Scale size={15} />
+                  <ShieldCheck size={15} />
                 </div>
                 <div className="min-w-0">
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-                    Bar Council Registration
+                    ICAI Membership
                   </p>
                   <p className="text-xs font-bold text-gray-800 mt-1 truncate">
-                    State Bar Council (Active)
+                    ICAI Member (Active)
                   </p>
                 </div>
               </div>
 
-              {/* Credential 2: System Authority */}
+              {/* Credential 2: Professional Affiliation */}
+              <div className="p-4 rounded-xl border border-gray-100 bg-gray-50/50 flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-rose-50 border border-rose-100 text-[#d62038] flex items-center justify-center shrink-0">
+                  <Briefcase size={15} />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                    Professional Affiliation
+                  </p>
+                  <p className="text-xs font-bold text-gray-800 mt-1 truncate">
+                    ICAI
+                  </p>
+                </div>
+              </div>
+
+              {/* Credential 3: System Authority */}
               <div className="p-4 rounded-xl border border-gray-100 bg-gray-50/50 flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg bg-rose-50 border border-rose-100 text-[#d62038] flex items-center justify-center shrink-0">
                   <ShieldCheck size={15} />
@@ -211,7 +229,7 @@ export default function ProfileTab() {
                     System Authority
                   </p>
                   <p className="text-xs font-bold text-gray-800 mt-1 truncate">
-                    Professional Legal Expert
+                    Chartered Accountant
                   </p>
                 </div>
               </div>
