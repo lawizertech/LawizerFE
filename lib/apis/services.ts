@@ -4,49 +4,8 @@ const API_URL = (
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api"
 ).replace(/\/$/, "");
 
-function mapService(service: any): ServiceData {
-  return {
-    id: service.id,
-    slug: service.id,
-    serviceID: service.service_id,
-
-    title: service.title,
-    subtitle: service.subtitle,
-    badgeText: service.badge_text,
-
-    icon: service.icon,
-    category: service.category,
-
-    contentTitle: service.content_title,
-    contentDescription: service.content_description,
-    section1Title: service.section1_title,
-
-    price: service.price,
-    originalPrice: service.original_price,
-
-    theme: service.theme,
-
-    primaryColor: service.primary_color,
-    primaryBg: service.primary_bg,
-    primaryHoverBg: service.primary_hover_bg,
-
-    benefits: (service.benefits ?? []).map((b: any) => ({
-      icon: b.icon ?? "checkCircle",
-      description: b.description ?? b.text ?? "",
-    })),
-
-    faqs: (service.faqs ?? []).map((f: any) => ({
-      question: f.question ?? f.q ?? "",
-      answer: f.answer ?? f.a ?? "",
-    })),
-
-    sections: service.sections ?? [],
-    addons: service.addons ?? [],
-  };
-}
-
 /**
- * Fetch all services
+ * Fetch all services directly from backend database
  */
 export async function getAllServices(): Promise<ServiceData[]> {
   try {
@@ -55,20 +14,43 @@ export async function getAllServices(): Promise<ServiceData[]> {
     });
 
     if (!res.ok) {
-      console.warn(`Failed to fetch services (${res.status})`);
+      console.warn(`Failed to fetch live prices from backend (${res.status}).`);
       return [];
     }
 
     const data = await res.json();
+    const backendServices = Array.isArray(data) ? data : data.services ?? [];
 
-    const services = Array.isArray(data)
-      ? data
-      : data.services ?? [];
+    return backendServices.map((bs: any) => ({
+      slug: bs.service_id || bs.id,
+      id: bs.id || bs.service_id,
+      serviceID: bs.service_id || bs.id,
+      title: bs.title,
+      name: bs.title,
+      price: bs.price || 0,
+      originalPrice: bs.original_price || bs.originalPrice || Math.round(bs.price * 1.5),
+      description: bs.content_description || "",
+      category: bs.category || "",
+      is_active: bs.is_active,
+      subtitle: bs.subtitle || "",
+      badgeText: bs.badge_text || "",
+      icon: bs.icon || "shield",
+      contentTitle: bs.content_title || "",
+      contentDescription: bs.content_description || "",
+      section1Title: bs.section1_title || "",
+      primaryColor: bs.primary_color || "text-indigo-600",
+      primaryBg: bs.primary_bg || "bg-gradient-to-r from-indigo-600 to-blue-600",
+      primaryHoverBg: bs.primary_hover_bg || "bg-gradient-to-r from-indigo-700 to-blue-700",
+      faqs: bs.faqs || [],
+      benefits: bs.benefits || [],
+      sections: bs.sections || [],
+      addons: bs.addons || [],
+      theme: bs.theme || {},
+    })) as ServiceData[];
 
-    return services.map(mapService);
   } catch (error) {
-    console.error("Error fetching services:", error);
-    return [];
+    console.error("Error fetching live prices from backend:", error);
+    return []; 
   }
 }
 

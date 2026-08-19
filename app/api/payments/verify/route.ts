@@ -55,6 +55,9 @@ export async function POST(req: Request) {
       );
     }
 
+    // Inject a dummy processCode to satisfy the backend validation since the frontend doesn't supply it.
+    body.processCode = body.processCode || "dummy";
+
     // Forward request to backend
     let backendRes = await forwardVerifyPayment(authHeader, body);
 

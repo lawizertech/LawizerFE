@@ -12,8 +12,9 @@ import {
   ChevronRight,
   Tag,
   CheckCircle2,
-  Sparkles,
   ChevronDown,
+  Loader2,
+  Sparkles,
 } from "lucide-react";
 
 export default function PropertyLegalPage() {
@@ -22,32 +23,40 @@ export default function PropertyLegalPage() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const btnRef = useRef<HTMLButtonElement>(null);
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0, width: 0 });
-  // Which section was just navigated to — drives the pulse highlight
   const [highlightedSection, setHighlightedSection] = useState<string | null>(null);
 
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 600], [0, 160]);
   const heroOpacity = useTransform(scrollY, [0, 380], [1, 0]);
 
-  // Section refs
   const sectionRefs: Record<string, React.RefObject<HTMLElement>> = {
     "verify-consult": useRef<HTMLElement>(null as any),
     "agreements-deeds": useRef<HTMLElement>(null as any),
     "registration-support": useRef<HTMLElement>(null as any),
   };
 
-  const dropdownItems = [
-    { label: "Property Paper Review", sectionId: "verify-consult" },
-    { label: "Property Registration (Sale Deed)", sectionId: "registration-support" },
-    { label: "Gift Deed Drafting & Registration", sectionId: "registration-support" },
-    { label: "Rent Agreement", sectionId: "agreements-deeds" },
-    { label: "Commercial Lease Agreement", sectionId: "agreements-deeds" },
-    { label: "Joint Development Agreement (JDA)", sectionId: "agreements-deeds" },
-    { label: "Property Report", sectionId: "verify-consult" },
-    { label: "Agreement to Sale / Sale Agreement Review", sectionId: "verify-consult" },
-  ];
+  const [pageData, setPageData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Recalculate dropdown position from live button rect
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services/page_property`);
+        const json = await res.json();
+        if (json && json.theme) {
+          setPageData(json.theme);
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const dropdownItems = pageData?.dropdownItems || [];
+
   const recalcPos = useReactCallback(() => {
     if (btnRef.current) {
       const r = btnRef.current.getBoundingClientRect();
@@ -55,13 +64,11 @@ export default function PropertyLegalPage() {
     }
   }, []);
 
-  // Close dropdown the instant ANY downward scroll happens
   useEffect(() => {
     let lastY = window.scrollY;
     const handler = () => {
       const currentY = window.scrollY;
       if (dropdownOpen && currentY > lastY) {
-        // User scrolled down — close immediately
         setDropdownOpen(false);
       } else {
         recalcPos();
@@ -81,7 +88,6 @@ export default function PropertyLegalPage() {
     setDropdownOpen((v) => !v);
   };
 
-  // Close on outside click
   useEffect(() => {
     if (!dropdownOpen) return;
     const handler = (e: MouseEvent) => {
@@ -98,167 +104,34 @@ export default function PropertyLegalPage() {
     setTimeout(() => {
       sectionRefs[sectionId]?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 60);
-    // Trigger highlight pulse on the target section — clear after animation completes
     setHighlightedSection(sectionId);
     setTimeout(() => setHighlightedSection(null), 1800);
   };
 
   const { openCallback } = useCallback();
-
   const handleRequestCallback = () => openCallback("Property Legal");
+  const sections = pageData?.sections || [];
 
-  const sections = [
-    {
-      id: "verify-consult",
-      title: "Verification & Consultation",
-      icon: Home,
-      basePath: "/property/verify/",
-      description:
-        "Ensure a safe investment and gain complete legal clarity before any property transaction. Know your property before you buy it.",
-      services: [
-        {
-          name: "Property Report",
-          slug: "property-report",
-          price: "₹999",
-          originalPrice: "₹2,999",
-          description:
-            "Detailed report verifying ownership, title clarity, encumbrances, government approvals, and pending disputes.",
-        },
-        {
-          name: "Property Paper Review",
-          slug: "property-paper-review",
-          price: "₹999",
-          originalPrice: "₹1,999",
-          description:
-            "Expert legal review of documents like title deeds and mutation papers, followed by an oral consultation on the property's legal status.",
-        },
-        {
-          name: "Agreement to Sale / Sale Agreement Review",
-          slug: "agreement-review",
-          price: "₹999",
-          originalPrice: "₹2,499",
-          description:
-            "Legal review of your Sale Agreement or Agreement to Sale to ensure it's legally sound, enforceable, and protects your interests.",
-        },
-      ],
-    },
-    {
-      id: "agreements-deeds",
-      title: "Agreements & Deeds Drafting",
-      icon: FileText,
-      basePath: "/property/drafting/",
-      description:
-        "Drafting legally compliant and customized documents to secure your rights, responsibilities, and entire investment.",
-      services: [
-        {
-          name: "Sale Deed Drafting",
-          slug: "sale-deed",
-          price: "₹999",
-          originalPrice: "₹5,999",
-          description:
-            "Drafting the final legal document that officially transfers property ownership, defining rights, terms, and responsibilities.",
-        },
-        {
-          name: "Agreement to Sale Drafting",
-          slug: "agreement-to-sale",
-          price: "₹999",
-          originalPrice: "₹4,499",
-          description:
-            "Drafting the first legal step that defines mutual terms between buyer and seller, safeguarding both parties before the final sale.",
-        },
-        {
-          name: "Rent Agreement",
-          slug: "rent-agreement",
-          price: "₹999",
-          originalPrice: "₹1,499",
-          description:
-            "Professionally drafted and legally compliant agreement defining terms between landlord and tenant.",
-        },
-        {
-          name: "Commercial Lease Agreement",
-          slug: "commercial-lease",
-          price: "₹999",
-          originalPrice: "₹5,499",
-          description:
-            "Drafting a legal contract for commercial properties (offices, shops, warehouses), covering rent, duration, and specific business clauses.",
-        },
-        {
-          name: "Joint Development Agreement (JDA)",
-          slug: "joint-development-agreement",
-          price: "₹999",
-          originalPrice: "₹8,999",
-          description:
-            "A legal contract between a landowner and a developer, outlining terms for property development, profit-sharing, and timelines.",
-        },
-        // ❌ REMOVED — Power of Attorney Drafting → moved to /documentation
-        {
-          name: "Will Drafting & Registration",
-          slug: "will-drafting",
-          price: "₹999",
-          originalPrice: "₹2,999",
-          description:
-            "Drafting a clear, legally valid Will to ensure your assets are distributed according to your wishes and prevent family disputes.",
-        },
-        {
-          name: "Relinquishment Deed",
-          slug: "relinquishment-deed",
-          price: "₹999",
-          originalPrice: "₹4,499",
-          description:
-            "Drafting a deed for a co-owner to voluntarily give up their share to another co-owner or family member.",
-        },
-      ],
-    },
-    {
-      id: "registration-support",
-      title: "Property Registration",
-      icon: Gavel,
-      basePath: "/property/registration/",
-      description:
-        "Hassle-free legal support for the complex process of registering your property and legal documents with government authorities.",
-      services: [
-        {
-          name: "Property Registration (Sale Deed)",
-          slug: "property-registration",
-          price: "₹999",
-          originalPrice: "₹8,999",
-          description:
-            "Expert legal support to prepare and verify the Sale Deed and guide you through the entire registration process at the sub-registrar office.",
-        },
-        {
-          name: "Gift Deed Drafting & Registration",
-          slug: "gift-deed",
-          price: "₹999",
-          originalPrice: "₹6,499",
-          description:
-            "Transfer ownership of property voluntarily without consideration, ensuring the deed is legally valid and registered.",
-        },
-        // ❌ REMOVED — Registration of POA → moved to /documentation
-      ],
-    },
-  ];
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#f8f7f4]">
+        <Loader2 className="w-10 h-10 animate-spin text-teal-600" />
+      </div>
+    );
+  }
 
   const handleViewDetails = (basePath: string, slug: string) => router.push(`${basePath}${slug}`);
 
   return (
     <div className="min-h-screen bg-[#f8f7f4]">
-      {/* ══════════════════════════════════════════════
- HERO
- ══════════════════════════════════════════════ */}
       <section
         ref={heroRef}
         className="relative flex flex-col items-center justify-center text-center min-h-screen bg-[#06101e] overflow-hidden"
       >
-        {/* Parallax photo */}
         <motion.div style={{ y: heroY }} className="absolute inset-0 scale-110" aria-hidden>
           <div className="absolute inset-0 bg-[url('/propertylegal.png')] bg-cover bg-center" />
         </motion.div>
-
-        {/* Rich atmospheric overlays */}
-        {/* Base darkening layer */}
         <div className="absolute inset-0 bg-[#06101e]/80" />
-
-        {/* Directional cinematic vignette */}
         <div
           className="absolute inset-0"
           style={{
@@ -266,11 +139,7 @@ export default function PropertyLegalPage() {
               "linear-gradient(175deg, rgba(6,16,30,0.55) 0%, rgba(6,16,30,0.1) 40%, rgba(120,70,10,0.22) 70%, rgba(6,16,30,0.85) 100%)",
           }}
         />
-
-        {/* Strong bottom fade so content reads clearly */}
         <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#06101e]/90 to-transparent" />
-
-        {/* Warm amber radial glow — centered, feels like golden sunlight */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -278,11 +147,7 @@ export default function PropertyLegalPage() {
               "radial-gradient(ellipse 65% 50% at 52% 48%, rgba(233,155,43,0.18) 0%, rgba(180,100,10,0.08) 40%, transparent 70%)",
           }}
         />
-
-        {/* Top-left dark vignette for depth */}
         <div className="absolute top-0 left-0 w-1/2 h-full pointer-events-none bg-gradient-to-r from-[#06101e]/55 to-transparent" />
-
-        {/* Subtle noise/grain layer via repeating gradient */}
         <div
           className="absolute inset-0 pointer-events-none opacity-[0.035]"
           style={{
@@ -291,8 +156,6 @@ export default function PropertyLegalPage() {
             backgroundSize: "100% 3px",
           }}
         />
-
-        {/* Fine grid */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -302,8 +165,6 @@ export default function PropertyLegalPage() {
             backgroundSize: "72px 72px",
           }}
         />
-
-        {/* Animated orbs */}
         <motion.div
           animate={{ x: [0, 30, 0], y: [0, -20, 0], opacity: [0.25, 0.55, 0.25] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
@@ -332,7 +193,6 @@ export default function PropertyLegalPage() {
             filter: "blur(50px)",
           }}
         />
-        {/* Small tight accent glow top-right */}
         <motion.div
           animate={{ opacity: [0.18, 0.42, 0.18] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
@@ -347,10 +207,7 @@ export default function PropertyLegalPage() {
             filter: "blur(32px)",
           }}
         />
-
-        {/* Hero content */}
         <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-4xl px-4 sm:px-8 pt-28 pb-20">
-          {/* Eyebrow */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -369,8 +226,6 @@ export default function PropertyLegalPage() {
               Trusted Property Legal Services
             </span>
           </motion.div>
-
-          {/* H1 */}
           <motion.h1
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
@@ -393,8 +248,6 @@ export default function PropertyLegalPage() {
               with Lawizer
             </span>
           </motion.h1>
-
-          {/* Tagline */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -403,8 +256,6 @@ export default function PropertyLegalPage() {
           >
             "Before You Buy, Let Lawizer Verify"
           </motion.p>
-
-          {/* Sale line */}
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
@@ -427,8 +278,6 @@ export default function PropertyLegalPage() {
               Limited Time Offer
             </span>
           </motion.div>
-
-          {/* CTA buttons */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -448,7 +297,6 @@ export default function PropertyLegalPage() {
               <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
               Request a Callback
             </motion.button>
-
             <motion.button
               ref={btnRef}
               whileHover={{ scale: 1.05, background: "rgba(255,255,255,0.15)" }}
@@ -467,8 +315,6 @@ export default function PropertyLegalPage() {
               />
             </motion.button>
           </motion.div>
-
-          {/* Trust signals */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -483,8 +329,6 @@ export default function PropertyLegalPage() {
             ))}
           </motion.div>
         </motion.div>
-
-        {/* Scroll cue */}
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2.2, repeat: Infinity }}
@@ -494,16 +338,10 @@ export default function PropertyLegalPage() {
           <span className="text-white text-[9px] tracking-[0.2em] uppercase">Scroll</span>
         </motion.div>
       </section>
-
-      {/* ══════════════════════════════════════════════
- DROPDOWN — fixed to viewport, repositions on scroll
- ══════════════════════════════════════════════ */}
       <AnimatePresence>
         {dropdownOpen && (
           <>
-            {/* Backdrop */}
             <div className="fixed inset-0" style={{ zIndex: 9998 }} onClick={() => setDropdownOpen(false)} />
-
             <motion.div
               initial={{ opacity: 0, y: 6, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -521,7 +359,6 @@ export default function PropertyLegalPage() {
                   "0 24px 64px rgba(6,16,30,0.28), 0 4px 16px rgba(6,16,30,0.14), 0 0 0 1px rgba(233,155,43,0.15)",
               }}
             >
-              {/* Header bar */}
               <div
                 className="px-4 py-2.5 flex items-center gap-2"
                 style={{
@@ -534,8 +371,6 @@ export default function PropertyLegalPage() {
                 </span>
                 <div className="flex-1 h-px bg-[#e99b2b]/20" />
               </div>
-
-              {/* Scrollable items — compact window, ~3.5 items visible */}
               <div
                 style={{
                   background: "white",
@@ -545,7 +380,7 @@ export default function PropertyLegalPage() {
                   scrollbarColor: "rgba(233,155,43,0.3) transparent",
                 }}
               >
-                {dropdownItems.map((item, i) => (
+                {dropdownItems.map((item: any, i: number) => (
                   <motion.button
                     key={i}
                     initial={{ opacity: 0, x: -6 }}
@@ -575,13 +410,10 @@ export default function PropertyLegalPage() {
           </>
         )}
       </AnimatePresence>
-
-      {/* ══════════════════════════════════════════════
- SERVICE SECTIONS
- ══════════════════════════════════════════════ */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24 pb-32 sm:pb-40 space-y-20 sm:space-y-28">
-        {sections.map((section, index) => {
-          const Icon = section.icon;
+        {sections.map((section: any, index: number) => {
+          const iconMap: Record<string, any> = { Home, FileText, Gavel };
+          const Icon = iconMap[section.icon] || Home;
           return (
             <motion.section
               key={section.id}
@@ -632,7 +464,7 @@ export default function PropertyLegalPage() {
               <p className="text-gray-400 text-sm sm:text-base mb-9 max-w-2xl">{section.description}</p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-                {section.services.map((service, cIdx) => (
+                {section.services.map((service: any, cIdx: number) => (
                   <motion.div
                     key={service.slug}
                     initial={{ opacity: 0, y: 28 }}

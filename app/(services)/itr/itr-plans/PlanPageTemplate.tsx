@@ -211,7 +211,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
 
   const stats = [
     { icon: Star, label: "Avg Rating", value: "4.9 / 5" },
-    { icon: Users, label: "Clients Served", value: "50,000+" },
+    { icon: Users, label: "Clients Served", value: "500+" },
     { icon: Clock, label: "Turnaround", value: `${plan.estimateDays} Days` },
     { icon: ShieldCheck, label: "Data Security", value: "Bank-Level" },
   ];
@@ -231,7 +231,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -80, opacity: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 28 }}
-            className={`fixed top-16 left-0 right-0 z-40 bg-white border-t-2 shadow-[0_6px_20px_rgba(0,0,0,0.08)] ${tierStyles[plan.id].borderLight}`}
+            className={`lg:hidden fixed top-16 left-0 right-0 z-40 bg-white border-t-2 shadow-[0_6px_20px_rgba(0,0,0,0.08)] ${tierStyles[plan.id].borderLight}`}
           >
             <div className="max-w-6xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between gap-4 sm:gap-6">
               {/* Left: back link + divider + plan name only (no subtitle) */}
@@ -293,19 +293,16 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
 
       {/* ══════════════════════════════════════════════════
  2. HERO
- Full-bleed accent gradient. Price lives here in
- a glassmorphism panel — not repeated at the top.
- A wave SVG melts it into the white body below.
+ Full-bleed accent gradient. Stats row embedded at
+ the bottom of the hero above the wave. Pricing card
+ sits mid-to-lower on the right, never kissing the nav.
  ══════════════════════════════════════════════════ */}
-      <header ref={heroRef} className="relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${plan.accentColor}, ${plan.accentColor}dd)` }}>
+      <header ref={heroRef} className="relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${plan.accentColor}f0, ${plan.accentColor}e0)` }}>
         {/* Decorative overlays */}
         <div className="absolute inset-0 pointer-events-none">
-          {/* Top-right glow */}
-          <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full opacity-20 bg-white/20 blur-[60px]" />
-          {/* Bottom fade */}
-          <div className="absolute bottom-0 left-0 right-0 h-28 opacity-30 bg-gradient-to-t from-black/10 to-transparent" />
-          {/* Dot grid */}
-          <svg className="absolute inset-0 w-full h-full opacity-[0.07]">
+          <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full opacity-15 bg-white blur-[80px]" />
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/10 to-transparent opacity-20" />
+          <svg className="absolute inset-0 w-full h-full opacity-[0.06]">
             <defs>
               <pattern id={`dots-${plan.id}`} x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
                 <circle cx="2" cy="2" r="1.5" fill="white" />
@@ -315,97 +312,119 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
           </svg>
         </div>
 
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 lg:pt-28 pb-0">
-          {/* Back to Plans removed */}
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          <div className="grid lg:grid-cols-[1fr_auto] gap-6 lg:gap-10 items-end pb-10 sm:pb-12">
-            {/* Left — identity */}
-            <div>
+          {/* ── Main two-column grid ── */}
+          <div className="grid lg:grid-cols-[1fr_300px] gap-8 lg:gap-12 pt-20 sm:pt-24 pb-4">
+
+            {/* Left — identity, sits flush to top */}
+            <div className="flex flex-col justify-start">
+
               {/* Tier pill */}
-              <div className="inline-flex items-center gap-2.5 bg-white/18 backdrop-blur-sm rounded-full px-4 py-2 mb-5 border border-white/25">
-                <span className="text-xl">{plan.emoji}</span>
-                <span className="text-white/90 text-xs font-bold tracking-widest uppercase">{plan.tier}</span>
+              <div className="mt-8 inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm rounded-full px-4 py-1.5 mb-4 border border-white/20 w-fit">
+                <span className="text-base">{plan.emoji}</span>
+                <span className="text-white/90 text-[11px] font-bold tracking-widest uppercase">{plan.tier}</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-3 leading-tight drop-shadow-sm">
+              <h1 className="text-4xl sm:text-[2.8rem] font-extrabold text-white mb-2 leading-[1.1] tracking-tight">
                 {plan.name} Plan
               </h1>
-              <p className="text-white/80 text-lg mb-1.5">{plan.subtitle}</p>
-              <p className="text-white/55 text-sm mb-7 max-w-lg">{plan.tagline}</p>
+              <p className="text-white/85 text-base font-medium mb-1">{plan.subtitle}</p>
+              <p className="text-white/55 text-sm mb-5 max-w-md leading-relaxed">{plan.tagline}</p>
 
-              {/* Rating */}
+              {/* Rating row */}
               <div className="flex items-center gap-2 mb-8">
                 <div className="flex gap-0.5">
-                  {[1, 2, 3, 4, 5].map((i) => (
+                  {[1,2,3,4,5].map((i) => (
                     <Star key={i} className="w-4 h-4 fill-yellow-300 text-yellow-300" />
                   ))}
                 </div>
-                <span className="text-white font-semibold text-sm">4.9</span>
-                <span className="text-white/50 text-sm">· 31,545 reviews</span>
+                <span className="text-white font-bold text-sm">4.9</span>
               </div>
 
-              {/* Mobile-only inline CTA */}
-              <div className="flex flex-wrap items-center gap-3 lg:hidden">
-                <div>
-                  <div className="text-white/55 text-sm line-through">
-                    ₹{plan.originalPrice.toLocaleString("en-IN")}
+              {/* Stats Grid */}
+              <div className="grid grid-cols-2 gap-y-6 gap-x-4">
+                {stats.map(({ icon: Icon, label, value }) => (
+                  <div key={label} className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
+                      <Icon className="w-5 h-5 text-[#c0392b]" />
+                    </div>
+                    <div>
+                      <div className="text-white font-extrabold text-sm sm:text-base leading-tight">{value}</div>
+                      <div className="text-white/75 text-[11px] sm:text-xs font-medium leading-none mt-1">{label}</div>
+                    </div>
                   </div>
-                  <div className="text-3xl font-extrabold text-white">₹{plan.price.toLocaleString("en-IN")}</div>
+                ))}
+              </div>
+
+              {/* Mobile-only price + CTA */}
+              {/* Mobile-only price + CTA */}
+              <div className="flex flex-col mt-6 lg:hidden bg-white/10 p-5 rounded-2xl border border-white/10 backdrop-blur-sm shadow-sm gap-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex flex-col">
+                    <div className="text-white/50 text-xs line-through mb-0.5">₹{plan.originalPrice.toLocaleString("en-IN")}</div>
+                    <div className="text-3xl font-extrabold text-white leading-none">₹{plan.price.toLocaleString("en-IN")}</div>
+                  </div>
+                  <div className="text-white/60 text-[10px] uppercase tracking-wider font-semibold text-right">All Inclusive</div>
                 </div>
-                <button
-                  onClick={handleStartProcess}
-                  disabled={paymentState !== "idle" || !razorpayReady}
-                  className={`shimmer bg-white flex items-center gap-2 justify-center text-sm font-bold px-7 py-3.5 rounded-2xl transition-all hover:shadow-xl hover:scale-105 disabled:opacity-70 ${tierStyles[plan.id].text}`}
-                >
-                  {paymentState === "creating" && <Loader2 className="w-4 h-4 animate-spin" />}
-                  {paymentState === "paying" && <Loader2 className="w-4 h-4 animate-spin" />}
-                  {paymentState === "verifying" && <Loader2 className="w-4 h-4 animate-spin" />}
-                  {paymentState === "success" && <Check className="w-4 h-4" />}
-                  {paymentState === "idle" && "Buy Now"}
-                </button>
-                <button
-                  onClick={() => openCallback("Income Tax & GST")}
-                  className="flex items-center gap-1.5 text-white/80 hover:text-white text-sm font-medium border border-white/25 rounded-2xl px-4 py-3.5 transition-all"
-                >
-                  <Phone className="w-4 h-4" /> Callback
-                </button>
+                <div className="flex gap-2 w-full">
+                  <button onClick={() => openCallback("Income Tax & GST")} className="flex-1 flex items-center justify-center gap-1.5 text-white bg-white/5 hover:bg-white/10 border border-white/20 text-sm font-semibold rounded-xl py-3.5 transition-all">
+                    <Phone className="w-4 h-4" /> Callback
+                  </button>
+                  <button
+                    onClick={handleStartProcess}
+                    disabled={paymentState !== "idle" || !razorpayReady}
+                    className={`flex-[1.5] shimmer bg-white flex items-center justify-center gap-2 text-sm font-bold rounded-xl py-3.5 transition-all hover:shadow-lg disabled:opacity-70 ${tierStyles[plan.id].text}`}
+                  >
+                    {paymentState !== "idle" ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                    {paymentState === "idle" ? "Buy Now" : null}
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Right — glass price panel (desktop only, lives inside hero) */}
-            <div className="hidden lg:block flex-shrink-0 self-end">
+            {/* Right — glass pricing card, pushed down with top padding */}
+            <div className="hidden lg:flex flex-col justify-start pt-10">
               <div
-                className="rounded-3xl overflow-hidden w-72"
+                className="rounded-3xl w-full"
                 style={{
-                  background: "rgba(255,255,255,0.13)",
-                  backdropFilter: "blur(18px)",
-                  border: "1.5px solid rgba(255,255,255,0.28)",
-                  boxShadow: "0 20px 60px rgba(0,0,0,0.14)",
+                  background: "rgba(255,255,255,0.12)",
+                  backdropFilter: "blur(20px)",
+                  border: "1.5px solid rgba(255,255,255,0.25)",
+                  boxShadow: "0 24px 60px rgba(0,0,0,0.18)",
                 }}
               >
-                <div className="px-7 py-6">
-                  {/* Top row: discount badge + offer code */}
-                  <div className="flex items-center justify-between mb-5">
-                    <span className="text-[11px] font-bold text-white bg-white/25 px-2.5 py-1 rounded-lg">
+                <div className="px-6 py-5">
+                  {/* Discount badge + offer code */}
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-[11px] font-bold text-white bg-white/22 px-2.5 py-1 rounded-lg tracking-wide">
                       {discount}% OFF
                     </span>
                     <OfferChipGlass />
                   </div>
 
                   {/* Price */}
-                  <div className="text-white/55 text-sm line-through mb-0.5">
+                  <div className="text-white/50 text-sm line-through leading-none mb-0.5">
                     ₹{plan.originalPrice.toLocaleString("en-IN")}
                   </div>
-                  <div className="text-[2.6rem] font-extrabold text-white leading-none mb-1">
+                  <div className="text-[2.8rem] font-extrabold text-white leading-none mb-1 tracking-tight">
                     ₹{plan.price.toLocaleString("en-IN")}
                   </div>
-                  <div className="text-white/45 text-xs mb-6">All inclusive · No hidden charges</div>
+                  <div className="text-white/40 text-xs mb-2">All inclusive · No hidden charges</div>
 
-                  {/* Buy Now — white button on coloured bg */}
+                  {/* Inline rating */}
+                  <div className="flex items-center gap-1.5 mb-5">
+                    <div className="flex gap-0.5">
+                      {[1,2,3,4,5].map((i) => <Star key={i} className="w-3 h-3 fill-yellow-300 text-yellow-300" />)}
+                    </div>
+                    <span className="text-white/75 text-[11px] font-semibold">4.9</span>
+                  </div>
+
+                  {/* Buy Now */}
                   <button
                     onClick={handleStartProcess}
                     disabled={paymentState !== "idle" || !razorpayReady}
-                    className={`shimmer w-full py-4 rounded-2xl text-sm font-bold mb-3 transition-all hover:shadow-xl hover:scale-[1.02] bg-white flex items-center justify-center gap-2 disabled:opacity-70 ${tierStyles[plan.id].text}`}
+                    className={`shimmer w-full py-3.5 rounded-2xl text-sm font-bold mb-2.5 transition-all hover:shadow-xl hover:scale-[1.01] bg-white flex items-center justify-center gap-2 disabled:opacity-70 ${tierStyles[plan.id].text}`}
                   >
                     {paymentState === "creating" && <Loader2 className="w-4 h-4 animate-spin" />}
                     {paymentState === "paying" && <Loader2 className="w-4 h-4 animate-spin" />}
@@ -414,23 +433,24 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
                     {paymentState === "idle" && "Buy Now"}
                   </button>
 
+                  {/* Callback */}
                   <button
                     onClick={() => openCallback("Income Tax & GST")}
-                    className="w-full py-3 rounded-2xl text-sm font-semibold text-white/80 hover:text-white border border-white/22 hover:border-white/45 flex items-center justify-center gap-2 transition-all"
+                    className="w-full py-3 rounded-2xl text-sm font-semibold text-white/75 hover:text-white border border-white/20 hover:border-white/40 flex items-center justify-center gap-2 transition-all"
                   >
                     <Phone className="w-3.5 h-3.5" /> Request a Callback
                   </button>
 
-                  {/* Micro trust row */}
-                  <div className="mt-5 pt-5 border-t border-white/15 flex items-center justify-around">
+                  {/* Trust row */}
+                  <div className="mt-4 pt-4 border-t border-white/12 flex items-center justify-around">
                     {[
                       { icon: ShieldCheck, text: "Secure" },
                       { icon: BadgeCheck, text: "CA-Filed" },
                       { icon: Zap, text: `${plan.estimateDays}d` },
                     ].map(({ icon: Icon, text }) => (
-                      <div key={text} className="flex flex-col items-center gap-1.5">
-                        <Icon className="w-4 h-4 text-white/65" />
-                        <span className="text-white/55 text-[10px] font-medium">{text}</span>
+                      <div key={text} className="flex flex-col items-center gap-1">
+                        <Icon className="w-4 h-4 text-white/55" />
+                        <span className="text-white/45 text-[10px] font-medium">{text}</span>
                       </div>
                     ))}
                   </div>
@@ -438,44 +458,132 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
               </div>
             </div>
           </div>
+
         </div>
 
-        {/* Wave bottom edge melting into white */}
-        <div className="relative h-14 overflow-hidden -mb-1">
-          <svg viewBox="0 0 1440 56" className="absolute bottom-0 w-full" preserveAspectRatio="none">
-            <path d="M0,56 L0,28 Q360,0 720,24 Q1080,48 1440,20 L1440,56 Z" fill="white" />
-          </svg>
+        {/* Animated Wave transition — immediately after stats */}
+        <div className="relative h-16 sm:h-24 overflow-hidden -mb-1 w-full pointer-events-none">
+          {/* Background slower wave (parallax) */}
+          <motion.svg 
+            viewBox="0 0 2880 64" 
+            className="absolute bottom-0 h-[80%] w-[200%] origin-left"
+            preserveAspectRatio="none"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ ease: "linear", duration: 15, repeat: Infinity }}
+          >
+            <path d="M0,32 C360,64 360,0 720,32 C1080,64 1080,0 1440,32 C1800,64 1800,0 2160,32 C2520,64 2520,0 2880,32 L2880,64 L0,64 Z" fill="#f8f9fa" opacity="0.6" />
+          </motion.svg>
+          
+          {/* Foreground faster wave */}
+          <motion.svg 
+            viewBox="0 0 2880 64" 
+            className="absolute bottom-0 h-full w-[200%] origin-left"
+            preserveAspectRatio="none"
+            animate={{ x: ["-50%", "0%"] }}
+            transition={{ ease: "linear", duration: 10, repeat: Infinity }}
+          >
+            <path d="M0,32 C360,64 360,0 720,32 C1080,64 1080,0 1440,32 C1800,64 1800,0 2160,32 C2520,64 2520,0 2880,32 L2880,64 L0,64 Z" fill="#f8f9fa" />
+          </motion.svg>
         </div>
       </header>
 
       {/* ══════════════════════════════════════════════════
- 3. STATS STRIP
+ 3. TESTIMONIALS — infinite marquee
  ══════════════════════════════════════════════════ */}
-      <div className="border-b border-gray-100 bg-gray-50/40">
-        <div className="max-w-6xl mx-auto px-6 py-5 grid grid-cols-2 sm:grid-cols-4 gap-5">
-          {stats.map(({ icon: Icon, label, value }) => (
-            <div key={label} className="flex items-center gap-3">
-              <div
-                className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${tierStyles[plan.id].bgSoft}`}
-              >
-                <Icon className={`w-4 h-4 ${tierStyles[plan.id].text}`} />
-              </div>
-              <div>
-                <div className="text-sm font-bold leading-tight text-brand-navy">{value}</div>
-                <div className="text-[11px] text-gray-400">{label}</div>
-              </div>
-            </div>
-          ))}
+      <section className="bg-[#f8f9fa] pt-2 pb-12 overflow-hidden relative">
+        {/* Subtle polygon/blob shapes for depth */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden z-0">
+          <svg className="absolute left-0 top-0 h-[150%] w-[600px] text-blue-600/[0.03] transform -translate-x-1/3 -translate-y-1/4" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path fill="currentColor" d="M44.7,-76.4C58.8,-69.2,71.8,-59.1,79.6,-45.8C87.4,-32.6,90,-16.3,89.1,-0.5C88.1,15.3,83.5,30.6,74.2,42.9C64.9,55.2,50.8,64.4,36.2,71.2C21.6,77.9,6.5,82.3,-8.4,81.1C-23.2,79.9,-37.8,73.1,-51.2,63.9C-64.6,54.7,-76.7,43.2,-83.4,29.1C-90.1,15,-91.3,-1.7,-87.3,-16.9C-83.2,-32.1,-73.9,-45.8,-61.6,-54.6C-49.3,-63.4,-34,-67.3,-20.3,-71.4C-6.5,-75.6,5.7,-80,18.4,-81.8C31.1,-83.5,42.5,-82.7,44.7,-76.4Z" transform="translate(100 100)" />
+          </svg>
+          <svg className="absolute right-0 bottom-0 h-[150%] w-[600px] text-indigo-600/[0.03] transform translate-x-1/3 translate-y-1/4" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path fill="currentColor" d="M47.7,-67.3C62.1,-58.5,74.2,-44.6,81.2,-28.5C88.2,-12.3,90.2,6.1,84.7,21.8C79.2,37.5,66.1,50.6,51.3,60.1C36.5,69.5,20.1,75.3,3.1,70.9C-13.8,66.6,-30.2,52,-43.5,40.1C-56.7,28.2,-66.8,19,-71.4,7.4C-76,-4.2,-75,-18.2,-68.8,-29.9C-62.5,-41.6,-51.1,-50.9,-38.7,-59.5C-26.3,-68,-13.2,-75.8,1.3,-77.6C15.8,-79.4,33.3,-76.1,47.7,-67.3Z" transform="translate(100 100)" />
+          </svg>
         </div>
-      </div>
+        <div className="w-full relative z-10">
+          {/* Fade edges */}
+          <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-20 bg-gradient-to-r from-[#f8f9fa] to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-20 bg-gradient-to-l from-[#f8f9fa] to-transparent z-10 pointer-events-none" />
+
+          <motion.div
+            className="flex w-max"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ ease: "linear", duration: 30, repeat: Infinity }}
+          >
+            {[
+              {
+                text: "Super smooth experience! Uploaded my Form 16 and everything was handled within 2 days. The CA clarifications were really helpful.",
+                name: "Rohit Sharma",
+                initials: "RS",
+                role: "IT Professional",
+                rating: 5,
+              },
+              {
+                text: "First time filing on my own was daunting but Lawizer made it effortless. Got my ITR filed quickly and accurately.",
+                name: "Priya Mehta",
+                initials: "PM",
+                role: "Marketing Manager",
+                rating: 5,
+              },
+              {
+                text: "Excellent support team. They patiently answered all my questions and filed my returns accurately.",
+                name: "Amit Verma",
+                initials: "AV",
+                role: "Business Analyst",
+                rating: 5,
+              },
+            ].reduce((acc, curr) => {
+              // Duplicate the array 4 times for a smooth infinite scroll
+              return [...acc, curr, curr, curr, curr];
+            }, [] as any[]).map((r, index) => (
+              <div
+                key={index}
+                className="bg-white border border-gray-100 rounded-3xl p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] flex flex-col justify-between hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] transition-all duration-300 min-w-[280px] w-[280px] sm:min-w-[320px] sm:w-[320px] mx-3"
+              >
+                {/* Stars */}
+                <div>
+                  <div className="flex gap-0.5 mb-3.5">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <Star key={i} className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-650 leading-relaxed mb-6 font-medium">&ldquo;{r.text}&rdquo;</p>
+                </div>
+
+                {/* Reviewer */}
+                <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
+                  <div
+                    className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 text-white"
+                    style={{ background: `linear-gradient(135deg, ${plan.accentColor}, ${plan.accentColor}bb)` }}
+                  >
+                    {r.initials}
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-gray-800 leading-tight">{r.name}</div>
+                    <div className="text-xs text-gray-400 leading-tight">{r.role}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Wave transition — out to main body */}
+        <div className="absolute bottom-0 left-0 right-0 h-6 overflow-hidden -mb-1 pointer-events-none z-0">
+          <svg viewBox="0 0 1440 64" className="absolute bottom-0 w-full" preserveAspectRatio="none">
+            <path d="M0,64 L0,32 Q180,0 360,20 Q540,40 720,16 Q900,0 1080,24 Q1260,44 1440,12 L1440,64 Z" fill="white" />
+          </svg>
+        </div>
+      </section>
 
       {/* ══════════════════════════════════════════════════
  4. BODY — content left, sticky sidebar right
  ══════════════════════════════════════════════════ */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14 lg:py-16">
-        <div className="grid lg:grid-cols-[1fr_300px] gap-10 lg:gap-16">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* ── Content sections ── */}
-          <div className="space-y-16 min-w-0">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow border border-gray-100">
+          <div className="space-y-10 min-w-0">
             {/* About */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
@@ -609,11 +717,6 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
             </motion.section>
           </div>
 
-          {/* ── Sticky sidebar (desktop only) ── */}
-          <div className="hidden lg:block">
-            <div className="sticky top-36">
-              <SidebarCard plan={plan} onCallback={() => openCallback("Income Tax & GST")} onBuyNow={handleStartProcess} paymentState={paymentState} razorpayReady={razorpayReady} />
-            </div>
           </div>
         </div>
       </main>
@@ -621,7 +724,7 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
       {/* ══════════════════════════════════════════════════
  5. NOT SURE YET — full-width CTA banner
  ══════════════════════════════════════════════════ */}
-      <div className="bg-white py-16">
+      <div className="bg-white py-8">
         <motion.section
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -678,40 +781,49 @@ export default function PlanPage({ plan }: { plan: PlanConfig }) {
 
       {/* ══════════════════════════════════════════════════
  6. MOBILE STICKY BOTTOM BAR
- Visible only on &lt; lg. Shows price + two actions.
+ Visible only on < lg, and only when hero is off-screen. Shows price + two actions.
  ══════════════════════════════════════════════════ */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm border-t border-gray-100 shadow-2xl px-4 py-3 sm:px-5 sm:py-4">
-        <div className="flex items-center gap-3">
-          <div className="flex-1 min-w-0">
-            <div className="text-xs text-gray-400 line-through">₹{plan.originalPrice.toLocaleString("en-IN")}</div>
-            <div className="text-xl font-extrabold leading-tight text-brand-navy">
-              ₹{plan.price.toLocaleString("en-IN")}
+      <AnimatePresence>
+        {buyBarShow && (
+          <motion.div
+            initial={{ y: 100 }}
+            animate={{ y: 0 }}
+            exit={{ y: 100 }}
+            className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm border-t border-gray-100 shadow-2xl px-4 py-3 sm:px-5 sm:py-4"
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex-1 min-w-0">
+                <div className="text-xs text-gray-400 line-through">₹{plan.originalPrice.toLocaleString("en-IN")}</div>
+                <div className="text-xl font-extrabold leading-tight text-brand-navy">
+                  ₹{plan.price.toLocaleString("en-IN")}
+                </div>
+              </div>
+              <button
+                onClick={() => openCallback("Income Tax & GST")}
+                className={`w-12 h-12 rounded-2xl border flex items-center justify-center flex-shrink-0 transition-all hover:shadow-sm ${tierStyles[plan.id].borderLight} ${tierStyles[plan.id].bgSoft} ${tierStyles[plan.id].text}`}
+              >
+                <Phone className="w-4 h-4" />
+              </button>
+              <button
+                onClick={handleStartProcess}
+                disabled={paymentState !== "idle" || !razorpayReady}
+                className="shimmer flex-[1.5] py-3.5 rounded-2xl text-sm font-bold text-white transition-all hover:brightness-110 disabled:opacity-70 flex items-center justify-center gap-2"
+                style={{
+                  background: `linear-gradient(135deg, ${plan.accentColor}, ${plan.accentColor}cc)`,
+                  boxShadow: `0 4px 16px rgba(${plan.glowRGB},0.35)`,
+                }}
+              >
+                {paymentState === "creating" && <Loader2 className="w-4 h-4 animate-spin" />}
+                {paymentState === "paying" && <Loader2 className="w-4 h-4 animate-spin" />}
+                {paymentState === "verifying" && <Loader2 className="w-4 h-4 animate-spin" />}
+                {paymentState === "success" && <Check className="w-4 h-4" />}
+                {paymentState === "idle" && "Buy Now"}
+              </button>
             </div>
-          </div>
-          <button
-            onClick={() => openCallback("Income Tax & GST")}
-            className={`w-12 h-12 rounded-2xl border flex items-center justify-center flex-shrink-0 transition-all hover:shadow-sm ${tierStyles[plan.id].borderLight} ${tierStyles[plan.id].bgSoft} ${tierStyles[plan.id].text}`}
-          >
-            <Phone className="w-4 h-4" />
-          </button>
-          <button
-            onClick={handleStartProcess}
-            disabled={paymentState !== "idle" || !razorpayReady}
-            className="shimmer flex-1 py-3.5 rounded-2xl text-sm font-bold text-white transition-all hover:brightness-110 disabled:opacity-70 flex items-center justify-center gap-2"
-            style={{
-              background: `linear-gradient(135deg, ${plan.accentColor}, ${plan.accentColor}cc)`,
-              boxShadow: `0 4px 16px rgba(${plan.glowRGB},0.35)`,
-            }}
-          >
-            {paymentState === "creating" && <Loader2 className="w-4 h-4 animate-spin" />}
-            {paymentState === "paying" && <Loader2 className="w-4 h-4 animate-spin" />}
-            {paymentState === "verifying" && <Loader2 className="w-4 h-4 animate-spin" />}
-            {paymentState === "success" && <Check className="w-4 h-4" />}
-            {paymentState === "idle" && "Buy Now"}
-          </button>
-        </div>
-      </div>
-      <div className="lg:hidden h-20" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div className="lg:hidden h-28" />
     </div>
   );
 }

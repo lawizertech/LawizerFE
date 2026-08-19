@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
-import { useInView } from "framer-motion";
+import { useInView, motion } from "framer-motion";
+import { Users, Star, ShieldCheck, Award } from "lucide-react";
 
 function AnimatedNumber({ value, suffix = "", isDecimal = false }: { value: number, suffix?: string, isDecimal?: boolean }) {
   const [count, setCount] = useState(0);
@@ -31,81 +31,162 @@ function AnimatedNumber({ value, suffix = "", isDecimal = false }: { value: numb
   return <span ref={ref}>{isDecimal ? count.toFixed(1) : count.toLocaleString()}{suffix}</span>;
 }
 
+/* ── Stats Data with Lucide Icons ── */
+const stats = [
+  {
+    icon: Users,
+    iconBg: "bg-emerald-50 text-emerald-600",
+    iconBorder: "border-emerald-100/50",
+    value: 1000,
+    suffix: "+",
+    label: "Happy Customers",
+    isDecimal: false,
+  },
+  {
+    icon: Star,
+    iconBg: "bg-amber-50 text-amber-500",
+    iconBorder: "border-amber-100/50",
+    value: 4.7,
+    suffix: "",
+    label: "Rating",
+    sublabel: "From Google",
+    isDecimal: true,
+  },
+  {
+    icon: ShieldCheck,
+    iconBg: "bg-blue-50 text-blue-600",
+    iconBorder: "border-blue-100/50",
+    value: 0,
+    suffix: "",
+    label: "ISO Certified",
+    isDecimal: false,
+    isText: true,
+  },
+  {
+    icon: Award,
+    iconBg: "bg-violet-50 text-violet-600",
+    iconBorder: "border-violet-100/50",
+    value: 7,
+    suffix: "+",
+    label: "Years",
+    sublabel: "of Trust & Excellence",
+    isDecimal: false,
+  },
+];
+
+/* ── Associated partner/certifications ── */
+const partners = [
+  {
+    name: "Startup India",
+    render: () => (
+      <div className="flex items-center gap-1 bg-gradient-to-r from-emerald-50 to-orange-50/50 border border-emerald-100/45 rounded-full px-3.5 py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.01)] hover:border-emerald-200 transition-colors">
+        <span className="font-extrabold text-[11px] uppercase tracking-wider text-emerald-600">Startup</span>
+        <span className="font-extrabold text-[11px] uppercase tracking-wider text-orange-500">India</span>
+      </div>
+    )
+  },
+  {
+    name: "DPIIT",
+    render: () => (
+      <div className="bg-slate-50 border border-slate-200/55 rounded-full px-3.5 py-1.5 text-slate-700 font-extrabold text-[10px] uppercase tracking-wider shadow-[0_1px_2px_rgba(0,0,0,0.01)] hover:border-slate-350 transition-colors">
+        DPIIT Recognized
+      </div>
+    )
+  },
+  {
+    name: "MSME",
+    render: () => (
+      <div className="bg-amber-50/80 border border-amber-200/45 rounded-full px-3.5 py-1.5 text-amber-700 font-extrabold text-[10px] uppercase tracking-wider shadow-[0_1px_2px_rgba(0,0,0,0.01)] hover:border-amber-350 transition-colors">
+        MSME Registered
+      </div>
+    )
+  },
+  {
+    name: "ISO",
+    render: () => (
+      <div className="bg-blue-50/80 border border-blue-200/45 rounded-full px-3.5 py-1.5 text-blue-700 font-extrabold text-[10px] uppercase tracking-wider shadow-[0_1px_2px_rgba(0,0,0,0.01)] hover:border-blue-350 transition-colors">
+        ISO 9001:2015
+      </div>
+    )
+  },
+  {
+    name: "Make in India",
+    render: () => (
+      <div className="bg-slate-900 border border-slate-800 text-white font-extrabold text-[9px] uppercase tracking-[0.08em] rounded-full px-4 py-1.5 shadow-sm hover:bg-black transition-colors shrink-0">
+        🇮🇳 Make In India
+      </div>
+    )
+  }
+];
+
 export function TrustStatsBar() {
-  const logos = [
-    { name: "Startup India", logo: "/logos/StartupIndia.png" },
-    { name: "DPIIT", logo: "/logos/DPIIT.png" },
-    { name: "MSME", logo: "/logos/MSME.png" },
-    { name: "ISO", logo: "/logos/ISO.png" },
-  ];
-
   return (
-    <section className="bg-white py-3 md:py-4">
-      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 md:px-12">
-        <div className="border border-gray-100 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] py-2 px-6 lg:px-8 flex flex-col xl:flex-row items-center justify-between gap-4 xl:gap-0">
-          
-          {/* Associated With */}
-          <div className="flex items-center gap-4 lg:gap-6 flex-wrap justify-center xl:border-r border-gray-200 xl:pr-8 xl:mr-8 xl:w-auto w-full">
-            <span className="text-[13px] font-bold text-gray-700 uppercase tracking-wide">Associated With</span>
-            <div className="flex items-center gap-4">
-               {/* Fallback to text if logos aren't there, since the user's image shows specific logos */}
-               <div className="flex items-center gap-1">
-                 <span className="font-bold text-green-700">Startup</span>
-                 <span className="font-bold text-orange-500">India</span>
-               </div>
-               <div className="text-[11px] font-bold text-gray-600 text-center leading-tight">
-                 DPIIT<br/>#startupindia
-               </div>
-               <div className="text-[12px] font-bold text-gray-800">
-                 MSME
-               </div>
-               <div className="text-blue-700 font-bold text-[12px] flex items-center justify-center border border-blue-700 rounded-full w-8 h-8 text-center leading-tight">
-                 ISO
-               </div>
+    <section className="bg-white py-6 md:py-8">
+      <div className="max-w-[1180px] mx-auto w-full px-4 sm:px-6 space-y-5">
+
+        {/* ── Stats Row ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="grid grid-cols-2 lg:grid-cols-4 gap-4"
+        >
+          {stats.map((stat) => {
+            const Icon = stat.icon;
+            return (
+              <div
+                key={stat.label}
+                className="bg-white border border-slate-100 rounded-2xl shadow-[0_2px_16px_rgba(0,0,0,0.02)] py-5 px-5 flex items-center gap-4 hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:-translate-y-0.5 transition-all duration-300 group"
+              >
+                <div className={`w-12 h-12 rounded-xl ${stat.iconBg} border ${stat.iconBorder} flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105`}>
+                  <Icon className="w-5.5 h-5.5" />
+                </div>
+                <div className="flex flex-col justify-center min-w-0">
+                  <span className={`font-black text-slate-900 leading-none tracking-tight transition-colors group-hover:text-black ${stat.isText ? "text-[16px] sm:text-[18px] lg:text-[20px]" : "text-[22px] lg:text-[25px]"}`}>
+                    {stat.isText ? (
+                      stat.label
+                    ) : (
+                      <AnimatedNumber value={stat.value} suffix={stat.suffix} isDecimal={stat.isDecimal} />
+                    )}
+                  </span>
+                  {!stat.isText && (
+                    <span className="text-[11px] text-slate-400 font-semibold leading-tight mt-1.5">
+                      {stat.sublabel || stat.label}
+                    </span>
+                  )}
+                  {stat.isText && (
+                    <span className="text-[11px] text-slate-400 font-semibold leading-tight mt-1.5">Certified Platform</span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </motion.div>
+
+        {/* ── Associated With / Partner Logos ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="border border-slate-100 rounded-2xl shadow-[0_2px_16px_rgba(0,0,0,0.015)] py-4 px-5 lg:px-6 bg-slate-50/30"
+        >
+          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 w-full">
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-[2px] shrink-0">
+              We Are Associated With
+            </span>
+            <div className="hidden md:block h-6 w-px bg-slate-200 shrink-0" />
+            <div className="flex items-center gap-3 sm:gap-4 flex-wrap justify-center md:justify-between flex-1 w-full">
+              {partners.map((p) => (
+                <div key={p.name} className="shrink-0">
+                  {p.render()}
+                </div>
+              ))}
             </div>
           </div>
+        </motion.div>
 
-          {/* Stats */}
-          <div className="flex flex-col md:flex-row items-center gap-6 lg:gap-10 divide-y md:divide-y-0 md:divide-x divide-gray-200 flex-1 justify-between xl:justify-end w-full xl:w-auto">
-            {/* Stat 1 */}
-            <div className="flex items-center gap-3 w-full md:w-auto justify-center md:pl-0 pt-4 md:pt-0">
-              <span className="text-3xl text-brand-red bg-red-50 p-2 rounded-full">🏢</span>
-              <div className="flex flex-col">
-                <span className="text-xl font-bold text-gray-900 leading-none">
-                  <AnimatedNumber value={1000} suffix="+" />
-                </span>
-                <span className="text-[11px] text-gray-500 font-medium">Businesses Registered</span>
-              </div>
-            </div>
-
-            {/* Stat 2 */}
-            <div className="flex items-center gap-3 w-full md:w-auto justify-center md:pl-6 lg:pl-10 pt-4 md:pt-0">
-              <span className="text-3xl text-brand-red bg-red-50 p-2 rounded-full">⭐</span>
-              <div className="flex flex-col">
-                <span className="text-xl font-bold text-gray-900 leading-none">
-                  <AnimatedNumber value={2000} suffix="+" />
-                </span>
-                <span className="text-[11px] text-gray-500 font-medium">Happy Reviews</span>
-              </div>
-            </div>
-
-            {/* Stat 3 */}
-            <div className="flex items-center gap-3 w-full md:w-auto justify-center md:pl-6 lg:pl-10 pt-4 md:pt-0">
-              <svg className="w-10 h-10 bg-gray-50 p-2 rounded-full" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" />
-                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-              </svg>
-              <div className="flex flex-col">
-                <span className="text-xl font-bold text-gray-900 leading-none">
-                  <AnimatedNumber value={4.7} suffix="/5" isDecimal={true} />
-                </span>
-                <span className="text-[11px] text-gray-500 font-medium">Google Rating</span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

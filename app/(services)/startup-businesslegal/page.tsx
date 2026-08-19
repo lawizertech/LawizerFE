@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCallback } from "@/context/callbackContext";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -15,6 +15,7 @@ import {
   Star,
   Sparkles,
   ChevronRight,
+  Loader2,
 } from "lucide-react";
 
 export default function StartupAndBusinessLegalPage() {
@@ -42,232 +43,36 @@ export default function StartupAndBusinessLegalPage() {
       });
     }
   };
+  const [pageData, setPageData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Bundles: ascending order (OPC → LLP → Pvt Ltd), LLP = Most Popular
-  const complianceBundles = [
-    {
-      id: "opc-bundle",
-      name: "OPC Bundle",
-      tagline: "Incorporation + Annual Compliance",
-      price: "₹999",
-      originalPrice: "₹19,999",
-      discount: "50% OFF",
-      popular: false,
-      includes: ["Incorporation", "Annual Compliance", "ROC Filing"],
-    },
-    {
-      id: "llp-bundle",
-      name: "LLP Bundle",
-      tagline: "Incorporation + Annual Compliance",
-      price: "₹999",
-      originalPrice: "₹24,999",
-      discount: "48% OFF",
-      popular: true,
-      includes: ["Incorporation", "Annual Compliance", "ROC Filing"],
-    },
-    {
-      id: "pvt-ltd-bundle",
-      name: "Pvt Ltd Bundle",
-      tagline: "Incorporation + Annual Compliance",
-      price: "₹999",
-      originalPrice: "₹29,999",
-      discount: "50% OFF",
-      popular: false,
-      includes: ["Incorporation", "Annual Compliance", "ROC Filing"],
-    },
-  ];
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services/page_startup_businesslegal`);
+        const json = await res.json();
+        if (json && json.theme) {
+          setPageData(json.theme);
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
 
-  const sections = [
-    {
-      id: "start",
-      title: "Start Your Business",
-      icon: Rocket,
-      basePath: "/startup-businesslegal/startbusiness/",
-      description:
-        "Launch your venture with the right legal structure and registrations. Build a strong foundation for long-term success.",
-      services: [
-        {
-          name: "Private Limited Company",
-          slug: "PrivateLimitedCompanyPage",
-          price: "₹999",
-          originalPrice: "₹4,999",
-          discount: "70% OFF",
-          description:
-            "Ideal for startups planning to scale and raise investment. Offers limited liability and investor credibility.",
-        },
-        {
-          name: "One Person Company (OPC)",
-          slug: "OnePersonCompanyPage",
-          price: "₹999",
-          originalPrice: "₹2,999",
-          discount: "67% OFF",
-          description: "Perfect for solo founders who want corporate structure benefits with simplified compliance.",
-        },
-        {
-          name: "Limited Liability Partnership (LLP)",
-          slug: "LLPPage",
-          price: "₹999",
-          originalPrice: "₹3,999",
-          discount: "Save ₹2,500",
-          description:
-            "Blend of partnership flexibility and limited liability protection. Suited for multi-partner businesses.",
-        },
-        {
-          name: "Startup India Registration (DPIIT Recognition)",
-          slug: "StartupIndiaRegistrationPage",
-          price: "₹999",
-          originalPrice: "₹2,499",
-          discount: "60% OFF",
-          description:
-            "Government recognition offering tax benefits, funding access, and compliance support for innovative startups.",
-        },
-        {
-          name: "GST Registration",
-          slug: "GSTRegistrationPage",
-          price: "₹999",
-          originalPrice: "₹1,999",
-          discount: "50% OFF",
-          description:
-            "Mandatory for businesses exceeding turnover thresholds. Enables tax compliance and seamless trade.",
-        },
-        {
-          name: "Public Limited Company (PLC)",
-          slug: "PublicLimitedCompanyPage",
-          price: "₹999",
-          originalPrice: "₹39,999 – ₹59,999",
-          discount: null,
-          description: "For large-scale enterprises looking to raise capital from the public and expand operations.",
-        },
-        {
-          name: "Section 8 Company (NGO)",
-          slug: "Section8NGOCompanyPage",
-          price: "₹999",
-          originalPrice: "₹17,999 – ₹24,999",
-          discount: null,
-          description:
-            "Non-profit structure for charitable or social initiatives. Eligible for tax exemptions and grants.",
-        },
-      ],
-    },
-    {
-      id: "protect",
-      title: "Protect Your Business",
-      icon: Shield,
-      basePath: "/startup-businesslegal/protectbusiness/",
-      description:
-        "Safeguard your intellectual property and legal rights. Protect your brand, creations, and business identity.",
-      services: [
-        {
-          name: "Trademark Registration",
-          slug: "TrademarkRegistrationPage",
-          price: "₹999",
-          originalPrice: "₹3,499",
-          discount: "Save ₹2,300",
-          description: "Secure your brand name, logo, and identity with nationwide legal protection.",
-        },
-        {
-          name: "Reply to Trademark Objection",
-          slug: "ReplyToTrademarkObjectionPage",
-          price: "₹1,999 – ₹3,999",
-          originalPrice: "₹5,999 – ₹8,999",
-          discount: null,
-          description: "Respond professionally to trademark office objections and ensure smooth registration.",
-        },
-        {
-          name: "Renew Your Trademark",
-          slug: "RenewTrademarkPage",
-          price: "₹999",
-          originalPrice: "₹2,499",
-          discount: "60% OFF",
-          description: "Extend protection of your registered trademark and prevent cancellation due to expiry.",
-        },
-        {
-          name: "Sell Your Trademark",
-          slug: "SellYourTrademarkPage",
-          price: "₹999",
-          originalPrice: "₹2,499",
-          discount: "60% OFF",
-          description: "Legally transfer ownership of your registered trademark with a structured sale agreement.",
-        },
-        {
-          name: "Copyright Registration",
-          slug: "CopyrightRegistrationPage",
-          price: "₹1,500",
-          originalPrice: "₹3,999",
-          discount: "63% OFF",
-          description: "Protect original creative works such as software, music, or written content.",
-        },
-        {
-          name: "Reply to Copyright Objection",
-          slug: "ReplyToCopyrightObjectionPage",
-          price: "₹999",
-          originalPrice: "₹2,499",
-          discount: "60% OFF",
-          description: "Respond to copyright office objections effectively to secure your IP rights.",
-        },
-      ],
-    },
-    {
-      id: "grow",
-      title: "Grow Your Business",
-      icon: TrendingUp,
-      basePath: "/startup-businesslegal/growbusiness/",
-      description: "Enhance your business credibility and access new opportunities with essential certifications.",
-      services: [
-        {
-          name: "MSME / Udyam Registration",
-          slug: "MSMEUdhyamRegistrationPage",
-          price: "₹1,499",
-          originalPrice: "₹2,999",
-          discount: "50% OFF",
-          description: "Get government recognition as an MSME and unlock financial incentives and subsidies.",
-        },
-      ],
-    },
-    {
-      id: "manage",
-      title: "Manage Your Business",
-      icon: Settings,
-      basePath: "/compliance/",
-      description:
-        "Stay compliant year-round. Annual filings, ROC returns, and director KYC — handled by a qualified CA so you never miss a deadline.",
-      services: [
-        {
-          name: "Annual Compliance Calendar",
-          slug: "annual",
-          price: "From ₹499/mo",
-          originalPrice: "₹7,999/yr",
-          discount: "Save up to 25%",
-          description:
-            "Full-year filing calendar for Pvt Ltd, OPC and LLP. Pricing plans from Essential to Complete — choose what fits your stage.",
-        },
-        {
-          name: "ROC Return Filing — Pvt Ltd",
-          slug: "annual",
-          price: "₹999",
-          originalPrice: "₹4,999",
-          discount: "80% OFF",
-          description: "AOC-4 and MGT-7A filed on time. Includes auditor appointment (ADT-1) and director KYC.",
-        },
-        {
-          name: "ROC Return Filing — OPC",
-          slug: "annual",
-          price: "₹999",
-          originalPrice: "₹3,999",
-          discount: "75% OFF",
-          description: "OPC-specific filing timeline with the 27 December deadline for AOC-4 built in.",
-        },
-        {
-          name: "ROC Return Filing — LLP",
-          slug: "annual",
-          price: "₹999",
-          originalPrice: "₹3,499",
-          discount: "71% OFF",
-          description: "Form 11 and Form 8 filed before the uncapped penalty clock starts ticking.",
-        },
-      ],
-    },
-  ];
+  const complianceBundles = pageData?.complianceBundles || [];
+  const sections = pageData?.sections || [];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#f8f7f4]">
+        <Loader2 className="w-10 h-10 animate-spin text-red-600" />
+      </div>
+    );
+  }
 
   const handleViewDetails = (basePath: string, slug: string) => {
     router.push(`${basePath}${slug}`);
@@ -316,7 +121,7 @@ export default function StartupAndBusinessLegalPage() {
         />
 
         {/* Hero content */}
-        <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-4xl px-4 sm:px-8 pt-28 pb-20">
+        <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-4xl px-4 sm:px-8 pt-20 sm:pt-28 pb-16 sm:pb-20">
           {/* Eyebrow pill */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -402,7 +207,7 @@ export default function StartupAndBusinessLegalPage() {
             transition={{ delay: 0.85 }}
             className="flex flex-wrap items-center justify-center gap-6 mt-14"
           >
-            {["10,000+ Businesses Registered", "Expert Verified Lawyers", "Secure & Confidential"].map((badge) => (
+            {["500+ Businesses Registered", "Expert Verified Lawyers", "Secure & Confidential"].map((badge) => (
               <div key={badge} className="flex items-center gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 text-green-400" />
                 <span className="text-xs sm:text-sm text-[#c3d0e4]/80">{badge}</span>
@@ -426,8 +231,14 @@ export default function StartupAndBusinessLegalPage() {
  SERVICE SECTIONS
  ══════════════════════════════════════════ */}
       <div id="registration-tabs" className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24 pb-32 sm:pb-40">
-        {sections.map((section, sIdx) => {
-          const Icon = section.icon;
+        {sections.map((section: any, sIdx: number) => {
+          const iconMap: Record<string, any> = {
+            Rocket,
+            Shield,
+            TrendingUp,
+            Settings,
+          };
+          const Icon = iconMap[section.icon] || Rocket;
           return (
             <motion.section
               key={section.id}
@@ -448,9 +259,9 @@ export default function StartupAndBusinessLegalPage() {
 
               {/* Service cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-                {section.services.map((service, cIdx) => (
+                {section.services.map((service: any, cIdx: number) => (
                   <motion.div
-                    key={service.slug}
+                    key={`${service.slug}-${cIdx}`}
                     initial={{ opacity: 0, y: 28 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -541,180 +352,7 @@ export default function StartupAndBusinessLegalPage() {
           );
         })}
 
-        {/* ══════════════════════════════════════════════════════
- MANAGE — Bundle Packages (ascending: OPC → LLP → Pvt Ltd)
- ══════════════════════════════════════════════════════ */}
-        <motion.section
-          initial={{ opacity: 0, y: 56 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.65 }}
-          className="mb-20 relative z-10 isolate"
-        >
-          <div className="flex items-center gap-3 mb-3">
-            <div className="p-2.5 rounded-xl bg-brand-red/10">
-              <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-[#c92c41]" />
-            </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-[#0e172b] tracking-tight">Manage Your Business</h2>
-          </div>
-          <p className="text-gray-400 text-sm sm:text-base mb-6 max-w-2xl">
-            Stay compliant effortlessly. Our all-in-one bundles cover incorporation, annual filings, and ROC returns —
-            so you can focus on what matters.
-          </p>
-          <div className="mb-10">
-            <a
-              href="/compliance/annual"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[#c92c41] hover:underline transition-colors"
-            >
-              See full annual compliance calendar
-              <ChevronRight className="w-4 h-4" />
-            </a>
-          </div>
 
-          {/* Bundle cards — OPC (cheapest) → LLP (popular) → Pvt Ltd (premium) */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-7 items-end">
-            {complianceBundles.map((bundle, bIdx) => (
-              <motion.div
-                key={bundle.id}
-                initial={{ opacity: 0, y: 36 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: bIdx * 0.1 }}
-                whileHover={bundle.popular ? {} : { y: -6, boxShadow: "0 24px 56px rgba(14,23,43,0.13)" }}
-                className="relative rounded-2xl flex flex-col overflow-visible"
-                style={
-                  bundle.popular
-                    ? {
-                        background: "linear-gradient(155deg, #0e172b 0%, #1b2e55 100%)",
-                        boxShadow: "0 28px 64px rgba(14,23,43,0.38), 0 0 0 1.5px rgba(233,155,43,0.45)",
-                        transform: "translateY(-14px)",
-                        zIndex: 10,
-                      }
-                    : {
-                        background: "white",
-                        border: "1px solid rgba(14,23,43,0.07)",
-                        boxShadow: "0 4px 18px rgba(14,23,43,0.06)",
-                      }
-                }
-              >
-                {/* Most Popular badge */}
-                {bundle.popular && (
-                  <div className="absolute -top-5 left-0 right-0 flex justify-center">
-                    <span
-                      className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-extrabold tracking-wide shadow-lg"
-                      style={{
-                        background: "linear-gradient(90deg, #e99b2b, #f5c76a)",
-                        color: "#0e172b",
-                      }}
-                    >
-                      <Star className="w-3 h-3 fill-current" />
-                      Most Popular
-                    </span>
-                  </div>
-                )}
-
-                <div className={`p-6 sm:p-8 flex flex-col flex-grow ${bundle.popular ? "pt-11" : ""}`}>
-                  <h3
-                    className={`text-base sm:text-lg font-extrabold mb-1 text-center ${bundle.popular ? "text-white" : "text-[#0e172b]"}`}
-                  >
-                    {bundle.name}
-                  </h3>
-                  <p
-                    className="text-xs text-center mb-7"
-                    style={{
-                      color: bundle.popular ? "rgba(195,215,245,0.65)" : "#9ca3af",
-                    }}
-                  >
-                    {bundle.tagline}
-                  </p>
-
-                  {/* Price */}
-                  <div className="text-center mb-6">
-                    <p
-                      className="font-black"
-                      style={{
-                        fontSize: "clamp(1.7rem, 3.5vw, 2.2rem)",
-                        color: bundle.popular ? "#e99b2b" : "#c92c41",
-                      }}
-                    >
-                      {bundle.price}
-                    </p>
-                    <div className="flex items-center justify-center gap-2 mt-1.5">
-                      <p
-                        className="text-sm line-through"
-                        style={{
-                          color: bundle.popular ? "rgba(190,210,245,0.4)" : "#d1d5db",
-                        }}
-                      >
-                        {bundle.originalPrice}
-                      </p>
-                      <span
-                        className="text-[11px] font-bold px-2.5 py-0.5 rounded-full"
-                        style={{
-                          background: bundle.popular ? "rgba(233,155,43,0.18)" : "rgba(34,197,94,0.09)",
-                          color: bundle.popular ? "#e99b2b" : "#16a34a",
-                          border: bundle.popular ? "1px solid rgba(233,155,43,0.32)" : "1px solid rgba(34,197,94,0.18)",
-                        }}
-                      >
-                        {bundle.discount}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Divider */}
-                  <div
-                    className="w-full h-px mb-6"
-                    style={{
-                      background: bundle.popular ? "rgba(255,255,255,0.09)" : "rgba(14,23,43,0.06)",
-                    }}
-                  />
-
-                  {/* Feature list */}
-                  <ul className="space-y-3 mb-8 flex-grow">
-                    {bundle.includes.map((item) => (
-                      <li key={item} className="flex items-center gap-2.5">
-                        <CheckCircle2
-                          className={`w-4 h-4 flex-shrink-0 ${bundle.popular ? "text-green-400" : "text-green-500"}`}
-                        />
-                        <span
-                          className="text-sm font-medium"
-                          style={{
-                            color: bundle.popular ? "rgba(218,228,245,0.9)" : "#374151",
-                          }}
-                        >
-                          {item}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* CTA */}
-                  <motion.button
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => router.push(`/startup-businesslegal/managebusiness/${bundle.id}`)}
-                    className="w-full py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all"
-                    style={
-                      bundle.popular
-                        ? {
-                            background: "linear-gradient(90deg, #e99b2b, #f5c76a)",
-                            color: "#0e172b",
-                            boxShadow: "0 6px 24px rgba(233,155,43,0.42)",
-                          }
-                        : {
-                            background: "#c92c41",
-                            color: "white",
-                            boxShadow: "0 4px 18px rgba(201,44,65,0.26)",
-                          }
-                    }
-                  >
-                    Get Started
-                  </motion.button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
       </div>
     </div>
   );

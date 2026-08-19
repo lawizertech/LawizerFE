@@ -329,7 +329,7 @@ export default function ITRPlans() {
   };
 
   return (
-    <section className="relative pt-20 sm:pt-24 pb-12 sm:pb-16 overflow-hidden bg-brand-light-bg">
+    <section className="relative pt-12 sm:pt-16 pb-4 sm:pb-6 overflow-hidden bg-brand-light-bg lg:min-h-[calc(100vh-100px)] flex flex-col justify-center">
       {/* ── Subtle top red hairline ──────────────────────── */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-red/60 to-transparent" />
 
@@ -338,27 +338,27 @@ export default function ITRPlans() {
         <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-64 opacity-[0.06] blur-3xl rounded-full bg-brand-red" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         {/* ── Section header ───────────────────────────────── */}
         {/* Section header — animate on mount, no scroll trigger so it's always visible */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="text-center mb-12 sm:mb-16 lg:mb-20"
+          className="text-center mb-6 sm:mb-8 lg:mb-10"
         >
           {/* Pill label */}
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border mb-6 text-xs font-semibold tracking-widest uppercase text-brand-red border-brand-red/30 bg-brand-red/10">
+          {/* <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border mb-3 text-xs font-semibold tracking-widest uppercase text-brand-red border-brand-red/30 bg-brand-red/10">
             <Sparkles className="w-3 h-3" />
             Expert-Assisted ITR Filing
-          </div>
+          </div> */}
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-5 leading-tight text-brand-navy">
+          <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-1 sm:mb-3 leading-tight text-brand-navy mt-10">
             Transparent Pricing.
             <br />
             <span className="text-brand-red">Expert-Assisted</span> ITR Filing.
-          </h2>
-          <p className="text-gray-400 max-w-md mx-auto text-sm sm:text-base leading-relaxed">
+          </h3>
+          <p className="text-gray-400 max-w-md mx-auto text-xs sm:text-sm leading-relaxed">
             Every plan includes a dedicated Chartered Accountant. Choose based on your income complexity.
           </p>
         </motion.div>
@@ -393,7 +393,7 @@ export default function ITRPlans() {
 
               {/* ── Card header: tinted bg, tier label, name, price ── */}
               <div
-                className={`relative px-4 pt-6 pb-4 rounded-t-[28px] overflow-hidden ${tierStyles[plan.id].gradientHeader}`}
+                className={`relative px-4 pt-4 pb-2.5 rounded-t-[28px] overflow-hidden ${tierStyles[plan.id].gradientHeader}`}
               >
                 {/* Decorative corner glow circle */}
                 <div
@@ -401,49 +401,49 @@ export default function ITRPlans() {
                 />
 
                 {/* Tier label + plan name + subtitle + emoji badge */}
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex-1 min-w-0 pr-3">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex-1 min-w-0 pr-2">
                     <span
-                      className={`text-[10px] font-bold tracking-[0.18em] uppercase block mb-1 ${tierStyles[plan.id].text}`}
+                      className={`text-[9px] font-bold tracking-[0.18em] uppercase block mb-0.5 ${tierStyles[plan.id].text}`}
                     >
                       {plan.tier}
                     </span>
-                    <h3 className="text-2xl font-bold text-brand-navy">{plan.name}</h3>
-                    <p className="text-gray-400 text-xs mt-1 leading-relaxed">{plan.subtitle}</p>
+                    <h3 className="text-xl font-bold text-brand-navy">{plan.name}</h3>
+                    <p className="text-gray-400 text-[11px] mt-0.5 leading-snug">{plan.subtitle}</p>
                   </div>
 
                   {/* Emoji on a white raised tile with tier-colored glow */}
                   <div
-                    className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-sm flex-shrink-0 bg-white border ${tierStyles[plan.id].border} ${tierStyles[plan.id].glow}`}
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl shadow-sm flex-shrink-0 bg-white border ${tierStyles[plan.id].border} ${tierStyles[plan.id].glow}`}
                   >
                     {plan.emoji}
                   </div>
                 </div>
 
                 {/* Original price (strikethrough) + current price + 60% OFF badge */}
-                <div className="mb-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-gray-400 text-xs">Just at</span>
-                    <span className="text-gray-400 text-xs line-through">
+                <div className="mb-0.5">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="text-gray-400 text-[10px]">Just at</span>
+                    <span className="text-gray-400 text-[10px] line-through">
                       ₹{plan.originalPrice.toLocaleString("en-IN")}
                     </span>
                     <span
-                      className={`text-[10px] font-bold px-2 py-0.5 rounded-full text-white ${tierStyles[plan.id].bg}`}
+                      className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full text-white ${tierStyles[plan.id].bg}`}
                     >
                       60% OFF
                     </span>
                   </div>
-                  <div className="text-4xl font-extrabold mt-1 tracking-tight text-brand-navy">
+                  <div className="text-2xl sm:text-3xl font-extrabold mt-0.5 tracking-tight text-brand-navy">
                     ₹{plan.price.toLocaleString("en-IN")}
                   </div>
                 </div>
 
                 {/* Offer code chip with one-click copy */}
                 <div
-                  className={`flex items-center gap-2 mt-2 px-3 py-1.5 rounded-xl w-fit bg-white/80 border border-dashed ${tierStyles[plan.id].border}`}
+                  className={`flex items-center gap-1.5 mt-1 px-2.5 py-1 rounded-xl w-fit bg-white/80 border border-dashed ${tierStyles[plan.id].border}`}
                 >
-                  <span className="text-gray-500 text-[11px]">Code:</span>
-                  <span className="text-[11px] font-bold text-brand-navy">{OFFER_CODE}</span>
+                  <span className="text-gray-500 text-[10px]">Code:</span>
+                  <span className="text-[10px] font-bold text-brand-navy">{OFFER_CODE}</span>
                   <CopyCode code={OFFER_CODE} accentClass={tierStyles[plan.id].text} />
                 </div>
               </div>
@@ -454,60 +454,60 @@ export default function ITRPlans() {
               />
 
               {/* ── Card body ────────────────────────────────── */}
-              <div className="px-4 py-4 flex flex-col flex-1">
+              <div className="px-3.5 py-3 flex flex-col flex-1">
                 {/* Features checklist */}
-                <ul className="space-y-2 mb-4">
+                <ul className="space-y-1.5 mb-2.5">
                   {plan.features.map((f, i) => (
-                    <li key={i} className="flex items-center gap-3">
+                    <li key={i} className="flex items-center gap-2.5">
                       <div
-                        className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${tierStyles[plan.id].bgLight}`}
+                        className={`w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 ${tierStyles[plan.id].bgLight}`}
                       >
-                        <Check className={`w-3 h-3 ${tierStyles[plan.id].text}`} />
+                        <Check className={`w-2.5 h-2.5 ${tierStyles[plan.id].text}`} />
                       </div>
-                      <span className="text-gray-600 text-sm">{f}</span>
+                      <span className="text-gray-600 text-[13px]">{f}</span>
                     </li>
                   ))}
                 </ul>
 
                 {/* Income sources — tinted box per tier color */}
                 <div
-                  className={`rounded-2xl px-4 py-3 mb-4 flex-1 border ${tierStyles[plan.id].bgLighter} ${tierStyles[plan.id].border}`}
+                  className={`rounded-2xl px-3 py-2 mb-2.5 flex-1 border ${tierStyles[plan.id].bgLighter} ${tierStyles[plan.id].border}`}
                 >
-                  <p className={`text-[10px] font-bold tracking-[0.15em] uppercase mb-3 ${tierStyles[plan.id].text}`}>
+                  <p className={`text-[9px] font-bold tracking-[0.15em] uppercase mb-2 ${tierStyles[plan.id].text}`}>
                     For Income Sources
                   </p>
-                  <ul className="space-y-1.5">
+                  <ul className="space-y-1">
                     {plan.incomeSources.map((src, i) => (
-                      <li key={i} className="flex items-start gap-2">
+                      <li key={i} className="flex items-start gap-1.5">
                         <div
-                          className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${tierStyles[plan.id].bg} opacity-80`}
+                          className={`w-1 h-1 rounded-full mt-1.5 flex-shrink-0 ${tierStyles[plan.id].bg} opacity-80`}
                         />
-                        <span className="text-gray-500 text-xs leading-relaxed">{src}</span>
+                        <span className="text-gray-500 text-[11px] leading-relaxed">{src}</span>
                       </li>
                     ))}
                   </ul>
 
                   {/* Excluded sources row — only rendered for Bronze */}
                   {plan.excludedSources && (
-                    <div className="mt-3 pt-3 border-t border-gray-100">
-                      <span className="text-[10px] font-semibold text-gray-400">Excluded: </span>
-                      <span className="text-[10px] text-gray-400">{plan.excludedSources}</span>
+                    <div className="mt-2 pt-2 border-t border-gray-100">
+                      <span className="text-[9px] font-semibold text-gray-400">Excluded: </span>
+                      <span className="text-[9px] text-gray-400">{plan.excludedSources}</span>
                     </div>
                   )}
                 </div>
 
                 {/* ── CTAs ─────────────────────────────────────── */}
-                <div className="flex flex-col gap-2 mt-auto">
+                <div className="flex flex-col gap-1.5 mt-auto">
                   {/* Buy Now -> Razorpay */}
                   <button
                     onClick={() => handleStartProcess(plan)}
                     disabled={activePlanId === plan.id && paymentState !== "idle" || !razorpayReady}
-                    className={`group relative overflow-hidden w-full py-3 rounded-2xl text-sm font-bold text-white transition-all duration-300 hover:brightness-110 disabled:opacity-70 flex items-center justify-center gap-2 ${tierStyles[plan.id].gradientButton} ${tierStyles[plan.id].boxShadowHover}`}
+                    className={`group relative overflow-hidden w-full py-2 rounded-2xl text-xs font-bold text-white transition-all duration-300 hover:brightness-110 disabled:opacity-70 flex items-center justify-center gap-2 ${tierStyles[plan.id].gradientButton} ${tierStyles[plan.id].boxShadowHover}`}
                   >
-                    {activePlanId === plan.id && paymentState === "creating" && <Loader2 className="w-4 h-4 animate-spin" />}
-                    {activePlanId === plan.id && paymentState === "paying" && <Loader2 className="w-4 h-4 animate-spin" />}
-                    {activePlanId === plan.id && paymentState === "verifying" && <Loader2 className="w-4 h-4 animate-spin" />}
-                    {activePlanId === plan.id && paymentState === "success" && <Check className="w-4 h-4" />}
+                    {activePlanId === plan.id && paymentState === "creating" && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                    {activePlanId === plan.id && paymentState === "paying" && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                    {activePlanId === plan.id && paymentState === "verifying" && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                    {activePlanId === plan.id && paymentState === "success" && <Check className="w-3.5 h-3.5" />}
                     {(activePlanId !== plan.id || paymentState === "idle") && (
                       <>
                         <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-500 ease-in-out group-hover:translate-x-full" />
@@ -521,10 +521,10 @@ export default function ITRPlans() {
  (app/itr/itr-plans/{bronze|silver|gold|diamond}/page.tsx) */}
                   <button
                     onClick={() => router.push("/itr/itr-plans/" + plan.id)}
-                    className={`w-full py-2.5 text-center text-sm font-medium flex items-center justify-center gap-1.5 group opacity-50 hover:opacity-80 transition-opacity ${tierStyles[plan.id].text}`}
+                    className={`w-full py-1.5 text-center text-xs font-medium flex items-center justify-center gap-1.5 group opacity-50 hover:opacity-80 transition-opacity ${tierStyles[plan.id].text}`}
                   >
                     Know more
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                   </button>
                 </div>
               </div>
@@ -537,7 +537,7 @@ export default function ITRPlans() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.5 }}
-          className="mt-12 sm:mt-16 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8"
+          className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8"
         >
           <div className="flex items-center gap-2 text-gray-400 text-sm">
             <Shield className="w-4 h-4 text-brand-red flex-shrink-0" />

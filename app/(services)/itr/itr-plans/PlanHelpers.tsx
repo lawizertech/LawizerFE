@@ -65,8 +65,8 @@ export const tierStyles: Record<string, any> = {
 
 export function SectionHeading({ title, accent }: { title: string; accent: string }) {
   return (
-    <div className="mb-8">
-      <h2 className="text-2xl font-bold mb-3 text-brand-navy">{title}</h2>
+    <div className="mb-5">
+      <h2 className="text-2xl font-bold mb-2 text-brand-navy">{title}</h2>
       <div className="h-[3px] w-10 rounded-full" style={{ background: accent }} />
     </div>
   );

@@ -1,8 +1,8 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Gavel, ArrowRight, Briefcase, Lock, MessageCircle } from "lucide-react";
+import { Gavel, ArrowRight, Briefcase, Lock, MessageCircle, Loader2 } from "lucide-react";
 
 export default function CivilCriminalLegalPage() {
   const router = useRouter();
@@ -14,23 +14,28 @@ export default function CivilCriminalLegalPage() {
   const contactFormRef = useRef<HTMLDivElement | null>(null);
   const scrollToForm = () => contactFormRef.current?.scrollIntoView({ behavior: "smooth" });
 
-  const civilContent = {
-    heading: "Civil & Commercial Litigation",
-    introduction:
-      "Civil litigation involves legal disagreements between two or more parties seeking compensation or remedy, without criminal accusations. Commercial litigation involves business entities and follows similar procedures. Disputes include breach of contract, real estate, and antitrust cases.",
-    services:
-      "Our litigation team is experienced in the CPC and foreign regulations. We handle drafting, filing, court appearances, injunctions, and appeals. Our expertise covers property, employment, and personal injury cases, ensuring practical and efficient dispute resolution before all Judicial & Quasi-Judicial Bodies.",
-    query: "civil_commercial",
-  };
+  const [pageData, setPageData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  const criminalContent = {
-    heading: "Criminal Law & Defense",
-    introduction:
-      "Criminal litigation involves a criminal trial with a prosecutor (representing the state) and a defense attorney. It is governed by the IPC, CrPC, and Indian Evidence Act, covering cases like murder, theft, assault, and financial crimes, alongside specialized acts like POCSO and POSH.",
-    services:
-      "We provide thorough defense strategies, effective representation at arraignments and hearings, and expert negotiation for pleas and settlements. Our lawyers are skilled in obtaining bail and anticipatory bail. We also specialize in cybercrime cases under the Information Technology Act 2000, offering nuanced legal defense.",
-    query: "criminal",
-  };
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services/page_civil_commercial`);
+        const json = await res.json();
+        if (json && json.theme) {
+          setPageData(json.theme);
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const civilContent = pageData?.civilContent || {};
+  const criminalContent = pageData?.criminalContent || {};
 
   type ContentType = {
     heading: string;
@@ -83,6 +88,14 @@ export default function CivilCriminalLegalPage() {
       </motion.section>
     );
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 via-white to-gray-100">
+        <Loader2 className="w-10 h-10 animate-spin text-purple-600" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100 relative">

@@ -228,7 +228,7 @@ export default function StartConsultationPage() {
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center space-y-4">
         <h1 className="text-5xl font-bold text-gray-900">Start Your Consultation</h1>
         <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
-          Get expert legal and financial advice from verified professionals — instantly and confidentially.
+          Get expert legal and financial advice from verified professionals, instantly and confidentially.
         </p>
       </motion.div>
 
