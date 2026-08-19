@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { notFound, useRouter } from "next/navigation";
 import ServicePageLayout, { BenefitItem, SectionBlock, FAQItem } from "@/components/client/ServicePageLayout";
 import { Shield, FileText, CheckCircle, Scale, Users, Gavel, FileSignature, Home, Clock, Star, Phone, Loader2, Check, ShieldCheck, BadgeCheck, Zap, ArrowLeft } from "lucide-react";
@@ -240,24 +239,20 @@ function DynamicHeroWithAddons({ data }: { data: ServiceData }) {
 
         {/* Animated Wave Divider */}
         <div className="relative h-16 sm:h-24 overflow-hidden -mb-1 w-full pointer-events-none">
-          <motion.svg 
+          <svg 
             viewBox="0 0 2880 64" 
-            className="absolute bottom-0 h-[80%] w-[200%] origin-left"
+            className="animate-wave-1 absolute bottom-0 h-[80%] w-[200%] origin-left"
             preserveAspectRatio="none"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ ease: "linear", duration: 15, repeat: Infinity }}
           >
             <path d="M0,32 C360,64 360,0 720,32 C1080,64 1080,0 1440,32 C1800,64 1800,0 2160,32 C2520,64 2520,0 2880,32 L2880,64 L0,64 Z" fill="#f8f9fa" opacity="0.6" />
-          </motion.svg>
-          <motion.svg 
+          </svg>
+          <svg 
             viewBox="0 0 2880 64" 
-            className="absolute bottom-0 h-full w-[200%] origin-left"
+            className="animate-wave-2 absolute bottom-0 h-full w-[200%] origin-left"
             preserveAspectRatio="none"
-            animate={{ x: ["-50%", "0%"] }}
-            transition={{ ease: "linear", duration: 10, repeat: Infinity }}
           >
             <path d="M0,32 C360,64 360,0 720,32 C1080,64 1080,0 1440,32 C1800,64 1800,0 2160,32 C2520,64 2520,0 2880,32 L2880,64 L0,64 Z" fill="#f8f9fa" />
-          </motion.svg>
+          </svg>
         </div>
       </header>
 
@@ -275,11 +270,7 @@ function DynamicHeroWithAddons({ data }: { data: ServiceData }) {
         <div className="w-full relative z-10">
           <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-20 bg-gradient-to-r from-[#f8f9fa] to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-20 bg-gradient-to-l from-[#f8f9fa] to-transparent z-10 pointer-events-none" />
-          <motion.div
-            className="flex w-max"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ ease: "linear", duration: 30, repeat: Infinity }}
-          >
+          <div className="animate-marquee-slow flex w-max">
             {[
               { text: "Super smooth experience! Uploaded my documents and everything was handled within 2 days.", name: "Rohit Sharma", initials: "RS", role: "IT Professional", rating: 5 },
               { text: "This service made it effortless. Got everything filed quickly and accurately.", name: "Priya Mehta", initials: "PM", role: "Marketing Manager", rating: 5 },
@@ -306,7 +297,7 @@ function DynamicHeroWithAddons({ data }: { data: ServiceData }) {
                 </div>
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-6 overflow-hidden -mb-1 pointer-events-none z-0">
           <svg viewBox="0 0 1440 64" className="absolute bottom-0 w-full" preserveAspectRatio="none">
