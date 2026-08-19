@@ -391,7 +391,7 @@ export default function ServicePageLayout({
             </h3>
 
             <div className="grid sm:grid-cols-2 gap-4 mb-12">
-              {benefits.map((b, i) => {
+              {benefits?.map((b, i) => {
                 const Icon = ICON_MAP[b.icon] || ICON_MAP["checkCircle"];
                 return (
                   <div
@@ -457,7 +457,7 @@ export default function ServicePageLayout({
 
                   {section.type === "list" && (
                     <div className="grid sm:grid-cols-2 gap-3">
-                      {(section.data as string[]).map((item) => (
+                      {(section.data as string[])?.map((item) => (
                         <div
                           key={item}
                           className="flex items-start gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 transition-all duration-300 hover:shadow-lg hover:bg-white"
@@ -471,7 +471,7 @@ export default function ServicePageLayout({
 
                   {section.type === "grid" && (
                     <ul className="grid sm:grid-cols-2 gap-4">
-                      {(section.data as string[]).map((item) => (
+                      {(section.data as string[])?.map((item) => (
                         <li
                           key={item}
                           className="flex items-center gap-4 px-4 py-2 bg-blue-50/70 border border-blue-100 rounded-2xl transition-all duration-300 hover:shadow-xl hover:bg-blue-100/70 hover:-translate-y-0.5"
@@ -510,7 +510,7 @@ export default function ServicePageLayout({
           </h3>
 
           <div className="space-y-3">
-            {faqs.map((f, i) => (
+            {faqs?.map((f, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 10 }}

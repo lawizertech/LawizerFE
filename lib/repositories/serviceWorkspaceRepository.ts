@@ -108,7 +108,7 @@ export class ServiceWorkspaceRepository {
       },
       body: JSON.stringify({
         caseId: serviceId,
-        filename: docKey, // The key or actual filename. We'll use docKey for type mapping, maybe file.name too?
+        filename: file.name, // Save actual file name instead of the generic docKey
         fileType: file.type || "application/octet-stream",
         storagePath: uploadResult.secure_url,
         sizeBytes: file.size,

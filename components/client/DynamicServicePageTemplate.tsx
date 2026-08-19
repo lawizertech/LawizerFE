@@ -98,7 +98,7 @@ function DynamicHeroWithAddons({ data }: { data: any }) {
                 <div className="mt-4">
                   <p className="text-white/60 text-xs font-bold uppercase tracking-wider mb-6">What You Will Get</p>
                   <div className="grid grid-cols-2 gap-y-6 gap-x-4 sm:gap-x-6">
-                    {addons.map((label: string, i: number) => (
+                    {addons?.map((label: string, i: number) => (
                       <div key={i} className="flex items-start gap-3">
                         <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.08)] text-[#1e1b4b] mt-0.5 [&>svg]:w-4 [&>svg]:h-4 sm:[&>svg]:w-5 sm:[&>svg]:h-5">
                           <AddonIconMapper index={i} />

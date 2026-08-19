@@ -1,9 +1,9 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCallback } from "@/context/callbackContext";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { FileText, ArrowRight, Phone, Tag, CheckCircle2, Sparkles, ChevronRight, ScrollText } from "lucide-react";
+import { FileText, ArrowRight, Phone, Tag, CheckCircle2, Sparkles, ChevronRight, ScrollText, Scale, Loader2 } from "lucide-react";
 
 export default function StartupDocumentsPage() {
   const router = useRouter();
@@ -24,152 +24,35 @@ export default function StartupDocumentsPage() {
     router.push(`${basePath}${slug}`);
   };
 
-  const sections = [
-    {
-      id: "agreements-drafting",
-      title: "Essential Startup & Business Agreements",
-      icon: FileText,
-      description:
-        "Draft legally sound contracts, policies, and agreements (NDAs, Employment, Partnership, SaaS) to secure your operations, team, and intellectual property.",
-      services: [
-        {
-          name: "Co-founder Agreement",
-          slug: "co-founder-agreement",
-          price: "₹999",
-          originalPrice: "₹3,999",
-          description:
-            "Defines roles, equity, responsibilities, decision-making, and exit mechanisms among founders, preventing conflicts.",
-        },
-        {
-          name: "Business Partnership Agreement",
-          slug: "business-partnership-agreement",
-          price: "₹999",
-          originalPrice: "₹4,499",
-          description:
-            "Legal contract defining investment, profit-sharing, responsibilities, and exit mechanisms among partners.",
-        },
-        {
-          name: "Employment Agreement",
-          slug: "employment-agreement",
-          price: "₹999",
-          originalPrice: "₹3,499",
-          description:
-            "Outlines terms, salary, benefits, and termination policies, ensuring compliance with labor laws.",
-        },
-        {
-          name: "Consultancy Agreement",
-          slug: "consultancy-agreement",
-          price: "₹999",
-          originalPrice: "₹3,199",
-          description: "Defines the scope, deliverables, fees, and confidentiality between a consultant and company.",
-        },
-        {
-          name: "Non-Disclosure Agreement (NDA)",
-          slug: "non-disclosure-agreement",
-          price: "₹999",
-          originalPrice: "₹1,999",
-          description:
-            "Protects sensitive business information and trade secrets, allowing safe collaboration or funding discussions.",
-        },
-        {
-          name: "Privacy Policy & Terms of Use",
-          slug: "privacy-terms-of-use",
-          price: "₹999",
-          originalPrice: "₹2,999",
-          description: "Defines user data handling and website/app rules, ensuring compliance under IT Act and GDPR.",
-        },
-        {
-          name: "Software as a Service (SaaS) Agreement",
-          slug: "saas-agreement",
-          price: "₹999",
-          originalPrice: "₹5,999",
-          description:
-            "Governs subscription, licensing, support, and intellectual property rights for software services.",
-        },
-        {
-          name: "Franchise Agreement",
-          slug: "franchise-agreement",
-          price: "₹999",
-          originalPrice: "₹6,999",
-          description:
-            "Outlines rights, obligations, royalties, and operational standards between a franchisor and franchisee.",
-        },
-        {
-          name: "Joint Venture Agreement",
-          slug: "joint-venture-agreement",
-          price: "₹999",
-          originalPrice: "₹7,999",
-          description: "Defines partnership, investment, profit-sharing, and management of a Joint Venture.",
-        },
-        {
-          name: "Shareholder Subscription Agreement",
-          slug: "shareholder-subscription-agreement",
-          price: "₹999",
-          originalPrice: "₹8,999",
-          description:
-            "Governs the issuance of shares to investors and defines their rights and obligations in the company.",
-        },
-        {
-          name: "Service Agreement & Term Sheet",
-          slug: "service-agreement-term-sheet",
-          price: "₹999",
-          originalPrice: "₹4,499",
-          description:
-            "Defines scope, fees, deliverables, and timelines for a business service, ensuring legal enforceability.",
-        },
-        {
-          name: "Licensing Agreement",
-          slug: "licensing-agreement",
-          price: "₹999",
-          originalPrice: "₹5,499",
-          description:
-            "Governs licensing of intellectual property, technology, or products, protecting IP rights and revenue.",
-        },
-        {
-          name: "IP Assignment Agreement",
-          slug: "ip-assignment-agreement",
-          price: "₹999",
-          originalPrice: "₹4,999",
-          description:
-            "Transfers Intellectual Property (IP) ownership from one party to another, ensuring legal transfer of rights.",
-        },
-        {
-          name: "Letter of Intent (LOI)",
-          slug: "letter-of-intent",
-          price: "₹999",
-          originalPrice: "₹2,999",
-          description:
-            "Declares preliminary intention to enter a business transaction or agreement, establishing mutual understanding.",
-        },
-      ],
-    },
-    {
-      // ✅ MOVED FROM /property — Power of Attorney services
-      id: "power-of-attorney",
-      title: "Power of Attorney Services",
-      icon: ScrollText,
-      description:
-        "Legally authorise a trusted person to act on your behalf in financial, property, or legal matters — drafted and registered with full compliance.",
-      services: [
-        {
-          name: "Power of Attorney (POA) Drafting",
-          slug: "power-of-attorney-drafting",
-          price: "₹999",
-          originalPrice: "₹2,499",
-          description:
-            "Drafting a legal document to authorize a trusted person to act on your behalf in financial, property, or legal matters.",
-        },
-        {
-          name: "Registration of Power of Attorney",
-          slug: "power-of-attorney-registration",
-          price: "₹999",
-          originalPrice: "₹4,999",
-          description:
-            "Guidance and support to register your Power of Attorney to make it legally enforceable and accepted by government and financial institutions.",
-        },
-      ],
-    },
-  ];
+  const [pageData, setPageData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services/page_documentation`);
+        const json = await res.json();
+        if (json && json.theme) {
+          setPageData(json.theme);
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const sections = pageData?.sections || [];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#f8f7f4]">
+        <Loader2 className="w-10 h-10 animate-spin text-blue-600" />
+      </div>
+    );
+  }
 
   // Accent colors — teal/blue scheme matching original page
   const accent = "#00bfa5";
@@ -406,8 +289,14 @@ export default function StartupDocumentsPage() {
  SERVICE SECTIONS
  ══════════════════════════════════════════════ */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24 pb-32 sm:pb-40 space-y-20 sm:space-y-28">
-        {sections.map((section, sIdx) => {
-          const Icon = section.icon;
+        {sections.map((section: any, sIdx: number) => {
+          const iconMap: Record<string, any> = {
+            FileText,
+            ScrollText,
+            Scale,
+          };
+          const Icon = iconMap[section.icon] || FileText;
+          
           return (
             <motion.section
               key={section.id}
@@ -426,7 +315,7 @@ export default function StartupDocumentsPage() {
               <p className="text-gray-400 text-sm sm:text-base mb-9 max-w-2xl">{section.description}</p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-                {section.services.map((service, cIdx) => (
+                {section.services.map((service: any, cIdx: number) => (
                   <motion.div
                     key={service.slug}
                     initial={{ opacity: 0, y: 28 }}
