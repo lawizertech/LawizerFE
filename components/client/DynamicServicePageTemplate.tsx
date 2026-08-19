@@ -33,7 +33,9 @@ const AddonIconMapper = ({ index }: { index: number }) => {
   return svgs[index % svgs.length];
 };
 
-function DynamicHeroWithAddons({ data }: { data: any }) {
+import { ServiceData } from "@/types/service";
+
+function DynamicHeroWithAddons({ data }: { data: ServiceData }) {
   const heroRef = useRef<HTMLElement>(null);
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
@@ -117,9 +119,9 @@ function DynamicHeroWithAddons({ data }: { data: any }) {
               {/* Mobile-only price + CTA */}
               <div className="flex flex-row items-center justify-between mt-10 lg:hidden bg-white/10 p-6 rounded-2xl border border-white/10 backdrop-blur-sm shadow-sm">
                 <div className="flex flex-col">
-                  {originalPrice > 0 && (
-                    <div className="text-white/50 text-xs line-through mb-0.5">₹{originalPrice?.toLocaleString("en-IN")}</div>
-                  )}
+                  {originalPrice && originalPrice > 0 ? (
+                    <div className="text-white/50 text-xs line-through mb-0.5">₹{originalPrice.toLocaleString("en-IN")}</div>
+                  ) : null}
                   <div className="text-2xl sm:text-3xl font-extrabold text-white leading-none">₹{price?.toLocaleString("en-IN")}</div>
                   <div className="text-white/50 text-[10px] mt-1.5 uppercase tracking-wider font-semibold">All Inclusive</div>
                 </div>
@@ -152,11 +154,11 @@ function DynamicHeroWithAddons({ data }: { data: any }) {
                     </span>
                   </div>
 
-                  {originalPrice > 0 && (
+                  {originalPrice && originalPrice > 0 ? (
                     <div className="text-white/50 text-sm line-through leading-none mb-0.5">
                       ₹{originalPrice.toLocaleString("en-IN")}
                     </div>
-                  )}
+                  ) : null}
                   <div className="text-[2.8rem] font-extrabold text-white leading-none mb-1 tracking-tight">
                     ₹{price.toLocaleString("en-IN")}
                   </div>
@@ -286,7 +288,7 @@ function DynamicHeroWithAddons({ data }: { data: any }) {
   );
 }
 
-export default function DynamicServicePageTemplate({ pageData }: { pageData: any }) {
+export default function DynamicServicePageTemplate({ pageData }: { pageData: ServiceData | null | undefined }) {
   if (!pageData) {
     return notFound();
   }
@@ -299,15 +301,15 @@ export default function DynamicServicePageTemplate({ pageData }: { pageData: any
         title={pageData.title}
         subtitle={pageData.subtitle}
         badgeText={pageData.badgeText}
-        icon={pageData.icon}
+        icon={pageData.icon as any}
         serviceID={pageData.serviceID}
         contentTitle={pageData.contentTitle}
         contentDescription={pageData.contentDescription}
         section1Title={pageData.section1Title}
-        benefits={pageData.benefits as BenefitItem[]}
-        sections={pageData.sections as SectionBlock[]}
-        faqs={pageData.faqs as FAQItem[]}
-        theme={pageData.theme}
+        benefits={pageData.benefits as any}
+        sections={pageData.sections as any}
+        faqs={pageData.faqs as any}
+        theme={pageData.theme as any}
         primaryColor={pageData.primaryColor}
         primaryBg={pageData.primaryBg}
         primaryHoverBg={pageData.primaryHoverBg}

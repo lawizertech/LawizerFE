@@ -1,12 +1,15 @@
 export interface FAQItem {
-  question: string;
-  answer: string;
+  question?: string;
+  q?: string;
+  answer?: string;
+  a?: string;
 }
 
 export interface BenefitItem {
   icon: string;
   title?: string;
-  description: string;
+  description?: string;
+  text?: string;
 }
 
 export interface SectionBlock {
@@ -39,6 +42,8 @@ export interface ServiceData {
   section1Title: string;
   price: number;
   originalPrice?: number;
+  rating?: number;
+  is_active?: boolean;
   theme?: ServiceTheme;
   addons?: any;
   primaryColor: string;
