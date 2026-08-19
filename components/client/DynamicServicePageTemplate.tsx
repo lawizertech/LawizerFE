@@ -74,39 +74,68 @@ function DynamicHeroWithAddons({ data }: { data: ServiceData }) {
     <>
       <header
         ref={heroRef}
-        className={`relative ${theme?.heroBg || "bg-gradient-to-br from-[#1e1b4b] via-[#6d28d9] to-[#2e1065]"} overflow-hidden pt-16 sm:pt-20 lg:pt-24 pb-0`}
+        className="relative overflow-hidden pt-16 sm:pt-20 lg:pt-24 pb-0 text-white"
+        style={{
+          background: "linear-gradient(135deg, #090c1a 0%, #121829 25%, #1e1b4b 55%, #2e1065 80%, #3b0764 100%)",
+        }}
       >
-        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] pointer-events-none mix-blend-overlay" />
-        <div className={`absolute top-0 right-0 w-[800px] h-[800px] ${theme?.orb1 || "bg-purple-500/20"} rounded-full blur-[120px] opacity-40 translate-x-1/3 -translate-y-1/3 pointer-events-none`} />
+        {/* Subtle geometric dot grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.08] pointer-events-none"
+          style={{
+            backgroundImage: "radial-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1px)",
+            backgroundSize: "24px 24px",
+          }}
+        />
+
+        {/* Ambient Glowing Orbs */}
+        <div
+          className="absolute -top-32 -right-32 w-[700px] h-[700px] rounded-full blur-[140px] opacity-60 pointer-events-none"
+          style={{
+            background: "radial-gradient(circle, rgba(147, 51, 234, 0.5) 0%, rgba(99, 102, 241, 0.3) 45%, transparent 70%)",
+          }}
+        />
+        <div
+          className="absolute -bottom-24 -left-24 w-[600px] h-[600px] rounded-full blur-[130px] opacity-55 pointer-events-none"
+          style={{
+            background: "radial-gradient(circle, rgba(201, 44, 65, 0.45) 0%, rgba(139, 92, 246, 0.25) 50%, transparent 75%)",
+          }}
+        />
+        <div
+          className="absolute top-1/3 left-1/4 w-[450px] h-[450px] rounded-full blur-[160px] opacity-35 pointer-events-none"
+          style={{
+            background: "radial-gradient(circle, rgba(236, 72, 153, 0.3) 0%, transparent 70%)",
+          }}
+        />
 
         <div className="relative max-w-6xl mx-auto px-6 sm:px-8 lg:px-8">
-          <div className="grid lg:grid-cols-[1fr_300px] gap-8 lg:gap-12 pt-8 pb-4">
+          <div className="grid lg:grid-cols-[1fr_310px] gap-8 lg:gap-12 pt-8 pb-4">
             {/* LEFT COLUMN */}
             <div className="flex flex-col justify-start">
-              <div className="mt-8 inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm rounded-full px-4 py-1.5 mb-6 border border-white/20 w-fit">
-                <FloatingIcon className="w-4 h-4 text-white" />
-                <span className="text-white/90 text-[11px] font-bold tracking-widest uppercase">{data.badgeText}</span>
+              <div className="mt-8 inline-flex items-center gap-2 bg-white/15 backdrop-blur-md rounded-full px-4 py-1.5 mb-6 border border-white/20 shadow-sm w-fit">
+                <FloatingIcon className="w-4 h-4 text-rose-300" />
+                <span className="text-white text-[11px] font-bold tracking-widest uppercase">{data.badgeText || "GOVT-RECOGNIZED · FAST · RELIABLE"}</span>
               </div>
 
-              <h1 className="text-4xl sm:text-[2.8rem] font-extrabold text-white mb-3 leading-[1.1] tracking-tight">
+              <h1 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-extrabold text-white mb-3.5 leading-[1.12] tracking-tight drop-shadow-sm">
                 {title}
               </h1>
-              <p className="text-white/85 text-base sm:text-lg font-medium max-w-xl leading-relaxed mb-8">
+              <p className="text-slate-200 text-base sm:text-lg font-normal max-w-xl leading-relaxed mb-8">
                 {subtitle}
               </p>
 
               {/* Addons Grid */}
               {addons && addons.length > 0 && (
-                <div className="mt-4">
-                  <p className="text-white/60 text-xs font-bold uppercase tracking-wider mb-6">What You Will Get</p>
-                  <div className="grid grid-cols-2 gap-y-6 gap-x-4 sm:gap-x-6">
+                <div className="mt-2">
+                  <p className="text-white/70 text-xs font-bold uppercase tracking-wider mb-5">What You Will Get</p>
+                  <div className="grid grid-cols-2 gap-y-5 gap-x-4 sm:gap-x-6">
                     {addons?.map((label: string, i: number) => (
-                      <div key={i} className="flex items-start gap-3">
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.08)] text-[#1e1b4b] mt-0.5 [&>svg]:w-4 [&>svg]:h-4 sm:[&>svg]:w-5 sm:[&>svg]:h-5">
+                      <div key={i} className="flex items-start gap-3.5">
+                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center flex-shrink-0 shadow-md text-white mt-0.5 [&>svg]:w-4.5 [&>svg]:h-4.5 sm:[&>svg]:w-5 sm:[&>svg]:h-5">
                           <AddonIconMapper index={i} />
                         </div>
                         <div className="flex-1">
-                          <div className="text-white/90 text-[11px] sm:text-sm font-medium leading-[1.3] sm:leading-tight whitespace-pre-line pr-1">
+                          <div className="text-white/95 text-[12px] sm:text-sm font-medium leading-[1.35] sm:leading-tight whitespace-pre-line pr-1">
                             {label.replace("\\n", "\n")}
                           </div>
                         </div>
@@ -117,18 +146,18 @@ function DynamicHeroWithAddons({ data }: { data: ServiceData }) {
               )}
 
               {/* Mobile-only price + CTA */}
-              <div className="flex flex-row items-center justify-between mt-10 lg:hidden bg-white/10 p-6 rounded-2xl border border-white/10 backdrop-blur-sm shadow-sm">
+              <div className="flex flex-row items-center justify-between mt-10 lg:hidden bg-white/10 p-6 rounded-2xl border border-white/15 backdrop-blur-md shadow-lg">
                 <div className="flex flex-col">
                   {originalPrice && originalPrice > 0 ? (
-                    <div className="text-white/50 text-xs line-through mb-0.5">₹{originalPrice.toLocaleString("en-IN")}</div>
+                    <div className="text-white/55 text-xs line-through mb-0.5">₹{originalPrice.toLocaleString("en-IN")}</div>
                   ) : null}
                   <div className="text-2xl sm:text-3xl font-extrabold text-white leading-none">₹{price?.toLocaleString("en-IN")}</div>
-                  <div className="text-white/50 text-[10px] mt-1.5 uppercase tracking-wider font-semibold">All Inclusive</div>
+                  <div className="text-white/60 text-[10px] mt-1.5 uppercase tracking-wider font-semibold">All Inclusive</div>
                 </div>
                 <button
                   onClick={handleStartProcess}
                   disabled={paymentState !== "idle" || !razorpayReady}
-                  className="shimmer bg-white text-indigo-900 flex items-center gap-2 justify-center text-sm font-bold px-6 py-3.5 rounded-xl transition-all hover:shadow-xl disabled:opacity-70 shadow-lg"
+                  className="shimmer bg-white text-indigo-950 flex items-center gap-2 justify-center text-sm font-bold px-6 py-3.5 rounded-xl transition-all hover:shadow-xl hover:scale-[1.02] disabled:opacity-70 shadow-lg"
                 >
                   {paymentState !== "idle" ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
                   {paymentState === "idle" ? "Buy Now" : null}
@@ -137,44 +166,45 @@ function DynamicHeroWithAddons({ data }: { data: ServiceData }) {
             </div>
 
             {/* RIGHT COLUMN */}
-            <div className="hidden lg:flex flex-col justify-start pt-10">
+            <div className="hidden lg:flex flex-col justify-start pt-6">
               <div
                 className="rounded-3xl w-full"
                 style={{
-                  background: "rgba(255,255,255,0.12)",
-                  backdropFilter: "blur(20px)",
-                  border: "1.5px solid rgba(255,255,255,0.25)",
-                  boxShadow: "0 24px 60px rgba(0,0,0,0.18)",
+                  background: "linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%)",
+                  backdropFilter: "blur(24px)",
+                  WebkitBackdropFilter: "blur(24px)",
+                  border: "1px solid rgba(255, 255, 255, 0.24)",
+                  boxShadow: "0 24px 60px rgba(0, 0, 0, 0.35)",
                 }}
               >
                 <div className="px-6 py-5">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-[11px] font-bold text-white bg-white/22 px-2.5 py-1 rounded-lg tracking-wide">
+                    <span className="text-[11px] font-bold text-white bg-white/20 border border-white/25 px-2.5 py-1 rounded-lg tracking-wide shadow-sm">
                       {discount > 0 ? `${discount}% OFF` : "PREMIUM"}
                     </span>
                   </div>
 
                   {originalPrice && originalPrice > 0 ? (
-                    <div className="text-white/50 text-sm line-through leading-none mb-0.5">
+                    <div className="text-white/55 text-sm line-through leading-none mb-1">
                       ₹{originalPrice.toLocaleString("en-IN")}
                     </div>
                   ) : null}
-                  <div className="text-[2.8rem] font-extrabold text-white leading-none mb-1 tracking-tight">
+                  <div className="text-[2.85rem] font-extrabold text-white leading-none mb-1 tracking-tight drop-shadow-sm">
                     ₹{price.toLocaleString("en-IN")}
                   </div>
-                  <div className="text-white/40 text-xs mb-2">All inclusive · No hidden charges</div>
+                  <div className="text-white/60 text-xs mb-2">All inclusive · No hidden charges</div>
 
                   <div className="flex items-center gap-1.5 mb-5 mt-3">
                     <div className="flex gap-0.5">
-                      {[1, 2, 3, 4, 5].map((i) => <Star key={i} className="w-3 h-3 fill-yellow-300 text-yellow-300" />)}
+                      {[1, 2, 3, 4, 5].map((i) => <Star key={i} className="w-3.5 h-3.5 fill-amber-300 text-amber-300" />)}
                     </div>
-                    <span className="text-white/75 text-[11px] font-semibold">4.9</span>
+                    <span className="text-white/85 text-[11px] font-semibold">4.9 / 5</span>
                   </div>
 
                   <button
                     onClick={handleStartProcess}
                     disabled={paymentState !== "idle" || !razorpayReady}
-                    className="shimmer w-full py-3.5 rounded-2xl text-sm font-bold mb-2.5 transition-all hover:shadow-xl hover:scale-[1.01] bg-white text-indigo-900 flex items-center justify-center gap-2 disabled:opacity-70"
+                    className="shimmer w-full py-3.5 rounded-2xl text-sm font-bold mb-2.5 transition-all hover:shadow-2xl hover:scale-[1.01] bg-white text-indigo-950 flex items-center justify-center gap-2 disabled:opacity-70 shadow-lg"
                   >
                     {paymentState === "creating" && <Loader2 className="w-4 h-4 animate-spin" />}
                     {paymentState === "paying" && <Loader2 className="w-4 h-4 animate-spin" />}
@@ -185,20 +215,20 @@ function DynamicHeroWithAddons({ data }: { data: ServiceData }) {
 
                   <button
                     onClick={() => openCallback(title)}
-                    className="w-full py-3 rounded-2xl text-sm font-semibold text-white/75 hover:text-white border border-white/20 hover:border-white/40 flex items-center justify-center gap-2 transition-all"
+                    className="w-full py-3 rounded-2xl text-sm font-semibold text-white/80 hover:text-white bg-white/10 hover:bg-white/15 border border-white/20 hover:border-white/35 flex items-center justify-center gap-2 transition-all shadow-sm"
                   >
                     <Phone className="w-3.5 h-3.5" /> Request a Callback
                   </button>
                   
-                  <div className="mt-4 pt-4 border-t border-white/12 flex items-center justify-around">
+                  <div className="mt-4 pt-4 border-t border-white/15 flex items-center justify-around">
                     {[
                       { icon: ShieldCheck, text: "Secure" },
                       { icon: BadgeCheck, text: "Lawyer-Backed" },
                       { icon: Zap, text: "Fast" },
                     ].map(({ icon: Icon, text }) => (
                       <div key={text} className="flex flex-col items-center gap-1">
-                        <Icon className="w-4 h-4 text-white/55" />
-                        <span className="text-white/45 text-[10px] font-medium">{text}</span>
+                        <Icon className="w-4 h-4 text-white/70" />
+                        <span className="text-white/60 text-[10px] font-medium">{text}</span>
                       </div>
                     ))}
                   </div>
@@ -208,7 +238,7 @@ function DynamicHeroWithAddons({ data }: { data: ServiceData }) {
           </div>
         </div>
 
-        {/* Animated Wave */}
+        {/* Animated Wave Divider */}
         <div className="relative h-16 sm:h-24 overflow-hidden -mb-1 w-full pointer-events-none">
           <motion.svg 
             viewBox="0 0 2880 64" 
