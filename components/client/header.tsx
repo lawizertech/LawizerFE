@@ -597,6 +597,10 @@ export function Header() {
             setIsProfessionalModalOpen(false);
             setIsSignInModalOpen(true);
           }}
+          onForgotPassword={() => {
+            setIsProfessionalModalOpen(false);
+            setIsForgotPasswordOpen(true);
+          }}
         />
       )}
 
