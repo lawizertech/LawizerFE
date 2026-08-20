@@ -3,7 +3,7 @@
 import { serverApi } from "@/lib/apis/axios";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Briefcase, TrendingUp, IndianRupee, Clock, ArrowRight, User, Bell, ChevronRight } from "lucide-react";
+import { Briefcase, ArrowRight, User, Bell, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function DashboardTab() {
@@ -93,48 +93,12 @@ export default function DashboardTab() {
       {/* GREETING HEADER */}
       <div className="flex flex-col gap-1">
         <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
-          Good day, {profile?.name || "Advocate"}
+          Good day, {profile?.name || "Professional"}
         </h2>
         <p className="text-sm text-gray-500">
           Welcome to your Case Command Center. Review active client matters and pending items below.
         </p>
       </div>
-
-      {/* METRICS GRID */}
-      <motion.div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
-        initial="hidden"
-        animate="show"
-        variants={{
-          hidden: {},
-          show: { transition: { staggerChildren: 0.05 } },
-        }}
-      >
-        <StatCard
-          title="Assigned Cases"
-          value={dashboard?.cases?.length ?? 0}
-          icon={Briefcase}
-          description="Total active client matters"
-        />
-        <StatCard
-          title="Active Services"
-          value={dashboard?.activeServices ?? 0}
-          icon={TrendingUp}
-          description="Services currently in process"
-        />
-        <StatCard
-          title="Today's Sessions"
-          value={dashboard?.todayBookings ?? 0}
-          icon={Clock}
-          description="Scheduled consultations"
-        />
-        <StatCard
-          title="Total Earnings"
-          value={`₹${(dashboard?.totalEarnings ?? 0).toLocaleString("en-IN")}`}
-          icon={IndianRupee}
-          description="All-time processed payouts"
-        />
-      </motion.div>
 
       {/* MAIN TWO-COLUMN SECTION */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -155,24 +119,28 @@ export default function DashboardTab() {
           </div>
 
           {!dashboard?.cases || dashboard.cases.length === 0 ? (
-            <div className="rounded-xl border border-[#ebebeb] bg-white p-8 text-center text-sm font-medium text-gray-500 shadow-xs">
-              No cases currently assigned.
+            <div className="rounded-xl border border-[#ebebeb] bg-white p-10 text-center shadow-xs flex flex-col items-center justify-center gap-2">
+              <Briefcase size={36} className="text-gray-300" />
+              <h4 className="font-bold text-gray-900 text-sm mt-2">No cases assigned yet</h4>
+              <p className="text-xs text-gray-500 max-w-sm">
+                Assigned cases will appear here once an admin assigns a matter to you.
+              </p>
             </div>
           ) : (
             <div className="space-y-3">
-              {dashboard.cases.slice(0, 5).map((c: any) => (
+              {dashboard.cases.slice(0, 3).map((c: any) => (
                 <div
                   key={c.caseId}
-                  className="bg-white rounded-xl p-5 border border-[#ebebeb] hover:border-rose-200 hover:shadow-xs transition-all duration-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+                  className="bg-white rounded-xl p-6 border border-[#ebebeb] hover:border-[#d62038]/30 hover:shadow-xs transition-all duration-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
                 >
-                  <div className="space-y-1">
+                  <div className="space-y-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-mono font-bold text-rose-600 bg-rose-50 border border-rose-100 px-2 py-0.5 rounded">
+                      <span className="text-xs font-mono font-bold text-gray-500 bg-gray-100 px-2 py-0.5 rounded">
                         #{c.caseId.substring(0, 8).toUpperCase()}
                       </span>
                       {getStatusBadge(c.status)}
                     </div>
-                    <h4 className="font-bold text-gray-900 text-sm sm:text-base mt-1">
+                    <h4 className="font-bold text-gray-900 text-base">
                       {c.title}
                     </h4>
                     <p className="text-xs text-gray-500">
@@ -183,7 +151,7 @@ export default function DashboardTab() {
                   <div className="flex items-center self-end sm:self-center">
                     <Link
                       href={`/expert/dashboard?tab=chats&caseId=${c.caseId}`}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#d62038] hover:bg-[#b0162a] text-white text-xs font-bold transition shadow-sm"
+                      className="inline-flex items-center gap-1 text-xs font-bold text-[#d62038] hover:text-[#a8233a] transition-colors"
                     >
                       <span>Open Workspace</span>
                       <ArrowRight size={14} />
@@ -196,33 +164,31 @@ export default function DashboardTab() {
         </div>
 
         {/* RIGHT COLUMN: QUICK ACTIONS */}
-        <div className="space-y-6">
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-lg font-bold text-gray-900">Quick Actions</h3>
-              <p className="text-xs text-gray-500">Direct links to dashboard tabs</p>
-            </div>
-            
-            <div className="grid grid-cols-1 gap-3">
-              <QuickActionButton
-                label="Go to My Cases"
-                description="Manage chats & documents"
-                icon={Briefcase}
-                href="/expert/dashboard?tab=chats"
-              />
-              <QuickActionButton
-                label="View Notifications"
-                description="Check recent system alerts"
-                icon={Bell}
-                href="/expert/dashboard?tab=notifications"
-              />
-              <QuickActionButton
-                label="Advocate Profile"
-                description="Review professional credentials"
-                icon={User}
-                href="/expert/dashboard?tab=profile"
-              />
-            </div>
+        <div className="space-y-4">
+          <div>
+            <h3 className="text-lg font-bold text-gray-900">Quick Actions</h3>
+            <p className="text-xs text-gray-500">Direct links to dashboard tabs</p>
+          </div>
+          
+          <div className="grid grid-cols-1 gap-3">
+            <QuickActionButton
+              label="Go to My Cases"
+              description="Manage chats & documents"
+              icon={Briefcase}
+              href="/expert/dashboard?tab=chats"
+            />
+            <QuickActionButton
+              label="View Notifications"
+              description="Check recent system alerts"
+              icon={Bell}
+              href="/expert/dashboard?tab=notifications"
+            />
+            <QuickActionButton
+              label="My Profile"
+              description="Review professional credentials"
+              icon={User}
+              href="/expert/dashboard?tab=profile"
+            />
           </div>
         </div>
 
@@ -248,24 +214,28 @@ export default function DashboardTab() {
             No recent alerts or logs.
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="bg-white rounded-xl border border-[#ebebeb] divide-y divide-[#ebebeb] overflow-hidden shadow-xs">
             {dashboard.recentNotifications.slice(0, 3).map((n: any) => (
               <div
                 key={n.id}
-                className="bg-white rounded-xl p-5 border border-[#ebebeb] flex flex-col justify-between hover:border-rose-100 transition-all duration-200 shadow-xs"
+                className="p-5 hover:bg-gray-50/50 transition-all duration-200 flex flex-col md:flex-row md:items-start md:justify-between gap-4"
               >
-                <div className="space-y-2">
-                  <span className="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 bg-gray-100 rounded text-gray-600">
-                    {n.type?.replace("_", " ") || "Alert"}
-                  </span>
-                  <h5 className="font-bold text-sm text-gray-900">
-                    {n.payload?.title || "Notification"}
-                  </h5>
-                  <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed">
-                    {n.payload?.message}
-                  </p>
+                <div className="flex flex-col sm:flex-row sm:items-start gap-4 flex-1">
+                  <div className="min-w-[120px] sm:min-w-[140px]">
+                    <span className="text-[10px] font-mono font-bold text-[#d62038] uppercase tracking-wide">
+                      [{n.type?.replace("_", " ").toUpperCase() || "ALERT"}]
+                    </span>
+                  </div>
+                  <div className="space-y-1 flex-1">
+                    <h5 className="font-bold text-sm text-gray-900">
+                      {n.payload?.title || "Notification"}
+                    </h5>
+                    <p className="text-xs text-gray-600 leading-relaxed">
+                      {n.payload?.message}
+                    </p>
+                  </div>
                 </div>
-                <div className="mt-4 pt-3 border-t border-gray-50 text-[10px] text-gray-400 font-medium">
+                <div className="text-[10px] text-gray-400 font-medium whitespace-nowrap self-end md:self-start md:pt-1">
                   {new Date(n.created_at).toLocaleDateString("en-IN", {
                     day: "numeric",
                     month: "short",
@@ -284,43 +254,6 @@ export default function DashboardTab() {
 /* =========================
    SUB-COMPONENTS
    ========================= */
-
-function StatCard({
-  title,
-  value,
-  icon: Icon,
-  description,
-}: {
-  title: string;
-  value: any;
-  icon: any;
-  description: string;
-}) {
-  return (
-    <motion.div
-      className="bg-white rounded-xl p-5 border border-[#ebebeb] flex justify-between items-center shadow-xs"
-      variants={{
-        hidden: { opacity: 0, y: 10 },
-        show: { opacity: 1, y: 0 },
-      }}
-      whileHover={{
-        y: -2,
-        boxShadow: "0 6px 16px rgba(0, 0, 0, 0.04)",
-      }}
-      transition={{ duration: 0.15 }}
-    >
-      <div className="space-y-1">
-        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">{title}</p>
-        <p className="text-2xl font-bold text-gray-950 tabular-nums">{value}</p>
-        <p className="text-[10px] text-gray-400 font-medium">{description}</p>
-      </div>
-
-      <div className="h-12 w-12 rounded-xl flex items-center justify-center bg-[#d62038]/5">
-        <Icon size={24} className="text-[#d62038]" />
-      </div>
-    </motion.div>
-  );
-}
 
 function QuickActionButton({
   label,
