@@ -1,18 +1,25 @@
+# Dependencies
 node_modules
+/.pnp
+.pnp.js
+
+# Next.js build output
 .next
-.env.local
+out
+dist
+
+# Environment variables
+.env*.local
 .env
-# Local Netlify folder
+!.env.example
+
+# Deployment artifacts
 .netlify
 .vercel
 
 # macOS system files
 .DS_Store
+*.pem
 
-.env*
-
-# Markdown files
-*.md
-
-.ai-docs/
-supabase-email-template.html
+# TypeScript cache
+tsconfig.tsbuildinfo

@@ -331,10 +331,16 @@ export default function ServicePageLayout({
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50/30 to-slate-100">
       {/* ================= HERO — hidden when hideHero=true ================= */}
       {!hideHero && (
-        <section className="relative min-h-[40vh] sm:min-h-[50vh] lg:min-h-[60vh] flex items-center justify-center bg-slate-900 text-center overflow-hidden">
-          <div className="absolute inset-0 bg-[url('/propertylegal.png')] bg-cover bg-center opacity-10" />
-          <div className={`absolute top-1/4 left-1/4 w-72 h-72 ${theme.orb1} blur-3xl rounded-full`} />
-          <div className={`absolute bottom-1/4 right-1/4 w-72 h-72 ${theme.orb2} blur-3xl rounded-full`} />
+        <section className="relative min-h-[40vh] sm:min-h-[50vh] lg:min-h-[60vh] flex items-center justify-center bg-slate-950 text-center overflow-hidden">
+          <div
+            className="absolute inset-0 opacity-[0.06] pointer-events-none"
+            style={{
+              backgroundImage: "radial-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1px)",
+              backgroundSize: "24px 24px",
+            }}
+          />
+          <div className={`absolute top-1/4 left-1/4 w-72 h-72 ${theme?.orb1 || "bg-purple-500/20"} blur-3xl rounded-full`} />
+          <div className={`absolute bottom-1/4 right-1/4 w-72 h-72 ${theme?.orb2 || "bg-indigo-500/20"} blur-3xl rounded-full`} />
 
           <motion.div
             initial={{ opacity: 0, y: 40 }}

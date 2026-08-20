@@ -1,5 +1,9 @@
 import BlogLayout from "@/components/blogs/BlogLayout";
 
+// ISR: revalidate this page every 60 seconds at most.
+// For instant updates on publish, pair with the /api/revalidate webhook.
+export const revalidate = 60;
+
 const WP_GRAPHQL = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || "https://olive-dog-534584.hostingersite.com/graphql";
 
 interface GQLPost {
@@ -43,7 +47,7 @@ async function getAllPosts(): Promise<GQLPost[]> {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query }),
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 }, // matches the page-level ISR interval above
     });
 
     if (!res.ok) {

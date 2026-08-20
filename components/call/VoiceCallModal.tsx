@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { serverApi } from "@/lib/apis/axios";
 import { supabaseRealtime } from "@/lib/supabaseRealtime";
-import { createPeerConnection } from "@/lib/webrtc";
+import { createPeerConnection } from "@/lib/call/webrtc";
 import {
   Mic,
   MicOff,
@@ -91,7 +91,7 @@ export default function VoiceCallModal({
         }
 
         const pc = createPeerConnection(
-          (remoteStream) => {
+          (remoteStream: MediaStream) => {
             if (isVideo && remoteVideoRef.current) {
               remoteVideoRef.current.srcObject = remoteStream;
             } else if (audioRef.current) {
@@ -103,7 +103,7 @@ export default function VoiceCallModal({
               }
             }
           },
-          (candidate) => {
+          (candidate: RTCIceCandidate) => {
             void supabaseRealtime.broadcast(`call:${bookingId}`, "ice_candidate", {
               role,
               candidate: candidate.toJSON(),
