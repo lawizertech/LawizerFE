@@ -1,16 +1,19 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Search, X } from "lucide-react";
+import FeaturedInsight from "./FeaturedInsight";
+import BlogListItem from "./BlogListItem";
+import RecentInsights from "./RecentInsights";
 
-function getExcerpt(html?: string, maxLength = 160) {
+export function getExcerpt(html?: string, maxLength = 160) {
   if (!html) return "";
   const text = html.replace(/<[^>]*>?/gm, "").trim();
   return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 }
 
-function formatDate(dateString?: string) {
+export function formatDate(dateString?: string) {
   if (!dateString) return "";
   return new Date(dateString).toLocaleDateString("en-US", {
     month: "short",
@@ -19,12 +22,62 @@ function formatDate(dateString?: string) {
   });
 }
 
-export default function BlogLayout({ postsByCategory }: { postsByCategory: Record<string, any[]> }) {
-  const categories = Object.keys(postsByCategory);
-  const [activeCategory, setActiveCategory] = useState("__all__");
-  const [searchQuery, setSearchQuery] = useState("");
+interface BlogLayoutProps {
+  postsByCategory: Record<string, any[]>;
+  initialCategory?: string | null;
+}
 
-  // ── 1. allPosts MUST be defined before activePosts ────────────────────────
+export default function BlogLayout({ postsByCategory, initialCategory }: BlogLayoutProps) {
+  const categories = Object.keys(postsByCategory);
+
+  // Map category slug to name from the URL
+  const resolvedCategory = useMemo(() => {
+    if (!initialCategory) return "__all__";
+    const match = categories.find(
+      (cat) => cat.toLowerCase().replace(/[^\w]+/g, "-").replace(/^-|-$/g, "") === initialCategory
+    );
+    return match || "__all__";
+  }, [initialCategory, categories]);
+
+  const [activeCategory, setActiveCategory] = useState(resolvedCategory);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Sync activeCategory when resolvedCategory changes (e.g. on navigation)
+  useEffect(() => {
+    setActiveCategory(resolvedCategory);
+  }, [resolvedCategory]);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent | TouchEvent) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, []);
+
+  // Close dropdown on Escape key
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  // Define all posts uniquely
   const allPosts = useMemo(() => {
     const seen = new Set<string>();
     return Object.values(postsByCategory)
@@ -36,13 +89,50 @@ export default function BlogLayout({ postsByCategory }: { postsByCategory: Recor
       });
   }, [postsByCategory]);
 
-  // ── 2. activePosts depends on allPosts ────────────────────────────────────
+  // Filtered categories for the dropdown popover based on search query
+  const filteredCategories = useMemo(() => {
+    const query = searchQuery.toLowerCase().trim();
+
+    // Map WordPress categories into category objects with counts
+    const wpCategories = categories.map((cat) => ({
+      name: cat,
+      count: postsByCategory[cat]?.length ?? 0,
+      isAll: false,
+    }));
+
+    // If query is empty, return All option + all WordPress categories
+    if (!query) {
+      return [
+        { name: "All Posts", count: allPosts.length, isAll: true },
+        ...wpCategories,
+      ];
+    }
+
+    // Otherwise, filter WordPress categories that contain the query
+    const filteredWp = wpCategories.filter((cat) =>
+      cat.name.toLowerCase().includes(query)
+    );
+
+    // Also check if the query matches "all posts" or "all" to conditionally include the "All Posts" option
+    const includeAll = "all posts".includes(query) || "all".includes(query);
+
+    if (includeAll) {
+      return [
+        { name: "All Posts", count: allPosts.length, isAll: true },
+        ...filteredWp,
+      ];
+    }
+
+    return filteredWp;
+  }, [searchQuery, categories, postsByCategory, allPosts.length]);
+
+  // Filter posts based on active category
   const activePosts = useMemo(
     () => (activeCategory === "__all__" ? allPosts : (postsByCategory[activeCategory] ?? [])),
     [activeCategory, allPosts, postsByCategory],
   );
 
-  // ── 3. Search results ─────────────────────────────────────────────────────
+  // Search filter
   const searchResults = useMemo(() => {
     if (!searchQuery.trim()) return [];
     const q = searchQuery.toLowerCase();
@@ -52,152 +142,159 @@ export default function BlogLayout({ postsByCategory }: { postsByCategory: Recor
   }, [searchQuery, allPosts]);
 
   const isSearching = searchQuery.trim().length > 0;
-
   const activeLabel = activeCategory === "__all__" ? "All Posts" : activeCategory;
+
+  // Sort activePosts by date descending to get the newest post overall or for the active category
+  const sortedPosts = useMemo(() => {
+    return [...activePosts].sort((a, b) => {
+      const dateA = a.date ? new Date(a.date).getTime() : 0;
+      const dateB = b.date ? new Date(b.date).getTime() : 0;
+      return dateB - dateA;
+    });
+  }, [activePosts]);
+
+  // Isolate featured post and list divisions
+  const featuredPost = useMemo(() => {
+    if (sortedPosts.length === 0) return null;
+    return sortedPosts[0];
+  }, [sortedPosts]);
+
+  const latestPosts = useMemo(() => {
+    if (!featuredPost) return sortedPosts;
+    return sortedPosts.filter((post) => post.uri !== featuredPost.uri);
+  }, [sortedPosts, featuredPost]);
+
+  const recentPosts = useMemo(() => {
+    if (!featuredPost) return sortedPosts.slice(0, 5);
+    return sortedPosts.filter((post) => post.uri !== featuredPost.uri).slice(0, 5);
+  }, [sortedPosts, featuredPost]);
 
   return (
     <div>
       {/* ================= HERO SEARCH BANNER ================= */}
-      <div className="relative bg-primary overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage: "radial-gradient(circle, currentColor 1px, transparent 1px)",
-            backgroundSize: "28px 28px",
-          }}
-        />
-        <div className="relative w-full mx-auto px-4 py-16 text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-primary-foreground mb-3">Legal Insights &amp; Guides</h1>
-          <p className="text-primary-foreground/80 mb-8 text-lg">
-            Expert resources on incorporation, compliance, and business law — all in one place.
-          </p>
+      <section className="relative z-20">
+        {/* Decorative background */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none bg-primary">
+          <div
+            className="absolute inset-0 opacity-20"
+            style={{
+              backgroundImage: "radial-gradient(circle, currentColor 1px, transparent 1px)",
+              backgroundSize: "28px 28px",
+            }}
+          />
+        </div>
+
+        {/* Actual hero content */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 py-16 text-center md:text-left md:flex md:items-center md:justify-between md:gap-8 overflow-visible">
+          <div className="max-w-2xl mb-8 md:mb-0">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-primary-foreground tracking-tight mb-3">
+              Legal Insights &amp; Guides
+            </h1>
+            <p className="text-primary-foreground/80 text-base sm:text-lg font-medium leading-relaxed">
+              Expert resources on incorporation, compliance, and business law — all in one place.
+            </p>
+          </div>
 
           {/* Search Bar */}
-          <div className="relative flex items-center max-w-xl mx-auto">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search topic here..."
-              className="w-full pl-5 pr-14 py-4 rounded-xl text-foreground bg-background shadow-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
-            />
-            {isSearching ? (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-4 text-muted-foreground hover:text-foreground transition"
-                aria-label="Clear search"
+          <div ref={containerRef} className="relative z-50 flex flex-col w-full max-w-md shrink-0">
+            <div className="relative flex items-center w-full">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setIsDropdownOpen(true);
+                }}
+                onFocus={() => setIsDropdownOpen(true)}
+                onClick={() => setIsDropdownOpen(true)}
+                placeholder="Search legal articles..."
+                aria-expanded={isDropdownOpen}
+                aria-haspopup="listbox"
+                className="w-full pl-5 pr-12 py-3.5 rounded-full text-foreground bg-background border border-slate-200 shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all"
+              />
+              {isSearching ? (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-4 text-muted-foreground hover:text-foreground transition"
+                  aria-label="Clear search"
+                >
+                  <X size={18} />
+                </button>
+              ) : (
+                <span className="absolute right-4 text-muted-foreground pointer-events-none">
+                  <Search size={18} />
+                </span>
+              )}
+            </div>
+
+            {/* Category Dropdown */}
+            {isDropdownOpen && (
+              <div
+                role="listbox"
+                className="absolute left-0 right-0 top-full mt-2 z-[100] bg-background border border-slate-200 rounded-2xl shadow-xl p-5 animate-in fade-in slide-in-from-top-2 duration-200"
               >
-                <X size={18} />
-              </button>
-            ) : (
-              <span className="absolute right-4 text-muted-foreground pointer-events-none">
-                <Search size={18} />
-              </span>
+                <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-3 px-1">
+                  Browse by Category
+                </h3>
+                
+                {filteredCategories.length === 0 ? (
+                  <div className="text-center py-6 text-slate-400 text-xs">
+                    No matching categories
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-h-[400px] overflow-y-auto pr-1">
+                    {filteredCategories.map((cat) => {
+                      const isActive = cat.isAll
+                        ? activeCategory === "__all__"
+                        : activeCategory === cat.name;
+
+                      return (
+                        <button
+                          key={cat.name}
+                          type="button"
+                          role="option"
+                          aria-selected={isActive}
+                          onClick={() => {
+                            if (cat.isAll) {
+                              setActiveCategory("__all__");
+                            } else {
+                              setActiveCategory(cat.name);
+                            }
+                            setSearchQuery("");
+                            setIsDropdownOpen(false);
+                          }}
+                          className={`flex items-center justify-between w-full px-3 py-2 rounded-lg text-xs font-semibold text-left transition-all duration-150 group ${
+                            isActive
+                              ? "bg-brand/10 text-brand"
+                              : "text-slate-700 hover:bg-slate-50 hover:text-brand"
+                          }`}
+                        >
+                          <span className="truncate mr-2">
+                            {cat.name}
+                            <span
+                              className={`ml-1.5 text-[10px] ${
+                                isActive ? "text-brand/70" : "text-slate-400"
+                              } font-normal`}
+                            >
+                              ({cat.count})
+                            </span>
+                          </span>
+                          <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 text-brand text-[11px] font-bold shrink-0">
+                            →
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             )}
           </div>
         </div>
-      </div>
-
-      {/* ================= PYRAMID CATEGORY SELECTOR ================= */}
-      {!isSearching && (
-        <div className="bg-background border-b py-8">
-          <div className="max-w-3xl mx-auto px-4">
-            {(() => {
-              const MAX_PER_ROW = 4;
-              const VISIBLE_LIMIT = 15;
-              const visible = categories.slice(0, VISIBLE_LIMIT);
-
-              // Build ascending → descending row sizes: 1, 2, 3, 4, 3, 2, 1 …
-              const rowSizes: number[] = [];
-              let total = 0;
-              let size = 1;
-              let direction: "up" | "down" = "up";
-
-              while (total < visible.length) {
-                const take = Math.min(size, visible.length - total);
-                rowSizes.push(take);
-                total += take;
-                if (direction === "up") {
-                  if (size >= MAX_PER_ROW) direction = "down";
-                  else size++;
-                } else {
-                  size = Math.max(1, size - 1);
-                }
-              }
-
-              // Slice categories into rows
-              let idx = 0;
-              const rows: string[][] = rowSizes.map((s) => {
-                const row = visible.slice(idx, idx + s);
-                idx += s;
-                return row;
-              });
-
-              // Inject "All" into the center of the widest row
-              const peakRowIdx = rowSizes.indexOf(Math.max(...rowSizes));
-
-              type Item = { key: string; label: string; isAll: boolean };
-              const renderable: Item[][] = rows.map((row, rowIdx) => {
-                const items: Item[] = row.map((cat) => ({
-                  key: cat,
-                  label: cat,
-                  isAll: false,
-                }));
-                if (rowIdx === peakRowIdx) {
-                  const mid = Math.ceil(items.length / 2);
-                  items.splice(mid, 0, {
-                    key: "__all__",
-                    label: "All",
-                    isAll: true,
-                  });
-                }
-                return items;
-              });
-
-              return (
-                <div className="flex flex-col items-center gap-2.5">
-                  {renderable.map((row, rowIdx) => (
-                    <div key={rowIdx} className="flex justify-center gap-2 flex-wrap">
-                      {row.map((item) => {
-                        const isActive = activeCategory === item.key;
-                        const count = item.isAll ? allPosts.length : (postsByCategory[item.key]?.length ?? 0);
-
-                        return (
-                          <button
-                            key={item.key}
-                            onClick={() => setActiveCategory(item.key)}
-                            className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                              isActive
-                                ? "bg-primary text-primary-foreground shadow-md scale-105"
-                                : item.isAll
-                                  ? "border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground hover:scale-105"
-                                  : "border border-border text-foreground hover:border-primary hover:text-primary hover:scale-105"
-                            }`}
-                          >
-                            {item.label}
-                            <span className={`ml-1.5 text-xs ${isActive ? "opacity-80" : "opacity-50"}`}>
-                              ({count})
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  ))}
-
-                  {categories.length > VISIBLE_LIMIT && (
-                    <p className="text-xs text-muted-foreground mt-1">
-                      +{categories.length - VISIBLE_LIMIT} more categories
-                    </p>
-                  )}
-                </div>
-              );
-            })()}
-          </div>
-        </div>
-      )}
+      </section>
 
       {/* ================= MAIN CONTENT ================= */}
-      <section className="max-w-7xl mx-auto px-4 py-12">
+      <section className="relative z-0 max-w-7xl mx-auto px-4 py-12">
         {isSearching ? (
           <>
             <h2 className="text-2xl font-bold mb-8">
@@ -219,87 +316,56 @@ export default function BlogLayout({ postsByCategory }: { postsByCategory: Recor
                 </button>
               </div>
             ) : (
-              <PostGrid posts={searchResults} />
+              <div className="flex flex-col gap-8">
+                {searchResults.map((post) => (
+                  <BlogListItem key={post.uri} post={post} />
+                ))}
+              </div>
             )}
           </>
         ) : (
           <>
-            <h2 className="text-2xl font-bold mb-8">{activeLabel}</h2>
             {activePosts.length === 0 ? (
-              <div className="rounded-xl border bg-card p-10 text-center text-muted-foreground">
-                <p className="text-lg font-medium">No posts available yet</p>
-                <p className="text-sm mt-1">Check back soon for legal insights and guides.</p>
+              <div>
+                <h2 className="text-2xl font-bold mb-8">{activeLabel}</h2>
+                <div className="rounded-xl border bg-card p-10 text-center text-muted-foreground">
+                  <p className="text-lg font-medium">No posts available yet</p>
+                  <p className="text-sm mt-1">Check back soon for legal insights and guides.</p>
+                </div>
               </div>
             ) : (
-              <PostGrid posts={activePosts} />
+              <div className="flex flex-col">
+                {/* 1. Featured Insight */}
+                {featuredPost && <FeaturedInsight post={featuredPost} />}
+
+                {/* 2. Latest & Recent split */}
+                {activePosts.length > 1 && (
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-12">
+                    {/* Latest Column */}
+                    <div className="lg:col-span-2 flex flex-col gap-8">
+                      <h2 className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">
+                        Latest Insights
+                      </h2>
+                      <div className="flex flex-col gap-8">
+                        {latestPosts.map((post) => (
+                          <BlogListItem key={post.uri} post={post} />
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Recent Sidebar Column */}
+                    <div className="lg:col-span-1">
+                      <div className="lg:sticky lg:top-28">
+                        <RecentInsights recentPosts={recentPosts} />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             )}
           </>
         )}
       </section>
     </div>
-  );
-}
-
-// ── 3-column post grid ────────────────────────────────────────────────────────
-function PostGrid({ posts }: { posts: any[] }) {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      {posts.map((post) => (
-        <PostCard key={post.uri} post={post} />
-      ))}
-    </div>
-  );
-}
-
-// ── Individual post card ──────────────────────────────────────────────────────
-function PostCard({ post }: { post: any }) {
-  console.log("Rendering post:", post); // Debug log to check post data
-  const thumb = post.featuredImage?.node?.sourceUrl || post.featuredImage?.sourceUrl || null;
-  const categoryName = post.categories?.nodes?.[0]?.name ?? post._category ?? "";
-
-  return (
-    <article className="group flex flex-col">
-      <Link href={`/blogs/${post.slug}`} className="block">
-        {/* Thumbnail */}
-        <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden bg-muted mb-4">
-          {thumb ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={thumb}
-              alt={post.title ?? "Blog post thumbnail"}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-primary/5">
-              <svg className="w-12 h-12 text-primary/20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-            </div>
-          )}
-        </div>
-
-        {/* Title */}
-        <h3 className="text-[1.05rem] font-bold leading-snug mb-2 group-hover:text-primary transition-colors line-clamp-2">
-          {post.title}
-        </h3>
-
-        {/* Meta */}
-        {(post.date || categoryName) && (
-          <p className="text-xs text-muted-foreground uppercase tracking-wide mb-2 flex items-center gap-2">
-            {post.date && <span>Published on {formatDate(post.date)}</span>}
-            {post.date && categoryName && <span>/</span>}
-            {categoryName && <span>In {categoryName}</span>}
-          </p>
-        )}
-
-        {/* Excerpt */}
-        <p className="text-sm text-muted-foreground line-clamp-3">{getExcerpt(post.excerpt)}</p>
-      </Link>
-    </article>
   );
 }
