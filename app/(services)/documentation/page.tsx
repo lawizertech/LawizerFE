@@ -69,7 +69,7 @@ export default function StartupDocumentsPage() {
       >
         {/* Parallax background */}
         <motion.div style={{ y: heroY }} className="absolute inset-0 scale-110" aria-hidden>
-          <div className="absolute inset-0 bg-[url('/documenthero.png')] bg-cover bg-center" />
+          <div className="absolute inset-0 bg-[url('/business-contract-documents.jpg')] bg-cover bg-center opacity-20" />
         </motion.div>
 
         {/* Layered atmospheric overlays */}

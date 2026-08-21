@@ -2,7 +2,12 @@
 
 import { motion } from "framer-motion"; // Keep motion for the entrance animation
 
-export function HoverDropdown({ label, children }: any) {
+interface HoverDropdownProps {
+  label: React.ReactNode;
+  children: React.ReactNode;
+}
+
+export function HoverDropdown({ label, children }: HoverDropdownProps) {
   return (
     <div className="relative group">
       {/* 1. Button: This is the primary trigger */}

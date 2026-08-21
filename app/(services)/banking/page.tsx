@@ -65,7 +65,7 @@ export default function BankingLegalPage() {
           color: "white",
         }}
       >
-        <div className="absolute inset-0 bg-[url('/bankinglegal.png')] bg-cover bg-center opacity-20" />
+        <div className="absolute inset-0 bg-[url('/business-contract-documents.jpg')] bg-cover bg-center opacity-15" />
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

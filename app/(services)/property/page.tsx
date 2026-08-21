@@ -129,7 +129,7 @@ export default function PropertyLegalPage() {
         className="relative flex flex-col items-center justify-center text-center min-h-screen bg-[#06101e] overflow-hidden"
       >
         <motion.div style={{ y: heroY }} className="absolute inset-0 scale-110" aria-hidden>
-          <div className="absolute inset-0 bg-[url('/propertylegal.png')] bg-cover bg-center" />
+          <div className="absolute inset-0 bg-[url('/real-estate-property-legal.jpg')] bg-cover bg-center opacity-20" />
         </motion.div>
         <div className="absolute inset-0 bg-[#06101e]/80" />
         <div

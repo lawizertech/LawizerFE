@@ -1049,3 +1049,23 @@ body {
 .animate-marquee-slow:hover {
   animation-play-state: paused;
 }
+}
+
+@keyframes wave-scroll-1 {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes wave-scroll-2 {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+
+.animate-wave-1 {
+  animation: wave-scroll-1 16s linear infinite;
+}
+
+.animate-wave-2 {
+  animation: wave-scroll-2 11s linear infinite;
+}
+
