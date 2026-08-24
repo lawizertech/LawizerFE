@@ -199,7 +199,7 @@ export default function BlogTableOfContents({
 
       {/* Desktop: sticky sidebar — matches image 2 exactly */}
       <aside className="hidden lg:block">
-        <div className="sticky top-24 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="sticky top-32 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
           {/* "IN THIS ARTICLE" header — small caps, grey */}
           <div className="px-5 py-3 border-b border-slate-100">
             <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">In this article</p>

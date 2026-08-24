@@ -8,7 +8,7 @@
 html,
 body {
   background: white;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 :root {
@@ -1048,7 +1048,6 @@ body {
 
 .animate-marquee-slow:hover {
   animation-play-state: paused;
-}
 }
 
 @keyframes wave-scroll-1 {

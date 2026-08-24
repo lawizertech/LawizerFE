@@ -340,7 +340,7 @@ export default function BlogLayout({ postsByCategory, initialCategory }: BlogLay
 
                 {/* 2. Latest & Recent split */}
                 {activePosts.length > 1 && (
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-12">
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-12 items-start">
                     {/* Latest Column */}
                     <div className="lg:col-span-2 flex flex-col gap-8">
                       <h2 className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">
@@ -353,12 +353,10 @@ export default function BlogLayout({ postsByCategory, initialCategory }: BlogLay
                       </div>
                     </div>
 
-                    {/* Recent Sidebar Column */}
-                    <div className="lg:col-span-1">
-                      <div className="lg:sticky lg:top-28">
-                        <RecentInsights recentPosts={recentPosts} />
-                      </div>
-                    </div>
+                    {/* Recent Sidebar Column (Sticky) */}
+                    <aside className="lg:col-span-1 lg:sticky lg:top-28 self-start">
+                      <RecentInsights recentPosts={recentPosts} />
+                    </aside>
                   </div>
                 )}
               </div>

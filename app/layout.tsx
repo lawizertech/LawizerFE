@@ -38,7 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.variable} overflow-x-hidden w-full max-w-full`}>
+      <body className={`${outfit.variable} overflow-x-clip w-full max-w-full`}>
         <RootLayoutClient>{children}</RootLayoutClient>
       </body>
     </html>

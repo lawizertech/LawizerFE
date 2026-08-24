@@ -29,7 +29,7 @@ body {
   font-family: var(--font-body);
   color: var(--text-primary);
   background: var(--bg);
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* ─── HERO SECTION ─── */

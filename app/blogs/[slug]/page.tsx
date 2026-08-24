@@ -208,7 +208,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
             {/* ─── EDITORIAL CONTENT GRID ─── */}
             <div className="lg:grid lg:grid-cols-[160px_minmax(0,1fr)] lg:gap-10 items-start w-full">
               {/* Desktop Sticky Share Sidebar (160px) */}
-              <aside className="hidden lg:block sticky top-28 self-start w-[160px]">
+              <aside className="hidden lg:block sticky top-32 self-start w-[160px]">
                 <ArticleShareSidebar readingTime={readingTime} title={post.title} />
               </aside>
 
@@ -307,7 +307,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
           </div>
 
           {/* RIGHT COLUMN (280px on desktop) */}
-          <aside className="hidden lg:block sticky top-28 self-start space-y-6 w-[280px] shrink-0">
+          <aside className="hidden lg:block sticky top-32 self-start space-y-6 w-[280px] shrink-0">
             {hasTableOfContents && (
               <BlogTableOfContents headings={headings} variant="blog" />
             )}
