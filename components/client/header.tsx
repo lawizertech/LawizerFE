@@ -154,15 +154,18 @@ export function Header() {
                             }
 
                             // 📌 CASE 2: Normal flat item
-                            return (
-                              <Link
-                                key={i}
-                                href={item.url}
-                                className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-brand-red transition"
-                              >
-                                {item.name}
-                              </Link>
-                            );
+                            if ("url" in item && "name" in item) {
+                              return (
+                                <Link
+                                  key={i}
+                                  href={item.url}
+                                  className="text-sm py-1 px-2 rounded hover:bg-gray-100 hover:text-brand-red transition"
+                                >
+                                  {item.name}
+                                </Link>
+                              );
+                            }
+                            return null;
                           })}
                         </div>
                       )}
@@ -597,6 +600,10 @@ export function Header() {
             setIsProfessionalModalOpen(false);
             setIsSignInModalOpen(true);
           }}
+          onForgotPassword={() => {
+            setIsProfessionalModalOpen(false);
+            setIsForgotPasswordOpen(true);
+          }}
         />
       )}
 
@@ -629,6 +636,6 @@ export function Header() {
 
 export default Header;
 
-function HeaderUserAvatar({ user, size = "sm" }: { user: any; size?: "sm" | "md" }) {
+function HeaderUserAvatar({ user, size = "sm" }: { user: { name?: string; email?: string; avatarUrl?: string } | null; size?: "sm" | "md" }) {
   return <UserAvatar user={user} size={size} />;
 }

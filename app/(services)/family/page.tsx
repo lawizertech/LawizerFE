@@ -223,7 +223,7 @@ export default function FamilyLegalPage() {
           color: "white",
         }}
       >
-        <div className="absolute inset-0 bg-[url('/familylegal.png')] bg-cover bg-center opacity-25" />
+        <div className="absolute inset-0 bg-[url('/professional-lawyer-consultation.jpg')] bg-cover bg-center opacity-15" />
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

@@ -7,7 +7,7 @@ import { Calendar, Clock, User, ArrowLeft, MessageCircle, Phone, Video, Loader2 
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/context/authContext";
 import { getAccessToken } from "@/lib/auth/tokenStore";
-import ConsultationChat from "../user/ConsulationChat";
+import ConsultationChat from "@/components/chat/ConsultationChat";
 
 type Tab = "pending" | "confirmed" | "completed";
 

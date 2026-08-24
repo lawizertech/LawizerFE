@@ -14,7 +14,13 @@ export default function TrafficChallanPage() {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100">
       {/* Hero Section */}
       <section className="relative flex flex-col items-center justify-center text-center h-[55vh] sm:h-[60vh] md:h-[65vh] px-4 sm:px-6 overflow-hidden bg-gradient-to-r from-[#1a1f4b] to-[#841b2d] text-white">
-        <div className="absolute inset-0 bg-[url('/trafficbg.png')] bg-cover bg-center opacity-25" />
+        <div
+          className="absolute inset-0 opacity-15 pointer-events-none"
+          style={{
+            backgroundImage: "radial-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 1px)",
+            backgroundSize: "24px 24px",
+          }}
+        />
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

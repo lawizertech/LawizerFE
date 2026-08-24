@@ -25,7 +25,7 @@ import { sortChatMessages, upsertChatMessages, type ChatMessage, type SenderRole
 import { IncomingCallOverlay } from "./IncomingCallOverlay";
 import VideoCall from "@/components/call/VideoCall";
 import { RecordingsModal } from "./RecordingsModal";
-import { StreamCallOverlay } from "@/components/calling/StreamCallOverlay";
+import { StreamCallOverlay } from "@/components/call/StreamCallOverlay";
 import { useCallNotifications } from "@/hooks/useCallNotifications";
 import { getAccessToken } from "@/lib/auth/tokenStore";
 import { CALL_INCOMING, chatChannel } from "@/lib/call/callEvents";

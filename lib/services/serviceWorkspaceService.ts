@@ -5,7 +5,7 @@ import {
   StageItem,
   DocumentItem,
   ActivityFeedItem,
-} from "@/lib/types/serviceWorkspace";
+} from "@/types/serviceWorkspace";
 
 const SERVICE_STAGES: Record<string, string[]> = {
   PRIVATE_LIMITED_COMPANY: [

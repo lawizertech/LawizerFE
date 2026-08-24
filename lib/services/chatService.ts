@@ -1,5 +1,5 @@
 import { supabaseRealtime } from "@/lib/supabaseRealtime";
-import { ChatMessage } from "@/lib/types/serviceWorkspace";
+import { ChatMessage } from "@/types/serviceWorkspace";
 
 export interface ChatSubscription {
   unsubscribe: () => void;

@@ -87,9 +87,11 @@ function groupPostsByCategory(posts: GQLPost[]) {
   return grouped;
 }
 
-export default async function BlogsPage() {
+export default async function BlogsPage(props: { searchParams: Promise<{ category?: string }> }) {
+  const searchParams = await props.searchParams;
+  const initialCategory = searchParams.category || null;
   const posts = await getAllPosts();
   const postsByCategory = groupPostsByCategory(posts);
 
-  return <BlogLayout postsByCategory={postsByCategory} />;
+  return <BlogLayout postsByCategory={postsByCategory} initialCategory={initialCategory} />;
 }

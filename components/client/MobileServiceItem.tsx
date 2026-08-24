@@ -2,8 +2,9 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
+import type { HeaderService, HeaderSectionGroup, HeaderSubItem } from "./header-data";
 
-export function MobileServiceItem({ service, onClose }: { service: any; onClose: () => void }) {
+export function MobileServiceItem({ service, onClose }: { service: HeaderService; onClose: () => void }) {
   const [open, setOpen] = useState(false);
 
   return (

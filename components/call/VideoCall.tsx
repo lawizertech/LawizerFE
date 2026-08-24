@@ -17,7 +17,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { createPeerConnection } from "@/lib/webrtc";
+import { createPeerConnection } from "@/lib/call/webrtc";
 import {
   Mic,
   MicOff,

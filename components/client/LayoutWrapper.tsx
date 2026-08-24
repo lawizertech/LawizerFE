@@ -3,7 +3,6 @@
 import { usePathname } from "next/navigation";
 import { Header } from "@/components/client/header";
 import { Footer } from "@/components/client/footer";
-import Header2 from "../expert/header2";
 import CallbackModal from "./CallbackModal";
 import { useCallback } from "@/context/callbackContext";
 

@@ -8,7 +8,7 @@ import {
   ServiceWorkspaceDetail,
   ChatMessage,
   NotificationItem,
-} from "@/lib/types/serviceWorkspace";
+} from "@/types/serviceWorkspace";
 import { useAuth } from "@/context/authContext";
 import { useToast } from "@/hooks/use-toast";
 import { getAccessToken } from "@/lib/auth/tokenStore";

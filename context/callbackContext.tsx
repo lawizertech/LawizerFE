@@ -31,10 +31,13 @@ export function CallbackProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function useCallback() {
+export function useCallbackModal() {
   const context = useContext(CallbackContext);
   if (context === undefined) {
-    throw new Error("useCallback must be used within CallbackProvider");
+    throw new Error("useCallbackModal must be used within CallbackProvider");
   }
   return context;
 }
+
+export const useCallback = useCallbackModal;
+

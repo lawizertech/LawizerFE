@@ -9,9 +9,10 @@ import { supabaseSignIn, supabaseSignUp, supabaseGoogleSignIn } from "@/lib/supa
 interface ProfessionalModalProps {
   onClose: () => void;
   onClientLoginRedirect?: () => void;
+  onForgotPassword?: () => void;
 }
 
-export function ProfessionalModal({ onClose, onClientLoginRedirect }: ProfessionalModalProps) {
+export function ProfessionalModal({ onClose, onClientLoginRedirect, onForgotPassword }: ProfessionalModalProps) {
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -274,6 +275,19 @@ export function ProfessionalModal({ onClose, onClientLoginRedirect }: Profession
               />
             </div>
           </div>
+
+          {/* Forgot Password */}
+          {!isSignUp && (
+            <div className="text-right">
+              <button
+                type="button"
+                onClick={onForgotPassword}
+                className="text-[11px] text-[#c92c41] hover:text-[#b32538] font-bold"
+              >
+                Forgot Password?
+              </button>
+            </div>
+          )}
 
           {/* Submit */}
           <button
