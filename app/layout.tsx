@@ -1,13 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Outfit } from "next/font/google";
+import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
 import "./lawizer-custom.css";
 import RootLayoutClient from "@/components/client/RootLayoutClient";
 
 const outfit = Outfit({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
   variable: "--",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-inter",
 });
 
 
@@ -37,8 +45,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${outfit.variable} overflow-x-clip w-full max-w-full`}>
+    <html lang="en" className={`${outfit.variable} ${inter.variable}`}>
+      <body className="overflow-x-clip w-full max-w-full font-sans antialiased">
         <RootLayoutClient>{children}</RootLayoutClient>
       </body>
     </html>

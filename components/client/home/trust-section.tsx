@@ -36,7 +36,7 @@ export function TrustSection() {
     }
   ];
 
-  const logos = [...companies, ...companies, ...companies]; // Tripled for extra smooth continuous loop
+  const logos = [...companies, ...companies];
 
   return (
     <section className="bg-white py-4 sm:py-6 lg:py-8 overflow-hidden">
@@ -59,8 +59,8 @@ export function TrustSection() {
 
           {/* Scrolling track */}
           <motion.div
-            className="flex gap-4 sm:gap-6 whitespace-nowrap w-max"
-            animate={{ x: ["-33.33%", "0%"] }} // Adjusted animation offset for tripled list
+            className="flex gap-4 sm:gap-6 whitespace-nowrap w-max transform-gpu will-change-transform"
+            animate={{ x: ["0%", "-50%"] }}
             transition={{
               ease: "linear",
               duration: 25,

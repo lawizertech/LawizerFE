@@ -88,23 +88,23 @@ export function CommentsSection() {
           <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-gray-50/80 to-transparent z-10 pointer-events-none" />
 
           <motion.div
-            className="flex w-max"
+            className="flex w-max transform-gpu will-change-transform"
             animate={{ x: ["0%", "-50%"] }}
-            transition={{ ease: "linear", duration: 45, repeat: Infinity }}
+            transition={{ ease: "linear", duration: 35, repeat: Infinity }}
           >
-            {[...comments, ...comments, ...comments, ...comments].map((item, index) => {
+            {[...comments, ...comments].map((item, index) => {
               const colorIdx = index % AVATAR_COLORS.length;
               const avatarColor = AVATAR_COLORS[colorIdx];
 
               return (
                 <div
                   key={index}
-                  className="bg-white p-5 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-gray-100 min-w-[290px] w-[290px] sm:min-w-[320px] sm:w-[320px] flex-shrink-0 mr-4 hover:shadow-[0_4px_20px_rgba(0,0,0,0.07)] transition-shadow duration-300 flex flex-col"
+                  className="bg-white p-4 sm:p-5 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-gray-100 min-w-[280px] w-[280px] sm:min-w-[320px] sm:w-[320px] flex-shrink-0 mr-3 sm:mr-4 hover:shadow-[0_4px_20px_rgba(0,0,0,0.07)] transition-shadow duration-300 flex flex-col"
                 >
                   {/* Header: Avatar + Name + Stars */}
                   <div className="flex items-center gap-3 mb-3">
                     {/* Colored Avatar Initial */}
-                    <div className={`w-10 h-10 rounded-full ${avatarColor.bg} ${avatarColor.text} flex items-center justify-center font-bold text-[16px] shrink-0 shadow-sm`}>
+                    <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${avatarColor.bg} ${avatarColor.text} flex items-center justify-center font-bold text-[15px] sm:text-[16px] shrink-0 shadow-xs`}>
                       {item.initials}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -129,7 +129,7 @@ export function CommentsSection() {
                   </p>
 
                   {/* Footer: Role */}
-                  <div className="mt-3 pt-3 border-t border-gray-50">
+                  <div className="mt-3 pt-2.5 border-t border-gray-50">
                     <p className="text-[11px] text-gray-400 font-medium">{item.role}</p>
                   </div>
                 </div>

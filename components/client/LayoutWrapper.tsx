@@ -3,8 +3,10 @@
 import { usePathname } from "next/navigation";
 import { Header } from "@/components/client/header";
 import { Footer } from "@/components/client/footer";
-import CallbackModal from "./CallbackModal";
+import dynamic from "next/dynamic";
 import { useCallback } from "@/context/callbackContext";
+
+const CallbackModal = dynamic(() => import("./CallbackModal"), { ssr: false });
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
