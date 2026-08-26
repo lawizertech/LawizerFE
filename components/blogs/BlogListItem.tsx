@@ -56,6 +56,19 @@ export default function BlogListItem({ post }: BlogListItemProps) {
             <p className="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-2 lg:line-clamp-3">
               {getExcerpt(post.excerpt, 150)}
             </p>
+            {/* Author display */}
+            {post.author && (
+              <div className="flex items-center gap-2 mb-4">
+                <img
+                  src={post.author.image || "/user.png"}
+                  alt={post.author.name}
+                  className="w-6 h-6 rounded-full object-cover shrink-0 border border-slate-100"
+                />
+                <span className="text-xs font-semibold text-slate-700">
+                  {post.author.name}
+                </span>
+              </div>
+            )}
           </div>
           <div>
             <span className="inline-flex items-center text-xs font-bold text-brand group-hover:text-brand-dark transition-colors duration-200">

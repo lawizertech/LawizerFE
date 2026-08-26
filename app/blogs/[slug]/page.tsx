@@ -28,6 +28,26 @@ async function getPostBySlug(slug: string) {
             slug
           }
         }
+        blogAuthor {
+          blogAuthor {
+            nodes {
+              ... on LawizerAuthor {
+                id
+                title
+                authorInformation {
+                  authorName
+                  authorShortDescription
+                  authorImage {
+                    node {
+                      id
+                      sourceUrl
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   `;
@@ -42,7 +62,19 @@ async function getPostBySlug(slug: string) {
 
     const json = await res.json();
     if (json.errors || !json?.data?.post) return null;
-    return json.data.post;
+
+    const post = json.data.post;
+    const authorNode = post.blogAuthor?.blogAuthor?.nodes?.[0];
+    post.author = authorNode
+      ? {
+        id: authorNode.id || "",
+        name: authorNode.authorInformation?.authorName || authorNode.title || "",
+        image: authorNode.authorInformation?.authorImage?.node?.sourceUrl || null,
+        description: authorNode.authorInformation?.authorShortDescription || null,
+      }
+      : null;
+
+    return post;
   } catch (error) {
     console.error("Error fetching post by slug:", error);
     return null;
@@ -107,10 +139,10 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
 
   const publishedDate = post.date
     ? new Date(post.date).toLocaleDateString("en-IN", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      })
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    })
     : null;
 
   const contentWithIds = post.content ? injectHeadingIds(post.content) : "";
@@ -141,21 +173,50 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
 
         {/* Hero Content Overlay */}
         <div className="relative z-10 w-full max-w-4xl mx-auto px-6 text-center flex flex-col items-center justify-center">
-          {/* Category & Date Row */}
-          <div className="flex items-center gap-2.5 text-xs md:text-sm font-bold uppercase tracking-[0.2em] mb-4 flex-wrap justify-center text-white/95">
-            {categoryName && (
-              <span className="text-brand font-extrabold">
-                {categoryName}
-              </span>
-            )}
-            {categoryName && <span className="text-white/40">•</span>}
-            {publishedDate && <span className="text-white/80">{publishedDate}</span>}
-          </div>
+          {/* Category */}
+          {categoryName && (
+            <span className="text-[#e85064] font-extrabold text-xs md:text-sm font-bold uppercase tracking-[0.2em] mb-4">
+              {categoryName}
+            </span>
+          )}
 
           {/* Title - constrained width, visually dominant */}
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight max-w-3xl drop-shadow-sm select-text">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight max-w-3xl drop-shadow-sm select-text mb-6">
             {post.title}
           </h1>
+
+          {/* Author metadata & publication date */}
+          {(post.author || publishedDate) && (
+            <div className="flex flex-col items-center justify-center text-center mt-2">
+              {post.author ? (
+                <>
+                  <div className="flex items-center gap-3 flex-wrap justify-center">
+                    <img
+                      src={post.author.image || "/user.png"}
+                      alt={post.author.name}
+                      className="w-10 h-10 md:w-11 md:h-11 rounded-full object-cover shrink-0 border border-white/20"
+                    />
+                    <div className="flex items-center gap-2 text-sm md:text-base font-semibold">
+                      <span className="text-white">{post.author.name}</span>
+                      {publishedDate && <span className="text-white/30">•</span>}
+                      {publishedDate && <span className="text-slate-300 font-normal">{publishedDate}</span>}
+                    </div>
+                  </div>
+                  {post.author.description && (
+                    <p className="text-slate-200 text-xs md:text-sm leading-relaxed max-w-xl font-normal mt-2">
+                      {post.author.description}
+                    </p>
+                  )}
+                </>
+              ) : (
+                publishedDate && (
+                  <span className="text-sm md:text-base text-slate-300 font-normal">
+                    {publishedDate}
+                  </span>
+                )
+              )}
+            </div>
+          )}
         </div>
       </section>
 
@@ -192,6 +253,8 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
                 dangerouslySetInnerHTML={{ __html: post.excerpt }}
               />
             )}
+
+
 
             {/* ─── MOBILE ONLY SHARE ROW ─── */}
             <div className="lg:hidden mb-8">
