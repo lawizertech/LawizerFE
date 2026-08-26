@@ -10,6 +10,12 @@ interface GQLPost {
   date: string;
   featuredImage: { node: { sourceUrl: string; altText: string } } | null;
   categories: { nodes: { name: string }[] };
+  author?: {
+    id: string;
+    name: string;
+    image: string | null;
+    description: string | null;
+  } | null;
 }
 
 async function getAllPosts(): Promise<GQLPost[]> {
@@ -31,6 +37,26 @@ async function getAllPosts(): Promise<GQLPost[]> {
  categories {
  nodes {
  name
+ }
+ }
+ blogAuthor {
+ blogAuthor {
+ nodes {
+ ... on LawizerAuthor {
+ id
+ title
+ authorInformation {
+ authorName
+ authorShortDescription
+ authorImage {
+ node {
+ id
+ sourceUrl
+ }
+ }
+ }
+ }
+ }
  }
  }
  }
@@ -58,7 +84,22 @@ async function getAllPosts(): Promise<GQLPost[]> {
       return [];
     }
 
-    const posts: GQLPost[] = json?.data?.posts?.nodes ?? [];
+    const posts: GQLPost[] = (json?.data?.posts?.nodes ?? []).map((post: any) => {
+      const authorNode = post.blogAuthor?.blogAuthor?.nodes?.[0];
+      const author = authorNode
+        ? {
+            id: authorNode.id || "",
+            name: authorNode.authorInformation?.authorName || authorNode.title || "",
+            image: authorNode.authorInformation?.authorImage?.node?.sourceUrl || null,
+            description: authorNode.authorInformation?.authorShortDescription || null,
+          }
+        : null;
+
+      return {
+        ...post,
+        author,
+      };
+    });
     return posts;
   } catch (error) {
     console.error("Error fetching posts:", error);

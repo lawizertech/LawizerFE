@@ -64,6 +64,19 @@ export default function FeaturedInsight({ post }: FeaturedInsightProps) {
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 line-clamp-4">
                 {getExcerpt(post.excerpt, 240)}
               </p>
+              {/* Author display */}
+              {post.author && (
+                <div className="flex items-center gap-2.5 mb-6">
+                  <img
+                    src={post.author.image || "/user.png"}
+                    alt={post.author.name}
+                    className="w-7 h-7 rounded-full object-cover shrink-0 border border-slate-100"
+                  />
+                  <span className="text-xs sm:text-sm font-semibold text-slate-700">
+                    {post.author.name}
+                  </span>
+                </div>
+              )}
             </div>
             {/* Link */}
             <div>
