@@ -374,12 +374,12 @@ function MobileSvcRow({ svc, phase, prices, loading }: { svc: Svc; phase: Phase;
             Explore
           </div>
           <div className="mob-svc-prices flex items-center gap-2">
-            <span className="mob-svc-was text-[12px] text-[#A0AABF] line-through font-semibold">{loading ? "..." : was}</span>
+            <span className="mob-svc-was text-[12px] text-[#A0AABF] line-through font-semibold">{was}</span>
             <span 
               className="mob-svc-price text-[15px] font-extrabold tracking-tight px-3 py-1 rounded-[10px]" 
               style={{ background: `${phase.accent}12`, color: phase.accent }}
             >
-              {loading ? "₹..." : price}*
+              {price}*
             </span>
           </div>
         </div>
@@ -615,7 +615,7 @@ function SvcRow({ svc, phase, prices, loading }: { svc: Svc; phase: Phase; price
         {/* was price */}
         {was && (
           <span className="text-[10px] text-slate-350 line-through font-semibold leading-none tracking-wide">
-            {loading ? "..." : was}
+            {was}
           </span>
         )}
         {/* real price chip */}
@@ -626,7 +626,7 @@ function SvcRow({ svc, phase, prices, loading }: { svc: Svc; phase: Phase; price
             color: hov ? "#fff" : phase.accent 
           }}
         >
-          <span className="text-[13px] font-black leading-none">{loading ? "₹..." : price}</span>
+          <span className="text-[13px] font-black leading-none">{price}</span>
           <span className="text-[9px] font-black leading-none ml-0.5">*</span>
         </span>
       </span>

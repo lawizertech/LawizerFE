@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { PhoneCall, Calendar } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export function TalkToFounderSection() {
   return (
@@ -14,9 +15,11 @@ export function TalkToFounderSection() {
           <div className="relative flex-shrink-0">
             <div className="absolute inset-0 bg-brand-red blur-2xl opacity-20 rounded-full"></div>
             <div className="w-32 h-32 sm:w-40 sm:h-40 relative rounded-full overflow-hidden border-4 border-white shadow-xl">
-              <img 
+              <Image 
                 src="/founder.jpeg" 
                 alt="Founder" 
+                width={160}
+                height={160}
                 className="w-full h-full object-cover"
               />
             </div>
