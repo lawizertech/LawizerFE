@@ -188,6 +188,9 @@ export function Header() {
                   <Link href="/faqs" className="text-sm py-1 hover:text-brand-red">
                     FAQs
                   </Link>
+                  <Link href="/legal-glossary" className="text-sm py-1 hover:text-brand-red">
+                    Legal Glossary
+                  </Link>
                   <Link href="/careers" className="text-sm py-1 hover:text-brand-red">
                     Careers
                   </Link>
