@@ -76,7 +76,33 @@ export async function getServiceBySlug(
 ): Promise<ServiceData | null> {
   if (!slug) return null;
 
-  const cleanSlug = decodeURIComponent(slug).toLowerCase().trim();
+  // Map new SEO-friendly kebab-case URLs back to the legacy PascalCase API IDs
+  const slugMap: Record<string, string> = {
+    "private-limited-company": "PrivateLimitedCompanyPage",
+    "one-person-company": "OnePersonCompanyPage",
+    "llp-registration": "LLPPage",
+    "section-8-ngo-company": "Section8NGOCompanyPage",
+    "public-limited-company": "PublicLimitedCompanyPage",
+    "startup-india-registration": "StartupIndiaRegistrationPage",
+    "gst-registration": "GSTRegistrationPage",
+    "msme-udhyam-registration": "MSMEUdhyamRegistrationPage",
+    "trademark-registration": "TrademarkRegistrationPage",
+    "copyright-registration": "CopyrightRegistrationPage",
+    "renew-trademark": "RenewTrademarkPage",
+    "reply-to-trademark-objection": "ReplyToTrademarkObjectionPage",
+    "reply-to-copyright-objection": "ReplyToCopyrightObjectionPage",
+    "sell-your-trademark": "SellYourTrademarkPage",
+    "appointment-of-director": "AppointmentOfDirectorPage",
+    "resignation-of-director": "ResignationOfDirectorPage",
+    "change-in-office-address": "ChangeInOfficeAddressPage",
+    "increasing-capital-of-company": "IncreasingCapitalOfCompanyPage",
+    "closure-of-pvt-ltd": "ClosureOfPvtLtdPage",
+    "closure-of-opc": "ClosureOfOPCPage",
+    "closure-of-llp": "ClosureOfLLPPage",
+  };
+
+  const mappedSlug = slugMap[slug] || slug;
+  const cleanSlug = decodeURIComponent(mappedSlug).toLowerCase().trim();
   const services = await getAllServices();
 
   const found = services.find(

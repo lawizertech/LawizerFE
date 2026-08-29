@@ -1,4 +1,30 @@
+import type { Metadata } from "next";
 import BlogLayout from "@/components/blogs/BlogLayout";
+
+export const metadata: Metadata = {
+  title: "Legal Blog — Expert Insights & Guides | Lawizer",
+  description:
+    "Read Lawizer's legal blog for expert guides on business registration, trademark, GST, ITR, property law, compliance, and more. Written by verified lawyers.",
+  alternates: { canonical: "https://lawizer.com/blogs" },
+  openGraph: {
+    type: "website",
+    title: "Legal Blog | Lawizer",
+    description: "Expert legal guides on business, tax, property, and compliance — written by verified lawyers.",
+    url: "https://lawizer.com/blogs",
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630, alt: "Lawizer Legal Blog" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Legal Blog | Lawizer",
+    description: "Expert legal guides from verified lawyers.",
+    images: ["/og-default.jpg"],
+  },
+};
+
+// ISR: revalidate this page every 60 seconds at most.
+// For instant updates on publish, pair with the /api/revalidate webhook.
+export const revalidate = 60;
+
 
 const WP_GRAPHQL = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || "https://olive-dog-534584.hostingersite.com/graphql";
 
@@ -10,6 +36,12 @@ interface GQLPost {
   date: string;
   featuredImage: { node: { sourceUrl: string; altText: string } } | null;
   categories: { nodes: { name: string }[] };
+  author?: {
+    id: string;
+    name: string;
+    image: string | null;
+    description: string | null;
+  } | null;
 }
 
 async function getAllPosts(): Promise<GQLPost[]> {
@@ -33,6 +65,26 @@ async function getAllPosts(): Promise<GQLPost[]> {
  name
  }
  }
+ blogAuthor {
+ blogAuthor {
+ nodes {
+ ... on LawizerAuthor {
+ id
+ title
+ authorInformation {
+ authorName
+ authorShortDescription
+ authorImage {
+ node {
+ id
+ sourceUrl
+ }
+ }
+ }
+ }
+ }
+ }
+ }
  }
  }
  }
@@ -43,7 +95,7 @@ async function getAllPosts(): Promise<GQLPost[]> {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query }),
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 }, // matches the page-level ISR interval above
     });
 
     if (!res.ok) {
@@ -58,7 +110,22 @@ async function getAllPosts(): Promise<GQLPost[]> {
       return [];
     }
 
-    const posts: GQLPost[] = json?.data?.posts?.nodes ?? [];
+    const posts: GQLPost[] = (json?.data?.posts?.nodes ?? []).map((post: any) => {
+      const authorNode = post.blogAuthor?.blogAuthor?.nodes?.[0];
+      const author = authorNode
+        ? {
+            id: authorNode.id || "",
+            name: authorNode.authorInformation?.authorName || authorNode.title || "",
+            image: authorNode.authorInformation?.authorImage?.node?.sourceUrl || null,
+            description: authorNode.authorInformation?.authorShortDescription || null,
+          }
+        : null;
+
+      return {
+        ...post,
+        author,
+      };
+    });
     return posts;
   } catch (error) {
     console.error("Error fetching posts:", error);
