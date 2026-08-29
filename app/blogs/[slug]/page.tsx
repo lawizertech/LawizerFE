@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { extractHeadings, injectHeadingIds } from "@/lib/extractHeadings";
@@ -7,6 +8,7 @@ import ArticleShareSidebar from "@/components/blogs/ArticleShareSidebar";
 import BlogRecentPosts from "@/components/blogs/BlogRecentPosts";
 
 const ENDPOINT = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!;
+const BASE_URL = "https://lawizer.com";
 
 async function getPostBySlug(slug: string) {
   const query = `
@@ -125,6 +127,40 @@ function calculateReadingTime(htmlContent?: string) {
   const cleanText = htmlContent.replace(/<[^>]*>?/gm, "").trim();
   const words = cleanText.split(/\s+/).length;
   return Math.max(1, Math.ceil(words / 200));
+}
+
+export async function generateMetadata(
+  props: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const { slug } = await props.params;
+  const post = await getPostBySlug(slug);
+  if (!post) return {};
+
+  const title = post.title ?? "Legal Article";
+  const rawExcerpt = (post.excerpt ?? "").replace(/<[^>]*>/g, "").trim();
+  const description = rawExcerpt || `Read ${title} on Lawizer — India's trusted legal platform.`;
+  const image = post.featuredImage?.node?.sourceUrl || `${BASE_URL}/og-default.jpg`;
+  const url = `${BASE_URL}/blogs/${slug}`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      url,
+      images: [{ url: image, width: 1200, height: 630, alt: title }],
+      publishedTime: post.date,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+  };
 }
 
 export default async function BlogPostPage(props: { params: Promise<{ slug: string }> }) {

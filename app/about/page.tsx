@@ -1,4 +1,26 @@
+import type { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "About Lawizer",
+  description:
+    "Learn about Lawizer — India's next-generation digital legal platform connecting individuals, startups, and businesses to verified lawyers for affordable, fast, and reliable legal services.",
+  alternates: { canonical: "https://lawizer.com/about" },
+  openGraph: {
+    type: "website",
+    title: "About Lawizer | Legal Services Simplified",
+    description:
+      "Lawizer is on a mission to make legal help simple, affordable, and accessible for every Indian.",
+    url: "https://lawizer.com/about",
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630, alt: "About Lawizer" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Lawizer",
+    description: "India's next-generation digital legal platform.",
+    images: ["/og-default.jpg"],
+  },
+};
 
 export default function AboutLawizer() {
   return (

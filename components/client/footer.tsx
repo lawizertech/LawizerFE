@@ -52,10 +52,11 @@ export function Footer() {
           <div className="lg:col-span-2">
             <h3 className="font-bold text-gray-900 mb-5 tracking-wide text-[15px]">Business</h3>
             <ul className="space-y-3">
-              <li><Link href="/startup-businesslegal/startbusiness/PrivateLimitedCompanyPage" className="text-[14px] text-gray-500 hover:text-[var(--brand)] font-medium transition-colors">Pvt Ltd Incorporation</Link></li>
-              <li><Link href="/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage" className="text-[14px] text-gray-500 hover:text-[var(--brand)] font-medium transition-colors">MSME Registration</Link></li>
-              <li><Link href="/startup-businesslegal/protectbusiness/TrademarkRegistrationPage" className="text-[14px] text-gray-500 hover:text-[var(--brand)] font-medium transition-colors">Trademark Registration</Link></li>
+              <li><Link href="/startup-businesslegal/startbusiness/private-limited-company" className="text-[14px] text-gray-500 hover:text-[var(--brand)] font-medium transition-colors">Pvt Ltd Incorporation</Link></li>
+              <li><Link href="/startup-businesslegal/growbusiness/msme-udhyam-registration" className="text-[14px] text-gray-500 hover:text-[var(--brand)] font-medium transition-colors">MSME Registration</Link></li>
+              <li><Link href="/startup-businesslegal/protectbusiness/trademark-registration" className="text-[14px] text-gray-500 hover:text-[var(--brand)] font-medium transition-colors">Trademark Registration</Link></li>
               <li><Link href="/compliance/annual" className="text-[14px] text-gray-500 hover:text-[var(--brand)] font-medium transition-colors">Annual Compliance</Link></li>
+              <li><Link href="/startup-businesslegal/kolkata-west-bengal-business-registration" className="text-[14px] text-gray-500 hover:text-[var(--brand)] font-medium transition-colors">Register in Kolkata</Link></li>
             </ul>
           </div>
 
@@ -67,6 +68,7 @@ export function Footer() {
               <li><Link href="/contact" className="text-[14px] text-gray-500 hover:text-[var(--brand)] font-medium transition-colors">Contact</Link></li>
               <li><Link href="/blogs" className="text-[14px] text-gray-500 hover:text-[var(--brand)] font-medium transition-colors">Blog</Link></li>
               <li><Link href="/guides" className="text-[14px] text-gray-500 hover:text-[var(--brand)] font-medium transition-colors">Guides</Link></li>
+              <li><Link href="/legal-glossary" className="text-[14px] text-gray-500 hover:text-[var(--brand)] font-medium transition-colors">Glossary</Link></li>
               <li><Link href="/careers" className="text-[14px] text-gray-500 hover:text-[var(--brand)] font-medium transition-colors">Careers</Link></li>
             </ul>
           </div>

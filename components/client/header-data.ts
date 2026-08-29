@@ -74,31 +74,31 @@ export const services: HeaderService[] = [
         items: [
           {
             name: "Private Limited Company Registration",
-            url: "/startup-businesslegal/startbusiness/PrivateLimitedCompanyPage",
+            url: "/startup-businesslegal/startbusiness/private-limited-company",
           },
           {
             name: "One Person Company Registration",
-            url: "/startup-businesslegal/startbusiness/OnePersonCompanyPage",
+            url: "/startup-businesslegal/startbusiness/one-person-company",
           },
           {
             name: "Limited Liability Partnership (LLP) Registration",
-            url: "/startup-businesslegal/startbusiness/LLPPage",
+            url: "/startup-businesslegal/startbusiness/llp-registration",
           },
           {
             name: "Section 8 NGO Company Registration",
-            url: "/startup-businesslegal/startbusiness/Section8NGOCompanyPage",
+            url: "/startup-businesslegal/startbusiness/section-8-ngo-company",
           },
           {
             name: "Public Limited Company Registration",
-            url: "/startup-businesslegal/startbusiness/PublicLimitedCompanyPage",
+            url: "/startup-businesslegal/startbusiness/public-limited-company",
           },
           {
             name: "Startup India Registration",
-            url: "/startup-businesslegal/startbusiness/StartupIndiaRegistrationPage",
+            url: "/startup-businesslegal/startbusiness/startup-india-registration",
           },
           {
             name: "GST Registration",
-            url: "/startup-businesslegal/startbusiness/GSTRegistrationPage",
+            url: "/startup-businesslegal/startbusiness/gst-registration",
           },
         ],
       },
@@ -107,7 +107,7 @@ export const services: HeaderService[] = [
         items: [
           {
             name: "MSME Udyam Registration",
-            url: "/startup-businesslegal/growbusiness/MSMEUdhyamRegistrationPage",
+            url: "/startup-businesslegal/growbusiness/msme-udhyam-registration",
           },
         ],
       },
@@ -116,27 +116,27 @@ export const services: HeaderService[] = [
         items: [
           {
             name: "Trademark Registration",
-            url: "/startup-businesslegal/protectbusiness/TrademarkRegistrationPage",
+            url: "/startup-businesslegal/protectbusiness/trademark-registration",
           },
           {
             name: "Copyright Registration",
-            url: "/startup-businesslegal/protectbusiness/CopyrightRegistrationPage",
+            url: "/startup-businesslegal/protectbusiness/copyright-registration",
           },
           {
             name: "Renew Trademark",
-            url: "/startup-businesslegal/protectbusiness/RenewTrademarkPage",
+            url: "/startup-businesslegal/protectbusiness/renew-trademark",
           },
           {
             name: "Reply to Trademark Objection",
-            url: "/startup-businesslegal/protectbusiness/ReplyToTrademarkObjectionPage",
+            url: "/startup-businesslegal/protectbusiness/reply-to-trademark-objection",
           },
           {
             name: "Reply to Copyright Objection",
-            url: "/startup-businesslegal/protectbusiness/ReplyToCopyrightObjectionPage",
+            url: "/startup-businesslegal/protectbusiness/reply-to-copyright-objection",
           },
           {
             name: "Sell Your Trademark",
-            url: "/startup-businesslegal/protectbusiness/SellYourTrademarkPage",
+            url: "/startup-businesslegal/protectbusiness/sell-your-trademark",
           },
         ],
       },
@@ -145,31 +145,31 @@ export const services: HeaderService[] = [
         items: [
           {
             name: "Appointment of Director",
-            url: "/startup-businesslegal/managebusiness/AppointmentOfDirectorPage",
+            url: "/startup-businesslegal/managebusiness/appointment-of-director",
           },
           {
             name: "Resignation of Director",
-            url: "/startup-businesslegal/managebusiness/ResignationOfDirectorPage",
+            url: "/startup-businesslegal/managebusiness/resignation-of-director",
           },
           {
             name: "Change in Office Address",
-            url: "/startup-businesslegal/managebusiness/ChangeInOfficeAddressPage",
+            url: "/startup-businesslegal/managebusiness/change-in-office-address",
           },
           {
             name: "Increasing Capital of Company",
-            url: "/startup-businesslegal/managebusiness/IncreasingCapitalOfCompanyPage",
+            url: "/startup-businesslegal/managebusiness/increasing-capital-of-company",
           },
           {
             name: "Closure of Private Limited Company",
-            url: "/startup-businesslegal/managebusiness/ClosureOfPvtLtdPage",
+            url: "/startup-businesslegal/managebusiness/closure-of-pvt-ltd",
           },
           {
             name: "Closure of OPC",
-            url: "/startup-businesslegal/managebusiness/ClosureOfOPCPage",
+            url: "/startup-businesslegal/managebusiness/closure-of-opc",
           },
           {
             name: "Closure of LLP",
-            url: "/startup-businesslegal/managebusiness/ClosureOfLLPPage",
+            url: "/startup-businesslegal/managebusiness/closure-of-llp",
           },
           {
             name: "Annual Compliance - LLP Complete",
@@ -178,6 +178,15 @@ export const services: HeaderService[] = [
           {
             name: "Annual Compliance Calendar",
             url: "/compliance/annual",
+          },
+        ],
+      },
+      {
+        section: "Local Services",
+        items: [
+          {
+            name: "Business Registration — Kolkata & West Bengal",
+            url: "/startup-businesslegal/kolkata-west-bengal-business-registration",
           },
         ],
       },
