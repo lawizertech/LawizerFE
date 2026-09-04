@@ -7,7 +7,7 @@ import BlogTableOfContents from "@/components/blogs/BlogTableOfContents";
 import ArticleShareSidebar from "@/components/blogs/ArticleShareSidebar";
 import BlogRecentPosts from "@/components/blogs/BlogRecentPosts";
 
-const ENDPOINT = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!;
+const ENDPOINT = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || "https://olive-dog-534584.hostingersite.com/graphql";
 const BASE_URL = "https://lawizer.com";
 
 async function getPostBySlug(slug: string) {
@@ -139,7 +139,7 @@ export async function generateMetadata(
   const title = post.title ?? "Legal Article";
   const rawExcerpt = (post.excerpt ?? "").replace(/<[^>]*>/g, "").trim();
   const description = rawExcerpt || `Read ${title} on Lawizer — India's trusted legal platform.`;
-  const image = post.featuredImage?.node?.sourceUrl || `${BASE_URL}/og-default.jpg`;
+  const image = post.featuredImage?.node?.sourceUrl || post.featuredImage?.sourceUrl || `${BASE_URL}/og-default.jpg`;
   const url = `${BASE_URL}/blogs/${slug}`;
 
   return {
@@ -188,14 +188,17 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
   const categoryName = post.categories?.nodes?.[0]?.name ?? null;
   const categorySlug = post.categories?.nodes?.[0]?.slug ?? null;
 
+  const heroImageUrl = post.featuredImage?.node?.sourceUrl || post.featuredImage?.sourceUrl || null;
+  const heroImageAlt = post.featuredImage?.node?.altText || post.featuredImage?.altText || post.title;
+
   return (
     <article className="bg-[#f8f9fc] min-h-screen pb-24">
       {/* ─── FULL-WIDTH HERO SECTION ─── */}
       <section className="relative w-full h-[450px] md:h-[550px] lg:h-[600px] overflow-hidden bg-slate-900 flex items-center justify-center">
-        {post.featuredImage?.node?.sourceUrl ? (
+        {heroImageUrl ? (
           <Image
-            src={post.featuredImage.node.sourceUrl}
-            alt={post.featuredImage.node.altText || post.title}
+            src={heroImageUrl}
+            alt={heroImageAlt}
             fill
             priority
             className="object-cover object-center animate-fade-in"
