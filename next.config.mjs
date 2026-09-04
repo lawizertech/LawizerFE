@@ -11,6 +11,32 @@ const nextConfig = {
     deviceSizes: [360, 480, 640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "olive-dog-534584.hostingersite.com",
+      },
+      {
+        protocol: "https",
+        hostname: "*.hostingersite.com",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+      {
+        protocol: "https",
+        hostname: "secure.gravatar.com",
+      },
+      {
+        protocol: "https",
+        hostname: "lawizer.com",
+      },
+      {
+        protocol: "https",
+        hostname: "*.lawizer.com",
+      },
+    ],
   },
   async redirects() {
     return [
