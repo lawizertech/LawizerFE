@@ -11,6 +11,31 @@ const nextConfig = {
     deviceSizes: [360, 480, 640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
+    remotePatterns: [
+      // WordPress / Hostinger media uploads
+      {
+        protocol: "https",
+        hostname: "olive-dog-534584.hostingersite.com",
+        pathname: "/**",
+      },
+      // Fallback: allow any hostingersite.com subdomain
+      {
+        protocol: "https",
+        hostname: "*.hostingersite.com",
+        pathname: "/**",
+      },
+      // If WordPress is ever pointed to the main domain
+      {
+        protocol: "https",
+        hostname: "lawizer.com",
+        pathname: "/wp-content/**",
+      },
+      {
+        protocol: "https",
+        hostname: "www.lawizer.com",
+        pathname: "/wp-content/**",
+      },
+    ],
   },
   async redirects() {
     return [
