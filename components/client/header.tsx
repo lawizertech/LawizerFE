@@ -100,12 +100,12 @@ export function Header() {
             {/* Logo and Back Button */}
             <div className="flex items-center gap-3 sm:gap-5">
               <BackButton />
-              <Link className="flex items-center gap-2.5 cursor-pointer transition-transform hover:scale-105" href="/">
-                <div className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.08)] border border-gray-50">
-                  <img src="/Lawizer_final.png" alt="Lawizer Logo" className="w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 object-contain rounded-xl" />
+              <Link className="flex items-center gap-2 sm:gap-2.5 cursor-pointer transition-transform hover:scale-105" href="/">
+                <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.08)] border border-gray-50">
+                  <img src="/Lawizer_final.png" alt="Lawizer Logo" className="w-6 h-6 sm:w-8.5 sm:h-8.5 object-contain rounded-xl" />
                 </div>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-xl sm:text-2xl font-montserrat font-bold text-black tracking-tight">
+                  <span className="text-[17px] sm:text-2xl font-montserrat font-bold text-black tracking-tight">
                     LAWIZER
                   </span>
                 </div>
@@ -274,14 +274,14 @@ export function Header() {
               {!user ? (
                 <Button
                   onClick={() => setIsSignInModalOpen(true)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-0 h-9 rounded-full font-semibold shadow-sm mr-2 text-[13px] flex items-center justify-center transition-all"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-5 py-0 h-8 sm:h-9 rounded-full font-semibold shadow-sm mr-1 sm:mr-2 text-xs sm:text-[13px] flex items-center justify-center transition-all"
                 >
                   Login
                 </Button>
               ) : (
                 <Link
                   href={user.role === "EXPERT" ? "/expert/dashboard" : "/user/dashboard"}
-                  className="bg-brand-red hover:brightness-110 text-white px-5 py-0 h-9 rounded-full font-semibold shadow-sm mr-2 text-[13px] flex items-center justify-center transition-all"
+                  className="bg-brand-red hover:brightness-110 text-white px-3 sm:px-5 py-0 h-8 sm:h-9 rounded-full font-semibold shadow-sm mr-1 sm:mr-2 text-xs sm:text-[13px] flex items-center justify-center transition-all"
                 >
                   Dashboard
                 </Link>
