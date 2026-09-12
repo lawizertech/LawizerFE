@@ -22,6 +22,14 @@ export default function BlogListItem({ post }: BlogListItemProps) {
               src={thumb}
               alt={post.title ?? "Blog post thumbnail"}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              onError={(e) => {
+                const target = e.currentTarget;
+                target.style.display = "none";
+                const parent = target.parentElement;
+                if (parent) {
+                  parent.classList.add("flex", "items-center", "justify-center", "bg-gradient-to-br", "from-brand/5", "to-brand/10");
+                }
+              }}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-brand/5 to-brand/10">

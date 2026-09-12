@@ -34,7 +34,7 @@ const AddonIconMapper = ({ index }: { index: number }) => {
 
 import { ServiceData } from "@/types/service";
 
-function DynamicHeroWithAddons({ data }: { data: ServiceData }) {
+export function DynamicHeroWithAddons({ data }: { data: ServiceData }) {
   const heroRef = useRef<HTMLElement>(null);
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();

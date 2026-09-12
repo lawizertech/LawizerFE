@@ -95,7 +95,17 @@ export interface SectionBlock {
   title?: string;
   icon?: IconName;
   type: "list" | "grid" | "alert";
+  variant?: "tinted" | "pill" | "plain";
   data: string[] | AlertSectionData;
+}
+
+export interface ClosingCtaConfig {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  features: string[];
+  buttonText: string;
+  buttonSubtext: string;
 }
 
 interface ThemeConfig {
@@ -121,8 +131,10 @@ interface ServicePageLayoutProps {
   primaryBg: string;
   primaryHoverBg: string;
   serviceID: string;
-  hideHero?: boolean; // ← NEW
-  price?: number; // ← NEW
+  hideHero?: boolean;
+  price?: number;
+  closingCta?: ClosingCtaConfig;
+  children?: React.ReactNode;
 }
 
 /* ---------- ALERT ICON ---------- */
@@ -154,8 +166,10 @@ export default function ServicePageLayout({
   serviceID,
   hideHero = false,
   price,
+  closingCta,
+  children,
 }: ServicePageLayoutProps) {
-  const [openFaq, setOpenFaq] = useState(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const router = useRouter();
   const { user } = useAuth();
@@ -462,16 +476,44 @@ export default function ServicePageLayout({
                   )}
 
                   {section.type === "list" && (
-                    <div className="grid sm:grid-cols-2 gap-3">
-                      {(section.data as string[])?.map((item) => (
-                        <div
-                          key={item}
-                          className="flex items-start gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 transition-all duration-300 hover:shadow-lg hover:bg-white"
-                        >
-                          <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
-                          <p className="text-sm text-slate-800 leading-relaxed">{item}</p>
-                        </div>
-                      ))}
+                    <div className={section.variant === "pill" ? "flex flex-wrap gap-3" : "grid sm:grid-cols-2 gap-3"}>
+                      {(section.data as string[])?.map((item) => {
+                        if (section.variant === "tinted") {
+                          return (
+                            <div key={item} className="flex items-center gap-4 p-4 rounded-[16px] bg-[#FBEAE7]/40 border border-[#FBEAE7] transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
+                              <div className="w-10 h-10 rounded-xl bg-[#FBEAE7] flex items-center justify-center shrink-0">
+                                {SectionIcon ? <SectionIcon className="w-5 h-5 text-[#C0392B]" /> : <CheckCircle2 className="w-5 h-5 text-[#C0392B]" />}
+                              </div>
+                              <p className="text-sm font-medium text-slate-800 leading-relaxed">{item}</p>
+                            </div>
+                          );
+                        }
+                        if (section.variant === "pill") {
+                          return (
+                            <div key={item} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 border border-green-100 transition-all duration-300 hover:shadow-sm">
+                              <CheckCircle2 className="w-4 h-4 text-green-600 shrink-0" />
+                              <span className="text-sm font-medium text-slate-800">{item}</span>
+                            </div>
+                          );
+                        }
+                        if (section.variant === "plain") {
+                          return (
+                            <div key={item} className="flex items-start gap-3 py-2">
+                              {SectionIcon ? <SectionIcon className="w-5 h-5 text-purple-600 mt-0.5 shrink-0" /> : <FileText className="w-5 h-5 text-purple-600 mt-0.5 shrink-0" />}
+                              <p className="text-sm text-slate-700 leading-relaxed">{item}</p>
+                            </div>
+                          );
+                        }
+                        return (
+                          <div
+                            key={item}
+                            className="flex items-start gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 transition-all duration-300 hover:shadow-lg hover:bg-white"
+                          >
+                            <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
+                            <p className="text-sm text-slate-800 leading-relaxed">{item}</p>
+                          </div>
+                        );
+                      })}
                     </div>
                   )}
 
@@ -502,6 +544,9 @@ export default function ServicePageLayout({
             aria-hidden="true"
           />
         </div>
+
+        {/* CUSTOM INJECTED CONTENT */}
+        {children}
 
         {/* FAQs */}
         <motion.section
@@ -553,6 +598,33 @@ export default function ServicePageLayout({
         </motion.section>
       </div>
 
+      {/* CLOSING CTA BAND */}
+      {closingCta && (
+        <section className="bg-[#161829] text-white py-16 sm:py-24 px-4 sm:px-8 relative overflow-hidden">
+          <div className="absolute inset-0 pointer-events-none opacity-[0.05]" style={{ backgroundImage: "radial-gradient(#ffffff 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+          <div className="max-w-4xl mx-auto relative z-10 text-center">
+            <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-white/80 text-xs font-bold tracking-wider uppercase mb-6">{closingCta.eyebrow}</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 font-poppins">{closingCta.title}</h2>
+            <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed">{closingCta.subtitle}</p>
+            
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 mb-12">
+              {closingCta.features.map((feat, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-[#C0392B]" />
+                  <span className="text-sm font-medium text-gray-200">{feat}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-col items-center">
+              <button onClick={() => openCallback(title)} className="bg-[#C0392B] hover:bg-[#9E2B20] text-white px-8 py-4 rounded-full font-bold text-lg transition-all shadow-[0_4px_20px_rgba(192,57,43,0.4)] hover:-translate-y-1 hover:shadow-[0_6px_25px_rgba(192,57,43,0.5)] flex items-center gap-2">
+                {closingCta.buttonText}
+              </button>
+              <p className="mt-4 text-xs text-gray-400">{closingCta.buttonSubtext}</p>
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

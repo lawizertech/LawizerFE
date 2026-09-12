@@ -36,6 +36,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "*.lawizer.com",
       },
+      {
+        protocol: "https",
+        hostname: "www.lawizer.com",
+      },
     ],
   },
   async redirects() {
