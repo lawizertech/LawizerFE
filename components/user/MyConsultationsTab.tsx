@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Calendar, Phone, Video, MessageCircle, ArrowLeft, Loader2 } from "lucide-react";
+import { Calendar, Clock, Phone, Video, MessageCircle, ArrowLeft, Loader2 } from "lucide-react";
 import { getUserBookings } from "@/lib/apis/api";
 import { getAccessToken } from "@/lib/auth/tokenStore";
 import { useAuth } from "@/context/authContext";
@@ -20,13 +20,29 @@ export default function MyConsultationsTab() {
 
   useEffect(() => {
     const load = async () => {
-      const res = await getUserBookings();
-      if (Array.isArray(res)) setConsultations(res);
-      else if (res?.consultations) setConsultations(res.consultations);
-      setLoading(false);
+      try {
+        const token = getAccessToken();
+        const res = await fetch(`/api/user/consultations?userId=${encodeURIComponent(user?.uid || "")}`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
+        const data = await res.json();
+        if (data.success && Array.isArray(data.consultations)) {
+          setConsultations(data.consultations);
+        } else {
+          const fallback = await getUserBookings();
+          if (Array.isArray(fallback)) setConsultations(fallback);
+          else if (fallback?.consultations) setConsultations(fallback.consultations);
+        }
+      } catch {
+        const fallback = await getUserBookings();
+        if (Array.isArray(fallback)) setConsultations(fallback);
+        else if (fallback?.consultations) setConsultations(fallback.consultations);
+      } finally {
+        setLoading(false);
+      }
     };
     load();
-  }, []);
+  }, [user?.uid]);
 
   if (loading) return (
     <div className="flex items-center gap-2 text-gray-500 p-6">
@@ -84,7 +100,20 @@ export default function MyConsultationsTab() {
                 <div className="flex flex-wrap gap-4 text-xs text-gray-500">
                   <span className="flex items-center gap-1">
                     <Calendar size={14} />
-                    {bookingDate.toLocaleDateString()}
+                    {bookingDate.toLocaleDateString("en-IN", {
+                      weekday: "short",
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Clock size={14} />
+                    {bookingDate.toLocaleTimeString("en-IN", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: true,
+                    })}
                   </span>
                   <span className="flex items-center gap-1 capitalize">
                     {c.callType === "video" ? <Video size={14} /> : <Phone size={14} />}
@@ -154,7 +183,7 @@ function ConsultationDetails({
           <div>
             <h2 className="text-xl font-semibold">{consultation.expertName}</h2>
             <p className="text-gray-500">
-              {consultation.expertType === "adv" ? "Advocate" : "Chartered Accountant"}
+              {consultation.expertType === "adv" ? "Advocate & Legal Counsel" : "Chartered Accountant"}
             </p>
           </div>
 
@@ -178,20 +207,38 @@ function ConsultationDetails({
           </div>
 
           {/* BOOKING INFO */}
-          <div className="flex gap-6 text-sm text-gray-500">
-            <span className="flex items-center gap-1">
-              <Calendar size={14} />
-              {bookingDate.toLocaleDateString()}
+          <div className="flex flex-wrap gap-6 text-sm text-gray-500">
+            <span className="flex items-center gap-1.5 font-medium">
+              <Calendar size={15} className="text-[#c92c41]" />
+              {bookingDate.toLocaleDateString("en-IN", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </span>
+            <span className="flex items-center gap-1.5 font-medium">
+              <Clock size={15} className="text-[#c92c41]" />
+              {bookingDate.toLocaleTimeString("en-IN", {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+              })} IST
             </span>
           </div>
 
           {/* ACTIONS */}
           <div className="flex gap-3 flex-wrap">
             {consultation.callType !== "chat" && (
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg flex gap-2 items-center cursor-pointer">
+              <a
+                href={(consultation as any).meetingLink || `/meet/${consultation.bookingId}`}
+                target="_blank"
+                rel="noreferrer"
+                className="bg-[#c92c41] hover:bg-[#a82436] text-white px-5 py-2.5 rounded-xl flex gap-2 items-center cursor-pointer transition font-medium text-sm shadow-sm"
+              >
                 {consultation.callType === "video" ? <Video size={16} /> : <Phone size={16} />}
-                Join {consultation.callType} Call
-              </button>
+                Join {consultation.callType === "video" ? "Video" : "Phone"} Meeting
+              </a>
             )}
 
             <button

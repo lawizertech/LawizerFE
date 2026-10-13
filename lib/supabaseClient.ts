@@ -167,7 +167,7 @@ export function supabaseGoogleSignIn(isExpert: boolean = false) {
     } else {
       localStorage.removeItem("pending_expert_oauth");
     }
-    const redirectUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
+    const redirectUrl = window.location.origin;
     window.location.href = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${redirectUrl}`;
   }
 }
