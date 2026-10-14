@@ -37,7 +37,7 @@ export default function Sidebar({ activeTab, handleLogout, menuOpen }: SidebarPr
           <div className="w-9 h-9 rounded-full shadow-xs overflow-hidden flex justify-center items-center bg-white border border-gray-100">
             <img src="/Lawizer_final.png" alt="Lawizer" className="w-8 h-8 object-contain rounded-xl" />
           </div>
-          <span className="text-2xl font-black text-[#c92c41] tracking-tight">Lawizer</span>
+          <span className="text-2xl font-black text-[#d4293c] tracking-tight">Lawizer</span>
         </div>
 
         {/* BACK BUTTON TO HOMEPAGE */}

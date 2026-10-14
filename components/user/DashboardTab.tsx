@@ -117,11 +117,14 @@ export default function UserDashboardTab() {
 
     const load = async () => {
       try {
-        const [profileRes, dashRes, rawServices, notifRes] = await Promise.all([
-          serverApi.get("/api/user/profile"),
-          serverApi.get("/api/user/dashboard"),
+        const [profileRes, dashRes, rawServices, notifRes, consultationsRes] = await Promise.all([
+          serverApi.get("/api/user/profile").catch(() => ({ data: null })),
+          serverApi.get("/api/user/dashboard").catch(() => ({ data: null })),
           ServiceWorkspaceRepository.getServices().catch(() => []),
           serverApi.get("/api/user/notifications").catch(() => ({ data: { notifications: [] } })),
+          fetch(`/api/user/consultations?userId=${encodeURIComponent(user?.uid || "")}`)
+            .then((r) => r.json())
+            .catch(() => ({ consultations: [] })),
         ]);
 
         if (cancelled) {
@@ -140,38 +143,58 @@ export default function UserDashboardTab() {
         }
 
         /* DASHBOARD */
-        if (dashRes.data?.dashboard) {
-          const raw = dashRes.data.dashboard;
-
-          setDashboard({
-            upcomingCount: raw.upcomingCount ?? 0,
-            completedCount: raw.completedCount ?? 0,
-            expertsConsulted: raw.expertsConsulted ?? 0,
-            totalSpent: raw.totalSpent ?? 0,
-
-            upcomingBookings: (raw.upcomingBookings || []).map((b: any) => {
-              const { date, time } = formatDateTime(b.bookingDate);
-
-              return {
-                id: b.bookingId,
-                serviceName: b.serviceName || "Consultation",
-                expertName: b.expertName,
-                date,
-                time,
-                duration: b.callType === "video" ? 60 : 30,
-                fee: b.rate ?? 0,
-                status: b.status,
-              };
-            }),
-            topExperts: raw.topExperts || [],
-
-            totalServices: raw.totalServices ?? 0,
-            activeServices: raw.activeServices ?? 0,
-            completedServices: raw.completedServices ?? 0,
-            pendingServiceDocuments: raw.pendingServiceDocuments ?? 0,
-            recentNotifications: notifRes?.data?.notifications || [],
+        const raw = dashRes.data?.dashboard || {};
+        const extraConsultations = (consultationsRes?.consultations || [])
+          .filter((c: any) => c.status === "confirmed" || c.status === "scheduled")
+          .map((c: any) => {
+            const { date, time } = formatDateTime(c.bookingDate);
+            return {
+              id: c.bookingId,
+              serviceName: c.title || "Founder Consultation",
+              expertName: c.expertName || "Suvam Ghosh",
+              date,
+              time,
+              duration: 30,
+              fee: c.rate ?? 999,
+              status: c.status as "pending" | "confirmed" | "cancelled",
+            };
           });
+
+        const rawUpcoming = (raw.upcomingBookings || []).map((b: any) => {
+          const { date, time } = formatDateTime(b.bookingDate);
+          return {
+            id: b.bookingId,
+            serviceName: b.serviceName || "Consultation",
+            expertName: b.expertName,
+            date,
+            time,
+            duration: b.callType === "video" ? 60 : 30,
+            fee: b.rate ?? 0,
+            status: b.status,
+          };
+        });
+
+        // Combine upcoming bookings, avoiding duplicates
+        const allUpcoming = [...extraConsultations];
+        for (const u of rawUpcoming) {
+          if (!allUpcoming.some((x) => x.id === u.id)) {
+            allUpcoming.push(u);
+          }
         }
+
+        setDashboard({
+          upcomingCount: allUpcoming.length,
+          completedCount: raw.completedCount ?? 0,
+          expertsConsulted: (raw.expertsConsulted ?? 0) + (extraConsultations.length > 0 ? 1 : 0),
+          totalSpent: (raw.totalSpent ?? 0) + (extraConsultations.length > 0 ? 999 * extraConsultations.length : 0),
+          upcomingBookings: allUpcoming,
+          topExperts: raw.topExperts || [],
+          totalServices: raw.totalServices ?? 0,
+          activeServices: raw.activeServices ?? 0,
+          completedServices: raw.completedServices ?? 0,
+          pendingServiceDocuments: raw.pendingServiceDocuments ?? 0,
+          recentNotifications: notifRes?.data?.notifications || [],
+        });
       } catch (error) {
         if (!cancelled) {
           console.error("Failed to load dashboard", error);
