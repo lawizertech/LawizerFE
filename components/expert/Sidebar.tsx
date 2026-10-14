@@ -34,7 +34,7 @@ export default function Sidebar({ activeTab, handleLogout, menuOpen, setMenuOpen
           <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-7 h-7 object-contain" />
         </div>
         <div className="flex items-baseline gap-1">
-          <span className="text-2xl font-bold text-[#c92c41]">Lawizer</span>
+          <span className="text-2xl font-bold text-[#d4293c]">Lawizer</span>
         </div>
       </div>
 
