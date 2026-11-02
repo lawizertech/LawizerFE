@@ -102,7 +102,7 @@ export function Header() {
               <BackButton />
               <Link className="flex items-center gap-2 sm:gap-2.5 cursor-pointer transition-transform hover:scale-105" href="/">
                 <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.08)] border border-gray-50">
-                  <img src="/Lawizer_final.png" alt="Lawizer Logo" className="w-6 h-6 sm:w-8.5 sm:h-8.5 object-contain rounded-xl" />
+                  <img src="/logo-white.svg" alt="Lawizer Logo" className="w-5.5 h-5.5 sm:w-7 sm:h-7 object-contain" />
                 </div>
                 <div className="flex items-baseline gap-1">
                   <span className="text-[17px] sm:text-2xl font-montserrat font-bold text-black tracking-tight">
@@ -338,7 +338,7 @@ export function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <div className="flex items-center justify-center w-9 h-9 bg-white rounded-full shadow-sm border border-gray-100">
-                    <img src="/Lawizer_final.png" alt="Lawizer Logo" className="w-7.5 h-7.5 object-contain rounded-xl" />
+                    <img src="/logo-white.svg" alt="Lawizer Logo" className="w-6.5 h-6.5 object-contain" />
                   </div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-xl font-montserrat font-extrabold text-[var(--brand)] tracking-tight">

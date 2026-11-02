@@ -5,7 +5,7 @@
 // ============================================================
 
 /** Price in INR (whole rupees) */
-export const CONSULTATION_PRICE = 999;
+export const CONSULTATION_PRICE = 4999;
 
 /** Duration in minutes */
 export const CONSULTATION_DURATION_MIN = 30;

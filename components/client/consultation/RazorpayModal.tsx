@@ -81,7 +81,7 @@ export function RazorpayModal({
 
             <div className="flex items-center gap-3 mb-3">
               <div className="w-10 h-10 rounded-xl bg-white p-1 flex items-center justify-center shadow-md">
-                <img src="/Lawizer_final.png" alt="Lawizer" className="w-8 h-8 object-contain rounded-lg" />
+                <img src="/logo-white.svg" alt="Lawizer" className="w-7 h-7 object-contain" />
               </div>
               <div>
                 <h3 className="text-base font-bold text-white tracking-tight leading-snug">Lawizer Technologies</h3>
