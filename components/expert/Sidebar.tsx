@@ -31,7 +31,7 @@ export default function Sidebar({ activeTab, handleLogout, menuOpen, setMenuOpen
       {/* BRAND LOGO */}
       <div className="flex items-center gap-2 cursor-pointer justify-start pb-5 border-b border-[#ebebeb]" onClick={() => router.push("/")}>
         <div className="flex items-center justify-center w-10 h-10 bg-white rounded-lg shadow-sm border border-[#ebebeb]">
-          <img src="/logoLawizer.jpg" alt="Lawizer Logo" className="w-7 h-7 object-contain" />
+          <img src="/logo-white.svg" alt="Lawizer Logo" className="w-7 h-7 object-contain" />
         </div>
         <div className="flex items-baseline gap-1">
           <span className="text-2xl font-bold text-[#d4293c]">Lawizer</span>

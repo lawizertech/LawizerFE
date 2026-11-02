@@ -49,7 +49,7 @@ export function buildLegalServiceSchema({
       "@type": "Organization",
       name: "Lawizer",
       url: "https://lawizer.com",
-      logo: "https://lawizer.com/Lawizer_final.png",
+      logo: "https://lawizer.com/logo-white.svg",
     },
     areaServed: {
       "@type": "Country",
@@ -79,7 +79,7 @@ export function buildOrganizationSchema() {
     "@type": ["Organization", "LegalService"],
     name: "Lawizer",
     url: "https://lawizer.com",
-    logo: "https://lawizer.com/Lawizer_final.png",
+    logo: "https://lawizer.com/logo-white.svg",
     description:
       "Lawizer is a next-generation digital legal platform connecting you to verified lawyers and legal experts across India.",
     foundingDate: "2023",
