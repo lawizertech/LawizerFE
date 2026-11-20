@@ -84,13 +84,13 @@ export function HeroSection() {
 
 
         {/* ── LEFT: Hero Copy + Social Proof ── */}
-        <div className="w-full lg:w-[45%] lg:-ml-6 flex flex-col justify-center">
+        <div className="w-full lg:w-[45%] lg:-ml-6 flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="w-max bg-brand-red text-white px-4 py-1.5 rounded-full text-md font-bold mb-5 flex items-center gap-2"
+            className="w-max bg-brand-red text-white px-4 py-1.5 rounded-full text-md font-bold mb-5 flex items-center gap-2 mx-auto lg:mx-0"
           >
             <span className="w-2 h-2 bg-white/40 rounded-full animate-pulse" />
             India’s Most Trusted
@@ -101,7 +101,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl md:text-4xl lg:text-4xl font-extrabold text-gray-900 leading-[1.15] mb-6"
+            className="text-3xl md:text-4xl lg:text-4xl font-extrabold text-gray-900 leading-[1.15] mb-6 text-center lg:text-left"
           >
             <span className="text-brand-red font-black lg:text-4xl inline-block mb-1">All-in-One-Platform</span><br/>
             for
@@ -114,7 +114,7 @@ Compliance & Taxation
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 mb-8"
+            className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-8 w-full"
           >
             <a
               href="tel:+919062815535"
@@ -141,12 +141,49 @@ Compliance & Taxation
             </motion.a>
           </motion.div>
 
+          {/* ── Mobile Featured Services (8 services from PC view) ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.45 }}
+            className="lg:hidden w-full max-w-[500px] mb-6"
+          >
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+              {serviceCategories.slice(0, 8).map((s) => (
+                <Link
+                  key={`mobile-${s.href}`}
+                  href={s.href}
+                  className="group relative flex items-center justify-between gap-2 px-3 sm:px-4 py-3 bg-white/95 border border-slate-200 hover:border-red-100 rounded-xl hover:shadow-[0_8px_25px_rgba(220,38,38,0.06)] transition-all duration-300 shadow-sm overflow-hidden"
+                >
+                  {/* Subtle hover gradient glow */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-red-50/10 to-red-50/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  
+                  <span className="text-xs sm:text-sm font-bold text-slate-700 group-hover:text-brand-red flex-1 leading-snug transition-colors relative z-10 text-left">
+                    {s.title}
+                  </span>
+
+                  <div className="w-6 h-6 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-brand-red transition-colors relative z-10 shrink-0 shadow-sm border border-slate-100 group-hover:border-brand-red">
+                    <svg
+                      className="w-3 h-3 text-slate-400 group-hover:text-white transition-colors duration-300"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={3}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+
           {/* Social Proof & Metrics - Sharp, Professional Grid */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-3 mt-4 max-w-[500px]"
+            className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-3 mt-4 max-w-[500px] w-full text-left"
           >
             {/* Metric 1 */}
             <div className="bg-gradient-to-br from-white via-red-50/30 to-rose-50/20 border border-slate-200 rounded-md p-4 flex flex-col gap-1 shadow-sm relative overflow-hidden group hover:border-slate-300 transition-colors">
@@ -228,22 +265,31 @@ Compliance & Taxation
       </div>
 
       {/* ── FULL-WIDTH TRUST PILLARS ── */}
-      <div className="max-w-7xl mx-auto w-full">
-        <div className="bg-gradient-to-r from-white via-red-50/30 to-rose-50/20 rounded-xl py-1 border border-red-50 shadow-[0_4px_20px_rgba(0,0,0,0.03)] px-1 grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-1 md:divide-x divide-red-50/50">
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 md:px-12 mt-4 lg:mt-6">
+        <div className="bg-gradient-to-r from-white via-red-50/30 to-rose-50/20 rounded-xl py-1 border border-red-50 shadow-[0_4px_20px_rgba(0,0,0,0.03)] px-1 grid grid-cols-3 divide-x divide-red-50/60 gap-0.5 sm:gap-1">
            {/* Item 1 */}
-           <div className="flex flex-col px-4 sm:px-8 py-3 sm:py-4 justify-center items-center text-center group cursor-default transition-all duration-300 hover:bg-cyan-100/80 rounded-xl">
-             <h4 className="font-extrabold text-slate-800 text-[14px] leading-tight transition-colors group-hover:text-black">24/7 Support</h4>
-             <p className="text-slate-400 text-[11px] mt-1 font-semibold transition-colors group-hover:text-slate-500">100% Online & Secure</p>
+           <div className="flex flex-col px-1.5 sm:px-6 md:px-8 py-2.5 sm:py-4 justify-center items-center text-center group cursor-default transition-all duration-300 hover:bg-cyan-100/80 rounded-xl">
+             <h4 className="font-extrabold text-slate-800 text-[11px] sm:text-[13px] md:text-[14px] leading-tight transition-colors group-hover:text-black flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5">
+               <span className="text-xs sm:text-sm select-none shrink-0">🎧</span>
+               <span>24/7 Support</span>
+             </h4>
+             <p className="text-slate-400 text-[9px] sm:text-[11px] mt-0.5 sm:mt-1 font-semibold transition-colors group-hover:text-slate-500 leading-tight">100% Online & Secure</p>
            </div>
            {/* Item 2 */}
-           <div className="flex flex-col px-4 sm:px-8 py-3 sm:py-4 justify-center items-center text-center group cursor-default transition-all duration-300 hover:bg-emerald-100/80 rounded-xl">
-             <h4 className="font-extrabold text-slate-800 text-[14px] leading-tight transition-colors group-hover:text-black">Transparent Process</h4>
-             <p className="text-slate-400 text-[11px] mt-1 font-semibold transition-colors group-hover:text-slate-500">100% Online & Secure</p>
+           <div className="flex flex-col px-1.5 sm:px-6 md:px-8 py-2.5 sm:py-4 justify-center items-center text-center group cursor-default transition-all duration-300 hover:bg-emerald-100/80 rounded-xl">
+             <h4 className="font-extrabold text-slate-800 text-[11px] sm:text-[13px] md:text-[14px] leading-tight transition-colors group-hover:text-black flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5">
+               <span className="text-xs sm:text-sm select-none shrink-0">🟢</span>
+               <span>Transparent Process</span>
+             </h4>
+             <p className="text-slate-400 text-[9px] sm:text-[11px] mt-0.5 sm:mt-1 font-semibold transition-colors group-hover:text-slate-500 leading-tight">100% Online & Secure</p>
            </div>
            {/* Item 3 */}
-           <div className="flex flex-col px-4 sm:px-8 py-3 sm:py-4 justify-center items-center text-center group cursor-default transition-all duration-300 hover:bg-purple-100/80 rounded-xl">
-             <h4 className="font-extrabold text-slate-800 text-[14px] leading-tight transition-colors group-hover:text-black">Timely Compliance</h4>
-             <p className="text-slate-400 text-[11px] mt-1 font-semibold transition-colors group-hover:text-slate-500">On-time Filing & Support</p>
+           <div className="flex flex-col px-1.5 sm:px-6 md:px-8 py-2.5 sm:py-4 justify-center items-center text-center group cursor-default transition-all duration-300 hover:bg-purple-100/80 rounded-xl">
+             <h4 className="font-extrabold text-slate-800 text-[11px] sm:text-[13px] md:text-[14px] leading-tight transition-colors group-hover:text-black flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5">
+               <span className="text-xs sm:text-sm select-none shrink-0">✅</span>
+               <span>Timely Compliance</span>
+             </h4>
+             <p className="text-slate-400 text-[9px] sm:text-[11px] mt-0.5 sm:mt-1 font-semibold transition-colors group-hover:text-slate-500 leading-tight">On-time Filing & Support</p>
            </div>
         </div>
       </div>
